@@ -1634,7 +1634,7 @@ PrefabInstance:
     - target: {fileID: 3568498471216081703, guid: e6b2d8bb473408247898cb7b38ff6be4,
         type: 3}
       propertyPath: m_TagString
-      value: GameController
+      value: Portal
       objectReference: {fileID: 0}
     - target: {fileID: 3568498471216081701, guid: e6b2d8bb473408247898cb7b38ff6be4,
         type: 3}
