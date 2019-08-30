@@ -8,7 +8,6 @@ public class DungeonManager : MonoBehaviour
     public static DungeonManager instance;
     public GameObject[] monsterList;
     GameObject[] currentStageMonsterList;
-    GameObject portal;
     GameObject[] spawner;
 
     public int currentStage;
@@ -53,26 +52,16 @@ public class DungeonManager : MonoBehaviour
             randomX = Random.Range(-1f, 1f);
             MonsterSpawn();
         }
-        /*if(monsterList.Length > 0)
+        /*
+        if(monsterList.Length > 0)
         {
             foreach (GameObject monster in monsterList)
             {
                 if (monster.GetComponent<MonsterControl>().isDead)
                     monster.SetActive(false);
             }
-        }*/
-    }
-
-    public void MonsterKill()
-    {
-        ++allKillCount;
-        if(monsterList.Length == allKillCount)
-        {
-            if (portal.name == "Village")
-            {
-                portal.SetActive(true);
-            }
         }
+        */
     }
 
     void MonsterSpawn()
@@ -92,7 +81,6 @@ public class DungeonManager : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        portal = GameObject.FindGameObjectWithTag("Portal");
         spawner = GameObject.FindGameObjectsWithTag("Spawn"); 
         spawnCoolTime = Random.Range(2f, 3f);
         randomX = Random.Range(-1f, 1f);
@@ -109,8 +97,6 @@ public class DungeonManager : MonoBehaviour
                 ++i;
             }
         }
-
-        portal.SetActive(false);
 
         allKillCount = 0;
         spawnCount = 0;

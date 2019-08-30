@@ -9,10 +9,10 @@ using System.IO;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    GameObject DM;
-    GameObject player;
-    GameObject teleport;
-    GameObject startingPosition;
+    public GameObject DM;
+    public GameObject player;
+    public GameObject teleport;
+    public GameObject startingPosition;
 
     int selectedFloor;
     bool[] floorFlag;
@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(8, 10);
         Physics2D.IgnoreLayerCollision(8, 12);
         Physics2D.IgnoreLayerCollision(10, 10);
+
         selectedFloor = 0;
         floorFlag = new bool[100];
     }

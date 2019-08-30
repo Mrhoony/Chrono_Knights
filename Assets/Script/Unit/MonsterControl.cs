@@ -117,7 +117,6 @@ public class MonsterControl : MovingObject
     void Dead()
     {
         animator.SetTrigger("isDead");
-        DungeonManager.instance.MonsterKill();
         isDead = true;
     }
 }
