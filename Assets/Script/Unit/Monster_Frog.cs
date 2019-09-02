@@ -18,7 +18,7 @@ public class Monster_Frog : MonsterControl
     {
         maxRotateDelayTime = randomMoveCount;
         curRotateDelayTime = 0f;
-        maxAttackDelayTime = 3f;
+        maxAttackDelayTime = 2f;
         curAttackDelayTime = 0f;
         effectX = 0.3f;
         effectY = 0.3f;
@@ -55,7 +55,6 @@ public class Monster_Frog : MonsterControl
                 if (!isTrace)
                 {
                     isTrace = true;
-                    isJump = false;
                     curRotateDelayTime = 0f;
                 }
             }
@@ -102,6 +101,7 @@ public class Monster_Frog : MonsterControl
             if (randomMove != 0)
             {
                 normal = true;
+                Debug.Log("test");
                 isJump = true;
 
                 animator.SetTrigger("isJump");
@@ -118,26 +118,24 @@ public class Monster_Frog : MonsterControl
     {
         if (isTrace)
         {
-            normal = false;
             isAtk = true;
             isJump = true;
             curRotateDelayTime = 0f;
             curAttackDelayTime += Time.deltaTime;
             if (curAttackDelayTime > maxAttackDelayTime)
             {
+                normal = false;
+                notMove = true;
                 int AttackType = Random.Range(0, 2);
                 if (AttackType == 0)
                 {
-                    notMove = true;
                     animator.SetTrigger("isJump");
-                    curAttackDelayTime = 0f;
                 }
                 else if (AttackType == 1)
                 {
-                    notMove = true;
                     animator.SetTrigger("isAttack");
-                    curAttackDelayTime = 0f;
                 }
+                curAttackDelayTime = 0f;
             }
         }
     }

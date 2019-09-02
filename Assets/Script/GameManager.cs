@@ -73,7 +73,6 @@ public class GameManager : MonoBehaviour
         {
             JoinDungeon();
             SceneManager.LoadScene("TopFirstFloor");
-            PlayerControl.instance.transform.position = startingPosition.transform.position;
         }
         else if (currentSceneName == "TopFirstFloor")
         {
@@ -84,11 +83,6 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log("floor " + selectedFloor + " join");
                     SceneManager.LoadScene(((selectedFloor - 2) % 4 + 2));
-                    PlayerControl.instance.transform.position = startingPosition.transform.position;
-                    if (selectedFloor > 6)
-                    {
-                        DM.GetComponent<DungeonManager>().repeat = (int)((selectedFloor - 2) * 0.25 + 1);
-                    }
                 }
                 else
                     Debug.Log("join fail");

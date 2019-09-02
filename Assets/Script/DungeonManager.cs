@@ -6,13 +6,17 @@ using UnityEngine.SceneManagement;
 public class DungeonManager : MonoBehaviour
 {
     public static DungeonManager instance;
+
+    public GameObject[] mapList;
+    int selectedMapNum;
+
     public GameObject[] monsterList;
     GameObject[] currentStageMonsterList;
+
     GameObject[] spawner;
+    GameObject startingPosition;
 
     public int currentStage;
-    public int dangerous;
-    public int repeat;
 
     float spawnCoolTime = 1f;
     float randomX;
@@ -36,13 +40,12 @@ public class DungeonManager : MonoBehaviour
             Destroy(this);
 
         currentStage = 0;
-        dangerous = 0;
-        repeat = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
+        /*
         if(spawnCoolTime >= 0)
             spawnCoolTime -= Time.deltaTime;
 
@@ -52,7 +55,9 @@ public class DungeonManager : MonoBehaviour
             randomX = Random.Range(-1f, 1f);
             MonsterSpawn();
         }
-        /*
+
+        ////
+
         if(monsterList.Length > 0)
         {
             foreach (GameObject monster in monsterList)
@@ -71,6 +76,28 @@ public class DungeonManager : MonoBehaviour
         spawnCount += 1;
     }
 
+    void FloorInit()
+    {
+        int i = 0;
+        selectedMapNum = Random.Range(0, mapList.Length);
+
+        startingPosition = mapList[selectedMapNum].transform.Find("Base/StartingPosition").gameObject;
+        foreach (Transform child in mapList[selectedMapNum].transform.Find("Base"))
+        {
+            if (child.tag == "Spawn")
+            {
+                spawner[i] = child.gameObject;
+                ++i;
+            }
+        }
+
+        allKillCount = 0;
+        spawnCount = 0;
+        dungeonClear = false;
+
+        PlayerControl.instance.transform.position = startingPosition.transform.position;
+    }
+
     public void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -81,25 +108,10 @@ public class DungeonManager : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        spawner = GameObject.FindGameObjectsWithTag("Spawn"); 
-        spawnCoolTime = Random.Range(2f, 3f);
-        randomX = Random.Range(-1f, 1f);
-        currentStage = 0;
-        dangerous = SceneManager.GetActiveScene().buildIndex * 10 * repeat;
-
-        int i = 0;
-
-        foreach (GameObject monster in monsterList)
+        if(SceneManager.GetActiveScene().name != "Town")
         {
-            if(monster.GetComponent<MonsterControl>().degreeOfRisk >= repeat)
-            {
-                currentStageMonsterList[i] = monster;
-                ++i;
-            }
+            mapList = GameObject.FindGameObjectsWithTag("BaseMap");
+            FloorInit();
         }
-
-        allKillCount = 0;
-        spawnCount = 0;
-        dungeonClear = false;
     }
 }

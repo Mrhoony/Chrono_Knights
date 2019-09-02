@@ -37,10 +37,6 @@ public class GroundCheck : MonoBehaviour
                         parentObject.GetComponent<PlayerControl>().isDownJump = false;
                     }
                 }
-                else if (parentObject.tag == "Monster")
-                {
-                }
-
         }
     }
 
@@ -56,9 +52,6 @@ public class GroundCheck : MonoBehaviour
                     parentObject.GetComponent<PlayerControl>().jumping = false;
                     parentObject.GetComponent<PlayerControl>().currentJumpCount = parentObject.GetComponent<PlayerControl>().jumpCount;
                     parentObject.GetComponent<PlayerControl>().isDownJump = false;
-                }
-                else if (parentObject.tag == "Monster")
-                {
                 }
         }
     }

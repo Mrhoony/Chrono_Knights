@@ -15,6 +15,7 @@ TagManager:
   - EquipItem
   - BossMonster
   - NPC
+  - BaseMap
   layers:
   - Default
   - TransparentFX

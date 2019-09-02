@@ -73,7 +73,7 @@ public class Monster_Dog : MonsterControl
         {
             if (isTrace)
             {
-                if (!isAtk && Mathf.Abs(playerPos.x - transform.position.x) > 0.8f)
+                if (!isAtk && Mathf.Abs(playerPos.x - transform.position.x) > 0.5f)
                 {
                     animator.SetBool("isRun", true);
                     rb.velocity = new Vector2(ehp.moveSpeed * 2f * arrow, rb.velocity.y);
@@ -127,7 +127,7 @@ public class Monster_Dog : MonsterControl
                 }
             }
             
-            if (Mathf.Abs(playerPos.x - transform.position.x) < 0.8f)
+            if (Mathf.Abs(playerPos.x - transform.position.x) < 0.5f)
             {
                 isAtk = true;
                 notMove = true;

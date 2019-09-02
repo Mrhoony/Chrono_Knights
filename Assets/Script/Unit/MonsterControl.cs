@@ -53,7 +53,6 @@ public class MonsterControl : MovingObject
         if (isDead || isDamagable)
             return;
 
-        isDamagable = true;
         random = Random.Range(-1f, 1f);
 
         ehp.currentHP -= playerAtk;
@@ -79,7 +78,7 @@ public class MonsterControl : MovingObject
             animator.SetTrigger("isHit");
         }        
     }
-
+    
     public void MonsterFlip()
     {
         if (!notMove && !isDead)

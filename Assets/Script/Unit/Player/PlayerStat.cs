@@ -18,6 +18,7 @@ public class PlayerStat : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
+        Init();
     }
 
     public void Init()

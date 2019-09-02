@@ -169,7 +169,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7845834264576266651}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: -2, z: 0}
+  m_LocalPosition: {x: 4.6919966, y: -1.98, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7845834263193267882}
@@ -277,6 +277,7 @@ MonoBehaviour:
   isAtk: 0
   isJump: 0
   isDamagable: 0
+  degreeOfRisk: 0
   maxRotateDelayTime: 0
   curRotateDelayTime: 0
   maxAttackDelayTime: 0

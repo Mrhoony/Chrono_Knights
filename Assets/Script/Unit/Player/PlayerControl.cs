@@ -197,18 +197,17 @@ public class PlayerControl : MovingObject
             if ((currentJumpCount < 1 && jumping) || notMove || inputY || dodging)
                 return;
 
-            isGround = false;
-
             rb.velocity = Vector2.zero;
-            if(!jumping)
-                animator.SetTrigger("isJumpTrigger");
-            animator.SetBool("isJump", true);
-            GroundCheck.SetActive(false);
 
             if (inputArrow == 40 && !isGround)
             {
                 if (!jumping)
                 {
+                    if (!jumping)
+                        animator.SetTrigger("isJumpTrigger");
+                    animator.SetBool("isJump", true);
+                    GroundCheck.SetActive(false);
+
                     isDownJump = true;
                     jumping = true;
                     StartCoroutine(JumpIgnore(0.25f));
@@ -223,10 +222,19 @@ public class PlayerControl : MovingObject
             }
             else
             {
+                isGround = false;
+
+                if (!jumping)
+                    animator.SetTrigger("isJumpTrigger");
+                animator.SetBool("isJump", true);
+                GroundCheck.SetActive(false);
+
                 isDownJump = false;
                 jumping = true;
                 rb.AddForce(new Vector2(0f, pStat.jumpPower), ForceMode2D.Impulse);
             }
+
+
             --currentJumpCount;
         }
     }
