@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class Teleport : MonoBehaviour
 {
-    public bool teleportOn;
+    DungeonManager dm;
 
     public void OnEnable()
     {
-        teleportOn = false;
+        dm = DungeonManager.instance;
     }
     
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.tag == "Player")
-            teleportOn = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
-            teleportOn = false;
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                Debug.Log("t1");
+                dm.Teleport();
+            }
+        }
     }
 }

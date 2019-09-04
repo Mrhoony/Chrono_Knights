@@ -44,13 +44,14 @@ public class PlayerControl : MovingObject
 
     private void Awake()
     {
-        if (instance == null)
+        if (instance != null)
         {
-            DontDestroyOnLoad(this);
-            instance = this;
+            Destroy(gameObject);
+            return;
         }
-        else
-            Destroy(this);
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
 
         rb = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponentInChildren<Animator>();

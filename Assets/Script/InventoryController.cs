@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class InventoryController : MonoBehaviour
 {
     public GameObject slot;
     public bool[] isFull = new bool[5];

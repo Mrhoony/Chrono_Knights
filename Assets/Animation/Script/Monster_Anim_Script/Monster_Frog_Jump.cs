@@ -27,8 +27,6 @@ public class Monster_Frog_Jump : AnimatorManager
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.gameObject.GetComponent<Monster_Frog>().box.SetActive(false);
-        animator.gameObject.GetComponent<Monster_Frog>().isAtk = false;
-        animator.gameObject.GetComponent<Monster_Frog>().notMove = false;
         atk = 0;
     }
 

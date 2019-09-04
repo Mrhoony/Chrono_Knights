@@ -9,13 +9,7 @@ using System.IO;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public GameObject DM;
     public GameObject player;
-    public GameObject teleport;
-    public GameObject startingPosition;
-
-    int selectedFloor;
-    bool[] floorFlag;
 
     string currentSceneName;
 
@@ -28,46 +22,28 @@ public class GameManager : MonoBehaviour
         }
         else
             Destroy(this);
-
-        player = GameObject.Find("Player Character");
-        DM = GameObject.Find("DungeonManager");
         
         Physics2D.IgnoreLayerCollision(8, 10);
         Physics2D.IgnoreLayerCollision(8, 12);
         Physics2D.IgnoreLayerCollision(10, 10);
-
-        selectedFloor = 0;
-        floorFlag = new bool[100];
     }
-
-    public void Start()
-    {
-        DM.SetActive(false);
-    }
-
-    public void JoinDungeon()
-    {
-        DM.SetActive(true);
-    }
-
-    public void OutDungeon()
-    {
-        DM.SetActive(false);
-    }
-
+    
     public void Update()
     {
+        /*
         if (teleport.GetComponent<Teleport>().teleportOn)
         {
             teleport.GetComponent<Teleport>().teleportOn = false;
             TeleportStart();
             Debug.Log("teleport");
         }
+        */
     }
 
     // 씬에서 씬, 마을 에서 던전, 던전 층 이동시
     public void TeleportStart()
     {
+        /*
         currentSceneName = SceneManager.GetActiveScene().name;
         if (currentSceneName == "Town")
         {
@@ -98,6 +74,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             PlayerControl.instance.transform.position = startingPosition.transform.position;
         }
+        */
     }
     
     public void OnEnable()
@@ -110,6 +87,7 @@ public class GameManager : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        /*
         startingPosition = GameObject.Find("StartingPosition");
         teleport = GameObject.Find("Entrance");
 
@@ -117,6 +95,7 @@ public class GameManager : MonoBehaviour
             teleport.SetActive(true);
         else
             teleport.SetActive(false);
+        */
     }
 
     public void SaveGame()

@@ -6,23 +6,26 @@ using UnityEngine.SceneManagement;
 public class DungeonManager : MonoBehaviour
 {
     public static DungeonManager instance;
+    
+    public GameObject player;
 
     public GameObject[] mapList;
-    int selectedMapNum;
+    public int selectedMapNum = 0;
 
     public GameObject[] monsterList;
-    GameObject[] currentStageMonsterList;
+    public GameObject[] currentStageMonsterList;
 
-    GameObject[] spawner;
-    GameObject startingPosition;
+    public GameObject[] spawner;
+    public GameObject startingPosition;
 
     public int currentStage;
-
-    float spawnCoolTime = 1f;
+    
     float randomX;
-    int spawnCount;
+
+    int selectedScene;
 
     public bool dungeonClear;   // 던전 클리어시
+    public bool sectionClear;   // 페이즈 클리어시
 
     public int poolSize;        // 최대 몬스터 수
     public int allKillCount;    // 총 몬스터 킬 수
@@ -39,7 +42,11 @@ public class DungeonManager : MonoBehaviour
         else
             Destroy(this);
 
+        player = GameObject.Find("Player Character");
+
         currentStage = 0;
+        selectedScene = 0;
+        dungeonClear = true;
     }
 
     // Update is called once per frame
@@ -69,20 +76,55 @@ public class DungeonManager : MonoBehaviour
         */
     }
 
-    void MonsterSpawn()
+    public void Teleport()
     {
-        monsterList[spawnCount].SetActive(true);
-        monsterList[spawnCount].GetComponent<MonsterControl>().ActivateMonster(spawner[Random.Range(0, spawner.Length)].transform.position.x + randomX, spawner[Random.Range(0, spawner.Length)].transform.position.y);
-        spawnCount += 1;
+        if (SceneManager.GetActiveScene().buildIndex > 1)
+        {
+            if (sectionClear)
+                SectionTeleport();
+            else
+                if(dungeonClear)
+                    DungeonTeleport();
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            SectionTeleport();
+        }
+    }
+
+    public void DungeonTeleport()
+    {
+        FloorInit();
+    }
+
+    public void SectionTeleport()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            SceneManager.LoadScene("TopFirstFloor");
+        }
+        else if(SceneManager.GetActiveScene().buildIndex > 1)
+        {
+            SceneManager.LoadScene("Town");
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 
     void FloorInit()
     {
         int i = 0;
+        ++currentStage;
         selectedMapNum = Random.Range(0, mapList.Length);
 
         startingPosition = mapList[selectedMapNum].transform.Find("Base/StartingPosition").gameObject;
-        foreach (Transform child in mapList[selectedMapNum].transform.Find("Base"))
+        player.transform.position = startingPosition.transform.position;
+
+        CameraManager.instance.SetCameraBound(mapList[selectedMapNum].transform.Find("BackGround").GetComponent<BoxCollider2D>());
+
+        if (currentStage > 0)
+            sectionClear = true;
+
+        foreach (Transform child in mapList[selectedMapNum].transform.Find("Base").transform)
         {
             if (child.tag == "Spawn")
             {
@@ -91,11 +133,8 @@ public class DungeonManager : MonoBehaviour
             }
         }
 
-        allKillCount = 0;
-        spawnCount = 0;
         dungeonClear = false;
-
-        PlayerControl.instance.transform.position = startingPosition.transform.position;
+        sectionClear = false;
     }
 
     public void OnEnable()
@@ -108,10 +147,16 @@ public class DungeonManager : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(SceneManager.GetActiveScene().name != "Town")
+        if(SceneManager.GetActiveScene().buildIndex > 1)
         {
             mapList = GameObject.FindGameObjectsWithTag("BaseMap");
             FloorInit();
+        }
+        else if(SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            CameraManager.instance.SetCameraBound(GameObject.Find("BackGroundSet/BackGround").GetComponent<BoxCollider2D>());
+            GameObject stp = GameObject.FindGameObjectWithTag("StartPosition");
+            player.transform.position = stp.transform.position;
         }
     }
 }

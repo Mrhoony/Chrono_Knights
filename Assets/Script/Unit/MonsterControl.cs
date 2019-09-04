@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class MonsterControl : MovingObject
 {
-    public GameObject target;
-    public Vector2 playerPos;
+    protected GameObject target;
+    protected Vector2 playerPos;
     public GameObject box;
     public GameObject eft;
-    public EnemyStat ehp;
+    protected EnemyStat ehp;
 
     public float effectX;
     public float effectY;
-    public float random;
+    protected float random;
+
+    protected IEnumerator Moving;
 
     public bool isTrace;
     public int randomMove;
@@ -21,8 +23,7 @@ public class MonsterControl : MovingObject
     public bool isAtk;
     public bool isJump;
     public bool isDamagable;
-    public int degreeOfRisk;
-    
+
     public float maxRotateDelayTime;
     public float curRotateDelayTime;
     public float maxAttackDelayTime;
@@ -39,6 +40,18 @@ public class MonsterControl : MovingObject
         }
     }
 
+    public IEnumerator RandomMove(float time)
+    {
+        randomMove = Random.Range(-1, 2);
+        notMove = false;
+
+        yield return new WaitForSeconds(time);
+
+        randomMoveCount = Random.Range(2f, 3f);
+        Moving = RandomMove(randomMoveCount);
+        StartCoroutine(Moving);
+    }
+
     public virtual void Awake()
     {
         animator = GetComponent<Animator>();
@@ -46,6 +59,31 @@ public class MonsterControl : MovingObject
         ehp = GetComponent<EnemyStat>();
 
         target = GameObject.Find("Player Character");
+    }
+
+    public virtual void OnEnable()
+    {
+        ehp.currentHP = ehp.HP;
+        StartCoroutine(SearchPlayer());
+
+        randomMoveCount = Random.Range(2f, 3f);
+        Moving = RandomMove(randomMoveCount);
+        StartCoroutine(Moving);
+    }
+    
+    public void notMoveDelayTime()
+    {
+        if (isAtk)
+        {
+            curAttackDelayTime = 0;
+            curRotateDelayTime += Time.deltaTime;
+            if (curRotateDelayTime > maxRotateDelayTime)
+            {
+                isAtk = false;
+                notMove = false;
+                curRotateDelayTime = 0f;
+            }
+        }
     }
 
     public void Hit(float playerAtk, float x, float y)
@@ -81,7 +119,7 @@ public class MonsterControl : MovingObject
     
     public void MonsterFlip()
     {
-        if (!notMove && !isDead)
+        if (!notMove && !isAtk && !isDead)
         {
             if (isTrace)
             {

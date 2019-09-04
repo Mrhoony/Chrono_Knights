@@ -36,4 +36,25 @@ public class AnimatorManager : StateMachineBehaviour
         }
     }
 
+    public void MonsterAttack(Animator animator, AnimatorStateInfo stateInfo, float attackTime, float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
+    {
+        if (stateInfo.normalizedTime > attackTime && atk < 1)
+        {
+            ++atk;
+            player = Physics2D.OverlapBoxAll(
+                new Vector2((animator.gameObject.GetComponent<Monster_Ogre>().transform.position.x + attackPosX) * animator.gameObject.GetComponent<Monster_Ogre>().arrow
+                , (animator.gameObject.GetComponent<Monster_Ogre>().transform.position.y + attackPosY) * 0.5f)
+                , new Vector2(attackRangeX, attackRangeY), 10);
+
+
+            foreach (Collider2D pl in player)
+            {
+                if (pl.tag == "Player")
+                {
+                    pl.gameObject.GetComponent<PlayerControl>().Hit(animator.gameObject.GetComponent<EnemyStat>().Atk);
+                }
+            }
+        }
+    }
+
 }

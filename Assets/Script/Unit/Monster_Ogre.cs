@@ -1,32 +1,28 @@
 ﻿using UnityEngine;
 
-public class Monster_Dog : MonsterControl
+public class Monster_Ogre : MonsterControl
 {
     public override void Awake()
     {
         base.Awake();
     }
 
-    public void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         maxRotateDelayTime = 2f;
         curRotateDelayTime = 0f;
         maxAttackDelayTime = 1f;
         curAttackDelayTime = 0f;
-        effectX = 0.2f;
-        effectY = 0.3f;
-    }
-
-    public void OnDisable()
-    {
-        StopCoroutine(Moving);
+        effectX = 0.5f;
+        effectY = 0.5f;
+        isFaceRight = true;
+        arrow = 1;
     }
 
     public override void OnEnable()
     {
         base.OnEnable();
-        isFaceRight = false;
-        arrow = -1;
     }
 
     // Update is called once per frame
@@ -45,43 +41,38 @@ public class Monster_Dog : MonsterControl
         }
     }
 
-
     void Move()
     {
-        if (!notMove)
+        if (!notMove && !isAtk)
         {
             if (isTrace)
             {
-                if (!isAtk && Mathf.Abs(playerPos.x - transform.position.x) > 0.5f)
+                if (Mathf.Abs(playerPos.x - transform.position.x) > 2f)
                 {
-                    animator.SetBool("isRun", true);
-                    rb.velocity = new Vector2(ehp.moveSpeed * 2f * arrow, rb.velocity.y);
+                    animator.SetBool("isMove", true);
+                    rb.velocity = new Vector2(ehp.moveSpeed * arrow, rb.velocity.y);
                 }
                 else
                 {
                     animator.SetBool("isMove", false);
-                    animator.SetBool("isRun", false);
                 }
             }
             else
             {
                 if (randomMove != 0)
                 {
-                    animator.SetBool("isRun", false);
                     animator.SetBool("isMove", true);
                     rb.velocity = new Vector2(ehp.moveSpeed * randomMove, rb.velocity.y);
                 }
                 else
                 {
                     animator.SetBool("isMove", false);
-                    animator.SetBool("isRun", false);
                 }
             }
         }
         else
         {
             animator.SetBool("isMove", false);
-            animator.SetBool("isRun", false);
         }
     }
 
@@ -90,23 +81,8 @@ public class Monster_Dog : MonsterControl
         if (isTrace)
         {
             MonsterFlip();
-            /*
-            if (isDamagable)
-            {
-                curRotateDelayTime = 0;
-            }
-            else
-            {
-                curRotateDelayTime += Time.fixedDeltaTime;
-                if (curRotateDelayTime > maxRotateDelayTime)
-                {
-                    isAtk = false;
-                    notMove = false;
-                    curAttackDelayTime = 0;
-                }
-            }
-            */
-            if (Mathf.Abs(playerPos.x - transform.position.x) < 0.5f)
+
+            if (Mathf.Abs(playerPos.x - transform.position.x) < 2f)
             {
                 notMove = true;
                 curRotateDelayTime = 0f;
@@ -114,7 +90,11 @@ public class Monster_Dog : MonsterControl
                 if (curAttackDelayTime > maxAttackDelayTime)
                 {
                     isAtk = true;
-                    animator.SetBool("isAtk", true);
+                    randomAttack = Random.Range(0, 2);
+                    if (randomAttack > 0)
+                        animator.SetTrigger("isAtkH_Trigger");
+                    else
+                        animator.SetTrigger("isAtkV_Trigger");
                     curAttackDelayTime = 0;
                 }
             }
@@ -132,22 +112,13 @@ public class Monster_Dog : MonsterControl
             }
         }
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision != null)
-        {
-            if (collision.tag == "Player")
-            {
-            }
-        }
-    }
+    
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision != null)
         {
             if (collision.tag == "Player")
             {
-                isAtk = false;
                 notMove = true;
                 isTrace = false;
                 curAttackDelayTime = 0f;

@@ -2,31 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster_Frog_Attack : AnimatorManager
+public class Monster_Ogre_AtkH : AnimatorManager
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
-    //   
+    //    
     //}
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!animator.gameObject.GetComponent<Monster_Frog>().normal) {
-            if (stateInfo.normalizedTime > 0.4f && atk < 1 && animator.gameObject.GetComponent<Monster_Frog>().isTrace)
-            {
-                ++atk;
-                animator.gameObject.GetComponent<Monster_Frog>().box.SetActive(true);
-                animator.gameObject.GetComponent<Monster_Frog>().AttackStart(4f, 1f);
-            }
-        }
+        MonsterAttack(animator, stateInfo, 0.6f, 1f, animator.gameObject.GetComponent<Monster_Ogre>().transform.position.y * -0.5f, 3f, 0.5f);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.GetComponent<Monster_Frog>().box.SetActive(false);
         atk = 0;
     }
 

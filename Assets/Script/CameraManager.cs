@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
@@ -56,18 +53,14 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    public void SetCameraBound(BoxCollider2D box)
     {
-        bound = GameObject.Find("BackGround").GetComponent<BoxCollider2D>();
+        bound = box;
         minBound = bound.bounds.min;
         maxBound = bound.bounds.max;
         camera = GetComponent<Camera>();
         halfHeight = camera.orthographicSize;
         halfWidth = halfHeight * Screen.width / Screen.height;
-    }
 
-    public void OnEnable()
-    { SceneManager.sceneLoaded += OnSceneLoaded; }
-    public void OnDisable()
-    { SceneManager.sceneLoaded -= OnSceneLoaded; }
+    }
 }

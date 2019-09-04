@@ -26,7 +26,7 @@ public class Monster_Frog : MonsterControl
         isAtk = false;
     }
 
-    public void OnEnable()
+    public override void OnEnable()
     {
         ehp.currentHP = ehp.HP;
         StartCoroutine(SearchPlayer());
@@ -70,7 +70,7 @@ public class Monster_Frog : MonsterControl
         }
     }
 
-    void notMoveDelayTime()
+    new void notMoveDelayTime()
     {
         if (isJump && !isAtk)
         {

@@ -16,6 +16,7 @@ TagManager:
   - BossMonster
   - NPC
   - BaseMap
+  - StartPosition
   layers:
   - Default
   - TransparentFX

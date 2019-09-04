@@ -12,33 +12,12 @@ public class Monster_Dog_Attack : AnimatorManager
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(stateInfo.normalizedTime > 0.6f && atk < 1)
-        {
-            ++atk;
-            player = Physics2D.OverlapBoxAll(
-                new Vector2(animator.gameObject.GetComponent<Monster_Dog>().transform.position.x
-                + 0.5f * animator.gameObject.GetComponent<Monster_Dog>().arrow
-                , animator.gameObject.GetComponent<Monster_Dog>().transform.position.y)
-                , new Vector2(0.8f, 0.2f), 8);
-
-
-            foreach (Collider2D pl in player)
-            {
-                if (pl.tag == "Player")
-                {
-                    pl.gameObject.GetComponent<PlayerControl>().Hit(animator.gameObject.GetComponent<EnemyStat>().Atk);
-                }
-            }
-        }
+        MonsterAttack(animator, stateInfo, 0.6f, 0.5f, 0f, 0.8f, 0.2f);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetBool("isAtk", false);
-        animator.gameObject.GetComponent<Monster_Dog>().isAtk = false;
-        animator.gameObject.GetComponent<Monster_Dog>().notMove = false;
-        animator.gameObject.GetComponent<Monster_Dog>().curAttackDelayTime = 0;
         atk = 0;
     }
 
