@@ -149,6 +149,7 @@ public class DungeonManager : MonoBehaviour
             }
         }
 
+        // 몬스터 스폰
         for(int i = 0; i < 5; ++i)
         {
             randomX = Random.Range(-1, 2);
