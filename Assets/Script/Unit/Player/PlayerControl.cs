@@ -200,41 +200,16 @@ public class PlayerControl : MovingObject
 
             rb.velocity = Vector2.zero;
 
-            if (inputArrow == 40 && !isGround)
-            {
-                if (!jumping)
-                {
-                    if (!jumping)
-                        animator.SetTrigger("isJumpTrigger");
-                    animator.SetBool("isJump", true);
-                    GroundCheck.SetActive(false);
+            isGround = false;
 
-                    isDownJump = true;
-                    jumping = true;
-                    StartCoroutine(JumpIgnore(0.25f));
-                    rb.AddForce(new Vector2(0f, -pStat.jumpPower * 0.1f), ForceMode2D.Impulse);
-                }
-                else
-                {
-                    isDownJump = false;
-                    jumping = true;
-                    rb.AddForce(new Vector2(0f, pStat.jumpPower), ForceMode2D.Impulse);
-                }
-            }
-            else
-            {
-                isGround = false;
+            if (!jumping)
+                animator.SetTrigger("isJumpTrigger");
+            animator.SetBool("isJump", true);
+            GroundCheck.SetActive(false);
 
-                if (!jumping)
-                    animator.SetTrigger("isJumpTrigger");
-                animator.SetBool("isJump", true);
-                GroundCheck.SetActive(false);
-
-                isDownJump = false;
-                jumping = true;
-                rb.AddForce(new Vector2(0f, pStat.jumpPower), ForceMode2D.Impulse);
-            }
-
+            isDownJump = false;
+            jumping = true;
+            rb.AddForce(new Vector2(0f, pStat.jumpPower), ForceMode2D.Impulse);
 
             --currentJumpCount;
         }

@@ -169,7 +169,6 @@ GameObject:
   - component: {fileID: 228690750012033511}
   - component: {fileID: 228690750012033510}
   - component: {fileID: 228690750012033508}
-  - component: {fileID: 228690750012033531}
   - component: {fileID: 228690750012033509}
   m_Layer: 9
   m_Name: "\uBC30\uACBD_a01_\uBB34\uB108\uC9C4 \uBCBD"
@@ -251,7 +250,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 256
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
@@ -259,21 +258,6 @@ PlatformEffector2D:
   m_UseSideFriction: 1
   m_UseSideBounce: 0
   m_SideArc: 0
---- !u!114 &228690750012033531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 228690750012033504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1973218c8adc244baba7bf2e9838bee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  platform: {fileID: 0}
-  waitTime: 1
-  isChange: 0
 --- !u!61 &228690750012033509
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1362,7 +1346,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e524e1ed4b8171e42b1f6b5e3a0702b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportOn: 0
 --- !u!1 &4745202585145257732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1458,7 +1441,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 256
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0

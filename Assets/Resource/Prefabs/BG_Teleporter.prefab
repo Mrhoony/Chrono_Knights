@@ -241,4 +241,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e524e1ed4b8171e42b1f6b5e3a0702b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportOn: 0

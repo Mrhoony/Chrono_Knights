@@ -20,21 +20,17 @@ public class CameraManager : MonoBehaviour
     {
         if (instance == null)
         {
-            DontDestroyOnLoad(this);
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
-            Destroy(this);
+            Destroy(gameObject);
     }
 
     void Start()
     {
         bound = GameObject.Find("BackGround").GetComponent<BoxCollider2D>();
-        minBound = bound.bounds.min;
-        maxBound = bound.bounds.max;
-        camera = GetComponent<Camera>();
-        halfHeight = camera.orthographicSize;
-        halfWidth = halfHeight * Screen.width / Screen.height;
+        SetCameraBound(bound);
     }
 
     // Update is called once per frame

@@ -11,19 +11,19 @@ public class DungeonManager : MonoBehaviour
 
     public GameObject[] mapList;
     public int selectedMapNum = 0;
+    public GameObject startingPosition;
 
     public GameObject[] monsterList;
     public GameObject[] currentStageMonsterList;
 
     public GameObject[] spawner;
-    public GameObject startingPosition;
-
-    public int currentStage;
+    int spawnerCount;
+    int spawn;
     
     float randomX;
 
+    public int currentStage;
     int selectedScene;
-
     public bool dungeonClear;   // 던전 클리어시
     public bool sectionClear;   // 페이즈 클리어시
 
@@ -36,11 +36,11 @@ public class DungeonManager : MonoBehaviour
     {
         if (instance == null)
         {
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
             instance = this;
         }
         else
-            Destroy(this);
+            Destroy(gameObject);
 
         player = GameObject.Find("Player Character");
 
@@ -112,29 +112,49 @@ public class DungeonManager : MonoBehaviour
 
     void FloorInit()
     {
-        int i = 0;
         ++currentStage;
+
+        dungeonClear = false;
+        sectionClear = false;
+
+        spawnerCount = 0;
         selectedMapNum = Random.Range(0, mapList.Length);
 
         startingPosition = mapList[selectedMapNum].transform.Find("Base/StartingPosition").gameObject;
         player.transform.position = startingPosition.transform.position;
 
-        CameraManager.instance.SetCameraBound(mapList[selectedMapNum].transform.Find("BackGround").GetComponent<BoxCollider2D>());
+        CameraManager.instance.SetCameraBound(mapList[selectedMapNum].transform.Find("BackGround").GetComponent<BoxCollider2D>());  // 카메라 설정
 
         if (currentStage > 0)
             sectionClear = true;
 
+        // 몬스터 스포너 등록
         foreach (Transform child in mapList[selectedMapNum].transform.Find("Base").transform)
         {
-            if (child.tag == "Spawn")
+            if (child.gameObject.tag == "Spawn")
             {
-                spawner[i] = child.gameObject;
-                ++i;
+                ++spawnerCount;
             }
         }
 
-        dungeonClear = false;
-        sectionClear = false;
+        spawner = new GameObject[spawnerCount];
+        spawnerCount = 0;
+
+        foreach (Transform child in mapList[selectedMapNum].transform.Find("Base").transform)
+        {
+            if (child.gameObject.tag == "Spawn")
+            {
+                spawner[spawnerCount] = child.gameObject;
+                ++spawnerCount;
+            }
+        }
+
+        for(int i = 0; i < 5; ++i)
+        {
+            randomX = Random.Range(-1, 2);
+            Instantiate(monsterList[Random.Range(0, monsterList.Length)], new Vector2(spawner[Random.Range(0, spawner.Length)].transform.position.x + randomX
+                                                                                    , spawner[Random.Range(0, spawner.Length)].transform.position.y), Quaternion.identity);
+        }
     }
 
     public void OnEnable()
@@ -154,7 +174,7 @@ public class DungeonManager : MonoBehaviour
         }
         else if(SceneManager.GetActiveScene().buildIndex == 1)
         {
-            CameraManager.instance.SetCameraBound(GameObject.Find("BackGroundSet/BackGround").GetComponent<BoxCollider2D>());
+            CameraManager.instance.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
             GameObject stp = GameObject.FindGameObjectWithTag("StartPosition");
             player.transform.position = stp.transform.position;
         }
