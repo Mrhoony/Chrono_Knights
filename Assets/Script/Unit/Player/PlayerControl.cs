@@ -215,7 +215,7 @@ public class PlayerControl : MovingObject
         }
     }
 
-    IEnumerator JumpIgnore(float time)
+    IEnumerator DodgeIgnore(float time)
     {
         yield return new WaitForSeconds(time);
 
@@ -303,10 +303,15 @@ public class PlayerControl : MovingObject
             dodging = true;
             animator.SetTrigger("isDodge");
             rb.velocity = Vector2.zero;
+
+            GroundCheck.SetActive(false);
+            StartCoroutine(DodgeIgnore(0.5f));
+
             if (inputDirection != arrowDirection)
                 rb.AddForce(new Vector2(-arrowDirection * 5f, 5f), ForceMode2D.Impulse);
             else
                 rb.AddForce(new Vector2(arrowDirection * 5f, 5f), ForceMode2D.Impulse);
+
             isDamagable = true;
             notMove = true;
         }

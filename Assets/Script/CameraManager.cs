@@ -57,6 +57,5 @@ public class CameraManager : MonoBehaviour
         camera = GetComponent<Camera>();
         halfHeight = camera.orthographicSize;
         halfWidth = halfHeight * Screen.width / Screen.height;
-
     }
 }
