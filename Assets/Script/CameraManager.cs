@@ -25,6 +25,9 @@ public class CameraManager : MonoBehaviour
         }
         else
             Destroy(gameObject);
+
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        Screen.SetResolution(1280, 720, true);
     }
 
     void Start()
@@ -34,7 +37,7 @@ public class CameraManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void LateUpdate()
     {
         if (target.gameObject != null)
         {
