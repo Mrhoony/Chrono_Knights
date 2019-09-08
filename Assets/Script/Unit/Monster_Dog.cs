@@ -11,7 +11,7 @@ public class Monster_Dog : MonsterControl
     {
         maxRotateDelayTime = 2f;
         curRotateDelayTime = 0f;
-        maxAttackDelayTime = 1f;
+        maxAttackDelayTime = 2f;
         curAttackDelayTime = 0f;
         effectX = 0.2f;
         effectY = 0.3f;
@@ -44,8 +44,7 @@ public class Monster_Dog : MonsterControl
             Attack();
         }
     }
-
-
+    
     void Move()
     {
         if (!notMove)
@@ -108,14 +107,15 @@ public class Monster_Dog : MonsterControl
             */
             if (Mathf.Abs(playerPos.x - transform.position.x) < 0.5f)
             {
+                rb.velocity = Vector2.zero;
                 notMove = true;
-                curRotateDelayTime = 0f;
                 curAttackDelayTime += Time.fixedDeltaTime;
                 if (curAttackDelayTime > maxAttackDelayTime)
                 {
                     isAtk = true;
-                    animator.SetBool("isAtk", true);
-                    curAttackDelayTime = 0;
+                    animator.SetBool("isAtk_Trigger", true);
+                    curRotateDelayTime = 0f;
+                    curAttackDelayTime = 0f;
                 }
             }
         }

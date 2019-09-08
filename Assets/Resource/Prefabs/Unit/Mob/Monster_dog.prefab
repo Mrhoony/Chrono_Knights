@@ -262,14 +262,10 @@ MonoBehaviour:
   rb: {fileID: 0}
   animator: {fileID: 0}
   arrow: 1
-  target: {fileID: 0}
-  playerPos: {x: 0, y: 0}
   box: {fileID: 0}
   eft: {fileID: 776820764541791318, guid: a23023812364dc04883cd5bf233c4956, type: 3}
-  ehp: {fileID: 0}
   effectX: 0
   effectY: 0
-  random: 0
   isTrace: 0
   randomMove: 0
   randomMoveCount: 0
@@ -277,7 +273,6 @@ MonoBehaviour:
   isAtk: 0
   isJump: 0
   isDamagable: 0
-  degreeOfRisk: 0
   maxRotateDelayTime: 0
   curRotateDelayTime: 0
   maxAttackDelayTime: 0
@@ -328,7 +323,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &7624656898120753998
 MonoBehaviour:
   m_ObjectHideFlags: 0

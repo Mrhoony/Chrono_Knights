@@ -42,9 +42,9 @@ public class AnimatorManager : StateMachineBehaviour
         {
             ++atk;
             player = Physics2D.OverlapBoxAll(
-                new Vector2((animator.gameObject.GetComponent<Monster_Ogre>().transform.position.x + attackPosX) * animator.gameObject.GetComponent<Monster_Ogre>().arrow
-                , (animator.gameObject.GetComponent<Monster_Ogre>().transform.position.y + attackPosY) * 0.5f)
-                , new Vector2(attackRangeX, attackRangeY), 10);
+                new Vector2(animator.gameObject.transform.position.x + (attackPosX * animator.gameObject.GetComponent<MonsterControl>().arrow)
+                , (animator.gameObject.transform.position.y))
+                , new Vector2(attackRangeX, attackRangeY), 8);
 
 
             foreach (Collider2D pl in player)

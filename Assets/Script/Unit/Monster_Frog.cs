@@ -22,6 +22,7 @@ public class Monster_Frog : MonsterControl
         curAttackDelayTime = 0f;
         effectX = 0.3f;
         effectY = 0.3f;
+        arrow = 1;
         isFaceRight = true;
         isAtk = false;
     }
@@ -118,14 +119,15 @@ public class Monster_Frog : MonsterControl
     {
         if (isTrace)
         {
-            isAtk = true;
+            MonsterFlip();
+            notMove = true;
             isJump = true;
             curRotateDelayTime = 0f;
             curAttackDelayTime += Time.deltaTime;
             if (curAttackDelayTime > maxAttackDelayTime)
             {
+                isAtk = true;
                 normal = false;
-                notMove = true;
                 int AttackType = Random.Range(0, 2);
                 if (AttackType == 0)
                 {

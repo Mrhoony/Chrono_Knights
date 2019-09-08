@@ -23,7 +23,6 @@ public class DungeonManager : MonoBehaviour
     float randomX;
 
     public int currentStage;
-    int selectedScene;
     public bool dungeonClear;   // 던전 클리어시
     public bool sectionClear;   // 페이즈 클리어시
 
@@ -45,7 +44,6 @@ public class DungeonManager : MonoBehaviour
         player = GameObject.Find("Player Character");
 
         currentStage = 0;
-        selectedScene = 0;
         dungeonClear = true;
     }
 

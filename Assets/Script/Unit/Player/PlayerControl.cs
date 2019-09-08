@@ -189,6 +189,11 @@ public class PlayerControl : MovingObject
         {
             GroundCheck.SetActive(true);
         }
+        
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            pStat.SetBuff(1);
+        }
     }
 
     void Jump()
@@ -202,7 +207,7 @@ public class PlayerControl : MovingObject
 
             isGround = false;
 
-            if (!jumping)
+            if (!jumping && !dodging)
                 animator.SetTrigger("isJumpTrigger");
             animator.SetBool("isJump", true);
             GroundCheck.SetActive(false);
@@ -308,9 +313,9 @@ public class PlayerControl : MovingObject
             StartCoroutine(DodgeIgnore(0.5f));
 
             if (inputDirection != arrowDirection)
-                rb.AddForce(new Vector2(-arrowDirection * 5f, 5f), ForceMode2D.Impulse);
+                rb.AddForce(new Vector2(-arrowDirection * 4f, 5f), ForceMode2D.Impulse);
             else
-                rb.AddForce(new Vector2(arrowDirection * 5f, 5f), ForceMode2D.Impulse);
+                rb.AddForce(new Vector2(arrowDirection * 4f, 5f), ForceMode2D.Impulse);
 
             isDamagable = true;
             notMove = true;
@@ -319,7 +324,7 @@ public class PlayerControl : MovingObject
 
     public void Hit(int monsterAtk)
     {
-        if (isDamagable && keyInOn)
+        if (isDamagable || keyInOn)
             return;
 
         notMove = true;

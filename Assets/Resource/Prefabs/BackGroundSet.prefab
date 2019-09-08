@@ -247,7 +247,7 @@ PlatformEffector2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 228690750012033504}
   m_Enabled: 1
-  m_UseColliderMask: 1
+  m_UseColliderMask: 0
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 256
@@ -493,7 +493,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.011403799}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -504,7 +504,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 19.2, y: 5.577193}
+  m_Size: {x: 19.2, y: 7}
   m_EdgeRadius: 0
 --- !u!1 &228690751017051764
 GameObject:
@@ -920,9 +920,9 @@ GameObject:
   - component: {fileID: 228690751502671334}
   - component: {fileID: 228690751502671332}
   - component: {fileID: 228690751502671333}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: "\uBC30\uACBD_a01_\uBC14\uB2E5"
-  m_TagString: NoPassGround
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1466,12 +1466,12 @@ PrefabInstance:
     - target: {fileID: 6969864062718967608, guid: 0c128068b5913b646b78c0371cd4c399,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.27
+      value: -2.34
       objectReference: {fileID: 0}
     - target: {fileID: 6969864062718967608, guid: 0c128068b5913b646b78c0371cd4c399,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.76
+      value: -1.62
       objectReference: {fileID: 0}
     - target: {fileID: 6969864062718967608, guid: 0c128068b5913b646b78c0371cd4c399,
         type: 3}

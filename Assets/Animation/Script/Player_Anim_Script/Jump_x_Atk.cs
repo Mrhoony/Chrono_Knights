@@ -13,7 +13,8 @@ public class Jump_x_Atk : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        PlayerControl.instance.rb.velocity = new Vector2(0f, 0.4f);
+        if(stateInfo.normalizedTime < 0.8)
+            PlayerControl.instance.rb.velocity = new Vector2(0f, 0.4f);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

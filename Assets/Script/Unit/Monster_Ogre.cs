@@ -12,7 +12,7 @@ public class Monster_Ogre : MonsterControl
     {
         maxRotateDelayTime = 2f;
         curRotateDelayTime = 0f;
-        maxAttackDelayTime = 1f;
+        maxAttackDelayTime = 2f;
         curAttackDelayTime = 0f;
         effectX = 0.5f;
         effectY = 0.5f;
@@ -85,7 +85,6 @@ public class Monster_Ogre : MonsterControl
             if (Mathf.Abs(playerPos.x - transform.position.x) < 2f)
             {
                 notMove = true;
-                curRotateDelayTime = 0f;
                 curAttackDelayTime += Time.fixedDeltaTime;
                 if (curAttackDelayTime > maxAttackDelayTime)
                 {
@@ -95,7 +94,8 @@ public class Monster_Ogre : MonsterControl
                         animator.SetTrigger("isAtkH_Trigger");
                     else
                         animator.SetTrigger("isAtkV_Trigger");
-                    curAttackDelayTime = 0;
+                    curRotateDelayTime = 0f;
+                    curAttackDelayTime = 0f;
                 }
             }
         }
@@ -112,7 +112,6 @@ public class Monster_Ogre : MonsterControl
             }
         }
     }
-    
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision != null)

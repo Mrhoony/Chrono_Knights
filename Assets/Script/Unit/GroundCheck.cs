@@ -17,7 +17,7 @@ public class GroundCheck : MonoBehaviour
     {
         if (collision != null)
         {
-            if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "NoPassGround")
+            if (collision.gameObject.tag == "Ground")
                 if (parentObject.tag == "Player")
                 {
                     if (parentObject.GetComponent<PlayerControl>().isDodge)
@@ -27,14 +27,12 @@ public class GroundCheck : MonoBehaviour
                     }
                     else
                     {
-                        if(collision.gameObject.tag == "NoPassGround")
-                            parentObject.GetComponent<PlayerControl>().isGround = true;
+                        parentObject.GetComponent<PlayerControl>().isGround = true;
                         parentObject.GetComponent<PlayerControl>().jumping = false;
                         parentObject.GetComponent<PlayerControl>().animator.SetBool("isJump", false);
                         parentObject.GetComponent<PlayerControl>().animator.SetBool("isJump_x_Atk", false);
                         parentObject.GetComponent<PlayerControl>().animator.SetTrigger("isLanding");
                         parentObject.GetComponent<PlayerControl>().currentJumpCount = parentObject.GetComponent<PlayerControl>().jumpCount;
-                        parentObject.GetComponent<PlayerControl>().isDownJump = false;
                     }
                 }
         }
@@ -44,14 +42,12 @@ public class GroundCheck : MonoBehaviour
     {
         if (collision != null)
         {
-            if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "NoPassGround")
+            if (collision.gameObject.tag == "Ground")
                 if (parentObject.tag == "Player")
                 {
-                    if (collision.gameObject.tag == "NoPassGround")
-                        parentObject.GetComponent<PlayerControl>().isGround = true;
+                    parentObject.GetComponent<PlayerControl>().isGround = true;
                     parentObject.GetComponent<PlayerControl>().jumping = false;
                     parentObject.GetComponent<PlayerControl>().currentJumpCount = parentObject.GetComponent<PlayerControl>().jumpCount;
-                    parentObject.GetComponent<PlayerControl>().isDownJump = false;
                 }
         }
     }
