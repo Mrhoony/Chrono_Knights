@@ -18,6 +18,9 @@ public class PlayerStateView : MonoBehaviour
     public bool speedDown;
     public float arrow;
     public float power;
+    public float hitCount;
+
+    IEnumerator monsterHit;
 
     private void Awake()
     {
@@ -29,7 +32,8 @@ public class PlayerStateView : MonoBehaviour
         speedDown = false;
         arrow = 0;
         power = 0;
-        StartCoroutine(MonsterHit());
+        hitCount = 0;
+        monsterHit = MonsterHit();
     }
 
     // Update is called once per frame
@@ -38,38 +42,84 @@ public class PlayerStateView : MonoBehaviour
         HPBar.fillAmount = pStat.currentHP / pStat.HP;
         buffBar.fillAmount = pStat.currentBuffTime / pStat.MaxBuffTime;
 
-        if (bell.transform.rotation.z * 90f > 1f)
+        if (bell.transform.rotation.z * 90f > 0.2f * hitCount)
         {
             if (power > 0)
-                arrow = -0.3f;
-        }else if(bell.transform.rotation.z * 90f < -1f)
+            {
+                arrow = -0.1f * hitCount;
+            }
+        }else if(bell.transform.rotation.z * 90f < -0.2f * hitCount)
             if (power < 0)
-                arrow = 0.3f;
-
+            {
+                arrow = 0.1f * hitCount;
+            }
+        
         power += arrow;
-        if(Mathf.Abs(power) > 10f)
+
+        if(hitCount != 0)
         {
-            if (power > 0f)
-                power = 10f;
-            else
-                power = -10f;
+            if (power > 2f * hitCount)
+                power = 2f * hitCount;
+            else if (power < -(2f * hitCount))
+                power = -2f * hitCount;
         }
+        else
+        {
+            power = 0f;
+
+            if (bell.transform.rotation.z > 0)
+            {
+                power = -1f;
+            }
+            else if (bell.transform.rotation.z < 0)
+                power = 1f;
+
+            if (power < 0 && bell.transform.rotation.z <= 0)
+            {
+                bell.transform.Rotate(new Vector3(0f, 0f, 0f));
+            }
+            else if(power > 0 && bell.transform.rotation.z >= 0)
+            {
+                bell.transform.Rotate(new Vector3(0f, 0f, 0f));
+            }
+        }
+
         bell.transform.Rotate(new Vector3(0, 0, power * 0.2f));
     }
 
     IEnumerator MonsterHit()
     {
-        yield return new WaitForSeconds(0f);
+        yield return new WaitForSeconds(5f);
 
-        StartCoroutine(MonsterHit());
+        Debug.Log("hittest");
+
+        hitCount -= 2f;
+
+        if (hitCount <= 0f)
+            hitCount = 0f;
+        else
+        {
+            monsterHit = MonsterHit();
+            StartCoroutine(monsterHit);
+        }
     }
 
     public void Hit(float monsterAtk)
     {
+        ++hitCount;
+        if (hitCount > 5)
+            hitCount = 5f;
+
         if (power >= 0)
-            power += monsterAtk;
+            power += monsterAtk * hitCount * 0.2f;
         else if (power < 0)
-            power -= monsterAtk;
+            power -= monsterAtk * hitCount * 0.2f;
+
+
+        StopCoroutine(monsterHit);
+
+        monsterHit = MonsterHit();
+        StartCoroutine(monsterHit);
     }
 
     public void Init()
