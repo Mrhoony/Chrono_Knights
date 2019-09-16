@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Monster_Frog : MonsterControl
 {
-    public bool normal;
-
     public override void Awake()
     {
         base.Awake();
@@ -73,12 +71,14 @@ public class Monster_Frog : MonsterControl
 
     new void notMoveDelayTime()
     {
-        if (isJump && !isAtk)
+        if (isJump || isAtk)
         {
             curRotateDelayTime += Time.deltaTime;
             if (curRotateDelayTime > maxRotateDelayTime)
             {
                 isJump = false;
+                isAtk = false;
+                notMove = false;
                 curRotateDelayTime = 0f;
             }
         }
@@ -101,11 +101,11 @@ public class Monster_Frog : MonsterControl
 
             if (randomMove != 0)
             {
-                normal = true;
                 Debug.Log("test");
                 isJump = true;
 
                 animator.SetTrigger("isJump");
+                animator.SetBool("isJumping", true);
                 rb.velocity = new Vector2(1.5f * randomMove, 3f);
                 curRotateDelayTime = 0f;
                 
@@ -127,11 +127,11 @@ public class Monster_Frog : MonsterControl
             if (curAttackDelayTime > maxAttackDelayTime)
             {
                 isAtk = true;
-                normal = false;
                 int AttackType = Random.Range(0, 2);
                 if (AttackType == 0)
                 {
                     animator.SetTrigger("isJump");
+                    animator.SetBool("isJumping", true);
                 }
                 else if (AttackType == 1)
                 {

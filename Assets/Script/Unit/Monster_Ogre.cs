@@ -88,6 +88,7 @@ public class Monster_Ogre : MonsterControl
                 curAttackDelayTime += Time.fixedDeltaTime;
                 if (curAttackDelayTime > maxAttackDelayTime)
                 {
+                    MonsterFlip();
                     isAtk = true;
                     randomAttack = Random.Range(0, 2);
                     if (randomAttack > 0)

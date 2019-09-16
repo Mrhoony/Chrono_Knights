@@ -202,7 +202,7 @@ MonoBehaviour:
   HP: 20
   currentHP: 0
   Atk: 2
-  jumpPower: 2
+  jumpPower: 3
 --- !u!1 &4815574860096899932
 GameObject:
   m_ObjectHideFlags: 0

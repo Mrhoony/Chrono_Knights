@@ -112,6 +112,7 @@ public class Monster_Dog : MonsterControl
                 curAttackDelayTime += Time.fixedDeltaTime;
                 if (curAttackDelayTime > maxAttackDelayTime)
                 {
+                    MonsterFlip();
                     isAtk = true;
                     animator.SetBool("isAtk_Trigger", true);
                     curRotateDelayTime = 0f;
