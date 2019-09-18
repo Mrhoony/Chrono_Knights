@@ -62,6 +62,7 @@ GameObject:
   - component: {fileID: 2019069859436496175}
   - component: {fileID: 276434007274080132}
   - component: {fileID: 7954043432877404954}
+  - component: {fileID: 1192311299816614499}
   m_Layer: 10
   m_Name: Monster_Ogre
   m_TagString: Monster
@@ -248,3 +249,17 @@ MonoBehaviour:
   currentHP: 0
   Atk: 2
   jumpPower: 0
+--- !u!114 &1192311299816614499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3311774891260424372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7ffe67a1023780419849c8610590db0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DropItems: []
+  DropChances: 

@@ -7,6 +7,7 @@ public class Inventory : MonoBehaviour
     public GameObject[] Slot;
     public bool[] isFull;
 
+    public GameObject scrollBar;
     GameObject _Player;
     int Focused = 0;
 
@@ -23,6 +24,10 @@ public class Inventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
         if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(6); }
         if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-6); }
+    }
+
+    private void OnEnable()
+    {
     }
 
     void CloseInventory()

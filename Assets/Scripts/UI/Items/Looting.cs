@@ -9,23 +9,23 @@ using UnityEngine.UI;
 
 public class Looting : MonoBehaviour
 {
-    Inventory _Invenroy;
+    Inventory _Invetroy;
 
     private void Start()
     {
-        _Invenroy = GameObject.Find("Inventory").GetComponent<Inventory>();
+        _Invetroy = GameObject.Find("Inventory").GetComponent<Inventory>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Player")
         {
-            for(int i=0; i<_Invenroy.Slot.Length; i++)
+            for(int i=0; i< _Invetroy.Slot.Length; i++)
             {
-                if(_Invenroy.isFull[i] == false)
+                if(_Invetroy.isFull[i] == false)
                 {
-                    _Invenroy.isFull[i] = true;
-                    _Invenroy.Slot[i].GetComponent<Image>().sprite = GetComponent<SpriteRenderer>().sprite;
+                    _Invetroy.isFull[i] = true;
+                    _Invetroy.Slot[i].GetComponent<Image>().sprite = GetComponent<SpriteRenderer>().sprite;
                     Destroy(gameObject);
                     break;
                 }

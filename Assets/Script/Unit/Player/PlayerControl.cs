@@ -6,9 +6,7 @@ public class PlayerControl : MovingObject
 {
     public static PlayerControl instance;
     public GameObject GroundCheck;
-    public GameObject keyInventory;
     public PlayerStat pStat;
-    public bool keyInOn;
 
     public float inputDirection;
     public int arrowDirection;
@@ -88,7 +86,7 @@ public class PlayerControl : MovingObject
         {
             inputArrow = 0;
         }
-
+        
         // 캐릭터 뒤집기
         if (!notMove)
         {
@@ -324,7 +322,7 @@ public class PlayerControl : MovingObject
 
     public void Hit(int monsterAtk)
     {
-        if (isDamagable || keyInOn)
+        if (isDamagable)
             return;
 
         notMove = true;

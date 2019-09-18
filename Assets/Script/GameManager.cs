@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public GameObject player;
 
-    string currentSceneName;
+    public GameObject inventory;
+    public bool InventoryOn;
 
     private void Awake()
     {
@@ -22,10 +23,21 @@ public class GameManager : MonoBehaviour
         }
         else
             Destroy(this);
-        
+
         Physics2D.IgnoreLayerCollision(8, 10);
         Physics2D.IgnoreLayerCollision(8, 12);
         Physics2D.IgnoreLayerCollision(10, 10);
+
+        Init();
+    }
+
+    public void Init()
+    {
+        player = GameObject.Find("Player Character");
+        inventory = GameObject.Find("Menus");
+
+        inventory.SetActive(false);
+        InventoryOn = false;
     }
     
     public void Update()
@@ -38,43 +50,22 @@ public class GameManager : MonoBehaviour
             Debug.Log("teleport");
         }
         */
-    }
 
-    // 씬에서 씬, 마을 에서 던전, 던전 층 이동시
-    public void TeleportStart()
-    {
-        /*
-        currentSceneName = SceneManager.GetActiveScene().name;
-        if (currentSceneName == "Town")
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            JoinDungeon();
-            SceneManager.LoadScene("TopFirstFloor");
-        }
-        else if (currentSceneName == "TopFirstFloor")
-        {
-            selectedFloor = 2;
-            if(selectedFloor >= 2)
+            if (!InventoryOn)
             {
-                if (floorFlag[selectedFloor - 2])
-                {
-                    Debug.Log("floor " + selectedFloor + " join");
-                    SceneManager.LoadScene(((selectedFloor - 2) % 4 + 2));
-                }
-                else
-                    Debug.Log("join fail");
-            }else if(selectedFloor == 0)
+                InventoryOn = !InventoryOn;
+                player.GetComponent<PlayerControl>().enabled = false;
+                inventory.SetActive(true);
+            }
+            else
             {
-                DM.SetActive(false);
-                SceneManager.LoadScene(selectedFloor);
-                PlayerControl.instance.transform.position = startingPosition.transform.position;
+                InventoryOn = !InventoryOn;
+                inventory.GetComponent<InGameMenu>().CloseInGameMenu();
+                player.GetComponent<PlayerControl>().enabled = true;
             }
         }
-        else
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            PlayerControl.instance.transform.position = startingPosition.transform.position;
-        }
-        */
     }
     
     public void OnEnable()

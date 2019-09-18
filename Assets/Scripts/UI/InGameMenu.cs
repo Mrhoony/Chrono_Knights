@@ -22,12 +22,11 @@ public class InGameMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I)) { CloseInGameMenu(); }
         if (Input.GetKeyDown(KeyCode.U)) { ChangeMenu(-1); }
         if (Input.GetKeyDown(KeyCode.O)) { ChangeMenu(1); }
     }
 
-    void CloseInGameMenu()
+    public void CloseInGameMenu()
     {
         // _Player.GetComponent<PlayerController>().enabled = true;
         Focused = 0;

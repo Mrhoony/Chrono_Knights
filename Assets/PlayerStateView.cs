@@ -104,7 +104,7 @@ public class PlayerStateView : MonoBehaviour
         }
     }
 
-    public void Hit(float monsterAtk)
+    public void Hit(float monsterAtk, float stability)
     {
         ++hitCount;
         if (hitCount > 5)

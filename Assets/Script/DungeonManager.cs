@@ -13,6 +13,8 @@ public class DungeonManager : MonoBehaviour
     public int selectedMapNum = 0;
     public GameObject startingPosition;
 
+    public int day;
+
     public GameObject[] monsterList;
     public GameObject[] currentStageMonsterList;
 
@@ -26,7 +28,7 @@ public class DungeonManager : MonoBehaviour
     public bool dungeonClear;   // 던전 클리어시
     public bool sectionClear;   // 페이즈 클리어시
 
-    public int poolSize;        // 최대 몬스터 수
+    public int monsterCount;        // 최대 몬스터 수
     public int allKillCount;    // 총 몬스터 킬 수
 
     // Start is called before the first frame update
@@ -43,8 +45,16 @@ public class DungeonManager : MonoBehaviour
 
         player = GameObject.Find("Player Character");
 
+        day = 0;
         currentStage = 0;
-        dungeonClear = true;
+        monsterCount = 0;
+        dungeonClear = false;
+    }
+
+    private void Init()
+    {
+        currentStage = 0;
+        dungeonClear = false;
     }
 
     // Update is called once per frame
@@ -104,8 +114,14 @@ public class DungeonManager : MonoBehaviour
         else if(SceneManager.GetActiveScene().buildIndex > 1)
         {
             SceneManager.LoadScene("Town");
+            player.GetComponent<PlayerStat>().Init();
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
+    }
+
+    public void PlayerDie()
+    {
+        SectionTeleport();
     }
 
     void FloorInit()
@@ -148,12 +164,14 @@ public class DungeonManager : MonoBehaviour
         }
 
         // 몬스터 스폰
-        for(int i = 0; i < 5; ++i)
+        for(int i = 0; i < Random.Range(2,5); ++i)
         {
             randomX = Random.Range(-1, 2);
             Instantiate(monsterList[Random.Range(0, monsterList.Length)], new Vector2(spawner[Random.Range(0, spawner.Length)].transform.position.x + randomX
                                                                                     , spawner[Random.Range(0, spawner.Length)].transform.position.y), Quaternion.identity);
         }
+
+
     }
 
     public void OnEnable()

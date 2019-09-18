@@ -2,16 +2,17 @@ fileFormatVersion: 2
 guid: 37ff09514a91e5e41b4be8442eec20d9
 TextureImporter:
   fileIDToRecycleName:
-    21300000: ui_inven_set_0
-    21300002: ui_inven_set_1
+    21300000: Inventory_Panel
+    21300002: Inventory_UnSeal
     21300004: ui_inven_set_2
     21300006: ui_inven_set_3
     21300008: ui_inven_set_4
     21300010: ui_inven_set_5
-    21300012: ui_inven_set_6
-    21300014: ui_inven_set_7
-    21300016: ui_inven_set_8
-    21300018: ui_inven_set_9
+    21300012: Inventory_Focus
+    21300014: Inventory_ScrollCursor
+    21300016: Inventory_Set_0
+    21300018: Inventory_Set_1
+    21300020: Inventory_Scroll
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -55,7 +56,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 1
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -94,7 +95,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ui_inven_set_0
+      name: Inventory_Panel
       rect:
         serializedVersion: 2
         x: 0
@@ -102,19 +103,19 @@ TextureImporter:
         width: 470
         height: 300
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6354ab1f09444be44ab6143b876ea4cf
+      spriteID: e74aefdc163cb734385caa301de0050f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_inven_set_1
+      name: Inventory_UnSeal
       rect:
         serializedVersion: 2
         x: 476
@@ -122,13 +123,13 @@ TextureImporter:
         width: 36
         height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9bd2824d3ad7f3a428a661e133ddf5e2
+      spriteID: 4e216801b7f419f4ab043d5e3a6e1372
       vertices: []
       indices: 
       edges: []
@@ -142,13 +143,13 @@ TextureImporter:
         width: 36
         height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: da24544f6015cf54aac27245d9524502
+      spriteID: eb963785e5a40ff4cbadefef3879467b
       vertices: []
       indices: 
       edges: []
@@ -162,13 +163,13 @@ TextureImporter:
         width: 34
         height: 34
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6bc5caa9b9357224ba2ac687e7e5aac5
+      spriteID: c841ed52741694e499211bcc54ef60e7
       vertices: []
       indices: 
       edges: []
@@ -182,13 +183,13 @@ TextureImporter:
         width: 34
         height: 34
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc8c6b8038b62a246b928bf16e4946c7
+      spriteID: 5ae64819217ea4c479328c490fda13eb
       vertices: []
       indices: 
       edges: []
@@ -202,19 +203,19 @@ TextureImporter:
         width: 34
         height: 34
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6c10d38162f3c1f42bdfb54b3d8ea687
+      spriteID: b55f201d0dda8ac46ba1e0f78a360746
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_inven_set_6
+      name: Inventory_Focus
       rect:
         serializedVersion: 2
         x: 477
@@ -222,19 +223,19 @@ TextureImporter:
         width: 40
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f820943985c487448699fdb7577b718
+      spriteID: 7b55cf61e7326df47ab86890022b418e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_inven_set_7
+      name: Inventory_ScrollCursor
       rect:
         serializedVersion: 2
         x: 477
@@ -242,39 +243,39 @@ TextureImporter:
         width: 8
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 09242cd9ae2edab47bcbe25e2793fefc
+      spriteID: 18f9c9339597d364fae1285f18b1160a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_inven_set_8
+      name: Inventory_Set_0
       rect:
         serializedVersion: 2
-        x: 477
+        x: 478
         y: 17
-        width: 28
+        width: 27
         height: 3
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 1, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0fde26bb58ce28845b191c8e6899cff6
+      spriteID: 43225c9c80b504947893893295a7d894
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_inven_set_9
+      name: Inventory_Set_1
       rect:
         serializedVersion: 2
         x: 477
@@ -282,13 +283,33 @@ TextureImporter:
         width: 28
         height: 3
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c2bcaf8cdfbc7564097c3af571ca4e92
+      spriteID: 2724c6bb181825e4f8c75f5c94d3772c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Inventory_Scroll
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 30
+        width: 4
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d71e7ff2639de9047863e3fd7fdaba6b
       vertices: []
       indices: 
       edges: []
@@ -296,7 +317,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 7480c0bf47a673541b242958c6ebe1d4
+    spriteID: 3bfc009a3495f5540882dde5962b6265
     vertices: []
     indices: 
     edges: []

@@ -28,6 +28,8 @@ public class PlayerStat : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         psv = GameObject.Find("ui_hpbar_base").GetComponent<PlayerStateView>();
+        MaxBuffTime = 100;
+        defense = 0;
         Init();
     }
 
@@ -39,9 +41,7 @@ public class PlayerStat : MonoBehaviour
         {
             HPCut[i] = 0;
         }
-        MaxBuffTime = 100;
         buffState = 0;
-        defense = 0;
         stability = 100;
 
         psv.Init();
@@ -129,12 +129,14 @@ public class PlayerStat : MonoBehaviour
         else
             currentHP -= Atk;
 
-        psv.Hit(Atk);
         stability -= Atk;
+        psv.Hit(Atk, stability);
 
-        if (currentHP <= 0)
+        if (currentHP <= 0) // 죽었을 때 결과창 보여주고 마을로
         {
             Debug.Log("isDead");
+            //결과창 띄우기
+            DungeonManager.instance.PlayerDie();
         }
         else
         {

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6935736740315924964}
   - component: {fileID: 5306742918675703073}
   - component: {fileID: 1163954453749329569}
+  - component: {fileID: 3538096716990868496}
   m_Layer: 10
   m_Name: Monster_frog
   m_TagString: Monster
@@ -185,7 +186,6 @@ MonoBehaviour:
   curRotateDelayTime: 0
   maxAttackDelayTime: 0
   curAttackDelayTime: 0
-  normal: 0
 --- !u!114 &1163954453749329569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +203,20 @@ MonoBehaviour:
   currentHP: 0
   Atk: 2
   jumpPower: 3
+--- !u!114 &3538096716990868496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431083087236160219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7ffe67a1023780419849c8610590db0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DropItems: []
+  DropChances: 
 --- !u!1 &4815574860096899932
 GameObject:
   m_ObjectHideFlags: 0
