@@ -2,6 +2,8 @@
 
 public class CameraManager : MonoBehaviour
 {
+    public Font[] font;
+
     static public CameraManager instance;
     public GameObject target;
     public BoxCollider2D bound;
@@ -28,10 +30,16 @@ public class CameraManager : MonoBehaviour
 
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         Screen.SetResolution(1280, 720, true);
+
     }
 
     void Start()
     {
+        for (int i = 0; i < font.Length; ++i)
+        {
+            font[i].material.mainTexture.filterMode = FilterMode.Point;
+        }
+
         bound = GameObject.Find("BackGround").GetComponent<BoxCollider2D>();
         SetCameraBound(bound);
     }

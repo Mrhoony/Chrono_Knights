@@ -58,7 +58,7 @@ public class MonsterControl : MovingObject
         rb = GetComponent<Rigidbody2D>();
         ehp = GetComponent<EnemyStat>();
 
-        target = GameObject.Find("Player Character");
+        target = GameObject.Find("PlayerCharacter");
     }
 
     public virtual void OnEnable()

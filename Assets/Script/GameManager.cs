@@ -10,10 +10,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public GameObject player;
-
-    public GameObject inventory;
-    public bool InventoryOn;
-
+    
     private void Awake()
     {
         if (instance == null)
@@ -28,16 +25,11 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(8, 12);
         Physics2D.IgnoreLayerCollision(10, 10);
 
-        Init();
     }
 
     public void Init()
     {
-        player = GameObject.Find("Player Character");
-        inventory = GameObject.Find("Menus");
-
-        inventory.SetActive(false);
-        InventoryOn = false;
+        player = GameObject.Find("PlayerCharacter");
     }
     
     public void Update()
@@ -50,22 +42,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("teleport");
         }
         */
-
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            if (!InventoryOn)
-            {
-                InventoryOn = !InventoryOn;
-                player.GetComponent<PlayerControl>().enabled = false;
-                inventory.SetActive(true);
-            }
-            else
-            {
-                InventoryOn = !InventoryOn;
-                inventory.GetComponent<InGameMenu>().CloseInGameMenu();
-                player.GetComponent<PlayerControl>().enabled = true;
-            }
-        }
     }
     
     public void OnEnable()
@@ -89,21 +65,21 @@ public class GameManager : MonoBehaviour
         */
     }
 
-    public void SaveGame()
+    public void SaveGame(int slotNum)
     {
         BinaryFormatter bf = new BinaryFormatter();
         MemoryStream ms = new MemoryStream();
 
         // 유저 정보
-        PlayerStat ps = GameObject.Find("Player Character").GetComponent<PlayerStat>();
+        PlayerStat ps = GameObject.Find("PlayerCharacter").GetComponent<PlayerStat>();
         bf.Serialize(ms, ps);
         string data = Convert.ToBase64String(ms.GetBuffer());
-        PlayerPrefs.SetString("PlayerStatus", data);
+        PlayerPrefs.SetString("PlayerStatus" + slotNum, data);
     }
 
-    public void LoadGame()
+    public void LoadGame(int slotNum)
     {
-        string data = PlayerPrefs.GetString("PlayerStatus", null);
+        string data = PlayerPrefs.GetString("PlayerStatus" + slotNum, null);
 
         if (!string.IsNullOrEmpty(data))
         {
@@ -111,7 +87,7 @@ public class GameManager : MonoBehaviour
             MemoryStream ms = new MemoryStream(Convert.FromBase64String(data));
 
             // 유저 정보
-            PlayerStat ps = GameObject.Find("Player").GetComponent<PlayerStat>();
+            PlayerStat ps = GameObject.Find("PlayerCharacter").GetComponent<PlayerStat>();
             ps = (PlayerStat)bf.Deserialize(ms);
         }
     }

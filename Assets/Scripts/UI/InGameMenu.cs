@@ -5,6 +5,9 @@ using UnityEngine;
 public class InGameMenu : MonoBehaviour
 {
     public GameObject[] Menus;
+    public GameObject player;
+
+    public bool InventoryOn;
 
     int Focused = 0;
 
@@ -12,25 +15,41 @@ public class InGameMenu : MonoBehaviour
 
     private void Awake()
     {
-        _Player = GameObject.Find("Player");
-    }
-
-    private void Start()
-    {
-        Menus[Focused].SetActive(true);
+        _Player = GameObject.Find("PlayerCharacter");
+        InventoryOn = false;
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (!InventoryOn)
+            {
+                InventoryOn = !InventoryOn;
+                OpenInGameMenu();
+            }
+            else
+            {
+                InventoryOn = !InventoryOn;
+                CloseInGameMenu();
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.U)) { ChangeMenu(-1); }
         if (Input.GetKeyDown(KeyCode.O)) { ChangeMenu(1); }
     }
 
+    public void OpenInGameMenu()
+    {
+        _Player.GetComponent<PlayerControl>().enabled = false;
+        Menus[Focused].SetActive(true);
+    }
+
     public void CloseInGameMenu()
     {
-        // _Player.GetComponent<PlayerController>().enabled = true;
+        Menus[Focused].SetActive(false);
         Focused = 0;
-        gameObject.SetActive(false);
+        _Player.GetComponent<PlayerControl>().enabled = true;
     }
 
     void ChangeMenu(int AdjustValue)

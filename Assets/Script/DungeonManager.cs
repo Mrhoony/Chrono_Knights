@@ -43,7 +43,7 @@ public class DungeonManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        player = GameObject.Find("Player Character");
+        player = GameObject.Find("PlayerCharacter");
 
         day = 0;
         currentStage = 0;
@@ -194,6 +194,7 @@ public class DungeonManager : MonoBehaviour
             CameraManager.instance.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
             GameObject stp = GameObject.FindGameObjectWithTag("StartPosition");
             player.transform.position = stp.transform.position;
+            player.GetComponent<PlayerControl>().pStat.Init();
         }
     }
 }

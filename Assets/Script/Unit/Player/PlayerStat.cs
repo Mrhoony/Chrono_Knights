@@ -27,10 +27,8 @@ public class PlayerStat : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
-        psv = GameObject.Find("ui_hpbar_base").GetComponent<PlayerStateView>();
         MaxBuffTime = 100;
         defense = 0;
-        Init();
     }
 
     public void Init()
@@ -43,6 +41,8 @@ public class PlayerStat : MonoBehaviour
         }
         buffState = 0;
         stability = 100;
+
+        psv = GameObject.Find("ui_hpbar_base").GetComponent<PlayerStateView>();
 
         psv.Init();
     }

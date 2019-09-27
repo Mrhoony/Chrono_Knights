@@ -24,7 +24,7 @@ public class PlayerStateView : MonoBehaviour
 
     private void Awake()
     {
-        pStat = GameObject.Find("Player Character").GetComponent<PlayerStat>();
+        pStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStat>();
     }
 
     private void Start()
