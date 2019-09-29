@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public GameObject player;
+    public GameObject UI;
     
     private void Awake()
     {
@@ -24,14 +25,14 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(8, 10);
         Physics2D.IgnoreLayerCollision(8, 12);
         Physics2D.IgnoreLayerCollision(10, 10);
-
     }
 
-    public void Init()
+    public void Start()
     {
-        player = GameObject.Find("PlayerCharacter");
+        player.GetComponent<PlayerControl>().enabled = false;
+        UI.SetActive(false);
     }
-    
+
     public void Update()
     {
         /*
@@ -90,5 +91,8 @@ public class GameManager : MonoBehaviour
             PlayerStat ps = GameObject.Find("PlayerCharacter").GetComponent<PlayerStat>();
             ps = (PlayerStat)bf.Deserialize(ms);
         }
+        UI.SetActive(true);
+        player.GetComponent<PlayerControl>().enabled = true;
+        SceneManager.LoadScene("Town");
     }
 }

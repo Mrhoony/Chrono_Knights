@@ -28,7 +28,7 @@ public class SubCamera : MonoBehaviour
         moveSpeed = target.gameObject.GetComponent<PlayerControl>().pStat.moveSpeed;
     }
 
-    public void FixedUpdate()
+    public void LateUpdate()
     {
         if (target.gameObject != null)
         {

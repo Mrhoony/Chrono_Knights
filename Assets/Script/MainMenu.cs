@@ -7,21 +7,11 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject SettingsMenu;
     public GameObject LoadSlot;
-
-    public void StartGame()
-    {
-        SceneManager.LoadScene("Town"); // 다음 씬 입력
-    }
+    
 
     public void OpenLoad()
     {
         LoadSlot.SetActive(true);
-    }
-
-    public void LoadGame(int _loadNum)
-    {
-        GameManager.instance.LoadGame(_loadNum);
-        SceneManager.LoadScene("Town");
     }
 
     public void CloseLoad()

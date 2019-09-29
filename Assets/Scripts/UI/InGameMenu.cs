@@ -1,48 +1,108 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InGameMenu : MonoBehaviour
 {
     public GameObject[] Menus;
-    public GameObject player;
+    public GameObject _Player;
+
+    public GameObject CancelMenu;
+
+    public Scrollbar[] sb;
 
     public bool InventoryOn;
+    public bool CancelOn;
 
     int Focused = 0;
-
-    GameObject _Player;
-
+    int count = 0;
+    
     private void Awake()
     {
-        _Player = GameObject.Find("PlayerCharacter");
         InventoryOn = false;
+        CancelOn = false;
+        sb = FindObjectsOfType<Scrollbar>();
+    }
+
+    private void Start()
+    {
+        foreach(GameObject menu in Menus)
+        {
+            menu.SetActive(false);
+        }
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (!CancelOn)
         {
-            if (!InventoryOn)
+            if (Input.GetKeyDown(KeyCode.I))
             {
-                InventoryOn = !InventoryOn;
-                OpenInGameMenu();
+                if (!InventoryOn)
+                {
+                    InventoryOn = !InventoryOn;
+                    OpenInGameMenu();
+                }
+                else
+                {
+                    InventoryOn = !InventoryOn;
+                    CloseInGameMenu();
+                }
             }
-            else
+            if (InventoryOn)
             {
-                InventoryOn = !InventoryOn;
-                CloseInGameMenu();
+                if (Input.GetKeyDown(KeyCode.U))
+                {
+                    ChangeMenu(-1);
+                }
+                if (Input.GetKeyDown(KeyCode.O))
+                {
+                    ChangeMenu(1);
+                }
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.U)) { ChangeMenu(-1); }
-        if (Input.GetKeyDown(KeyCode.O)) { ChangeMenu(1); }
+        if (Input.GetButtonDown("Cancel"))
+        {
+            if (!CancelOn)
+            {
+                CancelOn = !CancelOn;
+                OpenCancelMenu();
+            }
+            else
+            {
+                CancelOn = !CancelOn;
+                CloseCancelMenu();
+            }
+        }
+    }
+
+    public void OpenCancelMenu()
+    {
+        _Player.GetComponent<PlayerControl>().enabled = false;
+        Time.timeScale = 0;
+        CancelMenu.SetActive(true);
+    }
+
+    public void CloseCancelMenu()
+    {
+        Time.timeScale = 1;
+        CancelMenu.SetActive(false);
+        _Player.GetComponent<PlayerControl>().enabled = true;
     }
 
     public void OpenInGameMenu()
     {
         _Player.GetComponent<PlayerControl>().enabled = false;
         Menus[Focused].SetActive(true);
+        foreach (Scrollbar bar in sb)
+        {
+            ++count;
+            bar.size = 0f;
+            bar.value = 1f;
+        }
+        Debug.Log(count);
     }
 
     public void CloseInGameMenu()
@@ -57,6 +117,13 @@ public class InGameMenu : MonoBehaviour
         if(!(Focused + AdjustValue < 0 || Focused + AdjustValue >= Menus.Length))
         {
             Menus[Focused + AdjustValue].SetActive(true);
+            foreach (Scrollbar bar in sb)
+            {
+                ++count;
+                bar.size = 0f;
+                bar.value = 1f;
+            }
+            Debug.Log(count);
             Menus[Focused].SetActive(false);
             Focused += AdjustValue;
         }

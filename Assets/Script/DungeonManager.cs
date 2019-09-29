@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class DungeonManager : MonoBehaviour
 {
     public static DungeonManager instance;
-    
     public GameObject player;
+    public GameObject UI;
 
     public GameObject[] mapList;
     public int selectedMapNum = 0;
@@ -137,7 +137,8 @@ public class DungeonManager : MonoBehaviour
         startingPosition = mapList[selectedMapNum].transform.Find("Base/StartingPosition").gameObject;
         player.transform.position = startingPosition.transform.position;
 
-        CameraManager.instance.SetCameraBound(mapList[selectedMapNum].transform.Find("BackGround").GetComponent<BoxCollider2D>());  // 카메라 설정
+        CameraManager.instance.SetCameraBound(mapList[selectedMapNum].transform.Find("BackGroundBound").GetComponent<BoxCollider2D>());  // 카메라 설정
+        mapList[selectedMapNum].transform.Find("BackGroundBound").transform.position = new Vector2(Random.Range(-1f, 0), Random.Range(-2f, 0));
 
         if (currentStage > 0)
             sectionClear = true;
@@ -195,6 +196,11 @@ public class DungeonManager : MonoBehaviour
             GameObject stp = GameObject.FindGameObjectWithTag("StartPosition");
             player.transform.position = stp.transform.position;
             player.GetComponent<PlayerControl>().pStat.Init();
+        }
+        else if(SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            player.GetComponent<PlayerControl>().enabled = false;
+            UI.SetActive(false);
         }
     }
 }
