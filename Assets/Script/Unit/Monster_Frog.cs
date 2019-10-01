@@ -49,7 +49,7 @@ public class Monster_Frog : MonsterControl
             MonsterFlip();
             notMoveDelayTime();
 
-            if (Mathf.Abs(playerPos.x - transform.position.x) < 2f && Mathf.Abs(playerPos.y - transform.position.y) < 1f)
+            if (playerPos.x * playerPos.x - transform.position.x * transform.position.x < 2f && playerPos.y * playerPos.y - transform.position.y * transform.position.y < 1f)
             {
                 if (!isTrace)
                 {

@@ -21,7 +21,7 @@ public class NPC_Merchant : NPCControl
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if(collision.CompareTag("Player"))
         {
             inPlayer = true;
         }

@@ -29,7 +29,7 @@ public class Merchant_Attack1 : StateMachineBehaviour
             Collider2D[] PlayertoDamage = Physics2D.OverlapBoxAll(new Vector2(MonsterSelf.transform.position.x + attackPositionX, MonsterSelf.transform.position.y + attackPositionY), new Vector2(attackRangeX, attackRangeY), 0);
             for(int i=0; i< PlayertoDamage.Length; i++)
             {
-                if(PlayertoDamage[i].tag == "Player")
+                if(PlayertoDamage[i].CompareTag("Player"))
                 {
                     Debug.Log("Player Hit");
                     //PlayertoDamage[i].GetComponent<PlayerStatus>().DecreaseHP(1f);

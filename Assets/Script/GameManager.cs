@@ -10,8 +10,13 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public GameObject player;
-    public GameObject UI;
-    
+    public GameObject playerStat;
+    PlayerData pd;
+    BinaryFormatter bf;
+    MemoryStream ms;
+    int slotNum;
+    string data;
+
     private void Awake()
     {
         if (instance == null)
@@ -22,77 +27,68 @@ public class GameManager : MonoBehaviour
         else
             Destroy(this);
 
+        Physics2D.IgnoreLayerCollision(5, 10);
         Physics2D.IgnoreLayerCollision(8, 10);
         Physics2D.IgnoreLayerCollision(8, 12);
         Physics2D.IgnoreLayerCollision(10, 10);
+        slotNum = 0;
     }
 
     public void Start()
     {
+        player.transform.position = GameObject.Find("StartingPosition").transform.position;
         player.GetComponent<PlayerControl>().enabled = false;
-        UI.SetActive(false);
+        playerStat.SetActive(false);
     }
 
-    public void Update()
+    public void SaveGame()
     {
-        /*
-        if (teleport.GetComponent<Teleport>().teleportOn)
-        {
-            teleport.GetComponent<Teleport>().teleportOn = false;
-            TeleportStart();
-            Debug.Log("teleport");
-        }
-        */
-    }
-    
-    public void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-    public void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        /*
-        startingPosition = GameObject.Find("StartingPosition");
-        teleport = GameObject.Find("Entrance");
-
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-            teleport.SetActive(true);
-        else
-            teleport.SetActive(false);
-        */
-    }
-
-    public void SaveGame(int slotNum)
-    {
-        BinaryFormatter bf = new BinaryFormatter();
-        MemoryStream ms = new MemoryStream();
+        bf = new BinaryFormatter();
+        ms = new MemoryStream();
 
         // 유저 정보
-        PlayerStat ps = GameObject.Find("PlayerCharacter").GetComponent<PlayerStat>();
-        bf.Serialize(ms, ps);
-        string data = Convert.ToBase64String(ms.GetBuffer());
-        PlayerPrefs.SetString("PlayerStatus" + slotNum, data);
+        pd = player.GetComponent<PlayerStat>().pd;
+        bf.Serialize(ms, pd);
+        data = Convert.ToBase64String(ms.GetBuffer());
+
+        PlayerPrefs.SetString("PlayerData" + slotNum, data);
     }
 
-    public void LoadGame(int slotNum)
+    public void LoadGame(int _slotNum)
     {
-        string data = PlayerPrefs.GetString("PlayerStatus" + slotNum, null);
-
-        if (!string.IsNullOrEmpty(data))
+        slotNum = _slotNum;
+        if(PlayerPrefs.HasKey("PlayerData" + slotNum))
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            MemoryStream ms = new MemoryStream(Convert.FromBase64String(data));
+            data = PlayerPrefs.GetString("PlayerData" + slotNum, null);
 
-            // 유저 정보
-            PlayerStat ps = GameObject.Find("PlayerCharacter").GetComponent<PlayerStat>();
-            ps = (PlayerStat)bf.Deserialize(ms);
+            if (!string.IsNullOrEmpty(data))
+            {
+                bf = new BinaryFormatter();
+                ms = new MemoryStream(Convert.FromBase64String(data));
+
+                // 유저 정보
+                pd = GameObject.Find("PlayerCharacter").GetComponent<PlayerData>();
+                pd = (PlayerData)bf.Deserialize(ms);
+
+                player.SetActive(true);
+                playerStat.SetActive(true);
+                player.GetComponent<PlayerControl>().enabled = true;
+                SceneManager.LoadScene("Town");
+            }
         }
-        UI.SetActive(true);
-        player.GetComponent<PlayerControl>().enabled = true;
-        SceneManager.LoadScene("Town");
+        else
+        {
+            player.GetComponent<PlayerStat>().NewStart();
+            playerStat.SetActive(true);
+            player.GetComponent<PlayerControl>().enabled = true;
+            SceneManager.LoadScene("Town");
+        }
+
+    }
+
+    public void DeleteSave(int _slotNum)
+    {
+        if(!PlayerPrefs.HasKey("PlayerData" + slotNum))
+            PlayerPrefs.DeleteKey("PlayerData" + slotNum);
     }
 }

@@ -51,10 +51,13 @@ public class Monster_Dog : MonsterControl
         {
             if (isTrace)
             {
-                if (!isAtk && Mathf.Abs(playerPos.x - transform.position.x) > 0.5f)
+                if(playerPos.x * playerPos.x - transform.position.x * transform.position.x > 0.5f)
                 {
-                    animator.SetBool("isRun", true);
-                    rb.velocity = new Vector2(ehp.moveSpeed * 2f * arrow, rb.velocity.y);
+                    if (!isAtk)
+                    {
+                        animator.SetBool("isRun", true);
+                        rb.velocity = new Vector2(ehp.moveSpeed * 2f * arrow, rb.velocity.y);
+                    }
                 }
                 else
                 {
@@ -89,23 +92,8 @@ public class Monster_Dog : MonsterControl
         if (isTrace)
         {
             MonsterFlip();
-            /*
-            if (isDamagable)
-            {
-                curRotateDelayTime = 0;
-            }
-            else
-            {
-                curRotateDelayTime += Time.fixedDeltaTime;
-                if (curRotateDelayTime > maxRotateDelayTime)
-                {
-                    isAtk = false;
-                    notMove = false;
-                    curAttackDelayTime = 0;
-                }
-            }
-            */
-            if (Mathf.Abs(playerPos.x - transform.position.x) < 0.5f)
+
+            if (playerPos.x * playerPos.x - transform.position.x * transform.position.x < 0.5f)
             {
                 rb.velocity = Vector2.zero;
                 notMove = true;
@@ -124,37 +112,23 @@ public class Monster_Dog : MonsterControl
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision != null)
+        if (collision.CompareTag("Player"))
         {
-            if (collision.tag == "Player")
-            {
-                isTrace = true;
-                StopCoroutine(Moving);
-            }
+            isTrace = true;
+            StopCoroutine(Moving);
         }
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision != null)
-        {
-            if (collision.tag == "Player")
-            {
-            }
-        }
-    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision != null)
+        if (collision.CompareTag("Player"))
         {
-            if (collision.tag == "Player")
-            {
-                isAtk = false;
-                notMove = true;
-                isTrace = false;
-                curAttackDelayTime = 0f;
-                Moving = RandomMove(randomMoveCount);
-                StartCoroutine(Moving);
-            }
+            isAtk = false;
+            notMove = true;
+            isTrace = false;
+            curAttackDelayTime = 0f;
+            Moving = RandomMove(randomMoveCount);
+            StartCoroutine(Moving);
         }
     }
 }

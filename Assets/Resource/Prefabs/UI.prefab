@@ -2942,7 +2942,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7949494454539392907}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f58d2c4b7104c9c4786fe353e7203d57, type: 3}
+  m_Script: {fileID: 11500000, guid: 1206b80c4a0b27541ad118d3d0208b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7949494454540897070
@@ -8555,7 +8555,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7949494455678156135}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a981dbc8fa0062346b1b81a390d61b85, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bc4b67031045e74e99a8a3f7771ef70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SettingsMenu: {fileID: 7949494455523059064}
@@ -8722,7 +8722,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7949494455729968796}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72a3ee495cc3c8841935730d0f71eddb, type: 3}
+  m_Script: {fileID: 11500000, guid: e71c07a32e63faf4d827d118b6ed69b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pStat: {fileID: 0}
@@ -8739,7 +8739,7 @@ MonoBehaviour:
   - {fileID: 7949494455803098171}
   bell: {fileID: 7949494455533540774}
   speedDown: 0
-  arrow: 1
+  arrow: 0
   power: 0
   hitCount: 0
 --- !u!1 &7949494455741021050

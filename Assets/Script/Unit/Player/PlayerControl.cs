@@ -344,7 +344,7 @@ public class PlayerControl : MovingObject
         attackLock = !attackLock;
         do
         {
-            if (Mathf.Abs(rb.velocity.x) > 0)
+            if (rb.velocity.x * rb.velocity.x > 0)
             {
                 rb.velocity = Vector2.zero;
                 animator.SetBool("isRun", false);

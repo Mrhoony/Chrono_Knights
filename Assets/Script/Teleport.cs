@@ -13,7 +13,7 @@ public class Teleport : MonoBehaviour
     
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
             if (Input.GetButtonDown("Fire1"))
             {

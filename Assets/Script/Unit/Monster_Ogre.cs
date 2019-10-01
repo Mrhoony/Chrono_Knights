@@ -47,7 +47,7 @@ public class Monster_Ogre : MonsterControl
         {
             if (isTrace)
             {
-                if (Mathf.Abs(playerPos.x - transform.position.x) > 2f)
+                if (playerPos.x * playerPos.x - transform.position.x * transform.position.x > 2f)
                 {
                     animator.SetBool("isMove", true);
                     rb.velocity = new Vector2(ehp.moveSpeed * arrow, rb.velocity.y);
@@ -82,7 +82,7 @@ public class Monster_Ogre : MonsterControl
         {
             MonsterFlip();
 
-            if (Mathf.Abs(playerPos.x - transform.position.x) < 2f)
+            if (playerPos.x * playerPos.x - transform.position.x * transform.position.x < 2f)
             {
                 notMove = true;
                 curAttackDelayTime += Time.fixedDeltaTime;
@@ -106,7 +106,7 @@ public class Monster_Ogre : MonsterControl
     {
         if (collision != null)
         {
-            if (collision.tag == "Player")
+            if (collision.CompareTag("Player"))
             {
                 isTrace = true;
                 StopCoroutine(Moving);
@@ -117,7 +117,7 @@ public class Monster_Ogre : MonsterControl
     {
         if (collision != null)
         {
-            if (collision.tag == "Player")
+            if (collision.CompareTag("Player"))
             {
                 notMove = true;
                 isTrace = false;

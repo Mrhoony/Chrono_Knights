@@ -15,23 +15,7 @@ public class xxx_Attack_end : AnimatorManager
     {
         if (stateInfo.normalizedTime > 0.2f && atk < 2)
         {
-            ++atk;
-            monster = Physics2D.OverlapBoxAll(new Vector2(PlayerControl.instance.transform.position.x + 0.5f * PlayerControl.instance.arrowDirection
-                , PlayerControl.instance.transform.position.y), new Vector2(1f, 1f), 10);
-
-            foreach (Collider2D mon in monster)
-            {
-                if (mon.tag == "Monster")
-                {
-                    mon.gameObject.GetComponent<MonsterControl>().Hit(PlayerControl.instance.pStat.Atk
-                        , mon.gameObject.GetComponent<MonsterControl>().effectX, mon.gameObject.GetComponent<MonsterControl>().effectY);
-                }
-                else if (mon.tag == "BossMonster")
-                {
-                    mon.gameObject.GetComponent<BossMonsterControl>().Hit(PlayerControl.instance.pStat.Atk
-                        , mon.gameObject.GetComponent<BossMonsterControl>().effectX, mon.gameObject.GetComponent<BossMonsterControl>().effectY);
-                }
-            }
+            Attack(0.5f, 0f, 1f, 1f);
         }
         if (stateInfo.normalizedTime > 0.2f)
         {

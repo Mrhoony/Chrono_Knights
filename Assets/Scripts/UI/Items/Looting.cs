@@ -18,7 +18,7 @@ public class Looting : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if(collision.CompareTag("Player"))
         {
             for(int i=0; i< _Invetroy.Slot.Length; i++)
             {

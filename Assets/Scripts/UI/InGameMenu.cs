@@ -27,9 +27,9 @@ public class InGameMenu : MonoBehaviour
 
     private void Start()
     {
-        foreach(GameObject menu in Menus)
+        for(int i = 0; i < Menus.Length; ++i)
         {
-            menu.SetActive(false);
+            Menus[i].SetActive(false);
         }
     }
 

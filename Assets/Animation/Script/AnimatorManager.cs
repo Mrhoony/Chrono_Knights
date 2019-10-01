@@ -21,17 +21,17 @@ public class AnimatorManager : StateMachineBehaviour
         ++atk;
         monster = Physics2D.OverlapBoxAll(new Vector2(PlayerControl.instance.transform.position.x + attackPosX * PlayerControl.instance.arrowDirection
             , PlayerControl.instance.transform.position.y + attackPosY), new Vector2(0.6f, 0.5f), 10);
-        foreach (Collider2D mon in monster)
+        for(int i = 0; i < monster.Length; ++i)
         {
-            if (mon.tag == "Monster")
+            if (monster[i].CompareTag("Monster"))
             {
-                mon.gameObject.GetComponent<MonsterControl>().Hit(PlayerControl.instance.pStat.Atk
-                    , mon.gameObject.GetComponent<MonsterControl>().effectX, mon.gameObject.GetComponent<MonsterControl>().effectY);
+                monster[i].gameObject.GetComponent<MonsterControl>().Hit(PlayerControl.instance.pStat.Atk
+                    , monster[i].gameObject.GetComponent<MonsterControl>().effectX, monster[i].gameObject.GetComponent<MonsterControl>().effectY);
             }
-            else if (mon.tag == "BossMonster")
+            else if (monster[i].CompareTag("BossMonster"))
             {
-                mon.gameObject.GetComponent<BossMonsterControl>().Hit(PlayerControl.instance.pStat.Atk
-                    , mon.gameObject.GetComponent<BossMonsterControl>().effectX, mon.gameObject.GetComponent<BossMonsterControl>().effectY);
+                monster[i].gameObject.GetComponent<BossMonsterControl>().Hit(PlayerControl.instance.pStat.Atk
+                    , monster[i].gameObject.GetComponent<BossMonsterControl>().effectX, monster[i].gameObject.GetComponent<BossMonsterControl>().effectY);
             }
         }
     }
@@ -45,13 +45,13 @@ public class AnimatorManager : StateMachineBehaviour
                 new Vector2(animator.gameObject.transform.position.x + (attackPosX * animator.gameObject.GetComponent<MonsterControl>().arrow)
                 , (animator.gameObject.transform.position.y))
                 , new Vector2(attackRangeX, attackRangeY), 8);
-
-
-            foreach (Collider2D pl in player)
+            
+            for(int i = 0; i < player.Length; ++i)
             {
-                if (pl.tag == "Player")
+                if (player[i].CompareTag("Player"))
                 {
-                    pl.gameObject.GetComponent<PlayerControl>().Hit(animator.gameObject.GetComponent<EnemyStat>().Atk);
+                    player[i].gameObject.GetComponent<PlayerControl>().Hit(animator.gameObject.GetComponent<EnemyStat>().Atk);
+
                 }
             }
         }

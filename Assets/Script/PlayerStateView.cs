@@ -39,8 +39,8 @@ public class PlayerStateView : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HPBar.fillAmount = pStat.currentHP / pStat.HP;
-        buffBar.fillAmount = pStat.currentBuffTime / pStat.MaxBuffTime;
+        HPBar.fillAmount = pStat.currentHP / pStat.pd.HP;
+        buffBar.fillAmount = pStat.currentBuffTime / pStat.pd.MaxBuffTime;
 
         if (bell.transform.rotation.z * 90f > 0.2f * hitCount)
         {
@@ -142,9 +142,9 @@ public class PlayerStateView : MonoBehaviour
 
     public void SetBuff(int value)
     {
-        foreach(Image buff in buffState)
+        for(int i = 0; i < buffState.Length; ++i)
         {
-            buff.enabled = false;
+            buffState[i].enabled = false;
         }
         buffState[value].enabled = true;
     }

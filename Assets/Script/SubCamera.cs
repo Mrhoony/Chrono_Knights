@@ -10,6 +10,9 @@ public class SubCamera : MonoBehaviour
     public float moveSpeed;
     public Vector3 targetPosition;
 
+    float tempX;
+    float tempY;
+
     public void Awake()
     {
         if (instance == null)
@@ -25,7 +28,7 @@ public class SubCamera : MonoBehaviour
     {
         transform.position = target.transform.position;
         boxCollider2D = GetComponent<BoxCollider2D>();
-        moveSpeed = target.gameObject.GetComponent<PlayerControl>().pStat.moveSpeed;
+        moveSpeed = target.gameObject.GetComponent<PlayerControl>().pStat.pd.moveSpeed;
     }
 
     public void LateUpdate()
@@ -34,13 +37,18 @@ public class SubCamera : MonoBehaviour
         {
             targetPosition.Set(target.transform.position.x, target.transform.position.y, transform.position.z);
 
+            tempX = transform.position.x - target.transform.position.x;
+            tempY = transform.position.y - target.transform.position.y;
+            if (tempX < 0)
+                tempX *= -1;
+            if (tempY < 0)
+                tempY *= -1;
+
             if (target.transform.position.x > transform.position.x + boxCollider2D.size.x / 4
                 || target.transform.position.x < transform.position.x - boxCollider2D.size.x / 4
                 || target.transform.position.y > transform.position.y + boxCollider2D.size.y / 4
                 || target.transform.position.y < transform.position.y - boxCollider2D.size.y / 4)
-                transform.position = Vector3.Lerp(transform.position, targetPosition,
-                    (Mathf.Abs(transform.position.x - target.transform.position.x) * 2
-                    + Mathf.Abs(transform.position.y - target.transform.position.y)) * Time.deltaTime);
+                transform.position = Vector3.Lerp(transform.position, targetPosition, (tempX * 2 + tempY) * Time.deltaTime);
         }
     }
 }
