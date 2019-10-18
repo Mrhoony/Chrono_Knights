@@ -73,7 +73,7 @@ public class InGameMenu : MonoBehaviour
             else
             {
                 CancelOn = !CancelOn;
-                CloseCancelMenu();
+                CloseCancelMenu(true);
             }
         }
     }
@@ -85,11 +85,12 @@ public class InGameMenu : MonoBehaviour
         CancelMenu.SetActive(true);
     }
 
-    public void CloseCancelMenu()
+    public void CloseCancelMenu(bool inGame)
     {
         Time.timeScale = 1;
         CancelMenu.SetActive(false);
-        _Player.GetComponent<PlayerControl>().enabled = true;
+        if(inGame)
+            _Player.GetComponent<PlayerControl>().enabled = true;
     }
 
     public void OpenInGameMenu()

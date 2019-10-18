@@ -9,9 +9,11 @@ using System.IO;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public GameObject mainMenu;
+    public GameObject inGameMenu;
     public GameObject player;
     public GameObject playerStat;
-    PlayerData pd;
+    public PlayerData pd;
     BinaryFormatter bf;
     MemoryStream ms;
     int slotNum;
@@ -41,6 +43,11 @@ public class GameManager : MonoBehaviour
         playerStat.SetActive(false);
     }
 
+    public void SelectSlot(int _slotNum)
+    {
+        slotNum = _slotNum;
+    }
+
     public void SaveGame()
     {
         bf = new BinaryFormatter();
@@ -52,11 +59,14 @@ public class GameManager : MonoBehaviour
         data = Convert.ToBase64String(ms.GetBuffer());
 
         PlayerPrefs.SetString("PlayerData" + slotNum, data);
+        Debug.Log("save complete");
+        inGameMenu.GetComponent<InGameMenu>().CloseCancelMenu(false);
+        mainMenu.SetActive(true);
+        DungeonManager.instance.SectionTeleport(false, true);
     }
-
-    public void LoadGame(int _slotNum)
+    
+    public void LoadGame()
     {
-        slotNum = _slotNum;
         if(PlayerPrefs.HasKey("PlayerData" + slotNum))
         {
             data = PlayerPrefs.GetString("PlayerData" + slotNum, null);
@@ -67,28 +77,33 @@ public class GameManager : MonoBehaviour
                 ms = new MemoryStream(Convert.FromBase64String(data));
 
                 // 유저 정보
-                pd = GameObject.Find("PlayerCharacter").GetComponent<PlayerData>();
                 pd = (PlayerData)bf.Deserialize(ms);
+                player.GetComponent<PlayerStat>().pd = pd;
 
+                mainMenu.SetActive(false);
                 player.SetActive(true);
                 playerStat.SetActive(true);
+                mainMenu.SetActive(false);
                 player.GetComponent<PlayerControl>().enabled = true;
+                mainMenu.GetComponent<MainMenu>().CloseLoad();
                 SceneManager.LoadScene("Town");
             }
         }
         else
         {
             player.GetComponent<PlayerStat>().NewStart();
+            mainMenu.SetActive(false);
             playerStat.SetActive(true);
             player.GetComponent<PlayerControl>().enabled = true;
+            mainMenu.GetComponent<MainMenu>().CloseLoad();
             SceneManager.LoadScene("Town");
         }
 
     }
 
-    public void DeleteSave(int _slotNum)
+    public void DeleteSave()
     {
-        if(!PlayerPrefs.HasKey("PlayerData" + slotNum))
+        if(PlayerPrefs.HasKey("PlayerData" + slotNum))
             PlayerPrefs.DeleteKey("PlayerData" + slotNum);
     }
 }

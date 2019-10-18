@@ -60,14 +60,14 @@ public class DungeonManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex > 1)
         {
             if (sectionClear)
-                SectionTeleport(false);
+                SectionTeleport(false, false);
             else
                 if(dungeonClear)
                     DungeonTeleport();
         }
         else if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            SectionTeleport(false);
+            SectionTeleport(false, false);
         }
     }
 
@@ -76,31 +76,38 @@ public class DungeonManager : MonoBehaviour
         FloorInit(2);
     }
 
-    public void SectionTeleport(bool isDead)
+    public void SectionTeleport(bool isDead, bool exit)
     {
-        if (!isDead)
+        if (exit)
         {
-            if (SceneManager.GetActiveScene().buildIndex == 1)
-            {
-                SceneManager.LoadScene("TopFirstFloor");
-            }
-            else if (SceneManager.GetActiveScene().buildIndex > 1)
-            {
-                SceneManager.LoadScene("Town");
-                player.GetComponent<PlayerStat>().Init();
-                //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            }
+            SceneManager.LoadScene("MainMenu");
         }
         else
         {
-            SceneManager.LoadScene("Town");
-            player.GetComponent<PlayerStat>().Init();
+            if (!isDead)
+            {
+                if (SceneManager.GetActiveScene().buildIndex == 1)
+                {
+                    SceneManager.LoadScene("TopFirstFloor");
+                }
+                else if (SceneManager.GetActiveScene().buildIndex > 1)
+                {
+                    SceneManager.LoadScene("Town");
+                    player.GetComponent<PlayerStat>().Init();
+                    //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
+            }
+            else
+            {
+                SceneManager.LoadScene("Town");
+                player.GetComponent<PlayerStat>().Init();
+            }
         }
     }
 
     public void PlayerDie()
     {
-        SectionTeleport(true);
+        SectionTeleport(true, false);
     }
 
     void FloorInit(int keyMul)
@@ -143,8 +150,11 @@ public class DungeonManager : MonoBehaviour
             }
         }
 
+        keyMul = 1;
+        monsterCount = Random.Range(10, 10 * keyMul);
+        currentStageMonsterList = new GameObject[monsterCount];
         // 몬스터 스폰
-        for(int i = 0; i < Random.Range(10,10 * keyMul); ++i)
+        for (int i = 0; i < monsterCount; ++i)
         {
             randomX = Random.Range(-1, 2);
             currentStageMonsterList[i] = Instantiate(monsterList[Random.Range(0, monsterList.Length)], new Vector2(spawner[Random.Range(0, spawner.Length)].transform.position.x + randomX
