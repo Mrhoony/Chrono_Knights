@@ -9,11 +9,11 @@ using UnityEngine.UI;
 
 public class Looting : MonoBehaviour
 {
-    Inventory _Invetroy;
+    Menu_Inventory _Invetroy;
 
     private void Start()
     {
-        _Invetroy = GameObject.Find("Inventory").GetComponent<Inventory>();
+        _Invetroy = GameObject.Find("Inventory").GetComponent<Menu_Inventory>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

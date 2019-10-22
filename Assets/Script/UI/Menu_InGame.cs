@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InGameMenu : MonoBehaviour
+public class Menu_InGame : MonoBehaviour
 {
     public GameObject[] Menus;
     public GameObject _Player;
@@ -87,10 +87,10 @@ public class InGameMenu : MonoBehaviour
 
     public void CloseCancelMenu(bool inGame)
     {
-        Time.timeScale = 1;
         CancelMenu.SetActive(false);
         if(inGame)
             _Player.GetComponent<PlayerControl>().enabled = true;
+        Time.timeScale = 1;
     }
 
     public void OpenInGameMenu()

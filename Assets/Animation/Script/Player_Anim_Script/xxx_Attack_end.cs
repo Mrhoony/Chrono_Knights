@@ -21,7 +21,7 @@ public class xxx_Attack_end : AnimatorManager
         {
             if (!move)
             {
-                PlayerControl.instance.transform.position = new Vector2((PlayerControl.instance.transform.position.x + 0.3f * PlayerControl.instance.arrowDirection), PlayerControl.instance.transform.position.y);
+                PlayerControl.instance.rb.velocity = new Vector2(PlayerControl.instance.pStat.moveSpeed * PlayerControl.instance.arrowDirection, PlayerControl.instance.rb.velocity.y);
                 move = true;
             }
         }

@@ -35,11 +35,11 @@ public class PlayerStat : MonoBehaviour
 
     public void Init()
     {
-        moveSpeed = pd.moveSpeed;
-        Atk = pd.Atk;
-        currentHP = pd.HP;
-        jumpPower = pd.jumpPower;
-        defense = pd.defense;
+        moveSpeed = pd.moveSpeed + pd.up_moveSpeed;
+        Atk = pd.Atk + pd.up_Atk;
+        currentHP = pd.HP + pd.up_HP;
+        jumpPower = pd.jumpPower + pd.up_jumpPower;
+        defense = pd.defense + pd.up_defense;
         stability = pd.maxStability;
         
         HPCut = new int[4];
@@ -156,9 +156,9 @@ public class PlayerStat : MonoBehaviour
     public void SetBuff(int buffLevel)
     {
         currentBuffTime += 10 * buffLevel;
-        if(currentBuffTime > pd.MaxBuffTime)
+        if(currentBuffTime > pd.maxBuffTime)
         {
-            currentBuffTime = pd.MaxBuffTime;
+            currentBuffTime = pd.maxBuffTime;
         }
         psv.SetBuff(1);
 

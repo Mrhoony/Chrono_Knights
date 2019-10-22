@@ -9,11 +9,12 @@ public class DungeonManager : MonoBehaviour
     public GameObject player;
     public GameObject playerStat;
 
+    public int currentDate;
+    public bool newDay;
+
     public GameObject[] mapList;
     public int selectedMapNum = 0;
     public GameObject startingPosition;
-
-    public int day;
 
     public GameObject[] monsterList;
     public GameObject[] currentStageMonsterList;
@@ -43,9 +44,11 @@ public class DungeonManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        day = 0;
+        currentDate = 1;
         currentStage = 0;
         monsterCount = 0;
+        newDay = true;
+        //newDay = false;
         dungeonClear = false;
     }
 
@@ -93,6 +96,8 @@ public class DungeonManager : MonoBehaviour
                 else if (SceneManager.GetActiveScene().buildIndex > 1)
                 {
                     SceneManager.LoadScene("Town");
+                    ++currentDate;
+                    newDay = true;
                     player.GetComponent<PlayerStat>().Init();
                     //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                 }

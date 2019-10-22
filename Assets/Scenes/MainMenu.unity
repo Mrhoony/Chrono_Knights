@@ -841,14 +841,21 @@ MonoBehaviour:
   mainMenu: {fileID: 631013768}
   inGameMenu: {fileID: 1382694523}
   player: {fileID: 411236570}
-  playerStat: {fileID: 1567471382}
+  playerStatView: {fileID: 1567471382}
   pd:
     _moveSpeed: 0
+    _up_moveSpeed: 0
     _HP: 0
+    _up_HP: 0
     _MaxBuffTime: 0
     _Atk: 0
+    _up_Atk: 0
+    _attackSpeed: 0
+    _up_attackSpeed: 0
     _jumpPower: 0
+    _up_jumpPower: 0
     _defense: 0
+    _up_defense: 0
     _maxStability: 0
 --- !u!4 &472165981
 Transform:

@@ -40,7 +40,7 @@ public class PlayerStateView : MonoBehaviour
     void Update()
     {
         HPBar.fillAmount = pStat.currentHP / pStat.pd.HP;
-        buffBar.fillAmount = pStat.currentBuffTime / pStat.pd.MaxBuffTime;
+        buffBar.fillAmount = pStat.currentBuffTime / pStat.pd.maxBuffTime;
 
         if (bell.transform.rotation.z * 90f > 0.2f * hitCount)
         {

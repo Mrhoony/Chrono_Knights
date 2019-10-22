@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject mainMenu;
     public GameObject inGameMenu;
     public GameObject player;
-    public GameObject playerStat;
+    public GameObject playerStatView;
     public PlayerData pd;
     BinaryFormatter bf;
     MemoryStream ms;
@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
 
         Physics2D.IgnoreLayerCollision(5, 10);
         Physics2D.IgnoreLayerCollision(8, 10);
-        Physics2D.IgnoreLayerCollision(8, 12);
         Physics2D.IgnoreLayerCollision(10, 10);
         slotNum = 0;
     }
@@ -40,7 +39,7 @@ public class GameManager : MonoBehaviour
     {
         player.transform.position = GameObject.Find("StartingPosition").transform.position;
         player.GetComponent<PlayerControl>().enabled = false;
-        playerStat.SetActive(false);
+        playerStatView.SetActive(false);
     }
 
     public void SelectSlot(int _slotNum)
@@ -55,12 +54,13 @@ public class GameManager : MonoBehaviour
 
         // 유저 정보
         pd = player.GetComponent<PlayerStat>().pd;
+        pd.currentDate = DungeonManager.instance.currentDate;
         bf.Serialize(ms, pd);
         data = Convert.ToBase64String(ms.GetBuffer());
 
         PlayerPrefs.SetString("PlayerData" + slotNum, data);
         Debug.Log("save complete");
-        inGameMenu.GetComponent<InGameMenu>().CloseCancelMenu(false);
+        inGameMenu.GetComponent<Menu_InGame>().CloseCancelMenu(false);
         mainMenu.SetActive(true);
         DungeonManager.instance.SectionTeleport(false, true);
     }
@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
 
                 mainMenu.SetActive(false);
                 player.SetActive(true);
-                playerStat.SetActive(true);
+                playerStatView.SetActive(true);
                 mainMenu.SetActive(false);
                 player.GetComponent<PlayerControl>().enabled = true;
                 mainMenu.GetComponent<MainMenu>().CloseLoad();
@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
         {
             player.GetComponent<PlayerStat>().NewStart();
             mainMenu.SetActive(false);
-            playerStat.SetActive(true);
+            playerStatView.SetActive(true);
             player.GetComponent<PlayerControl>().enabled = true;
             mainMenu.GetComponent<MainMenu>().CloseLoad();
             SceneManager.LoadScene("Town");
