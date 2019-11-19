@@ -6,6 +6,7 @@ public class PlayerStat : MonoBehaviour
 {
     public PlayerStateView psv;
     Animator animator;
+
     public PlayerData pd;
 
     public float currentHP;     // 현재 체력
@@ -15,6 +16,7 @@ public class PlayerStat : MonoBehaviour
     public int buffState;
 
     public int Atk;  // 공격력
+    public float attackSpeed;
     public float jumpPower;
     public float defense;   // 방어력
     public float stability;     // 안정성
@@ -29,17 +31,17 @@ public class PlayerStat : MonoBehaviour
     public void NewStart()
     {
         pd.Init();
-
         Init();
     }
 
     public void Init()
     {
-        moveSpeed = pd.moveSpeed + pd.up_moveSpeed;
-        Atk = pd.Atk + pd.up_Atk;
-        currentHP = pd.HP + pd.up_HP;
-        jumpPower = pd.jumpPower + pd.up_jumpPower;
-        defense = pd.defense + pd.up_defense;
+        moveSpeed = pd.moveSpeed + pd.up_moveSpeed + pd.Traning_moveSpeed;
+        currentHP = pd.HP + pd.up_HP + pd.Traning_HP;
+        Atk = pd.Atk + pd.up_Atk + pd.Traning_Atk;
+        attackSpeed = pd.attackSpeed + pd.up_attackSpeed + pd.Traning_attackSpeed;
+        jumpPower = pd.jumpPower + pd.up_jumpPower + pd.Traning_jumpPower;
+        defense = pd.defense + pd.up_defense + pd.Traning_defense;
         stability = pd.maxStability;
         
         HPCut = new int[4];

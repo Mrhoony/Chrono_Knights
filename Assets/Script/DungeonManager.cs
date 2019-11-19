@@ -7,10 +7,12 @@ public class DungeonManager : MonoBehaviour
 {
     public static DungeonManager instance;
     public GameObject player;
-    public GameObject playerStat;
+    public GameObject playerStatView;
 
     public int currentDate;
     public bool newDay;
+    public bool possible_Upgrade;
+    public bool possible_Traning;
 
     public GameObject[] mapList;
     public int selectedMapNum = 0;
@@ -47,8 +49,8 @@ public class DungeonManager : MonoBehaviour
         currentDate = 1;
         currentStage = 0;
         monsterCount = 0;
-        newDay = true;
-        //newDay = false;
+        //newDay = true;
+        newDay = false;
         dungeonClear = false;
     }
 
@@ -98,12 +100,14 @@ public class DungeonManager : MonoBehaviour
                     SceneManager.LoadScene("Town");
                     ++currentDate;
                     newDay = true;
+                    NewDayCheck();
                     player.GetComponent<PlayerStat>().Init();
                     //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                 }
             }
             else
             {
+                NewDayCheck();
                 SceneManager.LoadScene("Town");
                 player.GetComponent<PlayerStat>().Init();
             }
@@ -113,6 +117,15 @@ public class DungeonManager : MonoBehaviour
     public void PlayerDie()
     {
         SectionTeleport(true, false);
+    }
+
+    public void NewDayCheck()
+    {
+        if (newDay)
+        {
+            possible_Traning = true;
+            possible_Upgrade = true;
+        }
     }
 
     void FloorInit(int keyMul)
@@ -193,7 +206,7 @@ public class DungeonManager : MonoBehaviour
         {
             player.transform.position = GameObject.Find("StartingPosition").transform.position;
             player.GetComponent<PlayerControl>().enabled = false;
-            playerStat.SetActive(false);
+            playerStatView.SetActive(false);
         }
     }
 }

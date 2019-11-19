@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.U2D;
 
 public class CameraManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class CameraManager : MonoBehaviour
     public float halfHeight;
 
     public new Camera camera;
+    public PixelPerfectCamera perfectCamera;
 
     public void Awake()
     {
@@ -28,9 +30,13 @@ public class CameraManager : MonoBehaviour
         else
             Destroy(gameObject);
 
+        Screen.SetResolution(Screen.width, (Screen.width * 16) / 9, true);
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        Screen.SetResolution(1280, 720, true);
+        camera = GetComponent<Camera>();
 
+        perfectCamera = GetComponent<PixelPerfectCamera>();
+        perfectCamera.refResolutionX = 640;
+        perfectCamera.refResolutionY = 360;
     }
 
     void Start()
@@ -65,8 +71,13 @@ public class CameraManager : MonoBehaviour
         bound = box;
         minBound = bound.bounds.min;
         maxBound = bound.bounds.max;
-        camera = GetComponent<Camera>();
         halfHeight = camera.orthographicSize;
         halfWidth = halfHeight * Screen.width / Screen.height;
+    }
+
+    public void GameStartScreenSet()
+    {
+        perfectCamera.refResolutionX = 1280;
+        perfectCamera.refResolutionY = 720;
     }
 }

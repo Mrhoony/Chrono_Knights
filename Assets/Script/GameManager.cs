@@ -9,15 +9,24 @@ using System.IO;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
     public GameObject mainMenu;
     public GameObject inGameMenu;
     public GameObject player;
     public GameObject playerStatView;
-    public PlayerData pd;
+    public PlayerData playerData;
+    public GameObject[] screenSize;
+    public SystemData systemData;
+
+    int screenNumber;
+
     BinaryFormatter bf;
     MemoryStream ms;
     int slotNum;
     string data;
+
+    int screenWidth;
+    int screenHeigth;
 
     private void Awake()
     {
@@ -39,6 +48,7 @@ public class GameManager : MonoBehaviour
     {
         player.transform.position = GameObject.Find("StartingPosition").transform.position;
         player.GetComponent<PlayerControl>().enabled = false;
+        inGameMenu.SetActive(false);
         playerStatView.SetActive(false);
     }
 
@@ -46,25 +56,24 @@ public class GameManager : MonoBehaviour
     {
         slotNum = _slotNum;
     }
-
     public void SaveGame()
     {
         bf = new BinaryFormatter();
         ms = new MemoryStream();
 
         // 유저 정보
-        pd = player.GetComponent<PlayerStat>().pd;
-        pd.currentDate = DungeonManager.instance.currentDate;
-        bf.Serialize(ms, pd);
+        playerData = player.GetComponent<PlayerStat>().pd;
+        playerData.currentDate = DungeonManager.instance.currentDate;
+
+        bf.Serialize(ms, playerData);
         data = Convert.ToBase64String(ms.GetBuffer());
 
         PlayerPrefs.SetString("PlayerData" + slotNum, data);
         Debug.Log("save complete");
-        inGameMenu.GetComponent<Menu_InGame>().CloseCancelMenu(false);
-        mainMenu.SetActive(true);
+        inGameMenu.GetComponent<Menu_InGame>().CloseCancelMenu();
         DungeonManager.instance.SectionTeleport(false, true);
+        mainMenu.SetActive(true);
     }
-    
     public void LoadGame()
     {
         if(PlayerPrefs.HasKey("PlayerData" + slotNum))
@@ -77,13 +86,12 @@ public class GameManager : MonoBehaviour
                 ms = new MemoryStream(Convert.FromBase64String(data));
 
                 // 유저 정보
-                pd = (PlayerData)bf.Deserialize(ms);
-                player.GetComponent<PlayerStat>().pd = pd;
+                player.GetComponent<PlayerStat>().pd = (PlayerData)bf.Deserialize(ms);
+                DungeonManager.instance.currentDate = playerData.currentDate;
 
                 mainMenu.SetActive(false);
-                player.SetActive(true);
+                inGameMenu.SetActive(true);
                 playerStatView.SetActive(true);
-                mainMenu.SetActive(false);
                 player.GetComponent<PlayerControl>().enabled = true;
                 mainMenu.GetComponent<MainMenu>().CloseLoad();
                 SceneManager.LoadScene("Town");
@@ -91,19 +99,70 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            player.GetComponent<PlayerStat>().NewStart();
             mainMenu.SetActive(false);
+            inGameMenu.SetActive(true);
             playerStatView.SetActive(true);
+            player.GetComponent<PlayerStat>().NewStart();
             player.GetComponent<PlayerControl>().enabled = true;
             mainMenu.GetComponent<MainMenu>().CloseLoad();
+            CameraManager.instance.GameStartScreenSet();
             SceneManager.LoadScene("Town");
         }
-
     }
-
     public void DeleteSave()
     {
         if(PlayerPrefs.HasKey("PlayerData" + slotNum))
             PlayerPrefs.DeleteKey("PlayerData" + slotNum);
+    }
+    
+    public void OpenSetting()
+    {
+        inGameMenu.GetComponent<Menu_InGame>().OpenSettings(screenWidth, screenHeigth);
+    }
+
+    public void ScreenSizeSelect(bool LR)
+    {
+        if (LR)
+        {
+            ++screenNumber;
+            Screen.fullScreen = !Screen.fullScreen;
+        }
+        else
+        {
+            --screenNumber;
+            Screen.fullScreen = !Screen.fullScreen;
+        }
+    }
+
+    public void SettingSave()
+    {
+        bf = new BinaryFormatter();
+        ms = new MemoryStream();
+
+        // 시스템 정보
+        systemData = new SystemData();
+        systemData.Init();
+
+        bf.Serialize(ms, systemData);
+        data = Convert.ToBase64String(ms.GetBuffer());
+
+        PlayerPrefs.SetString("SystemData", data);
+        Debug.Log("save complete");
+    }
+    public void SettingSet()
+    {
+        if (PlayerPrefs.HasKey("SystemData" + slotNum))
+        {
+            data = PlayerPrefs.GetString("SystemData", null);
+
+            if (!string.IsNullOrEmpty(data))
+            {
+                bf = new BinaryFormatter();
+                ms = new MemoryStream(Convert.FromBase64String(data));
+
+                // 유저 정보
+                systemData = (SystemData)bf.Deserialize(ms);
+            }
+        }
     }
 }

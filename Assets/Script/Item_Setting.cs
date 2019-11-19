@@ -11,10 +11,7 @@ public class Key
     int _keyRarity;
     int _keyCode;
     
-    public Key()
-    {
-
-    }
+    public Key(){}
 
     public Key(string keyName, int keyEffect, int keyRarity, int keyCode)
     {
