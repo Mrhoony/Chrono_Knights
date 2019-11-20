@@ -28,7 +28,7 @@ public class SubCamera : MonoBehaviour
     {
         transform.position = target.transform.position;
         boxCollider2D = GetComponent<BoxCollider2D>();
-        moveSpeed = target.gameObject.GetComponent<PlayerControl>().pStat.pd.moveSpeed;
+        moveSpeed = target.gameObject.GetComponent<PlayerControl>().pStat.playerData.moveSpeed;
     }
 
     public void LateUpdate()

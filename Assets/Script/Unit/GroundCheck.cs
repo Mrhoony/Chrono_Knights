@@ -33,7 +33,7 @@ public class GroundCheck : MonoBehaviour
                         parentObject.GetComponent<PlayerControl>().animator.SetBool("isJump", false);
                         parentObject.GetComponent<PlayerControl>().animator.SetBool("isJump_x_Atk", false);
                         parentObject.GetComponent<PlayerControl>().animator.SetTrigger("isLanding");
-                        parentObject.GetComponent<PlayerControl>().currentJumpCount = parentObject.GetComponent<PlayerControl>().jumpCount;
+                        parentObject.GetComponent<PlayerControl>().currentJumpCount = parentObject.GetComponent<PlayerControl>().currentJumpCount;
                     }
                 }
                 else if (parentObject.CompareTag("Monster"))
@@ -54,7 +54,7 @@ public class GroundCheck : MonoBehaviour
                 {
                     parentObject.GetComponent<PlayerControl>().isGround = true;
                     parentObject.GetComponent<PlayerControl>().jumping = false;
-                    parentObject.GetComponent<PlayerControl>().currentJumpCount = parentObject.GetComponent<PlayerControl>().jumpCount;
+                    parentObject.GetComponent<PlayerControl>().currentJumpCount = parentObject.GetComponent<PlayerControl>().currentJumpCount;
                 }
                 else if (parentObject.CompareTag("Monster"))
                 {

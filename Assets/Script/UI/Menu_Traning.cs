@@ -13,7 +13,7 @@ public class Menu_Traning : MonoBehaviour
     public void Start()
     {
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStat>();
-        playerData = playerStat.pd;
+        playerData = playerStat.playerData;
         limitUpgrade = playerData.limitUpgrade;
     }
 
@@ -31,23 +31,23 @@ public class Menu_Traning : MonoBehaviour
         {
             switch (stat)
             {
-                case 0:     // HP
-                    playerData.up_HP += 1;
+                case 0:     // recovery
+                    playerData.Traning_recovery += 1;
                     break;
                 case 1:     // moveSpeed
-                    playerData.up_moveSpeed += 0.1f;
+                    playerData.Traning_moveSpeed += 0.1f;
                     break;
                 case 2:     // Atk
-                    playerData.up_Atk += 1;
+                    playerData.Traning_Atk += 1;
                     break;
                 case 3:     // atkSpeed
-                    playerData.up_attackSpeed += 0.1f;
+                    playerData.Traning_attackSpeed += 0.1f;
                     break;
                 case 4:     // jumpPower
-                    playerData.up_jumpPower += 0.1f;
+                    playerData.Traning_jumpCount += 0.1f;
                     break;
                 case 5:     // defense
-                    playerData.up_defense += 1;
+                    playerData.Traning_defense += 1;
                     break;
             }
             playerStat.Init();

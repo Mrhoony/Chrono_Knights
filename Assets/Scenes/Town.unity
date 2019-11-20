@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 202724392}
   - component: {fileID: 202724391}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Traning_MoveSpeed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -503,7 +503,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1497845405}
-        m_MethodName: Upgrade
+        m_MethodName: Traning
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1029,7 +1029,7 @@ GameObject:
   - component: {fileID: 460186926}
   - component: {fileID: 460186925}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: Traning_AttackSpeed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1096,7 +1096,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1497845405}
-        m_MethodName: Upgrade
+        m_MethodName: Traning
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1414,6 +1414,7 @@ RectTransform:
   - {fileID: 1851892678}
   - {fileID: 1568360269}
   - {fileID: 1497845402}
+  - {fileID: 2052447857}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2388,7 +2389,7 @@ GameObject:
   - component: {fileID: 1322597350}
   - component: {fileID: 1322597349}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Traning_HP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2455,7 +2456,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1497845405}
-        m_MethodName: Upgrade
+        m_MethodName: Traning
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2700,20 +2701,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerStat: {fileID: 0}
   playerData:
-    HP: 0
     moveSpeed: 0
+    HP: 0
     Atk: 0
     attackSpeed: 0
     defense: 0
     jumpPower: 0
     maxBuffTime: 0
     maxStability: 0
-    up_HP: 0
     up_moveSpeed: 0
+    up_HP: 0
     up_Atk: 0
     up_attackSpeed: 0
     up_jumpPower: 0
     up_defense: 0
+    Traning_moveSpeed: 0
+    Traning_HP: 0
+    Traning_Atk: 0
+    Traning_attackSpeed: 0
+    Traning_jumpPower: 0
+    Traning_defense: 0
     limitUpgrade: 
     currentDate: 0
   button: {fileID: 1999489061}
@@ -2810,7 +2817,7 @@ GameObject:
   - component: {fileID: 1524536356}
   - component: {fileID: 1524536355}
   m_Layer: 5
-  m_Name: Button (5)
+  m_Name: Traning_Defence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2877,7 +2884,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1497845405}
-        m_MethodName: Upgrade
+        m_MethodName: Traning
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3255,7 +3262,7 @@ GameObject:
   - component: {fileID: 1840610094}
   - component: {fileID: 1840610093}
   m_Layer: 5
-  m_Name: Button
+  m_Name: CloseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3419,7 +3426,7 @@ GameObject:
   - component: {fileID: 1866975363}
   - component: {fileID: 1866975362}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: Traning_Atk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3486,7 +3493,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1497845405}
-        m_MethodName: Upgrade
+        m_MethodName: Traning
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3548,7 +3555,7 @@ GameObject:
   - component: {fileID: 1891564060}
   - component: {fileID: 1891564059}
   m_Layer: 5
-  m_Name: Button (4)
+  m_Name: Traning_JumpPower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3615,7 +3622,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1497845405}
-        m_MethodName: Upgrade
+        m_MethodName: Traning
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3762,6 +3769,221 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
+--- !u!1 &2052447856
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2052447857}
+  - component: {fileID: 2052447860}
+  - component: {fileID: 2052447859}
+  - component: {fileID: 2052447858}
+  m_Layer: 5
+  m_Name: Upgrade
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2052447857
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052447856}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2101336757}
+  m_Father: {fileID: 563383414}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 800, y: 600}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2052447858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052447856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae2ce1f419077b14cbbac71af5d9815c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStat: {fileID: 0}
+  playerData:
+    moveSpeed: 0
+    HP: 0
+    Atk: 0
+    attackSpeed: 0
+    defense: 0
+    jumpPower: 0
+    maxBuffTime: 0
+    maxStability: 0
+    up_moveSpeed: 0
+    up_HP: 0
+    up_Atk: 0
+    up_attackSpeed: 0
+    up_jumpPower: 0
+    up_defense: 0
+    Traning_moveSpeed: 0
+    Traning_HP: 0
+    Traning_Atk: 0
+    Traning_attackSpeed: 0
+    Traning_jumpPower: 0
+    Traning_defense: 0
+    limitUpgrade: 
+    currentDate: 0
+  button: {fileID: 0}
+  limitUpgrade: 
+--- !u!114 &2052447859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052447856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+--- !u!222 &2052447860
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052447856}
+  m_CullTransparentMesh: 0
+--- !u!1 &2101336756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2101336757}
+  - component: {fileID: 2101336760}
+  - component: {fileID: 2101336759}
+  - component: {fileID: 2101336758}
+  m_Layer: 5
+  m_Name: MaterialSlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2101336757
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101336756}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2052447857}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -155, y: 147}
+  m_SizeDelta: {x: 36, y: 36}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!61 &2101336758
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101336756}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &2101336759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101336756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300002, guid: 37ff09514a91e5e41b4be8442eec20d9, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+--- !u!222 &2101336760
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101336756}
+  m_CullTransparentMesh: 0
 --- !u!1 &2139168063
 GameObject:
   m_ObjectHideFlags: 0
@@ -3853,6 +4075,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blacksmith
       objectReference: {fileID: 0}
+    - target: {fileID: 7703036587551424469, guid: 8f16019a6fd42424a84f442ae73dcf93,
+        type: 3}
+      propertyPath: traningUI
+      value: 
+      objectReference: {fileID: 1497845401}
     - target: {fileID: 7703036587551424468, guid: 8f16019a6fd42424a84f442ae73dcf93,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3908,17 +4135,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7703036587551424469, guid: 8f16019a6fd42424a84f442ae73dcf93,
-        type: 3}
-      propertyPath: traningUI
-      value: 
-      objectReference: {fileID: 1497845401}
     - target: {fileID: 7703036587551424466, guid: 8f16019a6fd42424a84f442ae73dcf93,
         type: 3}
       propertyPath: m_SleepingMode
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7703036587551424466, guid: 8f16019a6fd42424a84f442ae73dcf93, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8f16019a6fd42424a84f442ae73dcf93, type: 3}
 --- !u!1001 &8262382564066185216
 PrefabInstance:

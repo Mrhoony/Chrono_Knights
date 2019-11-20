@@ -5,69 +5,29 @@ using UnityEngine;
 public class Key
 {
     Sprite sprite;
-    string _keyName;
-    int _keyEffect;
-    int _keyMultiple;
-    int _keyRarity;
-    int _keyCode;
-    
-    public Key(){}
+    string keyName;
+    int keyEffect;     // 1 회복, 2 공버프, 3 방버프, 4 공속버프, 5 이속버프
+    public int keyRarity;
+    int keyCode;
 
-    public Key(string keyName, int keyEffect, int keyRarity, int keyCode)
+    public string equipName;
+    public float equipMoveSpeed;       // 이동 속도
+    public int equipAtk;               // 공격력
+    public float equipAttackSpeed;     // 공격속도
+    public int equipJumpCount;         // 점프 횟수
+    public int equipDefense;           // 안정성(방어력)
+    public float equipRecovery;        // 회복력
+    public float equipDashDistance;    // 대시거리
+
+
+    public Key(string _keyName, int _keyEffect, int _keyRarity, int _keyCode, string _equipName, int _equipAtk, float _equipAttackSpeed
+        , int _equipDefense, float _equipMoveSpeed = 0, int _equipJumpCount = 0, float _equipRecovery = 0, float _equipDashDistance = 0)
     {
-        _keyName = keyName;
-        _keyEffect = keyEffect;
-        _keyRarity = keyRarity;
+        keyName = _keyName;
+        keyEffect = _keyEffect;
+        keyRarity = _keyRarity;
         sprite = Resources.Load<Sprite>("ItemIcons/34x34icons180709_" + keyCode);
+
+        equipName = _equipName;
     }
-
-    public Key(string keyName, int keyEffect, int keyMul, int keyRarity, int keyCode)
-    {
-        _keyName = keyName;
-        _keyEffect = keyEffect;
-        _keyMultiple = keyMul;
-        _keyRarity = keyRarity;
-        sprite = Resources.Load<Sprite>("ItemIcons/34x34icons180709_" + keyCode);
-    }
-}
-
-public class Equip
-{
-    string _equipKategorie;
-    string _equipName;
-    int _baseAtk;
-    int _baseDef;
-    int _baseAddAtk;
-    int _baseAddDef;
-    int _rarity;
-    float AddVariation;
-    float MinVariation;
-    EquipSkill _equipSkill;
-
-    public Equip(string equipKategorie, string equipName, int baseAtk, int baseDef, int rarity, EquipSkill equipSkill)
-    {
-        _equipKategorie = equipKategorie;
-        _equipName = equipName;
-        switch (rarity)
-        {
-            case 1:
-                AddVariation = Random.Range(0, 81) * 0.01f;
-                break;
-            case 2:
-                AddVariation = Random.Range(40, 101) * 0.01f;
-                break;
-            case 3:
-                AddVariation = Random.Range(100, 151) * 0.01f;
-                MinVariation = Random.Range(40, 101) * 0.01f;
-                break;
-        }
-
-        _baseAddAtk = (int)(baseAtk * AddVariation);
-        _baseAddDef = (int)(baseDef * AddVariation);
-    }
-}
-
-public class EquipSkill
-{
-
 }

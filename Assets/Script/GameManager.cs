@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         ms = new MemoryStream();
 
         // 유저 정보
-        playerData = player.GetComponent<PlayerStat>().pd;
+        playerData = player.GetComponent<PlayerStat>().playerData;
         playerData.currentDate = DungeonManager.instance.currentDate;
 
         bf.Serialize(ms, playerData);
@@ -86,24 +86,31 @@ public class GameManager : MonoBehaviour
                 ms = new MemoryStream(Convert.FromBase64String(data));
 
                 // 유저 정보
-                player.GetComponent<PlayerStat>().pd = (PlayerData)bf.Deserialize(ms);
+                player.GetComponent<PlayerStat>().playerData = (PlayerData)bf.Deserialize(ms);
                 DungeonManager.instance.currentDate = playerData.currentDate;
 
                 mainMenu.SetActive(false);
                 inGameMenu.SetActive(true);
                 playerStatView.SetActive(true);
                 player.GetComponent<PlayerControl>().enabled = true;
+                player.transform.localScale = new Vector3(1,1,0);
+
                 mainMenu.GetComponent<MainMenu>().CloseLoad();
+                CameraManager.instance.GameStartScreenSet();
                 SceneManager.LoadScene("Town");
             }
         }
         else
         {
+            // 새 슬롯에 시작할지 선택창
+            
             mainMenu.SetActive(false);
             inGameMenu.SetActive(true);
             playerStatView.SetActive(true);
             player.GetComponent<PlayerStat>().NewStart();
             player.GetComponent<PlayerControl>().enabled = true;
+            player.transform.localScale = new Vector3(1, 1, 0);
+
             mainMenu.GetComponent<MainMenu>().CloseLoad();
             CameraManager.instance.GameStartScreenSet();
             SceneManager.LoadScene("Town");

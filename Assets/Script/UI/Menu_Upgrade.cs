@@ -6,47 +6,39 @@ public class Menu_Upgrade : MonoBehaviour
 {
     public PlayerStat playerStat;
     public PlayerData playerData;
+    public PlayerEquipment playerEquipment;
     public GameObject button;
     public int[] limitUpgrade;
 
     public void Start()
     {
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStat>();
-        playerData = playerStat.pd;
-        limitUpgrade = playerData.limitUpgrade;
+        playerData = playerStat.playerData;
     }
 
-    public void OnEnable()
-    {
-        if (DungeonManager.instance.possible_Upgrade)
-        {
-            button.SetActive(true);
-        }
-    }
-
-    public void Traning(int stat)
+    public void ReinforceEquip(int stat)
     {
         if (limitUpgrade[stat] > 0)
         {
             switch (stat)
             {
-                case 0:     // HP
-                    playerData.Traning_HP += 1;
+                case 0:     // recovery
+                    playerData.up_recovery += 1;
                     break;
                 case 1:     // moveSpeed
-                    playerData.Traning_moveSpeed += 0.1f;
+                    playerData.up_moveSpeed += 0.1f;
                     break;
                 case 2:     // Atk
-                    playerData.Traning_Atk += 1;
+                    playerData.up_Atk += 1;
                     break;
                 case 3:     // atkSpeed
-                    playerData.Traning_attackSpeed += 0.1f;
+                    playerData.up_attackSpeed += 0.1f;
                     break;
                 case 4:     // jumpPower
-                    playerData.Traning_jumpPower += 0.1f;
+                    playerData.up_jumpCount += 0.1f;
                     break;
                 case 5:     // defense
-                    playerData.Traning_defense += 1;
+                    playerData.up_defense += 1;
                     break;
             }
             playerStat.Init();

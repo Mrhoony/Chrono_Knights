@@ -45,7 +45,6 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-
     void Selected(string adjust)
     {
         if (adjust == "Up" && _selected < 4)
@@ -74,7 +73,6 @@ public class InventoryController : MonoBehaviour
                 return true;
             }
         }
-
         return false;
     }
 }
