@@ -35,8 +35,6 @@ public class CameraManager : MonoBehaviour
         camera = GetComponent<Camera>();
 
         perfectCamera = GetComponent<PixelPerfectCamera>();
-        perfectCamera.refResolutionX = 640;
-        perfectCamera.refResolutionY = 360;
     }
 
     void Start()

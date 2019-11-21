@@ -9,9 +9,10 @@ public class DungeonManager : MonoBehaviour
     public GameObject player;
     public GameObject playerStatView;
 
+    public PlayerStat pStat;
+
     public int currentDate;
     public bool newDay;
-    public bool possible_Upgrade;
     public bool possible_Traning;
 
     public GameObject[] mapList;
@@ -49,9 +50,9 @@ public class DungeonManager : MonoBehaviour
         currentDate = 1;
         currentStage = 0;
         monsterCount = 0;
-        //newDay = true;
         newDay = false;
         dungeonClear = false;
+        pStat = player.GetComponent<PlayerStat>();
     }
 
     private void Init()
@@ -101,7 +102,8 @@ public class DungeonManager : MonoBehaviour
                     ++currentDate;
                     newDay = true;
                     NewDayCheck();
-                    player.GetComponent<PlayerStat>().Init();
+                    pStat.Init();
+                    pStat.HPInit();
                     //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                 }
             }
@@ -109,7 +111,8 @@ public class DungeonManager : MonoBehaviour
             {
                 NewDayCheck();
                 SceneManager.LoadScene("Town");
-                player.GetComponent<PlayerStat>().Init();
+                pStat.Init();
+                pStat.HPInit();
             }
         }
     }
@@ -124,7 +127,6 @@ public class DungeonManager : MonoBehaviour
         if (newDay)
         {
             possible_Traning = true;
-            possible_Upgrade = true;
         }
     }
 
@@ -200,7 +202,8 @@ public class DungeonManager : MonoBehaviour
             CameraManager.instance.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
             GameObject stp = GameObject.FindGameObjectWithTag("StartPosition");
             player.transform.position = stp.transform.position;
-            player.GetComponent<PlayerControl>().pStat.Init();
+            pStat.Init();
+            pStat.HPInit();
         }
         else if(SceneManager.GetActiveScene().buildIndex == 0)
         {

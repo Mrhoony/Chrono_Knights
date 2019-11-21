@@ -34,8 +34,7 @@ public class PlayerControl : MovingObject
     public bool dodging;
     public bool isDamagable;
     public float isDamagableCount;
-
-    public int jumpCount = 1;
+    
     public int currentJumpCount;
 
     public bool isBlock;
@@ -55,7 +54,7 @@ public class PlayerControl : MovingObject
         animator = gameObject.GetComponentInChildren<Animator>();
         pStat = GetComponent<PlayerStat>();
 
-        currentJumpCount = jumpCount;
+        currentJumpCount = pStat.jumpCount;
         arrowDirection = 1;
         dodgeCount = 0.5f;
     }
