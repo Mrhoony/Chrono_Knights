@@ -30,26 +30,28 @@ public class PlayerStat : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         playerData = new PlayerData();
+        playerData.playerEquipment = playerEquip;
     }
 
     public void NewStart()
     {
-        playerData.Init();
         Init();
+        playerData.Init();
+        playerEquip.Init();
     }
 
     public void Init()
     {
         currentHP = playerData.HP;
-        defense = playerData.defense;
         jumpPower = playerData.jumpPower;
-
+        
         moveSpeed = playerData.moveSpeed + playerData.up_moveSpeed + playerData.Traning_moveSpeed;
-        Atk = playerData.Atk + playerData.up_Atk + playerData.Traning_Atk;
+        Atk = (int)(playerData.Atk + playerData.up_Atk + playerData.Traning_Atk);
         attackSpeed = playerData.attackSpeed + playerData.up_attackSpeed + playerData.Traning_attackSpeed;
+        defense = (int)(playerData.defense + playerData.up_defense + playerData.Traning_defense);
         jumpCount = (int)(playerData.jumpCount + playerData.up_jumpCount + playerData.Traning_jumpCount);
-        defense = playerData.defense + playerData.up_defense + playerData.Traning_defense;
         recovery = playerData.recovery + playerData.up_recovery + playerData.Traning_recovery;
+        dashDistance = playerData.dashDistance + playerData.up_dashDistance + playerData.Traning_dashDistance;
     }
 
     public void HPInit()
@@ -59,7 +61,6 @@ public class PlayerStat : MonoBehaviour
         {
             HPCut[i] = 0;
         }
-
         psv.Init();
     }
 

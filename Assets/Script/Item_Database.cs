@@ -22,8 +22,21 @@ public class Item_Database : MonoBehaviour
 
     void InputKeyItem()
     {                     // 이름, 효과, 등급, 아이템 코드, 장비화 이름, 
-        keyItem.Add(new Key("커먼", 1, 1, 231 , "흰색", 0, 1, 0));
-        keyItem.Add(new Key("매직", 2, 2, 232 , "회색", 3, 1, 1));
-        keyItem.Add(new Key("유니크", 3, 3, 233, "검은색", 5, 1, 2));
+        keyItem.Add(new Key("커먼", 1, 1, 231));
+        keyItem.Add(new Key("매직", 2, 2, 232));
+        keyItem.Add(new Key("유니크", 3, 3, 233));
+    }
+
+    public Key KeyInformation(Key key)
+    {
+        int i = 0;
+        for (i = 0; i < keyItem.Count; i++)
+        {
+            if (keyItem[i].keyCode == key.keyCode)
+            {
+                return keyItem[i];
+            }
+        }
+        return null;
     }
 }

@@ -14,7 +14,7 @@ public class Menu_Traning : MonoBehaviour
     {
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStat>();
         playerData = playerStat.playerData;
-        limitUpgrade = playerData.limitUpgrade;
+        limitUpgrade = playerData.limitTraning;
     }
 
     public void OnEnable()
