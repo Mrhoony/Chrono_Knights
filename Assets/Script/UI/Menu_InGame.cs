@@ -91,7 +91,6 @@ public class Menu_InGame : MonoBehaviour
             bar.size = 0f;
             bar.value = 1f;
         }
-        Debug.Log(count);
     }
     public void CloseInGameMenu()
     {
