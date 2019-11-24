@@ -37,13 +37,15 @@ public class NPC_Blacksmith : NPC_Control
         Time.timeScale = 0;
         openTraningUI = true;
         traningUI.SetActive(true);
+        traningUI.GetComponent<Menu_Traning>().OpenTraningMenu();
     }
 
     public void CloseTraningMenu(bool inGame)
     {
-        Time.timeScale = 1;
-        openTraningUI = false;
+        traningUI.GetComponent<Menu_Traning>().CloseTraningMenu();
         traningUI.SetActive(false);
+        openTraningUI = false;
+        Time.timeScale = 1;
         if (inGame)
             player.GetComponent<PlayerControl>().enabled = true;
     }

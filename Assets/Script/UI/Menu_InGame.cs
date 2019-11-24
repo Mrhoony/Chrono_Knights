@@ -20,16 +20,11 @@ public class Menu_InGame : MonoBehaviour
     int Focused = 0;
     int count = 0;
     
-    private void Awake()
+    private void Start()
     {
         InventoryOn = false;
         CancelOn = false;
-        sb = FindObjectsOfType<Scrollbar>();
-    }
-
-    private void Start()
-    {
-        for(int i = 0; i < Menus.Length; ++i)
+        for (int i = 0; i < Menus.Length; ++i)
         {
             Menus[i].SetActive(false);
         }
@@ -87,9 +82,8 @@ public class Menu_InGame : MonoBehaviour
         Menus[Focused].SetActive(true);
         foreach (Scrollbar bar in sb)
         {
-            ++count;
-            bar.size = 0f;
-            bar.value = 1f;
+            bar.size = 0.0f;
+            bar.value = 1.0f;
         }
     }
     public void CloseInGameMenu()
@@ -98,18 +92,12 @@ public class Menu_InGame : MonoBehaviour
         Focused = 0;
         _Player.GetComponent<PlayerControl>().enabled = true;
     }
+
     void ChangeMenu(int AdjustValue)
     {
         if (!(Focused + AdjustValue < 0 || Focused + AdjustValue >= Menus.Length))
         {
             Menus[Focused + AdjustValue].SetActive(true);
-            foreach (Scrollbar bar in sb)
-            {
-                ++count;
-                bar.size = 0f;
-                bar.value = 1f;
-            }
-            Debug.Log(count);
             Menus[Focused].SetActive(false);
             Focused += AdjustValue;
         }

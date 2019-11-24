@@ -173,6 +173,7 @@ MonoBehaviour:
   arrow: 1
   box: {fileID: 0}
   eft: {fileID: 776820764541791318, guid: a23023812364dc04883cd5bf233c4956, type: 3}
+  dil: {fileID: 0}
   effectX: 0
   effectY: 0
   isTrace: 0
@@ -215,8 +216,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ffe67a1023780419849c8610590db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DropItems: []
-  DropChances: 
+  DropItems:
+  - {fileID: 5795833314817906566, guid: 9e2e3d63deac2d74181edafcfd2979ad, type: 3}
+  DropChances: 14000000
 --- !u!1 &4815574860096899932
 GameObject:
   m_ObjectHideFlags: 0

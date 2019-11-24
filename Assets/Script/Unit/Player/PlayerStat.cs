@@ -24,6 +24,8 @@ public class PlayerStat : MonoBehaviour
     public int defense;     // 안정성(방어력)
     public float recovery;      // 회복력
     public float dashDistance;  // 대시거리
+
+    float[] traningStat;
     
     // Start is called before the first frame uplayerDataate
     void Awake()
@@ -35,23 +37,26 @@ public class PlayerStat : MonoBehaviour
 
     public void NewStart()
     {
-        Init();
         playerData.Init();
+        Init();
         playerEquip.Init();
     }
 
     public void Init()
     {
+        traningStat = playerData.GetTraningStat();
+
         currentHP = playerData.HP;
         jumpPower = playerData.jumpPower;
-        
-        moveSpeed = playerData.moveSpeed + playerData.up_moveSpeed + playerData.Traning_moveSpeed;
-        Atk = (int)(playerData.Atk + playerData.up_Atk + playerData.Traning_Atk);
-        attackSpeed = playerData.attackSpeed + playerData.up_attackSpeed + playerData.Traning_attackSpeed;
-        defense = (int)(playerData.defense + playerData.up_defense + playerData.Traning_defense);
-        jumpCount = (int)(playerData.jumpCount + playerData.up_jumpCount + playerData.Traning_jumpCount);
-        recovery = playerData.recovery + playerData.up_recovery + playerData.Traning_recovery;
-        dashDistance = playerData.dashDistance + playerData.up_dashDistance + playerData.Traning_dashDistance;
+
+        Atk = (int)(playerData.Atk + playerData.up_Atk + traningStat[0]);
+        defense = (int)(playerData.defense + playerData.up_defense + traningStat[1]);
+        moveSpeed = playerData.moveSpeed + playerData.up_moveSpeed + traningStat[2];
+        attackSpeed = playerData.attackSpeed + playerData.up_attackSpeed + traningStat[3];
+        dashDistance = playerData.dashDistance + playerData.up_dashDistance + traningStat[4];
+        recovery = playerData.recovery + playerData.up_recovery + traningStat[5];
+
+        jumpCount = (int)(playerData.jumpCount + playerData.up_jumpCount);
     }
 
     public void HPInit()

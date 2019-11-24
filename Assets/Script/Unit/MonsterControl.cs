@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterControl : MovingObject
+public class Monster_Control : MovingObject
 {
     protected GameObject target;
     protected Vector2 playerPos;
     public GameObject box;
     public GameObject eft;
     protected EnemyStat ehp;
+    public DropItemList dil;
 
     public float effectX;
     public float effectY;
@@ -57,6 +58,7 @@ public class MonsterControl : MovingObject
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         ehp = GetComponent<EnemyStat>();
+        dil = GetComponent<DropItemList>();
 
         target = GameObject.Find("PlayerCharacter");
     }
@@ -154,6 +156,7 @@ public class MonsterControl : MovingObject
     void Dead()
     {
         animator.SetTrigger("isDead");
+        dil.ItemDropChance();
         isDead = true;
     }
 }

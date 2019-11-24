@@ -11,7 +11,7 @@ public class PlayerData
     public float jumpPower;     // 점프력
 
     public float moveSpeed;     // 이동 속도
-    public float Atk;             // 공격력
+    public float Atk;           // 공격력
     public float attackSpeed;   // 공격 속도
     public float jumpCount;     // 점프 횟수
     public float defense;       // 방어력
@@ -27,60 +27,74 @@ public class PlayerData
     public float up_recovery;
     public float up_dashDistance;
 
-    // 트레이닝으로 스탯 강화
-    public float Traning_moveSpeed;
-    public float Traning_Atk;
-    public float Traning_attackSpeed;
-    public float Traning_jumpCount;
-    public float Traning_defense;
-    public float Traning_recovery;
-    public float Traning_dashDistance;
+    float[] traningStat;
+    float[] limitTraning;
+    public float[] traning_count;
 
-    public int[] limitTraning;
     public int currentDate;
 
     public PlayerEquipment playerEquipment;
 
     public void Init()
     {
+        traningStat = new float[6];
+        traningStat[0] = 0;
+        traningStat[1] = 0;
+        traningStat[2] = 0;
+        traningStat[3] = 0;
+        traningStat[4] = 0;
+        traningStat[5] = 0;
+
+        limitTraning = new float[6];
+        limitTraning[0] = 10f;
+        limitTraning[1] = 10f;
+        limitTraning[2] = 1f;
+        limitTraning[3] = 1f;
+        limitTraning[4] = 1f;
+        limitTraning[5] = 10f;
+
+        traning_count = new float[6];
+        int count = traning_count.Length;
+        for (int i = 0; i < count; ++i)
+        {
+            traning_count[i] = 0;
+        }
+
         HP = 100f;
         jumpPower = 6f;
 
-        moveSpeed = 4f;
-        Traning_moveSpeed = 0;
-        up_moveSpeed = 0;
-        
         Atk = 2;
-        Traning_Atk = 0;
         up_Atk = 0;
-        
-        attackSpeed = 1;
-        Traning_attackSpeed = 0;
-        up_attackSpeed = 0;
 
         defense = 1;
-        Traning_defense = 0;
         up_defense = 0;
 
-        jumpCount = 1;
-        Traning_jumpCount = 0;
-        up_jumpCount = 0;
+        moveSpeed = 4f;
+        up_moveSpeed = 0;
         
-        recovery = 1f;
-        Traning_recovery = 0;
-        up_recovery = 0;
+        attackSpeed = 1;
+        up_attackSpeed = 0;
+
+        jumpCount = 1;
+        up_jumpCount = 0;
 
         dashDistance = 1f;
-        Traning_dashDistance = 0;
         up_dashDistance = 0;
 
-        maxBuffTime = 100;
-        limitTraning = new int[7];
+        recovery = 1f;
+        up_recovery = 0;
 
-        for(int i = 0; i<7; ++i)
-        {
-            limitTraning[i] = 10;
-        }
+        maxBuffTime = 100;
+
+    }
+
+    public float[] GetTraningStat()
+    {
+        return traningStat;
+    }
+    public float[] GetLimitTraning()
+    {
+        return limitTraning;
     }
 
     public void renew()

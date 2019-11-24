@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Monster_Ogre : MonsterControl
+public class Monster_Ogre : Monster_Control
 {
     public override void Awake()
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss_Merchant : BossMonsterControl
+public class Boss_Merchant : BossMonster_Control
 {
     #region Debug Attack Position and Range
     public enum AttackTypes

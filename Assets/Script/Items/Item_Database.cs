@@ -5,7 +5,7 @@ using UnityEngine;
 public class Item_Database : MonoBehaviour
 {
     public static Item_Database instance;
-    
+
     public List<Key> keyItem = new List<Key>();
 
     private void Awake()
@@ -22,9 +22,9 @@ public class Item_Database : MonoBehaviour
 
     void InputKeyItem()
     {                     // 이름, 효과, 등급, 아이템 코드, 장비화 이름, 
-        keyItem.Add(new Key("커먼", 1, 1, 231));
-        keyItem.Add(new Key("매직", 2, 2, 232));
-        keyItem.Add(new Key("유니크", 3, 3, 233));
+        keyItem.Add(new Key("커먼", 1, 1, 231, Key.ItemType.Number, ""));
+        keyItem.Add(new Key("매직", 2, 2, 232, Key.ItemType.Number, ""));
+        keyItem.Add(new Key("유니크", 3, 3, 233, Key.ItemType.Number, ""));
     }
 
     public Key KeyInformation(Key key)

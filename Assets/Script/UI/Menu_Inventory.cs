@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Menu_Inventory : MonoBehaviour
 {
-    public GameObject[] Slot;
+    public GameObject slots;
+    public Transform[] transforms;
+    public int slotCount;
+    public GameObject[] slot;
     public bool[] isFull;
     
     GameObject _Player;
@@ -12,8 +15,17 @@ public class Menu_Inventory : MonoBehaviour
 
     private void Awake()
     {
-        Slot[Focused].transform.GetChild(0).gameObject.SetActive(true);
         _Player = GameObject.Find("Player");
+
+        transforms = slots.transform.GetComponentsInChildren<Transform>();
+        slotCount = transforms.Length;
+        slot = new GameObject[slotCount - 1];
+
+        for(int i=1;i<slotCount; ++i)
+        {
+            slot[i-1] = transforms[i].gameObject;
+        }
+        slot[Focused].transform.GetChild(0).gameObject.SetActive(true);
     }
 
     private void Update()
@@ -35,8 +47,8 @@ public class Menu_Inventory : MonoBehaviour
     {
         if (Focused + AdjustValue < 0 || Focused + AdjustValue > 23) { return; }
 
-        Slot[Focused].transform.GetChild(0).gameObject.SetActive(false);
+        slot[Focused].transform.GetChild(0).gameObject.SetActive(false);
         Focused += AdjustValue;
-        Slot[Focused].transform.GetChild(0).gameObject.SetActive(true);
+        slot[Focused].transform.GetChild(0).gameObject.SetActive(true);
     }
 }

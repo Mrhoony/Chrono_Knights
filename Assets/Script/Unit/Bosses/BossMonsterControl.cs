@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossMonsterControl : MovingObject
+public class BossMonster_Control : MovingObject
 {
     public GameObject target;
     public Vector2 playerPos;

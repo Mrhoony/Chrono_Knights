@@ -17,6 +17,8 @@ TagManager:
   - NPC
   - BaseMap
   - StartPosition
+  - Item
+  - ItemSlot
   layers:
   - Default
   - TransparentFX
@@ -31,7 +33,7 @@ TagManager:
   - Monster
   - PlayerGroundCheck
   - NPC
-  - 
+  - Item
   - 
   - 
   - 

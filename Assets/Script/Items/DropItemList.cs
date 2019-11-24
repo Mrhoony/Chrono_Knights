@@ -21,7 +21,8 @@ public class DropItemList : MonoBehaviour
         {
             if(DropChance > DropChances[i])
             {
-                Instantiate(DropItems[i]);
+                Instantiate(DropItems[i], new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity);
+                Debug.Log("Item Drop");
             }
         }
     }

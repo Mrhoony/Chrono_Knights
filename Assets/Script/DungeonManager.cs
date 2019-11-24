@@ -52,6 +52,7 @@ public class DungeonManager : MonoBehaviour
         monsterCount = 0;
         newDay = false;
         dungeonClear = false;
+        possible_Traning = true;
         pStat = player.GetComponent<PlayerStat>();
     }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster_Frog : MonsterControl
+public class Monster_Frog : Monster_Control
 {
     public override void Awake()
     {
@@ -101,7 +101,6 @@ public class Monster_Frog : MonsterControl
 
             if (randomMove != 0)
             {
-                Debug.Log("test");
                 isJump = true;
 
                 animator.SetTrigger("isJump");

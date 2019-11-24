@@ -17,7 +17,6 @@ public class Teleport : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                Debug.Log("t1");
                 dm.Teleport();
             }
         }

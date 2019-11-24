@@ -38,7 +38,7 @@ public class GroundCheck : MonoBehaviour
                 }
                 else if (parentObject.CompareTag("Monster"))
                 {
-                    parentObject.GetComponent<MonsterControl>().animator.SetBool("isJumping", false);
+                    parentObject.GetComponent<Monster_Control>().animator.SetBool("isJumping", false);
                 }
             }
         }
@@ -58,7 +58,7 @@ public class GroundCheck : MonoBehaviour
                 }
                 else if (parentObject.CompareTag("Monster"))
                 {
-                    parentObject.GetComponent<MonsterControl>().animator.SetBool("isJumping", false);
+                    parentObject.GetComponent<Monster_Control>().animator.SetBool("isJumping", false);
                 }
             }
         }
