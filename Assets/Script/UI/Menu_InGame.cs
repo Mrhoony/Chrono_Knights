@@ -7,6 +7,7 @@ public class Menu_InGame : MonoBehaviour
 {
     public static Menu_InGame instance;
     public GameObject[] Menus;
+    public GameObject townUI;
     public GameObject _Player;
 
     public GameObject CancelMenu;
@@ -135,6 +136,11 @@ public class Menu_InGame : MonoBehaviour
             Menus[Focused].SetActive(false);
             Focused += AdjustValue;
         }
+    }
+
+    public void SetTownMenu()
+    {
+        townUI = GameObject.Find("TownUI");
     }
 
     public void OpenCancelMenu()

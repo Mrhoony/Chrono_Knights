@@ -13,6 +13,7 @@ public class Menu_Inventory : MonoBehaviour
     public GameObject[] slot;
     public bool[] isFull;
     public Key[] inventoryKeylist;
+
     Sprite[] keyItemBorderSprite;
 
     public NPC_Blacksmith npc_Blacksmith;
@@ -28,6 +29,7 @@ public class Menu_Inventory : MonoBehaviour
         upgrade = false;
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
 
+        inventoryKeylist = new Key[slotCount-1];
         for (int i=1;i<slotCount; ++i)
         {
             slot[i-1] = transforms[i].gameObject;
@@ -46,7 +48,8 @@ public class Menu_Inventory : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.I)) { Menu_InGame.instance.CloseInventory(); }
         }
-        else
+
+        if(upgrade)
         {
             if (Input.GetKeyDown(KeyCode.Z))    // 인챈트할때 Z
             {
@@ -59,10 +62,6 @@ public class Menu_Inventory : MonoBehaviour
                 }
                 else
                     Debug.Log("null");
-            }
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-
             }
         }
     }
@@ -88,10 +87,21 @@ public class Menu_Inventory : MonoBehaviour
         upgrade = true;
         npc_Blacksmith = GameObject.Find("Blacksmith").GetComponent<NPC_Blacksmith>();
     }
-
     public void EnchantKeyItemSet(int focus)
     {
         npc_Blacksmith.EnchantUI.GetComponent<Menu_Enchant>().SetEnchantKey(inventoryKeylist[focus]);
+    }
+
+    public void EnchantedKey(int _focus)
+    {
+        inventoryKeylist[_focus] = null;
+        isFull[_focus] = false;
+
+    }
+
+    void SlotDefault(int _focus)
+    {
+
     }
 
     void FocusedSlot(int AdjustValue)

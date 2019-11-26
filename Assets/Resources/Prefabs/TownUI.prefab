@@ -2367,7 +2367,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8142600363562598993
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2461,6 +2461,7 @@ MonoBehaviour:
     up_dashDistance: 0
     traning_count: []
     currentDate: 0
+  upgradeSet: 0
   limitUpgrade: 
   equipSlots:
   - {fileID: 8142600364074879869}
@@ -2484,6 +2485,8 @@ MonoBehaviour:
   - {fileID: 353435339509851739}
   - {fileID: 5634915217513276462}
   - {fileID: 8182910073316624371}
+  enchantOn: 0
+  enchantting: 0
 --- !u!1 &8142600363604454439
 GameObject:
   m_ObjectHideFlags: 0
@@ -4891,6 +4894,7 @@ MonoBehaviour:
     up_dashDistance: 0
     traning_count: []
     currentDate: 0
+  upgradeSet: 0
   limitUpgrade: 
   equipSlots: []
   equipFocused: 0
@@ -4900,6 +4904,7 @@ MonoBehaviour:
   upGradePercent: 0
   downGradeCount: 0
   downGradePercent: 0
+  upgradeOn: 0
 --- !u!1 &8142600364389493082
 GameObject:
   m_ObjectHideFlags: 0
@@ -5796,6 +5801,7 @@ GameObject:
   - component: {fileID: 8142600364766318677}
   - component: {fileID: 8142600364766318676}
   - component: {fileID: 8142600364766318675}
+  - component: {fileID: 3898516258782012729}
   m_Layer: 5
   m_Name: TownUI
   m_TagString: Untagged
@@ -5886,6 +5892,23 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &3898516258782012729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8142600364766318674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8587c7f0f5c78a469406206573c89f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  townMenus:
+  - {fileID: 8142600363077475180}
+  - {fileID: 8142600363008004793}
+  - {fileID: 8142600363562598992}
+  - {fileID: 8142600364361054063}
 --- !u!1 &8142600364826173711
 GameObject:
   m_ObjectHideFlags: 0
