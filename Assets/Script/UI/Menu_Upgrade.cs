@@ -12,6 +12,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
     {
         base.Awake();
         slotImage = Resources.LoadAll<Sprite>("UI/ui_upgrade_set");
+        gameObject.SetActive(false);
     }
 
     public void Update()

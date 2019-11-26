@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Menu_InGame : MonoBehaviour
 {
-    public static Menu_InGame instance;
     public GameObject[] Menus;
     public GameObject townUI;
     public GameObject _Player;
@@ -22,17 +21,6 @@ public class Menu_InGame : MonoBehaviour
 
     int Focused = 0;
     int count = 0;
-
-    public void Awake()
-    {
-        if (instance == null)
-        {
-            DontDestroyOnLoad(this);
-            instance = this;
-        }
-        else
-            Destroy(gameObject);
-    }
 
     private void Start()
     {
@@ -108,7 +96,7 @@ public class Menu_InGame : MonoBehaviour
         _Player.GetComponent<PlayerControl>().enabled = true;
     }
 
-    public void OpenInventory()
+    public void OpenEnchantInventory()
     {
         upgradeOn = true;
         InventoryOn = true;

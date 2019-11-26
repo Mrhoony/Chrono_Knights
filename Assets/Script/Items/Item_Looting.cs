@@ -16,8 +16,8 @@ public class Item_Looting : MonoBehaviour
     private void Start()
     {
         itemDatabase = Item_Database.instance;
-
         spriteRenderer = GetComponent<SpriteRenderer>();
+
         inventory = GameObject.Find("UI").transform.Find("Menus").transform.Find("Inventory").GetComponent<Menu_Inventory>();
         itemListCount = itemDatabase.keyItem.Count;
 

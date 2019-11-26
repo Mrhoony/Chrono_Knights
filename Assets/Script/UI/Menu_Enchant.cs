@@ -11,13 +11,17 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
     public bool enchantOn;
     public bool enchantting;
 
+    public Button upgradeButton;
+
     int selectedEquip;
     int enchantFocused;
+    int keySlotFocus;
 
     public override void Awake()
     {
         base.Awake();
         slotImage = Resources.LoadAll<Sprite>("UI/ui_enchant_set");
+        gameObject.SetActive(false);
     }
 
     public void Update()
@@ -35,7 +39,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                 {
                     if (equipFocused == 7)
                     {
-                        equipSlots[equipFocused].transform.GetChild(0).gameObject.SetActive(false);
+                        equipSlots[equipFocused].transform.GetChild(1).gameObject.SetActive(false);
                         if (enchantting)
                         {
                             enchantOn = true;
@@ -48,11 +52,31 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                     {
                         if (!enchantOn)
                         {
-                            selectedEquip = enchantFocused;
-                            acceptSlot[enchantFocused].transform.GetChild(0).gameObject.SetActive(false);
-                            upgradeEquipment = equipment[equipFocused];
                             enchantOn = true;
+
                             selectEnchantItem.SetActive(true);
+
+                            upgradeButton.GetComponent<Image>().color = new Color(upgradeButton.GetComponent<Image>().color.r, 
+                                upgradeButton.GetComponent<Image>().color.g, upgradeButton.GetComponent<Image>().color.b, 255);
+                            upgradeButton.interactable = true;
+                            
+                            selectedEquip = enchantFocused;
+                            acceptSlot[0].transform.GetChild(1).gameObject.SetActive(true);
+
+                            upgradeEquipment = equipment[equipFocused];
+                            
+                            if (equipment[equipFocused].key != null)
+                            {
+                                acceptSlot[0].GetComponent<Image>().sprite = equipment[equipFocused].key.sprite;
+                                acceptSlot[0].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[equipment[equipFocused].key.keyRarity];
+                            }
+                            else
+                            {
+                                acceptSlot[0].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+                                acceptSlot[0].transform.GetChild(0).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+                            }
+                            acceptSlot[1].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+                            acceptSlot[1].transform.GetChild(0).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
                         }
                     }
                 }
@@ -81,7 +105,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                                 selectEnchantItem.SetActive(false);
                                 break;
                             case 1:
-                                menu.GetComponent<Menu_InGame>().OpenInventory();
+                                menu.GetComponent<Menu_InGame>().OpenEnchantInventory();
                                 break;
                             case 2:
                                 Enchant(equipFocused, selectedkey);
@@ -93,28 +117,41 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
         }
     }
 
+    // 인챈트 창 열었을 때
     public void OpenEnchantMenu()
     {
         upgradeSet = true;
         equipFocused = 0;
         enchantFocused = 0;
-        equipSlots[equipFocused].transform.GetChild(0).gameObject.SetActive(true);
+        equipSlots[equipFocused].transform.GetChild(1).gameObject.SetActive(true);
         int count = equipSlots.Length;
 
         equipment = playerEquipment.equipment;
         for(int i = 0; i < count - 1; ++i)
         {
-            if(equipment[i].key != null)
+            if (equipment[i].key != null)
             {
-                equipSlots[i].GetComponent<Image>().sprite = slotImage[equipment[i].key.keyRarity]; // 테두리 색
-                equipSlots[i].GetComponent<SpriteRenderer>().sprite = equipment[i].key.sprite;      // 키아이템 이미지
+                equipSlots[i].GetComponent<Image>().sprite = equipment[i].key.sprite;       // 키 아이템
+                equipSlots[i].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[equipment[i].key.keyRarity]; // 레어도
+            }
+            else
+            {
+                equipSlots[i].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];      // 키 아이템
+                equipSlots[i].transform.GetChild(0).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];   // 레어도
             }
         }
+        acceptSlot[0].transform.GetChild(0).gameObject.SetActive(true);
+        acceptSlot[1].transform.GetChild(0).gameObject.SetActive(true);
+        acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
     }
 
-    public void SetEnchantKey(Key key)
+    public void SetEnchantKey(Key key, int _focus)
     {
         selectedkey = key;
+        keySlotFocus = _focus;
+
+        acceptSlot[0].GetComponent<Image>().sprite = slotImage[equipment[equipFocused].key.keyRarity];
+        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = selectedkey.sprite;
     }
 
     public void Enchant(int num, Key key)
@@ -124,6 +161,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
         if (Item_Database.instance.KeyInformation(key) != null)
         {
             addStat = new float[] { 0, 0, 0, 0, 0, 0, 0 };
+            downStat = new bool[7];
             BoolInit(downStat);
 
             playerEquipment.Init(num);
@@ -147,14 +185,22 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                     while (upGradeCount == downGradeCount);
                     downStat[downGradeCount] = true;
 
-                    upGradeCount = Random.Range(100, 121);
+                    upGradePercent = Random.Range(100, 121);
                     downGradePercent = Random.Range(40, 51);
                     PercentSet(num, upGradeCount, upGradePercent, downGradeCount, downGradePercent, 1.5f, -1f, key, true);
-
                     break;
             }
         }
+        acceptSlot[0].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+        acceptSlot[0].transform.GetChild(0).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+        acceptSlot[1].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+        acceptSlot[1].transform.GetChild(0).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+
+        inventory.EnchantedKey(keySlotFocus);
+
+        upgradeButton.GetComponent<Image>().color = new Color(upgradeButton.GetComponent<Image>().color.r,
+            upgradeButton.GetComponent<Image>().color.g, upgradeButton.GetComponent<Image>().color.b, 120);
+        upgradeButton.interactable = false;
         playerData.renew();
-        //button.SetActive(false);
     }
 }

@@ -17,13 +17,13 @@ public class NPC_Blacksmith : NPC_Control
         {
             if (inPlayer && !EnchantUI.GetComponent<Menu_Enchant>().upgradeSet && !UpgradeUI.GetComponent<Menu_Upgrade>().upgradeSet)
             {
-                if (Input.GetButtonDown("Fire1"))
+                if (Input.GetKeyDown(KeyCode.Z))
                 {
                     //OpenUpgradeMenu();
                     OpenEnchantMenu();
                 }
 
-                if (Input.GetButtonDown("Fire2"))
+                if (Input.GetKeyDown(KeyCode.X))
                 {
                     if (openUpgradeUI)
                     {

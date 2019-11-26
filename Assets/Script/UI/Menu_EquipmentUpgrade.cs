@@ -42,7 +42,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
 
     public int FocusedSlot1(GameObject[] slots, int AdjustValue, int focused)
     {
-        slots[focused].transform.GetChild(0).gameObject.SetActive(false);
+        slots[focused].transform.GetChild(1).gameObject.SetActive(false);
         
         focused += AdjustValue;
 
@@ -50,15 +50,15 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
             focused = 7;
         if (focused > 7)
             focused = 0;
-
-        slots[focused].transform.GetChild(0).gameObject.SetActive(true);
+        
+        slots[focused].transform.GetChild(1).gameObject.SetActive(true);
 
         return focused;
     }
 
     public int FocusedSlot2(GameObject[] slots, int AdjustValue, int focused)
     {
-        slots[focused].transform.GetChild(0).gameObject.SetActive(false);
+        slots[focused].transform.GetChild(1).gameObject.SetActive(false);
 
         focused += AdjustValue;
 
@@ -66,8 +66,8 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
             focused = 3;
         if (focused > 3)
             focused = 0;
-
-        slots[focused].transform.GetChild(0).gameObject.SetActive(true);
+        
+        slots[focused].transform.GetChild(1).gameObject.SetActive(true);
 
         return focused;
     }

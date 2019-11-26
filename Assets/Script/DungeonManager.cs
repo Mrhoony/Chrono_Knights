@@ -62,7 +62,7 @@ public class DungeonManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        menu_ingame = Menu_InGame.instance;
+        menu_ingame = GameObject.Find("UI/Menus").GetComponent<Menu_InGame>();
         pStat = player.GetComponent<PlayerStat>();
         choiceSprite = Resources.LoadAll<Sprite>("UI/ui_hpbell_set");
 
