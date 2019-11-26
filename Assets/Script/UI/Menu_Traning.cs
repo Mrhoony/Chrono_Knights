@@ -40,14 +40,9 @@ public class Menu_Traning : MonoBehaviour
         {
             for (int i = 0; i < 6; ++i)
             {
-                Debug.Log(i);
-                Debug.Log(traningButton[i]);
-                Debug.Log(cor);
-
                 gauge[i].fillAmount = traningStat[i] / limit_traning[i];
                 btn = traningButton[i].GetComponent<Button>();
-                Debug.Log(btn);
-                cor = new ColorBlock();
+                
                 cor = btn.colors;
 
                 if (traningStat[i] >= limit_traning[i])

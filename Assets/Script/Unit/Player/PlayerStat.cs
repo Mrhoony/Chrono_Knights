@@ -38,8 +38,8 @@ public class PlayerStat : MonoBehaviour
     public void NewStart()
     {
         playerData.Init();
-        Init();
         playerEquip.Init();
+        Init();
     }
 
     public void Init()

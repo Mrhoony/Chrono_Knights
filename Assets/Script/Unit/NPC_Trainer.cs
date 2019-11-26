@@ -23,7 +23,7 @@ public class NPC_Trainer : NPC_Control
                 {
                     if (openTraningUI)
                     {
-                        CloseTraningMenu(true);
+                        CloseTraningMenu();
                         openTraningUI = false;
                     }
                 }
@@ -39,13 +39,12 @@ public class NPC_Trainer : NPC_Control
         traningUI.SetActive(true);
     }
 
-    public void CloseTraningMenu(bool inGame)
+    public void CloseTraningMenu()
     {
         Time.timeScale = 1;
         openTraningUI = false;
         traningUI.SetActive(false);
-        if (inGame)
-            player.GetComponent<PlayerControl>().enabled = true;
+        player.GetComponent<PlayerControl>().enabled = true;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

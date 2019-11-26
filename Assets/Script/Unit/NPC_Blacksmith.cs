@@ -4,50 +4,71 @@ using UnityEngine;
 
 public class NPC_Blacksmith : NPC_Control
 {
-    public GameObject traningUI;
-    public bool openTraningUI;
+    public GameObject UpgradeUI;
+    public GameObject EnchantUI;
+
+    public bool openEnchantUI;
+    public bool openUpgradeUI;
 
     // Update is called once per frame
     void Update()
     {
-        if (!menu_inGame.CancelOn)
+        if (!menu_inGame.CancelOn && !menu_inGame.InventoryOn)
         {
-            if (inPlayer)
+            if (inPlayer && !EnchantUI.GetComponent<Menu_Enchant>().upgradeSet && !UpgradeUI.GetComponent<Menu_Upgrade>().upgradeSet)
             {
                 if (Input.GetButtonDown("Fire1"))
                 {
-                    OpenTraningMenu();
+                    //OpenUpgradeMenu();
+                    OpenEnchantMenu();
                 }
 
                 if (Input.GetButtonDown("Fire2"))
                 {
-                    if (openTraningUI)
+                    if (openUpgradeUI)
                     {
-                        CloseTraningMenu(true);
-                        openTraningUI = false;
+                        //CloseUpgradeMenu();
+                        //openUpgradeUI = false;
+                        CloseEnchantMenu();
+                        openUpgradeUI = false;
                     }
                 }
             }
         }
     }
 
-    public void OpenTraningMenu()
+    public void OpenUpgradeMenu()
     {
         player.GetComponent<PlayerControl>().enabled = false;
         Time.timeScale = 0;
-        openTraningUI = true;
-        traningUI.SetActive(true);
-        traningUI.GetComponent<Menu_Traning>().OpenTraningMenu();
+        openUpgradeUI = true;
+        UpgradeUI.SetActive(true);
+        UpgradeUI.GetComponent<Menu_Upgrade>().OpenUpgradeMenu();
+    }
+    public void CloseUpgradeMenu()
+    {
+        UpgradeUI.SetActive(false);
+        openUpgradeUI = false;
+        Time.timeScale = 1;
+        UpgradeUI.GetComponent<Menu_Upgrade>().upgradeSet = false;
+        player.GetComponent<PlayerControl>().enabled = true;
     }
 
-    public void CloseTraningMenu(bool inGame)
+    public void OpenEnchantMenu()
     {
-        traningUI.GetComponent<Menu_Traning>().CloseTraningMenu();
-        traningUI.SetActive(false);
-        openTraningUI = false;
+        player.GetComponent<PlayerControl>().enabled = false;
+        Time.timeScale = 0;
+        openEnchantUI = true;
+        EnchantUI.SetActive(true);
+        EnchantUI.GetComponent<Menu_Enchant>().OpenEnchantMenu();
+    }
+    public void CloseEnchantMenu()
+    {
+        EnchantUI.SetActive(false);
+        openEnchantUI = false;
         Time.timeScale = 1;
-        if (inGame)
-            player.GetComponent<PlayerControl>().enabled = true;
+        EnchantUI.GetComponent<Menu_Enchant>().upgradeSet = false;
+        player.GetComponent<PlayerControl>().enabled = true;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

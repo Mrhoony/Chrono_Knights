@@ -16,6 +16,7 @@ public class Menu_InGame : MonoBehaviour
 
     public bool InventoryOn;
     public bool CancelOn;
+    public bool upgradeOn;
 
     int Focused = 0;
     int count = 0;
@@ -24,6 +25,7 @@ public class Menu_InGame : MonoBehaviour
     {
         InventoryOn = false;
         CancelOn = false;
+        upgradeOn = false;
         for (int i = 0; i < Menus.Length; ++i)
         {
             Menus[i].SetActive(false);
@@ -48,7 +50,7 @@ public class Menu_InGame : MonoBehaviour
                     CloseInGameMenu();
                 }
             }
-            if (InventoryOn)
+            if (InventoryOn && !upgradeOn)
             {
                 if (Input.GetKeyDown(KeyCode.U))
                 {
@@ -79,6 +81,7 @@ public class Menu_InGame : MonoBehaviour
     public void OpenInGameMenu()
     {
         _Player.GetComponent<PlayerControl>().enabled = false;
+        Focused = 0;
         Menus[Focused].SetActive(true);
         foreach (Scrollbar bar in sb)
         {
@@ -89,8 +92,25 @@ public class Menu_InGame : MonoBehaviour
     public void CloseInGameMenu()
     {
         Menus[Focused].SetActive(false);
-        Focused = 0;
         _Player.GetComponent<PlayerControl>().enabled = true;
+    }
+
+    public void OpenInventory()
+    {
+        upgradeOn = true;
+        Focused = 0;
+        Menus[Focused].SetActive(true);
+        Menus[Focused].GetComponent<Menu_Inventory>().OpenInventory();
+        foreach (Scrollbar bar in sb)
+        {
+            bar.size = 0.0f;
+            bar.value = 1.0f;
+        }
+    }
+    public void CloseInventory()
+    {
+        Menus[Focused].SetActive(false);
+        upgradeOn = false;
     }
 
     void ChangeMenu(int AdjustValue)

@@ -1,33 +1,48 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Menu_Upgrade : MonoBehaviour
+public class Menu_Upgrade : Menu_EquipmentUpgrade
 {
-    public PlayerStat playerStat;
-    public PlayerData playerData;
-    public PlayerEquipment playerEquipment;
-    public GameObject button;
-    public int[] limitUpgrade;
+    Sprite[] slotImage;
+    public bool upgradeOn;
 
-    float[] addStat;
-    
-    int upgradeCount;
-    int upgradePercent;
-    int downgradeCount;
-    int downgradePercent;
-
-    public void Start()
+    public override void Awake()
     {
-        playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStat>();
-        playerData = playerStat.playerData;
-        playerEquipment = playerStat.playerEquip;
+        base.Awake();
+        slotImage = Resources.LoadAll<Sprite>("UI/ui_upgrade_set");
+    }
+
+    public void Update()
+    {
+        if (!menu.GetComponent<Menu_InGame>().InventoryOn && !menu.GetComponent<Menu_InGame>().CancelOn)
+        {
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { equipFocused = FocusedSlot1(equipSlots, 1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { equipFocused = FocusedSlot1(equipSlots, -1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.DownArrow)) { equipFocused = FocusedSlot1(equipSlots, 1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) { equipFocused = FocusedSlot1(equipSlots, -1, equipFocused); }
+        }
+    }
+
+    public void OpenUpgradeMenu()
+    {
+        upgradeSet = true;
+        equipment = playerEquipment.equipment;
+        int count = equipSlots.Length;
+        for (int i = 0; i < count; ++i)
+        {
+            equipSlots[i].GetComponent<Image>().sprite = slotImage[equipment[i].key.keyRarity]; // 테두리 색
+            equipSlots[i].GetComponent<SpriteRenderer>().sprite = equipment[i].key.sprite;      // 키아이템 이미지
+        }
     }
 
     public void Upgrade(int num)
     {
-        num = Random.Range(0, 6);
-        Key key = Item_Database.instance.keyItem[2];
+        //임시 장비 선택, 키아이템 선택
+        num = Random.Range(0, 7);
+        Key key = Item_Database.instance.keyItem[0];
+
         if (Item_Database.instance.KeyInformation(key) != null)
         {
             addStat = playerEquipment.GetEquipAddStat(num);
@@ -35,97 +50,33 @@ public class Menu_Upgrade : MonoBehaviour
             for(int i = 0; i<length; i++)
             {
                 if (addStat[i] > 0)
-                    upgradeCount = i;
+                    upGradeCount = i;
             }
 
             switch (key.keyRarity)
             {
                 case 1:
-                    upgradePercent = Random.Range(0, 6);
-                    PercentSet(num, upgradeCount, upgradePercent, 0.8f);
+                    upGradePercent = Random.Range(1, 6);
+                    PercentSet(num, upGradeCount, upGradePercent, 0.8f, key, false);
                     break;
                 case 2:
-                    upgradePercent = Random.Range(5, 11);
-                    PercentSet(num, upgradeCount, upgradePercent, 1f);
+                    upGradePercent = Random.Range(3, 11);
+                    PercentSet(num, upGradeCount, upGradePercent, 1f, key, false);
                     break;
                 case 3:
                     for (int i = 0; i < length; i++)
                     {
                         if (addStat[i] < 0)
-                            downgradeCount = i;
+                            downGradeCount = i;
                     }
-                    upgradePercent = Random.Range(3, 21);
-                    downgradePercent = Random.Range(0, 11);
-                    PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, 1.5f, -1f);
+                    upGradeCount = Random.Range(3, 21);
+                    downGradePercent = Random.Range(0, 11);
+                    PercentSet(num, upGradeCount, upGradePercent, downGradeCount, downGradePercent, 1.5f, -1f, key, false);
 
                     break;
             }
         }
         playerData.renew();
         //button.SetActive(false);
-    }
-
-    public void Enchant(int num)
-    {
-        num = Random.Range(0, 6);
-        Key key = Item_Database.instance.keyItem[2];
-        if (Item_Database.instance.KeyInformation(key) != null)
-        {
-            addStat = new float[] { 0, 0, 0, 0, 0, 0, 0 };
-            playerEquipment.Init(num);
-            upgradeCount = Random.Range(0, 7);
-
-            switch (key.keyRarity)
-            {
-                case 1:
-                    upgradePercent = Random.Range(5, 11);
-                    PercentSet(num, upgradeCount, upgradePercent, 0.8f);
-                    break;
-                case 2:
-                    upgradePercent = Random.Range(40, 61);
-                    PercentSet(num, upgradeCount, upgradePercent, 1f);
-                    break;
-                case 3:
-                    do
-                    {
-                        downgradeCount = Random.Range(0, 7);
-                    }
-                    while (upgradeCount == downgradeCount);
-
-                    upgradePercent = Random.Range(100, 121);
-                    downgradePercent = Random.Range(40, 51);
-                    PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, 1.5f, -1f);
-
-                    break;
-            }
-        }
-        playerData.renew();
-        //button.SetActive(false);
-    }
-
-    void PercentSet(int num,int upCount, float upPercent, float Max)
-    {
-        addStat[upCount] += upPercent * 0.01f;
-        if (addStat[upCount] > Max)
-            addStat[upCount] = Max;
-        playerEquipment.SetEquipOption(num, "test", addStat);
-    }
-
-    void PercentSet(int num, int upCount, float upPercent, int downCount, float downPercent, float Max, float Min)
-    {
-        addStat[upCount] += upPercent * 0.01f;
-        addStat[downCount] -= downPercent * 0.01f;
-        if (addStat[upCount] > Max)
-            addStat[upCount] = Max;
-        if (addStat[downCount] < Min)
-            addStat[downCount] = Min;
-        playerEquipment.SetEquipOption(num, "test", addStat);
-    }
-    
-    public void boolInit(bool[] b)
-    {
-        int length = b.Length;
-        for (int i = 0; i < length; i++)
-            b[i] = false;
     }
 }

@@ -10,6 +10,7 @@ public class Monster_Control : MovingObject
     public GameObject eft;
     protected EnemyStat ehp;
     public DropItemList dil;
+    public DungeonManager duneonManager;
 
     public float effectX;
     public float effectY;
@@ -59,12 +60,19 @@ public class Monster_Control : MovingObject
         rb = GetComponent<Rigidbody2D>();
         ehp = GetComponent<EnemyStat>();
         dil = GetComponent<DropItemList>();
+        duneonManager = DungeonManager.instance;
 
         target = GameObject.Find("PlayerCharacter");
     }
 
     public virtual void OnEnable()
     {
+        MonsterInit();
+    }
+
+    public void MonsterInit()
+    {
+        isDead = false;
         ehp.currentHP = ehp.HP;
         StartCoroutine(SearchPlayer());
 
@@ -156,6 +164,7 @@ public class Monster_Control : MovingObject
     void Dead()
     {
         animator.SetTrigger("isDead");
+        duneonManager.MonsterDie();
         dil.ItemDropChance();
         isDead = true;
     }

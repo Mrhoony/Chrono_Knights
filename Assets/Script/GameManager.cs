@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
 
         Physics2D.IgnoreLayerCollision(5, 10);
         Physics2D.IgnoreLayerCollision(8, 10);
+        Physics2D.IgnoreLayerCollision(8, 14);
         Physics2D.IgnoreLayerCollision(10, 10);
         Physics2D.IgnoreLayerCollision(10, 13);
         Physics2D.IgnoreLayerCollision(13, 13);

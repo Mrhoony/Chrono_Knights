@@ -19,10 +19,23 @@ public class DungeonManager : MonoBehaviour
     public int selectedMapNum = 0;
     public GameObject startingPosition;
 
+    GameObject choice;
+    Sprite[] choiceSprite;
+
+    enum EntryChoice
+    {
+        multy,
+        devide,
+        mReturn,
+        freePass,
+        boss,
+        repeat
+    }
+
     public GameObject[] monsterList;
     public GameObject[] currentStageMonsterList;
-
     public GameObject[] spawner;
+
     int spawnerCount;
     int spawn;
     
@@ -33,6 +46,7 @@ public class DungeonManager : MonoBehaviour
     public bool sectionClear;   // 페이즈 클리어시
 
     public int monsterCount;        // 최대 몬스터 수
+    public int currentMonsterCount;
     public int allKillCount;    // 총 몬스터 킬 수
 
     // Start is called before the first frame update
@@ -50,27 +64,25 @@ public class DungeonManager : MonoBehaviour
         currentDate = 1;
         currentStage = 0;
         monsterCount = 0;
+        currentMonsterCount = 0;
         newDay = false;
         dungeonClear = false;
         possible_Traning = true;
         pStat = player.GetComponent<PlayerStat>();
-    }
-
-    private void Init()
-    {
-        currentStage = 0;
-        dungeonClear = false;
+        choiceSprite = Resources.LoadAll<Sprite>("UI/ui_hpbell_set");
     }
     
     public void Teleport()
     {
+        // 선택 퀵슬롯 띄우기
+
         if (SceneManager.GetActiveScene().buildIndex > 1)
         {
             if (sectionClear)
                 SectionTeleport(false, false);
             else
-                if(dungeonClear)
-                    DungeonTeleport();
+                if (dungeonClear)
+                FloorInit(EntryChoice.multy, 1, false); // 키 배수
         }
         else if (SceneManager.GetActiveScene().buildIndex == 1)
         {
@@ -78,21 +90,18 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
-    public void DungeonTeleport()
-    {
-        FloorInit(2);
-    }
-
     public void SectionTeleport(bool isDead, bool exit)
     {
         if (exit)
         {
             SceneManager.LoadScene("MainMenu");
+            dungeonClear = true;
         }
         else
         {
             if (!isDead)
             {
+                // 임시로 클리어시 무조건 마을로
                 if (SceneManager.GetActiveScene().buildIndex == 1)
                 {
                     SceneManager.LoadScene("TopFirstFloor");
@@ -112,6 +121,7 @@ public class DungeonManager : MonoBehaviour
             {
                 NewDayCheck();
                 SceneManager.LoadScene("Town");
+                dungeonClear = true;
                 pStat.Init();
                 pStat.HPInit();
             }
@@ -130,57 +140,144 @@ public class DungeonManager : MonoBehaviour
             possible_Traning = true;
         }
     }
-
-    void FloorInit(int keyMul)
+    
+    void FloorInit(EntryChoice selectChoice,int keyMul, bool freePass)
     {
-        ++currentStage;
+        if (freePass)
+            currentStage += 2;
+        else
+            ++currentStage;
 
+        switch (selectChoice)
+        {
+            case EntryChoice.multy:
+                FloorSetting(keyMul, true, false);
+                break;
+            case EntryChoice.devide:
+                FloorSetting(keyMul, false, false);
+                break;
+            case EntryChoice.freePass:
+                FloorSetting(1, true, false);
+                break;
+            case EntryChoice.boss:
+                BossStageSetting();
+                break;
+            case EntryChoice.repeat:
+                FloorSetting(1, true, true);
+                break;
+            case EntryChoice.mReturn:
+                SectionTeleport(false, true);
+                break;
+        }
+    }
+
+    public void FloorSetting(int keyMul, bool multy, bool repeat)
+    {
         dungeonClear = false;
         sectionClear = false;
-
         spawnerCount = 0;
         selectedMapNum = Random.Range(0, mapList.Length);
 
-        startingPosition = mapList[selectedMapNum].transform.Find("Base/StartingPosition").gameObject;
-        player.transform.position = startingPosition.transform.position;
-
-        CameraManager.instance.SetCameraBound(mapList[selectedMapNum].transform.Find("BackGroundBound").GetComponent<BoxCollider2D>());  // 카메라 설정
-        mapList[selectedMapNum].transform.Find("BackGroundBound").transform.position = new Vector2(Random.Range(-1f, 0), Random.Range(-2f, 0));
-
-        if (currentStage > 0)
-            sectionClear = true;
-
-        // 몬스터 스포너 등록
-        foreach (Transform child in mapList[selectedMapNum].transform.Find("Base").transform)
+        if((currentStage - 2) > 0)
         {
-            if (child.gameObject.CompareTag("Spawn"))
+            int bossStage = currentStage % 5;
+            if (currentStage == 5)
+                bossStage = 5;
+
+            if (bossStage * 20 > Random.Range(0,81))
+                BossStageSetting();
+        }
+
+
+        if (repeat)
+        {
+            player.transform.position = startingPosition.transform.position;
+
+            currentMonsterCount = monsterCount;
+
+            for (int i = 0; i < monsterCount; ++i)
             {
-                ++spawnerCount;
+                randomX = Random.Range(-1, 2);
+                currentStageMonsterList[i].transform.position = new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
+                                                         , spawner[Random.Range(0, spawnerCount)].transform.position.y);
+                currentStageMonsterList[i].GetComponent<Monster_Control>().MonsterInit();
             }
         }
-
-        spawner = new GameObject[spawnerCount];
-        spawnerCount = 0;
-
-        foreach (Transform child in mapList[selectedMapNum].transform.Find("Base").transform)
+        else
         {
-            if (child.gameObject.CompareTag("Spawn"))
+            startingPosition = mapList[selectedMapNum].transform.Find("Base/StartingPosition").gameObject;
+            player.transform.position = startingPosition.transform.position;
+
+            choice = mapList[selectedMapNum].transform.Find("Base/BG_Teleporter/Choice").gameObject;
+
+            CameraManager.instance.SetCameraBound(mapList[selectedMapNum].transform.Find("BackGroundBound").GetComponent<BoxCollider2D>());  // 카메라 설정
+            mapList[selectedMapNum].transform.Find("BackGroundBound").transform.position = new Vector2(Random.Range(-1f, 0), Random.Range(-2f, 0));
+
+            // 하나만 클리어 해도 마을로
+            if (currentStage > 0)
+                sectionClear = true;
+
+            // 몬스터 스포너 등록
+            foreach (Transform child in mapList[selectedMapNum].transform.Find("Base").transform)
             {
-                spawner[spawnerCount] = child.gameObject;
-                ++spawnerCount;
+                if (child.gameObject.CompareTag("Spawn")) ++spawnerCount;
+            }
+
+            spawner = new GameObject[spawnerCount];
+            spawnerCount = 0;
+
+            foreach (Transform child in mapList[selectedMapNum].transform.Find("Base").transform)
+            {
+                if (child.gameObject.CompareTag("Spawn"))
+                {
+                    spawner[spawnerCount] = child.gameObject;
+                    ++spawnerCount;
+                }
+            }
+
+            monsterCount = Random.Range(3, 10);
+
+            if (multy)
+                monsterCount *= keyMul;
+            else
+                monsterCount /= keyMul;
+
+            currentMonsterCount = monsterCount;
+
+            // 키 변수
+            currentStageMonsterList = new GameObject[monsterCount];
+
+            // 몬스터 스폰
+            for (int i = 0; i < monsterCount; ++i)
+            {
+                randomX = Random.Range(-1, 2);
+                currentStageMonsterList[i] = Instantiate(monsterList[Random.Range(0, monsterList.Length)],new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
+                                                         , spawner[Random.Range(0, spawnerCount)].transform.position.y), Quaternion.identity);
             }
         }
+    }
 
-        keyMul = 1;
-        monsterCount = Random.Range(10, 10 * keyMul);
-        currentStageMonsterList = new GameObject[monsterCount];
-        // 몬스터 스폰
-        for (int i = 0; i < monsterCount; ++i)
+    public void BossStageSetting()
+    {
+
+    }
+
+    public void MonsterDie()
+    {
+        --currentMonsterCount;
+        if (currentMonsterCount <= 0)
         {
-            randomX = Random.Range(-1, 2);
-            currentStageMonsterList[i] = Instantiate(monsterList[Random.Range(0, monsterList.Length)], new Vector2(spawner[Random.Range(0, spawner.Length)].transform.position.x + randomX
-                                                                                    , spawner[Random.Range(0, spawner.Length)].transform.position.y), Quaternion.identity);
+            int i = Random.Range(3, 5);
+            choice.GetComponent<SpriteRenderer>().sprite = choiceSprite[i];
+            Rect rect = choice.GetComponent<SpriteRenderer>().sprite.rect;
+            rect.size = new Vector2(22f, 22f);
+            dungeonClear = true;
         }
+    }
+
+    public bool GetDungeonClear()
+    {
+        return dungeonClear;
     }
 
     public void OnEnable()
@@ -196,13 +293,14 @@ public class DungeonManager : MonoBehaviour
         if(SceneManager.GetActiveScene().buildIndex > 1)
         {
             mapList = GameObject.FindGameObjectsWithTag("BaseMap");
-            FloorInit(2);
+            FloorInit(EntryChoice.multy, 1, false);
         }
         else if(SceneManager.GetActiveScene().buildIndex == 1)
         {
             CameraManager.instance.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
             GameObject stp = GameObject.FindGameObjectWithTag("StartPosition");
             player.transform.position = stp.transform.position;
+            dungeonClear = true;
             pStat.Init();
             pStat.HPInit();
         }

@@ -1,11 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
-/*
- * 필드 드랍 아이템 프리팹에 스크립트 추가
- * */
 
 public class Item_Looting : MonoBehaviour
 {
@@ -39,16 +34,7 @@ public class Item_Looting : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-            for (int i=0; i< inventory.slot.Length; i++)
-            {
-                if (!inventory.isFull[i])
-                {
-                    inventory.isFull[i] = true;
-                    inventory.slot[i].GetComponent<Image>().sprite = spriteRenderer.sprite;
-                    Destroy(gameObject);
-                    break;
-                }
-            }
+            inventory.GetKeyItem(key);
         }
     }
 }
