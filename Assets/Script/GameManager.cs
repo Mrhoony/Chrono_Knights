@@ -43,7 +43,10 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(8, 14);
         Physics2D.IgnoreLayerCollision(10, 10);
         Physics2D.IgnoreLayerCollision(10, 13);
+        Physics2D.IgnoreLayerCollision(10, 14);
         Physics2D.IgnoreLayerCollision(13, 13);
+        Physics2D.IgnoreLayerCollision(13, 14);
+        Physics2D.IgnoreLayerCollision(14, 14);
         slotNum = 0;
     }
 

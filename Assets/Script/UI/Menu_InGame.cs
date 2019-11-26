@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Menu_InGame : MonoBehaviour
 {
+    public static Menu_InGame instance;
     public GameObject[] Menus;
     public GameObject _Player;
 
@@ -20,7 +21,18 @@ public class Menu_InGame : MonoBehaviour
 
     int Focused = 0;
     int count = 0;
-    
+
+    public void Awake()
+    {
+        if (instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            instance = this;
+        }
+        else
+            Destroy(gameObject);
+    }
+
     private void Start()
     {
         InventoryOn = false;

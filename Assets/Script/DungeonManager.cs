@@ -8,6 +8,7 @@ public class DungeonManager : MonoBehaviour
     public static DungeonManager instance;
     public GameObject player;
     public GameObject playerStatView;
+    public Menu_InGame menu_ingame;
 
     public PlayerStat pStat;
 
@@ -61,6 +62,10 @@ public class DungeonManager : MonoBehaviour
         else
             Destroy(gameObject);
 
+        menu_ingame = Menu_InGame.instance;
+        pStat = player.GetComponent<PlayerStat>();
+        choiceSprite = Resources.LoadAll<Sprite>("UI/ui_hpbell_set");
+
         currentDate = 1;
         currentStage = 0;
         monsterCount = 0;
@@ -68,14 +73,32 @@ public class DungeonManager : MonoBehaviour
         newDay = false;
         dungeonClear = false;
         possible_Traning = true;
-        pStat = player.GetComponent<PlayerStat>();
-        choiceSprite = Resources.LoadAll<Sprite>("UI/ui_hpbell_set");
-    }
-    
-    public void Teleport()
-    {
-        // 선택 퀵슬롯 띄우기
 
+    }
+
+    bool isStand = false;
+    public void isStanding(bool StandingCheck)
+    {
+        isStand = StandingCheck;
+    }
+
+    public void Teleport()  // 인수로 Key 받음
+    {
+        if(isStand == true) // 플레이어가 텔레포터 앞에 서 있으면
+        {
+            choice.GetComponent<Question>().Execute();  // 스크립트 내부 수정 필요
+            //
+                /* 다음 층으로 이동하는 코드 */
+            //
+        }
+
+<<<<<<< HEAD
+        #region 미사용 코드
+        /*
+=======
+
+
+>>>>>>> 42ad8d4c8b224cb95ada7d23cc8a475a78c878aa
         if (SceneManager.GetActiveScene().buildIndex > 1)
         {
             if (sectionClear)
@@ -88,6 +111,8 @@ public class DungeonManager : MonoBehaviour
         {
             SectionTeleport(false, false);
         }
+        */
+        #endregion
     }
 
     public void SectionTeleport(bool isDead, bool exit)
@@ -171,6 +196,8 @@ public class DungeonManager : MonoBehaviour
         }
 
         choice.GetComponent<SpriteRenderer>().sprite = choiceSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
+        choice.GetComponent<Question>();
+        // choice.GetComponent<MarkQuestion>(); // 텔레포터 지문 스크립트를 받음
     }
 
     public void FloorSetting(int keyMul, bool multy, bool repeat)
