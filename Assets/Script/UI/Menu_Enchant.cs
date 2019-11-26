@@ -22,7 +22,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
 
     public void Update()
     {
-        if (!menu.GetComponent<Menu_InGame>().InventoryOn && !menu.GetComponent<Menu_InGame>().CancelOn)
+        if (!menu.InventoryOn && !menu.CancelOn)
         {
             if (!enchantOn)
             {

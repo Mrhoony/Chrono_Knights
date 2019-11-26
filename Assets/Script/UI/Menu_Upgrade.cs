@@ -16,7 +16,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
 
     public void Update()
     {
-        if (!menu.GetComponent<Menu_InGame>().InventoryOn && !menu.GetComponent<Menu_InGame>().CancelOn)
+        if (!menu.InventoryOn && !menu.CancelOn)
         {
             if (Input.GetKeyDown(KeyCode.RightArrow)) { equipFocused = FocusedSlot1(equipSlots, 1, equipFocused); }
             if (Input.GetKeyDown(KeyCode.LeftArrow)) { equipFocused = FocusedSlot1(equipSlots, -1, equipFocused); }

@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Menu_EquipmentUpgrade : MonoBehaviour
 {
-    public GameObject npc_blacksmith;
-    public GameObject menu;
     public PlayerStat playerStat;
     public PlayerData playerData;
+    public Menu_InGame menu;
+    public Menu_Inventory inventory;
+
+    public GameObject npc_blacksmith;
     public PlayerEquipment playerEquipment;
     public PlayerEquipment.Equipment[] equipment;
     public bool upgradeSet;
@@ -31,7 +33,8 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     public virtual void Awake()
     {
         upgradeSet = false;
-        menu = GameObject.Find("UI/Menus");
+        menu = transform.parent.GetComponent<Menu_TownUI>().menuIngame;
+        inventory = menu.Menus[0].GetComponent<Menu_Inventory>();
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStat>();
         playerData = playerStat.playerData;
         playerEquipment = playerStat.playerEquip;
