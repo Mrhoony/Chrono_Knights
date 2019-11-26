@@ -48,7 +48,7 @@ public class Menu_Inventory : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.Z))    // 인챈트할때 Z
             {
                 if (isFull[focused])
                 {
@@ -59,6 +59,10 @@ public class Menu_Inventory : MonoBehaviour
                 }
                 else
                     Debug.Log("null");
+            }
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+
             }
         }
     }

@@ -84,16 +84,6 @@ public class DungeonManager : MonoBehaviour
 
     public void Teleport()  // 인수로 Key 받음
     {
-        if(isStand == true) // 플레이어가 텔레포터 앞에 서 있으면
-        {
-            choice.GetComponent<Question>().Execute();  // 스크립트 내부 수정 필요
-            //
-                /* 다음 층으로 이동하는 코드 */
-            //
-        }
-
-        #region 미사용 코드
-        /*
         if (SceneManager.GetActiveScene().buildIndex > 1)
         {
             if (sectionClear)
@@ -106,8 +96,6 @@ public class DungeonManager : MonoBehaviour
         {
             SectionTeleport(false, false);
         }
-        */
-        #endregion
     }
 
     public void SectionTeleport(bool isDead, bool exit)
