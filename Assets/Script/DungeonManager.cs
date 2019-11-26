@@ -169,6 +169,8 @@ public class DungeonManager : MonoBehaviour
                 SectionTeleport(false, true);
                 break;
         }
+
+        choice.GetComponent<SpriteRenderer>().sprite = choiceSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
     }
 
     public void FloorSetting(int keyMul, bool multy, bool repeat)
@@ -178,7 +180,7 @@ public class DungeonManager : MonoBehaviour
         spawnerCount = 0;
         selectedMapNum = Random.Range(0, mapList.Length);
 
-        if((currentStage - 2) > 0)
+        if((currentStage - 2) > 0)  // 보스스테이지 설정
         {
             int bossStage = currentStage % 5;
             if (currentStage == 5)
@@ -265,10 +267,8 @@ public class DungeonManager : MonoBehaviour
     public void MonsterDie()
     {
         --currentMonsterCount;
-        if (currentMonsterCount <= 0)
+        if (currentMonsterCount <= 0)   // 몬스터가 다 죽으면
         {
-            int i = Random.Range(3, 5);
-            choice.GetComponent<SpriteRenderer>().sprite = choiceSprite[i];
             Rect rect = choice.GetComponent<SpriteRenderer>().sprite.rect;
             rect.size = new Vector2(22f, 22f);
             dungeonClear = true;
@@ -290,7 +290,9 @@ public class DungeonManager : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(SceneManager.GetActiveScene().buildIndex > 1)
+        
+
+        if (SceneManager.GetActiveScene().buildIndex > 1)
         {
             mapList = GameObject.FindGameObjectsWithTag("BaseMap");
             FloorInit(EntryChoice.multy, 1, false);
