@@ -12,7 +12,7 @@ public class Menu_Inventory : MonoBehaviour
     public GameObject[] slot;
     public bool[] isFull;
     public Key[] inventoryKeylist;
-    Sprite[] keyItemSprite;
+    Sprite[] keyItemBorderSprite;
 
     bool upgrade;
     int Focused = 0;
@@ -23,7 +23,7 @@ public class Menu_Inventory : MonoBehaviour
         slotCount = transforms.Length;
         slot = new GameObject[slotCount - 1];
         upgrade = false;
-        keyItemSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
+        keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
 
         for (int i=1;i<slotCount; ++i)
         {
@@ -48,30 +48,35 @@ public class Menu_Inventory : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
             if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(6); }
             if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-6); }
+
+            if (Input.GetKeyDown(KeyCode.Z))
+                ItemSelect(Focused);
         }
     }
 
     public void GetKeyItem(Key _key)
     {
         int slotCount = slot.Length;
-        for (int i = 0; i < slot.Length; i++)
+        for (int i = 0; i < slotCount; i++)
         {
             if (!isFull[i])
             {
                 isFull[i] = true;
                 slot[i].GetComponent<SpriteRenderer>().sprite = _key.sprite;
-                Rect rect = slot[i].GetComponent<SpriteRenderer>().sprite.rect;
-                rect.size = new Vector2(36f, 36f);
-                slot[i].GetComponent<Image>().sprite = keyItemSprite[11 - _key.keyRarity];
-                Destroy(gameObject);
+                Debug.Log(_key.keyRarity);
+                slot[i].GetComponent<Image>().sprite = keyItemBorderSprite[11 - _key.keyRarity];
                 break;
             }
         }
     }
-
     public void OpenInventory()
     {
         upgrade = true;
+    }
+
+    public Key ItemSelect(int focus)
+    {
+        return inventoryKeylist[focus];
     }
 
     void CloseInventory()

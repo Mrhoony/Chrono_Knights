@@ -30,7 +30,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                 if (Input.GetKeyDown(KeyCode.DownArrow)) { equipFocused = FocusedSlot1(equipSlots, 1, equipFocused); }
                 if (Input.GetKeyDown(KeyCode.UpArrow)) { equipFocused = FocusedSlot1(equipSlots, - 1, equipFocused); }
 
-                if (Input.GetButtonDown("Fire1"))
+                if (Input.GetKeyDown(KeyCode.Z))
                 {
                     if (equipFocused == 7)
                     {
@@ -38,6 +38,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                         if (enchantting)
                         {
                             enchantOn = true;
+                            enchantting = false;
                             selectEnchantItem.SetActive(true);
                         }else
                             npc_blacksmith.GetComponent<NPC_Blacksmith>().CloseEnchantMenu();
@@ -46,6 +47,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                     {
                         if (!enchantOn)
                         {
+                            acceptSlot[enchantFocused].transform.GetChild(0).gameObject.SetActive(false);
                             upgradeEquipment = equipment[equipFocused];
                             enchantOn = true;
                             selectEnchantItem.SetActive(true);
@@ -60,7 +62,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                 if (Input.GetKeyDown(KeyCode.DownArrow)) { enchantFocused = FocusedSlot2(acceptSlot, 1, enchantFocused); }
                 if (Input.GetKeyDown(KeyCode.UpArrow)) { enchantFocused = FocusedSlot2(acceptSlot , -1, enchantFocused); }
 
-                if (Input.GetButtonDown("Fire1"))
+                if (Input.GetKeyDown(KeyCode.Z))
                 {
                     if (enchantFocused == 3)
                     {
@@ -77,6 +79,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                                 selectEnchantItem.SetActive(false);
                                 break;
                             case 1:
+                                menu.GetComponent<Menu_InGame>().OpenInventory();
                                 break;
                             case 2:
                                 break;

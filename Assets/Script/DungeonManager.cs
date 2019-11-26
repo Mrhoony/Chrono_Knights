@@ -8,6 +8,7 @@ public class DungeonManager : MonoBehaviour
     public static DungeonManager instance;
     public GameObject player;
     public GameObject playerStatView;
+    public Menu_InGame menu_ingame;
 
     public PlayerStat pStat;
 
@@ -61,6 +62,10 @@ public class DungeonManager : MonoBehaviour
         else
             Destroy(gameObject);
 
+        menu_ingame = Menu_InGame.instance;
+        pStat = player.GetComponent<PlayerStat>();
+        choiceSprite = Resources.LoadAll<Sprite>("UI/ui_hpbell_set");
+
         currentDate = 1;
         currentStage = 0;
         monsterCount = 0;
@@ -68,13 +73,14 @@ public class DungeonManager : MonoBehaviour
         newDay = false;
         dungeonClear = false;
         possible_Traning = true;
-        pStat = player.GetComponent<PlayerStat>();
-        choiceSprite = Resources.LoadAll<Sprite>("UI/ui_hpbell_set");
+
     }
     
     public void Teleport()
     {
         // 선택 퀵슬롯 띄우기
+
+
 
         if (SceneManager.GetActiveScene().buildIndex > 1)
         {

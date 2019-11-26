@@ -172,6 +172,7 @@ MonoBehaviour:
   box: {fileID: 0}
   eft: {fileID: 776820764541791318, guid: a23023812364dc04883cd5bf233c4956, type: 3}
   dil: {fileID: 0}
+  duneonManager: {fileID: 0}
   effectX: 0
   effectY: 0
   isTrace: 0
@@ -198,7 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0.5
-  HP: 100
+  HP: 10
   currentHP: 0
   Atk: 2
   jumpPower: 0
