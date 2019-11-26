@@ -92,13 +92,8 @@ public class DungeonManager : MonoBehaviour
             //
         }
 
-<<<<<<< HEAD
         #region 미사용 코드
         /*
-=======
-
-
->>>>>>> 42ad8d4c8b224cb95ada7d23cc8a475a78c878aa
         if (SceneManager.GetActiveScene().buildIndex > 1)
         {
             if (sectionClear)
