@@ -110,6 +110,7 @@ public class Menu_InGame : MonoBehaviour
     public void OpenInventory()
     {
         upgradeOn = true;
+        InventoryOn = true;
         Focused = 0;
         Menus[Focused].SetActive(true);
         Menus[Focused].GetComponent<Menu_Inventory>().OpenInventory();
@@ -121,6 +122,7 @@ public class Menu_InGame : MonoBehaviour
     }
     public void CloseInventory()
     {
+        InventoryOn = false;
         upgradeOn = false;
         Menus[Focused].SetActive(false);
     }

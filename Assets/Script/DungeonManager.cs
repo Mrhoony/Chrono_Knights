@@ -77,6 +77,7 @@ public class DungeonManager : MonoBehaviour
     }
 
     bool isStand = false;
+
     public void isStanding(bool StandingCheck)
     {
         isStand = StandingCheck;
