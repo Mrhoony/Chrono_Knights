@@ -11,6 +11,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
     public bool enchantOn;
     public bool enchantting;
 
+    int selectedEquip;
     int enchantFocused;
 
     public override void Awake()
@@ -47,6 +48,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                     {
                         if (!enchantOn)
                         {
+                            selectedEquip = enchantFocused;
                             acceptSlot[enchantFocused].transform.GetChild(0).gameObject.SetActive(false);
                             upgradeEquipment = equipment[equipFocused];
                             enchantOn = true;
@@ -82,6 +84,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                                 menu.GetComponent<Menu_InGame>().OpenInventory();
                                 break;
                             case 2:
+                                Enchant(equipFocused, selectedkey);
                                 break;
                         }
                     }
@@ -109,11 +112,14 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
         }
     }
 
-    public void Enchant(int num)
+    public void SetEnchantKey(Key key)
     {
-        //임시 장비 선택, 키아이템 선택
-        num = Random.Range(0, 7);
-        Key key = Item_Database.instance.keyItem[1];
+        selectedkey = key;
+    }
+
+    public void Enchant(int num, Key key)
+    {
+        if (num < 0 || num > 7) return;
 
         if (Item_Database.instance.KeyInformation(key) != null)
         {

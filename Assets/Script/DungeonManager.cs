@@ -296,8 +296,6 @@ public class DungeonManager : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        
-
         if (SceneManager.GetActiveScene().buildIndex > 1)
         {
             mapList = GameObject.FindGameObjectsWithTag("BaseMap");

@@ -26,7 +26,7 @@ public class Menu_InGame : MonoBehaviour
     {
         if (instance == null)
         {
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(this);
             instance = this;
         }
         else
@@ -121,8 +121,8 @@ public class Menu_InGame : MonoBehaviour
     }
     public void CloseInventory()
     {
-        Menus[Focused].SetActive(false);
         upgradeOn = false;
+        Menus[Focused].SetActive(false);
     }
 
     void ChangeMenu(int AdjustValue)

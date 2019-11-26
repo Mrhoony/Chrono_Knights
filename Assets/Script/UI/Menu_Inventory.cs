@@ -8,14 +8,17 @@ public class Menu_Inventory : MonoBehaviour
     GameObject _Player;
     public GameObject slots;
     public Transform[] transforms;
+
     public int slotCount;
     public GameObject[] slot;
     public bool[] isFull;
     public Key[] inventoryKeylist;
     Sprite[] keyItemBorderSprite;
 
+    public NPC_Blacksmith npc_Blacksmith;
+
     bool upgrade;
-    int Focused = 0;
+    int focused = 0;
 
     private void Awake()
     {
@@ -29,28 +32,34 @@ public class Menu_Inventory : MonoBehaviour
         {
             slot[i-1] = transforms[i].gameObject;
         }
-        slot[Focused].transform.GetChild(0).gameObject.SetActive(true);
+        slot[focused].transform.GetChild(0).gameObject.SetActive(true);
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
+        if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(6); }
+        if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-6); }
+
         if (!upgrade)
         {
-            if (Input.GetKeyDown(KeyCode.I)) { CloseInventory(); }
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(6); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-6); }
+            if (Input.GetKeyDown(KeyCode.I)) { Menu_InGame.instance.CloseInventory(); }
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(6); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-6); }
-
             if (Input.GetKeyDown(KeyCode.Z))
-                ItemSelect(Focused);
+            {
+                if (isFull[focused])
+                {
+                    Debug.Log(inventoryKeylist[focused]);
+                    EnchantKeyItemSet(focused);
+                    upgrade = false;
+                    Menu_InGame.instance.CloseInventory();
+                }
+                else
+                    Debug.Log("null");
+            }
         }
     }
 
@@ -65,6 +74,7 @@ public class Menu_Inventory : MonoBehaviour
                 slot[i].GetComponent<SpriteRenderer>().sprite = _key.sprite;
                 Debug.Log(_key.keyRarity);
                 slot[i].GetComponent<Image>().sprite = keyItemBorderSprite[11 - _key.keyRarity];
+                inventoryKeylist[i] = _key;
                 break;
             }
         }
@@ -72,25 +82,20 @@ public class Menu_Inventory : MonoBehaviour
     public void OpenInventory()
     {
         upgrade = true;
+        npc_Blacksmith = GameObject.Find("Blacksmith").GetComponent<NPC_Blacksmith>();
     }
 
-    public Key ItemSelect(int focus)
+    public void EnchantKeyItemSet(int focus)
     {
-        return inventoryKeylist[focus];
-    }
-
-    void CloseInventory()
-    {
-        // _Player.GetComponent<PlayerController>().enabled = true;
-        gameObject.SetActive(false);
+        npc_Blacksmith.EnchantUI.GetComponent<Menu_Enchant>().SetEnchantKey(inventoryKeylist[focus]);
     }
 
     void FocusedSlot(int AdjustValue)
     {
-        if (Focused + AdjustValue < 0 || Focused + AdjustValue > 23) { return; }
+        if (focused + AdjustValue < 0 || focused + AdjustValue > 23) { return; }
 
-        slot[Focused].transform.GetChild(0).gameObject.SetActive(false);
-        Focused += AdjustValue;
-        slot[Focused].transform.GetChild(0).gameObject.SetActive(true);
+        slot[focused].transform.GetChild(0).gameObject.SetActive(false);
+        focused += AdjustValue;
+        slot[focused].transform.GetChild(0).gameObject.SetActive(true);
     }
 }
