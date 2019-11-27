@@ -37,7 +37,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
                 {
                     if (equipFocused == 7)
                     {
-                        equipSlots[equipFocused].transform.GetChild(1).gameObject.SetActive(false);
+                        equipSlots[equipFocused].transform.GetChild(0).gameObject.SetActive(false);
                         if (upgrading)
                         {
                             upgradeOn = true;
@@ -45,7 +45,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
                             selectUpgradeItem.SetActive(true);
                         }
                         else
-                            npc_blacksmith.GetComponent<NPC_Blacksmith>().CloseEnchantMenu();
+                            npc_blacksmith.GetComponent<NPC_Blacksmith>().CloseUpgradeMenu();
                     }
                     else
                     {
@@ -63,15 +63,17 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
                         if (equipment[equipFocused].key != null)
                         {
                             acceptSlot[0].GetComponent<Image>().sprite = equipment[equipFocused].key.sprite;
-                            acceptSlot[0].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[equipment[equipFocused].key.keyRarity];
+                            acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[equipment[equipFocused].key.keyRarity];
                         }
                         else
                         {
                             acceptSlot[0].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-                            acceptSlot[0].transform.GetChild(0).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+                            acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
                         }
                         acceptSlot[1].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-                        acceptSlot[1].transform.GetChild(0).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+                        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+                        acceptSlot[2].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+                        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
                     }
                 }
             }
@@ -87,6 +89,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
                     if (upgradeFocus == 4)
                     {
                         upgradeOn = false;
+                        acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
                         selectUpgradeItem.SetActive(false);
                     }
                     else
@@ -112,14 +115,18 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
     }
     public void SetKey(int focus)
     {
+        keySlotFocus = focus;
         selectedkey = inventory.inventoryKeylist[focus];
         acceptSlot[1].GetComponent<Image>().sprite = selectedkey.sprite;
-        acceptSlot[1].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[selectedkey.keyRarity];
+        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[selectedkey.keyRarity];
+
+        acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
+        acceptSlot[2].GetComponent<Image>().sprite = acceptSlot[0].GetComponent<Image>().sprite;
+        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite;
     }
 
     public void OpenUpgradeMenu()
     {
-        upgradeSet = true;
         upgradeOn = false;
         equipFocused = 0;
         upgradeFocus = 0;
@@ -131,19 +138,17 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
             if(equipment[i].key != null)
             {
                 equipSlots[i].GetComponent<Image>().sprite = slotImage[equipment[i].key.keyRarity]; // 테두리 색
-                equipSlots[i].GetComponent<SpriteRenderer>().sprite = equipment[i].key.sprite;      // 키아이템 이미지
+                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = equipment[i].key.sprite;      // 키아이템 이미지
             }
             else
             {
                 equipSlots[i].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6]; // 테두리 색
-                equipSlots[i].GetComponent<SpriteRenderer>().sprite = inventory.keyItemBorderSprite[6];      // 키아이템 이미지
+                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];      // 키아이템 이미지
             }
+            equipSlots[i].transform.GetChild(1).gameObject.SetActive(true);
         }
 
         equipSlots[equipFocused].transform.GetChild(1).gameObject.SetActive(true);
-        acceptSlot[0].transform.GetChild(0).gameObject.SetActive(true);
-        acceptSlot[1].transform.GetChild(0).gameObject.SetActive(true);
-        acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
     }
 
     public void Upgrade(int num, Key key)
@@ -152,30 +157,56 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
 
         if (Item_Database.instance.KeyInformation(key) != null)
         {
-            addStatus = equipment[num].addStatus;
-
-            upgradeCount = equipment[num].upStatus;
-            downgradeCount = equipment[num].downStatus;
-
             switch (key.keyRarity)
             {
                 case 1:
                     upgradePercent = Random.Range(1, 6);
-                    PercentSet(num, upgradeCount, upgradePercent, 0.8f, key, false);
+                    PercentSet(num, upgradeCount, upgradePercent, key, false);
                     break;
                 case 2:
                     upgradePercent = Random.Range(3, 11);
-                    PercentSet(num, upgradeCount, upgradePercent, 1f, key, false);
+                    PercentSet(num, upgradeCount, upgradePercent, key, false);
                     break;
                 case 3:
-                    upgradeCount = Random.Range(3, 21);
+                    upgradePercent = Random.Range(3, 21);
                     downgradePercent = Random.Range(0, 11);
-                    PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, 1.5f, -1f, key, false);
+                    PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, key, false);
 
                     break;
             }
             inventory.EnchantedKey(keySlotFocus);
         }
+        // accept 창 초기화
+        acceptSlot[0].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+        acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+        acceptSlot[1].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+        
+        acceptSlot[2].GetComponent<Image>().sprite = equipment[num].key.sprite;
+        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[equipment[num].key.keyRarity];
+
+        for (int i = 0; i < 7; ++i)
+        {
+            if (equipment[i].key != null)
+            {
+                equipSlots[i].GetComponent<Image>().sprite = equipment[i].key.sprite;       // 키 아이템
+                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[equipment[i].key.keyRarity]; // 레어도
+            }
+            else
+            {
+                equipSlots[i].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];      // 키 아이템
+                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];   // 레어도
+            }
+        }
+
+        upgradeButton.GetComponent<Image>().color = new Color(upgradeButton.GetComponent<Image>().color.r,
+            upgradeButton.GetComponent<Image>().color.g, upgradeButton.GetComponent<Image>().color.b, 120);
+        upgradeButton.interactable = false;
+
+        acceptSlot[upgradeFocus].transform.GetChild(0).gameObject.SetActive(false);
+        upgradeFocus = 4;
+        acceptSlot[upgradeFocus].transform.GetChild(0).gameObject.SetActive(true);
+
         playerData.renew();
     }
 }

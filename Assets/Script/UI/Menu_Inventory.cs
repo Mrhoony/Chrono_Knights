@@ -112,16 +112,16 @@ public class Menu_Inventory : MonoBehaviour
     public void OpenInventory()
     {
         focused = 0;
-        slot[0].transform.GetChild(0).gameObject.SetActive(true);
         InventorySet();
+        slot[focused].transform.GetChild(0).gameObject.SetActive(true);
     }
 
     public void OpenUpgradeInventory()     // 인챈트, 업그레이드 시 체크
     {
         useItem = true;
         focused = 0;
-        slot[0].transform.GetChild(0).gameObject.SetActive(true);
         InventorySet();
+        slot[focused].transform.GetChild(0).gameObject.SetActive(true);
     }
     
     public void EnchantedKey(int _focus)        // 인챈트, 업그레이드 성공시 키 아이템 인벤에서 제거

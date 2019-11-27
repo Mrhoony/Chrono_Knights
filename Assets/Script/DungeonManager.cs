@@ -82,7 +82,7 @@ public class DungeonManager : MonoBehaviour
     }
     
     // 퀵슬롯에서 키 선택시
-    public void SelectedKey(int selectQuestion,int keyMul, bool freePass)
+    public void SelectedKey(int selectQuestion, int keyMul, bool freePass)
     {
         if (freePass)
             currentStage += 2;
@@ -92,7 +92,14 @@ public class DungeonManager : MonoBehaviour
         switch (selectQuestion)
         {
             case 0:               // 마을로
-                SectionTeleport(false, true);
+                if (SceneManager.GetActiveScene().buildIndex == 1)
+                {
+                    SectionTeleport(false, true);
+                }
+                else if (SceneManager.GetActiveScene().buildIndex > 1)
+                {
+                    SectionTeleport(false, false);
+                }
                 break;
             case 1:                 // 몹 배수
                 FloorSetting(keyMul, true, false);
@@ -172,7 +179,6 @@ public class DungeonManager : MonoBehaviour
 
             spawner = new GameObject[spawnerCount];
             spawnerCount = 0;
-
             foreach (Transform child in mapList[selectedMapNum].transform.Find("Base").transform)
             {
                 if (child.gameObject.CompareTag("Spawn"))
@@ -216,7 +222,7 @@ public class DungeonManager : MonoBehaviour
         if (exit)
         {
             newDay = true;
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene("TopFirstFloor");
             dungeonClear = true;
         }
         else

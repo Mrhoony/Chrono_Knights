@@ -57,7 +57,6 @@ public class MainUI_Menu : MonoBehaviour
                 else
                 {
                     InventoryOn = !InventoryOn;
-                    CloseInGameMenu();
                 }
             }
             if (InventoryOn && !inventoryNotChange)
@@ -165,7 +164,7 @@ public class MainUI_Menu : MonoBehaviour
     {
         InventoryOn = false;
         inventoryNotChange = false;
-        Menus[Focused].SetActive(false);
+        CloseInGameMenu();
     }
 
     void ChangeMenu(int AdjustValue)

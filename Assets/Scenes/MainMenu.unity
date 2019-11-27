@@ -2078,5 +2078,15 @@ PrefabInstance:
       propertyPath: m_Offset.x
       value: -0.015
       objectReference: {fileID: 0}
+    - target: {fileID: 4824537558626466431, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4824537558626466431, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_LinearDrag
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}

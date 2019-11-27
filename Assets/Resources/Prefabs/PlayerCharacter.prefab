@@ -45,7 +45,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.02, y: -0.33}
+  m_Offset: {x: -0.00041043758, y: -0.33}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -56,7 +56,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.02}
+  m_Size: {x: 0.4038303, y: 0.01999998}
   m_EdgeRadius: 0
 --- !u!114 &4824537558387386148
 MonoBehaviour:
@@ -233,18 +233,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d7b8a6907c68e418fab1b4a78e8a89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
-  HP: 30
+  playerStatusView: {fileID: 0}
+  playerData:
+    HP: 0
+    maxBuffTime: 0
+    jumpPower: 0
+    moveSpeed: 0
+    Atk: 0
+    attackSpeed: 0
+    jumpCount: 0
+    defense: 0
+    recovery: 0
+    dashDistance: 0
+    up_moveSpeed: 0
+    up_Atk: 0
+    up_attackSpeed: 0
+    up_jumpCount: 0
+    up_defense: 0
+    up_recovery: 0
+    up_dashDistance: 0
+    traning_count: []
+    currentDate: 0
   currentHP: 0
   HPCut: 
-  MaxBuffTime: 0
   currentBuffTime: 0
   buffState: 0
-  Atk: 4
   jumpPower: 8
+  moveSpeed: 2
+  Atk: 4
+  attackSpeed: 0
+  jumpCount: 0
   defense: 0
-  stability: 0
-  maxStability: 100
+  recovery: 0
+  dashDistance: 0
 --- !u!114 &4824537558626466368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,6 +300,5 @@ MonoBehaviour:
   dodging: 0
   isDamagable: 0
   isDamagableCount: 0
-  jumpCount: 2
   currentJumpCount: 0
   isBlock: 0

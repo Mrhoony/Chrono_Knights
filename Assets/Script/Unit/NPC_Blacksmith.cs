@@ -4,55 +4,114 @@ using UnityEngine;
 
 public class NPC_Blacksmith : NPC_Control
 {
-    public GameObject UpgradeUI;
-    public GameObject EnchantUI;
+    public GameObject enchantUI;
+    public GameObject upgradeUI;
+    public GameObject selectUI;
 
-    public bool openEnchantUI;
-    public bool openUpgradeUI;
+    public GameObject[] button;
+    bool openSelectUI;
+    bool openEnchantUI;
+    bool openUpgradeUI;
+
+    public int focus;
 
     // Update is called once per frame
     void Update()
     {
-        if (!MainUI_Menu.CancelOn && !MainUI_Menu.InventoryOn)
+        if (MainUI_Menu.CancelOn || MainUI_Menu.InventoryOn) return;
+        if (!inPlayer) return;
+        if (openEnchantUI || openUpgradeUI) return;
+        
+        if (Input.GetKeyDown(KeyCode.Z))
         {
-            if (inPlayer && !EnchantUI.GetComponent<Menu_Enchant>().upgradeSet && !UpgradeUI.GetComponent<Menu_Upgrade>().upgradeSet)
+            if (!openSelectUI)
             {
-                if (Input.GetKeyDown(KeyCode.Z))
+                OpenSelectMenu();
+            }
+            else
+            {
+                switch (focus)
                 {
-                    //OpenUpgradeMenu();
-                    OpenEnchantMenu();
+                    case 0:
+                        OpenEnchantMenu();
+                        break;
+                    case 1:
+                        OpenUpgradeMenu();
+                        break;
+                    case 2:
+                        CloseSelectMenu();
+                        break;
                 }
             }
         }
+
+        if (openSelectUI)
+        {
+            if (Input.GetKeyDown(KeyCode.DownArrow)) { focus = FocusedSlot(button, 1, focus); }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) { focus = FocusedSlot(button, -1, focus); }
+
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                CloseSelectMenu();
+            }
+        }
+
+    }
+
+    public int FocusedSlot(GameObject[] slots, int AdjustValue, int focused)
+    {
+        slots[focused].transform.GetChild(0).gameObject.SetActive(false);
+
+        focused += AdjustValue;
+
+        if (focused < 0)
+            focused = 2;
+        if (focused > 2)
+            focused = 0;
+
+        slots[focused].transform.GetChild(0).gameObject.SetActive(true);
+
+        return focused;
     }
 
     public void OpenEnchantMenu()
     {
-        player.GetComponent<PlayerControl>().enabled = false;
         openEnchantUI = true;
-        EnchantUI.SetActive(true);
-        EnchantUI.GetComponent<Menu_Enchant>().OpenEnchantMenu();
+        enchantUI.SetActive(true);
+        enchantUI.GetComponent<Menu_Enchant>().OpenEnchantMenu();
     }
     public void CloseEnchantMenu()
     {
-        EnchantUI.SetActive(false);
+        enchantUI.SetActive(false);
         openEnchantUI = false;
-        EnchantUI.GetComponent<Menu_Enchant>().upgradeSet = false;
-        player.GetComponent<PlayerControl>().enabled = true;
     }
 
     public void OpenUpgradeMenu()
     {
-        player.GetComponent<PlayerControl>().enabled = false;
         openUpgradeUI = true;
-        UpgradeUI.SetActive(true);
-        UpgradeUI.GetComponent<Menu_Upgrade>().OpenUpgradeMenu();
+        upgradeUI.SetActive(true);
+        upgradeUI.GetComponent<Menu_Upgrade>().OpenUpgradeMenu();
     }
     public void CloseUpgradeMenu()
     {
-        UpgradeUI.SetActive(false);
+        upgradeUI.SetActive(false);
         openUpgradeUI = false;
-        UpgradeUI.GetComponent<Menu_Upgrade>().upgradeSet = false;
+    }
+
+    public void OpenSelectMenu()
+    {
+        player.GetComponent<PlayerControl>().enabled = false;
+        focus = 0;
+        openSelectUI = true;
+        selectUI.SetActive(true);
+        button[focus].transform.GetChild(0).gameObject.SetActive(true);
+
+    }
+    public void CloseSelectMenu()
+    {
+        button[focus].transform.GetChild(0).gameObject.SetActive(false);
+        openSelectUI = false;
+        selectUI.SetActive(false);
         player.GetComponent<PlayerControl>().enabled = true;
     }
 
