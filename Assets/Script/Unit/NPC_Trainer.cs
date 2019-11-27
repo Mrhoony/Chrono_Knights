@@ -10,7 +10,7 @@ public class NPC_Trainer : NPC_Control
     // Update is called once per frame
     void Update()
     {
-        if (!menu_inGame.CancelOn && !menu_inGame.InventoryOn)
+        if (!MainUI_Menu.CancelOn && !MainUI_Menu.InventoryOn)
         {
             if (inPlayer)
             {
@@ -34,14 +34,12 @@ public class NPC_Trainer : NPC_Control
     public void OpenTraningMenu()
     {
         player.GetComponent<PlayerControl>().enabled = false;
-        Time.timeScale = 0;
         openTraningUI = true;
         traningUI.SetActive(true);
     }
 
     public void CloseTraningMenu()
     {
-        Time.timeScale = 1;
         openTraningUI = false;
         traningUI.SetActive(false);
         player.GetComponent<PlayerControl>().enabled = true;

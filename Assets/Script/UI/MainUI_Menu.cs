@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Menu_InGame : MonoBehaviour
+public class MainUI_Menu : MonoBehaviour
 {
     public GameObject[] Menus;
     public GameObject townUI;
@@ -12,21 +12,30 @@ public class Menu_InGame : MonoBehaviour
     public GameObject CancelMenu;
     public GameObject SettingsMenu;
     public GameObject KeySettingMenu;
+    public GameObject playerStatusInfo;
 
     public Scrollbar[] sb;
 
     public bool InventoryOn;
     public bool CancelOn;
-    public bool upgradeOn;
+    public bool inventoryNotChange;
 
+    enum content
+    {
+        DungeonKey = 1,
+        Enchant = 2,
+        Upgrade = 3,
+        Buff = 4
+    }
+
+    int useContent;
     int Focused = 0;
-    int count = 0;
 
     private void Start()
     {
         InventoryOn = false;
         CancelOn = false;
-        upgradeOn = false;
+        inventoryNotChange = false;
         for (int i = 0; i < Menus.Length; ++i)
         {
             Menus[i].SetActive(false);
@@ -51,7 +60,7 @@ public class Menu_InGame : MonoBehaviour
                     CloseInGameMenu();
                 }
             }
-            if (InventoryOn && !upgradeOn)
+            if (InventoryOn && !inventoryNotChange)
             {
                 if (Input.GetKeyDown(KeyCode.U))
                 {
@@ -84,6 +93,9 @@ public class Menu_InGame : MonoBehaviour
         _Player.GetComponent<PlayerControl>().enabled = false;
         Focused = 0;
         Menus[Focused].SetActive(true);
+        playerStatusInfo.SetActive(true);
+        Menus[Focused].GetComponent<Menu_Inventory>().OpenInventory();
+        playerStatusInfo.GetComponent<MainUI_PlayerStatusInfo>().OnStatusMenu();
         foreach (Scrollbar bar in sb)
         {
             bar.size = 0.0f;
@@ -93,16 +105,56 @@ public class Menu_InGame : MonoBehaviour
     public void CloseInGameMenu()
     {
         Menus[Focused].SetActive(false);
+        playerStatusInfo.SetActive(false);
         _Player.GetComponent<PlayerControl>().enabled = true;
     }
 
-    public void OpenEnchantInventory()
+    // 다른 창에서 인벤토리 열 경우
+    public void OpenUpgradeInventory(int used)
     {
-        upgradeOn = true;
+        townUI = GameObject.Find("TownUI");
+        inventoryNotChange = true;
         InventoryOn = true;
+        useContent = used;
+
+        Focused = 0;
+        Menus[Focused].SetActive(true);
+        Menus[Focused].GetComponent<Menu_Inventory>().OpenUpgradeInventory();
+
+        foreach (Scrollbar bar in sb)
+        {
+            bar.size = 0.0f;
+            bar.value = 1.0f;
+        }
+    }
+    public void CloseInventory(int focused)
+    {
+        switch (useContent)
+        {
+            case (int)content.Enchant:
+                townUI.GetComponent<Menu_TownUI>().townMenus[2].GetComponent<Menu_Enchant>().SetKey(focused);
+                break;
+            case (int)content.Upgrade:
+                townUI.GetComponent<Menu_TownUI>().townMenus[3].GetComponent<Menu_Upgrade>().SetKey(focused);
+                break;
+        }
+
+        InventoryOn = false;
+        inventoryNotChange = false;
+        Menus[Focused].SetActive(false);
+    }
+
+    // 던전에서 키 사용시
+    public void OpenInventoryQuickSlot(int used)
+    {
+        inventoryNotChange = true;
+        InventoryOn = true;
+        useContent = used;
+
         Focused = 0;
         Menus[Focused].SetActive(true);
         Menus[Focused].GetComponent<Menu_Inventory>().OpenInventory();
+
         foreach (Scrollbar bar in sb)
         {
             bar.size = 0.0f;
@@ -112,7 +164,7 @@ public class Menu_InGame : MonoBehaviour
     public void CloseInventory()
     {
         InventoryOn = false;
-        upgradeOn = false;
+        inventoryNotChange = false;
         Menus[Focused].SetActive(false);
     }
 
@@ -141,8 +193,8 @@ public class Menu_InGame : MonoBehaviour
     public void CloseCancelMenu()
     {
         CancelMenu.SetActive(false);
-        _Player.GetComponent<PlayerControl>().enabled = true;
         Time.timeScale = 1;
+        _Player.GetComponent<PlayerControl>().enabled = true;
     }
 
     public void OpenSettings()

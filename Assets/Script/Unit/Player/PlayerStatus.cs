@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStat : MonoBehaviour
+public class PlayerStatus : MonoBehaviour
 {
-    public PlayerStateView psv;
+    public GameObject playerStatusView;
+    MainUI_PlayerStatusView playerStatus;
     Animator animator;
 
     public PlayerData playerData;
@@ -33,6 +34,7 @@ public class PlayerStat : MonoBehaviour
         animator = GetComponent<Animator>();
         playerData = new PlayerData();
         playerData.playerEquipment = playerEquip;
+        playerStatus = playerStatusView.GetComponent<MainUI_PlayerStatusView>();
     }
 
     public void NewStart()
@@ -66,7 +68,7 @@ public class PlayerStat : MonoBehaviour
         {
             HPCut[i] = 0;
         }
-        psv.Init();
+        playerStatus.Init();
     }
 
     public void DecreaseHP(int Atk)
@@ -87,7 +89,7 @@ public class PlayerStat : MonoBehaviour
             else
             {
                 currentHP = playerData.HP * 0.79f;
-                psv.SetHPCut(0);
+                playerStatus.SetHPCut(0);
             }
         }
         else if (currentHP / playerData.HP >= 0.6)
@@ -104,7 +106,7 @@ public class PlayerStat : MonoBehaviour
             else
             {
                 currentHP = playerData.HP * 0.59f;
-                psv.SetHPCut(1);
+                playerStatus.SetHPCut(1);
             }
         }
         else if (currentHP / playerData.HP >= 0.4)
@@ -121,7 +123,7 @@ public class PlayerStat : MonoBehaviour
             else
             {
                 currentHP = playerData.HP * 0.39f;
-                psv.SetHPCut(2);
+                playerStatus.SetHPCut(2);
             }
         }
         else if (currentHP / playerData.HP >= 0.2)
@@ -138,13 +140,13 @@ public class PlayerStat : MonoBehaviour
             else
             {
                 currentHP = playerData.HP * 0.19f;
-                psv.SetHPCut(3);
+                playerStatus.SetHPCut(3);
             }
         }
         else
             currentHP -= Atk;
         
-        psv.Hit(Atk);
+        playerStatus.Hit(Atk);
 
         if (currentHP <= 0) // 죽었을 때 결과창 보여주고 마을로
         {
@@ -170,6 +172,6 @@ public class PlayerStat : MonoBehaviour
         {
             currentBuffTime = playerData.maxBuffTime;
         }
-        psv.SetBuff(1);
+        playerStatus.SetBuff(1);
     }
 }

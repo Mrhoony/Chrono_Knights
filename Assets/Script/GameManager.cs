@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(13, 14);
         Physics2D.IgnoreLayerCollision(14, 14);
         slotNum = 0;
+
+        Time.timeScale = 1f;
     }
 
     public void Start()
@@ -68,7 +70,7 @@ public class GameManager : MonoBehaviour
         ms = new MemoryStream();
 
         // 유저 정보
-        playerData = player.GetComponent<PlayerStat>().playerData;
+        playerData = player.GetComponent<PlayerStatus>().playerData;
         playerData.currentDate = DungeonManager.instance.currentDate;
 
         bf.Serialize(ms, playerData);
@@ -76,7 +78,7 @@ public class GameManager : MonoBehaviour
 
         PlayerPrefs.SetString("PlayerData" + slotNum, data);
         Debug.Log("save complete");
-        inGameMenu.GetComponent<Menu_InGame>().CloseCancelMenu();
+        inGameMenu.GetComponent<MainUI_Menu>().CloseCancelMenu();
         DungeonManager.instance.SectionTeleport(false, true);
         mainMenu.SetActive(true);
     }
@@ -92,7 +94,7 @@ public class GameManager : MonoBehaviour
                 ms = new MemoryStream(Convert.FromBase64String(data));
 
                 // 유저 정보
-                player.GetComponent<PlayerStat>().playerData = (PlayerData)bf.Deserialize(ms);
+                player.GetComponent<PlayerStatus>().playerData = (PlayerData)bf.Deserialize(ms);
                 DungeonManager.instance.currentDate = playerData.currentDate;
 
                 mainMenu.SetActive(false);
@@ -113,7 +115,7 @@ public class GameManager : MonoBehaviour
             mainMenu.SetActive(false);
             inGameMenu.SetActive(true);
             playerStatView.SetActive(true);
-            player.GetComponent<PlayerStat>().NewStart();
+            player.GetComponent<PlayerStatus>().NewStart();
             player.GetComponent<PlayerControl>().enabled = true;
             player.transform.localScale = new Vector3(1, 1, 0);
 
@@ -130,7 +132,7 @@ public class GameManager : MonoBehaviour
     
     public void OpenSetting()
     {
-        inGameMenu.GetComponent<Menu_InGame>().OpenSettings(screenWidth, screenHeigth);
+        inGameMenu.GetComponent<MainUI_Menu>().OpenSettings(screenWidth, screenHeigth);
     }
 
     public void ScreenSizeSelect(bool LR)

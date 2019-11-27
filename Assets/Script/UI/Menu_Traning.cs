@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Menu_Traning : MonoBehaviour
 {
-    public PlayerStat playerStat;
+    public PlayerStatus playerStat;
     public PlayerData playerData;
     public GameObject button;
 
@@ -20,7 +20,7 @@ public class Menu_Traning : MonoBehaviour
 
     public void Awake()
     {
-        playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStat>();
+        playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         playerData = playerStat.playerData;
     }
 

@@ -6,10 +6,10 @@ public class Menu_TownUI : MonoBehaviour
 {
     public GameObject[] townMenus;
 
-    public Menu_InGame menuIngame;
+    public MainUI_Menu menu;
 
     private void Awake()
     {
-        menuIngame = GameObject.Find("UI/Menus").GetComponent<Menu_InGame>();
+        menu = GameObject.Find("UI/Menus").GetComponent<MainUI_Menu>();
     }
 }

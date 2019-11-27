@@ -30,8 +30,10 @@ public class Item_Database : MonoBehaviour
     public Key KeyInformation(Key key)
     {
         int i = 0;
+        Debug.Log(key);
         for (i = 0; i < keyItem.Count; i++)
         {
+            Debug.Log(keyItem[i]);
             if (keyItem[i].keyCode == key.keyCode)
             {
                 return keyItem[i];

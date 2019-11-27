@@ -6,26 +6,38 @@ public class Teleport : MonoBehaviour
 {
     DungeonManager dm;
     GameObject menu;
+    bool inPlayer;
 
     private void Awake()
     {
-        menu = CanvasManager.instance.UI_Menu;
+        menu = MainUI.instance.UI_Menu;
         dm = DungeonManager.instance;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            inPlayer = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            inPlayer = false;
+        }
+    }
+
+    // 임시로 클리어시 마을로 복귀
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            if(!menu.GetComponent<Menu_InGame>().InventoryOn && !menu.GetComponent<Menu_InGame>().CancelOn)
+            if (Input.GetKeyDown(KeyCode.Z))
             {
-                if (Input.GetButtonDown("Fire1"))
-                {
-                    if (dm.GetDungeonClear())
-                    {
-                        dm.Teleport();
-                    }
-                }
+                dm.SelectedKey(0, 0, false);
             }
         }
     }

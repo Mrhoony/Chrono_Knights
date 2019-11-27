@@ -6,7 +6,7 @@ public class PlayerControl : MovingObject
 {
     public static PlayerControl instance;
     public GameObject GroundCheck;
-    public PlayerStat pStat;
+    public PlayerStatus pStat;
 
     public float inputDirection;
     public int arrowDirection;
@@ -52,7 +52,7 @@ public class PlayerControl : MovingObject
 
         rb = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponentInChildren<Animator>();
-        pStat = GetComponent<PlayerStat>();
+        pStat = GetComponent<PlayerStatus>();
 
         currentJumpCount = pStat.jumpCount;
         arrowDirection = 1;

@@ -5,37 +5,35 @@ using UnityEngine.UI;
 
 public class Menu_Inventory : MonoBehaviour
 {
+    // 초기화 영역
     GameObject _Player;
-    public GameObject slots;
+    public GameObject slots;        
     public Transform[] transforms;
+    public Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
 
+    public GameObject[] slot;       // 인벤토리 슬롯
     public int slotCount;
-    public GameObject[] slot;
-    public bool[] isFull;
-    public Key[] inventoryKeylist;
-
-    public Sprite[] keyItemBorderSprite;
-
-    public NPC_Blacksmith npc_Blacksmith;
-
-    bool upgrade;
-    int focused = 0;
+    public bool[] isFull;           // 슬롯이 비었는지 아닌지
+    public Key[] inventoryKeylist;  // 인벤토리 키 목록
+    
+    bool useItem;                   // 아이템 사용시
+    public int focused = 0;
 
     private void Awake()
     {
         transforms = slots.transform.GetComponentsInChildren<Transform>();
-        slotCount = transforms.Length;
-        slot = new GameObject[slotCount - 1];
-        upgrade = false;
+        slotCount = transforms.Length-1;
+        useItem = false;
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
+        
+        inventoryKeylist = new Key[slotCount];
+        slot = new GameObject[slotCount];
 
-        inventoryKeylist = new Key[slotCount-1];
-        for (int i=1;i<slotCount; ++i)
+        for (int i = 1; i < slotCount + 1; ++i)
         {
-            slot[i-1] = transforms[i].gameObject;
-            slot[i-1].transform.GetChild(1).gameObject.SetActive(true);
+            slot[i - 1] = transforms[i].gameObject;
+            slot[i - 1].transform.GetChild(1).gameObject.SetActive(true);
         }
-        slot[focused].transform.GetChild(0).gameObject.SetActive(true);
     }
 
     private void Update()
@@ -45,74 +43,93 @@ public class Menu_Inventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(6); }
         if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-6); }
 
-        if (!upgrade)
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            if (Input.GetKeyDown(KeyCode.I))
+            if (!useItem)
             {
-                gameObject.transform.parent.GetComponent<Menu_InGame>().CloseInventory();
+                slot[focused].transform.GetChild(0).gameObject.SetActive(false);
+                gameObject.transform.parent.GetComponent<MainUI_Menu>().CloseInventory();
             }
         }
 
-        if(upgrade)
+        if (Input.GetKeyDown(KeyCode.Z))    // 아이템 선택
         {
-            if (Input.GetKeyDown(KeyCode.Z))    // 인챈트할때 Z
+            if (useItem)
             {
-                if (isFull[focused])
+                if (inventoryKeylist[focused] != null)
                 {
-                    upgrade = false;
-                    EnchantKeyItemSet(focused);
-                    gameObject.transform.parent.GetComponent<Menu_InGame>().CloseInventory();
+                    slot[focused].transform.GetChild(0).gameObject.SetActive(false);
+                    useItem = false;
+                    gameObject.transform.parent.GetComponent<MainUI_Menu>().CloseInventory(focused);
                 }
             }
-            if (Input.GetKeyDown(KeyCode.X))    // 인챈트할때 Z
+            else                            // 아이템 버프로 사용시
             {
-                if (isFull[focused])
-                {
-                    upgrade = false;
-                    gameObject.transform.parent.GetComponent<Menu_InGame>().CloseInventory();
-                }
+
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))    // 아이템 선택 취소
+        {
+            if (useItem)
+            {
+                slot[focused].transform.GetChild(0).gameObject.SetActive(false);
+                useItem = false;
+                gameObject.transform.parent.GetComponent<MainUI_Menu>().CloseInventory();
             }
         }
     }
 
-    public void GetKeyItem(Key _key)
+    public void GetKeyItem(Key _key)        // 아이템 획득시 인벤토리 등록
     {
-        int slotCount = slot.Length;
         for (int i = 0; i < slotCount; i++)
         {
             if (!isFull[i])
             {
                 isFull[i] = true;
-
-                slot[i].transform.GetChild(1).GetComponent<Image>().sprite = _key.sprite;
-                slot[i].GetComponent<Image>().sprite = keyItemBorderSprite[11 - _key.keyRarity];
                 inventoryKeylist[i] = _key;
                 break;
             }
         }
     }
+    public void InventorySet()
+    {
+        for (int i = 0; i < slotCount; ++i)
+        {
+            if (inventoryKeylist[i] != null)
+            {
+                slot[i].GetComponent<Image>().sprite = inventoryKeylist[i].sprite;
+                slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[11 - inventoryKeylist[i].keyRarity];
+            }
+            else
+            {
+                slot[i].GetComponent<Image>().sprite = null;
+                slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+            }
+        }
+    }           // 인벤토리 활성화시 아이템 세팅
+
     public void OpenInventory()
     {
-        upgrade = true;
-        npc_Blacksmith = GameObject.Find("Blacksmith").GetComponent<NPC_Blacksmith>();
+        focused = 0;
+        slot[0].transform.GetChild(0).gameObject.SetActive(true);
+        InventorySet();
     }
 
-    public void EnchantKeyItemSet(int focus)
+    public void OpenUpgradeInventory()     // 인챈트, 업그레이드 시 체크
     {
-        npc_Blacksmith.EnchantUI.GetComponent<Menu_Enchant>().SetEnchantKey(inventoryKeylist[focus], focus);
+        useItem = true;
+        focused = 0;
+        slot[0].transform.GetChild(0).gameObject.SetActive(true);
+        InventorySet();
     }
-
-    public void EnchantedKey(int _focus)
+    
+    public void EnchantedKey(int _focus)        // 인챈트, 업그레이드 성공시 키 아이템 인벤에서 제거
     {
         inventoryKeylist[_focus] = null;
         isFull[_focus] = false;
-        SlotDefault(_focus);
-    }
-
-    void SlotDefault(int _focus)
-    {
-        slot[_focus].transform.GetChild(1).GetComponent<Image>().sprite = null;
-        slot[_focus].GetComponent<Image>().sprite = keyItemBorderSprite[6];
+        slot[_focus].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+        slot[_focus].GetComponent<Image>().sprite = null;
     }
 
     void FocusedSlot(int AdjustValue)

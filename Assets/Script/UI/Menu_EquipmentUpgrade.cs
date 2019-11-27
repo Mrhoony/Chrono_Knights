@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Menu_EquipmentUpgrade : MonoBehaviour
 {
-    public PlayerStat playerStat;
-    public PlayerData playerData;
-    public Menu_InGame menu;
-    public Menu_Inventory inventory;
+    protected PlayerStatus playerStat;
+    protected PlayerData playerData;
+    protected MainUI_Menu menu;
+    protected Menu_Inventory inventory;
 
     public GameObject npc_blacksmith;
-    public PlayerEquipment playerEquipment;
-    public PlayerEquipment.Equipment[] equipment;
+    protected PlayerEquipment playerEquipment;
+    protected PlayerEquipment.Equipment[] equipment;
     public bool upgradeSet;
 
     public PlayerEquipment.Equipment upgradeEquipment;
@@ -21,21 +21,22 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     public GameObject[] equipSlots;
     public int equipFocused;
 
-    public float[] addStat;
-    public bool[] downStat;
+    public float[] addStatus;
 
-    public int upGradeCount;
-    public int upGradePercent;
-    public int downGradeCount;
-    public int downGradePercent;
+    public int upgradeCount;
+    public int upgradePercent;
+    public int downgradeCount;
+    public int downgradePercent;
+
+    protected int keySlotFocus;
 
     // Start is called before the first frame update
-    public virtual void Awake()
+    public virtual void Start()
     {
         upgradeSet = false;
-        menu = transform.parent.GetComponent<Menu_TownUI>().menuIngame;
+        menu = transform.parent.GetComponent<Menu_TownUI>().menu;
         inventory = menu.Menus[0].GetComponent<Menu_Inventory>();
-        playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStat>();
+        playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         playerData = playerStat.playerData;
         playerEquipment = playerStat.playerEquip;
     }
@@ -61,41 +62,65 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
         slots[focused].transform.GetChild(1).gameObject.SetActive(false);
 
         focused += AdjustValue;
-
-        if (focused < 0)
-            focused = 3;
-        if (focused > 3)
-            focused = 0;
+        if(focused == 2)
+        {
+            focused += AdjustValue;
+        }
         
+        if (focused < 0)
+            focused = 4;
+        if (focused > 4)
+            focused = 0;
+
         slots[focused].transform.GetChild(1).gameObject.SetActive(true);
 
         return focused;
     }
 
-    public void PercentSet(int num, int upCount, float upPercent, float Max, Key _key, bool enchant)
+    public void PercentSet(int num, int upCount, float upPercent, float Max, Key key, bool enchant)
     {
-        addStat[upCount] += upPercent * 0.01f;
-        if (addStat[upCount] > Max)
-            addStat[upCount] = Max;
-        if (enchant)
-            playerEquipment.SetKeyItem(num, _key);
-        playerEquipment.SetEquipOption(num, "test", addStat);
-    }
-
-    public void PercentSet(int num, int upCount, float upPercent, int downCount, float downPercent, float Max, float Min, Key _key, bool enchant)
-    {
-        addStat[upCount] += upPercent * 0.01f;
-        addStat[downCount] -= downPercent * 0.01f;
-        if (addStat[upCount] > Max)
-            addStat[upCount] = Max;
-        if (addStat[downCount] < Min)
-            addStat[downCount] = Min;
+        addStatus[upCount] += upPercent * 0.01f;
+        if (addStatus[upCount] > Max)
+            addStatus[upCount] = Max;
 
         if (enchant)
-            playerEquipment.SetKeyItem(num, _key);
-        playerEquipment.SetEquipOption(num, "test", addStat);
+        {
+            equipment[num].key = key;
+            equipment[num].enchant = enchant;
+            equipment[num].name = key.keyName;
+            equipment[num].upStatus = upCount;
+            equipment[num].addStatus = addStatus;
+        }
+        else
+        {
+
+        }
     }
 
+    public void PercentSet(int num, int upCount, float upPercent, int downCount, float downPercent, float Max, float Min, Key key, bool enchant)
+    {
+        addStatus[upCount] += upPercent * 0.01f;
+        addStatus[downCount] -= downPercent * 0.01f;
+        if (addStatus[upCount] > Max)
+            addStatus[upCount] = Max;
+        if (addStatus[downCount] < Min)
+            addStatus[downCount] = Min;
+
+        if (enchant)
+        {
+            equipment[num].key = key;
+            equipment[num].enchant = enchant;
+            equipment[num].name = key.keyName;
+            equipment[num].upStatus = upCount;
+            equipment[num].downStatus = downCount;
+            equipment[num].addStatus = addStatus;
+        }
+        else
+        {
+
+        }
+    }
+    
     public void BoolInit(bool[] b)
     {
         int length = b.Length;

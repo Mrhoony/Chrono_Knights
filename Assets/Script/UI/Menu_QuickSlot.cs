@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryController : MonoBehaviour
+public class Menu_QuickSlot : MonoBehaviour
 {
     public GameObject slot;
     public bool[] isFull = new bool[5];
@@ -60,19 +60,5 @@ public class InventoryController : MonoBehaviour
             _selected--;
             inventory[_selected].transform.GetChild(0).gameObject.SetActive(true);
         }
-    }
-
-    public bool Loot(GameObject Item)
-    {
-        for (int cnt = 0; cnt < inventory.Length; cnt++)
-        {
-            if (isFull[cnt] == false)
-            {
-                isFull[cnt] = true;
-                Instantiate(Item, inventory[cnt].transform.position, Quaternion.identity).transform.parent = inventory[cnt].transform;
-                return true;
-            }
-        }
-        return false;
     }
 }

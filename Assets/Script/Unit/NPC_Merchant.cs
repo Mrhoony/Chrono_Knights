@@ -7,7 +7,7 @@ public class NPC_Merchant : NPC_Control
     // Update is called once per frame
     void Update()
     {
-        if (!menu_inGame.CancelOn && !menu_inGame.InventoryOn)
+        if (!MainUI_Menu.CancelOn && !MainUI_Menu.InventoryOn)
         {
             if (inPlayer)
             {

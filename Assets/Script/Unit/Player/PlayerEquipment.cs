@@ -8,28 +8,52 @@ public class PlayerEquipment
 {
     public struct Equipment
     {
-        string name;
-        public float[] addStatus;   // 0 addmoveSpeed 1 addAtk 2 addAttackSpeed 3 addDefense 4 addJumpCount 5 addRecovery 6 addDashDistance
-        public Key key;
+        private string _name;
+        private float[] _addStatus;
+        private Key _key;
+        private int _upStatus;
+        private int _downStatus;
+        private bool _enchant;
 
-        public void Init(string _Name, float[] _addStatus, Key _key = null)
+        public string name
         {
-            name = _Name;
+            get { return _name; }
+            set { _name = value; }
+        }
+        public float[] addStatus    // 0 addmoveSpeed 1 addAtk 2 addAttackSpeed 3 addDefense 4 addJumpCount 5 addRecovery 6 addDashDistance
+        {
+            get { return _addStatus; }
+            set { _addStatus = value; }
+        }
+        public Key key
+        {
+            get{ return _key; }
+            set { _key = value; }
+        }
+        public bool enchant
+        {
+            get { return _enchant; }
+            set { _enchant = value; }
+        }
+        public int upStatus
+        {
+            get { return _upStatus; }
+            set { _upStatus = value; }
+        }
+        public int downStatus
+        {
+            get { return _downStatus; }
+            set { _downStatus = value; }
+        }
+
+        public void Init(string _name, float[] _addStatus, Key _key = null)
+        {
+            name = _name;
             addStatus = _addStatus;
             key = _key;
-        }
-        public void SettingEquipmentAddStatus(string _Name, float[] _addStat)
-        {
-            name = _Name;
-            addStatus = _addStat;
-        }
-        public float[] GetAddStatus()
-        {
-            return addStatus;
-        }
-        public void SetKeyItem(Key _key)
-        {
-            key = _key;
+            upStatus = 8;
+            downStatus = 8;
+            enchant = false;
         }
     }
 
@@ -40,13 +64,13 @@ public class PlayerEquipment
         float[] addStatus = {0,0,0,0,0,0,0};
         equipment = new Equipment[7];
 
-        equipment[0].Init("종", addStatus, null);
-        equipment[1].Init("창", addStatus, null);
-        equipment[2].Init("총", addStatus, null);
-        equipment[3].Init("흰 옷", addStatus, null);
-        equipment[4].Init("가죽 신발", addStatus, null);
-        equipment[5].Init("맨 손", addStatus, null);
-        equipment[6].Init("", addStatus, null);
+        equipment[0].Init("종", addStatus);
+        equipment[1].Init("창", addStatus);
+        equipment[2].Init("총", addStatus);
+        equipment[3].Init("흰 옷", addStatus);
+        equipment[4].Init("가죽 신발", addStatus);
+        equipment[5].Init("맨 손", addStatus);
+        equipment[6].Init("", addStatus);
     }
 
     public void Init(int num)
@@ -78,34 +102,21 @@ public class PlayerEquipment
         }
     }
 
-    public void SetEquipOption(int equipNum, string equipName, float[] stat)
+    public void SetEquipOption(int equipNum, string equipName, float[] status)
     {
-        equipment[equipNum].SettingEquipmentAddStatus(equipName, stat);
-    }
-    public void SetKeyItem(int equipNum, Key _key)
-    {
-        equipment[equipNum].SetKeyItem(_key);
+        equipment[equipNum].name = equipName;
+        equipment[equipNum].addStatus = status;
     }
 
-    public float[] GetEquipAddStat(int equipNum)
+    public float GetStatusValue(int statusNum)
     {
-        return equipment[equipNum].addStatus;
-    }
+        float value = 0;
 
-    public float GetStatusValue(int num)
-    {
-        float value = 0f;
-        int length = equipment.Length;
-
-        for(int i = 0; i < length; i++)
+        for (int i = 0; i < 7; ++i)
         {
-            value += equipment[i].addStatus[num];
+            value += equipment[i].addStatus[statusNum];
         }
-        return value;
-    }
 
-    public Equipment GetEquipment(int equipNum)
-    {
-        return equipment[equipNum];
+        return value;
     }
 }

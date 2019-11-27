@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CanvasManager : MonoBehaviour
+public class MainUI : MonoBehaviour
 {
-    public static CanvasManager instance;
+    public static MainUI instance;
     public GameObject UI_Hpbar;
     public GameObject UI_Menu;
     public GameObject UI_Setting;

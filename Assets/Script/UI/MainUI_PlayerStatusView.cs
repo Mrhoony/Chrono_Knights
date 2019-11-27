@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerStateView : MonoBehaviour
+public class MainUI_PlayerStatusView : MonoBehaviour
 {
-    public static PlayerStateView instance;
-    public PlayerStat pStat = null;
+    public static MainUI_PlayerStatusView instance;
+    public PlayerStatus pStat;
     public Image HPBar;
     public Image[] HPBarCut;
 
@@ -25,7 +25,7 @@ public class PlayerStateView : MonoBehaviour
 
     private void Awake()
     {
-        pStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStat>();
+        pStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
     }
 
     private void Start()
