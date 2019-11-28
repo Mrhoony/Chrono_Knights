@@ -18,7 +18,6 @@ public class DungeonManager : MonoBehaviour
 
     public GameObject[] mapList;
     public int selectedMapNum = 0;
-    public GameObject startingPosition;
 
     public Teleport teleport;
 
@@ -28,6 +27,7 @@ public class DungeonManager : MonoBehaviour
 
     public GameObject[] monsterList;
     public GameObject[] currentStageMonsterList;
+
     public GameObject[] spawner;
 
     int spawnerCount;
@@ -94,11 +94,11 @@ public class DungeonManager : MonoBehaviour
             case 0:               // 마을로
                 if (SceneManager.GetActiveScene().buildIndex == 1)
                 {
-                    SectionTeleport(false, true);
+                    SectionTeleport(false, false);
                 }
                 else if (SceneManager.GetActiveScene().buildIndex > 1)
                 {
-                    SectionTeleport(false, false);
+                    SectionTeleport(false, true);
                 }
                 break;
             case 1:                 // 몹 배수
@@ -142,7 +142,7 @@ public class DungeonManager : MonoBehaviour
         {
             choice.GetComponent<SpriteRenderer>().sprite = choiceSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
 
-            player.transform.position = startingPosition.transform.position;
+            player.transform.position = teleport.gameObject.transform.position;
 
             currentMonsterCount = monsterCount;
 
@@ -157,36 +157,23 @@ public class DungeonManager : MonoBehaviour
         else            // 일반 맵일경우
         {
             // 초기 맵 랜덤 세팅
-            startingPosition = mapList[selectedMapNum].transform.Find("Base/StartingPosition").gameObject;
-            teleport = mapList[selectedMapNum].transform.Find("Base/BG_Teleporter/Entrance").GetComponent<Teleport>();
-            mapList[selectedMapNum].transform.Find("BackGroundBound").transform.position = new Vector2(Random.Range(-1f, 0), Random.Range(-2f, 0));
-            choice = mapList[selectedMapNum].transform.Find("Base/BG_Teleporter/Choice").gameObject;
-            CameraManager.instance.SetCameraBound(mapList[selectedMapNum].transform.Find("BackGroundBound").GetComponent<BoxCollider2D>());  // 카메라 설정
+            teleport = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).GetComponent<Teleport>();
+            Debug.Log(teleport);
+            mapList[selectedMapNum].GetComponent<BackgroundScrolling>().backGroundImage.transform.position = new Vector2(Random.Range(-1f, 0), Random.Range(-2f, 0));
+            choice = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(1).gameObject;
+
+            CameraManager.instance.SetCameraBound(mapList[selectedMapNum].GetComponent<BackgroundScrolling>().backGroundImage.transform.GetChild(0).GetComponent<BoxCollider2D>());  // 카메라 설정
 
             choice.GetComponent<SpriteRenderer>().sprite = choiceSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
 
-            player.transform.position = startingPosition.transform.position;
+            player.transform.position = teleport.gameObject.transform.position;
             
             // (임시)하나만 클리어 해도 마을로
             if (currentStage > 0)
                 sectionClear = true;
-
-            // 몬스터 스포너 등록
-            foreach (Transform child in mapList[selectedMapNum].transform.Find("Base").transform)
-            {
-                if (child.gameObject.CompareTag("Spawn")) ++spawnerCount;
-            }
-
-            spawner = new GameObject[spawnerCount];
-            spawnerCount = 0;
-            foreach (Transform child in mapList[selectedMapNum].transform.Find("Base").transform)
-            {
-                if (child.gameObject.CompareTag("Spawn"))
-                {
-                    spawner[spawnerCount] = child.gameObject;
-                    ++spawnerCount;
-                }
-            }
+            
+            spawner = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().spawner;
+            spawnerCount = spawner.Length;
 
             monsterCount = Random.Range(3, 10);
 
@@ -221,8 +208,8 @@ public class DungeonManager : MonoBehaviour
     {
         if (exit)
         {
+            SceneManager.LoadScene("Town");
             newDay = true;
-            SceneManager.LoadScene("TopFirstFloor");
             dungeonClear = true;
         }
         else
@@ -233,6 +220,7 @@ public class DungeonManager : MonoBehaviour
                 if (SceneManager.GetActiveScene().buildIndex == 1)
                 {
                     SceneManager.LoadScene("TopFirstFloor");
+                    dungeonClear = true;
                 }
                 else if (SceneManager.GetActiveScene().buildIndex > 1)
                 {

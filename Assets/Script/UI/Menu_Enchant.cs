@@ -19,6 +19,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
     {
         base.Start();
         slotImage = Resources.LoadAll<Sprite>("UI/ui_enchant_set");
+        cursorImage = Resources.LoadAll<Sprite>("UI/ui_upgrade_slotncursor");
         gameObject.SetActive(false);
     }
 
@@ -49,6 +50,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                     }
                     else
                     {
+                        enchantting = false;
                         enchantOn = true;
                         selectEnchantItem.SetActive(true);
 
@@ -70,10 +72,6 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                             acceptSlot[0].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
                             acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
                         }
-                        acceptSlot[1].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-                        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-                        acceptSlot[2].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-                        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
                     }
                 }
             }
@@ -140,6 +138,14 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
             equipSlots[i].transform.GetChild(1).gameObject.SetActive(true);
         }
         equipSlots[equipFocused].transform.GetChild(0).gameObject.SetActive(true);
+
+        acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);
+        acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
+
+        acceptSlot[1].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+        acceptSlot[2].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
     }
 
     public void SetKey(int focus)
@@ -150,7 +156,6 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
         acceptSlot[1].GetComponent<Image>().sprite = selectedkey.sprite;
         acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[selectedkey.keyRarity];
 
-        acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
         acceptSlot[2].GetComponent<Image>().sprite = selectedkey.sprite;
         acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[selectedkey.keyRarity];
     }

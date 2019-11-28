@@ -6,6 +6,7 @@ public class AnimatorManager : StateMachineBehaviour
 {
     public Collider2D[] monster;
     public Collider2D[] player;
+    public PlayerControl playerControl;
     public int atk;
     public bool move;
 
@@ -13,24 +14,25 @@ public class AnimatorManager : StateMachineBehaviour
     {
         atk = 0;
         move = false;
-        PlayerControl.instance.notMove = true;
+        playerControl = PlayerControl.instance;
+        playerControl.notMove = true;
     }
 
     public void Attack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
     {
         ++atk;
-        monster = Physics2D.OverlapBoxAll(new Vector2(PlayerControl.instance.transform.position.x + attackPosX * PlayerControl.instance.arrowDirection
-            , PlayerControl.instance.transform.position.y + attackPosY), new Vector2(0.6f, 0.5f), 10);
+        monster = Physics2D.OverlapBoxAll(new Vector2(playerControl.transform.position.x + attackPosX * playerControl.arrowDirection
+            , playerControl.transform.position.y + attackPosY), new Vector2(0.6f, 0.5f), 10);
         for(int i = 0; i < monster.Length; ++i)
         {
             if (monster[i].CompareTag("Monster"))
             {
-                monster[i].gameObject.GetComponent<Monster_Control>().Hit(PlayerControl.instance.pStat.Atk
+                monster[i].gameObject.GetComponent<Monster_Control>().Hit(playerControl.pStat.Atk
                     , monster[i].gameObject.GetComponent<Monster_Control>().effectX, monster[i].gameObject.GetComponent<Monster_Control>().effectY);
             }
             else if (monster[i].CompareTag("BossMonster"))
             {
-                monster[i].gameObject.GetComponent<BossMonster_Control>().Hit(PlayerControl.instance.pStat.Atk
+                monster[i].gameObject.GetComponent<BossMonster_Control>().Hit(playerControl.pStat.Atk
                     , monster[i].gameObject.GetComponent<BossMonster_Control>().effectX, monster[i].gameObject.GetComponent<BossMonster_Control>().effectY);
             }
         }

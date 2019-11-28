@@ -5,6 +5,7 @@ using System;
 using UnityEngine.SceneManagement;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -48,7 +49,7 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(13, 14);
         Physics2D.IgnoreLayerCollision(14, 14);
         slotNum = 0;
-
+        
         Time.timeScale = 1f;
     }
 

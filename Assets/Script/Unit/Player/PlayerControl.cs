@@ -19,18 +19,21 @@ public class PlayerControl : MovingObject
     public bool isDownJump;
     public bool isCollision;
     public bool isGround;
+    public bool parrying;
+    public bool isParrying;
 
     public Queue inputAttack = new Queue();
     public bool isAtk;
-    private bool attackLock;
-    private int inputArrow;
-    private int commandCount = 1;
+    public bool attackLock;
+    public int inputArrow;
+    public int commandCount = 1;
     public int attackPattern;
     public bool inputY;
     public int atkState = 1;
 
+    public float parryingCount;
     public bool isDodge;
-    private float dodgeCount;
+    public float dodgeCount;
     public bool dodging;
     public bool isDamagable;
     public float isDamagableCount;
@@ -54,21 +57,47 @@ public class PlayerControl : MovingObject
         animator = gameObject.GetComponentInChildren<Animator>();
         pStat = GetComponent<PlayerStatus>();
 
-        currentJumpCount = pStat.jumpCount;
+        //currentJumpCount = pStat.jumpCount;
+        currentJumpCount = 3;
         arrowDirection = 1;
         dodgeCount = 0.5f;
+        parryingCount = 0.2f;
     }
 
     // Update is called once per frame
     void Update()
     {
         inputDirection = Input.GetAxisRaw("Horizontal");
-
-        if(inputDirection != 0)
-            animator.SetBool("isWalk", true);
-        else
-            animator.SetBool("isWalk", false);
         
+        if(inputDirection != 0) animator.SetBool("isWalk", true);
+        else animator.SetBool("isWalk", false);
+
+        // 대쉬 딜레이
+        RunCheck();
+        if (runDelay > 0)
+        {
+            runDelay -= Time.deltaTime;
+            if (runDelay <= 0 && (isRrun < 2 && isLrun < 2))
+            {
+                isRrun = 0;
+                isLrun = 0;
+            }
+        }
+
+        // 회피
+        if (dodgeCount > 0)
+            dodgeCount -= Time.deltaTime;
+
+        if (parrying)
+        {
+            parryingCount -= Time.deltaTime;
+            if (parryingCount < 0f)
+            {
+                parrying = false;
+                parryingCount = 0.2f;
+            }
+        }
+
         if (Input.GetKey(KeyCode.UpArrow))
         {
             inputArrow = 30;
@@ -101,21 +130,7 @@ public class PlayerControl : MovingObject
             }
         }
         
-        // 대쉬 딜레이
-        RunCheck();
-        if (runDelay > 0)
-        {
-            runDelay -= Time.deltaTime;
-            if (runDelay <= 0 && (isRrun < 2 && isLrun < 2))
-            {
-                isRrun = 0;
-                isLrun = 0;
-            }
-        }
 
-        // 회피
-        if (dodgeCount > 0)
-            dodgeCount -= Time.deltaTime;
         if (Input.GetButtonDown("Fire3") && dodgeCount <= 0) isDodge = true;
 
         // 무적 시간
@@ -127,59 +142,58 @@ public class PlayerControl : MovingObject
         }
 
         // 공격
-        if (!dodging)
+        if (dodging) return;
+
+        if (!jumping)
         {
-            if (!jumping)
+            if (Input.GetButtonDown("Fire1") && commandCount <= atkState && !inputY)
             {
-                if (Input.GetButtonDown("Fire1") && commandCount <= atkState && !inputY)
-                {
-                    if (!isAtk)
-                        rb.velocity = Vector2.zero;
-                    notMove = true;
-                    inputAttack.Enqueue(inputArrow + commandCount);
-                    ++commandCount;
+                if (!isAtk)
+                    rb.velocity = Vector2.zero;
+                notMove = true;
+                inputAttack.Enqueue(inputArrow + commandCount);
+                ++commandCount;
 
-                    if (!attackLock)
-                        StartCoroutine(Attack());
-                    if (commandCount > 3)
-                        commandCount = 1;
-                }
-
-                if (Input.GetButtonDown("Fire2"))
-                {
-                    notMove = true;
-                    inputY = true;
-                    if (attackPattern != 0)
-                    {
-                        inputAttack.Clear();
-                    }
-                    inputAttack.Enqueue(inputArrow + 5);
-                    if (!attackLock)
-                        StartCoroutine(Attack());
-                }
-
-                if (Input.GetButtonUp("Fire2") && inputY)
-                {
-                    notMove = true;
-                    if (animator.GetBool("is_y_Atk"))
-                    {
-                        inputAttack.Enqueue(0);
-                        if (!attackLock)
-                            StartCoroutine(Attack());
-                    }
-                }
-
+                if (!attackLock)
+                    StartCoroutine(Attack());
+                if (commandCount > 3)
+                    commandCount = 1;
             }
-            else
+
+            if (Input.GetButtonDown("Fire2"))
             {
-                if (Input.GetButtonDown("Fire1"))
+                notMove = true;
+                inputY = true;
+                if (attackPattern != 0)
                 {
-                    notMove = true;
-                    animator.SetBool("isJump_x_Atk", true);
+                    inputAttack.Clear();
                 }
+                inputAttack.Enqueue(inputArrow + 5);
+                if (!attackLock)
+                    StartCoroutine(Attack());
+            }
+
+            if (Input.GetButtonUp("Fire2") && inputY)
+            {
+                notMove = true;
+                if (animator.GetBool("is_y_Atk"))
+                {
+                    inputAttack.Enqueue(0);
+                    if (!attackLock)
+                        StartCoroutine(Attack());
+                }
+            }
+
+        }
+        else
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                notMove = true;
+                animator.SetBool("isJump_x_Atk", true);
             }
         }
-        
+
         Jump();
 
         if (jumping && rb.velocity.y < -0.2f && !isDownJump && !isCollision)
@@ -197,15 +211,14 @@ public class PlayerControl : MovingObject
     {
         if (Input.GetButtonDown("Jump"))
         {
-            if ((currentJumpCount < 1 && jumping) || notMove || inputY || dodging)
+            if ((currentJumpCount < 1 && jumping) || notMove || inputY)
                 return;
 
             rb.velocity = Vector2.zero;
 
             isGround = false;
 
-            if (!jumping && !dodging)
-                animator.SetTrigger("isJumpTrigger");
+            animator.SetTrigger("isJumpTrigger");
             animator.SetBool("isJump", true);
             GroundCheck.SetActive(false);
 
@@ -215,13 +228,6 @@ public class PlayerControl : MovingObject
 
             --currentJumpCount;
         }
-    }
-
-    IEnumerator DodgeIgnore(float time)
-    {
-        yield return new WaitForSeconds(time);
-
-        GroundCheck.SetActive(true);
     }
 
     public void InputInit()
@@ -303,6 +309,7 @@ public class PlayerControl : MovingObject
         if (isDodge && !dodging)
         {
             dodging = true;
+            dodgeCount = 0.5f;
             animator.SetTrigger("isDodge");
             rb.velocity = Vector2.zero;
 
@@ -319,10 +326,25 @@ public class PlayerControl : MovingObject
         }
     }
 
+    IEnumerator DodgeIgnore(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        GroundCheck.SetActive(true);
+    }
+
     public void Hit(int monsterAtk)
     {
         if (isDamagable)
             return;
+
+        if (parrying)
+        {
+            isParrying = true;
+            animator.SetBool("is_x_Atk", true);
+            isParrying = false;
+            Debug.Log("parrying");
+        }
 
         notMove = true;
         isDamagable = true;
@@ -362,6 +384,7 @@ public class PlayerControl : MovingObject
                     animator.SetBool("is_x_Atk", true);
                     break;
                 case 41:
+                    parrying = true;
                     animator.SetBool("is_x_Atk", true);
                     break;
                 case 2:

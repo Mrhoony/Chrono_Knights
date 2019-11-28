@@ -19,34 +19,34 @@ public class x_Attack_end : AnimatorManager
         }
         if(stateInfo.normalizedTime > 0.3f)
         {
-            PlayerControl.instance.atkState = 2;
+            playerControl.atkState = 2;
         }
-        PlayerControl.instance.notMove = true;
+        playerControl.notMove = true;
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(PlayerControl.instance.attackPattern == 0)
+        if(playerControl.attackPattern == 0)
         {
-            if (!PlayerControl.instance.animator.GetBool("is_xx_Atk"))
+            if (!playerControl.animator.GetBool("is_xx_Atk"))
             {
-                PlayerControl.instance.InputInit();
-                PlayerControl.instance.notMove = false;
+                playerControl.InputInit();
+                playerControl.notMove = false;
             }
-        }else if(PlayerControl.instance.attackPattern == 1)
+        }else if(playerControl.attackPattern == 1)
         {
-            if (!PlayerControl.instance.animator.GetBool("is_xFx_Atk"))
+            if (!playerControl.animator.GetBool("is_xFx_Atk"))
             {
-                PlayerControl.instance.InputInit();
-                PlayerControl.instance.notMove = false;
+                playerControl.InputInit();
+                playerControl.notMove = false;
             }
-        }else if(PlayerControl.instance.attackPattern == 2)
+        }else if(playerControl.attackPattern == 2)
         {
-            if (!PlayerControl.instance.animator.GetBool("is_xFx_Atk"))
+            if (!playerControl.animator.GetBool("is_xFx_Atk"))
             {
-                PlayerControl.instance.InputInit();
-                PlayerControl.instance.notMove = false;
+                playerControl.InputInit();
+                playerControl.notMove = false;
             }
         }
         Init();

@@ -1,12 +1,9 @@
 fileFormatVersion: 2
-guid: 38e674fe6e69f5c4d9f8913a3c6c5052
+guid: 5fd61e719c14bd241a1b3573c9c37ea7
 TextureImporter:
   fileIDToRecycleName:
-    21300000: BG_cloud_g1_l1_0
-    21300002: BG_cloud_g1_l1_1
-    21300004: BG_cloud_g1_l1_2
-    21300006: BG_cloud_g1_l1_3
-    21300008: BG_cloud_g1_l1_4
+    21300000: ui_upgrade_slotncursor_0
+    21300002: ui_upgrade_slotncursor_1
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -65,7 +62,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -76,7 +73,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -89,101 +86,41 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BG_cloud_g1_l1_0
+      name: ui_upgrade_slotncursor_0
       rect:
         serializedVersion: 2
-        x: 23
-        y: 32
-        width: 174
-        height: 79
+        x: 33
+        y: 52
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6b56e379f8562c749a1a5165f4346b6c
+      spriteID: e7f3815cd7a3b4540a8469f8ecb48c06
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BG_cloud_g1_l1_1
+      name: ui_upgrade_slotncursor_1
       rect:
         serializedVersion: 2
-        x: 235
-        y: 43
-        width: 97
-        height: 61
+        x: 31
+        y: 11
+        width: 36
+        height: 36
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b6fa93406ddce1409b8e59ad5800ba7
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BG_cloud_g1_l1_2
-      rect:
-        serializedVersion: 2
-        x: 371
-        y: 50
-        width: 113
-        height: 59
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1150201c52807f1428746c2661fbcd94
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BG_cloud_g1_l1_3
-      rect:
-        serializedVersion: 2
-        x: 544
-        y: 38
-        width: 127
-        height: 70
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cc3895c0dc560eb44ab3bafeaa0383a6
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BG_cloud_g1_l1_4
-      rect:
-        serializedVersion: 2
-        x: 730
-        y: 47
-        width: 142
-        height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7bb8e08e73fa0c544a37b8a6293e860f
+      spriteID: 57ebf0c56695b5943adf2a9efbb5598a
       vertices: []
       indices: 
       edges: []
@@ -191,7 +128,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 7633b9ed860b33e478f693d86ba35d50
+    spriteID: b035ec601e01aca4bba9089f80499524
     vertices: []
     indices: 
     edges: []

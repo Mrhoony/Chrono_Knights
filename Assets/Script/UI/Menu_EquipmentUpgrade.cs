@@ -18,6 +18,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     public int[] limitUpgrade;
 
     public GameObject[] equipSlots;
+    public Sprite[] cursorImage;
     public int equipFocused;
 
     public int upgradeCount;

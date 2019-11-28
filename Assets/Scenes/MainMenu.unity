@@ -2043,6 +2043,11 @@ PrefabInstance:
       propertyPath: playerStatusView
       value: 
       objectReference: {fileID: 454079515}
+    - target: {fileID: 4824537558626466369, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: jumpPower
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 4824537558626466428, guid: 9a383a931a8c9254fae17696f9cad381,
         type: 3}
       propertyPath: m_SortingOrder
@@ -2071,7 +2076,7 @@ PrefabInstance:
     - target: {fileID: 4824537558387386149, guid: 9a383a931a8c9254fae17696f9cad381,
         type: 3}
       propertyPath: m_Size.x
-      value: 0.37
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 4824537558387386149, guid: 9a383a931a8c9254fae17696f9cad381,
         type: 3}
@@ -2081,12 +2086,42 @@ PrefabInstance:
     - target: {fileID: 4824537558626466431, guid: 9a383a931a8c9254fae17696f9cad381,
         type: 3}
       propertyPath: m_AngularDrag
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4824537558626466431, guid: 9a383a931a8c9254fae17696f9cad381,
         type: 3}
       propertyPath: m_LinearDrag
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4824537558626466431, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4824537558626466431, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_UseAutoMass
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4824537558626466431, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 79013c62315faf141a0ff076767f9730, type: 2}
+    - target: {fileID: 4824537558626466427, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 79013c62315faf141a0ff076767f9730, type: 2}
+    - target: {fileID: 4824537558626466427, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_AutoTiling
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4824537558387386145, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}

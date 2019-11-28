@@ -1,12 +1,15 @@
 fileFormatVersion: 2
-guid: 38e674fe6e69f5c4d9f8913a3c6c5052
+guid: 71ab23d0474bbd841b9ea7aa8c6b457f
 TextureImporter:
   fileIDToRecycleName:
-    21300000: BG_cloud_g1_l1_0
-    21300002: BG_cloud_g1_l1_1
-    21300004: BG_cloud_g1_l1_2
-    21300006: BG_cloud_g1_l1_3
-    21300008: BG_cloud_g1_l1_4
+    21300000: bg_town_sky_tower3_0
+    21300002: bg_town_sky_tower3_1
+    21300004: bg_town_sky_tower3_2
+    21300006: bg_town_sky_tower3_3
+    21300008: bg_town_sky_tower3_4
+    21300010: bg_town_sky_tower3_5
+    21300012: bg_town_sky_tower3_6
+    21300014: bg_town_sky_tower3_7
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -65,7 +68,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -76,7 +79,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -89,101 +92,161 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BG_cloud_g1_l1_0
+      name: bg_town_sky_tower3_0
       rect:
         serializedVersion: 2
-        x: 23
-        y: 32
-        width: 174
-        height: 79
+        x: 101
+        y: 182
+        width: 104
+        height: 28
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6b56e379f8562c749a1a5165f4346b6c
+      spriteID: 5e6668516e5704048aebd4db056d6318
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BG_cloud_g1_l1_1
+      name: bg_town_sky_tower3_1
       rect:
         serializedVersion: 2
-        x: 235
-        y: 43
-        width: 97
-        height: 61
+        x: 318
+        y: 154
+        width: 55
+        height: 34
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b6fa93406ddce1409b8e59ad5800ba7
+      spriteID: 88e0321904e8a564195d2776c7cc2e8a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BG_cloud_g1_l1_2
+      name: bg_town_sky_tower3_2
       rect:
         serializedVersion: 2
-        x: 371
-        y: 50
-        width: 113
-        height: 59
+        x: 413
+        y: 170
+        width: 126
+        height: 37
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1150201c52807f1428746c2661fbcd94
+      spriteID: 2bac52f3bb60c794fb8113fdb845aa62
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BG_cloud_g1_l1_3
+      name: bg_town_sky_tower3_3
       rect:
         serializedVersion: 2
-        x: 544
-        y: 38
-        width: 127
-        height: 70
+        x: 30
+        y: 91
+        width: 136
+        height: 66
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc3895c0dc560eb44ab3bafeaa0383a6
+      spriteID: 756e64edb7e954a48baa7a990f613921
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BG_cloud_g1_l1_4
+      name: bg_town_sky_tower3_4
       rect:
         serializedVersion: 2
-        x: 730
-        y: 47
-        width: 142
-        height: 60
+        x: 213
+        y: 115
+        width: 80
+        height: 67
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7bb8e08e73fa0c544a37b8a6293e860f
+      spriteID: 07966270116a50d47a1151673b7d5b7c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_town_sky_tower3_5
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 6
+        width: 109
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e6c59212be9abe4a8b3a7be4e650a44
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_town_sky_tower3_6
+      rect:
+        serializedVersion: 2
+        x: 477
+        y: 86
+        width: 141
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfd8e84a80a94154aaed006ebe3416e7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_town_sky_tower3_7
+      rect:
+        serializedVersion: 2
+        x: 173
+        y: 63
+        width: 65
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4824ec6a5db7b94458c8d8f0ffa86724
       vertices: []
       indices: 
       edges: []
@@ -191,7 +254,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 7633b9ed860b33e478f693d86ba35d50
+    spriteID: d2ff43452e63b2b4ba7100cd2486210d
     vertices: []
     indices: 
     edges: []

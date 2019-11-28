@@ -19,6 +19,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
     {
         base.Start();
         slotImage = Resources.LoadAll<Sprite>("UI/ui_upgrade_set");
+        cursorImage = Resources.LoadAll<Sprite>("UI/ui_upgrade_slotncursor");
         gameObject.SetActive(false);
     }
 
@@ -117,6 +118,8 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
     {
         keySlotFocus = focus;
         selectedkey = inventory.inventoryKeylist[focus];
+
+        acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);
         acceptSlot[1].GetComponent<Image>().sprite = selectedkey.sprite;
         acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[selectedkey.keyRarity];
 
