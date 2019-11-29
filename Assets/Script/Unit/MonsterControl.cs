@@ -164,7 +164,7 @@ public class Monster_Control : MovingObject
     void Dead()
     {
         animator.SetTrigger("isDead");
-        duneonManager.MonsterDie();
+        //duneonManager.MonsterDie();
         dil.ItemDropChance();
         isDead = true;
     }

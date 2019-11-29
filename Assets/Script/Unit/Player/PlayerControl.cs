@@ -14,11 +14,10 @@ public class PlayerControl : MovingObject
     private float runDelay;
     private int isRrun;
     private int isLrun;
-    
+
+    public bool isJump;
     public bool jumping;
     public bool isDownJump;
-    public bool isCollision;
-    public bool isGround;
     public bool parrying;
     public bool isParrying;
 
@@ -67,95 +66,20 @@ public class PlayerControl : MovingObject
     // Update is called once per frame
     void Update()
     {
-        inputDirection = Input.GetAxisRaw("Horizontal");
-        
-        if(inputDirection != 0) animator.SetBool("isWalk", true);
-        else animator.SetBool("isWalk", false);
-
-        // 대쉬 딜레이
-        RunCheck();
-        if (runDelay > 0)
-        {
-            runDelay -= Time.deltaTime;
-            if (runDelay <= 0 && (isRrun < 2 && isLrun < 2))
-            {
-                isRrun = 0;
-                isLrun = 0;
-            }
-        }
-
-        // 회피
-        if (dodgeCount > 0)
-            dodgeCount -= Time.deltaTime;
-
-        if (parrying)
-        {
-            parryingCount -= Time.deltaTime;
-            if (parryingCount < 0f)
-            {
-                parrying = false;
-                parryingCount = 0.2f;
-            }
-        }
-
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            inputArrow = 30;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            inputArrow = 40;
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
-        {
-            inputArrow = 10;
-        }
-        else
-        {
-            inputArrow = 0;
-        }
-        
-        // 캐릭터 뒤집기
-        if (!notMove)
-        {
-            if (inputDirection > 0 && isFaceRight)
-            {
-                Flip();
-                arrowDirection *= -1;
-            }
-            else if (inputDirection < 0 && !isFaceRight)
-            {
-                Flip();
-                arrowDirection *= -1;
-            }
-        }
-        
-
-        if (Input.GetButtonDown("Fire3") && dodgeCount <= 0) isDodge = true;
-
-        // 무적 시간
-        if(isDamagableCount > 0)
-        {
-            isDamagableCount -= Time.deltaTime;
-            if (isDamagableCount <= 0)
-                isDamagable = false;
-        }
-
-        // 공격
-        if (dodging) return;
-
         if (!jumping)
         {
             if (Input.GetButtonDown("Fire1") && commandCount <= atkState && !inputY)
             {
                 if (!isAtk)
                     rb.velocity = Vector2.zero;
+
                 notMove = true;
                 inputAttack.Enqueue(inputArrow + commandCount);
                 ++commandCount;
 
                 if (!attackLock)
                     StartCoroutine(Attack());
+
                 if (commandCount > 3)
                     commandCount = 1;
             }
@@ -164,10 +88,9 @@ public class PlayerControl : MovingObject
             {
                 notMove = true;
                 inputY = true;
-                if (attackPattern != 0)
-                {
-                    inputAttack.Clear();
-                }
+
+                if (attackPattern != 0) inputAttack.Clear();
+
                 inputAttack.Enqueue(inputArrow + 5);
                 if (!attackLock)
                     StartCoroutine(Attack());
@@ -184,6 +107,8 @@ public class PlayerControl : MovingObject
                 }
             }
 
+            if (inputDirection != 0) animator.SetBool("isWalk", true);
+            else animator.SetBool("isWalk", false);
         }
         else
         {
@@ -194,9 +119,64 @@ public class PlayerControl : MovingObject
             }
         }
 
-        Jump();
+        if (notMove) return;
 
-        if (jumping && rb.velocity.y < -0.2f && !isDownJump && !isCollision)
+        inputDirection = Input.GetAxisRaw("Horizontal");
+        
+        // 대쉬 딜레이
+        RunCheck();
+
+        // 회피
+        if (dodgeCount > 0) dodgeCount -= Time.deltaTime;
+
+        if (parrying)
+        {
+            parryingCount -= Time.deltaTime;
+            if (parryingCount < 0f)
+            {
+                parrying = false;
+                parryingCount = 0.2f;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow))
+            inputArrow = 30;
+        else if (Input.GetKey(KeyCode.DownArrow))
+            inputArrow = 40;
+        else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+            inputArrow = 10;
+        else
+            inputArrow = 0;
+        
+        if (Input.GetButtonDown("Jump")) isJump = true;
+
+        // 캐릭터 뒤집기
+        if (inputDirection > 0 && isFaceRight)
+        {
+            Flip();
+            arrowDirection *= -1;
+        }
+        else if (inputDirection < 0 && !isFaceRight)
+        {
+            Flip();
+            arrowDirection *= -1;
+        }
+
+        if (Input.GetButtonDown("Fire3") && dodgeCount <= 0) isDodge = true;
+
+        // 무적 시간
+        if(isDamagableCount > 0)
+        {
+            isDamagableCount -= Time.deltaTime;
+            if (isDamagableCount <= 0)
+                isDamagable = false;
+        }
+
+        // 공격
+        if (dodging) return;
+
+        
+        if (jumping && rb.velocity.y < -1f && !isDownJump)
         {
             GroundCheck.SetActive(true);
         }
@@ -207,28 +187,6 @@ public class PlayerControl : MovingObject
         }
     }
 
-    void Jump()
-    {
-        if (Input.GetButtonDown("Jump"))
-        {
-            if ((currentJumpCount < 1 && jumping) || notMove || inputY)
-                return;
-
-            rb.velocity = Vector2.zero;
-
-            isGround = false;
-
-            animator.SetTrigger("isJumpTrigger");
-            animator.SetBool("isJump", true);
-            GroundCheck.SetActive(false);
-
-            isDownJump = false;
-            jumping = true;
-            rb.AddForce(new Vector2(0f, pStat.jumpPower), ForceMode2D.Impulse);
-
-            --currentJumpCount;
-        }
-    }
 
     public void InputInit()
     {
@@ -244,20 +202,17 @@ public class PlayerControl : MovingObject
 
     void RunCheck()
     {
-        if (!notMove)
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                isLrun = 0;
-                ++isRrun;
-                runDelay = 0.2f;
-            }
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                isRrun = 0;
-                ++isLrun;
-                runDelay = 0.2f;
-            }
+            isLrun = 0;
+            ++isRrun;
+            runDelay = 0.2f;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            isRrun = 0;
+            ++isLrun;
+            runDelay = 0.2f;
         }
 
         if (((Input.GetKeyUp(KeyCode.RightArrow) && isRrun > 1) || (Input.GetKeyUp(KeyCode.LeftArrow) && isLrun > 1)))
@@ -266,44 +221,78 @@ public class PlayerControl : MovingObject
             isLrun = 0;
             animator.SetBool("isRun", false);
         }
+
         if((isLrun > 0 || isRrun > 0) && inputDirection == 0)
         {
             animator.SetBool("isRun", false);
+        }
+
+        if (runDelay > 0)
+        {
+            runDelay -= Time.deltaTime;
+            if (runDelay <= 0 && (isRrun < 2 && isLrun < 2))
+            {
+                isRrun = 0;
+                isLrun = 0;
+            }
         }
     }
 
     private void FixedUpdate()
     {
+        if (notMove) return;
+        if (dodging) return;
+
+        Dodge();
+        
+        if (isDodge) return;
+
         Move();
         Run();
-        Dodge();
+        Jump();
     }
 
     void Move()
     {
-        if (!notMove && !dodging)
-        {
-            rb.velocity = new Vector2(inputDirection * pStat.moveSpeed, rb.velocity.y);
-        }
+        rb.velocity = new Vector2(inputDirection * pStat.moveSpeed, rb.velocity.y);
     }
-
     void Run()
     {
-        if (!notMove)
+        if (inputDirection > 0 && isRrun > 1)
         {
-            if (inputDirection > 0 && isRrun > 1)
-            {
-                animator.SetBool("isRun", true);
-                rb.velocity = new Vector2(inputDirection * (pStat.moveSpeed + 3f), rb.velocity.y);
-            }
-            else if (inputDirection < 0 && isLrun > 1)
-            {
-                animator.SetBool("isRun", true);
-                rb.velocity = new Vector2(inputDirection * (pStat.moveSpeed + 3f), rb.velocity.y);
-            }
+            animator.SetBool("isRun", true);
+            rb.velocity = new Vector2(inputDirection * (pStat.moveSpeed + 3f), rb.velocity.y);
+        }
+
+        if (inputDirection < 0 && isLrun > 1)
+        {
+            animator.SetBool("isRun", true);
+            rb.velocity = new Vector2(inputDirection * (pStat.moveSpeed + 3f), rb.velocity.y);
         }
     }
+    void Jump()
+    {
+        if (isJump)
+        {
+            isJump = false;
 
+            if ((currentJumpCount < 1 && jumping))
+                return;
+
+            isDownJump = false;
+            jumping = true;
+
+            rb.velocity = Vector2.zero;
+
+            animator.SetTrigger("isJumpTrigger");
+            animator.SetBool("isJump", true);
+            GroundCheck.SetActive(false);
+
+            rb.AddForce(new Vector2(0f, pStat.jumpPower), ForceMode2D.Impulse);
+
+            --currentJumpCount;
+        }
+    }
     void Dodge()
     {
         if (isDodge && !dodging)
@@ -325,7 +314,7 @@ public class PlayerControl : MovingObject
             notMove = true;
         }
     }
-
+    
     IEnumerator DodgeIgnore(float time)
     {
         yield return new WaitForSeconds(time);
@@ -347,11 +336,10 @@ public class PlayerControl : MovingObject
         }
 
         notMove = true;
+        animator.SetTrigger("isHit");
         isDamagable = true;
         isDamagableCount = 1f;
-
-        Debug.Log("Hit");
-
+        
         pStat.DecreaseHP(monsterAtk);
     }
 

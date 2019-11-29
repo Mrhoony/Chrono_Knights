@@ -13,9 +13,11 @@ public class CameraManager : MonoBehaviour
 
     public Vector2 minBound;
     public Vector2 maxBound;
-    
-    public float halfWidth;
+
+    public int Height;
+    public int Width;
     public float halfHeight;
+    public float halfWidth;
 
     public new Camera camera;
     public PixelPerfectCamera perfectCamera;
@@ -30,11 +32,15 @@ public class CameraManager : MonoBehaviour
         else
             Destroy(gameObject);
 
+        Height = 640;
+        Width = 360;
+
         Screen.SetResolution(Screen.width, (Screen.width * 16) / 9, true);
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         camera = GetComponent<Camera>();
-
         perfectCamera = GetComponent<PixelPerfectCamera>();
+
+        GameStartScreenSet();
     }
 
     void Start()
@@ -43,7 +49,6 @@ public class CameraManager : MonoBehaviour
         {
             font[i].material.mainTexture.filterMode = FilterMode.Point;
         }
-
         bound = GameObject.Find("BackGround").GetComponent<BoxCollider2D>();
         SetCameraBound(bound);
     }
@@ -51,6 +56,7 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        
         if (target.gameObject != null)
         {
             targetPosition.Set(target.transform.position.x, target.transform.position.y, transform.position.z);
@@ -62,6 +68,16 @@ public class CameraManager : MonoBehaviour
 
             transform.position = new Vector3(clampedX, clampedY, transform.position.z);
         }
+        
+        //targetPosition.Set(target.transform.position.x, target.transform.position.y, transform.position.z);
+        //transform.position = new Vector3(targetPosition.x, targetPosition.y, transform.position.z);
+    }
+
+    public void SetHeiWid(int hei, int wid)
+    {
+        Height = hei;
+        Width = wid;
+        GameStartScreenSet();
     }
 
     public void SetCameraBound(BoxCollider2D box)
@@ -70,12 +86,12 @@ public class CameraManager : MonoBehaviour
         minBound = bound.bounds.min;
         maxBound = bound.bounds.max;
         halfHeight = camera.orthographicSize;
-        halfWidth = halfHeight * Screen.width / Screen.height;
+        halfWidth = halfHeight * 1280 / 720;
     }
 
     public void GameStartScreenSet()
     {
-        perfectCamera.refResolutionX = 1280;
-        perfectCamera.refResolutionY = 720;
+        perfectCamera.refResolutionX = Height;
+        perfectCamera.refResolutionY = Width;
     }
 }

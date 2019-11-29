@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &347987305982047373
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 347987305982047371}
+  - component: {fileID: 347987305982047370}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &347987305982047371
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347987305982047373}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &347987305982047370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347987305982047373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9c6661363860624bbb18fab6e358b97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameStartPosition: {fileID: 0}
+  inGameMenu: {fileID: 0}
+  mainMenu: {fileID: 0}
+  player: {fileID: 0}
+  playerStatView: {fileID: 0}
+  playerData:
+    HP: 0
+    maxBuffTime: 0
+    jumpPower: 0
+    moveSpeed: 0
+    Atk: 0
+    attackSpeed: 0
+    jumpCount: 0
+    defense: 0
+    recovery: 0
+    dashDistance: 0
+    up_moveSpeed: 0
+    up_Atk: 0
+    up_attackSpeed: 0
+    up_jumpCount: 0
+    up_defense: 0
+    up_recovery: 0
+    up_dashDistance: 0
+    traning_count: []
+    currentDate: 0
+  screenSize:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  systemData:
+    screen_width: 0
+    screen_height: 0
+    volume_BGM: 0
+    volume_Effect: 0
+  LoadSlot: {fileID: 0}
+  saveSlot:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  openSaveSlot: 0
+  gameStart: 0
+  exteriorDoor: {fileID: 0}
+  SettingsMenu: {fileID: 0}
+  focus: 0
+  screenNumber: 0

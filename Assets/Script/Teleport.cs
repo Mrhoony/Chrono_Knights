@@ -5,12 +5,10 @@ using UnityEngine;
 public class Teleport : MonoBehaviour
 {
     DungeonManager dm;
-    GameObject menu;
-    bool inPlayer;
+    public bool inPlayer;
 
     private void Awake()
     {
-        menu = MainUI.instance.UI_Menu;
         dm = DungeonManager.instance;
     }
 
@@ -37,7 +35,7 @@ public class Teleport : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                dm.SelectedKey(0, 0, false);
+                //dm.SelectedKey(0, 0, false);
             }
         }
     }

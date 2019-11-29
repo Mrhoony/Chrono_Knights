@@ -1075,6 +1075,11 @@ MonoBehaviour:
   - 0.7
   - 0.75
   - 0.95
+  backGroundImage: {fileID: 0}
+  mapBase: {fileID: 0}
+  spawnerSet: {fileID: 0}
+  spawner: []
+  teleporter: {fileID: 0}
 --- !u!4 &893043224
 Transform:
   m_ObjectHideFlags: 0
@@ -2891,12 +2896,12 @@ PrefabInstance:
     - target: {fileID: 4180196125046632514, guid: 4b17a7a2bd3fc7b44a8d74441afd32ca,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.71
+      value: 6.2
       objectReference: {fileID: 0}
     - target: {fileID: 4180196125046632514, guid: 4b17a7a2bd3fc7b44a8d74441afd32ca,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.38
+      value: -1.22
       objectReference: {fileID: 0}
     - target: {fileID: 4180196125046632514, guid: 4b17a7a2bd3fc7b44a8d74441afd32ca,
         type: 3}

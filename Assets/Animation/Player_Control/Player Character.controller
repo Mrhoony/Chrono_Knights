@@ -14,91 +14,97 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: isRun
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: is_x_Atk
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: is_xx_Atk
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: is_xxx_Atk
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: isJumpTrigger
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: isJump
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: isJump_x_Atk
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: is_y_Atk
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: is_y_up_Atk
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: is_xFx_Atk
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: is_xFxFx_Atk
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: isHit
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: isLanding
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: isDodge
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
+  - m_Name: noAction
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -126,6 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monster: []
   player: []
+  playerControl: {fileID: 0}
   atk: 0
   move: 0
 --- !u!114 &114095594326582514
@@ -142,6 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monster: []
   player: []
+  playerControl: {fileID: 0}
   atk: 0
   move: 0
 --- !u!114 &114203495327028290
@@ -158,6 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monster: []
   player: []
+  playerControl: {fileID: 0}
   atk: 1
   move: 0
 --- !u!114 &114290340356262696
@@ -186,6 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monster: []
   player: []
+  playerControl: {fileID: 0}
   atk: 0
   move: 0
 --- !u!114 &114432262926731758
@@ -202,6 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monster: []
   player: []
+  playerControl: {fileID: 0}
   atk: 1
   move: 0
 --- !u!114 &114458274319889628
@@ -218,6 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monster: []
   player: []
+  playerControl: {fileID: 0}
   atk: 0
   move: 0
 --- !u!114 &114476647888167026
@@ -234,6 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monster: []
   player: []
+  playerControl: {fileID: 0}
   atk: 1
   move: 0
 --- !u!114 &114716587517737700
@@ -250,6 +263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monster: []
   player: []
+  playerControl: {fileID: 0}
   atk: 0
   move: 0
 --- !u!114 &114727372996092868
@@ -290,6 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monster: []
   player: []
+  playerControl: {fileID: 0}
   atk: 0
   move: 0
 --- !u!1101 &1101009773454521448
@@ -439,6 +454,31 @@ AnimatorStateTransition:
   m_ExitTime: 1.0126753
   m_HasExitTime: 0
   m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1101 &1101238403585975220
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: noAction
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 1102808038498048712}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
+  m_HasExitTime: 0
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -1578,12 +1618,13 @@ AnimatorStateMachine:
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: 1107709300998761980}
-    m_Position: {x: 156, y: -216, z: 0}
+    m_Position: {x: 204, y: -288, z: 0}
   m_AnyStateTransitions:
   - {fileID: 1101009773454521448}
   - {fileID: 1101977818864520912}
   - {fileID: 1101151380194407514}
   - {fileID: 1101153887180313990}
+  - {fileID: 1101238403585975220}
   m_EntryTransitions: []
   m_StateMachineTransitions:
   - first: {fileID: 1107709300998761980}
@@ -1591,7 +1632,7 @@ AnimatorStateMachine:
     - {fileID: 1109663895214120310}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 36, y: -264, z: 0}
-  m_EntryPosition: {x: 372, y: -216, z: 0}
+  m_EntryPosition: {x: 408, y: -240, z: 0}
   m_ExitPosition: {x: 1236, y: -156, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1102808038498048712}

@@ -89,7 +89,7 @@ public class MainUI_Menu : MonoBehaviour
     }
     public void OpenInGameMenu()
     {
-        _Player.GetComponent<PlayerControl>().enabled = false;
+        _Player.GetComponent<PlayerControl>().notMove = true;
         Focused = 0;
         Menus[Focused].SetActive(true);
         playerStatusInfo.SetActive(true);
@@ -105,7 +105,7 @@ public class MainUI_Menu : MonoBehaviour
     {
         Menus[Focused].SetActive(false);
         playerStatusInfo.SetActive(false);
-        _Player.GetComponent<PlayerControl>().enabled = true;
+        _Player.GetComponent<PlayerControl>().notMove = false;
     }
 
     // 다른 창에서 인벤토리 열 경우

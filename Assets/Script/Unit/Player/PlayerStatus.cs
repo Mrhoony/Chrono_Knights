@@ -152,7 +152,7 @@ public class PlayerStatus : MonoBehaviour
         {
             Debug.Log("isDead");
             //결과창 띄우기
-            DungeonManager.instance.PlayerDie();
+            //DungeonManager.instance.PlayerDie();
         }
         else
         {

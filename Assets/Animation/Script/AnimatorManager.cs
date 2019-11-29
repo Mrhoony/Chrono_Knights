@@ -21,19 +21,23 @@ public class AnimatorManager : StateMachineBehaviour
     public void Attack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
     {
         ++atk;
-        monster = Physics2D.OverlapBoxAll(new Vector2(playerControl.transform.position.x + attackPosX * playerControl.arrowDirection
-            , playerControl.transform.position.y + attackPosY), new Vector2(0.6f, 0.5f), 10);
-        for(int i = 0; i < monster.Length; ++i)
+        
+        monster = Physics2D.OverlapBoxAll(new Vector2(playerControl.transform.position.x + (attackPosX * playerControl.arrowDirection), playerControl.transform.position.y + attackPosY), new Vector2(attackRangeX, attackRangeY), 0);
+
+        if(monster != null)
         {
-            if (monster[i].CompareTag("Monster"))
+            for (int i = 0; i < monster.Length; ++i)
             {
-                monster[i].gameObject.GetComponent<Monster_Control>().Hit(playerControl.pStat.Atk
-                    , monster[i].gameObject.GetComponent<Monster_Control>().effectX, monster[i].gameObject.GetComponent<Monster_Control>().effectY);
-            }
-            else if (monster[i].CompareTag("BossMonster"))
-            {
-                monster[i].gameObject.GetComponent<BossMonster_Control>().Hit(playerControl.pStat.Atk
-                    , monster[i].gameObject.GetComponent<BossMonster_Control>().effectX, monster[i].gameObject.GetComponent<BossMonster_Control>().effectY);
+                if (monster[i].CompareTag("Monster"))
+                {
+                    monster[i].gameObject.GetComponent<Monster_Control>().Hit(playerControl.pStat.Atk
+                        , monster[i].gameObject.GetComponent<Monster_Control>().effectX, monster[i].gameObject.GetComponent<Monster_Control>().effectY);
+                }
+                else if (monster[i].CompareTag("BossMonster"))
+                {
+                    monster[i].gameObject.GetComponent<BossMonster_Control>().Hit(playerControl.pStat.Atk
+                        , monster[i].gameObject.GetComponent<BossMonster_Control>().effectX, monster[i].gameObject.GetComponent<BossMonster_Control>().effectY);
+                }
             }
         }
     }
@@ -48,15 +52,17 @@ public class AnimatorManager : StateMachineBehaviour
                 , (animator.gameObject.transform.position.y))
                 , new Vector2(attackRangeX, attackRangeY), 8);
             
-            for(int i = 0; i < player.Length; ++i)
+            if(player != null)
             {
-                if (player[i].CompareTag("Player"))
+                for (int i = 0; i < player.Length; ++i)
                 {
-                    player[i].gameObject.GetComponent<PlayerControl>().Hit(animator.gameObject.GetComponent<EnemyStat>().Atk);
+                    if (player[i].CompareTag("Player"))
+                    {
+                        player[i].gameObject.GetComponent<PlayerControl>().Hit(animator.gameObject.GetComponent<EnemyStat>().Atk);
 
+                    }
                 }
             }
         }
     }
-
 }

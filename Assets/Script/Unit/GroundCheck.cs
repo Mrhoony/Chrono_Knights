@@ -5,6 +5,8 @@ using UnityEngine;
 public class GroundCheck : MonoBehaviour
 {
     private GameObject parentObject;
+    private PlayerControl playerControl;
+    private Monster_Control monsterControl;
     private BoxCollider2D box;
     // Start is called before the first frame update
     void Start()
@@ -21,30 +23,32 @@ public class GroundCheck : MonoBehaviour
             {
                 if (parentObject.CompareTag("Player"))
                 {
-                    if (parentObject.GetComponent<PlayerControl>().isDodge)
+                    playerControl = parentObject.GetComponent<PlayerControl>();
+
+                    if (playerControl.isDodge)
                     {
-                        parentObject.GetComponent<PlayerControl>().isDodge = false;
-                        parentObject.GetComponent<PlayerControl>().animator.SetTrigger("isLanding");
+                        playerControl.isDodge = false;
+                        playerControl.animator.SetTrigger("isLanding");
                     }
                     else
                     {
-                        parentObject.GetComponent<PlayerControl>().isGround = true;
-                        parentObject.GetComponent<PlayerControl>().jumping = false;
-                        parentObject.GetComponent<PlayerControl>().animator.SetBool("isJump", false);
-                        parentObject.GetComponent<PlayerControl>().animator.SetBool("isJump_x_Atk", false);
-                        parentObject.GetComponent<PlayerControl>().animator.SetTrigger("isLanding");
+                        playerControl.jumping = false;
+                        playerControl.animator.SetBool("isJump", false);
+                        playerControl.animator.SetBool("isJump_x_Atk", false);
+                        playerControl.animator.SetTrigger("isLanding");
                         //parentObject.GetComponent<PlayerControl>().currentJumpCount = parentObject.GetComponent<PlayerControl>().currentJumpCount;
-                        parentObject.GetComponent<PlayerControl>().currentJumpCount = 3;
+                        playerControl.currentJumpCount = 3;
                     }
                 }
                 else if (parentObject.CompareTag("Monster"))
                 {
-                    parentObject.GetComponent<Monster_Control>().animator.SetBool("isJumping", false);
+                    monsterControl = parentObject.GetComponent<Monster_Control>();
+                    monsterControl.animator.SetBool("isJumping", false);
                 }
             }
         }
     }
-
+    /*
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision != null)
@@ -53,15 +57,16 @@ public class GroundCheck : MonoBehaviour
             {
                 if (parentObject.CompareTag("Player"))
                 {
-                    parentObject.GetComponent<PlayerControl>().isGround = true;
                     parentObject.GetComponent<PlayerControl>().jumping = false;
                     parentObject.GetComponent<PlayerControl>().currentJumpCount = parentObject.GetComponent<PlayerControl>().currentJumpCount;
                 }
                 else if (parentObject.CompareTag("Monster"))
                 {
-                    parentObject.GetComponent<Monster_Control>().animator.SetBool("isJumping", false);
+                    monsterControl = parentObject.GetComponent<Monster_Control>();
+                    monsterControl.animator.SetBool("isJumping", false);
                 }
             }
         }
     }
+    */
 }

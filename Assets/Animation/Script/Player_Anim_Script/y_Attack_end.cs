@@ -8,14 +8,15 @@ public class y_Attack_end : AnimatorManager
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Init();
         atkTime = 0;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        PlayerControl.instance.notMove = true;
-
+        playerControl.notMove = true;
+        
         if (stateInfo.normalizedTime > 0.1f)
         {
             atkTime += Time.deltaTime;
