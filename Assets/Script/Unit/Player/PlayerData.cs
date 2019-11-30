@@ -85,7 +85,6 @@ public class PlayerData
         up_recovery = 0;
 
         maxBuffTime = 100;
-
     }
 
     public float[] GetTraningStat()

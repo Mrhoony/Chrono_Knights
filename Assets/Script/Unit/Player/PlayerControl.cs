@@ -8,6 +8,7 @@ public class PlayerControl : MovingObject
     public GameObject GroundCheck;
     public PlayerStatus pStat;
 
+    public Vector2 movement;
     public float inputDirection;
     public int arrowDirection;
     
@@ -18,6 +19,7 @@ public class PlayerControl : MovingObject
     public bool isJump;
     public bool jumping;
     public bool isDownJump;
+    public bool isGround;
     public bool parrying;
     public bool isParrying;
 
@@ -55,9 +57,11 @@ public class PlayerControl : MovingObject
         rb = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponentInChildren<Animator>();
         pStat = GetComponent<PlayerStatus>();
+    }
 
-        //currentJumpCount = pStat.jumpCount;
-        currentJumpCount = 3;
+    public void Start()
+    {
+        currentJumpCount = pStat.jumpCount;
         arrowDirection = 1;
         dodgeCount = 0.5f;
         parryingCount = 0.2f;
@@ -108,7 +112,11 @@ public class PlayerControl : MovingObject
             }
 
             if (inputDirection != 0) animator.SetBool("isWalk", true);
-            else animator.SetBool("isWalk", false);
+            else
+            {
+                animator.SetBool("isWalk", false);
+                animator.SetBool("isRun", false);
+            }
         }
         else
         {
@@ -117,6 +125,11 @@ public class PlayerControl : MovingObject
                 notMove = true;
                 animator.SetBool("isJump_x_Atk", true);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            pStat.SetBuff(1);
         }
 
         if (notMove) return;
@@ -171,23 +184,13 @@ public class PlayerControl : MovingObject
             if (isDamagableCount <= 0)
                 isDamagable = false;
         }
-
-        // 공격
-        if (dodging) return;
-
-        
-        if (jumping && rb.velocity.y < -1f && !isDownJump)
+        //if (isDownJump) return;
+        if (jumping && rb.velocity.y <= 0f)
         {
             GroundCheck.SetActive(true);
         }
-        
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            pStat.SetBuff(1);
-        }
     }
-
-
+    
     public void InputInit()
     {
         inputAttack.Clear();
@@ -291,6 +294,8 @@ public class PlayerControl : MovingObject
             rb.AddForce(new Vector2(0f, pStat.jumpPower), ForceMode2D.Impulse);
 
             --currentJumpCount;
+
+            //StartCoroutine(JumpIgnore(pStat.jumpPower * 0.1f));
         }
     }
     void Dodge()
@@ -318,10 +323,16 @@ public class PlayerControl : MovingObject
     IEnumerator DodgeIgnore(float time)
     {
         yield return new WaitForSeconds(time);
-
         GroundCheck.SetActive(true);
     }
 
+    /*
+    IEnumerator JumpIgnore(float time)
+    {
+        yield return new WaitForSeconds(time);
+        GroundCheck.SetActive(true);
+    }
+    */
     public void Hit(int monsterAtk)
     {
         if (isDamagable)
@@ -430,5 +441,13 @@ public class PlayerControl : MovingObject
             yield return null;
         } while (inputAttack.Count > 0);
         attackLock = !attackLock;
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            
+        }
     }
 }

@@ -8,6 +8,7 @@ public class PlayerStatus : MonoBehaviour
     MainUI_PlayerStatusView playerStatus;
     Animator animator;
 
+    public DataBase dataBase;
     public PlayerData playerData;
     public PlayerEquipment playerEquip;
 
@@ -32,15 +33,20 @@ public class PlayerStatus : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
-        playerData = new PlayerData();
-        playerData.playerEquipment = playerEquip;
         playerStatus = playerStatusView.GetComponent<MainUI_PlayerStatusView>();
     }
 
-    public void NewStart()
+    public void SetPlayerData(PlayerData _playerData)
     {
+        playerData = _playerData;
         playerData.Init();
         playerEquip.Init();
+        playerData.playerEquipment = playerEquip;
+    }
+
+    public void NewStart(PlayerData playerData)
+    {
+        SetPlayerData(playerData);
         Init();
     }
 

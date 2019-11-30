@@ -6,7 +6,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
 {
     protected PlayerStatus playerStat;
     protected PlayerData playerData;
-    protected MainUI_Menu menu;
+    protected MainUI_InGameMenu menu;
     protected Menu_Inventory inventory;
 
     public GameObject npc_blacksmith;

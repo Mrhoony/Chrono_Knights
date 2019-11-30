@@ -6,11 +6,17 @@ using UnityEngine.SceneManagement;
 public class DungeonManager : MonoBehaviour
 {
     public static DungeonManager instance;
+    public new CameraManager camera;
+
+    public GameObject[] teleport;
+    public Teleport entrance;
+    public Teleport exit;
+
     public GameObject player;
     public GameObject playerStatView;
     public PlayerStatus pStat;
-    public MainUI_Menu mainUI_Menu;
-    public CameraManager camera;
+
+    public MainUI_InGameMenu MainUI_InGameMenu;
     
     public int currentDate;
     public bool newDay;
@@ -18,9 +24,7 @@ public class DungeonManager : MonoBehaviour
 
     public GameObject[] mapList;
     public int selectedMapNum = 0;
-
-    public Teleport teleport;
-
+    
     GameObject choice;
     Sprite[] choiceSprite;
     bool bossSetting;
@@ -56,11 +60,12 @@ public class DungeonManager : MonoBehaviour
             Destroy(gameObject);
 
         pStat = player.GetComponent<PlayerStatus>();
-        mainUI_Menu = GameObject.Find("UI/Menus").GetComponent<MainUI_Menu>();
-        camera = CameraManager.instance;
-
+        MainUI_InGameMenu = GameObject.Find("UI/Menus").GetComponent<MainUI_InGameMenu>();
         choiceSprite = Resources.LoadAll<Sprite>("UI/ui_hpbell_set");
+    }
 
+    public void Start()
+    {
         currentDate = 1;
         currentStage = 0;
         monsterCount = 0;
@@ -83,10 +88,10 @@ public class DungeonManager : MonoBehaviour
     {
         if (dungeonEscape)
         {
-            SceneManager.LoadScene("Town");
+            SceneManager.LoadScene("MainMenu");
             newDay = true;
             NewDayCheck();
-            dungeonClear = true;
+            dungeonClear = false;
             pStat.Init();
             pStat.HPInit();
         }
@@ -98,25 +103,25 @@ public class DungeonManager : MonoBehaviour
                 if (SceneManager.GetActiveScene().buildIndex == 1)
                 {
                     SceneManager.LoadScene("TopFirstFloor");
-                    dungeonClear = true;
+                    dungeonClear = false;
                 }
                 else if (SceneManager.GetActiveScene().buildIndex > 1)
                 {
                     SceneManager.LoadScene("Town");
                     newDay = true;
                     NewDayCheck();
+                    dungeonClear = false;
                     ++currentDate;
                     pStat.Init();
                     pStat.HPInit();
-                    //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                 }
             }
             else
             {
-                SceneManager.LoadScene("Town");
+                SceneManager.LoadScene("MainMenu");
                 newDay = true;
                 NewDayCheck();
-                dungeonClear = true;
+                dungeonClear = false;
                 pStat.Init();
                 pStat.HPInit();
             }
@@ -145,6 +150,21 @@ public class DungeonManager : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        camera = CameraManager.instance;
+        camera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
+
+        teleport = GameObject.FindGameObjectsWithTag("Portal");
+
+        for (int i = 0; i < 2; ++i)
+        {
+            if (teleport[i].GetComponent<Teleport>().entrance)
+                entrance = teleport[i].GetComponent<Teleport>();
+            else
+                exit = teleport[i].GetComponent<Teleport>();
+        }
+
+        player.transform.position = entrance.transform.position;
+
         if (SceneManager.GetActiveScene().buildIndex > 1)
         {
             mapList = GameObject.FindGameObjectsWithTag("BaseMap");
@@ -152,9 +172,6 @@ public class DungeonManager : MonoBehaviour
         }
         else if(SceneManager.GetActiveScene().buildIndex == 1)
         {
-            camera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
-            GameObject stp = GameObject.FindGameObjectWithTag("StartPosition");
-            player.transform.position = stp.transform.position;
             pStat.Init();
             pStat.HPInit();
         }

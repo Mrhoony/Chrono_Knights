@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -11,12 +9,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public GameObject gameStartPosition;
     public GameObject inGameMenu;
     public GameObject mainMenu;
     public GameObject player;
+    public PlayerStatus playerStat;
     public GameObject playerStatView;
+
+    public DataBase dataBase;
     public PlayerData playerData;
+
     public GameObject[] screenSize;
     public SystemData systemData;
     
@@ -55,61 +56,65 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(13, 13);
         Physics2D.IgnoreLayerCollision(13, 14);
         Physics2D.IgnoreLayerCollision(14, 14);
-        slotNum = 0;
-
-        focus = 0;
-        gameStart = false;
-        Time.timeScale = 1f;
     }
 
     public void Start()
     {
+        slotNum = 0;
+        focus = 0;
+        gameStart = false;
+
+        dataBase = new DataBase();
+        dataBase.Init();
+        playerStat = player.GetComponent<PlayerStatus>();
+
         player.GetComponent<PlayerControl>().enabled = false;
-        player.transform.position = gameStartPosition.transform.position;
         inGameMenu.SetActive(false);
         playerStatView.SetActive(false);
     }
 
     public void Update()
     {
-        if (!gameStartPosition.GetComponent<GameStartPosition>().inPlayer) return;
-
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (SceneManager.GetActiveScene().buildIndex == 0)
         {
-            if (!exteriorDoor.GetComponent<Teleport>().inPlayer)
+            if (Input.GetKeyDown(KeyCode.Z))
             {
-                if (!openSaveSlot)
+                if (!exteriorDoor.GetComponent<Teleport>().inPlayer)
                 {
-                    openSaveSlot = true;
-                    inGameMenu.SetActive(false);
-                    slotNum = focus + 1;
-                    OpenLoad();
+                    if (!openSaveSlot)
+                    {
+                        openSaveSlot = true;
+                        inGameMenu.SetActive(false);
+                        slotNum = focus + 1;
+                        OpenLoad();
+                    }
+                    else
+                    {
+                        LoadGame();
+                    }
                 }
                 else
                 {
-                    LoadGame();
+                    StartGame();
                 }
             }
-            else
-            {
-                StartGame();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            if (openSaveSlot)
-            {
-                CloseLoad();
-                inGameMenu.SetActive(true);
-                player.GetComponent<PlayerControl>().enabled = true;
-                openSaveSlot = false;
-            }
-        }
 
-        if (!openSaveSlot) return;
-        
-        if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                if (openSaveSlot)
+                {
+                    CloseLoad();
+                    inGameMenu.SetActive(true);
+                    player.GetComponent<PlayerControl>().enabled = true;
+                    openSaveSlot = false;
+                }
+            }
+
+            if (!openSaveSlot) return;
+
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
+        }
     }
     
     void FocusedSlot(int AdjustValue)
@@ -134,24 +139,23 @@ public class GameManager : MonoBehaviour
         ms = new MemoryStream();
 
         // 유저 정보
-        playerData = player.GetComponent<PlayerStatus>().playerData;
-        playerData.currentDate = DungeonManager.instance.currentDate;
+        dataBase.playerData = playerStat.playerData;
+        dataBase.currentDate = DungeonManager.instance.currentDate;
 
-        bf.Serialize(ms, playerData);
+        bf.Serialize(ms, dataBase);
         data = Convert.ToBase64String(ms.GetBuffer());
 
-        PlayerPrefs.SetString("PlayerData" + slotNum, data);
+        PlayerPrefs.SetString("SaveSlot" + slotNum, data);
         Debug.Log("save complete");
 
-        inGameMenu.GetComponent<MainUI_Menu>().CloseCancelMenu();
-        //DungeonManager.instance.SectionTeleport(false, true);     // 던전 매니져에 메인 메뉴 씬으로 이동 요청
+        inGameMenu.GetComponent<MainUI_InGameMenu>().CloseCancelMenu();
     }
 
     public void LoadGame()
     {
-        if(PlayerPrefs.HasKey("PlayerData" + slotNum))
+        if(PlayerPrefs.HasKey("SaveSlot" + slotNum))
         {
-            data = PlayerPrefs.GetString("PlayerData" + slotNum, null);
+            data = PlayerPrefs.GetString("SaveSlot" + slotNum, null);
 
             if (!string.IsNullOrEmpty(data))
             {
@@ -161,13 +165,18 @@ public class GameManager : MonoBehaviour
                 ms = new MemoryStream(Convert.FromBase64String(data));
 
                 // 유저 정보
-                player.GetComponent<PlayerStatus>().playerData = (PlayerData)bf.Deserialize(ms);
-                DungeonManager.instance.currentDate = playerData.currentDate;
+                dataBase = (DataBase)bf.Deserialize(ms);
                 
                 inGameMenu.SetActive(true);
                 playerStatView.SetActive(true);
                 mainMenu.SetActive(false);
                 gameStart = true;
+
+                Debug.Log("2");
+                Debug.Log(dataBase);
+
+                playerStat.SetPlayerData(dataBase.playerData);
+                DungeonManager.instance.currentDate = dataBase.currentDate;
                 player.GetComponent<PlayerControl>().enabled = true;
             }
         }
@@ -180,7 +189,7 @@ public class GameManager : MonoBehaviour
             mainMenu.SetActive(false);
             gameStart = true;
 
-            player.GetComponent<PlayerStatus>().NewStart();
+            playerStat.NewStart(dataBase.playerData);
             player.GetComponent<PlayerControl>().enabled = true;
         }
     }
@@ -203,7 +212,7 @@ public class GameManager : MonoBehaviour
 
     public void OpenLoad()
     {
-        player.GetComponent<PlayerControl>().notMove = true;
+        player.GetComponent<PlayerControl>().rb.velocity = new Vector2(0f, player.GetComponent<PlayerControl>().rb.velocity.y);
         player.GetComponent<PlayerControl>().enabled = false;
         openSaveSlot = true;
         LoadSlot.SetActive(true);
@@ -222,7 +231,7 @@ public class GameManager : MonoBehaviour
 
     public void OpenSetting()
     {
-        //inGameMenu.GetComponent<MainUI_Menu>().OpenSettings(screenWidth, screenHeigth);
+        //inGameMenu.GetComponent<MainUI_InGameMenu>().OpenSettings(screenWidth, screenHeigth);
     }
 
     public void SettingSave()

@@ -7,47 +7,42 @@ public class GroundCheck : MonoBehaviour
     private GameObject parentObject;
     private PlayerControl playerControl;
     private Monster_Control monsterControl;
-    private BoxCollider2D box;
     // Start is called before the first frame update
     void Start()
     {
         parentObject = transform.parent.gameObject;
-        box = GetComponent<BoxCollider2D>();
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision != null)
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            if (collision.gameObject.CompareTag("Ground"))
+            if (parentObject.CompareTag("Player"))
             {
-                if (parentObject.CompareTag("Player"))
-                {
-                    playerControl = parentObject.GetComponent<PlayerControl>();
+                playerControl = parentObject.GetComponent<PlayerControl>();
 
-                    if (playerControl.isDodge)
-                    {
-                        playerControl.isDodge = false;
-                        playerControl.animator.SetTrigger("isLanding");
-                    }
-                    else
-                    {
-                        playerControl.jumping = false;
-                        playerControl.animator.SetBool("isJump", false);
-                        playerControl.animator.SetBool("isJump_x_Atk", false);
-                        playerControl.animator.SetTrigger("isLanding");
-                        //parentObject.GetComponent<PlayerControl>().currentJumpCount = parentObject.GetComponent<PlayerControl>().currentJumpCount;
-                        playerControl.currentJumpCount = 3;
-                    }
-                }
-                else if (parentObject.CompareTag("Monster"))
+                if (playerControl.isDodge)
                 {
-                    monsterControl = parentObject.GetComponent<Monster_Control>();
-                    monsterControl.animator.SetBool("isJumping", false);
+                    playerControl.isDodge = false;
+                    playerControl.animator.SetTrigger("isLanding");
                 }
+                else
+                {
+                    playerControl.jumping = false;
+                    playerControl.animator.SetBool("isJump", false);
+                    playerControl.animator.SetBool("isJump_x_Atk", false);
+                    playerControl.animator.SetTrigger("isLanding");
+                    playerControl.currentJumpCount = playerControl.pStat.jumpCount;
+                }
+            }
+            else if (parentObject.CompareTag("Monster"))
+            {
+                monsterControl = parentObject.GetComponent<Monster_Control>();
+                monsterControl.animator.SetBool("isJumping", false);
             }
         }
     }
+    
     /*
     private void OnTriggerStay2D(Collider2D collision)
     {

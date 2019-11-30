@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainUI_Menu : MonoBehaviour
+public class MainUI_InGameMenu : MonoBehaviour
 {
     public GameObject[] Menus;
     public GameObject townUI;
@@ -108,17 +108,16 @@ public class MainUI_Menu : MonoBehaviour
         _Player.GetComponent<PlayerControl>().notMove = false;
     }
 
-    // 다른 창에서 인벤토리 열 경우
-    public void OpenUpgradeInventory(int used)
+    // 인벤토리
+    public void OpenInventory(int used)
     {
-        townUI = GameObject.Find("TownUI");
         inventoryNotChange = true;
         InventoryOn = true;
         useContent = used;
 
         Focused = 0;
         Menus[Focused].SetActive(true);
-        Menus[Focused].GetComponent<Menu_Inventory>().OpenUpgradeInventory();
+        Menus[Focused].GetComponent<Menu_Inventory>().OpenInventory();
 
         foreach (Scrollbar bar in sb)
         {
@@ -126,6 +125,13 @@ public class MainUI_Menu : MonoBehaviour
             bar.value = 1.0f;
         }
     }
+    // 강화 창에서 인벤토리 열 경우
+    public void OpenUpgradeInventory(int used)
+    {
+        townUI = GameObject.Find("TownUI");
+        OpenInventory(used);
+    }
+
     public void CloseInventory(int focused)
     {
         switch (useContent)
@@ -141,24 +147,6 @@ public class MainUI_Menu : MonoBehaviour
         InventoryOn = false;
         inventoryNotChange = false;
         Menus[Focused].SetActive(false);
-    }
-
-    // 던전에서 키 사용시
-    public void OpenInventoryQuickSlot(int used)
-    {
-        inventoryNotChange = true;
-        InventoryOn = true;
-        useContent = used;
-
-        Focused = 0;
-        Menus[Focused].SetActive(true);
-        Menus[Focused].GetComponent<Menu_Inventory>().OpenInventory();
-
-        foreach (Scrollbar bar in sb)
-        {
-            bar.size = 0.0f;
-            bar.value = 1.0f;
-        }
     }
     public void CloseInventory()
     {

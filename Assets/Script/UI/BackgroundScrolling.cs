@@ -23,12 +23,13 @@ public class BackgroundScrolling : MonoBehaviour
     private void Awake()
     {
         layers = new Transform[transform.childCount - 1];
+        /*
         spawner = new GameObject[spawnerSet.transform.childCount];
         for(int i = 0; i<spawnerSet.transform.childCount; ++i)
         {
             
         }
-
+        */
     }
 
     // Start is called before the first frame update

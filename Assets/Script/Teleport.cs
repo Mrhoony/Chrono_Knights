@@ -5,9 +5,10 @@ using UnityEngine;
 public class Teleport : MonoBehaviour
 {
     DungeonManager dm;
+    public bool entrance;   // 입구면 true, 출구면 false
     public bool inPlayer;
 
-    private void Awake()
+    private void Start()
     {
         dm = DungeonManager.instance;
     }
@@ -25,18 +26,6 @@ public class Teleport : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inPlayer = false;
-        }
-    }
-
-    // 임시로 클리어시 마을로 복귀
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                //dm.SelectedKey(0, 0, false);
-            }
         }
     }
 }

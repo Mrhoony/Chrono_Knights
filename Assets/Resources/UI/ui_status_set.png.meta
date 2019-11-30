@@ -8,6 +8,7 @@ TextureImporter:
     21300006: ui_status_set_1
     21300008: ui_status_set_4
     21300010: ui_status_set_5
+    21300012: ui_status_set_6
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -94,7 +95,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 46
-        y: 26
+        y: 31
         width: 172
         height: 300
       alignment: 0
@@ -205,6 +206,26 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c47d9f1761ffa9a4481ab14437ca7531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_status_set_6
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 16
+        width: 108
+        height: 2
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49e3ee43fb404a6479179d7bf0ea8543
       vertices: []
       indices: 
       edges: []
