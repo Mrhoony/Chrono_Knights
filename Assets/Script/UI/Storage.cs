@@ -6,11 +6,10 @@ public class Storage : MonoBehaviour
 {
     public bool inPlayer;
     public bool onStorage;
-    public GameObject storage;
+    public MainUI_InGameMenu menu;
 
     private void Start()
     {
-        storage = GameObject.Find("UI/Storage");
         onStorage = false;
     }
 
@@ -23,7 +22,8 @@ public class Storage : MonoBehaviour
             if (!onStorage)
             {
                 onStorage = true;
-                storage.SetActive(true);
+                menu = GameObject.Find("UI/Menus").GetComponent<MainUI_InGameMenu>();
+                menu.OpenStorage();
             }
         }
         if (Input.GetKeyDown(KeyCode.X))
@@ -31,7 +31,6 @@ public class Storage : MonoBehaviour
             if (onStorage)
             {
                 onStorage = false;
-                storage.SetActive(false);
             }
         }
     }

@@ -100,7 +100,7 @@ public class NPC_Blacksmith : NPC_Control
 
     public void OpenSelectMenu()
     {
-        player.GetComponent<PlayerControl>().notMove = true;
+        Time.timeScale = 0;
         player.GetComponent<PlayerControl>().enabled = false;
         focus = 0;
         openSelectUI = true;
@@ -113,8 +113,8 @@ public class NPC_Blacksmith : NPC_Control
         button[focus].transform.GetChild(0).gameObject.SetActive(false);
         openSelectUI = false;
         selectUI.SetActive(false);
-        player.GetComponent<PlayerControl>().notMove = false;
         player.GetComponent<PlayerControl>().enabled = true;
+        Time.timeScale = 1;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

@@ -132,8 +132,6 @@ public class PlayerControl : MovingObject
             pStat.SetBuff(1);
         }
 
-        if (notMove) return;
-
         inputDirection = Input.GetAxisRaw("Horizontal");
         
         // 대쉬 딜레이

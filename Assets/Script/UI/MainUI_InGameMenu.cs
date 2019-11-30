@@ -17,8 +17,8 @@ public class MainUI_InGameMenu : MonoBehaviour
     public Scrollbar[] sb;
 
     public bool InventoryOn;
-    public bool CancelOn;
     public bool inventoryNotChange;
+    public bool CancelOn;
 
     enum content
     {
@@ -89,7 +89,8 @@ public class MainUI_InGameMenu : MonoBehaviour
     }
     public void OpenInGameMenu()
     {
-        _Player.GetComponent<PlayerControl>().notMove = true;
+        Time.timeScale = 0;
+        _Player.GetComponent<PlayerControl>().enabled = false;
         Focused = 0;
         Menus[Focused].SetActive(true);
         playerStatusInfo.SetActive(true);
@@ -105,7 +106,8 @@ public class MainUI_InGameMenu : MonoBehaviour
     {
         Menus[Focused].SetActive(false);
         playerStatusInfo.SetActive(false);
-        _Player.GetComponent<PlayerControl>().notMove = false;
+        _Player.GetComponent<PlayerControl>().enabled = true;
+        Time.timeScale = 1;
     }
 
     // 인벤토리
@@ -130,6 +132,21 @@ public class MainUI_InGameMenu : MonoBehaviour
     {
         townUI = GameObject.Find("TownUI");
         OpenInventory(used);
+    }
+
+    public void OpenStorage()
+    {
+        Time.timeScale = 0;
+        _Player.GetComponent<PlayerControl>().enabled = false;
+        Menus[3].SetActive(true);
+        Menus[3].GetComponent<Menu_Storage>().OpenStorage(Menus[0]);
+    }
+
+    public void CloseStorage()
+    {
+        Menus[3].SetActive(false);
+        _Player.GetComponent<PlayerControl>().enabled = true;
+        Time.timeScale = 1;
     }
 
     public void CloseInventory(int focused)

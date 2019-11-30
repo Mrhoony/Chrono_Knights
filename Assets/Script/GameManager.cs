@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     public DataBase dataBase;
     public PlayerData playerData;
+    public Menu_Storage storage;
+    public Menu_Inventory inventory;
 
     public GameObject[] screenSize;
     public SystemData systemData;
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] saveSlot;
     public bool openSaveSlot;
     public bool gameStart;
+
     public GameObject exteriorDoor;
 
     public GameObject SettingsMenu;
@@ -67,6 +70,8 @@ public class GameManager : MonoBehaviour
         dataBase = new DataBase();
         dataBase.Init();
         playerStat = player.GetComponent<PlayerStatus>();
+        storage = inGameMenu.GetComponent<MainUI_InGameMenu>().Menus[3].GetComponent<Menu_Storage>();
+        inventory = inGameMenu.GetComponent<MainUI_InGameMenu>().Menus[0].GetComponent<Menu_Inventory>();
 
         player.GetComponent<PlayerControl>().enabled = false;
         inGameMenu.SetActive(false);
@@ -79,12 +84,11 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                if (!exteriorDoor.GetComponent<Teleport>().inPlayer)
+                if (DungeonManager.instance.entrance.GetComponent<Teleport>().inPlayer)
                 {
                     if (!openSaveSlot)
                     {
                         openSaveSlot = true;
-                        inGameMenu.SetActive(false);
                         slotNum = focus + 1;
                         OpenLoad();
                     }
@@ -93,7 +97,7 @@ public class GameManager : MonoBehaviour
                         LoadGame();
                     }
                 }
-                else
+                else if (DungeonManager.instance.exit.GetComponent<Teleport>().inPlayer)
                 {
                     StartGame();
                 }
@@ -141,6 +145,10 @@ public class GameManager : MonoBehaviour
         // 유저 정보
         dataBase.playerData = playerStat.playerData;
         dataBase.currentDate = DungeonManager.instance.currentDate;
+        dataBase.storageKeyList = storage.storageKeyList;
+        dataBase.availableStorageSlot = storage.availableSlot;
+        dataBase.takeKeySlot = inventory.takeKeySlot;
+        dataBase.availableInventorySlot = inventory.availableSlot;
 
         bf.Serialize(ms, dataBase);
         data = Convert.ToBase64String(ms.GetBuffer());
@@ -172,12 +180,12 @@ public class GameManager : MonoBehaviour
                 mainMenu.SetActive(false);
                 gameStart = true;
 
-                Debug.Log("2");
-                Debug.Log(dataBase);
-
                 playerStat.SetPlayerData(dataBase.playerData);
+                storage.SetStorageData(dataBase.storageKeyList, dataBase.availableStorageSlot);
+                inventory.SetInventoryData(dataBase.takeKeySlot, dataBase.availableInventorySlot);
                 DungeonManager.instance.currentDate = dataBase.currentDate;
                 player.GetComponent<PlayerControl>().enabled = true;
+                Time.timeScale = 1;
             }
         }
         else
@@ -190,7 +198,10 @@ public class GameManager : MonoBehaviour
             gameStart = true;
 
             playerStat.NewStart(dataBase.playerData);
+            storage.SetStorageData(dataBase.storageKeyList, dataBase.availableStorageSlot);
+            inventory.SetInventoryData(dataBase.takeKeySlot, dataBase.availableInventorySlot);
             player.GetComponent<PlayerControl>().enabled = true;
+            Time.timeScale = 1;
         }
     }
 
@@ -212,7 +223,7 @@ public class GameManager : MonoBehaviour
 
     public void OpenLoad()
     {
-        player.GetComponent<PlayerControl>().rb.velocity = new Vector2(0f, player.GetComponent<PlayerControl>().rb.velocity.y);
+        Time.timeScale = 0;
         player.GetComponent<PlayerControl>().enabled = false;
         openSaveSlot = true;
         LoadSlot.SetActive(true);
@@ -226,7 +237,7 @@ public class GameManager : MonoBehaviour
         openSaveSlot = false;
         LoadSlot.SetActive(false);
         player.GetComponent<PlayerControl>().enabled = true;
-        player.GetComponent<PlayerControl>().notMove = false;
+        Time.timeScale = 1;
     }
 
     public void OpenSetting()

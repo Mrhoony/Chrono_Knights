@@ -7,18 +7,26 @@ using UnityEngine;
 public class DataBase
 {
     public PlayerData playerData;
-    public List<Key> storageKeyList;
+
+    public Key[] storageKeyList;
+    public int takeKeySlot;
+    public int availableInventorySlot;
+    public int availableStorageSlot;
+
     public int currentDate;
     public bool[] eventCheck;
 
     public void Init()
     {
         playerData = new PlayerData();
-        storageKeyList = new List<Key>();
+        storageKeyList = new Key[72];
+        availableStorageSlot = 12;
+        takeKeySlot = 3;
+        availableInventorySlot = 6;
         currentDate = 0;
     }
 
-    public void AddKeyList(Key key)
+    public void AddKey(Key key)
     {
 
     }
