@@ -5,12 +5,14 @@ using UnityEngine.UI;
 
 public class Menu_Storage : MonoBehaviour
 {
-    public Menu_Inventory inventory;
+    public MainUI_InGameMenu menu;
 
     public Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
+
     public Transform[] transforms;
     public GameObject slots;
     public GameObject[] slot;
+
     public int slotCount;
     public int focus;
     public int availableSlot;       // 사용 가능한 슬롯 수
@@ -31,9 +33,11 @@ public class Menu_Storage : MonoBehaviour
 
     private void Awake()
     {
-        transforms = slots.transform.GetComponentsInChildren<Transform>();
-        slotCount = transforms.Length - 1;
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
+
+        transforms = slots.transform.GetComponentsInChildren<Transform>();
+        menu = transform.parent.GetComponent<MainUI_InGameMenu>();
+        slotCount = transforms.Length - 1;
 
         slot = new GameObject[slotCount];
         isFull = new bool[72];
@@ -56,6 +60,7 @@ public class Menu_Storage : MonoBehaviour
     public void Update()
     {
         if (!onStorage) return;
+        if (menu.InventoryOn) return;
 
         if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
         if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
@@ -70,14 +75,14 @@ public class Menu_Storage : MonoBehaviour
                 {
                     slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
                     upgradeItem = false;
-                    gameObject.transform.parent.GetComponent<MainUI_InGameMenu>().CloseInventory(focus);
+                    CloseStorageWithUpgrade(true);
                 }
             }
             else
             {
-                if (!isFull[focus - (boxNum * 24)]) return;
-
-                if (!isSelected[focus - (boxNum * 24)])
+                if (!isFull[focus]) return;
+                
+                if (!isSelected[focus])
                 {
                     ++selectedKey;
                     if (selectedKey > selectCount)
@@ -106,7 +111,7 @@ public class Menu_Storage : MonoBehaviour
             {
                 slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
                 upgradeItem = false;
-                gameObject.transform.parent.GetComponent<MainUI_InGameMenu>().CloseInventory();
+                CloseStorageWithUpgrade(false);
             }
             else
             {
@@ -117,10 +122,25 @@ public class Menu_Storage : MonoBehaviour
 
     public void EnchantedKey(int _focus)        // 인챈트, 업그레이드 성공시 키 아이템 인벤에서 제거
     {
-        storageKeyList[_focus] = null;
-        isFull[_focus] = false;
-        slot[_focus].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
-        slot[_focus].GetComponent<Image>().sprite = null;
+        for(int i = _focus; i < availableSlot - 1; ++i)
+        {
+            for(int j = 1; j < availableSlot - i; ++i)
+            {
+                if (isFull[i + j])
+                {
+                    storageKeyList[i] = storageKeyList[i + 1];
+                    isFull[i] = true;
+                    slot[i].transform.GetChild(1).GetComponent<Image>().sprite = slot[i + j].transform.GetChild(1).GetComponent<Image>().sprite;
+                    slot[i].GetComponent<Image>().sprite = slot[i + j].GetComponent<Image>().sprite;
+
+                    storageKeyList[i + 1] = null;
+                    isFull[i + j] = false;
+                    slot[i + j].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+                    slot[i + j].GetComponent<Image>().sprite = null;
+                    break;
+                }
+            }
+        }
     }
 
     public void StorageSet()           // 창고 활성화시 초기화
@@ -152,6 +172,24 @@ public class Menu_Storage : MonoBehaviour
             slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[7];
         }
     }
+
+    public void PutInBox(Menu_Inventory inventory, Key[] key)
+    {
+        int i;
+        for (i = 0; i < availableSlot; ++i)
+        {
+            if (!isFull[i])
+                break;
+        }
+        for(int j = 0; j < key.Length; ++j)
+        {
+            if(i < availableSlot)
+            {
+                storageKeyList[i] = key[j];
+                ++i;
+            }
+        }
+    }
     
     public void AvailableKeySlotUpgrade(int upgrade)
     {
@@ -166,19 +204,30 @@ public class Menu_Storage : MonoBehaviour
         }
     }
 
-    public void OpenStorage()                               // 강화에서 창고를 열었을 때
+    public void OpenStorageWithUpgrade()                 // 강화에서 창고를 열었을 때
     {
+        onStorage = true;
         upgradeItem = true;
         boxNum = 0;
         focus = 0;
-        onStorage = true;
         
         StorageSet();
         slot[focus].transform.GetChild(0).gameObject.SetActive(true);
     }
-    public void CloseStorage()
+    public void CloseStorageWithUpgrade(bool isSelect)
     {
+        onStorage = false;
+        upgradeItem = false;
 
+        if (isSelect)
+        {
+            slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
+            transform.parent.GetComponent<MainUI_InGameMenu>().CloseUpgradeStorage(focus);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void OpenStorage(GameObject _inventory)       // 일반적으로 창고를 열었을 때

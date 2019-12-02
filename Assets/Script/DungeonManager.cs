@@ -94,6 +94,7 @@ public class DungeonManager : MonoBehaviour
                 if (useTeleportSystem == 0)          // 캐릭터가 집 문앞에 있을 경우 집으로 들어간다
                 {
                     ComeBackHome();
+                    MainUI_InGameMenu.GetComponent<MainUI_InGameMenu>().Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
                 }
                 else if (useTeleportSystem == 1)    // 캐릭터가 숲 입구 (임시 던전 입구)에 있을 경우 숲(던전)으로 간다
                 {
@@ -117,6 +118,14 @@ public class DungeonManager : MonoBehaviour
                 }
                 else if (useTeleportSystem == 1)    // 캐릭터가 숲 입구 (임시 던전 입구)에 있을 경우 숲(던전)으로 간다
                 {
+                }
+            }
+            else if (SceneManager.GetActiveScene().buildIndex == 4)
+            {
+                if (useTeleportSystem == 8)
+                {
+                    ComeBackHome();
+                    MainUI_InGameMenu.GetComponent<MainUI_InGameMenu>().Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
                 }
             }
         }
@@ -277,6 +286,8 @@ public class DungeonManager : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        useTeleportSystem = 10;
+
         camera = CameraManager.instance;
         camera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
 

@@ -102,7 +102,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                                 selectEnchantItem.SetActive(false);
                                 break;
                             case 1:
-                                menu.OpenUpgradeInventory(2);
+                                menu.OpenUpgradeStorage(2);
                                 break;
                             case 3:
                                 acceptSlot[enchantFocused].transform.GetChild(0).gameObject.SetActive(false);

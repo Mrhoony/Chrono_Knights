@@ -34,8 +34,7 @@ public class Item_Looting : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-            inventory.GetKeyItem(key);
-            Destroy(gameObject);
+            if (inventory.GetKeyItem(key)) Destroy(gameObject);
         }
     }
 }

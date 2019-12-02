@@ -1364,7 +1364,7 @@ PrefabInstance:
     - target: {fileID: 82245446187993112, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 82245446187993113, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
@@ -1857,7 +1857,7 @@ PrefabInstance:
     - target: {fileID: 5592836645831605120, guid: 9a383a931a8c9254fae17696f9cad381,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3981682513319129739, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
@@ -1888,6 +1888,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: {fileID: 82245447478733253}
   slots: {fileID: 3981682513713531478}
+  quickSlot:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   onQuickSlot: 0
 --- !u!1001 &7500526060979330915
 PrefabInstance:

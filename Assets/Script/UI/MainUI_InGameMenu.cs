@@ -17,7 +17,6 @@ public class MainUI_InGameMenu : MonoBehaviour
     public Scrollbar[] sb;
 
     public bool InventoryOn;
-    public bool inventoryNotChange;
     public bool CancelOn;
 
     enum content
@@ -29,13 +28,12 @@ public class MainUI_InGameMenu : MonoBehaviour
     }
 
     int useContent;
-    int Focused = 0;
+    int Focused;
 
     private void Start()
     {
         InventoryOn = false;
         CancelOn = false;
-        inventoryNotChange = false;
         for (int i = 0; i < Menus.Length; ++i)
         {
             Menus[i].SetActive(false);
@@ -60,7 +58,7 @@ public class MainUI_InGameMenu : MonoBehaviour
                     CloseInGameMenu();
                 }
             }
-            if (InventoryOn && !inventoryNotChange)
+            if (InventoryOn)
             {
                 if (Input.GetKeyDown(KeyCode.U))
                 {
@@ -88,7 +86,8 @@ public class MainUI_InGameMenu : MonoBehaviour
             }
         }
     }
-    public void OpenInGameMenu()
+
+    public void OpenInGameMenu()        // I로 인벤토리 열 때
     {
         Time.timeScale = 0;
         _Player.GetComponent<PlayerControl>().enabled = false;
@@ -103,7 +102,7 @@ public class MainUI_InGameMenu : MonoBehaviour
             bar.value = 1.0f;
         }
     }
-    public void CloseInGameMenu()
+    public void CloseInGameMenu()       // I로 인벤토리 닫을 때
     {
         Menus[0].GetComponent<Menu_Inventory>().CloseInventory();
         Menus[Focused].SetActive(false);
@@ -111,38 +110,16 @@ public class MainUI_InGameMenu : MonoBehaviour
         _Player.GetComponent<PlayerControl>().enabled = true;
         Time.timeScale = 1;
     }
-
-    // 강화 창에서 인벤토리 열 경우
-    public void OpenUpgradeInventory(int used)
+   
+    // 강화 창에서 창고 열 경우
+    public void OpenUpgradeStorage(int used)
     {
         townUI = GameObject.Find("TownUI");
         useContent = used;
-        Focused = 0;
-        OpenStorage();
-    }
-
-    public void OpenStorage(int used)
-    {
         Menus[3].SetActive(true);
-        Menus[3].GetComponent<Menu_Storage>().OpenStorage();
+        Menus[3].GetComponent<Menu_Storage>().OpenStorageWithUpgrade();
     }
-
-    public void OpenStorage()
-    {
-        Time.timeScale = 0;
-        _Player.GetComponent<PlayerControl>().enabled = false;
-        Menus[3].SetActive(true);
-        Menus[3].GetComponent<Menu_Storage>().OpenStorage(Menus[0]);
-    }
-
-    public void CloseStorage()
-    {
-        Menus[3].SetActive(false);
-        _Player.GetComponent<PlayerControl>().enabled = true;
-        Time.timeScale = 1;
-    }
-
-    public void CloseInventory(int focused)
+    public void CloseUpgradeStorage(int focused)
     {
         switch (useContent)
         {
@@ -153,17 +130,25 @@ public class MainUI_InGameMenu : MonoBehaviour
                 townUI.GetComponent<Menu_TownUI>().townMenus[3].GetComponent<Menu_Upgrade>().SetKey(focused);
                 break;
         }
-
-        InventoryOn = false;
-        inventoryNotChange = false;
-        Menus[Focused].SetActive(false);
+        Menus[3].GetComponent<Menu_Storage>().CloseStorageWithUpgrade(true);
+        Menus[3].SetActive(false);
     }
-    public void CloseInventory()
+    
+    // 일반적으로 창고를 열 경우
+    public void OpenStorage()
     {
-        InventoryOn = false;
-        inventoryNotChange = false;
-        CloseInGameMenu();
+        Time.timeScale = 0;
+        _Player.GetComponent<PlayerControl>().enabled = false;
+        Menus[3].SetActive(true);
+        Menus[3].GetComponent<Menu_Storage>().OpenStorage(Menus[0]);
     }
+    public void CloseStorage()
+    {
+        Menus[3].SetActive(false);
+        _Player.GetComponent<PlayerControl>().enabled = true;
+        Time.timeScale = 1;
+    }
+
 
     void ChangeMenu(int AdjustValue)
     {
@@ -174,19 +159,13 @@ public class MainUI_InGameMenu : MonoBehaviour
             Focused += AdjustValue;
         }
     }
-
-    public void SetTownMenu()
-    {
-        townUI = GameObject.Find("TownUI");
-    }
-
+    
     public void OpenCancelMenu()
     {
         _Player.GetComponent<PlayerControl>().enabled = false;
         Time.timeScale = 0;
         CancelMenu.SetActive(true);
     }
-
     public void CloseCancelMenu()
     {
         CancelMenu.SetActive(false);

@@ -29,10 +29,10 @@ public class Menu_Inventory : MonoBehaviour
         transforms = slots.transform.GetComponentsInChildren<Transform>();
         slotCount = transforms.Length-1;
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
-        inventoryKeylist = new Key[slotCount];
 
         slot = new GameObject[slotCount];
         isFull = new bool[slotCount];
+        inventoryKeylist = new Key[slotCount];
 
         for (int i = 1; i < slotCount + 1; ++i)
         {
@@ -57,17 +57,19 @@ public class Menu_Inventory : MonoBehaviour
             // 키 위치 변경
         }
     }
-    public void GetKeyItem(Key _key)        // 아이템 획득시 인벤토리 등록
+    public bool GetKeyItem(Key _key)        // 아이템 획득시 인벤토리 등록
     {
-        for (int i = 0; i < slotCount; i++)
+        for (int i = 0; i < availableSlot; i++)
         {
             if (!isFull[i])
             {
                 isFull[i] = true;
                 inventoryKeylist[i] = _key;
-                break;
+
+                return true;
             }
         }
+        return false;
     }
     public void InventorySet()           // 인벤토리 활성화시 아이템 세팅
     {
@@ -133,7 +135,17 @@ public class Menu_Inventory : MonoBehaviour
         }
         else
         {
-
+            storage.GetComponent<Menu_Storage>().PutInBox(this, inventoryKeylist);
+        }
+    }
+    public void DeleteKey()
+    {
+        for(int i = 0; i < availableSlot; ++i)
+        {
+            inventoryKeylist[i] = null;
+            slot[i].GetComponent<Image>().sprite = null;
+            slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+            isFull[i] = false;
         }
     }
 

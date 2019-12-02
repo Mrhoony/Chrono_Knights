@@ -103,7 +103,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
                                 selectUpgradeItem.SetActive(false);
                                 break;
                             case 1:
-                                menu.OpenUpgradeInventory(3);
+                                menu.OpenUpgradeStorage(3);
                                 break;
                             case 3:
                                 Upgrade(equipFocused, selectedkey);
