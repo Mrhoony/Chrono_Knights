@@ -295,6 +295,7 @@ public class DungeonManager : MonoBehaviour
         
         if (SceneManager.GetActiveScene().buildIndex == 0)      // 메인 메뉴 씬 일 때
         {
+            MainUI_InGameMenu.GetComponent<MainUI_InGameMenu>().Menus[0].GetComponent<Menu_Inventory>().PutInBox(true);
             for (int i = 0; i < 2; ++i)
             {
                 if (teleportPoint[i].GetComponent<Teleport>().useSystem == 1)

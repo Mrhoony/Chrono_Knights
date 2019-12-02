@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Menu_Storage : MonoBehaviour
 {
     public MainUI_InGameMenu menu;
+    public Menu_Inventory inventory;
 
     public Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
 
