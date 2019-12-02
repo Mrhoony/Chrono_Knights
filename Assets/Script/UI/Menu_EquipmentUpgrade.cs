@@ -7,7 +7,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     protected PlayerStatus playerStat;
     protected PlayerData playerData;
     protected MainUI_InGameMenu menu;
-    protected Menu_Inventory inventory;
+    protected Menu_Storage storage;
 
     public GameObject npc_blacksmith;
     protected PlayerEquipment playerEquipment;
@@ -32,7 +32,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     public virtual void Start()
     {
         menu = transform.parent.GetComponent<Menu_TownUI>().menu;
-        inventory = menu.Menus[0].GetComponent<Menu_Inventory>();
+        storage = menu.Menus[3].GetComponent<Menu_Storage>();
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         playerData = playerStat.playerData;
         playerEquipment = playerStat.playerEquip;

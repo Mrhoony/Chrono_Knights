@@ -66,7 +66,7 @@ public class PlayerControl : MovingObject
         currentJumpCount = pStat.jumpCount;
         arrowDirection = 1;
         dodgeCount = 0.5f;
-        slopeDelay = 0.3f;
+        slopeDelay = 0;
         parryingCount = 0.2f;
     }
 
@@ -186,16 +186,7 @@ public class PlayerControl : MovingObject
                 isDamagable = false;
         }
         //if (isDownJump) return;
-
-        if(slopeDelay > 0)
-        {
-            slopeDelay -= Time.deltaTime;
-            if(slopeDelay <= 0)
-            {
-                slopeDelay = 0;
-            }
-        }
-
+        
         if (jumping)
         {
             if (rb.velocity.y <= -0.5f)
@@ -207,24 +198,24 @@ public class PlayerControl : MovingObject
             }
         }
 
-        if (isGround)
+        if(slopeDelay > 0)
         {
-            jumping = false;
-            animator.SetBool("isJump", false);
-            animator.SetBool("isJump_x_Atk", false);
-            animator.SetTrigger("isLanding");
-            currentJumpCount = pStat.jumpCount;
+            slopeDelay -= Time.deltaTime;
         }
-        
-        if (!isSlope) return;
-        if (slopeDelay > 0) return;
 
-        isSlope = false;
-        jumping = false;
-        animator.SetBool("isJump", false);
-        animator.SetBool("isJump_x_Atk", false);
-        animator.SetTrigger("isLanding");
-        currentJumpCount = pStat.jumpCount;
+        if (isSlope)
+        {
+            if (slopeDelay <= 0)
+            {
+                slopeDelay = 0;
+                isSlope = false;
+                jumping = false;
+                animator.SetBool("isJump", false);
+                animator.SetBool("isJump_x_Atk", false);
+                animator.SetTrigger("isLanding");
+                currentJumpCount = pStat.jumpCount;
+            }
+        }
     }
     
     public void InputInit()

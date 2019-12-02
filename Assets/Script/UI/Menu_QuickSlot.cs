@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class Menu_QuickSlot : MonoBehaviour
 {
-    public GameObject slot;
-    public bool[] isFull = new bool[5];
-    GameObject[] inventory = new GameObject[5];
+    public GameObject inventory;
+    public GameObject slots;
+    public GameObject[] quickSlot = new GameObject[5];
+    public bool onQuickSlot;
 
-    int _selected = 0;
+    int focus = 0;
 
     private void Awake()
     {
-        for (int cnt = 0; cnt < 5; cnt++)
-        {
-            inventory[cnt] = Instantiate(slot, new Vector3(0.55f * (cnt - 2), 0f), Quaternion.identity);
-            inventory[cnt].transform.localScale = new Vector3(3, 3);
-            inventory[cnt].transform.parent = gameObject.transform;
-        }
+
+    }
+
+    public void Start()
+    {
+        onQuickSlot = false;
     }
 
     public void Update()
@@ -31,34 +32,26 @@ public class Menu_QuickSlot : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            gameObject.SetActive(false);
-            PlayerControl.instance.enabled = true;
+            if (!onQuickSlot)
+            {
+                slots.SetActive(true);
+            }
+            if (onQuickSlot)
+            {
+                slots.SetActive(false);
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            Selected("Right");
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            Selected("Left");
-        }
+        if (Input.GetKeyDown(KeyCode.W)) { FocusedSlot(1); }
+        if (Input.GetKeyDown(KeyCode.E)) { FocusedSlot(-1); }
     }
 
-    void Selected(string adjust)
+    void FocusedSlot(int AdjustValue)
     {
-        if (adjust == "Up" && _selected < 4)
-        {
-            inventory[_selected].transform.GetChild(0).gameObject.SetActive(false);
-            _selected++;
-            inventory[_selected].transform.GetChild(0).gameObject.SetActive(true);
-        }
+        if (focus + AdjustValue < 0 || focus + AdjustValue > 5) { return; }
 
-        if (adjust == "Down" && _selected > 0)
-        {
-            inventory[_selected].transform.GetChild(0).gameObject.SetActive(false);
-            _selected--;
-            inventory[_selected].transform.GetChild(0).gameObject.SetActive(true);
-        }
+        quickSlot[focus].transform.GetChild(0).gameObject.SetActive(false);
+        focus += AdjustValue;
+        quickSlot[focus].transform.GetChild(0).gameObject.SetActive(true);
     }
 }

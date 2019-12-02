@@ -5,7 +5,7 @@ using UnityEngine;
 public class Teleport : MonoBehaviour
 {
     public bool entrance;   // 입구면 true, 출구면 false
-    public int useSystem;   // 사용처
+    public int useSystem;   // 이동 할 씬 번호
     public bool inPlayer;
     
     private void OnTriggerEnter2D(Collider2D collision)
@@ -13,6 +13,7 @@ public class Teleport : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inPlayer = true;
+            DungeonManager.instance.useTeleportSystem = useSystem;
         }
     }
 
@@ -21,6 +22,7 @@ public class Teleport : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inPlayer = false;
+            DungeonManager.instance.useTeleportSystem = 10;
         }
     }
 }

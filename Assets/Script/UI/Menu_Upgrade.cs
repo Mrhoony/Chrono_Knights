@@ -68,13 +68,13 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
                         }
                         else
                         {
-                            acceptSlot[0].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-                            acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+                            acceptSlot[0].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
+                            acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
                         }
-                        acceptSlot[1].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-                        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-                        acceptSlot[2].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-                        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+                        acceptSlot[1].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
+                        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
+                        acceptSlot[2].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
+                        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
                     }
                 }
             }
@@ -117,7 +117,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
     public void SetKey(int focus)
     {
         keySlotFocus = focus;
-        selectedkey = inventory.inventoryKeylist[focus];
+        selectedkey = storage.storageKeyList[focus];
 
         acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);
         acceptSlot[1].GetComponent<Image>().sprite = selectedkey.sprite;
@@ -145,8 +145,8 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
             }
             else
             {
-                equipSlots[i].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6]; // 테두리 색
-                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];      // 키아이템 이미지
+                equipSlots[i].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6]; // 테두리 색
+                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];      // 키아이템 이미지
             }
             equipSlots[i].transform.GetChild(1).gameObject.SetActive(true);
         }
@@ -177,13 +177,13 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
 
                     break;
             }
-            inventory.EnchantedKey(keySlotFocus);
+            storage.EnchantedKey(keySlotFocus);
         }
         // accept 창 초기화
-        acceptSlot[0].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-        acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-        acceptSlot[1].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+        acceptSlot[0].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
+        acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
+        acceptSlot[1].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
+        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
         
         acceptSlot[2].GetComponent<Image>().sprite = equipment[num].key.sprite;
         acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[equipment[num].key.keyRarity];
@@ -197,8 +197,8 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
             }
             else
             {
-                equipSlots[i].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];      // 키 아이템
-                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];   // 레어도
+                equipSlots[i].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];      // 키 아이템
+                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];   // 레어도
             }
         }
 

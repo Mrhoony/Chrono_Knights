@@ -22,6 +22,8 @@ public class Menu_Storage : MonoBehaviour
     public int boxFull;
     public int boxNum;              // 창고 번호 (*24)
 
+    bool upgradeItem;               // 아이템 강화 사용할 때
+
     public int selectedKey;         // 선택 된 아이템
     public int selectCount;         // 선택된 아이템
     public bool[] isSelected;       // 선택된 슬롯
@@ -60,36 +62,65 @@ public class Menu_Storage : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(6); }
         if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-6); }
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z))    // 아이템 선택
         {
-            if (!isFull[focus - (boxNum * 24)]) return;
-
-            if (!isSelected[focus - (boxNum * 24)])
+            if (upgradeItem)
             {
-                ++selectedKey;
-                if (selectedKey > selectCount)
+                if (storageKeyList[focus] != null)
                 {
-                    selectedKey = selectCount;
-                    return;
+                    slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
+                    upgradeItem = false;
+                    gameObject.transform.parent.GetComponent<MainUI_InGameMenu>().CloseInventory(focus);
                 }
-                isSelected[focus] = true;
             }
             else
             {
-                --selectCount;
-                if (selectedKey < 0)
+                if (!isFull[focus - (boxNum * 24)]) return;
+
+                if (!isSelected[focus - (boxNum * 24)])
                 {
-                    selectedKey = 0;
-                    return;
+                    ++selectedKey;
+                    if (selectedKey > selectCount)
+                    {
+                        selectedKey = selectCount;
+                        return;
+                    }
+                    isSelected[focus] = true;
                 }
-                isSelected[focus] = false;
+                else
+                {
+                    --selectCount;
+                    if (selectedKey < 0)
+                    {
+                        selectedKey = 0;
+                        return;
+                    }
+                    isSelected[focus] = false;
+                }
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X))    // 아이템 선택 취소
         {
-            CloseStorage();
+            if (upgradeItem)
+            {
+                slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
+                upgradeItem = false;
+                gameObject.transform.parent.GetComponent<MainUI_InGameMenu>().CloseInventory();
+            }
+            else
+            {
+                CloseStorage();
+            }
         }
+    }
+
+    public void EnchantedKey(int _focus)        // 인챈트, 업그레이드 성공시 키 아이템 인벤에서 제거
+    {
+        storageKeyList[_focus] = null;
+        isFull[_focus] = false;
+        slot[_focus].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+        slot[_focus].GetComponent<Image>().sprite = null;
     }
 
     public void StorageSet()           // 창고 활성화시 초기화
@@ -134,6 +165,17 @@ public class Menu_Storage : MonoBehaviour
             isFull[i] = true;
         }
     }
+
+    public void OpenStorage()                               // 강화에서 창고를 열었을 때
+    {
+        upgradeItem = true;
+        boxNum = 0;
+        focus = 0;
+        onStorage = true;
+        
+        StorageSet();
+        slot[focus].transform.GetChild(0).gameObject.SetActive(true);
+    }
     
     public void OpenStorage(GameObject _inventory)
     {
@@ -147,7 +189,7 @@ public class Menu_Storage : MonoBehaviour
         selectedSlot = new int[selectCount];
         StorageSet();
         slot[focus].transform.GetChild(0).gameObject.SetActive(true);
-    }
+    }       // 일반적으로 창고를 열었을 때
     public void CloseStorage()
     {
         onStorage = false;

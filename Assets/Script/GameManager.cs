@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                if (DungeonManager.instance.entrance.GetComponent<Teleport>().inPlayer)
+                if (DungeonManager.instance.useTeleportSystem == 9)
                 {
                     if (!openSaveSlot)
                     {
@@ -96,10 +96,6 @@ public class GameManager : MonoBehaviour
                     {
                         LoadGame();
                     }
-                }
-                else if (DungeonManager.instance.exit.GetComponent<Teleport>().inPlayer)
-                {
-                    StartGame();
                 }
             }
 
@@ -204,17 +200,7 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1;
         }
     }
-
-    public void StartGame()
-    {
-        DungeonManager.instance.GoToTown();     // 던전 매니져에 마을 씬으로 이동 요청
-    }
-
-    public void ComeBackHome()
-    {
-        DungeonManager.instance.ComeBackHome();     // 던전 매니져에 마을 씬으로 이동 요청
-    }
-
+    
     public void DeleteSave()
     {
         if(PlayerPrefs.HasKey("PlayerData" + slotNum))

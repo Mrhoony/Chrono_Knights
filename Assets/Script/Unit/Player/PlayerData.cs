@@ -61,7 +61,7 @@ public class PlayerData
         }
 
         HP = 100f;
-        jumpPower = 6f;
+        jumpPower = 7f;
 
         Atk = 2;
         up_Atk = 0;

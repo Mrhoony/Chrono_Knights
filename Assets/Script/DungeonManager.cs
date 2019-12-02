@@ -9,8 +9,8 @@ public class DungeonManager : MonoBehaviour
     public new CameraManager camera;
 
     public GameObject[] teleport;
-    public Teleport entrance;           // 입구 씬넘버 + 1
-    public Teleport exit;               // 출구 씬넘버 - 1
+    public Vector2 entrance;            // 텔레포트 위치
+    public int useTeleportSystem;       // 텔레포트 사용 방법 0~4 입구, 9 사용 안함
 
     public GameObject player;
     public GameObject playerStatView;
@@ -62,6 +62,7 @@ public class DungeonManager : MonoBehaviour
         pStat = player.GetComponent<PlayerStatus>();
         MainUI_InGameMenu = GameObject.Find("UI/Menus").GetComponent<MainUI_InGameMenu>();
         choiceSprite = Resources.LoadAll<Sprite>("UI/ui_hpbell_set");
+        useTeleportSystem = 10;
     }
 
     public void Start()
@@ -73,6 +74,56 @@ public class DungeonManager : MonoBehaviour
         newDay = false;
         dungeonClear = false;
         possible_Traning = false;
+    }
+
+    public void Update()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            if (SceneManager.GetActiveScene().buildIndex == 0)      // 메인 메뉴 화면에서
+            {
+                if (useTeleportSystem == 1)    // 캐릭터가 문 앞에 있을 때 마을로 간다
+                {
+                    GoToTown();
+                    dungeonClear = false;
+                }
+            }
+            else if (SceneManager.GetActiveScene().buildIndex == 1)      // 마을 화면에서
+            {
+                if (useTeleportSystem == 0)          // 캐릭터가 집 문앞에 있을 경우 집으로 들어간다
+                {
+                    ComeBackHome();
+                }
+                else if (useTeleportSystem == 1)    // 캐릭터가 숲 입구 (임시 던전 입구)에 있을 경우 숲(던전)으로 간다
+                {
+                    SceneManager.LoadScene("TopFirstFloor");
+                    dungeonClear = true;
+                }
+            }
+            else if (SceneManager.GetActiveScene().buildIndex == 2)      // 마을 - 숲 화면에서
+            {
+                if (useTeleportSystem == 0)          // 캐릭터가 집 문앞에 있을 경우 집으로 들어간다
+                {
+                }
+                else if (useTeleportSystem == 1)    // 캐릭터가 숲 입구 (임시 던전 입구)에 있을 경우 숲(던전)으로 간다
+                {
+                }
+            }
+            else if (SceneManager.GetActiveScene().buildIndex == 3)      // 숲 - 타워 화면에서
+            {
+                if (useTeleportSystem == 0)          // 캐릭터가 집 문앞에 있을 경우 집으로 들어간다
+                {
+                }
+                else if (useTeleportSystem == 1)    // 캐릭터가 숲 입구 (임시 던전 입구)에 있을 경우 숲(던전)으로 간다
+                {
+                }
+            }
+        }
+    }
+
+    public void useKeyInDungeon(Key _key)
+    {
+
     }
 
     public void NewDayCheck()
@@ -88,7 +139,7 @@ public class DungeonManager : MonoBehaviour
     {
         if (dungeonEscape)
         {
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene(0);
             newDay = true;
             NewDayCheck();
             dungeonClear = false;
@@ -128,11 +179,6 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
-    public void NextScene()
-    {
-
-    }
-
     public void GoToTown()
     {
         SceneManager.LoadScene("Town");
@@ -158,36 +204,45 @@ public class DungeonManager : MonoBehaviour
         camera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
 
         teleport = GameObject.FindGameObjectsWithTag("Portal");
-
-        for (int i = 0; i < 2; ++i)
+        
+        if (SceneManager.GetActiveScene().buildIndex == 0)      // 메인 메뉴 씬 일 때
         {
-            if (teleport[i].GetComponent<Teleport>().entrance)
-                entrance = teleport[i].GetComponent<Teleport>();
-            else
-                exit = teleport[i].GetComponent<Teleport>();
-        }
-
-        player.transform.position = exit.transform.position;
-
-        if (SceneManager.GetActiveScene().buildIndex > 1)
-        {
-            mapList = GameObject.FindGameObjectsWithTag("BaseMap");
-            //SelectedKey(1, 1, false);
-        }
-        else if(SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            pStat.Init();
-            pStat.HPInit();
-        }
-        else if(SceneManager.GetActiveScene().buildIndex == 0)
-        {
+            for (int i = 0; i < 2; ++i)
+            {
+                if (teleport[i].GetComponent<Teleport>().useSystem == 1)
+                    entrance = teleport[i].GetComponent<Teleport>().transform.position;
+            }
             if (!GameManager.instance.gameStart)
             {
-                player.transform.position = entrance.transform.position;
                 player.GetComponent<PlayerControl>().enabled = false;
             }
             playerStatView.SetActive(false);
         }
+        else if(SceneManager.GetActiveScene().buildIndex == 1)  // 마을 화면 일 때
+        {
+            pStat.Init();
+            pStat.HPInit();
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 2)  // 마을 - 숲 화면 일 때
+        {
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 3)  // 숲 - 타워 화면 일 때
+        {
+            mapList = GameObject.FindGameObjectsWithTag("BaseMap");
+            //SelectedKey(1, 1, false);
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 4)  // 타워 첫번째 층 일 때
+        {
+            mapList = GameObject.FindGameObjectsWithTag("BaseMap");
+            for (int i = 0; i < 2; ++i)
+            {
+                if (teleport[i].GetComponent<Teleport>().useSystem == 9)
+                    entrance = teleport[i].GetComponent<Teleport>().transform.position;
+            }
+            //SelectedKey(1, 1, false);
+        }
+
+        player.transform.position = entrance;
     }
 }
 /*

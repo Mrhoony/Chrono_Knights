@@ -7,7 +7,7 @@ public class Menu_Inventory : MonoBehaviour
 {
     // 초기화 영역
     public GameObject player;
-    public GameObject slots;        
+    public GameObject slots;
     public Transform[] transforms;
     public Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
     public GameObject storage;
@@ -22,7 +22,6 @@ public class Menu_Inventory : MonoBehaviour
 
     public int[] selectedStorageKey;    
     
-    bool upgradeItem;               // 아이템 강화 사용할 때
     public int focused = 0;
 
     private void Awake()
@@ -41,7 +40,6 @@ public class Menu_Inventory : MonoBehaviour
             slot[i - 1].transform.GetChild(1).gameObject.SetActive(true);
             isFull[i - 1] = false;
         }
-        upgradeItem = false;
         seletedKey = 0;
         takeKeySlot = 3;
         availableSlot = 6;
@@ -54,40 +52,9 @@ public class Menu_Inventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(6); }
         if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-6); }
 
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
-            if (!upgradeItem)
-            {
-                slot[focused].transform.GetChild(0).gameObject.SetActive(false);
-                gameObject.transform.parent.GetComponent<MainUI_InGameMenu>().CloseInventory();
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Z))    // 아이템 선택
-        {
-            if (upgradeItem)
-            {
-                if (inventoryKeylist[focused] != null)
-                {
-                    slot[focused].transform.GetChild(0).gameObject.SetActive(false);
-                    upgradeItem = false;
-                    gameObject.transform.parent.GetComponent<MainUI_InGameMenu>().CloseInventory(focused);
-                }
-            }
-            else                            // 아이템 버프로 사용시
-            {
-
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.X))    // 아이템 선택 취소
-        {
-            if (upgradeItem)
-            {
-                slot[focused].transform.GetChild(0).gameObject.SetActive(false);
-                upgradeItem = false;
-                gameObject.transform.parent.GetComponent<MainUI_InGameMenu>().CloseInventory();
-            }
+            // 키 위치 변경
         }
     }
     public void GetKeyItem(Key _key)        // 아이템 획득시 인벤토리 등록
@@ -102,7 +69,6 @@ public class Menu_Inventory : MonoBehaviour
             }
         }
     }
-
     public void InventorySet()           // 인벤토리 활성화시 아이템 세팅
     {
         for (int i = 0; i < availableSlot; ++i)
@@ -123,28 +89,13 @@ public class Menu_Inventory : MonoBehaviour
             slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[7];
         }
     }
-
     public void OpenInventory()
     {
         focused = 0;
         InventorySet();
         slot[focused].transform.GetChild(0).gameObject.SetActive(true);
     }
-
-    public void OpenUpgradeInventory()     // 인챈트, 업그레이드 시 체크
-    {
-        upgradeItem = true;
-        OpenInventory();
-    }
     
-    public void EnchantedKey(int _focus)        // 인챈트, 업그레이드 성공시 키 아이템 인벤에서 제거
-    {
-        inventoryKeylist[_focus] = null;
-        isFull[_focus] = false;
-        slot[_focus].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
-        slot[_focus].GetComponent<Image>().sprite = null;
-    }
-
     public void SetStorageLinkedItem(int[] seletedKeySlot)
     {
         selectedStorageKey = seletedKeySlot;

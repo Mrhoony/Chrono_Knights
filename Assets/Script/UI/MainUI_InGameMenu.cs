@@ -110,28 +110,19 @@ public class MainUI_InGameMenu : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    // 인벤토리
-    public void OpenInventory(int used)
-    {
-        inventoryNotChange = true;
-        InventoryOn = true;
-        useContent = used;
-
-        Focused = 0;
-        Menus[Focused].SetActive(true);
-        Menus[Focused].GetComponent<Menu_Inventory>().OpenInventory();
-
-        foreach (Scrollbar bar in sb)
-        {
-            bar.size = 0.0f;
-            bar.value = 1.0f;
-        }
-    }
     // 강화 창에서 인벤토리 열 경우
     public void OpenUpgradeInventory(int used)
     {
         townUI = GameObject.Find("TownUI");
-        OpenInventory(used);
+        useContent = used;
+        Focused = 0;
+        OpenStorage();
+    }
+
+    public void OpenStorage(int used)
+    {
+        Menus[3].SetActive(true);
+        Menus[3].GetComponent<Menu_Storage>().OpenStorage();
     }
 
     public void OpenStorage()

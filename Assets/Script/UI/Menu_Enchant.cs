@@ -69,8 +69,8 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                         }
                         else
                         {
-                            acceptSlot[0].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-                            acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+                            acceptSlot[0].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
+                            acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
                         }
                     }
                 }
@@ -132,8 +132,8 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
             }
             else
             {
-                equipSlots[i].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];      // 키 아이템
-                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];   // 레어도
+                equipSlots[i].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];      // 키 아이템
+                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];   // 레어도
             }
             equipSlots[i].transform.GetChild(1).gameObject.SetActive(true);
         }
@@ -142,16 +142,16 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
         acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);
         acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
 
-        acceptSlot[1].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-        acceptSlot[2].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+        acceptSlot[1].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
+        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
+        acceptSlot[2].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
+        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
     }
 
     public void SetKey(int focus)
     {
         keySlotFocus = focus;
-        selectedkey = inventory.inventoryKeylist[focus];
+        selectedkey = storage.storageKeyList[focus];
 
         acceptSlot[1].GetComponent<Image>().sprite = selectedkey.sprite;
         acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[selectedkey.keyRarity];
@@ -191,14 +191,14 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                     PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, key, true);
                     break;
             }
-            inventory.EnchantedKey(keySlotFocus);
+            storage.EnchantedKey(keySlotFocus);
         }
 
         // accept 창 초기화
-        acceptSlot[0].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-        acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-        acceptSlot[1].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
-        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];
+        acceptSlot[0].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
+        acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
+        acceptSlot[1].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
+        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
         
         acceptSlot[2].GetComponent<Image>().sprite = equipment[num].key.sprite;
         acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[equipment[num].key.keyRarity];
@@ -212,8 +212,8 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
             }
             else
             {
-                equipSlots[i].GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];      // 키 아이템
-                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = inventory.keyItemBorderSprite[6];   // 레어도
+                equipSlots[i].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];      // 키 아이템
+                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];   // 레어도
             }
         }
 
