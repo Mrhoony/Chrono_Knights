@@ -9,8 +9,8 @@ public class DungeonManager : MonoBehaviour
     public new CameraManager camera;
 
     public GameObject[] teleport;
-    public Teleport entrance;
-    public Teleport exit;
+    public Teleport entrance;           // 입구 씬넘버 + 1
+    public Teleport exit;               // 출구 씬넘버 - 1
 
     public GameObject player;
     public GameObject playerStatView;
@@ -128,16 +128,20 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
-    public void GoToTown()
+    public void NextScene()
     {
-        camera.SetHeiWid(1280, 720);
-        SceneManager.LoadScene("Town");
+
     }
 
+    public void GoToTown()
+    {
+        SceneManager.LoadScene("Town");
+        camera.SetHeiWid(1280, 720);
+    }
     public void ComeBackHome()
     {
-        camera.SetHeiWid(640, 360);
         SceneManager.LoadScene("MainMenu");
+        camera.SetHeiWid(640, 360);
     }
     
     public void OnEnable()
@@ -163,7 +167,7 @@ public class DungeonManager : MonoBehaviour
                 exit = teleport[i].GetComponent<Teleport>();
         }
 
-        player.transform.position = entrance.transform.position;
+        player.transform.position = exit.transform.position;
 
         if (SceneManager.GetActiveScene().buildIndex > 1)
         {
@@ -179,9 +183,10 @@ public class DungeonManager : MonoBehaviour
         {
             if (!GameManager.instance.gameStart)
             {
+                player.transform.position = entrance.transform.position;
                 player.GetComponent<PlayerControl>().enabled = false;
-                playerStatView.SetActive(false);
             }
+            playerStatView.SetActive(false);
         }
     }
 }

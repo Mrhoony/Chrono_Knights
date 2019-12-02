@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Menu_Inventory : MonoBehaviour
 {
     // 초기화 영역
-    GameObject _Player;
+    public GameObject player;
     public GameObject slots;        
     public Transform[] transforms;
     public Sprite[] keyItemBorderSprite;    // 키 레어도 테두리

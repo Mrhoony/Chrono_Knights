@@ -45,7 +45,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.015, y: -0.32}
+  m_Offset: {x: -0.015, y: -0.29}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -82,9 +82,9 @@ GameObject:
   - component: {fileID: 3981682513319129780}
   - component: {fileID: 3981682513319129781}
   - component: {fileID: 3981682513319129738}
-  - component: {fileID: 7375898382780489821}
   - component: {fileID: 3981682513319129737}
   - component: {fileID: 3981682513319129742}
+  - component: {fileID: 3677731558862700652}
   m_Layer: 8
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -195,22 +195,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!70 &7375898382780489821
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3981682513319129743}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.01}
-  m_Size: {x: 0.4, y: 0.6}
-  m_Direction: 0
 --- !u!114 &3981682513319129737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +208,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStatusView: {fileID: 0}
+  dataBase:
+    playerData:
+      HP: 0
+      maxBuffTime: 0
+      jumpPower: 0
+      moveSpeed: 0
+      Atk: 0
+      attackSpeed: 0
+      jumpCount: 0
+      defense: 0
+      recovery: 0
+      dashDistance: 0
+      up_moveSpeed: 0
+      up_Atk: 0
+      up_attackSpeed: 0
+      up_jumpCount: 0
+      up_defense: 0
+      up_recovery: 0
+      up_dashDistance: 0
+      traning_count: []
+      currentDate: 0
+    takeKeySlot: 0
+    availableInventorySlot: 0
+    availableStorageSlot: 0
+    currentDate: 0
+    eventCheck: 
   playerData:
     HP: 0
     maxBuffTime: 0
@@ -276,11 +286,13 @@ MonoBehaviour:
   arrow: 0
   GroundCheck: {fileID: 3981682513018439649}
   pStat: {fileID: 3981682513319129737}
+  movement: {x: 0, y: 0}
   inputDirection: 0
   arrowDirection: 0
   isJump: 0
   jumping: 0
   isDownJump: 0
+  isGround: 0
   parrying: 0
   isParrying: 0
   isAtk: 0
@@ -298,3 +310,29 @@ MonoBehaviour:
   isDamagableCount: 0
   currentJumpCount: 0
   isBlock: 0
+--- !u!61 &3677731558862700652
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3981682513319129743}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.015, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5392157, y: 0.5}
+    oldSize: {x: 1.02, y: 0.59}
+    newSize: {x: 2.56, y: 0.64}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.4, y: 0.58}
+  m_EdgeRadius: 0

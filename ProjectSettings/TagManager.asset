@@ -19,6 +19,7 @@ TagManager:
   - StartPosition
   - Item
   - ItemSlot
+  - Slope
   layers:
   - Default
   - TransparentFX
@@ -35,8 +36,8 @@ TagManager:
   - NPC
   - Item
   - IgnorePlayer
-  - 
-  - 
+  - Wall
+  - HangingWall
   - 
   - 
   - 

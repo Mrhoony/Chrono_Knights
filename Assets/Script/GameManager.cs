@@ -158,7 +158,6 @@ public class GameManager : MonoBehaviour
 
         inGameMenu.GetComponent<MainUI_InGameMenu>().CloseCancelMenu();
     }
-
     public void LoadGame()
     {
         if(PlayerPrefs.HasKey("SaveSlot" + slotNum))
@@ -184,6 +183,7 @@ public class GameManager : MonoBehaviour
                 storage.SetStorageData(dataBase.storageKeyList, dataBase.availableStorageSlot);
                 inventory.SetInventoryData(dataBase.takeKeySlot, dataBase.availableInventorySlot);
                 DungeonManager.instance.currentDate = dataBase.currentDate;
+
                 player.GetComponent<PlayerControl>().enabled = true;
                 Time.timeScale = 1;
             }

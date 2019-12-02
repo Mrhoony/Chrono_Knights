@@ -12,6 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Town.unity
     guid: 3a90732030e6a9e458900073e5a03466
   - enabled: 1
-    path: Assets/Scenes/TopFirstFloor.unity
+    path: Assets/Scenes/Forest-Town.unity
+    guid: 959389f084dbef64b802924214423f19
+  - enabled: 1
+    path: Assets/Scenes/Tower-Forest.unity
+    guid: b9dbe624535794e4ba29a71f4edadded
+  - enabled: 1
+    path: Assets/Scenes/TowerFirstFloor.unity
     guid: ec0ac113a07579048a54e93f5e7f1038
   m_configObjects: {}

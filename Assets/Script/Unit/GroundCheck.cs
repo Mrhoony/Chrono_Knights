@@ -28,11 +28,28 @@ public class GroundCheck : MonoBehaviour
                 }
                 else
                 {
-                    playerControl.jumping = false;
-                    playerControl.animator.SetBool("isJump", false);
-                    playerControl.animator.SetBool("isJump_x_Atk", false);
+                    playerControl.isGround = true;
+                }
+            }
+            else if (parentObject.CompareTag("Monster"))
+            {
+                monsterControl = parentObject.GetComponent<Monster_Control>();
+                monsterControl.animator.SetBool("isJumping", false);
+            }
+        }
+        if (collision.gameObject.CompareTag("Slope"))
+        {
+            if (parentObject.CompareTag("Player"))
+            {
+                playerControl = parentObject.GetComponent<PlayerControl>();
+                
+                playerControl.isSlope = true;
+                playerControl.slopeDelay = 0.3f;
+
+                if (playerControl.isDodge)
+                {
+                    playerControl.isDodge = false;
                     playerControl.animator.SetTrigger("isLanding");
-                    playerControl.currentJumpCount = playerControl.pStat.jumpCount;
                 }
             }
             else if (parentObject.CompareTag("Monster"))
@@ -42,6 +59,7 @@ public class GroundCheck : MonoBehaviour
             }
         }
     }
+}
     
     /*
     private void OnTriggerStay2D(Collider2D collision)
@@ -64,4 +82,3 @@ public class GroundCheck : MonoBehaviour
         }
     }
     */
-}

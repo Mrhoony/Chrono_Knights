@@ -20,6 +20,8 @@ public class PlayerControl : MovingObject
     public bool jumping;
     public bool isDownJump;
     public bool isGround;
+    public bool isSlope;
+    public float slopeDelay;
     public bool parrying;
     public bool isParrying;
 
@@ -64,6 +66,7 @@ public class PlayerControl : MovingObject
         currentJumpCount = pStat.jumpCount;
         arrowDirection = 1;
         dodgeCount = 0.5f;
+        slopeDelay = 0.3f;
         parryingCount = 0.2f;
     }
 
@@ -183,10 +186,45 @@ public class PlayerControl : MovingObject
                 isDamagable = false;
         }
         //if (isDownJump) return;
-        if (jumping && rb.velocity.y <= 0f)
+
+        if(slopeDelay > 0)
         {
-            GroundCheck.SetActive(true);
+            slopeDelay -= Time.deltaTime;
+            if(slopeDelay <= 0)
+            {
+                slopeDelay = 0;
+            }
         }
+
+        if (jumping)
+        {
+            if (rb.velocity.y <= -0.5f)
+            {
+                if (slopeDelay > 0)
+                    GroundCheck.SetActive(false);
+                else
+                    GroundCheck.SetActive(true);
+            }
+        }
+
+        if (isGround)
+        {
+            jumping = false;
+            animator.SetBool("isJump", false);
+            animator.SetBool("isJump_x_Atk", false);
+            animator.SetTrigger("isLanding");
+            currentJumpCount = pStat.jumpCount;
+        }
+        
+        if (!isSlope) return;
+        if (slopeDelay > 0) return;
+
+        isSlope = false;
+        jumping = false;
+        animator.SetBool("isJump", false);
+        animator.SetBool("isJump_x_Atk", false);
+        animator.SetTrigger("isLanding");
+        currentJumpCount = pStat.jumpCount;
     }
     
     public void InputInit()
@@ -290,6 +328,7 @@ public class PlayerControl : MovingObject
             GroundCheck.SetActive(false);
 
             rb.AddForce(new Vector2(0f, pStat.jumpPower), ForceMode2D.Impulse);
+            isGround = false;
 
             --currentJumpCount;
 
@@ -439,13 +478,5 @@ public class PlayerControl : MovingObject
             yield return null;
         } while (inputAttack.Count > 0);
         attackLock = !attackLock;
-    }
-
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            
-        }
     }
 }
