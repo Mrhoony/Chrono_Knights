@@ -51,7 +51,7 @@ public class Menu_Inventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
         if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(6); }
         if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-6); }
-
+        
         if (Input.GetKeyDown(KeyCode.Z))
         {
             // 키 위치 변경
@@ -95,6 +95,10 @@ public class Menu_Inventory : MonoBehaviour
         InventorySet();
         slot[focused].transform.GetChild(0).gameObject.SetActive(true);
     }
+    public void CloseInventory()
+    {
+        slot[focused].transform.GetChild(0).gameObject.SetActive(false);
+    }
     
     public void SetStorageLinkedItem(int[] seletedKeySlot)
     {
@@ -120,8 +124,7 @@ public class Menu_Inventory : MonoBehaviour
             isFull[i] = true;
         }
     }
-
-
+    
     public void PutInBox(bool isDead)
     {
         if (isDead)

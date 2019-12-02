@@ -57,6 +57,7 @@ public class MainUI_InGameMenu : MonoBehaviour
                 else
                 {
                     InventoryOn = !InventoryOn;
+                    CloseInGameMenu();
                 }
             }
             if (InventoryOn && !inventoryNotChange)
@@ -92,9 +93,9 @@ public class MainUI_InGameMenu : MonoBehaviour
         Time.timeScale = 0;
         _Player.GetComponent<PlayerControl>().enabled = false;
         Focused = 0;
-        Menus[Focused].SetActive(true);
+        Menus[0].SetActive(true);
         playerStatusInfo.SetActive(true);
-        Menus[Focused].GetComponent<Menu_Inventory>().OpenInventory();
+        Menus[0].GetComponent<Menu_Inventory>().OpenInventory();
         playerStatusInfo.GetComponent<MainUI_PlayerStatusInfo>().OnStatusMenu();
         foreach (Scrollbar bar in sb)
         {
@@ -104,6 +105,7 @@ public class MainUI_InGameMenu : MonoBehaviour
     }
     public void CloseInGameMenu()
     {
+        Menus[0].GetComponent<Menu_Inventory>().CloseInventory();
         Menus[Focused].SetActive(false);
         playerStatusInfo.SetActive(false);
         _Player.GetComponent<PlayerControl>().enabled = true;

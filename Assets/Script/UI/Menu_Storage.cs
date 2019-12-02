@@ -176,8 +176,12 @@ public class Menu_Storage : MonoBehaviour
         StorageSet();
         slot[focus].transform.GetChild(0).gameObject.SetActive(true);
     }
-    
-    public void OpenStorage(GameObject _inventory)
+    public void CloseStorage()
+    {
+
+    }
+
+    public void OpenStorage(GameObject _inventory)       // 일반적으로 창고를 열었을 때
     {
         boxNum = 0;
         focus = 0;
@@ -189,7 +193,7 @@ public class Menu_Storage : MonoBehaviour
         selectedSlot = new int[selectCount];
         StorageSet();
         slot[focus].transform.GetChild(0).gameObject.SetActive(true);
-    }       // 일반적으로 창고를 열었을 때
+    }
     public void CloseStorage()
     {
         onStorage = false;
