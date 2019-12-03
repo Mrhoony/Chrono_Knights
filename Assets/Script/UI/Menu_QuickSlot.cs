@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Menu_QuickSlot : MonoBehaviour
 {
+    public static Menu_QuickSlot instance;
+
     public GameObject player;
     public MainUI_InGameMenu menu;
     public Menu_Inventory inventory;
@@ -13,12 +15,23 @@ public class Menu_QuickSlot : MonoBehaviour
     public bool onQuickSlot;
     public int addQuickInventory;
 
+    public Sprite[] quickSlotImage;
+
     public int focus;
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+            Destroy(gameObject);
+
         menu = GameObject.Find("UI/Menus").GetComponent<MainUI_InGameMenu>();
         inventory = GameObject.Find("UI/Menus/Inventory").GetComponent<Menu_Inventory>();
+        quickSlotImage = Resources.LoadAll<Sprite>("UI/ui_quickSlot");
         onQuickSlot = false;
     }
 
@@ -45,7 +58,7 @@ public class Menu_QuickSlot : MonoBehaviour
             }
         }
 
-        transform.position = new Vector2(player.transform.position.x, player.transform.position.y + 0.1f);
+        transform.position = new Vector2(player.transform.position.x, player.transform.position.y + 0.5f);
 
         if (!onQuickSlot) return;
         
@@ -58,18 +71,35 @@ public class Menu_QuickSlot : MonoBehaviour
             {
 
             }
-            inventory.quickSlotUseItem(focus);
+            else
+            {
+                inventory.quickSlotUseItem(focus);
+                SetQuickSlot();
+            }
         }
     }
 
     public void SetQuickSlot()
     {
         inventoryKeylist = inventory.inventoryKeylist;
+        int i = 0;
+        while(inventoryKeylist[i] != null)
+        {
+            if (inventoryKeylist[i] != null)
+            {
+                quickSlot[i].GetComponent<SpriteRenderer>().sprite = inventoryKeylist[i].sprite;
+            }
+            else
+            {
+                quickSlot[i].GetComponent<SpriteRenderer>().sprite = quickSlotImage[1];
+            }
+            ++i;
+        }
     }
 
     void FocusedSlot(int AdjustValue)
     {
-        if (focus + AdjustValue < 0 || focus + AdjustValue > inventoryKeylist.Length) { return; }
+        if (focus + AdjustValue < 0 || focus + AdjustValue > inventory.availableSlot) { return; }
 
         quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
 

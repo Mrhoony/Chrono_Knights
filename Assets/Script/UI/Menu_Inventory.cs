@@ -82,15 +82,23 @@ public class Menu_Inventory : MonoBehaviour
     public void OpenInventory()
     {
         onInventory = true;
+        int itemCount = 0;
+        while(inventoryKeylist[itemCount] != null)
+        {
+            ++itemCount;
+        }
+        Debug.Log(itemCount);
+
         if (seletedKeyCount > 0)            // 창고에 링크된 키 등록
         {
             for(int i = 0; i < seletedKeyCount; ++i)
             {
-                inventoryKeylist[i] = storage.storageKeyList[storage.selectedSlot[i]];
-                isFull[i] = true;
+                inventoryKeylist[itemCount] = storage.storageKeyList[storage.selectedSlot[i]];
+                isFull[itemCount] = true;
+                ++itemCount;
             }
         }
-        for(int i = seletedKeyCount; i < availableSlot; ++i)    // 창고에서 꺼낸 키 외에는 빈슬롯
+        for(int i = itemCount + seletedKeyCount; i < availableSlot; ++i)    // 창고에서 꺼낸 키 외에는 빈슬롯
         {
             inventoryKeylist[i] = null;
             isFull[i] = false;
@@ -164,7 +172,17 @@ public class Menu_Inventory : MonoBehaviour
     }
     public void DeleteStorageItem()             // 던전 진입할 때 들고있는 키 창고에서 삭제
     {
-
+        for (int i = 0; i < seletedKeyCount; ++i)
+        {
+            inventoryKeylist[i] = storage.storageKeyList[selectedStorageKey[i]];
+            isFull[i] = true;
+        }
+        for (int i = seletedKeyCount; i < availableSlot; ++i)    // 창고에서 꺼낸 키 외에는 빈슬롯
+        {
+            inventoryKeylist[i] = null;
+            isFull[i] = false;
+        }
+        storage.DeleteStorageSlotItem();
         selectedStorageKey = new int[takeKeySlot];
         seletedKeyCount = 0;
     }
