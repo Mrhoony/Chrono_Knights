@@ -25,7 +25,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
 
     public void Update()
     {
-        if (!menu.InventoryOn && !menu.CancelOn)
+        if (!menu.storageOn)
         {
             if (!enchantOn)
             {
@@ -72,6 +72,8 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                             acceptSlot[0].GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
                             acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = storage.keyItemBorderSprite[6];
                         }
+                        acceptSlot[2].GetComponent<Image>().sprite = acceptSlot[1].GetComponent<Image>().sprite;
+                        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite;
                     }
                 }
             }
@@ -152,6 +154,8 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
     {
         keySlotFocus = focus;
         selectedkey = storage.storageKeyList[focus];
+
+        Debug.Log(storage.storageKeyList[focus]);
 
         acceptSlot[1].GetComponent<Image>().sprite = selectedkey.sprite;
         acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[selectedkey.keyRarity];

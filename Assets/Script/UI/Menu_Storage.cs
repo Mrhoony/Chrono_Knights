@@ -13,31 +13,30 @@ public class Menu_Storage : MonoBehaviour
     public Transform[] transforms;
     public GameObject slots;
     public GameObject[] slot;
-
     public int slotCount;
-    public int focus;
-    public int availableSlot;       // 사용 가능한 슬롯 수
     public bool onStorage;
+    bool upgradeItem;               // 아이템 강화 사용할 때
 
-    public Key[] storageKeyList;
-    public bool[] isFull;
-
+    // 창고 슬롯
+    public int availableSlot;       // 사용 가능한 슬롯 수
     public int boxFull;
     public int boxNum;              // 창고 번호 (*24)
 
-    bool upgradeItem;               // 아이템 강화 사용할 때
-
-    public int selectedKey;         // 선택 된 아이템
-    public int selectCount;         // 선택된 아이템
+    // 한 슬롯 변수
+    public int focus;
+    public Key[] storageKeyList;
+    public bool[] isFull;
     public bool[] isSelected;       // 선택된 슬롯
     public int[] selectedSlot;      // 선택된 슬롯 번호
-
+    public int selectCount;         // 선택된 아이템
+    
     private void Awake()
     {
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
 
         transforms = slots.transform.GetComponentsInChildren<Transform>();
         menu = transform.parent.GetComponent<MainUI_InGameMenu>();
+        inventory = menu.Menus[0].GetComponent<Menu_Inventory>();
         slotCount = transforms.Length - 1;
 
         slot = new GameObject[slotCount];
@@ -60,8 +59,9 @@ public class Menu_Storage : MonoBehaviour
 
     public void Update()
     {
+        if (menu.InventoryOn || menu.cancelOn) return;
+        
         if (!onStorage) return;
-        if (menu.InventoryOn) return;
 
         if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
         if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
@@ -74,34 +74,33 @@ public class Menu_Storage : MonoBehaviour
             {
                 if (storageKeyList[focus] != null)
                 {
-                    slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
                     upgradeItem = false;
                     CloseStorageWithUpgrade(true);
                 }
             }
             else
             {
-                if (!isFull[focus]) return;
+                if (storageKeyList[focus] == null) return;
                 
                 if (!isSelected[focus])
                 {
-                    ++selectedKey;
-                    if (selectedKey > selectCount)
+                    if (inventory.seletedKeyCount > inventory.takeKeySlot)
                     {
-                        selectedKey = selectCount;
+                        inventory.seletedKeyCount = inventory.takeKeySlot;
                         return;
                     }
                     isSelected[focus] = true;
+                    ++inventory.seletedKeyCount;
                 }
                 else
                 {
-                    --selectCount;
-                    if (selectedKey < 0)
+                    if (inventory.seletedKeyCount < 0)
                     {
-                        selectedKey = 0;
+                        inventory.seletedKeyCount = 0;
                         return;
                     }
                     isSelected[focus] = false;
+                    --inventory.seletedKeyCount;
                 }
             }
         }
@@ -127,17 +126,19 @@ public class Menu_Storage : MonoBehaviour
         {
             for(int j = 1; j < availableSlot - i; ++i)
             {
-                if (isFull[i + j])
+                if (storageKeyList[i + j] != null)
                 {
                     storageKeyList[i] = storageKeyList[i + 1];
                     isFull[i] = true;
-                    slot[i].transform.GetChild(1).GetComponent<Image>().sprite = slot[i + j].transform.GetChild(1).GetComponent<Image>().sprite;
-                    slot[i].GetComponent<Image>().sprite = slot[i + j].GetComponent<Image>().sprite;
+                    if (isSelected[i])      // 인벤토리 선택된 아이템 제거
+                    {
+                        isSelected[i] = false;
+                        slot[i].transform.GetChild(2).gameObject.SetActive(false);
+                        --inventory.seletedKeyCount;
+                    }
 
                     storageKeyList[i + 1] = null;
                     isFull[i + j] = false;
-                    slot[i + j].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
-                    slot[i + j].GetComponent<Image>().sprite = null;
                     break;
                 }
             }
@@ -159,13 +160,18 @@ public class Menu_Storage : MonoBehaviour
         {
             if (storageKeyList[i] != null)
             {
+                isFull[i] = true;
                 slot[i - (boxNum * 24)].GetComponent<Image>().sprite = storageKeyList[i].sprite;
                 slot[i - (boxNum * 24)].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[11 - storageKeyList[i].keyRarity];
+                if (isSelected[i])
+                    slot[i - (boxNum * 24)].transform.GetChild(2).gameObject.SetActive(true);
             }
             else
             {
+                isFull[i] = false;
                 slot[i - (boxNum * 24)].GetComponent<Image>().sprite = null;
                 slot[i - (boxNum * 24)].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+                slot[i - (boxNum * 24)].transform.GetChild(2).gameObject.SetActive(false);
             }
         }
         for(int i = boxFull; i < 24; ++i)
@@ -173,13 +179,12 @@ public class Menu_Storage : MonoBehaviour
             slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[7];
         }
     }
-
-    public void PutInBox(Menu_Inventory inventory, Key[] key)
+    public void PutInBox(Key[] key)
     {
         int i;
         for (i = 0; i < availableSlot; ++i)
         {
-            if (!isFull[i])
+            if (storageKeyList[i] == null)
                 break;
         }
         for(int j = 0; j < key.Length; ++j)
@@ -231,39 +236,95 @@ public class Menu_Storage : MonoBehaviour
         }
     }
 
-    public void OpenStorage(GameObject _inventory)       // 일반적으로 창고를 열었을 때
+    public void OpenStorage()       // 일반적으로 창고를 열었을 때
     {
         boxNum = 0;
         focus = 0;
         onStorage = true;
-        inventory = _inventory.GetComponent<Menu_Inventory>();
-        selectedKey = inventory.seletedKey;
-        selectCount = inventory.takeKeySlot;
 
-        selectedSlot = new int[selectCount];
+        selectedSlot = new int[inventory.takeKeySlot];
         StorageSet();
         slot[focus].transform.GetChild(0).gameObject.SetActive(true);
     }
     public void CloseStorage()
     {
         onStorage = false;
-        inventory.seletedKey = selectedKey;
         SetSelectedItemSlotNum();
+        inventory.selectedStorageKey = selectedSlot;
         slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
         focus = 0;
-        inventory.SetStorageLinkedItem(selectedSlot);
         transform.parent.GetComponent<MainUI_InGameMenu>().CloseStorage();
     }
-
     public void SetSelectedItemSlotNum()
     {
-        int j = 0;
+        selectCount = 0;
         for (int i = 0; i < availableSlot; ++i)
         {
             if (isSelected[i])
             {
-                selectedSlot[j] = i;
-                ++j;
+                selectedSlot[selectCount] = i;
+                ++selectCount;
+            }
+        }
+        for(int i = selectCount; i < selectedSlot.Length; ++i)
+        {
+            selectedSlot[i] = 99;
+        }
+    }
+
+    public void DeleteStorageSlotItem()         // 던전 입장시 인벤토리 설정한 키 창고에서 제거
+    {
+        int count = selectedSlot.Length;
+        for(int i = 0; i < count; ++i)
+        {
+            if (selectedSlot[i] > availableSlot) return;
+
+            storageKeyList[selectedSlot[i]] = null;
+            isFull[selectedSlot[i]] = false;
+            isSelected[selectedSlot[i]] = false;
+            slot[selectedSlot[i]].transform.GetChild(2).gameObject.SetActive(false);
+        }
+    }
+    public void StorageSlotSort()
+    {
+        int count = selectedSlot.Length;
+        for (int i = 0; i < availableSlot-1; ++i)
+        {
+            for (int j = 1; j < availableSlot - i; ++i)
+            {
+                if (storageKeyList[i] != null) continue; 
+
+                if (storageKeyList[i + j] != null)
+                {
+                    storageKeyList[i] = storageKeyList[i + j];
+                    isFull[i] = isFull[i + j];
+                    isSelected[i] = isSelected[i + j];
+                    slot[i].transform.GetChild(2).gameObject.SetActive(slot[i+j].transform.GetChild(2).gameObject.activeInHierarchy);
+
+                    if (isSelected[i])      // 인벤토리 선택된 아이템 제거
+                    {
+                        for (int k = 0; k < count; ++k)
+                        {
+                            if (selectedSlot[k] != i) continue;
+
+                            for (int l = 0; l < count - k; ++l)
+                            {
+                                selectedSlot[k] = selectedSlot[k + l];
+                                selectedSlot[k + l] = 99;
+                            }
+                        }
+                        --inventory.seletedKeyCount;
+                    }
+
+                    if (i + j != availableSlot)
+                    {
+                        storageKeyList[i + j] = null;
+                        isFull[i + j] = false;
+                        isSelected[i + j] = false;
+                        slot[i + j].transform.GetChild(2).gameObject.SetActive(false);
+                    }
+                    break;
+                }
             }
         }
     }
@@ -278,6 +339,9 @@ public class Menu_Storage : MonoBehaviour
     void FocusedSlot(int AdjustValue)
     {
         if (focus + AdjustValue > availableSlot - 1) return;
+        if (focus + AdjustValue < 0) return;
+
+        slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
 
         if (focus + AdjustValue < boxNum * 24)
         {
@@ -299,8 +363,6 @@ public class Menu_Storage : MonoBehaviour
             }
             StorageSet();
         }
-
-        slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
         focus += AdjustValue;
         slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(true);
     }

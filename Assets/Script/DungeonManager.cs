@@ -79,7 +79,7 @@ public class DungeonManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1"))           // 공격키를 눌렀을 때
         {
             if (SceneManager.GetActiveScene().buildIndex == 0)      // 메인 메뉴 화면에서
             {
@@ -93,11 +93,12 @@ public class DungeonManager : MonoBehaviour
             {
                 if (useTeleportSystem == 0)          // 캐릭터가 집 문앞에 있을 경우 집으로 들어간다
                 {
-                    ComeBackHome();
                     MainUI_InGameMenu.GetComponent<MainUI_InGameMenu>().Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
+                    ComeBackHome();
                 }
                 else if (useTeleportSystem == 1)    // 캐릭터가 숲 입구 (임시 던전 입구)에 있을 경우 숲(던전)으로 간다
                 {
+                    MainUI_InGameMenu.GetComponent<MainUI_InGameMenu>().Menus[0].GetComponent<Menu_Inventory>().DeleteStorageItem();
                     SectionTeleport(false, false);
                     dungeonClear = true;
                 }
@@ -122,10 +123,10 @@ public class DungeonManager : MonoBehaviour
             }
             else if (SceneManager.GetActiveScene().buildIndex == 4)
             {
-                if (useTeleportSystem == 8)
+                if (useTeleportSystem == 8)         // 던전 포탈 앞에 서있을 경우 다음던전 또는 집으로 이동한다.
                 {
-                    ComeBackHome();
                     MainUI_InGameMenu.GetComponent<MainUI_InGameMenu>().Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
+                    ComeBackHome();
                 }
             }
         }
@@ -194,8 +195,6 @@ public class DungeonManager : MonoBehaviour
         sectionClear = false;
         spawnerCount = 0;
         selectedMapNum = Random.Range(0, mapList.Length);
-
-        Debug.Log("start");
 
         if ((currentStage - 2) > 0)  // 보스스테이지 설정
         {

@@ -25,7 +25,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
 
     public void Update()
     {
-        if (!menu.InventoryOn && !menu.CancelOn)
+        if (!menu.storageOn)
         {
             if (!upgradeOn)
             {

@@ -10,17 +10,20 @@ public class Menu_Inventory : MonoBehaviour
     public GameObject slots;
     public Transform[] transforms;
     public Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
-    public GameObject storage;
+    public Menu_Storage storage;
 
     public GameObject[] slot;           // 인벤토리 슬롯
     public int slotCount;
+
     public int availableSlot;
-    public int seletedKey;              // 창고에서 선택된 아이템
+
+    public int seletedKeyCount;         // 창고에서 선택된 아이템 수
     public int takeKeySlot;             // 가져갈 수 있는 슬롯 수
     public bool[] isFull;               // 슬롯이 비었는지 아닌지
     public Key[] inventoryKeylist;      // 인벤토리 키 목록
 
-    public int[] selectedStorageKey;    
+    public int[] selectedStorageKey;
+    public bool onInventory;
     
     public int focused = 0;
 
@@ -29,6 +32,7 @@ public class Menu_Inventory : MonoBehaviour
         transforms = slots.transform.GetComponentsInChildren<Transform>();
         slotCount = transforms.Length-1;
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
+        storage = GameObject.Find("UI/Menus/Storage").GetComponent<Menu_Storage>();
 
         slot = new GameObject[slotCount];
         isFull = new bool[slotCount];
@@ -40,13 +44,16 @@ public class Menu_Inventory : MonoBehaviour
             slot[i - 1].transform.GetChild(1).gameObject.SetActive(true);
             isFull[i - 1] = false;
         }
-        seletedKey = 0;
+        onInventory = false;
+        seletedKeyCount = 0;
         takeKeySlot = 3;
         availableSlot = 6;
+        selectedStorageKey = new int[takeKeySlot];
     }
-    
     private void Update()
     {
+        if (!onInventory) return;
+
         if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
         if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
         if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(6); }
@@ -71,6 +78,28 @@ public class Menu_Inventory : MonoBehaviour
         }
         return false;
     }
+
+    public void OpenInventory()
+    {
+        onInventory = true;
+        if (seletedKeyCount > 0)            // 창고에 링크된 키 등록
+        {
+            for(int i = 0; i < seletedKeyCount; ++i)
+            {
+                inventoryKeylist[i] = storage.storageKeyList[storage.selectedSlot[i]];
+                isFull[i] = true;
+            }
+        }
+        for(int i = seletedKeyCount; i < availableSlot; ++i)    // 창고에서 꺼낸 키 외에는 빈슬롯
+        {
+            inventoryKeylist[i] = null;
+            isFull[i] = false;
+        }
+        InventorySet();
+
+        focused = 0;
+        slot[focused].transform.GetChild(0).gameObject.SetActive(true);
+    }
     public void InventorySet()           // 인벤토리 활성화시 아이템 세팅
     {
         for (int i = 0; i < availableSlot; ++i)
@@ -91,54 +120,38 @@ public class Menu_Inventory : MonoBehaviour
             slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[7];
         }
     }
-    public void OpenInventory()
-    {
-        focused = 0;
-        InventorySet();
-        slot[focused].transform.GetChild(0).gameObject.SetActive(true);
-    }
     public void CloseInventory()
     {
         slot[focused].transform.GetChild(0).gameObject.SetActive(false);
     }
     
-    public void SetStorageLinkedItem(int[] seletedKeySlot)
-    {
-        selectedStorageKey = seletedKeySlot;
-        for(int i = 0; i < seletedKey; ++i)
-        {
-        }
-    }
-
     public void TakeKeySlotUpgrade(int upgrade)
     {
         takeKeySlot += upgrade;
+        selectedStorageKey = new int[takeKeySlot];
     }
     public void AvailableKeySlotUpgrade(int upgrade)
     {
         availableSlot += upgrade;
-        AvailableKeySlotSetting(availableSlot);
-    }
-    public void AvailableKeySlotSetting(int slotNum)
-    {
-        for (int i = slotNum; i < slotCount; ++i)
+        for (int i = availableSlot; i < slotCount; ++i)
         {
             isFull[i] = true;
         }
     }
     
-    public void PutInBox(bool isDead)
+    public void PutInBox(bool isDead)           // 던전에서 복귀할 때 창고에 키 넣기
     {
         if (isDead)
         {
-
+            // 죽었을 때 일정 수 만큼 저장
         }
         else
         {
-            storage.GetComponent<Menu_Storage>().PutInBox(this, inventoryKeylist);
+            storage.GetComponent<Menu_Storage>().PutInBox(inventoryKeylist);
         }
+        DeleteInventorySlotItem();
     }
-    public void DeleteKey()
+    public void DeleteInventorySlotItem()       // 던전에서 복귀할 때 인벤토리 비우기
     {
         for(int i = 0; i < availableSlot; ++i)
         {
@@ -146,6 +159,36 @@ public class Menu_Inventory : MonoBehaviour
             slot[i].GetComponent<Image>().sprite = null;
             slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
             isFull[i] = false;
+            seletedKeyCount = 0;
+        }
+    }
+    public void DeleteStorageItem()             // 던전 진입할 때 들고있는 키 창고에서 삭제
+    {
+
+        selectedStorageKey = new int[takeKeySlot];
+        seletedKeyCount = 0;
+    }
+
+    public void quickSlotUseItem(int focus)
+    {
+        for (int i = 0; i < availableSlot - 1; ++i)
+        {
+            for (int j = 1; j < availableSlot - i; ++i)
+            {
+                if (inventoryKeylist[i] != null) continue;
+                if (inventoryKeylist[i + j] != null)
+                {
+                    inventoryKeylist[i] = inventoryKeylist[i + j];
+                    isFull[i] = true;
+
+                    if(i + j == availableSlot)
+                    {
+                        inventoryKeylist[i + j] = null;
+                        isFull[i + j] = false;
+                    }
+                    break;
+                }
+            }
         }
     }
 

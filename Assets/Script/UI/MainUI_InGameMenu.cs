@@ -17,7 +17,8 @@ public class MainUI_InGameMenu : MonoBehaviour
     public Scrollbar[] sb;
 
     public bool InventoryOn;
-    public bool CancelOn;
+    public bool storageOn;
+    public bool cancelOn;
 
     enum content
     {
@@ -33,7 +34,7 @@ public class MainUI_InGameMenu : MonoBehaviour
     private void Start()
     {
         InventoryOn = false;
-        CancelOn = false;
+        cancelOn = false;
         for (int i = 0; i < Menus.Length; ++i)
         {
             Menus[i].SetActive(false);
@@ -43,7 +44,7 @@ public class MainUI_InGameMenu : MonoBehaviour
     private void Update()
     {
         //인벤토리, 업적창, 스토리 관련
-        if (!CancelOn)
+        if (!cancelOn && !storageOn)
         {
             if (Input.GetKeyDown(KeyCode.I))
             {
@@ -74,14 +75,14 @@ public class MainUI_InGameMenu : MonoBehaviour
         //인게임 세팅 관련 ( 사운드, 화면 크기 등)
         if (Input.GetButtonDown("Cancel"))
         {
-            if (!CancelOn)
+            if (!cancelOn)
             {
-                CancelOn = !CancelOn;
+                cancelOn = !cancelOn;
                 OpenCancelMenu();
             }
             else
             {
-                CancelOn = !CancelOn;
+                cancelOn = !cancelOn;
                 CloseCancelMenu();
             }
         }
@@ -114,6 +115,7 @@ public class MainUI_InGameMenu : MonoBehaviour
     // 강화 창에서 창고 열 경우
     public void OpenUpgradeStorage(int used)
     {
+        storageOn = true;
         townUI = GameObject.Find("TownUI");
         useContent = used;
         Menus[3].SetActive(true);
@@ -121,6 +123,7 @@ public class MainUI_InGameMenu : MonoBehaviour
     }
     public void CloseUpgradeStorage(int focused)
     {
+        storageOn = false;
         switch (useContent)
         {
             case (int)content.Enchant:
@@ -130,20 +133,21 @@ public class MainUI_InGameMenu : MonoBehaviour
                 townUI.GetComponent<Menu_TownUI>().townMenus[3].GetComponent<Menu_Upgrade>().SetKey(focused);
                 break;
         }
-        Menus[3].GetComponent<Menu_Storage>().CloseStorageWithUpgrade(true);
         Menus[3].SetActive(false);
     }
     
     // 일반적으로 창고를 열 경우
     public void OpenStorage()
     {
+        storageOn = true;
         Time.timeScale = 0;
         _Player.GetComponent<PlayerControl>().enabled = false;
         Menus[3].SetActive(true);
-        Menus[3].GetComponent<Menu_Storage>().OpenStorage(Menus[0]);
+        Menus[3].GetComponent<Menu_Storage>().OpenStorage();
     }
     public void CloseStorage()
     {
+        storageOn = false;
         Menus[3].SetActive(false);
         _Player.GetComponent<PlayerControl>().enabled = true;
         Time.timeScale = 1;

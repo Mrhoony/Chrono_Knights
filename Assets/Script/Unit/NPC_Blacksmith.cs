@@ -18,7 +18,7 @@ public class NPC_Blacksmith : NPC_Control
     // Update is called once per frame
     void Update()
     {
-        if (MainUI_InGameMenu.CancelOn || MainUI_InGameMenu.InventoryOn) return;
+        if (MainUI_InGameMenu.cancelOn || MainUI_InGameMenu.InventoryOn) return;
         if (!inPlayer) return;
         if (openEnchantUI || openUpgradeUI) return;
         

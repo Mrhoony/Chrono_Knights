@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     
     public GameObject LoadSlot;
     public GameObject[] saveSlot;
+
     public bool openSaveSlot;
     public bool gameStart;
 

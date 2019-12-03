@@ -4,54 +4,81 @@ using UnityEngine;
 
 public class Menu_QuickSlot : MonoBehaviour
 {
-    public GameObject inventory;
+    public GameObject player;
+    public MainUI_InGameMenu menu;
+    public Menu_Inventory inventory;
     public GameObject slots;
-    public GameObject[] quickSlot = new GameObject[5];
+    public GameObject[] quickSlot;
+    public Key[] inventoryKeylist;
     public bool onQuickSlot;
+    public int addQuickInventory;
 
-    int focus = 0;
+    public int focus;
 
     private void Awake()
     {
-
-    }
-
-    public void Start()
-    {
+        menu = GameObject.Find("UI/Menus").GetComponent<MainUI_InGameMenu>();
+        inventory = GameObject.Find("UI/Menus/Inventory").GetComponent<Menu_Inventory>();
         onQuickSlot = false;
     }
 
     public void Update()
     {
-        if (gameObject.activeInHierarchy)
-        {
-            //GameObject.Find("Player").GetComponent<PlayerController>().SetActive(false); // 퀵슬롯이 활성화된 동안 PlayerController 중지            
-
-            // 또는 PlayerController 스크립트에서 input.getkeydown(keycode.q)를 입력받았을때 PlayerController 스크립트를 비활성화 하고 QuickSlot 게임오브젝트를 활성화                          
-        }
+        if (menu.InventoryOn || menu.cancelOn || menu.storageOn) return;
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (!onQuickSlot)
             {
+                onQuickSlot = true;
+                focus = 0;
+                addQuickInventory = 0;
                 slots.SetActive(true);
+                quickSlot[0].transform.GetChild(0).gameObject.SetActive(true);
+                SetQuickSlot();
             }
-            if (onQuickSlot)
+            else if (onQuickSlot)
             {
+                onQuickSlot = false;
+                quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
                 slots.SetActive(false);
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.W)) { FocusedSlot(1); }
-        if (Input.GetKeyDown(KeyCode.E)) { FocusedSlot(-1); }
+        transform.position = new Vector2(player.transform.position.x, player.transform.position.y + 0.1f);
+
+        if (!onQuickSlot) return;
+        
+        if (Input.GetKeyDown(KeyCode.W)) { FocusedSlot(-1); }
+        if (Input.GetKeyDown(KeyCode.E)) { FocusedSlot(1); }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if(DungeonManager.instance.useTeleportSystem == 8)
+            {
+
+            }
+            inventory.quickSlotUseItem(focus);
+        }
+    }
+
+    public void SetQuickSlot()
+    {
+        inventoryKeylist = inventory.inventoryKeylist;
     }
 
     void FocusedSlot(int AdjustValue)
     {
-        if (focus + AdjustValue < 0 || focus + AdjustValue > 5) { return; }
+        if (focus + AdjustValue < 0 || focus + AdjustValue > inventoryKeylist.Length) { return; }
 
-        quickSlot[focus].transform.GetChild(0).gameObject.SetActive(false);
+        quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
+
+        if (focus + AdjustValue > addQuickInventory + 4)
+            ++addQuickInventory;
+        else if (focus + AdjustValue < addQuickInventory)
+            --addQuickInventory;
+
         focus += AdjustValue;
-        quickSlot[focus].transform.GetChild(0).gameObject.SetActive(true);
+        quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(true);
     }
 }

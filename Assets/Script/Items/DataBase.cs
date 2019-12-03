@@ -20,7 +20,7 @@ public class DataBase
     {
         playerData = new PlayerData();
         storageKeyList = new Key[72];
-        availableStorageSlot = 12;
+        availableStorageSlot = 36;
         takeKeySlot = 3;
         availableInventorySlot = 6;
         currentDate = 0;

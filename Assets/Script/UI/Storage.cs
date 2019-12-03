@@ -19,10 +19,12 @@ public class Storage : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            menu = GameObject.Find("UI/Menus").GetComponent<MainUI_InGameMenu>();
+            if (menu.InventoryOn || menu.cancelOn) return;
+
             if (!onStorage)
             {
                 onStorage = true;
-                menu = GameObject.Find("UI/Menus").GetComponent<MainUI_InGameMenu>();
                 menu.OpenStorage();
             }
         }
