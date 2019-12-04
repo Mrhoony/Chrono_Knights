@@ -250,6 +250,7 @@ public class Menu_Storage : MonoBehaviour
     public void DeleteStorageSlotItem()     // 던전 입장시 인벤토리 설정한 키 창고에서 제거
     {
         int count = selectedSlot.Length;
+
         for(int i = 0; i < count; ++i)
         {
             if (selectedSlot[i] > availableSlot) return;
@@ -258,27 +259,24 @@ public class Menu_Storage : MonoBehaviour
             isFull[selectedSlot[i]] = false;
             isSelected[selectedSlot[i]] = false;
             slot[selectedSlot[i]].transform.GetChild(2).gameObject.SetActive(false);
+            selectedSlot[i] = 99;
         }
+        StorageSlotSort(0);
     }
 
     public void EnchantedKey(int _focus)        // 인챈트, 업그레이드 성공시 아이템 창고에서 제거
     {
-        Debug.Log("enchant");
         storageKeyList[_focus] = null;
         int count = selectedSlot.Length;
-
+        
         if (isSelected[_focus])      // 인벤토리 선택된 아이템 제거
         {
             for (int i = 0; i < count; ++i)
             {
-                Debug.Log(selectedSlot[i]);
                 if (selectedSlot[i] != _focus) continue;
-
-                for (int j = 0; j < count - i; ++j)
-                {
-                    selectedSlot[i] = selectedSlot[i + j] - 1;
-                    if (i + j == count) selectedSlot[i + j] = 99;
-                }
+                
+                selectedSlot[i] = selectedSlot[i + 1] - 1;
+                if (i + 1 == count) selectedSlot[i + 1] = 99;
             }
             --inventory.seletedKeyCount;
         }
@@ -289,13 +287,14 @@ public class Menu_Storage : MonoBehaviour
     {
         for (int i = _focus; i < availableSlot-1; ++i)
         {
-            for (int j = 1; j < availableSlot - i; ++i)
+            Debug.Log(_focus);
+            for (int j = 1; j < availableSlot - i; ++j)
             {
-                if (storageKeyList[i] != null) continue; 
-
+                Debug.Log(j);
+                if (storageKeyList[i] != null) break;
+                Debug.Log(storageKeyList[i]);
                 if (storageKeyList[i + j] != null)
                 {
-
                     storageKeyList[i] = storageKeyList[i + j];
                     isFull[i] = isFull[i + j];
                     isSelected[i] = isSelected[i + j];

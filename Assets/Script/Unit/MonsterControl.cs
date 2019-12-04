@@ -140,6 +140,7 @@ public class Monster_Control : MovingObject
         rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(1f * PlayerControl.instance.arrowDirection + random * 0.1f, 1f + random * 0.1f), ForceMode2D.Impulse);
         
+        
         if(arrow > 0)
             Instantiate(eft, new Vector2(transform.position.x + -arrow * x, transform.position.y + y), Quaternion.Euler(new Vector3(0, 180f, 0)));
         else

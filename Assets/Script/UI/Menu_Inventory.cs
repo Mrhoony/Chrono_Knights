@@ -173,7 +173,6 @@ public class Menu_Inventory : MonoBehaviour
             isFull[i] = false;
         }
         storage.DeleteStorageSlotItem();
-        storage.selectedSlot = new int[takeKeySlot];
         seletedKeyCount = 0;
     }
 

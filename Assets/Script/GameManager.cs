@@ -16,14 +16,13 @@ public class GameManager : MonoBehaviour
     public GameObject playerStatView;
 
     public DataBase dataBase;
-    public PlayerData playerData;
     public Menu_Storage storage;
     public Menu_Inventory inventory;
 
     public GameObject[] screenSize;
     public SystemData systemData;
     
-    public GameObject LoadSlot;
+    public GameObject loadSlot;
     public GameObject[] saveSlot;
 
     public bool openSaveSlot;
@@ -210,7 +209,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         player.GetComponent<PlayerControl>().enabled = false;
         openSaveSlot = true;
-        LoadSlot.SetActive(true);
+        loadSlot.SetActive(true);
         saveSlot[0].GetComponent<Image>().color = new Color(255, 255, 255, 100);
     }
 
@@ -219,7 +218,7 @@ public class GameManager : MonoBehaviour
         saveSlot[focus].GetComponent<Image>().color = new Color(255, 255, 255, 255);
         focus = 0;
         openSaveSlot = false;
-        LoadSlot.SetActive(false);
+        loadSlot.SetActive(false);
         player.GetComponent<PlayerControl>().enabled = true;
         Time.timeScale = 1;
     }

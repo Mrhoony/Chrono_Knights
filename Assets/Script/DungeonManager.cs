@@ -327,7 +327,6 @@ public class DungeonManager : MonoBehaviour
             dungeonClear = false;
 
             mapList = GameObject.FindGameObjectsWithTag("BaseMap");
-            Debug.Log(mapList.Length);
 
             for (int i = 0; i < 2; ++i)
             {

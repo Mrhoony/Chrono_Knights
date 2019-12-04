@@ -2637,6 +2637,11 @@ PrefabInstance:
       propertyPath: SettingsMenu
       value: 
       objectReference: {fileID: 883519430}
+    - target: {fileID: 347987305982047370, guid: d4954d73d66a655438724827c4ca6b73,
+        type: 3}
+      propertyPath: loadSlot
+      value: 
+      objectReference: {fileID: 1325933917}
     - target: {fileID: 347987305982047371, guid: d4954d73d66a655438724827c4ca6b73,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2919,43 +2924,6 @@ PrefabInstance:
       propertyPath: playerStatusView
       value: 
       objectReference: {fileID: 454079515}
-    - target: {fileID: 2057426017, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2057426017, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1148273726, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1148273729, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
-      propertyPath: m_CullTransparentMesh
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1178230150, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 285521959, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 894067348, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 851743482, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3776316896282006991, guid: 9a383a931a8c9254fae17696f9cad381,
-        type: 3}
-      propertyPath: m_FlipX
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
 --- !u!1001 &7500526060979330915
