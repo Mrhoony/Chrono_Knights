@@ -21,8 +21,7 @@ public class Menu_Inventory : MonoBehaviour
     public int takeKeySlot;             // 가져갈 수 있는 슬롯 수
     public bool[] isFull;               // 슬롯이 비었는지 아닌지
     public Key[] inventoryKeylist;      // 인벤토리 키 목록
-
-    public int[] selectedStorageKey;
+    
     public bool onInventory;
     
     public int focused = 0;
@@ -48,7 +47,6 @@ public class Menu_Inventory : MonoBehaviour
         seletedKeyCount = 0;
         takeKeySlot = 3;
         availableSlot = 6;
-        selectedStorageKey = new int[takeKeySlot];
     }
     private void Update()
     {
@@ -82,27 +80,6 @@ public class Menu_Inventory : MonoBehaviour
     public void OpenInventory()
     {
         onInventory = true;
-        int itemCount = 0;
-        while(inventoryKeylist[itemCount] != null)
-        {
-            ++itemCount;
-        }
-        Debug.Log(itemCount);
-
-        if (seletedKeyCount > 0)            // 창고에 링크된 키 등록
-        {
-            for(int i = 0; i < seletedKeyCount; ++i)
-            {
-                inventoryKeylist[itemCount] = storage.storageKeyList[storage.selectedSlot[i]];
-                isFull[itemCount] = true;
-                ++itemCount;
-            }
-        }
-        for(int i = itemCount + seletedKeyCount; i < availableSlot; ++i)    // 창고에서 꺼낸 키 외에는 빈슬롯
-        {
-            inventoryKeylist[i] = null;
-            isFull[i] = false;
-        }
         InventorySet();
 
         focused = 0;
@@ -132,11 +109,24 @@ public class Menu_Inventory : MonoBehaviour
     {
         slot[focused].transform.GetChild(0).gameObject.SetActive(false);
     }
+
+    public void SetInventoryKeyList()
+    {
+        for(int i = 0; i < seletedKeyCount; ++i)
+        {
+            inventoryKeylist[i] = storage.storageKeyList[storage.selectedSlot[i]];
+            isFull[i] = true;
+        }
+        for(int i = seletedKeyCount; i < availableSlot; ++i)
+        {
+            inventoryKeylist[i] = null;
+            isFull[i] = false;
+        }
+    }
     
     public void TakeKeySlotUpgrade(int upgrade)
     {
         takeKeySlot += upgrade;
-        selectedStorageKey = new int[takeKeySlot];
     }
     public void AvailableKeySlotUpgrade(int upgrade)
     {
@@ -174,7 +164,7 @@ public class Menu_Inventory : MonoBehaviour
     {
         for (int i = 0; i < seletedKeyCount; ++i)
         {
-            inventoryKeylist[i] = storage.storageKeyList[selectedStorageKey[i]];
+            inventoryKeylist[i] = storage.storageKeyList[storage.selectedSlot[i]];
             isFull[i] = true;
         }
         for (int i = seletedKeyCount; i < availableSlot; ++i)    // 창고에서 꺼낸 키 외에는 빈슬롯
@@ -183,7 +173,7 @@ public class Menu_Inventory : MonoBehaviour
             isFull[i] = false;
         }
         storage.DeleteStorageSlotItem();
-        selectedStorageKey = new int[takeKeySlot];
+        storage.selectedSlot = new int[takeKeySlot];
         seletedKeyCount = 0;
     }
 

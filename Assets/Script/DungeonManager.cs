@@ -93,7 +93,6 @@ public class DungeonManager : MonoBehaviour
             {
                 if (useTeleportSystem == 0)          // 캐릭터가 집 문앞에 있을 경우 집으로 들어간다
                 {
-                    MainUI_InGameMenu.GetComponent<MainUI_InGameMenu>().Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
                     ComeBackHome();
                 }
                 else if (useTeleportSystem == 1)    // 캐릭터가 숲 입구 (임시 던전 입구)에 있을 경우 숲(던전)으로 간다
@@ -294,7 +293,6 @@ public class DungeonManager : MonoBehaviour
         
         if (SceneManager.GetActiveScene().buildIndex == 0)      // 메인 메뉴 씬 일 때
         {
-            MainUI_InGameMenu.GetComponent<MainUI_InGameMenu>().Menus[0].GetComponent<Menu_Inventory>().PutInBox(true);
             for (int i = 0; i < 2; ++i)
             {
                 if (teleportPoint[i].GetComponent<Teleport>().useSystem == 1)

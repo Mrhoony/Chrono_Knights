@@ -27,8 +27,8 @@ public class Menu_Storage : MonoBehaviour
     public Key[] storageKeyList;
     public bool[] isFull;
     public bool[] isSelected;       // 선택된 슬롯
-    public int[] selectedSlot;      // 선택된 슬롯 번호
-    public int selectCount;         // 선택된 아이템
+    public int selectCount;         // 선택된 슬롯 번호
+    public int[] selectedSlot;      // 선택된 슬롯 번호 목록
     
     private void Awake()
     {
@@ -84,23 +84,23 @@ public class Menu_Storage : MonoBehaviour
                 
                 if (!isSelected[focus])
                 {
+                    ++inventory.seletedKeyCount;
                     if (inventory.seletedKeyCount > inventory.takeKeySlot)
                     {
                         inventory.seletedKeyCount = inventory.takeKeySlot;
                         return;
                     }
                     isSelected[focus] = true;
-                    ++inventory.seletedKeyCount;
                 }
                 else
                 {
+                    --inventory.seletedKeyCount;
                     if (inventory.seletedKeyCount < 0)
                     {
                         inventory.seletedKeyCount = 0;
                         return;
                     }
                     isSelected[focus] = false;
-                    --inventory.seletedKeyCount;
                 }
             }
         }
@@ -116,31 +116,6 @@ public class Menu_Storage : MonoBehaviour
             else
             {
                 CloseStorage();
-            }
-        }
-    }
-
-    public void EnchantedKey(int _focus)        // 인챈트, 업그레이드 성공시 키 아이템 인벤에서 제거
-    {
-        for(int i = _focus; i < availableSlot - 1; ++i)
-        {
-            for(int j = 1; j < availableSlot - i; ++i)
-            {
-                if (storageKeyList[i + j] != null)
-                {
-                    storageKeyList[i] = storageKeyList[i + 1];
-                    isFull[i] = true;
-                    if (isSelected[i])      // 인벤토리 선택된 아이템 제거
-                    {
-                        isSelected[i] = false;
-                        slot[i].transform.GetChild(2).gameObject.SetActive(false);
-                        --inventory.seletedKeyCount;
-                    }
-
-                    storageKeyList[i + 1] = null;
-                    isFull[i + j] = false;
-                    break;
-                }
             }
         }
     }
@@ -241,21 +216,21 @@ public class Menu_Storage : MonoBehaviour
         boxNum = 0;
         focus = 0;
         onStorage = true;
-
+        
         selectedSlot = new int[inventory.takeKeySlot];
         StorageSet();
         slot[focus].transform.GetChild(0).gameObject.SetActive(true);
     }
-    public void CloseStorage()
+    public void CloseStorage()      
     {
         onStorage = false;
         SetSelectedItemSlotNum();
-        inventory.selectedStorageKey = selectedSlot;
+        inventory.SetInventoryKeyList();
         slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
         focus = 0;
         transform.parent.GetComponent<MainUI_InGameMenu>().CloseStorage();
     }
-    public void SetSelectedItemSlotNum()
+    public void SetSelectedItemSlotNum()    // 선택된 아이템 슬롯 번호를 저장
     {
         selectCount = 0;
         for (int i = 0; i < availableSlot; ++i)
@@ -272,7 +247,7 @@ public class Menu_Storage : MonoBehaviour
         }
     }
 
-    public void DeleteStorageSlotItem()         // 던전 입장시 인벤토리 설정한 키 창고에서 제거
+    public void DeleteStorageSlotItem()     // 던전 입장시 인벤토리 설정한 키 창고에서 제거
     {
         int count = selectedSlot.Length;
         for(int i = 0; i < count; ++i)
@@ -285,10 +260,34 @@ public class Menu_Storage : MonoBehaviour
             slot[selectedSlot[i]].transform.GetChild(2).gameObject.SetActive(false);
         }
     }
-    public void StorageSlotSort()
+
+    public void EnchantedKey(int _focus)        // 인챈트, 업그레이드 성공시 아이템 창고에서 제거
     {
+        Debug.Log("enchant");
+        storageKeyList[_focus] = null;
         int count = selectedSlot.Length;
-        for (int i = 0; i < availableSlot-1; ++i)
+
+        if (isSelected[_focus])      // 인벤토리 선택된 아이템 제거
+        {
+            for (int i = 0; i < count; ++i)
+            {
+                Debug.Log(selectedSlot[i]);
+                if (selectedSlot[i] != _focus) continue;
+
+                for (int j = 0; j < count - i; ++j)
+                {
+                    selectedSlot[i] = selectedSlot[i + j] - 1;
+                    if (i + j == count) selectedSlot[i + j] = 99;
+                }
+            }
+            --inventory.seletedKeyCount;
+        }
+        StorageSlotSort(_focus);
+        inventory.SetInventoryKeyList();
+    }
+    public void StorageSlotSort(int _focus)
+    {
+        for (int i = _focus; i < availableSlot-1; ++i)
         {
             for (int j = 1; j < availableSlot - i; ++i)
             {
@@ -296,26 +295,12 @@ public class Menu_Storage : MonoBehaviour
 
                 if (storageKeyList[i + j] != null)
                 {
+
                     storageKeyList[i] = storageKeyList[i + j];
                     isFull[i] = isFull[i + j];
                     isSelected[i] = isSelected[i + j];
-                    slot[i].transform.GetChild(2).gameObject.SetActive(slot[i+j].transform.GetChild(2).gameObject.activeInHierarchy);
-
-                    if (isSelected[i])      // 인벤토리 선택된 아이템 제거
-                    {
-                        for (int k = 0; k < count; ++k)
-                        {
-                            if (selectedSlot[k] != i) continue;
-
-                            for (int l = 0; l < count - k; ++l)
-                            {
-                                selectedSlot[k] = selectedSlot[k + l];
-                                selectedSlot[k + l] = 99;
-                            }
-                        }
-                        --inventory.seletedKeyCount;
-                    }
-
+                    slot[i].transform.GetChild(2).gameObject.SetActive(slot[i + j].transform.GetChild(2).gameObject.activeInHierarchy);
+                    
                     if (i + j != availableSlot)
                     {
                         storageKeyList[i + j] = null;
