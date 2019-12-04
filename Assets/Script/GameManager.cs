@@ -28,9 +28,7 @@ public class GameManager : MonoBehaviour
 
     public bool openSaveSlot;
     public bool gameStart;
-
-    public GameObject exteriorDoor;
-
+    
     public GameObject SettingsMenu;
 
     public int focus;
@@ -128,7 +126,6 @@ public class GameManager : MonoBehaviour
 
         saveSlot[focus].GetComponent<Image>().color = new Color(255, 255, 255, 100);
     }
-
     public void SelectSlot(int _slotNum)
     {
         slotNum = _slotNum;
@@ -231,7 +228,6 @@ public class GameManager : MonoBehaviour
     {
         //inGameMenu.GetComponent<MainUI_InGameMenu>().OpenSettings(screenWidth, screenHeigth);
     }
-
     public void SettingSave()
     {
         bf = new BinaryFormatter();
@@ -277,7 +273,6 @@ public class GameManager : MonoBehaviour
             Screen.fullScreen = !Screen.fullScreen;
         }
     }
-
     public void ExitGame()
     {
         Debug.Log("Quit"); // Application.Quit()은 에디터 상에서 작동x로 Debug.log로 동작 확인, 빌드시 삭제

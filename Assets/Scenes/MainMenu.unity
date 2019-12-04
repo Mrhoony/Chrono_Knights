@@ -3101,6 +3101,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8598324638961123333, guid: bb52788c74313754aaac85eedbfab2b6,
         type: 3}
+      propertyPath: monsterList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8598324638961123333, guid: bb52788c74313754aaac85eedbfab2b6,
+        type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 411236570}
@@ -3109,5 +3114,11 @@ PrefabInstance:
       propertyPath: playerStatView
       value: 
       objectReference: {fileID: 454079515}
+    - target: {fileID: 8598324638961123333, guid: bb52788c74313754aaac85eedbfab2b6,
+        type: 3}
+      propertyPath: monsterList.Array.data[3]
+      value: 
+      objectReference: {fileID: 3085250315534159875, guid: f6af2acb05c229245954ac103cb69a15,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb52788c74313754aaac85eedbfab2b6, type: 3}

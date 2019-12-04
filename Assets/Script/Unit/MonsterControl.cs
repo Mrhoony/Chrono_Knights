@@ -6,11 +6,12 @@ public class Monster_Control : MovingObject
 {
     protected GameObject target;
     protected Vector2 playerPos;
-    public GameObject box;
     public GameObject eft;
     protected EnemyStat ehp;
     public DropItemList dil;
-    public DungeonManager duneonManager;
+    public DungeonManager dungeonManager;
+    public float distanceX;
+    public float distanceY;
 
     public float effectX;
     public float effectY;
@@ -33,15 +34,61 @@ public class Monster_Control : MovingObject
 
     // Start is called before the first frame update
 
+    public virtual void Awake()
+    {
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        ehp = GetComponent<EnemyStat>();
+        dil = GetComponent<DropItemList>();
+        dungeonManager = DungeonManager.instance;
+
+        target = GameObject.Find("PlayerCharacter");
+    }
+
+    public virtual void Update()
+    {
+        if (isDead) return;
+        NotMoveDelayTime();
+        if (notMove) return;
+        MonsterFlip();
+    }
+
+    public virtual void OnEnable()
+    {
+        MonsterInit();
+    }
+
     public IEnumerator SearchPlayer()
     {
         while (!isDead)
         {
             playerPos = target.transform.position;
+            distanceX = playerPos.x - transform.position.x;
+            distanceY = playerPos.y - transform.position.y;
+
+            if (distanceX < 0) distanceX *= -1f;
+            if (distanceY < 0) distanceX *= -1f;
+
+            if (distanceX < 4f && distanceY < 1f)
+            {
+                if (!isTrace)
+                {
+                    isTrace = true;
+                    curRotateDelayTime = 0f;
+                }
+            }
+            else if(distanceX > 4f && distanceY > 1f)
+            {
+                if (isTrace)
+                {
+                    isAtk = false;
+                    isTrace = false;
+                    curAttackDelayTime = 0f;
+                }
+            }
             yield return null;
         }
     }
-
     public IEnumerator RandomMove(float time)
     {
         randomMove = Random.Range(-1, 2);
@@ -53,23 +100,7 @@ public class Monster_Control : MovingObject
         Moving = RandomMove(randomMoveCount);
         StartCoroutine(Moving);
     }
-
-    public virtual void Awake()
-    {
-        animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
-        ehp = GetComponent<EnemyStat>();
-        dil = GetComponent<DropItemList>();
-        duneonManager = DungeonManager.instance;
-
-        target = GameObject.Find("PlayerCharacter");
-    }
-
-    public virtual void OnEnable()
-    {
-        MonsterInit();
-    }
-
+    
     public void MonsterInit()
     {
         isDead = false;
@@ -81,7 +112,7 @@ public class Monster_Control : MovingObject
         StartCoroutine(Moving);
     }
     
-    public void notMoveDelayTime()
+    public void NotMoveDelayTime()
     {
         if (isAtk)
         {
@@ -129,7 +160,7 @@ public class Monster_Control : MovingObject
     
     public void MonsterFlip()
     {
-        if (!notMove && !isAtk && !isDead)
+        if (!isAtk)
         {
             if (isTrace)
             {
@@ -160,7 +191,6 @@ public class Monster_Control : MovingObject
     {
         transform.position = new Vector2(x, y);
     }
-
     void Dead()
     {
         animator.SetTrigger("isDead");

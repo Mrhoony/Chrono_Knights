@@ -26,19 +26,17 @@ public class Monster_Ogre : Monster_Control
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        MonsterFlip();
-        notMoveDelayTime();
+        base.Update();
     }
 
     private void FixedUpdate()
     {
-        if (!isDead)
-        {
-            Move();
-            Attack();
-        }
+        if (isDead) return;
+        Move();
+        if (!isTrace) return;
+        Attack();
     }
 
     void Move()
@@ -47,7 +45,7 @@ public class Monster_Ogre : Monster_Control
         {
             if (isTrace)
             {
-                if (playerPos.x * playerPos.x - transform.position.x * transform.position.x > 2f)
+                if (distanceX > 2f)
                 {
                     animator.SetBool("isMove", true);
                     rb.velocity = new Vector2(ehp.moveSpeed * arrow, rb.velocity.y);
@@ -78,52 +76,20 @@ public class Monster_Ogre : Monster_Control
 
     void Attack()
     {
-        if (isTrace)
+        if (distanceX < 1f)
         {
-            MonsterFlip();
-
-            if (playerPos.x * playerPos.x - transform.position.x * transform.position.x < 2f)
+            notMove = true;
+            curAttackDelayTime += Time.fixedDeltaTime;
+            if (curAttackDelayTime > maxAttackDelayTime)
             {
-                notMove = true;
-                curAttackDelayTime += Time.fixedDeltaTime;
-                if (curAttackDelayTime > maxAttackDelayTime)
-                {
-                    MonsterFlip();
-                    isAtk = true;
-                    randomAttack = Random.Range(0, 2);
-                    if (randomAttack > 0)
-                        animator.SetTrigger("isAtkH_Trigger");
-                    else
-                        animator.SetTrigger("isAtkV_Trigger");
-                    curRotateDelayTime = 0f;
-                    curAttackDelayTime = 0f;
-                }
-            }
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision != null)
-        {
-            if (collision.CompareTag("Player"))
-            {
-                isTrace = true;
-                StopCoroutine(Moving);
-            }
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision != null)
-        {
-            if (collision.CompareTag("Player"))
-            {
-                notMove = true;
-                isTrace = false;
+                isAtk = true;
+                curRotateDelayTime = 0f;
                 curAttackDelayTime = 0f;
-                Moving = RandomMove(randomMoveCount);
-                StartCoroutine(Moving);
+                randomAttack = Random.Range(0, 2);
+                if (randomAttack > 0)
+                    animator.SetTrigger("isAtkH_Trigger");
+                else
+                    animator.SetTrigger("isAtkV_Trigger");
             }
         }
     }

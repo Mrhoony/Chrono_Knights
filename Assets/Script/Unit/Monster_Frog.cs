@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Monster_Frog : Monster_Control
 {
+    public GameObject box;
+
     public override void Awake()
     {
         base.Awake();
@@ -42,34 +44,15 @@ public class Monster_Frog : Monster_Control
     }
 
     // Update is called once per frame
-    void Update()
+    public new void Update()
     {
-        if (!isDead)
-        {
-            MonsterFlip();
-            notMoveDelayTime();
-
-            if (playerPos.x * playerPos.x - transform.position.x * transform.position.x < 2f && playerPos.y * playerPos.y - transform.position.y * transform.position.y < 1f)
-            {
-                if (!isTrace)
-                {
-                    isTrace = true;
-                    curRotateDelayTime = 0f;
-                }
-            }
-            else
-            {
-                if (isTrace)
-                {
-                    isAtk = false;
-                    isTrace = false;
-                    curAttackDelayTime = 0f;
-                }
-            }
-        }
+        if (isDead) return;
+        NotMoveDelayTime();
+        if (notMove) return;
+        MonsterFlip();
     }
 
-    new void notMoveDelayTime()
+    new void NotMoveDelayTime()
     {
         if (isJump || isAtk)
         {
@@ -86,16 +69,15 @@ public class Monster_Frog : Monster_Control
 
     private void FixedUpdate()
     {
-        if (!isDead)
-        {
-            Jump();
-            Attack();
-        }
+        if (isDead) return;
+        Jump();
+        if (!isTrace) return;
+        Attack();
     }
-    
+
     void Jump()
     {
-        if (!isJump && !isAtk && !isTrace)
+        if (!isJump && !isAtk)
         {
             randomMove = Random.Range(-2, 3);
 
@@ -116,28 +98,25 @@ public class Monster_Frog : Monster_Control
 
     void Attack()
     {
-        if (isTrace)
+        MonsterFlip();
+        notMove = true;
+        isJump = true;
+        curRotateDelayTime = 0f;
+        curAttackDelayTime += Time.deltaTime;
+        if (curAttackDelayTime > maxAttackDelayTime)
         {
-            MonsterFlip();
-            notMove = true;
-            isJump = true;
-            curRotateDelayTime = 0f;
-            curAttackDelayTime += Time.deltaTime;
-            if (curAttackDelayTime > maxAttackDelayTime)
+            isAtk = true;
+            int AttackType = Random.Range(0, 2);
+            if (AttackType == 0)
             {
-                isAtk = true;
-                int AttackType = Random.Range(0, 2);
-                if (AttackType == 0)
-                {
-                    animator.SetTrigger("isJump");
-                    animator.SetBool("isJumping", true);
-                }
-                else if (AttackType == 1)
-                {
-                    animator.SetTrigger("isAttack");
-                }
-                curAttackDelayTime = 0f;
+                animator.SetTrigger("isJump");
+                animator.SetBool("isJumping", true);
             }
+            else if (AttackType == 1)
+            {
+                animator.SetTrigger("isAttack");
+            }
+            curAttackDelayTime = 0f;
         }
     }
 

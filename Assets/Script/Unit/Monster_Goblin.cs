@@ -1,10 +1,30 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class Monster_Dog : Monster_Control
+public class Monster_Goblin : Monster_Control
 {
     public override void Awake()
     {
         base.Awake();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        maxRotateDelayTime = 2f;
+        curRotateDelayTime = 0f;
+        maxAttackDelayTime = 2f;
+        curAttackDelayTime = 0f;
+        effectX = 0.5f;
+        effectY = 0.5f;
+        isFaceRight = true;
+        arrow = 1;
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
     }
 
     // Update is called once per frame
@@ -13,89 +33,62 @@ public class Monster_Dog : Monster_Control
         base.Update();
     }
 
-    public void Start()
-    {
-        maxRotateDelayTime = 2f;
-        curRotateDelayTime = 0f;
-        maxAttackDelayTime = 2f;
-        curAttackDelayTime = 0f;
-        effectX = 0.2f;
-        effectY = 0.3f;
-    }
-
-    public void OnDisable()
-    {
-        StopCoroutine(Moving);
-    }
-
-    public override void OnEnable()
-    {
-        base.OnEnable();
-        isFaceRight = false;
-        arrow = -1;
-    }
-
     private void FixedUpdate()
     {
         if (isDead) return;
         Move();
         if (!isTrace) return;
+        if (isAtk) return;
         Attack();
     }
-    
+
     void Move()
     {
-        if (!notMove)
+        if (!notMove && !isAtk)
         {
             if (isTrace)
             {
-                if(distanceX > 0.5f)
+                if (distanceX > 1f)
                 {
-                    if (!isAtk)
-                    {
-                        animator.SetBool("isRun", true);
-                        rb.velocity = new Vector2(ehp.moveSpeed * 2f * arrow, rb.velocity.y);
-                    }
+                    animator.SetBool("isMove", true);
+                    rb.velocity = new Vector2(ehp.moveSpeed * arrow, rb.velocity.y);
                 }
                 else
                 {
                     animator.SetBool("isMove", false);
-                    animator.SetBool("isRun", false);
                 }
             }
             else
             {
                 if (randomMove != 0)
                 {
-                    animator.SetBool("isRun", false);
                     animator.SetBool("isMove", true);
                     rb.velocity = new Vector2(ehp.moveSpeed * randomMove, rb.velocity.y);
                 }
                 else
                 {
                     animator.SetBool("isMove", false);
-                    animator.SetBool("isRun", false);
                 }
             }
         }
         else
         {
             animator.SetBool("isMove", false);
-            animator.SetBool("isRun", false);
         }
     }
 
     void Attack()
     {
-        if (distanceX < 0.5f)
+        MonsterFlip();
+
+        if (distanceX < 1f)
         {
-            rb.velocity = Vector2.zero;
             notMove = true;
             curAttackDelayTime += Time.fixedDeltaTime;
             if (curAttackDelayTime > maxAttackDelayTime)
             {
                 isAtk = true;
-                animator.SetBool("isAtk_Trigger", true);
+                animator.SetTrigger("isAtk");
                 curRotateDelayTime = 0f;
                 curAttackDelayTime = 0f;
             }
