@@ -81,7 +81,7 @@ public class Menu_QuickSlot : MonoBehaviour
 
     public void SetQuickSlot()
     {
-        inventoryKeylist = inventory.inventoryKeylist;
+        inventoryKeylist = inventory.GetInventoryItemList();
         int i = 0;
         while(inventoryKeylist[i] != null)
         {
@@ -99,7 +99,7 @@ public class Menu_QuickSlot : MonoBehaviour
 
     void FocusedSlot(int AdjustValue)
     {
-        if (focus + AdjustValue < 0 || focus + AdjustValue > inventory.availableSlot) { return; }
+        if (focus + AdjustValue < 0 || focus + AdjustValue > inventory.GetAvailableSlot()) { return; }
 
         quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
 

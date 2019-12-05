@@ -12,19 +12,18 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     public GameObject npc_blacksmith;
     protected PlayerEquipment playerEquipment;
     protected PlayerEquipment.Equipment[] equipment;
-
-    public PlayerEquipment.Equipment upgradeEquipment;
-    public Key selectedkey;
-    public int[] limitUpgrade;
+    protected PlayerEquipment.Equipment upgradeEquipment;
+    protected Key selectedkey;
 
     public GameObject[] equipSlots;
-    public Sprite[] cursorImage;
-    public int equipFocused;
+    protected Sprite[] cursorImage;
+    protected Sprite[] keyItemBorderSprite;
+    protected int equipFocused;
 
-    public int upgradeCount;
-    public int upgradePercent;
-    public int downgradeCount;
-    public int downgradePercent;
+    protected int upgradeCount;
+    protected int upgradePercent;
+    protected int downgradeCount;
+    protected int downgradePercent;
 
     protected int keySlotFocus;
 
@@ -36,6 +35,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         playerData = playerStat.playerData;
         playerEquipment = playerStat.playerEquip;
+        keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
     }
 
     public int FocusedSlot1(GameObject[] slots, int AdjustValue, int focused)

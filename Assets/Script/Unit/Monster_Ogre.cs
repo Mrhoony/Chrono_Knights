@@ -6,8 +6,6 @@ public class Monster_Ogre : Monster_Control
     {
         base.Awake();
     }
-
-    // Start is called before the first frame update
     void Start()
     {
         maxRotateDelayTime = 2f;
@@ -19,13 +17,10 @@ public class Monster_Ogre : Monster_Control
         isFaceRight = true;
         arrow = 1;
     }
-
     public override void OnEnable()
     {
         base.OnEnable();
     }
-
-    // Update is called once per frame
     public override void Update()
     {
         base.Update();
@@ -48,7 +43,7 @@ public class Monster_Ogre : Monster_Control
                 if (distanceX > 2f)
                 {
                     animator.SetBool("isMove", true);
-                    rb.velocity = new Vector2(ehp.moveSpeed * arrow, rb.velocity.y);
+                    rb.velocity = new Vector2(ehp.GetMoveSpeed() * arrow, rb.velocity.y);
                 }
                 else
                 {
@@ -60,7 +55,7 @@ public class Monster_Ogre : Monster_Control
                 if (randomMove != 0)
                 {
                     animator.SetBool("isMove", true);
-                    rb.velocity = new Vector2(ehp.moveSpeed * randomMove, rb.velocity.y);
+                    rb.velocity = new Vector2(ehp.GetMoveSpeed() * randomMove, rb.velocity.y);
                 }
                 else
                 {

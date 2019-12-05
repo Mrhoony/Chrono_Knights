@@ -20,8 +20,6 @@ public class Item_MouseEvent : MonoBehaviour
     {
         _mainCamera = Camera.main;
         sprites = Resources.LoadAll<Sprite>("UI/Inventory_Set");
-        slots = GetComponent<Menu_Inventory>().slot;
-        isFull = GetComponent<Menu_Inventory>().isFull;
         slotCount = slots.Length;
     }
 

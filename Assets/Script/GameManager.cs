@@ -138,10 +138,10 @@ public class GameManager : MonoBehaviour
         // 유저 정보
         dataBase.playerData = playerStat.playerData;
         dataBase.currentDate = DungeonManager.instance.currentDate;
-        dataBase.storageKeyList = storage.storageKeyList;
-        dataBase.availableStorageSlot = storage.availableSlot;
-        dataBase.takeKeySlot = inventory.takeKeySlot;
-        dataBase.availableInventorySlot = inventory.availableSlot;
+        //dataBase.storageKeyList = storage.storageKeyList;
+        //dataBase.availableStorageSlot = storage.availableSlot;
+        //dataBase.takeKeySlot = inventory.takeKeySlot;
+        //dataBase.availableInventorySlot = inventory.availableSlot;
 
         bf.Serialize(ms, dataBase);
         data = Convert.ToBase64String(ms.GetBuffer());

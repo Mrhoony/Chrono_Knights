@@ -7,28 +7,31 @@ public class Menu_Storage : MonoBehaviour
 {
     public MainUI_InGameMenu menu;
     public Menu_Inventory inventory;
-
-    public Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
-
-    public Transform[] transforms;
     public GameObject slots;
     public GameObject[] slot;
-    public int slotCount;
-    public bool onStorage;
-    bool upgradeItem;               // 아이템 강화 사용할 때
+
+    private Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
+
+    private Transform[] transforms;
+    private int slotCount;
+    private bool onStorage;
+    private bool upgradeItem;               // 아이템 강화 사용할 때
 
     // 창고 슬롯
-    public int availableSlot;       // 사용 가능한 슬롯 수
-    public int boxFull;
-    public int boxNum;              // 창고 번호 (*24)
+    private int availableSlot;       // 사용 가능한 슬롯 수
+    private int boxFull;
+    private int boxNum;              // 창고 번호 (*24)
 
     // 한 슬롯 변수
-    public int focus;
-    public Key[] storageKeyList;
-    public bool[] isFull;
+    private int focus;
+    private Key[] storageKeyList;
+    private bool[] isFull;
     public bool[] isSelected;       // 선택된 슬롯
-    public int selectCount;         // 선택된 슬롯 번호
+    public int selectSlotNum;         // 선택된 슬롯 번호
     public int[] selectedSlot;      // 선택된 슬롯 번호 목록
+
+    public int selectedItemCount;
+    public int takeItemCount;
     
     private void Awake()
     {
@@ -55,6 +58,8 @@ public class Menu_Storage : MonoBehaviour
         {
             isFull[i] = false;
         }
+
+        selectedSlot = new int[inventory.GetTakeItemSlot()];
     }
 
     public void Update()
@@ -84,20 +89,20 @@ public class Menu_Storage : MonoBehaviour
                 
                 if (!isSelected[focus])
                 {
-                    ++inventory.seletedKeyCount;
-                    if (inventory.seletedKeyCount > inventory.takeKeySlot)
+                    ++selectedItemCount;
+                    if (selectedItemCount > takeItemCount)
                     {
-                        inventory.seletedKeyCount = inventory.takeKeySlot;
+                        selectedItemCount = takeItemCount;
                         return;
                     }
                     isSelected[focus] = true;
                 }
                 else
                 {
-                    --inventory.seletedKeyCount;
-                    if (inventory.seletedKeyCount < 0)
+                    --selectedItemCount;
+                    if (selectedItemCount < 0)
                     {
-                        inventory.seletedKeyCount = 0;
+                        selectedItemCount = 0;
                         return;
                     }
                     isSelected[focus] = false;
@@ -216,8 +221,9 @@ public class Menu_Storage : MonoBehaviour
         boxNum = 0;
         focus = 0;
         onStorage = true;
-        
-        selectedSlot = new int[inventory.takeKeySlot];
+        selectedItemCount = inventory.GetSelectedItemCount();
+        takeItemCount = inventory.GetTakeItemSlot();
+        selectedSlot = new int[inventory.GetTakeItemSlot()];
         StorageSet();
         slot[focus].transform.GetChild(0).gameObject.SetActive(true);
     }
@@ -225,23 +231,24 @@ public class Menu_Storage : MonoBehaviour
     {
         onStorage = false;
         SetSelectedItemSlotNum();
-        inventory.SetInventoryKeyList();
+        inventory.SetSelectedItemCount(selectedItemCount);
+        inventory.SetInventoryItemList();
         slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
         focus = 0;
         transform.parent.GetComponent<MainUI_InGameMenu>().CloseStorage();
     }
     public void SetSelectedItemSlotNum()    // 선택된 아이템 슬롯 번호를 저장
     {
-        selectCount = 0;
+        selectSlotNum = 0;
         for (int i = 0; i < availableSlot; ++i)
         {
             if (isSelected[i])
             {
-                selectedSlot[selectCount] = i;
-                ++selectCount;
+                selectedSlot[selectSlotNum] = i;
+                ++selectSlotNum;
             }
         }
-        for(int i = selectCount; i < selectedSlot.Length; ++i)
+        for(int i = selectSlotNum; i < selectedSlot.Length; ++i)
         {
             selectedSlot[i] = 99;
         }
@@ -264,6 +271,14 @@ public class Menu_Storage : MonoBehaviour
         StorageSlotSort(0);
     }
 
+    public Key GetSelectStorageItem(int _focus)
+    {
+        return storageKeyList[selectedSlot[_focus]];
+    }
+    public Key GetStorageItem(int _focus)
+    {
+        return storageKeyList[_focus];
+    }
     public void EnchantedKey(int _focus)        // 인챈트, 업그레이드 성공시 아이템 창고에서 제거
     {
         storageKeyList[_focus] = null;
@@ -274,25 +289,24 @@ public class Menu_Storage : MonoBehaviour
             for (int i = 0; i < count; ++i)
             {
                 if (selectedSlot[i] != _focus) continue;
-                
-                selectedSlot[i] = selectedSlot[i + 1] - 1;
+
                 if (i + 1 == count) selectedSlot[i + 1] = 99;
+                else selectedSlot[i] = selectedSlot[i + 1] - 1;
             }
-            --inventory.seletedKeyCount;
+            --selectedItemCount;
         }
         StorageSlotSort(_focus);
-        inventory.SetInventoryKeyList();
+        inventory.SetSelectedItemCount(selectedItemCount);
+        inventory.SetInventoryItemList();
     }
     public void StorageSlotSort(int _focus)
     {
         for (int i = _focus; i < availableSlot-1; ++i)
         {
-            Debug.Log(_focus);
             for (int j = 1; j < availableSlot - i; ++j)
             {
-                Debug.Log(j);
                 if (storageKeyList[i] != null) break;
-                Debug.Log(storageKeyList[i]);
+
                 if (storageKeyList[i + j] != null)
                 {
                     storageKeyList[i] = storageKeyList[i + j];

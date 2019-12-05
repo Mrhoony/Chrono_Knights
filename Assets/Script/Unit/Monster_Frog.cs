@@ -29,7 +29,7 @@ public class Monster_Frog : Monster_Control
 
     public override void OnEnable()
     {
-        ehp.currentHP = ehp.HP;
+        ehp.SetCurrentHP();
         StartCoroutine(SearchPlayer());
         isJump = true;
         randomMove = Random.Range(-2, 3);
@@ -131,7 +131,7 @@ public class Monster_Frog : Monster_Control
         {
             if(collider.tag == target.tag)
             {
-                PlayerControl.instance.Hit(ehp.Atk);
+                PlayerControl.instance.Hit(ehp.GetAttack());
             }
         }
     }

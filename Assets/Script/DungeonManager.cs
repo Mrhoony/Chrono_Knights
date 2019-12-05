@@ -307,7 +307,6 @@ public class DungeonManager : MonoBehaviour
                 }
                 player.GetComponent<PlayerControl>().enabled = false;
             }
-            playerStatView.SetActive(false);
         }
         else if(SceneManager.GetActiveScene().buildIndex == 1)  // 마을 화면 일 때
         {

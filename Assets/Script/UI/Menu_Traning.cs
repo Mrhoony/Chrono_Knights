@@ -9,6 +9,7 @@ public class Menu_Traning : MonoBehaviour
     public PlayerData playerData;
     public GameObject button;
 
+    public int[] limitUpgrade;
     public GameObject[] traningButton;
     public Button btn;
     public Image[] gauge;

@@ -6,13 +6,6 @@ public class Monster_Dog : Monster_Control
     {
         base.Awake();
     }
-
-    // Update is called once per frame
-    public override void Update()
-    {
-        base.Update();
-    }
-
     public void Start()
     {
         maxRotateDelayTime = 2f;
@@ -22,7 +15,6 @@ public class Monster_Dog : Monster_Control
         effectX = 0.2f;
         effectY = 0.3f;
     }
-
     public void OnDisable()
     {
         StopCoroutine(Moving);
@@ -33,6 +25,12 @@ public class Monster_Dog : Monster_Control
         base.OnEnable();
         isFaceRight = false;
         arrow = -1;
+    }
+
+    // Update is called once per frame
+    public override void Update()
+    {
+        base.Update();
     }
 
     private void FixedUpdate()
@@ -54,7 +52,7 @@ public class Monster_Dog : Monster_Control
                     if (!isAtk)
                     {
                         animator.SetBool("isRun", true);
-                        rb.velocity = new Vector2(ehp.moveSpeed * 2f * arrow, rb.velocity.y);
+                        rb.velocity = new Vector2(ehp.GetMoveSpeed() * 2f * arrow, rb.velocity.y);
                     }
                 }
                 else
@@ -69,7 +67,7 @@ public class Monster_Dog : Monster_Control
                 {
                     animator.SetBool("isRun", false);
                     animator.SetBool("isMove", true);
-                    rb.velocity = new Vector2(ehp.moveSpeed * randomMove, rb.velocity.y);
+                    rb.velocity = new Vector2(ehp.GetMoveSpeed() * randomMove, rb.velocity.y);
                 }
                 else
                 {

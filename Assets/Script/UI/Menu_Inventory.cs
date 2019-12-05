@@ -8,23 +8,24 @@ public class Menu_Inventory : MonoBehaviour
     // 초기화 영역
     public GameObject player;
     public GameObject slots;
-    public Transform[] transforms;
-    public Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
-    public Menu_Storage storage;
+    private Transform[] transforms;
+    private Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
+    private Menu_Storage storage;
 
-    public GameObject[] slot;           // 인벤토리 슬롯
-    public int slotCount;
+    private GameObject[] slot;           // 인벤토리 슬롯
+    private int slotCount;
 
-    public int availableSlot;
+    private int availableSlot;
+    private int inventoryItemCount;
 
-    public int seletedKeyCount;         // 창고에서 선택된 아이템 수
-    public int takeKeySlot;             // 가져갈 수 있는 슬롯 수
+    private int seletedItemCount;         // 창고에서 선택된 아이템 수
+    private int takeItemSlot;             // 가져갈 수 있는 슬롯 수
     public bool[] isFull;               // 슬롯이 비었는지 아닌지
-    public Key[] inventoryKeylist;      // 인벤토리 키 목록
-    
-    public bool onInventory;
-    
-    public int focused = 0;
+    private Key[] inventoryItemList;      // 인벤토리 키 목록
+
+    private bool onInventory;
+
+    private int focused = 0;
 
     private void Awake()
     {
@@ -35,7 +36,7 @@ public class Menu_Inventory : MonoBehaviour
 
         slot = new GameObject[slotCount];
         isFull = new bool[slotCount];
-        inventoryKeylist = new Key[slotCount];
+        inventoryItemList = new Key[slotCount];
 
         for (int i = 1; i < slotCount + 1; ++i)
         {
@@ -44,9 +45,10 @@ public class Menu_Inventory : MonoBehaviour
             isFull[i - 1] = false;
         }
         onInventory = false;
-        seletedKeyCount = 0;
-        takeKeySlot = 3;
+        seletedItemCount = 0;
+        takeItemSlot = 3;
         availableSlot = 6;
+        inventoryItemCount = 0;
     }
     private void Update()
     {
@@ -69,7 +71,8 @@ public class Menu_Inventory : MonoBehaviour
             if (!isFull[i])
             {
                 isFull[i] = true;
-                inventoryKeylist[i] = _key;
+                inventoryItemList[i] = _key;
+                ++inventoryItemCount;
 
                 return true;
             }
@@ -89,10 +92,10 @@ public class Menu_Inventory : MonoBehaviour
     {
         for (int i = 0; i < availableSlot; ++i)
         {
-            if (inventoryKeylist[i] != null)
+            if (inventoryItemList[i] != null)
             {
-                slot[i].GetComponent<Image>().sprite = inventoryKeylist[i].sprite;
-                slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[11 - inventoryKeylist[i].keyRarity];
+                slot[i].GetComponent<Image>().sprite = inventoryItemList[i].sprite;
+                slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[11 - inventoryItemList[i].keyRarity];
             }
             else
             {
@@ -110,23 +113,23 @@ public class Menu_Inventory : MonoBehaviour
         slot[focused].transform.GetChild(0).gameObject.SetActive(false);
     }
 
-    public void SetInventoryKeyList()
+    public void SetInventoryItemList()
     {
-        for(int i = 0; i < seletedKeyCount; ++i)
+        for(int i = 0; i < seletedItemCount; ++i)
         {
-            inventoryKeylist[i] = storage.storageKeyList[storage.selectedSlot[i]];
+            inventoryItemList[i] = storage.GetStorageItem(i);
             isFull[i] = true;
+            ++inventoryItemCount;
         }
-        for(int i = seletedKeyCount; i < availableSlot; ++i)
+        for(int i = seletedItemCount; i < availableSlot; ++i)
         {
-            inventoryKeylist[i] = null;
+            inventoryItemList[i] = null;
             isFull[i] = false;
         }
     }
-    
-    public void TakeKeySlotUpgrade(int upgrade)
+    public void takeItemSlotUpgrade(int upgrade)
     {
-        takeKeySlot += upgrade;
+        takeItemSlot += upgrade;
     }
     public void AvailableKeySlotUpgrade(int upgrade)
     {
@@ -136,7 +139,6 @@ public class Menu_Inventory : MonoBehaviour
             isFull[i] = true;
         }
     }
-    
     public void PutInBox(bool isDead)           // 던전에서 복귀할 때 창고에 키 넣기
     {
         if (isDead)
@@ -145,7 +147,7 @@ public class Menu_Inventory : MonoBehaviour
         }
         else
         {
-            storage.GetComponent<Menu_Storage>().PutInBox(inventoryKeylist);
+            storage.GetComponent<Menu_Storage>().PutInBox(inventoryItemList);
         }
         DeleteInventorySlotItem();
     }
@@ -153,27 +155,48 @@ public class Menu_Inventory : MonoBehaviour
     {
         for(int i = 0; i < availableSlot; ++i)
         {
-            inventoryKeylist[i] = null;
+            inventoryItemList[i] = null;
             slot[i].GetComponent<Image>().sprite = null;
             slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
             isFull[i] = false;
-            seletedKeyCount = 0;
         }
+        seletedItemCount = 0;
+        inventoryItemCount = 0;
     }
     public void DeleteStorageItem()             // 던전 진입할 때 들고있는 키 창고에서 삭제
     {
-        for (int i = 0; i < seletedKeyCount; ++i)
+        for (int i = 0; i < seletedItemCount; ++i)
         {
-            inventoryKeylist[i] = storage.storageKeyList[storage.selectedSlot[i]];
+            inventoryItemList[i] = storage.GetSelectStorageItem(i);
             isFull[i] = true;
         }
-        for (int i = seletedKeyCount; i < availableSlot; ++i)    // 창고에서 꺼낸 키 외에는 빈슬롯
+        for (int i = seletedItemCount; i < availableSlot; ++i)    // 창고에서 꺼낸 키 외에는 빈슬롯
         {
-            inventoryKeylist[i] = null;
+            inventoryItemList[i] = null;
             isFull[i] = false;
         }
         storage.DeleteStorageSlotItem();
-        seletedKeyCount = 0;
+        seletedItemCount = 0;
+    }
+    public void SetSelectedItemCount(int value)
+    {
+        seletedItemCount = value;
+    }
+    public int GetSelectedItemCount()
+    {
+        return seletedItemCount;
+    }
+    public int GetAvailableSlot()
+    {
+        return availableSlot;
+    }
+    public int GetTakeItemSlot()
+    {
+        return takeItemSlot;
+    }
+    public Key[] GetInventoryItemList()
+    {
+        return inventoryItemList;
     }
 
     public void quickSlotUseItem(int focus)
@@ -182,26 +205,27 @@ public class Menu_Inventory : MonoBehaviour
         {
             for (int j = 1; j < availableSlot - i; ++i)
             {
-                if (inventoryKeylist[i] != null) continue;
-                if (inventoryKeylist[i + j] != null)
+                if (inventoryItemList[i] != null) continue;
+                if (inventoryItemList[i + j] != null)
                 {
-                    inventoryKeylist[i] = inventoryKeylist[i + j];
+                    inventoryItemList[i] = inventoryItemList[i + j];
                     isFull[i] = true;
 
                     if(i + j == availableSlot)
                     {
-                        inventoryKeylist[i + j] = null;
+                        inventoryItemList[i + j] = null;
                         isFull[i + j] = false;
                     }
                     break;
                 }
             }
         }
+        --inventoryItemCount;
     }
 
-    public void SetInventoryData(int _takeKeySlot, int _availableSlot)
+    public void SetInventoryData(int _takeItemSlot, int _availableSlot)
     {
-        takeKeySlot = _takeKeySlot;
+        takeItemSlot = _takeItemSlot;
         availableSlot = _availableSlot;
     }
 
