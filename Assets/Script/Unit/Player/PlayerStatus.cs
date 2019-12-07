@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
 {
-    public GameObject playerStatusView;
-    MainUI_PlayerStatusView playerStatus;
+    MainUI_PlayerStatusView playerStatusView;
     Animator animator;
 
     public DataBase dataBase;
@@ -13,14 +12,14 @@ public class PlayerStatus : MonoBehaviour
     public PlayerEquipment playerEquip;
 
     public float currentHP;     // 현재 체력
-    public int[] HPCut;
+    public bool[] HPCut;
     public float currentBuffTime;   // 현재 버프량
     public int buffState;
 
     public float jumpPower;
 
     public float moveSpeed;     // 이동 속도
-    public int Atk;  // 공격력
+    public int attack;  // 공격력
     public float attackSpeed;
     public int jumpCount;
     public int defense;     // 안정성(방어력)
@@ -33,15 +32,13 @@ public class PlayerStatus : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
-        playerStatus = playerStatusView.GetComponent<MainUI_PlayerStatusView>();
+        playerStatusView = GameObject.Find("UI/Hpbar").GetComponent<MainUI_PlayerStatusView>();
     }
 
     public void SetPlayerData(PlayerData _playerData)
     {
         playerData = _playerData;
-        playerData.Init();
         playerEquip.Init();
-        playerData.playerEquipment = playerEquip;
     }
 
     public void NewStart(PlayerData playerData)
@@ -54,130 +51,96 @@ public class PlayerStatus : MonoBehaviour
     {
         traningStat = playerData.GetTraningStat();
 
-        currentHP = playerData.HP;
-        jumpPower = playerData.jumpPower;
+        currentHP = playerData.GetStatus(7);
+        jumpPower = playerData.GetStatus(8);
 
-        Atk = (int)(playerData.Atk + playerData.up_Atk + traningStat[0]);
-        defense = (int)(playerData.defense + playerData.up_defense + traningStat[1]);
-        moveSpeed = playerData.moveSpeed + playerData.up_moveSpeed + traningStat[2];
-        attackSpeed = playerData.attackSpeed + playerData.up_attackSpeed + traningStat[3];
-        dashDistance = playerData.dashDistance + playerData.up_dashDistance + traningStat[4];
-        recovery = playerData.recovery + playerData.up_recovery + traningStat[5];
-
-        jumpCount = (int)(playerData.jumpCount + playerData.up_jumpCount);
+        attack = (int)(playerData.GetStatus(0) + playerData.GetEquipmentStatus(0) + traningStat[0]);
+        defense = (int)(playerData.GetStatus(1) + playerData.GetEquipmentStatus(1) + traningStat[1]);
+        moveSpeed = playerData.GetStatus(2) + playerData.GetEquipmentStatus(2) + traningStat[2];
+        attackSpeed = playerData.GetStatus(3) + playerData.GetEquipmentStatus(3) + traningStat[3];
+        dashDistance = playerData.GetStatus(4) + playerData.GetEquipmentStatus(4) + traningStat[4];
+        recovery = playerData.GetStatus(5) + playerData.GetEquipmentStatus(5) + traningStat[5];
+        jumpCount = (int)(playerData.GetStatus(6) + playerData.GetEquipmentStatus(6));
     }
 
     public void HPInit()
     {
-        HPCut = new int[4];
+        HPCut = new bool[4];
         for (int i = 0; i < 4; ++i)
         {
-            HPCut[i] = 0;
+            HPCut[i] = true;
         }
-        playerStatus.Init();
+        playerStatusView.Init();
     }
 
-    public void DecreaseHP(int Atk)
+    public void DecreaseHP(int MonsterAttack)
     {
-        Atk -= defense;
+        MonsterAttack -= defense;
+        if (MonsterAttack < 0)
+            MonsterAttack = 0;
 
-        if(currentHP / playerData.HP >= 0.8)
+        if(currentHP / playerData.GetStatus(7) >= 0.8)
         {
-            if(HPCut[0] < 1)
-            {
-                currentHP -= Atk;
-                if (currentHP / playerData.HP <= 0.8f)
-                {
-                    currentHP = playerData.HP * 0.8f;
-                    ++HPCut[0];
-                }
-            }
-            else
-            {
-                currentHP = playerData.HP * 0.79f;
-                playerStatus.SetHPCut(0);
-            }
+            HPCutCheck(0.8f, 0, MonsterAttack);
         }
-        else if (currentHP / playerData.HP >= 0.6)
+        else if (currentHP / playerData.GetStatus(7) >= 0.6)
         {
-            if (HPCut[1] < 1)
-            {
-                currentHP -= Atk;
-                if (currentHP / playerData.HP <= 0.6f)
-                {
-                    currentHP = playerData.HP * 0.6f;
-                    ++HPCut[1];
-                }
-            }
-            else
-            {
-                currentHP = playerData.HP * 0.59f;
-                playerStatus.SetHPCut(1);
-            }
+            HPCutCheck(0.6f, 1, MonsterAttack);
         }
-        else if (currentHP / playerData.HP >= 0.4)
+        else if (currentHP / playerData.GetStatus(7) >= 0.4)
         {
-            if (HPCut[2] < 1)
-            {
-                currentHP -= Atk;
-                if (currentHP / playerData.HP <= 0.4f)
-                {
-                    currentHP = playerData.HP * 0.4f;
-                    ++HPCut[2];
-                }
-            }
-            else
-            {
-                currentHP = playerData.HP * 0.39f;
-                playerStatus.SetHPCut(2);
-            }
+            HPCutCheck(0.4f, 2, MonsterAttack);
         }
-        else if (currentHP / playerData.HP >= 0.2)
+        else if (currentHP / playerData.GetStatus(7) >= 0.2)
         {
-            if (HPCut[3] < 1)
-            {
-                currentHP -= Atk;
-                if (currentHP / playerData.HP <= 0.2f)
-                {
-                    currentHP = playerData.HP * 0.2f;
-                    ++HPCut[3];
-                }
-            }
-            else
-            {
-                currentHP = playerData.HP * 0.19f;
-                playerStatus.SetHPCut(3);
-            }
+            HPCutCheck(0.2f, 3, MonsterAttack);
         }
         else
-            currentHP -= Atk;
-        
-        playerStatus.Hit(Atk);
+            currentHP -= MonsterAttack;
+
+        playerStatusView.Hit(MonsterAttack);
 
         if (currentHP <= 0) // 죽었을 때 결과창 보여주고 마을로
         {
             Debug.Log("isDead");
-            //결과창 띄우기
-            //DungeonManager.instance.PlayerDie();
         }
         else
         {
-            animator.SetTrigger("isHit");
+            Debug.Log("isHit");
+            //animator.SetTrigger("isHit");
+        }
+    }
+
+    public void HPCutCheck(float HPPercent, int HPCutNum, int MonsterAttack)
+    {
+        if (HPCut[HPCutNum])
+        {
+            currentHP -= MonsterAttack;
+            if (currentHP / playerData.GetStatus(7) <= HPPercent)
+            {
+                currentHP = playerData.GetStatus(7) * HPPercent;
+                HPCut[HPCutNum] = false;
+            }
+        }
+        else
+        {
+            currentHP = playerData.GetStatus(7) * (HPPercent - 0.01f);
+            playerStatusView.SetHPCut(HPCutNum);
         }
     }
 
     public void IncreaseHP()
     {
-        currentHP += playerData.Atk;
+        currentHP += playerData.GetStatus(0);
     }
 
     public void SetBuff(int buffLevel)
     {
         currentBuffTime += 10 * buffLevel;
-        if(currentBuffTime > playerData.maxBuffTime)
+        if(currentBuffTime > playerData.GetMaxBuffTime())
         {
-            currentBuffTime = playerData.maxBuffTime;
+            currentBuffTime = playerData.GetMaxBuffTime();
         }
-        playerStatus.SetBuff(1);
+        playerStatusView.SetBuff(1);
     }
 }

@@ -19,36 +19,14 @@ public class x_Attack_end : AnimatorManager
         }
         if(stateInfo.normalizedTime > 0.3f)
         {
-            playerControl.atkState = 2;
+            playerControl.SetAttackState(2);
         }
-        playerControl.notMove = true;
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(playerControl.attackPattern == 0)
-        {
-            if (!playerControl.animator.GetBool("is_xx_Atk"))
-            {
-                playerControl.InputInit();
-                playerControl.notMove = false;
-            }
-        }else if(playerControl.attackPattern == 1)
-        {
-            if (!playerControl.animator.GetBool("is_xFx_Atk"))
-            {
-                playerControl.InputInit();
-                playerControl.notMove = false;
-            }
-        }else if(playerControl.attackPattern == 2)
-        {
-            if (!playerControl.animator.GetBool("is_xFx_Atk"))
-            {
-                playerControl.InputInit();
-                playerControl.notMove = false;
-            }
-        }
+        playerControl.AttackMotionCheck();
         Init();
     }
 

@@ -15,14 +15,13 @@ public class AnimatorManager : StateMachineBehaviour
         atk = 0;
         move = false;
         playerControl = PlayerControl.instance;
-        playerControl.notMove = true;
     }
 
     public void Attack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
     {
         ++atk;
         
-        monster = Physics2D.OverlapBoxAll(new Vector2(playerControl.transform.position.x + (attackPosX * playerControl.arrowDirection), playerControl.transform.position.y + attackPosY), new Vector2(attackRangeX, attackRangeY), 0);
+        monster = Physics2D.OverlapBoxAll(new Vector2(playerControl.transform.position.x + (attackPosX * playerControl.GetArrowDirection()), playerControl.transform.position.y + attackPosY), new Vector2(attackRangeX, attackRangeY), 0);
 
         if(monster != null)
         {
@@ -30,13 +29,11 @@ public class AnimatorManager : StateMachineBehaviour
             {
                 if (monster[i].CompareTag("Monster"))
                 {
-                    monster[i].gameObject.GetComponent<Monster_Control>().Hit(playerControl.pStat.Atk
-                        , monster[i].gameObject.GetComponent<Monster_Control>().effectX, monster[i].gameObject.GetComponent<Monster_Control>().effectY);
+                    monster[i].gameObject.GetComponent<IsDamageable>().MonsterHit(playerControl.playerStatus.attack);
                 }
                 else if (monster[i].CompareTag("BossMonster"))
                 {
-                    monster[i].gameObject.GetComponent<BossMonster_Control>().Hit(playerControl.pStat.Atk
-                        , monster[i].gameObject.GetComponent<BossMonster_Control>().effectX, monster[i].gameObject.GetComponent<BossMonster_Control>().effectY);
+                    monster[i].gameObject.GetComponent<IsDamageable>().MonsterHit(playerControl.playerStatus.attack);
                 }
             }
         }
@@ -48,7 +45,7 @@ public class AnimatorManager : StateMachineBehaviour
         {
             ++atk;
             player = Physics2D.OverlapBoxAll(
-                new Vector2(animator.gameObject.transform.position.x + (attackPosX * animator.gameObject.GetComponent<Monster_Control>().arrow)
+                new Vector2(animator.gameObject.transform.position.x + (attackPosX * animator.gameObject.GetComponent<Monster_Control>().GetArrowDirection())
                 , (animator.gameObject.transform.position.y))
                 , new Vector2(attackRangeX, attackRangeY), 8);
             
@@ -58,7 +55,7 @@ public class AnimatorManager : StateMachineBehaviour
                 {
                     if (player[i].CompareTag("Player"))
                     {
-                        player[i].gameObject.GetComponent<PlayerControl>().Hit(animator.gameObject.GetComponent<EnemyStat>().GetAttack());
+                        player[i].gameObject.GetComponent<IsDamageable>().PlayerHit(animator.gameObject.GetComponent<EnemyStat>().GetAttack());
                     }
                 }
             }

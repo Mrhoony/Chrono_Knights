@@ -20,26 +20,11 @@ public class GroundCheck : MonoBehaviour
             if (parentObject.CompareTag("Player"))
             {
                 playerControl = parentObject.GetComponent<PlayerControl>();
-
-                if (playerControl.isDodge)
-                {
-                    playerControl.isDodge = false;
-                    playerControl.animator.SetTrigger("isLanding");
-                }
-                else
-                {
-                    playerControl.isGround = true;
-                    playerControl.jumping = false;
-                    playerControl.animator.SetBool("isJump", false);
-                    playerControl.animator.SetBool("isJump_x_Atk", false);
-                    playerControl.animator.SetTrigger("isLanding");
-                    playerControl.currentJumpCount = playerControl.pStat.jumpCount;
-                }
+                playerControl.Landing();
             }
             else if (parentObject.CompareTag("Monster"))
             {
-                monsterControl = parentObject.GetComponent<Monster_Control>();
-                monsterControl.animator.SetBool("isJumping", false);
+                parentObject.GetComponent<Monster_Control>().Landing();
             }
         }
         /*

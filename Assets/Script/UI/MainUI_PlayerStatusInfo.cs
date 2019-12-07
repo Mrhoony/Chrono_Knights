@@ -9,17 +9,17 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
     public GameObject[] equipmentSlot;
     Sprite[] equipmentBorder;
     Sprite[] inventorySet;
-    PlayerStatus pStatus;
-    PlayerData pData;
+    PlayerStatus playerStatus;
+    PlayerData playerData;
 
     PlayerEquipment playerEquipment;
     public PlayerEquipment.Equipment[] equipment;
 
     private void Awake()
     {
-        pStatus = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
-        pData = pStatus.playerData;
-        playerEquipment = pData.playerEquipment;
+        playerStatus = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
+        playerData = playerStatus.playerData;
+        playerEquipment = playerData.GetPlayerEquipment();
         equipmentBorder = Resources.LoadAll<Sprite>("UI/ui_status_set");
         inventorySet = Resources.LoadAll<Sprite>("UI/Inventory_Set");
     }

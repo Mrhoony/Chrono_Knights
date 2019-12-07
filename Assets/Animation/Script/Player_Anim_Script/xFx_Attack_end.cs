@@ -19,24 +19,22 @@ public class xFx_Attack_end : AnimatorManager
         }
         if (stateInfo.normalizedTime > 0.2f)
         {
-            PlayerControl.instance.atkState = 3;
+            playerControl.SetAttackState(3);
             if (!move)
             {
-                PlayerControl.instance.rb.velocity = new Vector2(2f * PlayerControl.instance.arrowDirection, PlayerControl.instance.rb.velocity.y);
-                
+                playerControl.DashAttackDistance(2f);
                 move = true;
             }
         }
-        if(stateInfo.normalizedTime > 0.9f)
-            PlayerControl.instance.isAtk = false;
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!PlayerControl.instance.animator.GetBool("is_xFxFx_Atk"))
+        if (!animator.GetBool("is_xFxFx_Atk"))
         {
-            PlayerControl.instance.InputInit();
+            playerControl.InputInit();
+            playerControl.PlayerMoveSet();
         }
         Init();
     }

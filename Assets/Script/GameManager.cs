@@ -66,7 +66,6 @@ public class GameManager : MonoBehaviour
         gameStart = false;
 
         dataBase = new DataBase();
-        dataBase.Init();
         playerStat = player.GetComponent<PlayerStatus>();
         storage = inGameMenu.GetComponent<MainUI_InGameMenu>().Menus[3].GetComponent<Menu_Storage>();
         inventory = inGameMenu.GetComponent<MainUI_InGameMenu>().Menus[0].GetComponent<Menu_Inventory>();
@@ -175,6 +174,7 @@ public class GameManager : MonoBehaviour
                 playerStat.SetPlayerData(dataBase.playerData);
                 storage.SetStorageData(dataBase.storageKeyList, dataBase.availableStorageSlot);
                 inventory.SetInventoryData(dataBase.takeKeySlot, dataBase.availableInventorySlot);
+
                 DungeonManager.instance.currentDate = dataBase.currentDate;
 
                 player.GetComponent<PlayerControl>().enabled = true;
@@ -183,16 +183,17 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            playerStat.NewStart(dataBase.playerData);
+            storage.SetStorageData(dataBase.storageKeyList, dataBase.availableStorageSlot);
+            inventory.SetInventoryData(dataBase.takeKeySlot, dataBase.availableInventorySlot);
+
             CloseLoad();
-            
+
             inGameMenu.SetActive(true);
             playerStatView.SetActive(true);
             mainMenu.SetActive(false);
             gameStart = true;
 
-            playerStat.NewStart(dataBase.playerData);
-            storage.SetStorageData(dataBase.storageKeyList, dataBase.availableStorageSlot);
-            inventory.SetInventoryData(dataBase.takeKeySlot, dataBase.availableInventorySlot);
             player.GetComponent<PlayerControl>().enabled = true;
             Time.timeScale = 1;
         }

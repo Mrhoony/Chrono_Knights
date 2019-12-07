@@ -16,7 +16,7 @@ public class DataBase
     public int currentDate;
     public bool[] eventCheck;
 
-    public void Init()
+    public DataBase()
     {
         playerData = new PlayerData();
         storageKeyList = new Key[72];

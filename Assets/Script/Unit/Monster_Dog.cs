@@ -12,8 +12,7 @@ public class Monster_Dog : Monster_Control
         curRotateDelayTime = 0f;
         maxAttackDelayTime = 2f;
         curAttackDelayTime = 0f;
-        effectX = 0.2f;
-        effectY = 0.3f;
+        arrowDirection = -1;
     }
     public void OnDisable()
     {
@@ -24,7 +23,6 @@ public class Monster_Dog : Monster_Control
     {
         base.OnEnable();
         isFaceRight = false;
-        arrow = -1;
     }
 
     // Update is called once per frame
@@ -35,7 +33,7 @@ public class Monster_Dog : Monster_Control
 
     private void FixedUpdate()
     {
-        if (isDead) return;
+        if (actionState == ActionState.IsDead) return;
         Move();
         if (!isTrace) return;
         Attack();
@@ -43,40 +41,37 @@ public class Monster_Dog : Monster_Control
     
     void Move()
     {
-        if (!notMove)
+        if (isTrace)
         {
-            if (isTrace)
+            if (distanceX > 0.5f)
             {
-                if(distanceX > 0.5f)
+                if (!isAtk)
                 {
-                    if (!isAtk)
-                    {
-                        animator.SetBool("isRun", true);
-                        rb.velocity = new Vector2(ehp.GetMoveSpeed() * 2f * arrow, rb.velocity.y);
-                    }
-                }
-                else
-                {
-                    animator.SetBool("isMove", false);
-                    animator.SetBool("isRun", false);
+                    animator.SetBool("isRun", true);
+                    rb.velocity = new Vector2(ehp.GetMoveSpeed() * 2f * arrowDirection, rb.velocity.y);
                 }
             }
             else
             {
-                if (randomMove != 0)
-                {
-                    animator.SetBool("isRun", false);
-                    animator.SetBool("isMove", true);
-                    rb.velocity = new Vector2(ehp.GetMoveSpeed() * randomMove, rb.velocity.y);
-                }
-                else
-                {
-                    animator.SetBool("isMove", false);
-                    animator.SetBool("isRun", false);
-                }
+                animator.SetBool("isMove", false);
+                animator.SetBool("isRun", false);
             }
         }
         else
+        {
+            if (randomMove != 0)
+            {
+                animator.SetBool("isRun", false);
+                animator.SetBool("isMove", true);
+                rb.velocity = new Vector2(ehp.GetMoveSpeed() * randomMove, rb.velocity.y);
+            }
+            else
+            {
+                animator.SetBool("isMove", false);
+                animator.SetBool("isRun", false);
+            }
+        }
+        if (actionState != ActionState.NotMove)
         {
             animator.SetBool("isMove", false);
             animator.SetBool("isRun", false);
@@ -87,8 +82,8 @@ public class Monster_Dog : Monster_Control
     {
         if (distanceX < 0.5f)
         {
+            actionState = ActionState.NotMove;
             rb.velocity = Vector2.zero;
-            notMove = true;
             curAttackDelayTime += Time.fixedDeltaTime;
             if (curAttackDelayTime > maxAttackDelayTime)
             {

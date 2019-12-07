@@ -17,7 +17,7 @@ public class Menu_Traning : MonoBehaviour
 
     public float[] traningStat;
     public float[] limit_traning;
-    public float[] traning_count;
+    public int[] traning_count;
 
     public void Awake()
     {
@@ -29,7 +29,7 @@ public class Menu_Traning : MonoBehaviour
     {
         limit_traning = playerData.GetLimitTraning();
         traningStat = playerData.GetTraningStat();
-        traning_count = playerData.traning_count;
+        traning_count = playerData.GetTraningCount();
     }
 
     public void OpenTraningMenu()

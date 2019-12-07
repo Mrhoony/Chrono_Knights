@@ -13,6 +13,9 @@ public class EnemyStat : MonoBehaviour
     private void Start()
     {
         anim = GetComponent<Animator>();
+        _moveSpeed = 1f;
+        _HP = 5f;
+        _attack = 2;
     }
 
     public void SetCurrentHP()

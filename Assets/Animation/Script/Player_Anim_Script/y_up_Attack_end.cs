@@ -22,10 +22,9 @@ public class y_up_Attack_end : AnimatorManager
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        PlayerControl.instance.animator.SetBool("is_y_Atk", false);
-        PlayerControl.instance.animator.SetBool("is_y_up_Atk", false);
-        PlayerControl.instance.inputY = false;
-        PlayerControl.instance.notMove = false;
+        animator.SetBool("is_y_Atk", false);
+        animator.SetBool("is_y_up_Atk", false);
+        playerControl.PlayerMoveSet();
         atk = 0;
     }
 

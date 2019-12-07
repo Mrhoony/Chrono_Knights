@@ -14,10 +14,8 @@ public class Monster_Goblin : Monster_Control
         curRotateDelayTime = 0f;
         maxAttackDelayTime = 2f;
         curAttackDelayTime = 0f;
-        effectX = 0.5f;
-        effectY = 0.5f;
         isFaceRight = true;
-        arrow = 1;
+        arrowDirection = 1;
     }
     public override void OnEnable()
     {
@@ -30,7 +28,7 @@ public class Monster_Goblin : Monster_Control
 
     private void FixedUpdate()
     {
-        if (isDead) return;
+        if (actionState == ActionState.IsDead) return;
         Move();
         if (!isTrace) return;
         Attack();
@@ -38,37 +36,32 @@ public class Monster_Goblin : Monster_Control
 
     void Move()
     {
-        if (!notMove && !isAtk)
+        if (isTrace)
         {
-            if (isTrace)
+            if (distanceX > 1f)
             {
-                if (distanceX > 1f)
-                {
-                    animator.SetBool("isMove", true);
-                    rb.velocity = new Vector2(ehp.GetMoveSpeed() * arrow, rb.velocity.y);
-                }
-                else
-                {
-                    animator.SetBool("isMove", false);
-                }
+                animator.SetBool("isMove", true);
+                rb.velocity = new Vector2(ehp.GetMoveSpeed() * arrowDirection, rb.velocity.y);
             }
             else
             {
-                if (randomMove != 0)
-                {
-                    animator.SetBool("isMove", true);
-                    rb.velocity = new Vector2(ehp.GetMoveSpeed() * randomMove, rb.velocity.y);
-                }
-                else
-                {
-                    animator.SetBool("isMove", false);
-                }
+                animator.SetBool("isMove", false);
             }
         }
         else
         {
-            animator.SetBool("isMove", false);
+            if (randomMove != 0)
+            {
+                animator.SetBool("isMove", true);
+                rb.velocity = new Vector2(ehp.GetMoveSpeed() * randomMove, rb.velocity.y);
+            }
+            else
+            {
+                animator.SetBool("isMove", false);
+            }
         }
+        if (actionState == ActionState.NotMove)
+            animator.SetBool("isMove", false);
     }
 
     void Attack()
@@ -77,7 +70,7 @@ public class Monster_Goblin : Monster_Control
 
         if (distanceX < 1f)
         {
-            notMove = true;
+            actionState = ActionState.NotMove;
             curAttackDelayTime += Time.fixedDeltaTime;
             if (curAttackDelayTime > maxAttackDelayTime)
             {

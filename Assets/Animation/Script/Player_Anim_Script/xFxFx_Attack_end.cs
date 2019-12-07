@@ -22,19 +22,17 @@ public class xFxFx_Attack_end : AnimatorManager
         {
             if (!move)
             {
-                PlayerControl.instance.rb.velocity = new Vector2((PlayerControl.instance.pStat.moveSpeed * PlayerControl.instance.arrowDirection), PlayerControl.instance.transform.position.y);
+                playerControl.DashAttackDistance(4f);
                 move = true;
             }
         }
-        if (stateInfo.normalizedTime > 0.9f)
-            PlayerControl.instance.isAtk = false;
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        PlayerControl.instance.atkState = 1;
-        PlayerControl.instance.InputInit();
+        playerControl.InputInit();
+        playerControl.PlayerMoveSet();
         Init();
     }
 

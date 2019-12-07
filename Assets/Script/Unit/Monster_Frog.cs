@@ -20,9 +20,7 @@ public class Monster_Frog : Monster_Control
         curRotateDelayTime = 0f;
         maxAttackDelayTime = 2f;
         curAttackDelayTime = 0f;
-        effectX = 0.3f;
-        effectY = 0.3f;
-        arrow = 1;
+        arrowDirection = 1;
         isFaceRight = true;
         isAtk = false;
     }
@@ -35,7 +33,6 @@ public class Monster_Frog : Monster_Control
         randomMove = Random.Range(-2, 3);
         randomMoveCount = Random.Range(2f, 3f);
         maxRotateDelayTime = randomMoveCount;
-        arrow = 1;
     }
 
     public void OnDisable()
@@ -44,12 +41,9 @@ public class Monster_Frog : Monster_Control
     }
 
     // Update is called once per frame
-    public new void Update()
+    public override void Update()
     {
-        if (isDead) return;
-        NotMoveDelayTime();
-        if (notMove) return;
-        MonsterFlip();
+        base.Update();
     }
 
     new void NotMoveDelayTime()
@@ -61,7 +55,7 @@ public class Monster_Frog : Monster_Control
             {
                 isJump = false;
                 isAtk = false;
-                notMove = false;
+                actionState = ActionState.Idle;
                 curRotateDelayTime = 0f;
             }
         }
@@ -69,7 +63,7 @@ public class Monster_Frog : Monster_Control
 
     private void FixedUpdate()
     {
-        if (isDead) return;
+        if (actionState == ActionState.IsDead) return;
         Jump();
         if (!isTrace) return;
         Attack();
@@ -99,7 +93,7 @@ public class Monster_Frog : Monster_Control
     void Attack()
     {
         MonsterFlip();
-        notMove = true;
+        actionState = ActionState.NotMove;
         isJump = true;
         curRotateDelayTime = 0f;
         curAttackDelayTime += Time.deltaTime;
@@ -122,7 +116,7 @@ public class Monster_Frog : Monster_Control
 
     public void AttackStart(float x, float y)
     {
-        rb.velocity = new Vector2(x * arrow, y);
+        rb.velocity = new Vector2(x * arrowDirection, y);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)

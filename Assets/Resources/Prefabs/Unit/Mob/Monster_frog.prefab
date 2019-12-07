@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5306742918675703073}
   - component: {fileID: 1163954453749329569}
   - component: {fileID: 3538096716990868496}
+  - component: {fileID: 2279771157099936315}
   m_Layer: 10
   m_Name: Monster_frog
   m_TagString: Monster
@@ -166,19 +167,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87b7392ea2a37c14a88e823bd991a188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFaceRight: 0
-  isDead: 0
-  notMove: 0
-  rb: {fileID: 0}
-  animator: {fileID: 0}
-  arrow: 1
-  eft: {fileID: 776820764541791318, guid: a23023812364dc04883cd5bf233c4956, type: 3}
   dil: {fileID: 0}
-  dungeonManager: {fileID: 0}
   distanceX: 0
   distanceY: 0
-  effectX: 0
-  effectY: 0
   isTrace: 0
   randomMove: 0
   randomMoveCount: 0
@@ -186,10 +177,6 @@ MonoBehaviour:
   isAtk: 0
   isJump: 0
   isDamagable: 0
-  maxRotateDelayTime: 0
-  curRotateDelayTime: 0
-  maxAttackDelayTime: 0
-  curAttackDelayTime: 0
   box: {fileID: 0}
 --- !u!114 &1163954453749329569
 MonoBehaviour:
@@ -218,6 +205,18 @@ MonoBehaviour:
   DropItems:
   - {fileID: 5795833314817906566, guid: 9e2e3d63deac2d74181edafcfd2979ad, type: 3}
   DropChances: 14000000
+--- !u!114 &2279771157099936315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431083087236160219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8bca6e2af9b3b4981467d0e5a9f4b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4815574860096899932
 GameObject:
   m_ObjectHideFlags: 0

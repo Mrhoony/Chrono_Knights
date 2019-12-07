@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class MovingObject : MonoBehaviour
 {
-    public enum state
+    protected Rigidbody2D rb;
+    protected Animator animator;
+
+    protected enum State
     {
         common, poison, bleeding, slow
     }
-
-    public bool isFaceRight; // 보는 방향
-
     private string currentState;
 
-    public bool isDead;
-    public bool notMove;
+    public enum ActionState
+    {
+        IsDead,
+        NotMove,
+        IsJump,
+        IsAtk,
+        IsParrying,
+        Idle
+    }
 
-    public Rigidbody2D rb;
-    public Animator animator;
-    public int arrow;
+    public ActionState actionState = ActionState.Idle; 
+
+    protected bool isFaceRight; // 보는 방향
+    protected int arrowDirection;
 
     public void Flip()
     {
@@ -26,13 +34,21 @@ public class MovingObject : MonoBehaviour
         Vector2 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
-        arrow *= -1;
-        notMove = false;
+        arrowDirection *= -1;
     }
 
     public string StateInfo
     {
         get { return currentState; }
         set { currentState = value; }
+    }
+
+    public int GetArrowDirection()
+    {
+        return arrowDirection;
+    }
+    public ActionState GetActionState()
+    {
+        return actionState;
     }
 }

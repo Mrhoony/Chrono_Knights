@@ -23,8 +23,7 @@ public class Monster_Goblin_DashAtk : AnimatorManager
         {
             if (!move)
             {
-                PlayerControl.instance.rb.velocity = new Vector2(2f * PlayerControl.instance.arrowDirection, PlayerControl.instance.rb.velocity.y);
-                monster_Goblin.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(3f * monster_Goblin.arrow, monster_Goblin.gameObject.GetComponent<Rigidbody2D>().velocity.y);
+                monster_Goblin.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(3f * monster_Goblin.GetArrowDirection(), monster_Goblin.gameObject.GetComponent<Rigidbody2D>().velocity.y);
                 move = true;
             }
         }

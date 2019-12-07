@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss_Merchant : BossMonster_Control
+public class Boss_Merchant : Monster_Control
 {
     #region Debug Attack Position and Range
     public enum AttackTypes
@@ -71,7 +71,7 @@ public class Boss_Merchant : BossMonster_Control
         Invincible = false;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         MonsterFlip();
         Attack1();

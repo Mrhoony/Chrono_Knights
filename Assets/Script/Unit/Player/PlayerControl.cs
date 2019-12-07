@@ -6,44 +6,37 @@ public class PlayerControl : MovingObject
 {
     public static PlayerControl instance;
     public GameObject GroundCheck;
-    public PlayerStatus pStat;
+    public PlayerStatus playerStatus;
 
     public Vector2 movement;
-    public float inputDirection;
-    public int arrowDirection;
+    private float inputDirection;
     
     private float runDelay;
     private int isRrun;
     private int isLrun;
 
-    public bool isJump;
-    public bool jumping;
-    public bool isDownJump;
-    public bool isGround;
-    public bool isSlope;
-    public float slopeDelay;
-    public bool parrying;
-    public bool isParrying;
+    private int inputArrow;
+    private bool inputAttackX;
+    private bool inputAttackY;
+    private bool inputJump;
+    private bool inputDodge;
 
-    public Queue inputAttack = new Queue();
-    public bool isAtk;
-    public bool attackLock;
-    public int inputArrow;
-    public int commandCount = 1;
-    public int attackPattern;
-    public bool inputY;
-    public int atkState = 1;
+    private bool isDownJump;
 
-    public float parryingCount;
-    public bool isDodge;
-    public float dodgeCount;
-    public bool dodging;
-    public bool isDamagable;
-    public float isDamagableCount;
-    
-    public int currentJumpCount;
+    private Queue inputAttackList = new Queue();
+    private bool attackLock;
+    private int commandCount;
+    private int attackState;
+    private int attackPattern;
 
-    public bool isBlock;
+    private float parryingCount;
+    private float dodgeCount;
+    private bool invincible;
+    private float invincibleCount;
+
+    private int currentJumpCount;
+
+    private bool isBlock;
 
     private void Awake()
     {
@@ -52,90 +45,54 @@ public class PlayerControl : MovingObject
             Destroy(gameObject);
             return;
         }
-
         instance = this;
         DontDestroyOnLoad(gameObject);
 
         rb = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponentInChildren<Animator>();
-        pStat = GetComponent<PlayerStatus>();
+        playerStatus = GetComponent<PlayerStatus>();
     }
 
     public void Start()
     {
-        currentJumpCount = pStat.jumpCount;
+        currentJumpCount = playerStatus.jumpCount;
         arrowDirection = 1;
         dodgeCount = 0.5f;
-        slopeDelay = 0;
         parryingCount = 0.2f;
+        commandCount = 1;
+        attackState = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!jumping)
+        // 무적 시간
+        if (invincibleCount > 0)
         {
-            if (Input.GetButtonDown("Fire1") && commandCount <= atkState && !inputY)
-            {
-                if (!isAtk)
-                    rb.velocity = Vector2.zero;
-
-                notMove = true;
-                inputAttack.Enqueue(inputArrow + commandCount);
-                ++commandCount;
-
-                if (!attackLock)
-                    StartCoroutine(Attack());
-
-                if (commandCount > 3)
-                    commandCount = 1;
-            }
-
-            if (Input.GetButtonDown("Fire2"))
-            {
-                notMove = true;
-                inputY = true;
-
-                if (attackPattern != 0) inputAttack.Clear();
-
-                inputAttack.Enqueue(inputArrow + 5);
-                if (!attackLock)
-                    StartCoroutine(Attack());
-            }
-
-            if (Input.GetButtonUp("Fire2") && inputY)
-            {
-                notMove = true;
-                if (animator.GetBool("is_y_Atk"))
-                {
-                    inputAttack.Enqueue(0);
-                    if (!attackLock)
-                        StartCoroutine(Attack());
-                }
-            }
-
-            if (inputDirection != 0) animator.SetBool("isWalk", true);
-            else
-            {
-                animator.SetBool("isWalk", false);
-                animator.SetBool("isRun", false);
-            }
-        }
-        else
-        {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                notMove = true;
-                animator.SetBool("isJump_x_Atk", true);
-            }
+            invincibleCount -= Time.deltaTime;
+            if (invincibleCount <= 0)
+                invincible = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetButtonDown("Fire1"))
         {
-            pStat.SetBuff(1);
+            inputAttackX = true;
+        }
+        if (Input.GetButtonDown("Fire2"))
+        {
+            inputAttackY = true;
+        }
+        if (Input.GetButtonUp("Fire2") && inputAttackY)
+        {
+            inputAttackY = false;
+        }
+        
+        if (rb.velocity.y <= -0.5f)
+        {
+            GroundCheck.SetActive(true);
         }
 
-        if (notMove) return;
+        if (actionState == ActionState.NotMove) return;             // notMove 가 아닐 때
 
         inputDirection = Input.GetAxisRaw("Horizontal");
         
@@ -145,12 +102,12 @@ public class PlayerControl : MovingObject
         // 회피
         if (dodgeCount > 0) dodgeCount -= Time.deltaTime;
 
-        if (parrying)
+        if (actionState == ActionState.IsParrying)
         {
             parryingCount -= Time.deltaTime;
             if (parryingCount < 0f)
             {
-                parrying = false;
+                actionState = ActionState.Idle;
                 parryingCount = 0.2f;
             }
         }
@@ -163,73 +120,24 @@ public class PlayerControl : MovingObject
             inputArrow = 10;
         else
             inputArrow = 0;
+
+        if (Input.GetButtonDown("Fire3") && dodgeCount <= 0) inputDodge = true;
+
+        if (actionState == ActionState.IsAtk) return;             // notMove 가 아닐 때
         
-        if (Input.GetButtonDown("Jump")) isJump = true;
-
-        // 캐릭터 뒤집기
-        if (inputDirection > 0 && isFaceRight)
-        {
-            Flip();
-            arrowDirection *= -1;
-        }
-        else if (inputDirection < 0 && !isFaceRight)
-        {
-            Flip();
-            arrowDirection *= -1;
-        }
-
-        if (Input.GetButtonDown("Fire3") && dodgeCount <= 0) isDodge = true;
-
-        // 무적 시간
-        if(isDamagableCount > 0)
-        {
-            isDamagableCount -= Time.deltaTime;
-            if (isDamagableCount <= 0)
-                isDamagable = false;
-        }
-        //if (isDownJump) return;
-        
-        if (jumping)
-        {
-            if (rb.velocity.y <= -0.5f)
-            {
-                if (slopeDelay > 0)
-                    GroundCheck.SetActive(false);
-                else
-                    GroundCheck.SetActive(true);
-            }
-        }
-
-        if(slopeDelay > 0)
-        {
-            slopeDelay -= Time.deltaTime;
-        }
-
-        if (isSlope)
-        {
-            if (slopeDelay <= 0)
-            {
-                slopeDelay = 0;
-                isSlope = false;
-                jumping = false;
-                animator.SetBool("isJump", false);
-                animator.SetBool("isJump_x_Atk", false);
-                animator.SetTrigger("isLanding");
-                currentJumpCount = pStat.jumpCount;
-            }
-        }
+        if (Input.GetButtonDown("Jump")) inputJump = true;
     }
     
     public void InputInit()
     {
-        inputAttack.Clear();
+        inputAttackList.Clear();
         animator.SetBool("is_x_Atk", false);
         animator.SetBool("is_xx_Atk", false);
         animator.SetBool("is_xFx_Atk", false);
         animator.SetBool("is_xxx_Atk", false);
         animator.SetBool("is_xFxFx_Atk", false);
         commandCount = 1;
-        atkState = 1;
+        attackState = 1;
     }
 
     void RunCheck()
@@ -272,124 +180,212 @@ public class PlayerControl : MovingObject
 
     private void FixedUpdate()
     {
-        if (notMove) return;
-        if (dodging) return;
+        if (actionState == ActionState.NotMove) return;
 
         Dodge();
+        AttackX();
+        AttackY();
         
-        if (isDodge) return;
+        if (actionState == ActionState.IsAtk) return;
+
+        // 캐릭터 뒤집기
+        if (inputDirection > 0 && isFaceRight)
+        {
+            Flip();
+        }
+        else if (inputDirection < 0 && !isFaceRight)
+        {
+            Flip();
+        }
 
         Move();
         Run();
         Jump();
     }
 
+    void AttackX()
+    {
+        if (inputAttackX)
+        {
+            inputAttackX = false;
+            if (inputAttackY) return;
+
+            if (actionState == ActionState.IsJump)
+            {
+                inputAttackList.Enqueue(inputArrow + 6);
+                if (!attackLock)
+                    StartCoroutine(AttackList());
+            }
+            else
+            {
+                if (commandCount <= attackState)
+                {
+                    actionState = ActionState.IsAtk;
+                    inputAttackList.Enqueue(inputArrow + commandCount);
+                    ++commandCount;
+
+                    if (!attackLock)
+                        StartCoroutine(AttackList());
+
+                    if (commandCount > 3)
+                        commandCount = 1;
+                }
+            }
+        }
+    }
+    void AttackY()
+    {
+        if (inputAttackY)
+        {
+            if (actionState == ActionState.IsJump) return;
+
+            if (attackPattern != 0) inputAttackList.Clear();
+
+            inputAttackList.Enqueue(inputArrow + 5);
+            if (!attackLock)
+                StartCoroutine(AttackList());
+        }
+        else
+        {
+            if (animator.GetBool("is_y_Atk"))
+            {
+                inputAttackList.Enqueue(0);
+                if (!attackLock)
+                    StartCoroutine(AttackList());
+            }
+        }
+    }
     void Move()
     {
-        rb.velocity = new Vector2(inputDirection * pStat.moveSpeed, rb.velocity.y);
+        if (inputDirection != 0)
+        {
+            animator.SetBool("isWalk", true);
+            rb.velocity = new Vector2(inputDirection * playerStatus.moveSpeed, rb.velocity.y);
+        }
+        else
+        {
+            animator.SetBool("isWalk", false);
+            animator.SetBool("isRun", false);
+            rb.velocity = new Vector2(0f, rb.velocity.y);
+        }
     }
     void Run()
     {
         if (inputDirection > 0 && isRrun > 1)
         {
             animator.SetBool("isRun", true);
-            rb.velocity = new Vector2(inputDirection * (pStat.moveSpeed + 3f), rb.velocity.y);
+            rb.velocity = new Vector2(inputDirection * (playerStatus.moveSpeed + 3f), rb.velocity.y);
         }
 
         if (inputDirection < 0 && isLrun > 1)
         {
             animator.SetBool("isRun", true);
-            rb.velocity = new Vector2(inputDirection * (pStat.moveSpeed + 3f), rb.velocity.y);
+            rb.velocity = new Vector2(inputDirection * (playerStatus.moveSpeed + 3f), rb.velocity.y);
         }
     }
     void Jump()
     {
-        if (isJump)
+        if (!inputJump) return;
+        if (actionState == ActionState.IsAtk)
         {
-            isJump = false;
-
-            if ((currentJumpCount < 1 && jumping))
-                return;
-
-            isDownJump = false;
-            jumping = true;
-
-            rb.velocity = Vector2.zero;
-
-            animator.SetTrigger("isJumpTrigger");
-            animator.SetBool("isJump", true);
-            GroundCheck.SetActive(false);
-
-            rb.AddForce(new Vector2(0f, pStat.jumpPower), ForceMode2D.Impulse);
-            isGround = false;
-
-            --currentJumpCount;
-
-            //StartCoroutine(JumpIgnore(pStat.jumpPower * 0.1f));
+            inputJump = false;
+            return;
         }
+        if (currentJumpCount < 1 && actionState == ActionState.IsJump)
+        {
+            inputJump = false;
+            return;
+        }
+
+        inputJump = false;
+        isDownJump = false;
+        actionState = ActionState.IsJump;
+        rb.velocity = Vector2.zero;
+
+        animator.SetTrigger("isJumpTrigger");
+        animator.SetBool("isJump", true);
+        GroundCheck.SetActive(false);
+
+        rb.AddForce(new Vector2(0f, playerStatus.jumpPower), ForceMode2D.Impulse);
+
+        --currentJumpCount;
+
+        //StartCoroutine(JumpIgnore(pStat.jumpPower * 0.1f));
     }
     void Dodge()
     {
-        if (isDodge && !dodging)
+        if (!inputDodge) return;
+
+        inputDodge = false;
+        actionState = ActionState.NotMove;
+
+        GroundCheck.SetActive(false);
+        StartCoroutine(DodgeIgnore(0.5f));
+
+        animator.SetTrigger("isDodge");
+        rb.velocity = Vector2.zero;
+        if (inputDirection != arrowDirection)
+            rb.AddForce(new Vector2(-arrowDirection * 4f, 5f), ForceMode2D.Impulse);
+        else
+            rb.AddForce(new Vector2(arrowDirection * 4f, 5f), ForceMode2D.Impulse);
+        dodgeCount = 0.5f;
+        
+        invincible = true;
+    }
+
+    public void Hit(int attack)
+    {
+        if (invincible) return;
+
+        if (actionState == ActionState.IsParrying)
         {
-            dodging = true;
-            dodgeCount = 0.5f;
-            animator.SetTrigger("isDodge");
-            rb.velocity = Vector2.zero;
+            animator.SetBool("is_x_Atk", true);
+            Debug.Log("parrying");
+        }
+        else
+        {
+            actionState = ActionState.NotMove;
+            animator.SetTrigger("isHit");
+            invincible = true;
+            invincibleCount = 1f;
 
-            GroundCheck.SetActive(false);
-            StartCoroutine(DodgeIgnore(0.5f));
-
-            if (inputDirection != arrowDirection)
-                rb.AddForce(new Vector2(-arrowDirection * 4f, 5f), ForceMode2D.Impulse);
-            else
-                rb.AddForce(new Vector2(arrowDirection * 4f, 5f), ForceMode2D.Impulse);
-
-            isDamagable = true;
-            notMove = true;
+            playerStatus.DecreaseHP(attack);
         }
     }
-    
+    public void Landing()
+    {
+        animator.SetBool("isJump", false);
+        animator.SetBool("isJump_x_Atk", false);
+        animator.SetTrigger("isLanding");
+        actionState = ActionState.Idle;
+        currentJumpCount = playerStatus.jumpCount;
+    }
+    public void ParryingCheck()
+    {
+        animator.SetBool("is_x_Atk", true);
+        Debug.Log("parrying");
+    }
+    public void PlayerMoveSet()
+    {
+        actionState = ActionState.Idle;
+    }
+
     IEnumerator DodgeIgnore(float time)
     {
         yield return new WaitForSeconds(time);
         GroundCheck.SetActive(true);
     }
-
-    /*
-    IEnumerator JumpIgnore(float time)
-    {
-        yield return new WaitForSeconds(time);
-        GroundCheck.SetActive(true);
-    }
-    */
-    public void Hit(int monsterAtk)
-    {
-        if (isDamagable)
-            return;
-
-        if (parrying)
-        {
-            isParrying = true;
-            animator.SetBool("is_x_Atk", true);
-            isParrying = false;
-            Debug.Log("parrying");
-        }
-
-        notMove = true;
-        animator.SetTrigger("isHit");
-        isDamagable = true;
-        isDamagableCount = 1f;
-        
-        pStat.DecreaseHP(monsterAtk);
-    }
-
+    
     void Dead()
     {
         Debug.Log("Dead!!");
     }
+    public void DashAttackDistance(float dashDistanceMulty)
+    {
+        rb.velocity = new Vector2(dashDistanceMulty * arrowDirection, rb.velocity.y);
+    }
     
-    IEnumerator Attack()
+    IEnumerator AttackList()
     {
         attackLock = !attackLock;
         do
@@ -401,8 +397,8 @@ public class PlayerControl : MovingObject
                 isRrun = 0;
                 isLrun = 0;
             }
-            isAtk = true;
-            switch (inputAttack.Dequeue())
+            actionState = ActionState.IsAtk;
+            switch (inputAttackList.Dequeue())
             {
                 case 1:
                 case 11:
@@ -413,7 +409,7 @@ public class PlayerControl : MovingObject
                     animator.SetBool("is_x_Atk", true);
                     break;
                 case 41:
-                    parrying = true;
+                    actionState = ActionState.IsParrying;
                     animator.SetBool("is_x_Atk", true);
                     break;
                 case 2:
@@ -466,10 +462,47 @@ public class PlayerControl : MovingObject
                 case 0:
                     animator.SetBool("is_y_up_Atk", true);
                     break;
+                case 6:
+                case 16:
+                case 36:
+                case 46:
+                    animator.SetBool("isJump_x_Atk", true);
+                    break;
             }
-            isAtk = false;
             yield return null;
-        } while (inputAttack.Count > 0);
+        } while (inputAttackList.Count > 0);
         attackLock = !attackLock;
+    }
+
+    public void SetAttackState(int _attackState)
+    {
+        attackState = _attackState;
+    }
+    public void AttackMotionCheck()
+    {
+        if (attackPattern == 0)
+        {
+            if (!animator.GetBool("is_xx_Atk"))
+            {
+                InputInit();
+                PlayerMoveSet();
+            }
+        }
+        else if (attackPattern == 1)
+        {
+            if (!animator.GetBool("is_xFx_Atk"))
+            {
+                InputInit();
+                PlayerMoveSet();
+            }
+        }
+        else if (attackPattern == 2)
+        {
+            if (!animator.GetBool("is_xFx_Atk"))
+            {
+                InputInit();
+                PlayerMoveSet();
+            }
+        }
     }
 }

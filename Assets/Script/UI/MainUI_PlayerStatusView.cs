@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class MainUI_PlayerStatusView : MonoBehaviour
 {
     public static MainUI_PlayerStatusView instance;
-    public PlayerStatus pStat;
+    public PlayerStatus playerStatus;
     public Image HPBar;
     public Image[] HPBarCut;
 
@@ -25,7 +25,7 @@ public class MainUI_PlayerStatusView : MonoBehaviour
 
     private void Awake()
     {
-        pStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
+        playerStatus = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
     }
 
     private void Start()
@@ -50,8 +50,8 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     void Update()
     {
         // 체력바 갱신
-        HPBar.fillAmount = pStat.currentHP / pStat.playerData.HP;
-        buffBar.fillAmount = pStat.currentBuffTime / pStat.playerData.maxBuffTime;
+        HPBar.fillAmount = playerStatus.currentHP / playerStatus.playerData.GetStatus(6);
+        buffBar.fillAmount = playerStatus.currentBuffTime / playerStatus.playerData.GetMaxBuffTime();
 
         // 맞은 횟수 비례 최대 흔들리는 각도
         if (bell.transform.rotation.z * 90f > 0.2f * hitCount)
@@ -74,10 +74,10 @@ public class MainUI_PlayerStatusView : MonoBehaviour
         // 흔들리는 힘 최대치
         if(hitCount != 0)
         {
-            if (power > (4f - pStat.currentHP * 0.02f) * hitCount)
-                power = (4f - pStat.currentHP * 0.02f) * hitCount;
-            else if (power < -((4f - pStat.currentHP * 0.02f) * hitCount))
-                power = -(4f - pStat.currentHP * 0.02f) * hitCount;
+            if (power > (4f - playerStatus.currentHP * 0.02f) * hitCount)
+                power = (4f - playerStatus.currentHP * 0.02f) * hitCount;
+            else if (power < -((4f - playerStatus.currentHP * 0.02f) * hitCount))
+                power = -(4f - playerStatus.currentHP * 0.02f) * hitCount;
         }
         else
         {
@@ -106,7 +106,7 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     // 피격 후 안정화
     IEnumerator MonsterHit()
     {
-        yield return new WaitForSeconds(5f - pStat.defense * 0.02f);
+        yield return new WaitForSeconds(5f - playerStatus.defense * 0.02f);
         
         hitCount -= 2f;
 

@@ -28,7 +28,7 @@ public class Monster_Frog_Jump : AnimatorManager
     {
         animator.gameObject.GetComponent<Monster_Frog>().box.SetActive(false);
         animator.gameObject.GetComponent<Monster_Frog>().isAtk = false;
-        animator.gameObject.GetComponent<Monster_Frog>().notMove = false;
+        //animator.gameObject.GetComponent<Monster_Frog>().notMove = false;
         atk = 0;
     }
 

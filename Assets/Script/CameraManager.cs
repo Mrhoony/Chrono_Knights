@@ -7,20 +7,19 @@ public class CameraManager : MonoBehaviour
 
     static public CameraManager instance;
     public GameObject target;
-    public BoxCollider2D bound;
+    private BoxCollider2D bound;
 
-    public Vector3 targetPosition;
+    private Vector3 targetPosition;
+    private Vector2 minBound;
+    private Vector2 maxBound;
 
-    public Vector2 minBound;
-    public Vector2 maxBound;
+    private int Height;
+    private int Width;
+    private float halfHeight;
+    private float halfWidth;
 
-    public int Height;
-    public int Width;
-    public float halfHeight;
-    public float halfWidth;
-
-    public new Camera camera;
-    public PixelPerfectCamera perfectCamera;
+    private new Camera camera;
+    private PixelPerfectCamera perfectCamera;
 
     public void Awake()
     {
@@ -56,13 +55,11 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        
-        if (target.gameObject != null)
+        if (target != null)
         {
             targetPosition.Set(target.transform.position.x, target.transform.position.y, transform.position.z);
-
-            transform.position = targetPosition;
-            transform.position = Vector3.Lerp(transform.position, targetPosition, target.GetComponent<SubCamera>().moveSpeed/2 * Time.deltaTime);
+            
+            transform.position = Vector3.Lerp(transform.position, targetPosition, target.GetComponent<SubCamera>().moveSpeed * 2f * Time.deltaTime);
             float clampedX = Mathf.Clamp(transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
             float clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y + halfHeight);
 

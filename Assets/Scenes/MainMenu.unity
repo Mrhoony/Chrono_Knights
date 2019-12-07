@@ -1964,16 +1964,6 @@ MonoBehaviour:
   - {fileID: 12800000, guid: fa6ad275430d1c34392ca26e813cbcac, type: 3}
   - {fileID: 12800000, guid: 4a0a0adc17c06894393e4c4c38582c8d, type: 3}
   target: {fileID: 1203967037}
-  bound: {fileID: 0}
-  targetPosition: {x: 0, y: 0, z: 0}
-  minBound: {x: 0, y: 0}
-  maxBound: {x: 0, y: 0}
-  Height: 0
-  Width: 0
-  halfHeight: 0
-  halfWidth: 0
-  camera: {fileID: 0}
-  perfectCamera: {fileID: 0}
 --- !u!81 &2001624150
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2032,7 +2022,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2001624147}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.14, y: 3.3, z: -50}
+  m_LocalPosition: {x: 0, y: 0, z: -50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

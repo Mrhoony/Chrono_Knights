@@ -21,7 +21,7 @@ public class xxx_Attack_end : AnimatorManager
         {
             if (!move)
             {
-                PlayerControl.instance.rb.velocity = new Vector2(PlayerControl.instance.pStat.moveSpeed * PlayerControl.instance.arrowDirection, PlayerControl.instance.rb.velocity.y);
+                playerControl.DashAttackDistance(2f);
                 move = true;
             }
         }
@@ -30,8 +30,8 @@ public class xxx_Attack_end : AnimatorManager
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        PlayerControl.instance.atkState = 1;
-        PlayerControl.instance.InputInit();
+        playerControl.InputInit();
+        playerControl.PlayerMoveSet();
         Init();
     }
 

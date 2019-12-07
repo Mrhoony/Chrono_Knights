@@ -6,36 +6,20 @@ using UnityEngine;
 [Serializable]
 public class PlayerData
 {
-    public float HP;            // 최대 체력
-    public float maxBuffTime;   // 현재 버프량
-    public float jumpPower;     // 점프력
+    private float maxBuffTime;   // 현재 버프량
 
-    public float moveSpeed;     // 이동 속도
-    public float Atk;           // 공격력
-    public float attackSpeed;   // 공격 속도
-    public float jumpCount;     // 점프 횟수
-    public float defense;       // 방어력
-    public float recovery;      // 회복력
-    public float dashDistance;  // 대시 거리
+    private float[] status;      // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount, HP, jumpPower
+    private float[] equipmentStatus;    // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount
 
-    // 키 아이템으로 장비 강화
-    public float up_moveSpeed;
-    public float up_Atk;
-    public float up_attackSpeed;
-    public float up_jumpCount;
-    public float up_defense;
-    public float up_recovery;
-    public float up_dashDistance;
+    private float[] traningStat;
+    private float[] limitTraning;
+    private int[] traning_count;
 
-    float[] traningStat;
-    float[] limitTraning;
-    public float[] traning_count;
+    private int currentDate;
 
-    public int currentDate;
+    private PlayerEquipment playerEquipment = new PlayerEquipment();
 
-    public PlayerEquipment playerEquipment;
-
-    public void Init()
+    public PlayerData()
     {
         traningStat = new float[6];
         traningStat[0] = 0;
@@ -53,40 +37,49 @@ public class PlayerData
         limitTraning[4] = 1f;
         limitTraning[5] = 10f;
 
-        traning_count = new float[6];
+        traning_count = new int[6];
         int count = traning_count.Length;
         for (int i = 0; i < count; ++i)
         {
             traning_count[i] = 0;
         }
 
-        HP = 100f;
-        jumpPower = 7f;
+        status = new float[9];
+        equipmentStatus = new float[7];
 
-        Atk = 2;
-        up_Atk = 0;
+        status[7] = 100f;
+        status[8] = 7f;
 
-        defense = 1;
-        up_defense = 0;
+        status[0] = 1f;
+        equipmentStatus[0] = 0;
 
-        moveSpeed = 4f;
-        up_moveSpeed = 0;
+        status[1] = 1f;
+        equipmentStatus[1] = 0;
+
+        status[2] = 4f;
+        equipmentStatus[2] = 0;
+
+        status[3] = 1f;
+        equipmentStatus[3] = 0;
+
+        status[4] = 2f;
+        equipmentStatus[4] = 0;
+
+        status[5] = 1f;
+        equipmentStatus[5] = 0;
+
+        status[6] = 1f;
+        equipmentStatus[6] = 0;
         
-        attackSpeed = 1;
-        up_attackSpeed = 0;
-
-        jumpCount = 1;
-        up_jumpCount = 0;
-
-        dashDistance = 1f;
-        up_dashDistance = 0;
-
-        recovery = 1f;
-        up_recovery = 0;
-
         maxBuffTime = 100;
+
+        playerEquipment.Init();
     }
 
+    public int[] GetTraningCount()
+    {
+        return traning_count;
+    }
     public float[] GetTraningStat()
     {
         return traningStat;
@@ -95,15 +88,29 @@ public class PlayerData
     {
         return limitTraning;
     }
+    public float GetStatus(int StatusNumber)
+    {
+        return status[StatusNumber];
+    }
+    public float GetEquipmentStatus(int equipmentStatusNumber)
+    {
+        return equipmentStatus[equipmentStatusNumber];
+    }
+    public float GetMaxBuffTime()
+    {
+        return maxBuffTime;
+    }
 
     public void renew()
     {
-        up_moveSpeed = playerEquipment.GetStatusValue(0);
-        up_Atk = playerEquipment.GetStatusValue(1);
-        up_attackSpeed = playerEquipment.GetStatusValue(2);
-        up_defense = playerEquipment.GetStatusValue(3);
-        up_jumpCount = playerEquipment.GetStatusValue(4);
-        up_recovery = playerEquipment.GetStatusValue(5);
-        up_dashDistance = playerEquipment.GetStatusValue(6);
+        for(int i = 0; i < 7; ++i)
+        {
+            equipmentStatus[i] = playerEquipment.GetStatusValue(i);
+        }
+    }
+
+    public PlayerEquipment GetPlayerEquipment()
+    {
+        return playerEquipment;
     }
 }

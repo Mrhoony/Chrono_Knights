@@ -15,12 +15,10 @@ public class y_Attack_end : AnimatorManager
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        playerControl.notMove = true;
-        
         if (stateInfo.normalizedTime > 0.1f)
         {
             atkTime += Time.deltaTime;
-            if(atkTime > 0.1f)
+            if(atkTime > 0.2f)
             {
                 Attack(0f, 0f, 1.5f, 0.7f);
                 atkTime = 0;

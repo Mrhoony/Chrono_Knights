@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 6363715144914464029}
   - component: {fileID: 6363715144914464030}
   - component: {fileID: 6363715144914464031}
+  - component: {fileID: 6352024481841667943}
   m_Layer: 10
   m_Name: Boss_Merchant
-  m_TagString: Untagged
+  m_TagString: BossMonster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,26 +115,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ce97e26f40bb540867d12b33fb850b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFaceRight: 0
-  isDead: 0
-  notMove: 0
-  rb: {fileID: 0}
-  animator: {fileID: 0}
-  movementDirection: 0
-  target: {fileID: 0}
-  playerPos: {x: 0, y: 0}
-  eft: {fileID: 776820764541791318, guid: a23023812364dc04883cd5bf233c4956, type: 3}
-  ehp: {fileID: 0}
-  effectX: 0.1
-  effectY: 0.2
+  dil: {fileID: 0}
+  distanceX: 0
+  distanceY: 0
+  isTrace: 0
+  randomMove: 0
+  randomMoveCount: 0
   randomAttack: 0
   isAtk: 0
   isJump: 0
   isDamagable: 0
-  maxRotateDelayTime: 0
-  curRotateDelayTime: 0
-  maxAttackDelayTime: 0
-  curAttackDelayTime: 0
   AttackType: 0
   Debug_AttackPositionX: 0
   Debug_AttackPositionY: 0
@@ -179,7 +170,7 @@ BoxCollider2D:
   m_Offset: {x: 0.0067954063, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.50714284}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 0.47, y: 0.7}
     newSize: {x: 0.47, y: 0.7}
     adaptiveTilingThreshold: 0.5
@@ -189,3 +180,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.33788395, y: 0.7}
   m_EdgeRadius: 0
+--- !u!114 &6352024481841667943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6363715144914464034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8bca6e2af9b3b4981467d0e5a9f4b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

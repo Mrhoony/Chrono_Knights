@@ -12,10 +12,8 @@ public class Monster_Ogre : Monster_Control
         curRotateDelayTime = 0f;
         maxAttackDelayTime = 2f;
         curAttackDelayTime = 0f;
-        effectX = 0.5f;
-        effectY = 0.5f;
         isFaceRight = true;
-        arrow = 1;
+        arrowDirection = 1;
     }
     public override void OnEnable()
     {
@@ -28,7 +26,8 @@ public class Monster_Ogre : Monster_Control
 
     private void FixedUpdate()
     {
-        if (isDead) return;
+        if (actionState == ActionState.IsDead) return;
+        if (actionState == ActionState.NotMove) return;
         Move();
         if (!isTrace) return;
         Attack();
@@ -36,14 +35,14 @@ public class Monster_Ogre : Monster_Control
 
     void Move()
     {
-        if (!notMove && !isAtk)
+        if (!isAtk)
         {
             if (isTrace)
             {
                 if (distanceX > 2f)
                 {
                     animator.SetBool("isMove", true);
-                    rb.velocity = new Vector2(ehp.GetMoveSpeed() * arrow, rb.velocity.y);
+                    rb.velocity = new Vector2(ehp.GetMoveSpeed() * arrowDirection, rb.velocity.y);
                 }
                 else
                 {
@@ -73,7 +72,7 @@ public class Monster_Ogre : Monster_Control
     {
         if (distanceX < 1f)
         {
-            notMove = true;
+            actionState = ActionState.NotMove;
             curAttackDelayTime += Time.fixedDeltaTime;
             if (curAttackDelayTime > maxAttackDelayTime)
             {
