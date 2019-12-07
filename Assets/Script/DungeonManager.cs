@@ -3,8 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public class MarkerVariable
+{
+    public void Reset() // 던전 초기화 시 실행필수
+    {
+        MonsterModifier = 1f;
+        DropModifier = 1f;
+        SpecialMonster = 0;
+        DamageBuffOnFloorModifier = 1f;
+        DamageBuffOnMonsterModifier = 1f;
+        DamageBuffOnPlayerModifier = 1f;
+        PosHPOnMonsterModifier = 1f;
+        NegHPOnMonsterModifier = 1f;
+        PosDashSpeedOnPlayerModifier = 1f;
+        NegDashSpeedOnPlayerModifier = 1f;
+        PosDamageOnPlayerModifier = 1f;
+        NegDamageOnPlayerModifier = 1f;
+    }
+
+    public float MonsterModifier = 1f;
+    public float DropModifier = 1f;
+    public int SpecialMonster = 0;
+    public float DamageBuffOnFloorModifier = 1f;
+    public float DamageBuffOnMonsterModifier = 1f;
+    public float DamageBuffOnPlayerModifier = 1f;
+    public float PosHPOnMonsterModifier = 1f;
+    public float NegHPOnMonsterModifier = 1f;
+    public float PosDashSpeedOnPlayerModifier = 1f;
+    public float NegDashSpeedOnPlayerModifier = 1f;
+    public float PosDamageOnPlayerModifier = 1f;
+    public float NegDamageOnPlayerModifier = 1f;
+}
+
 public class DungeonManager : MonoBehaviour
 {
+    public MarkerVariable Marker_Variable = new MarkerVariable();   // Marker로부터 전달받는 값 저장공간
+
     public static DungeonManager instance;
     public new CameraManager camera;
 
