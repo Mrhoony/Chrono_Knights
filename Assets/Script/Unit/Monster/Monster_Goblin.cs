@@ -66,15 +66,13 @@ public class Monster_Goblin : Monster_Control
 
     void Attack()
     {
-        MonsterFlip();
-
         if (distanceX < 1f)
         {
             actionState = ActionState.NotMove;
             curAttackDelayTime += Time.fixedDeltaTime;
             if (curAttackDelayTime > maxAttackDelayTime)
             {
-                isAtk = true;
+                actionState = ActionState.IsAtk;
                 animator.SetTrigger("isAtk");
                 curRotateDelayTime = 0f;
                 curAttackDelayTime = 0f;

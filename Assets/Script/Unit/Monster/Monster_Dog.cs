@@ -45,7 +45,7 @@ public class Monster_Dog : Monster_Control
         {
             if (distanceX > 0.5f)
             {
-                if (!isAtk)
+                if (actionState != ActionState.IsAtk)
                 {
                     animator.SetBool("isRun", true);
                     rb.velocity = new Vector2(ehp.GetMoveSpeed() * 2f * arrowDirection, rb.velocity.y);
@@ -87,7 +87,7 @@ public class Monster_Dog : Monster_Control
             curAttackDelayTime += Time.fixedDeltaTime;
             if (curAttackDelayTime > maxAttackDelayTime)
             {
-                isAtk = true;
+                actionState = ActionState.IsAtk;
                 animator.SetBool("isAtk_Trigger", true);
                 curRotateDelayTime = 0f;
                 curAttackDelayTime = 0f;

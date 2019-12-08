@@ -35,7 +35,7 @@ public class Monster_Ogre : Monster_Control
 
     void Move()
     {
-        if (!isAtk)
+        if (actionState != ActionState.IsAtk)
         {
             if (isTrace)
             {
@@ -76,7 +76,7 @@ public class Monster_Ogre : Monster_Control
             curAttackDelayTime += Time.fixedDeltaTime;
             if (curAttackDelayTime > maxAttackDelayTime)
             {
-                isAtk = true;
+                actionState = ActionState.IsAtk;
                 curRotateDelayTime = 0f;
                 curAttackDelayTime = 0f;
                 randomAttack = Random.Range(0, 2);

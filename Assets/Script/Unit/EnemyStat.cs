@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class EnemyStat : MonoBehaviour
 {
-    private float _moveSpeed; // 이동 속도
-    private float _HP; // 최대 체력
-    private float _currentHP; // 현재 체력
-    private int _attack; // 공격력
+    public float _moveSpeed; // 이동 속도
+    public float _HP; // 최대 체력
+    public float _currentHP; // 현재 체력
+    public int _attack; // 공격력
     Animator anim;
 
     private void Start()

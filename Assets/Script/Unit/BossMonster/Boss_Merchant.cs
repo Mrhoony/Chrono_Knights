@@ -102,7 +102,7 @@ public class Boss_Merchant : Monster_Control
 
         if (attack1TimeDelay >= attack1Timer)
         {
-            isAtk = true;
+            actionState = ActionState.IsAtk;
             animator.SetBool("isAttack", true);
             rb.velocity = new Vector2(-1f * MovementDirection, rb.velocity.y);
 

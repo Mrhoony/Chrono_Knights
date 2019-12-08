@@ -22,14 +22,13 @@ public class Monster_Frog : Monster_Control
         curAttackDelayTime = 0f;
         arrowDirection = 1;
         isFaceRight = true;
-        isAtk = false;
+        actionState = ActionState.Idle;
     }
 
     public override void OnEnable()
     {
         ehp.SetCurrentHP();
         StartCoroutine(SearchPlayer());
-        isJump = true;
         randomMove = Random.Range(-2, 3);
         randomMoveCount = Random.Range(2f, 3f);
         maxRotateDelayTime = randomMoveCount;
@@ -48,13 +47,11 @@ public class Monster_Frog : Monster_Control
 
     new void NotMoveDelayTime()
     {
-        if (isJump || isAtk)
+        if (actionState == ActionState.IsAtk)
         {
             curRotateDelayTime += Time.deltaTime;
             if (curRotateDelayTime > maxRotateDelayTime)
             {
-                isJump = false;
-                isAtk = false;
                 actionState = ActionState.Idle;
                 curRotateDelayTime = 0f;
             }
@@ -71,14 +68,12 @@ public class Monster_Frog : Monster_Control
 
     void Jump()
     {
-        if (!isJump && !isAtk)
+        if (actionState != ActionState.IsAtk)
         {
             randomMove = Random.Range(-2, 3);
 
             if (randomMove != 0)
             {
-                isJump = true;
-
                 animator.SetTrigger("isJump");
                 animator.SetBool("isJumping", true);
                 rb.velocity = new Vector2(1.5f * randomMove, 3f);
@@ -92,14 +87,12 @@ public class Monster_Frog : Monster_Control
 
     void Attack()
     {
-        MonsterFlip();
         actionState = ActionState.NotMove;
-        isJump = true;
         curRotateDelayTime = 0f;
         curAttackDelayTime += Time.deltaTime;
         if (curAttackDelayTime > maxAttackDelayTime)
         {
-            isAtk = true;
+            actionState = ActionState.IsAtk;
             int AttackType = Random.Range(0, 2);
             if (AttackType == 0)
             {

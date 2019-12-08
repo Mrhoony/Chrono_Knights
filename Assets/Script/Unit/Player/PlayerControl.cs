@@ -20,9 +20,7 @@ public class PlayerControl : MovingObject
     private bool inputAttackY;
     private bool inputJump;
     private bool inputDodge;
-
-    private bool isDownJump;
-
+    
     private Queue inputAttackList = new Queue();
     private bool attackLock;
     private int commandCount;
@@ -286,19 +284,17 @@ public class PlayerControl : MovingObject
     void Jump()
     {
         if (!inputJump) return;
+        inputJump = false;
+
         if (actionState == ActionState.IsAtk)
         {
-            inputJump = false;
             return;
         }
         if (currentJumpCount < 1 && actionState == ActionState.IsJump)
         {
-            inputJump = false;
             return;
         }
 
-        inputJump = false;
-        isDownJump = false;
         actionState = ActionState.IsJump;
         rb.velocity = Vector2.zero;
 

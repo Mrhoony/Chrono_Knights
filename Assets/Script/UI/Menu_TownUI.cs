@@ -8,7 +8,7 @@ public class Menu_TownUI : MonoBehaviour
 
     public MainUI_InGameMenu menu;
 
-    private void Start()
+    private void Awake()
     {
         menu = GameObject.Find("UI/Menus").GetComponent<MainUI_InGameMenu>();
     }

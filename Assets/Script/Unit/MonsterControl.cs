@@ -21,14 +21,12 @@ public class Monster_Control : MovingObject
     public int randomMove;
     public float randomMoveCount;
     public float randomAttack;
-    public bool isAtk;
-    public bool isJump;
     public bool isDamagable;
 
-    protected float maxRotateDelayTime;
-    protected float curRotateDelayTime;
-    protected float maxAttackDelayTime;
-    protected float curAttackDelayTime;
+    public float maxRotateDelayTime;
+    public float curRotateDelayTime;
+    public float maxAttackDelayTime;
+    public float curAttackDelayTime;
     
     public virtual void Awake()
     {
@@ -37,18 +35,20 @@ public class Monster_Control : MovingObject
         ehp = GetComponent<EnemyStat>();
         eft = transform.GetChild(0).gameObject;
         dil = GetComponent<DropItemList>();
-
-        target = GameObject.Find("PlayerCharacter");
     }
+
     public virtual void Update()
     {
         if (actionState == ActionState.IsDead) return;
-        NotMoveDelayTime();
         if (actionState == ActionState.NotMove) return;
+        NotMoveDelayTime();
+        if (actionState == ActionState.IsAtk) return;
         MonsterFlip();
     }
+
     public virtual void OnEnable()
     {
+        target = GameObject.Find("PlayerCharacter");
         MonsterInit();
     }
 
@@ -63,23 +63,40 @@ public class Monster_Control : MovingObject
             if (distanceX < 0) distanceX *= -1f;
             if (distanceY < 0) distanceY *= -1f;
 
-            if (distanceX < 2f && distanceY < 1f)
+            if (distanceX < 2f && distanceY < 2f)
             {
                 if (!isTrace)
                 {
                     isTrace = true;
                     curRotateDelayTime = 0f;
+                    StopCoroutine(Moving);
                 }
             }
-            else if(distanceX > 2f && distanceY > 1f)
+            else if(distanceX > 2f || distanceY > 2f)
             {
                 if (isTrace)
                 {
-                    isAtk = false;
+                    actionState = ActionState.Idle;
                     isTrace = false;
+                    StartCoroutine(Moving);
                     curAttackDelayTime = 0f;
                 }
             }
+            yield return null;
+        }
+    }
+    public IEnumerator SearchPlayerBoss()
+    {
+        while (actionState != ActionState.IsDead)
+        {
+            Debug.Log("test");
+            playerPos = target.transform.position;
+            distanceX = playerPos.x - transform.position.x;
+            distanceY = playerPos.y - transform.position.y;
+
+            if (distanceX < 0) distanceX *= -1f;
+            if (distanceY < 0) distanceY *= -1f;
+            
             yield return null;
         }
     }
@@ -105,9 +122,16 @@ public class Monster_Control : MovingObject
         Moving = RandomMove(randomMoveCount);
         StartCoroutine(Moving);
     }
+    public void BossMonsterInit()
+    {
+        actionState = ActionState.Idle;
+        ehp.SetCurrentHP();
+        StartCoroutine(SearchPlayerBoss());
+    }
+
     public void MonsterFlip()
     {
-        if (!isAtk)
+        if (actionState != ActionState.IsAtk)
         {
             if (isTrace)
             {
@@ -135,13 +159,12 @@ public class Monster_Control : MovingObject
     }
     public void NotMoveDelayTime()
     {
-        if (isAtk)
+        if (actionState == ActionState.IsAtk)
         {
             curAttackDelayTime = 0;
             curRotateDelayTime += Time.deltaTime;
             if (curRotateDelayTime > maxRotateDelayTime)
             {
-                isAtk = false;
                 actionState = ActionState.Idle;
                 curRotateDelayTime = 0f;
             }
