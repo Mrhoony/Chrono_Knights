@@ -5,13 +5,13 @@ using UnityEngine;
 public class NPC_Control : MonoBehaviour
 {
     public GameObject player;
-    public MainUI_InGameMenu mainUI_InGameMenu;
+    public CanvasManager menu;
     public bool inPlayer;
 
     public void Start()
     {
         player = GameObject.Find("PlayerCharacter");
-        mainUI_InGameMenu = GameObject.Find("Menus").GetComponent<MainUI_InGameMenu>();
+        menu = GameObject.Find("UI").GetComponent<CanvasManager>();
         inPlayer = false;
     }
 }

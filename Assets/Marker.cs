@@ -7,8 +7,7 @@ public enum Markers
 {
     // NF = Next Floor, TF = This Floor
     // Pos = Positive, Neg = Negative
-
-    SetMonster_NF,
+    SetMonster_NF = 0,
     SetDrop_NF,
     SetSpecialMonster_NF,
     SetDamageBuffOnFloor_NF,
@@ -23,7 +22,7 @@ public enum Markers
     SetNegDamageOnPlayer_NF
 }
 
-public class Marker : MonoBehaviour
+public class Marker
 {
     public Markers ThisMarker;
 
@@ -35,7 +34,7 @@ public class Marker : MonoBehaviour
         Execute() 실행시 DungeonManager.cs 내에 Marker_Variable 클래스에 Execute()의 결과값을 받아서 계산하여 적용
     */
 
-    public void Execute()
+    public void ExecuteMarker()
     {
         switch (ThisMarker)
         {

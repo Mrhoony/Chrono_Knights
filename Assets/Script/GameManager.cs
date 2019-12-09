@@ -9,29 +9,30 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public GameObject inGameMenu;
+    public CanvasManager canvanManager;
     public GameObject mainMenu;
     public GameObject player;
     public PlayerStatus playerStat;
     public GameObject playerStatView;
 
+    #region save, load
     public DataBase dataBase;
     public Menu_Storage storage;
     public Menu_Inventory inventory;
-
-    public GameObject[] screenSize;
-    public SystemData systemData;
     
-    public GameObject loadSlot;
     public GameObject[] saveSlot;
 
     public bool openSaveSlot;
     public bool gameStart;
+    #endregion
+
+    public GameObject[] screenSize;
+    public SystemData systemData;
     
     public GameObject SettingsMenu;
 
-    public int focus;
-    public int screenNumber;
+    private int focus;
+    private int screenNumber;
 
     BinaryFormatter bf;
     MemoryStream ms;
@@ -57,6 +58,11 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(13, 13);
         Physics2D.IgnoreLayerCollision(13, 14);
         Physics2D.IgnoreLayerCollision(14, 14);
+
+        playerStat = player.GetComponent<PlayerStatus>();
+        canvanManager = GameObject.Find("CanvasManager").GetComponent<CanvasManager>();
+        storage = canvanManager.Menus[3].GetComponent<Menu_Storage>();
+        inventory = canvanManager.Menus[0].GetComponent<Menu_Inventory>();
     }
 
     public void Start()
@@ -66,52 +72,45 @@ public class GameManager : MonoBehaviour
         gameStart = false;
 
         dataBase = new DataBase();
-        playerStat = player.GetComponent<PlayerStatus>();
-        storage = inGameMenu.GetComponent<MainUI_InGameMenu>().Menus[3].GetComponent<Menu_Storage>();
-        inventory = inGameMenu.GetComponent<MainUI_InGameMenu>().Menus[0].GetComponent<Menu_Inventory>();
 
         player.GetComponent<PlayerControl>().enabled = false;
-        inGameMenu.SetActive(false);
+        canvanManager.inGameMenu.SetActive(false);
         playerStatView.SetActive(false);
     }
 
     public void Update()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 0)
+        if (SceneManager.GetActiveScene().buildIndex != 0) return;
+
+        if (Input.GetKeyDown(KeyCode.Z))
         {
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (DungeonManager.instance.useTeleportSystem == 9)
             {
-                if (DungeonManager.instance.useTeleportSystem == 9)
+                if (!openSaveSlot)
                 {
-                    if (!openSaveSlot)
-                    {
-                        openSaveSlot = true;
-                        slotNum = focus + 1;
-                        OpenLoad();
-                    }
-                    else
-                    {
-                        LoadGame();
-                    }
+                    OpenLoad();
+                }
+                else
+                {
+                    LoadGame();
                 }
             }
-
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                if (openSaveSlot)
-                {
-                    CloseLoad();
-                    inGameMenu.SetActive(true);
-                    player.GetComponent<PlayerControl>().enabled = true;
-                    openSaveSlot = false;
-                }
-            }
-
-            if (!openSaveSlot) return;
-
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
         }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (openSaveSlot)
+            {
+                CloseLoad();
+                canvanManager.inGameMenu.SetActive(true);
+                player.GetComponent<PlayerControl>().enabled = true;
+            }
+        }
+
+        if (!openSaveSlot) return;
+
+        if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
     }
     
     void FocusedSlot(int AdjustValue)
@@ -136,19 +135,16 @@ public class GameManager : MonoBehaviour
 
         // 유저 정보
         dataBase.playerData = playerStat.playerData;
-        dataBase.currentDate = DungeonManager.instance.currentDate;
-        //dataBase.storageKeyList = storage.storageKeyList;
-        //dataBase.availableStorageSlot = storage.availableSlot;
-        //dataBase.takeKeySlot = inventory.takeKeySlot;
-        //dataBase.availableInventorySlot = inventory.availableSlot;
+        dataBase.SaveCurrentDate(DungeonManager.instance.currentDate);
+        storage.SaveStorageData(dataBase);
+        inventory.SaveInventoryData(dataBase);
 
         bf.Serialize(ms, dataBase);
         data = Convert.ToBase64String(ms.GetBuffer());
 
         PlayerPrefs.SetString("SaveSlot" + slotNum, data);
-        Debug.Log("save complete");
 
-        inGameMenu.GetComponent<MainUI_InGameMenu>().CloseCancelMenu();
+        canvanManager.GetComponent<CanvasManager>().CloseCancelMenu();
     }
     public void LoadGame()
     {
@@ -158,45 +154,34 @@ public class GameManager : MonoBehaviour
 
             if (!string.IsNullOrEmpty(data))
             {
-                CloseLoad();
-
                 bf = new BinaryFormatter();
                 ms = new MemoryStream(Convert.FromBase64String(data));
 
                 // 유저 정보
                 dataBase = (DataBase)bf.Deserialize(ms);
                 
-                inGameMenu.SetActive(true);
-                playerStatView.SetActive(true);
-                mainMenu.SetActive(false);
-                gameStart = true;
-
                 playerStat.SetPlayerData(dataBase.playerData);
-                storage.SetStorageData(dataBase.storageKeyList, dataBase.availableStorageSlot);
-                inventory.SetInventoryData(dataBase.takeKeySlot, dataBase.availableInventorySlot);
-
-                DungeonManager.instance.currentDate = dataBase.currentDate;
-
-                player.GetComponent<PlayerControl>().enabled = true;
-                Time.timeScale = 1;
+                DungeonManager.instance.currentDate = dataBase.GetcurrentDate();
+                storage.LoadStorageData(dataBase.GetStorageKeyList(), dataBase.GetAvailableStorageSlot());
+                inventory.LoadInventoryData(dataBase.GetTakeKeySlot(), dataBase.GetAvailableInventorySlot());
             }
         }
         else
         {
             playerStat.NewStart(dataBase.playerData);
-            storage.SetStorageData(dataBase.storageKeyList, dataBase.availableStorageSlot);
-            inventory.SetInventoryData(dataBase.takeKeySlot, dataBase.availableInventorySlot);
+            storage.LoadStorageData(dataBase.GetStorageKeyList(), dataBase.GetAvailableStorageSlot());
+            inventory.LoadInventoryData(dataBase.GetTakeKeySlot(), dataBase.GetAvailableInventorySlot());
 
-            CloseLoad();
-
-            inGameMenu.SetActive(true);
-            playerStatView.SetActive(true);
-            mainMenu.SetActive(false);
-            gameStart = true;
-
-            player.GetComponent<PlayerControl>().enabled = true;
-            Time.timeScale = 1;
         }
+        CloseLoad();
+
+        canvanManager.inGameMenu.SetActive(true);
+        playerStatView.SetActive(true);
+        mainMenu.SetActive(false);
+        gameStart = true;
+
+        player.GetComponent<PlayerControl>().enabled = true;
+        Time.timeScale = 1;
     }
     
     public void DeleteSave()
@@ -207,10 +192,11 @@ public class GameManager : MonoBehaviour
 
     public void OpenLoad()
     {
+        if (!canvanManager.OpenLoadSlot()) return;
         Time.timeScale = 0;
         player.GetComponent<PlayerControl>().enabled = false;
         openSaveSlot = true;
-        loadSlot.SetActive(true);
+        slotNum = focus + 1;
         saveSlot[0].GetComponent<Image>().color = new Color(255, 255, 255, 100);
     }
 
@@ -219,7 +205,7 @@ public class GameManager : MonoBehaviour
         saveSlot[focus].GetComponent<Image>().color = new Color(255, 255, 255, 255);
         focus = 0;
         openSaveSlot = false;
-        loadSlot.SetActive(false);
+        canvanManager.CloseLoadSlot();
         player.GetComponent<PlayerControl>().enabled = true;
         Time.timeScale = 1;
     }

@@ -5,11 +5,10 @@ using UnityEngine;
 public class Menu_TownUI : MonoBehaviour
 {
     public GameObject[] townMenus;
-
-    public MainUI_InGameMenu menu;
+    public CanvasManager menu;
 
     private void Awake()
     {
-        menu = GameObject.Find("UI/Menus").GetComponent<MainUI_InGameMenu>();
+        menu = GameObject.Find("UI").GetComponent<CanvasManager>();
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Menu_Storage : MonoBehaviour
 {
-    public MainUI_InGameMenu menu;
+    public CanvasManager menu;
     public Menu_Inventory inventory;
     public GameObject slots;
     public GameObject[] slot;
@@ -38,7 +38,7 @@ public class Menu_Storage : MonoBehaviour
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
 
         transforms = slots.transform.GetComponentsInChildren<Transform>();
-        menu = transform.parent.GetComponent<MainUI_InGameMenu>();
+        menu = GameObject.Find("UI").GetComponent<CanvasManager>();
         inventory = menu.Menus[0].GetComponent<Menu_Inventory>();
         slotCount = transforms.Length - 1;
 
@@ -64,7 +64,7 @@ public class Menu_Storage : MonoBehaviour
 
     public void Update()
     {
-        if (menu.InventoryOn || menu.cancelOn) return;
+        if (menu.isInventoryOn || menu.isCancelOn) return;
         
         if (!onStorage) return;
 
@@ -208,7 +208,7 @@ public class Menu_Storage : MonoBehaviour
         if (isSelect)
         {
             slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
-            transform.parent.GetComponent<MainUI_InGameMenu>().CloseUpgradeStorage(focus);
+            menu.CloseUpgradeStorage(focus);
         }
         else
         {
@@ -235,7 +235,7 @@ public class Menu_Storage : MonoBehaviour
         inventory.SetInventoryItemList();
         slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
         focus = 0;
-        transform.parent.GetComponent<MainUI_InGameMenu>().CloseStorage();
+        menu.CloseStorage();
     }
     public void SetSelectedItemSlotNum()    // 선택된 아이템 슬롯 번호를 저장
     {
@@ -327,11 +327,15 @@ public class Menu_Storage : MonoBehaviour
         }
     }
     
-    public void SetStorageData(Key[] _key, int _availableSlot)
+    public void LoadStorageData(Key[] _key, int _availableSlot)
     {
         storageKeyList = _key;
         // 키 입력 받아서 창고 초기화 함수 추가
         availableSlot = _availableSlot;
+    }
+    public void SaveStorageData(DataBase db)
+    {
+        db.SaveStorageData(storageKeyList, availableSlot);
     }
 
     void FocusedSlot(int AdjustValue)

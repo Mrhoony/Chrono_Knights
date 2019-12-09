@@ -25,90 +25,88 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
 
     public void Update()
     {
-        if (!menu.storageOn)
+        if (menu.isStorageOn) return;
+        if (!upgradeOn)
         {
-            if (!upgradeOn)
-            {
-                if (Input.GetKeyDown(KeyCode.RightArrow)) { equipFocused = FocusedSlot1(equipSlots, 1, equipFocused); }
-                if (Input.GetKeyDown(KeyCode.LeftArrow)) { equipFocused = FocusedSlot1(equipSlots, -1, equipFocused); }
-                if (Input.GetKeyDown(KeyCode.DownArrow)) { equipFocused = FocusedSlot1(equipSlots, 1, equipFocused); }
-                if (Input.GetKeyDown(KeyCode.UpArrow)) { equipFocused = FocusedSlot1(equipSlots, -1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { equipFocused = FocusedSlot1(equipSlots, 1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { equipFocused = FocusedSlot1(equipSlots, -1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.DownArrow)) { equipFocused = FocusedSlot1(equipSlots, 1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) { equipFocused = FocusedSlot1(equipSlots, -1, equipFocused); }
 
-                if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                if (equipFocused == 7)
                 {
-                    if (equipFocused == 7)
-                    {
-                        equipSlots[equipFocused].transform.GetChild(0).gameObject.SetActive(false);
-                        if (upgrading)
-                        {
-                            upgradeOn = true;
-                            upgrading = false;
-                            selectUpgradeItem.SetActive(true);
-                        }
-                        else
-                            npc_blacksmith.GetComponent<NPC_Blacksmith>().CloseUpgradeMenu();
-                    }
-                    else
+                    equipSlots[equipFocused].transform.GetChild(0).gameObject.SetActive(false);
+                    if (upgrading)
                     {
                         upgradeOn = true;
-
+                        upgrading = false;
                         selectUpgradeItem.SetActive(true);
-
-                        upgradeButton.GetComponent<Image>().color = new Color(upgradeButton.GetComponent<Image>().color.r,
-                            upgradeButton.GetComponent<Image>().color.g, upgradeButton.GetComponent<Image>().color.b, 255);
-                        upgradeButton.interactable = true;
-
-                        acceptSlot[0].transform.GetChild(1).gameObject.SetActive(true);
-                        upgradeEquipment = equipment[equipFocused];
-
-                        if (equipment[equipFocused].key != null)
-                        {
-                            acceptSlot[0].GetComponent<Image>().sprite = equipment[equipFocused].key.sprite;
-                            acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[equipment[equipFocused].key.keyRarity];
-                        }
-                        else
-                        {
-                            acceptSlot[0].GetComponent<Image>().sprite = keyItemBorderSprite[6];
-                            acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
-                        }
-                        acceptSlot[1].GetComponent<Image>().sprite = keyItemBorderSprite[6];
-                        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
-                        acceptSlot[2].GetComponent<Image>().sprite = keyItemBorderSprite[6];
-                        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = keyItemBorderSprite[6];
                     }
+                    else
+                        npc_blacksmith.GetComponent<NPC_Blacksmith>().CloseUpgradeMenu();
                 }
-            }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.RightArrow)) { upgradeFocus = FocusedSlot2(acceptSlot, 1, upgradeFocus); }
-                if (Input.GetKeyDown(KeyCode.LeftArrow)) { upgradeFocus = FocusedSlot2(acceptSlot, -1, upgradeFocus); }
-                if (Input.GetKeyDown(KeyCode.DownArrow)) { upgradeFocus = FocusedSlot2(acceptSlot, 1, upgradeFocus); }
-                if (Input.GetKeyDown(KeyCode.UpArrow)) { upgradeFocus = FocusedSlot2(acceptSlot, -1, upgradeFocus); }
-
-                if (Input.GetKeyDown(KeyCode.Z))
+                else
                 {
-                    if (upgradeFocus == 4)
+                    upgradeOn = true;
+
+                    selectUpgradeItem.SetActive(true);
+
+                    upgradeButton.GetComponent<Image>().color = new Color(upgradeButton.GetComponent<Image>().color.r,
+                        upgradeButton.GetComponent<Image>().color.g, upgradeButton.GetComponent<Image>().color.b, 255);
+                    upgradeButton.interactable = true;
+
+                    acceptSlot[0].transform.GetChild(1).gameObject.SetActive(true);
+                    upgradeEquipment = equipment[equipFocused];
+
+                    if (equipment[equipFocused].key != null)
                     {
-                        upgradeOn = false;
-                        acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
-                        selectUpgradeItem.SetActive(false);
+                        acceptSlot[0].GetComponent<Image>().sprite = equipment[equipFocused].key.sprite;
+                        acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[equipment[equipFocused].key.keyRarity];
                     }
                     else
                     {
-                        switch (upgradeFocus)
-                        {
-                            case 0:
-                                upgrading = true;
-                                upgradeOn = false;
-                                selectUpgradeItem.SetActive(false);
-                                break;
-                            case 1:
-                                menu.OpenUpgradeStorage(3);
-                                break;
-                            case 3:
-                                Upgrade(equipFocused, selectedkey);
-                                break;
-                        }
+                        acceptSlot[0].GetComponent<Image>().sprite = keyItemBorderSprite[6];
+                        acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+                    }
+                    acceptSlot[1].GetComponent<Image>().sprite = keyItemBorderSprite[6];
+                    acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+                    acceptSlot[2].GetComponent<Image>().sprite = keyItemBorderSprite[6];
+                    acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+                }
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { upgradeFocus = FocusedSlot2(acceptSlot, 1, upgradeFocus); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { upgradeFocus = FocusedSlot2(acceptSlot, -1, upgradeFocus); }
+            if (Input.GetKeyDown(KeyCode.DownArrow)) { upgradeFocus = FocusedSlot2(acceptSlot, 1, upgradeFocus); }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) { upgradeFocus = FocusedSlot2(acceptSlot, -1, upgradeFocus); }
+
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                if (upgradeFocus == 4)
+                {
+                    upgradeOn = false;
+                    acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
+                    selectUpgradeItem.SetActive(false);
+                }
+                else
+                {
+                    switch (upgradeFocus)
+                    {
+                        case 0:
+                            upgrading = true;
+                            upgradeOn = false;
+                            selectUpgradeItem.SetActive(false);
+                            break;
+                        case 1:
+                            menu.OpenUpgradeStorage(3);
+                            break;
+                        case 3:
+                            Upgrade(equipFocused, selectedkey);
+                            break;
                     }
                 }
             }

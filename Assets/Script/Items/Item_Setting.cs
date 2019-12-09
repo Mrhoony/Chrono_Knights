@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ItemType
+{
+    Number, UpperNumber, Special
+}
+
 public class Key
 {
-    public enum ItemType
-    {
-        Number, UpperNumber, Special
-    }
-
     public ItemType Type;
     
     public Sprite[] sprites;

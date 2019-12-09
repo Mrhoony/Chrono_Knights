@@ -37,7 +37,7 @@ public class Menu_Traning : MonoBehaviour
         Init();
         button.SetActive(true);
 
-        if (DungeonManager.instance.possible_Traning)
+        if (DungeonManager.instance.NewDayCheck())
         {
             for (int i = 0; i < 6; ++i)
             {

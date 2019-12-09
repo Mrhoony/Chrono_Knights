@@ -6,7 +6,7 @@ public class Storage : MonoBehaviour
 {
     public bool inPlayer;
     public bool onStorage;
-    public MainUI_InGameMenu menu;
+    public CanvasManager menu;
 
     private void Start()
     {
@@ -19,8 +19,8 @@ public class Storage : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            menu = GameObject.Find("UI/Menus").GetComponent<MainUI_InGameMenu>();
-            if (menu.InventoryOn || menu.cancelOn) return;
+            menu = GameObject.Find("UI").GetComponent<CanvasManager>();
+            if (menu.isInventoryOn || menu.isCancelOn) return;
 
             if (!onStorage)
             {

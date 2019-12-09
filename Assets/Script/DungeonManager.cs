@@ -5,68 +5,72 @@ using UnityEngine.SceneManagement;
 
 public class MarkerVariable
 {
+    public int[] markerVariable;
+
+    /*
+    public int MonsterModifier;
+    public int DropModifier;
+    public int SpecialMonster;
+    public float DamageBuffOnFloorModifier;
+    public float DamageBuffOnMonsterModifier;
+    public float DamageBuffOnPlayerModifier;
+    public float PosHPOnMonsterModifier;
+    public float NegHPOnMonsterModifier;
+    public float PosDashSpeedOnPlayerModifier;
+    public float NegDashSpeedOnPlayerModifier;
+    public float PosDamageOnPlayerModifier;
+    public float NegDamageOnPlayerModifier;
+    */
+
     public void Reset() // 던전 초기화 시 실행필수
     {
-        MonsterModifier = 1f;
-        DropModifier = 1f;
-        SpecialMonster = 0;
-        DamageBuffOnFloorModifier = 1f;
-        DamageBuffOnMonsterModifier = 1f;
-        DamageBuffOnPlayerModifier = 1f;
-        PosHPOnMonsterModifier = 1f;
-        NegHPOnMonsterModifier = 1f;
-        PosDashSpeedOnPlayerModifier = 1f;
-        NegDashSpeedOnPlayerModifier = 1f;
-        PosDamageOnPlayerModifier = 1f;
-        NegDamageOnPlayerModifier = 1f;
-    }
+        markerVariable = new int[12];
+        markerVariable[0] = 1;
+        markerVariable[1] = 1;
+        markerVariable[2] = 0;
+        markerVariable[3] = 1;
+        markerVariable[4] = 1;
+        markerVariable[5] = 1;
 
-    public float MonsterModifier = 1f;
-    public float DropModifier = 1f;
-    public int SpecialMonster = 0;
-    public float DamageBuffOnFloorModifier = 1f;
-    public float DamageBuffOnMonsterModifier = 1f;
-    public float DamageBuffOnPlayerModifier = 1f;
-    public float PosHPOnMonsterModifier = 1f;
-    public float NegHPOnMonsterModifier = 1f;
-    public float PosDashSpeedOnPlayerModifier = 1f;
-    public float NegDashSpeedOnPlayerModifier = 1f;
-    public float PosDamageOnPlayerModifier = 1f;
-    public float NegDamageOnPlayerModifier = 1f;
+        markerVariable[6] = 1;
+        markerVariable[7] = 1;
+        markerVariable[8] = 1;
+        markerVariable[9] = 1;
+        markerVariable[10] = 1;
+        markerVariable[11] = 1;
+    }
 }
 
 public class DungeonManager : MonoBehaviour
 {
     public MarkerVariable Marker_Variable = new MarkerVariable();   // Marker로부터 전달받는 값 저장공간
+    public Marker marker;
+    public int markerRandom;
 
     public static DungeonManager instance;
     public new CameraManager camera;
+    public GameObject playerStatView;
+    public GameObject player;
+    private PlayerStatus playerStatus;
+    private CanvasManager menu;
+    private GameObject mark;
+    private Sprite[] markSprite;
 
     public GameObject[] teleportPoint;
-    public Teleport teleport;
     public Vector2 entrance;            // 텔레포트 위치
     public int useTeleportSystem;       // 텔레포트 사용 방법 0~4 입구, 9 사용 안함
 
-    public GameObject player;
-    public GameObject playerStatView;
-    public PlayerStatus pStat;
-
-    public MainUI_InGameMenu MainUI_InGameMenu;
-    
+    private bool newDay;
     public int currentDate;
-    public bool newDay;
-    public bool possible_Traning;
 
-    public GameObject[] mapList;
-    public int selectedMapNum = 0;
+    private GameObject[] mapList;
+    private int selectedMapNum = 0;
     
-    GameObject choice;
-    Sprite[] choiceSprite;
-    bool bossSetting;
+    private bool bossSetting;
 
+    #region 던전 생성 관련
     public GameObject[] monsterList;
     public GameObject[] currentStageMonsterList;
-
     public GameObject[] spawner;
 
     int spawnerCount;
@@ -74,13 +78,16 @@ public class DungeonManager : MonoBehaviour
     
     float randomX;
 
+    bool usedKey;
     public int currentStage;
+
     public bool dungeonClear;   // 던전 클리어시
     public bool sectionClear;   // 페이즈 클리어시
 
     public int monsterCount;        // 최대 몬스터 수
     public int currentMonsterCount;
     public int allKillCount;    // 총 몬스터 킬 수
+    #endregion
 
     // Start is called before the first frame update
 
@@ -94,21 +101,19 @@ public class DungeonManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        pStat = player.GetComponent<PlayerStatus>();
-        MainUI_InGameMenu = GameObject.Find("UI/Menus").GetComponent<MainUI_InGameMenu>();
-        choiceSprite = Resources.LoadAll<Sprite>("UI/ui_hpbell_set");
-        useTeleportSystem = 10;
-    }
+        playerStatus = player.GetComponent<PlayerStatus>();
+        menu = GameObject.Find("UI").GetComponent<CanvasManager>();
+        Marker_Variable.Reset();
 
-    public void Start()
+        markSprite = Resources.LoadAll<Sprite>("UI/ui_hpbell_set");
+    }
+    private void Start()
     {
-        currentDate = 1;
         currentStage = 0;
         monsterCount = 0;
         currentMonsterCount = 0;
         newDay = false;
         dungeonClear = false;
-        possible_Traning = false;
     }
 
     public void Update()
@@ -131,7 +136,7 @@ public class DungeonManager : MonoBehaviour
                 }
                 else if (useTeleportSystem == 1)    // 캐릭터가 숲 입구 (임시 던전 입구)에 있을 경우 숲(던전)으로 간다
                 {
-                    MainUI_InGameMenu.GetComponent<MainUI_InGameMenu>().Menus[0].GetComponent<Menu_Inventory>().DeleteStorageItem();
+                    menu.GetComponent<CanvasManager>().Menus[0].GetComponent<Menu_Inventory>().DeleteStorageItem();
                     SectionTeleport(false, false);
                     dungeonClear = true;
                 }
@@ -158,8 +163,16 @@ public class DungeonManager : MonoBehaviour
             {
                 if (useTeleportSystem == 8)         // 던전 포탈 앞에 서있을 경우 다음던전 또는 집으로 이동한다.
                 {
-                    MainUI_InGameMenu.GetComponent<MainUI_InGameMenu>().Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
-                    ComeBackHome();
+                    if (!dungeonClear) return;
+                    if (usedKey)            // 키를 쓴경우
+                    {
+
+                    }
+                    else                    // 키를 안쓴경우 반응x (임시)집으로
+                    {
+                        menu.GetComponent<CanvasManager>().Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
+                        ComeBackHome();
+                    }
                 }
             }
         }
@@ -167,15 +180,19 @@ public class DungeonManager : MonoBehaviour
 
     public void useKeyInDungeon(Key _key)
     {
-
+        if (usedKey) return;
+        usedKey = true;
+        // 키가 가진 것들을 가지고 체크
+        marker.ExecuteMarker();
     }
 
-    public void NewDayCheck()
+    public bool NewDayCheck()
     {
         if (newDay)
         {
-            possible_Traning = true;
+            return true;
         }
+        return false;
     }
 
     // 씬 이동 (마을로, 계층이동)
@@ -185,10 +202,9 @@ public class DungeonManager : MonoBehaviour
         {
             SceneManager.LoadScene(0);
             newDay = true;
-            NewDayCheck();
             dungeonClear = false;
-            pStat.Init();
-            pStat.HPInit();
+            playerStatus.Init();
+            playerStatus.HPInit();
         }
         else
         {
@@ -205,8 +221,8 @@ public class DungeonManager : MonoBehaviour
                     NewDayCheck();
                     dungeonClear = false;
                     ++currentDate;
-                    pStat.Init();
-                    pStat.HPInit();
+                    playerStatus.Init();
+                    playerStatus.HPInit();
                 }
             }
             else
@@ -215,8 +231,8 @@ public class DungeonManager : MonoBehaviour
                 newDay = true;
                 NewDayCheck();
                 dungeonClear = false;
-                pStat.Init();
-                pStat.HPInit();
+                playerStatus.Init();
+                playerStatus.HPInit();
             }
         }
     }
@@ -246,7 +262,7 @@ public class DungeonManager : MonoBehaviour
         }
         else if (repeat)    // 맵 반복시
         {
-            choice.GetComponent<SpriteRenderer>().sprite = choiceSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
+            mark.GetComponent<SpriteRenderer>().sprite = markSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
 
             player.transform.position = entrance;
 
@@ -263,10 +279,12 @@ public class DungeonManager : MonoBehaviour
         else            // 일반 맵일경우
         {
             // 초기 맵 랜덤 세팅
+            markerRandom = Random.Range(0, 12);
+            marker.ThisMarker = (Markers)markerRandom;
 
             mapList[selectedMapNum].GetComponent<BackgroundScrolling>().backGroundImage.transform.position = new Vector2(Random.Range(-1f, 0), Random.Range(-2f, 0));
-            choice = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
-            choice.GetComponent<SpriteRenderer>().sprite = choiceSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
+            mark = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
+            mark.GetComponent<SpriteRenderer>().sprite = markSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
             
             // (임시)하나만 클리어 해도 마을로
             if (currentStage > 0)
@@ -308,6 +326,7 @@ public class DungeonManager : MonoBehaviour
         camera.SetHeiWid(640, 360);
     }
     
+    // 씬 이동 후 초기화
     public void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -319,33 +338,35 @@ public class DungeonManager : MonoBehaviour
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         useTeleportSystem = 10;
-
         camera = CameraManager.instance;
         camera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
-
         teleportPoint = GameObject.FindGameObjectsWithTag("Portal");
+        int teleportCount = teleportPoint.Length;
         
         if (SceneManager.GetActiveScene().buildIndex == 0)      // 메인 메뉴 씬 일 때
         {
-            for (int i = 0; i < 2; ++i)
-            {
-                if (teleportPoint[i].GetComponent<Teleport>().useSystem == 1)
-                    entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
-            }
             if (!GameManager.instance.gameStart)
             {
-                for (int i = 0; i < 2; ++i)
+                for (int i = 0; i < teleportCount; ++i)
                 {
                     if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
                         entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
                 }
                 player.GetComponent<PlayerControl>().enabled = false;
             }
+            else
+            {
+                for (int i = 0; i < teleportCount; ++i)
+                {
+                    if (teleportPoint[i].GetComponent<Teleport>().useSystem == 1)
+                        entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
+                }
+            }
+            playerStatus.Init();
+            playerStatus.HPInit();
         }
         else if(SceneManager.GetActiveScene().buildIndex == 1)  // 마을 화면 일 때
         {
-            pStat.Init();
-            pStat.HPInit();
         }
         else if (SceneManager.GetActiveScene().buildIndex == 2)  // 마을 - 숲 화면 일 때
         {
@@ -363,14 +384,11 @@ public class DungeonManager : MonoBehaviour
 
             for (int i = 0; i < 2; ++i)
             {
-                if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
+                if (teleportPoint[teleportCount].GetComponent<Teleport>().useSystem == 9)
                     entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
-                if (teleportPoint[i].GetComponent<Teleport>().useSystem == 8)
-                    teleport = teleportPoint[i].GetComponent<Teleport>();
             }
 
             FloorSetting(1, true, false);
-            //SelectedKey(1, 1, false);
         }
 
         player.transform.position = entrance;

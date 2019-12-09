@@ -10,7 +10,7 @@ public class NPC_Trainer : NPC_Control
     // Update is called once per frame
     void Update()
     {
-        if (!mainUI_InGameMenu.cancelOn && !mainUI_InGameMenu.InventoryOn)
+        if (!menu.isCancelOn && !menu.isInventoryOn)
         {
             if (inPlayer)
             {

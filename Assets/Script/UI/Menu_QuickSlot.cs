@@ -7,7 +7,7 @@ public class Menu_QuickSlot : MonoBehaviour
     public static Menu_QuickSlot instance;
 
     public GameObject player;
-    public MainUI_InGameMenu menu;
+    public CanvasManager menu;
     public Menu_Inventory inventory;
     public GameObject slots;
     public GameObject[] quickSlot;
@@ -29,7 +29,7 @@ public class Menu_QuickSlot : MonoBehaviour
         else
             Destroy(gameObject);
 
-        menu = GameObject.Find("UI/Menus").GetComponent<MainUI_InGameMenu>();
+        menu = GameObject.Find("UI").GetComponent<CanvasManager>();
         inventory = GameObject.Find("UI/Menus/Inventory").GetComponent<Menu_Inventory>();
         quickSlotImage = Resources.LoadAll<Sprite>("UI/ui_quickSlot");
         onQuickSlot = false;
@@ -37,7 +37,7 @@ public class Menu_QuickSlot : MonoBehaviour
 
     public void Update()
     {
-        if (menu.InventoryOn || menu.cancelOn || menu.storageOn) return;
+        if (menu.isInventoryOn || menu.isCancelOn || menu.isStorageOn) return;
 
         if (Input.GetKeyDown(KeyCode.Q))
         {

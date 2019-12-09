@@ -8,13 +8,14 @@ public class DataBase
 {
     public PlayerData playerData;
 
-    public Key[] storageKeyList;
-    public int takeKeySlot;
-    public int availableInventorySlot;
-    public int availableStorageSlot;
+    private Key[] storageKeyList;
+    private int availableStorageSlot;
 
-    public int currentDate;
-    public bool[] eventCheck;
+    private int takeKeySlot;
+    private int availableInventorySlot;
+
+    private int currentDate;
+    private bool[] eventCheck;
 
     public DataBase()
     {
@@ -26,8 +27,39 @@ public class DataBase
         currentDate = 0;
     }
 
-    public void AddKey(Key key)
+    public Key[] GetStorageKeyList()
     {
+        return storageKeyList;
+    }
+    public int GetAvailableStorageSlot()
+    {
+        return availableStorageSlot;
+    }
+    public int GetTakeKeySlot()
+    {
+        return takeKeySlot;
+    }
+    public int GetAvailableInventorySlot()
+    {
+        return availableInventorySlot;
+    }
+    public int GetcurrentDate()
+    {
+        return currentDate;
+    }
 
+    public void SaveCurrentDate(int _currentDate)
+    {
+        currentDate = _currentDate;
+    }
+    public void SaveStorageData(Key[] _storageKeyList, int _availableStorageSLot)
+    {
+        storageKeyList = _storageKeyList;
+        availableStorageSlot = _availableStorageSLot;
+    }
+    public void SaveInventoryData(int _takeKeySlot, int _availableInventorySlot)
+    {
+        takeKeySlot = _takeKeySlot;
+        availableInventorySlot = _availableInventorySlot;
     }
 }

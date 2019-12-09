@@ -7,19 +7,19 @@ public class NPC_Blacksmith : NPC_Control
     public GameObject enchantUI;
     public GameObject upgradeUI;
     public GameObject selectUI;
-
     public GameObject[] button;
-    bool openSelectUI;
-    bool openEnchantUI;
-    bool openUpgradeUI;
+
+    private bool openSelectUI;
+    private bool openEnchantUI;
+    private bool openUpgradeUI;
 
     public int focus;
 
     // Update is called once per frame
     void Update()
     {
-        if (mainUI_InGameMenu.cancelOn || mainUI_InGameMenu.InventoryOn) return;
         if (!inPlayer) return;
+        if (menu.isCancelOn || menu.isInventoryOn) return;
         if (openEnchantUI || openUpgradeUI) return;
         
         if (Input.GetKeyDown(KeyCode.Z))

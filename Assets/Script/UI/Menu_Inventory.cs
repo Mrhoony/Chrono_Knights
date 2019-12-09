@@ -8,31 +8,32 @@ public class Menu_Inventory : MonoBehaviour
     // 초기화 영역
     public GameObject player;
     public GameObject slots;
-    private Transform[] transforms;
-    private Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
     private Menu_Storage storage;
 
+    private Transform[] transforms;
     private GameObject[] slot;           // 인벤토리 슬롯
-    private int slotCount;
 
+    private Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
+
+    private int slotCount;
     private int availableSlot;
-    private int inventoryItemCount;
+    
+    public int inventoryItemCount;
 
     private int seletedItemCount;         // 창고에서 선택된 아이템 수
     private int takeItemSlot;             // 가져갈 수 있는 슬롯 수
-    public bool[] isFull;               // 슬롯이 비었는지 아닌지
+    private bool[] isFull;               // 슬롯이 비었는지 아닌지
     private Key[] inventoryItemList;      // 인벤토리 키 목록
 
-    private bool onInventory;
-
+    private bool isInventoryOn;
     private int focused = 0;
 
     private void Awake()
     {
+        storage = GameObject.Find("UI/Menus/Storage").GetComponent<Menu_Storage>();
         transforms = slots.transform.GetComponentsInChildren<Transform>();
         slotCount = transforms.Length-1;
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
-        storage = GameObject.Find("UI/Menus/Storage").GetComponent<Menu_Storage>();
 
         slot = new GameObject[slotCount];
         isFull = new bool[slotCount];
@@ -44,7 +45,7 @@ public class Menu_Inventory : MonoBehaviour
             slot[i - 1].transform.GetChild(1).gameObject.SetActive(true);
             isFull[i - 1] = false;
         }
-        onInventory = false;
+        isInventoryOn = false;
         seletedItemCount = 0;
         takeItemSlot = 3;
         availableSlot = 6;
@@ -52,7 +53,7 @@ public class Menu_Inventory : MonoBehaviour
     }
     private void Update()
     {
-        if (!onInventory) return;
+        if (!isInventoryOn) return;
 
         if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
         if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
@@ -82,7 +83,7 @@ public class Menu_Inventory : MonoBehaviour
 
     public void OpenInventory()
     {
-        onInventory = true;
+        isInventoryOn = true;
         InventorySet();
 
         focused = 0;
@@ -96,11 +97,13 @@ public class Menu_Inventory : MonoBehaviour
             {
                 slot[i].GetComponent<Image>().sprite = inventoryItemList[i].sprite;
                 slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[11 - inventoryItemList[i].keyRarity];
+                isFull[i] = true;
             }
             else
             {
                 slot[i].GetComponent<Image>().sprite = null;
                 slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+                isFull[i] = false;
             }
         }
         for(int i = availableSlot; i < 24; ++i)
@@ -143,7 +146,11 @@ public class Menu_Inventory : MonoBehaviour
     {
         if (isDead)
         {
-            // 죽었을 때 일정 수 만큼 저장
+            for(int i = takeItemSlot; i < availableSlot; ++i)
+            {
+                inventoryItemList[i] = null;
+            }
+            storage.GetComponent<Menu_Storage>().PutInBox(inventoryItemList);
         }
         else
         {
@@ -156,13 +163,12 @@ public class Menu_Inventory : MonoBehaviour
         for(int i = 0; i < availableSlot; ++i)
         {
             inventoryItemList[i] = null;
-            slot[i].GetComponent<Image>().sprite = null;
-            slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
             isFull[i] = false;
         }
         seletedItemCount = 0;
         inventoryItemCount = 0;
     }
+
     public void DeleteStorageItem()             // 던전 진입할 때 들고있는 키 창고에서 삭제
     {
         for (int i = 0; i < seletedItemCount; ++i)
@@ -223,10 +229,14 @@ public class Menu_Inventory : MonoBehaviour
         --inventoryItemCount;
     }
 
-    public void SetInventoryData(int _takeItemSlot, int _availableSlot)
+    public void LoadInventoryData(int _takeItemSlot, int _availableSlot)
     {
         takeItemSlot = _takeItemSlot;
         availableSlot = _availableSlot;
+    }
+    public void SaveInventoryData(DataBase db)
+    {
+        db.SaveInventoryData(takeItemSlot, availableSlot);
     }
 
     void FocusedSlot(int AdjustValue)
