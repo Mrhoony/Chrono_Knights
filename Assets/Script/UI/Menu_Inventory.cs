@@ -130,6 +130,7 @@ public class Menu_Inventory : MonoBehaviour
             isFull[i] = false;
         }
     }
+
     public void takeItemSlotUpgrade(int upgrade)
     {
         takeItemSlot += upgrade;
@@ -142,6 +143,7 @@ public class Menu_Inventory : MonoBehaviour
             isFull[i] = true;
         }
     }
+
     public void PutInBox(bool isDead)           // 던전에서 복귀할 때 창고에 키 넣기
     {
         if (isDead)
@@ -169,6 +171,40 @@ public class Menu_Inventory : MonoBehaviour
         inventoryItemCount = 0;
     }
 
+    public void QuickSlotUseItem(int focus)
+    {
+        if (DungeonManager.instance.useKeyInDungeon(inventoryItemList[focus]))
+        {
+            inventoryItemList[focus] = null;
+            Debug.Log("Item use");
+            QuickSlotDeleteItem(focus);
+        }
+    }
+    public void QuickSlotDeleteItem(int focus)
+    {
+        for (int i = focus; i < availableSlot - 1; ++i)
+        {
+            if (inventoryItemList[i] != null) continue;
+
+            for (int j = 1; j < availableSlot - i; ++i)
+            {
+                if (inventoryItemList[i + j] != null)
+                {
+                    inventoryItemList[i] = inventoryItemList[i + j];
+                    isFull[i] = true;
+
+                    if (i + j == availableSlot)
+                    {
+                        inventoryItemList[i + j] = null;
+                        isFull[i + j] = false;
+                    }
+                    break;
+                }
+            }
+        }
+        --inventoryItemCount;
+    }
+    
     public void DeleteStorageItem()             // 던전 진입할 때 들고있는 키 창고에서 삭제
     {
         for (int i = 0; i < seletedItemCount; ++i)
@@ -184,6 +220,8 @@ public class Menu_Inventory : MonoBehaviour
         storage.DeleteStorageSlotItem();
         seletedItemCount = 0;
     }
+
+    #region get, set, save, load
     public void SetSelectedItemCount(int value)
     {
         seletedItemCount = value;
@@ -205,30 +243,6 @@ public class Menu_Inventory : MonoBehaviour
         return inventoryItemList;
     }
 
-    public void quickSlotUseItem(int focus)
-    {
-        for (int i = 0; i < availableSlot - 1; ++i)
-        {
-            for (int j = 1; j < availableSlot - i; ++i)
-            {
-                if (inventoryItemList[i] != null) continue;
-                if (inventoryItemList[i + j] != null)
-                {
-                    inventoryItemList[i] = inventoryItemList[i + j];
-                    isFull[i] = true;
-
-                    if(i + j == availableSlot)
-                    {
-                        inventoryItemList[i + j] = null;
-                        isFull[i + j] = false;
-                    }
-                    break;
-                }
-            }
-        }
-        --inventoryItemCount;
-    }
-
     public void LoadInventoryData(int _takeItemSlot, int _availableSlot)
     {
         takeItemSlot = _takeItemSlot;
@@ -238,6 +252,9 @@ public class Menu_Inventory : MonoBehaviour
     {
         db.SaveInventoryData(takeItemSlot, availableSlot);
     }
+
+    #endregion
+
 
     void FocusedSlot(int AdjustValue)
     {

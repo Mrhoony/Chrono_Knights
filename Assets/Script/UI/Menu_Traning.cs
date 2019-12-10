@@ -93,8 +93,7 @@ public class Menu_Traning : MonoBehaviour
             gauge[stat].fillAmount = traningStat[stat] / limit_traning[stat];
 
             playerStat.Init();
-
-            DungeonManager.instance.possible_Traning = false;
+            
             button.SetActive(false);
         }
     }

@@ -89,7 +89,6 @@ public class Monster_Control : MovingObject
     {
         while (actionState != ActionState.IsDead)
         {
-            Debug.Log("test");
             playerPos = target.transform.position;
             distanceX = playerPos.x - transform.position.x;
             distanceY = playerPos.y - transform.position.y;

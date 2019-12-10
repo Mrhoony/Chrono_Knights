@@ -69,21 +69,20 @@ public class Menu_QuickSlot : MonoBehaviour
         {
             if(DungeonManager.instance.useTeleportSystem == 8)
             {
-
+                inventory.QuickSlotUseItem(focus);
             }
             else
             {
-                inventory.quickSlotUseItem(focus);
-                SetQuickSlot();
+                inventory.QuickSlotUseItem(focus);
             }
+            SetQuickSlot();
         }
     }
 
     public void SetQuickSlot()
     {
         inventoryKeylist = inventory.GetInventoryItemList();
-        int i = 0;
-        while(inventoryKeylist[i] != null)
+        for(int i = 0; i < 5; ++i)
         {
             if (inventoryKeylist[i] != null)
             {
@@ -93,7 +92,6 @@ public class Menu_QuickSlot : MonoBehaviour
             {
                 quickSlot[i].GetComponent<SpriteRenderer>().sprite = quickSlotImage[1];
             }
-            ++i;
         }
     }
 

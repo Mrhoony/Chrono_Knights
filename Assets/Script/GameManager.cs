@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(14, 14);
 
         playerStat = player.GetComponent<PlayerStatus>();
-        canvanManager = GameObject.Find("CanvasManager").GetComponent<CanvasManager>();
+        canvanManager = GameObject.Find("UI").GetComponent<CanvasManager>();
         storage = canvanManager.Menus[3].GetComponent<Menu_Storage>();
         inventory = canvanManager.Menus[0].GetComponent<Menu_Inventory>();
     }

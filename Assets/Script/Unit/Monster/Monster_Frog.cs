@@ -116,7 +116,7 @@ public class Monster_Frog : Monster_Control
     {
         if(collider != null)
         {
-            if(collider.tag == target.tag)
+            if(collider.CompareTag(target.tag))
             {
                 PlayerControl.instance.Hit(ehp.GetAttack());
             }

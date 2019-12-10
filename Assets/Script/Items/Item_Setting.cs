@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ItemType
 {
-    Number, UpperNumber, Special
+    Number, ReturnTown, ReturnPreFloor, FreePassNextFloor, FreePassThisFloor, BossFloor, RepeatThisFloor
 }
 
 public class Key
@@ -32,16 +32,14 @@ public class Key
         {
             case ItemType.Number:
                 {
-                    Value = Random.Range(1, 5);
-                }
-                break;
-            case ItemType.UpperNumber:
-                {
-                    Value = Random.Range(1, 4) * 5;
-                }
-                break;
-            case ItemType.Special:
-                {
+                    if(keyRarity < 2)
+                    {
+                        Value = Random.Range(1, 5);
+                    }
+                    else
+                    {
+                        Value = Random.Range(1, 4) * 5;
+                    }
                 }
                 break;
         }

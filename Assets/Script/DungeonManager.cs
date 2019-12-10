@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class MarkerVariable
 {
     public int[] markerVariable;
+    public int[] markerPreVariable;
 
     /*
     public int MonsterModifier;
@@ -43,46 +44,47 @@ public class MarkerVariable
 
 public class DungeonManager : MonoBehaviour
 {
-    public MarkerVariable Marker_Variable = new MarkerVariable();   // Marker로부터 전달받는 값 저장공간
-    public Marker marker;
-    public int markerRandom;
-
+    #region 오브젝트 등록
     public static DungeonManager instance;
     public new CameraManager camera;
+    private CanvasManager menu;
     public GameObject playerStatView;
     public GameObject player;
     private PlayerStatus playerStatus;
-    private CanvasManager menu;
     private GameObject mark;
+    public MarkerVariable marker_Variable;   // Marker로부터 전달받는 값 저장공간
+    public Marker marker;
+    #endregion
+
+    public int markerRandom;
     private Sprite[] markSprite;
 
-    public GameObject[] teleportPoint;
-    public Vector2 entrance;            // 텔레포트 위치
-    public int useTeleportSystem;       // 텔레포트 사용 방법 0~4 입구, 9 사용 안함
-
-    private bool newDay;
+    private GameObject[] teleportPoint;
+    private Vector2 entrance;            // 텔레포트 위치
+    public int useTeleportSystem;       // 텔레포트 사용 방법 0~4 입구, 10 사용 안함
     public int currentDate;
 
-    private GameObject[] mapList;
-    private int selectedMapNum = 0;
+    private bool newDay;
     
-    private bool bossSetting;
-
     #region 던전 생성 관련
+    private GameObject[] mapList;
     public GameObject[] monsterList;
     public GameObject[] currentStageMonsterList;
     public GameObject[] spawner;
 
-    int spawnerCount;
-    int spawn;
+    private int selectedMapNum = 0;
+    private int spawnerCount;
+    private int spawn;
+    private float randomX;
     
-    float randomX;
-
-    bool usedKey;
+    private bool usedKey;
+    private bool bossSetting;
     public int currentStage;
+    public int bossStageCount;
+    public bool floorRepeat;
 
     public bool dungeonClear;   // 던전 클리어시
-    public bool sectionClear;   // 페이즈 클리어시
+    public bool phaseClear;   // 페이즈 클리어시
 
     public int monsterCount;        // 최대 몬스터 수
     public int currentMonsterCount;
@@ -103,19 +105,23 @@ public class DungeonManager : MonoBehaviour
 
         playerStatus = player.GetComponent<PlayerStatus>();
         menu = GameObject.Find("UI").GetComponent<CanvasManager>();
-        Marker_Variable.Reset();
-
         markSprite = Resources.LoadAll<Sprite>("UI/ui_hpbell_set");
+
+        marker = new Marker();
+        marker_Variable = new MarkerVariable();
+        marker_Variable.Reset();
     }
     private void Start()
     {
         currentStage = 0;
         monsterCount = 0;
         currentMonsterCount = 0;
+        bossStageCount = 0;
+        bossSetting = false;
         newDay = false;
         dungeonClear = false;
+        floorRepeat = false;
     }
-
     public void Update()
     {
         if (Input.GetButtonDown("Fire1"))           // 공격키를 눌렀을 때
@@ -171,6 +177,7 @@ public class DungeonManager : MonoBehaviour
                     else                    // 키를 안쓴경우 반응x (임시)집으로
                     {
                         menu.GetComponent<CanvasManager>().Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
+                        ReturnToTown();
                         ComeBackHome();
                     }
                 }
@@ -178,21 +185,49 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
-    public void useKeyInDungeon(Key _key)
+    public void ReturnToTown()
     {
-        if (usedKey) return;
-        usedKey = true;
-        // 키가 가진 것들을 가지고 체크
-        marker.ExecuteMarker();
+        newDay = true;
+        bossSetting = false;
+        dungeonClear = false;
+        floorRepeat = false;
+
+        currentStage = 0;
+        bossStageCount= 0;
+        monsterCount = 0;
+        currentMonsterCount = 0;
     }
 
-    public bool NewDayCheck()
+    public bool useKeyInDungeon(Key _key)
     {
-        if (newDay)
+        if (usedKey) return false;
+        usedKey = true;
+        // 키가 가진 것들을 가지고 체크
+        switch (_key.Type)
         {
-            return true;
+            case ItemType.Number:
+                marker.ExecuteMarker(_key.Value);
+                break;
+            case ItemType.ReturnTown:
+                SectionTeleport(false, true);
+                break;
+            case ItemType.FreePassNextFloor:
+                ++currentStage;
+                FloorSetting();
+                break;
+            case ItemType.FreePassThisFloor:
+                FloorSetting();
+                break;
+            case ItemType.BossFloor:
+                bossSetting = true;
+                break;
+            case ItemType.ReturnPreFloor:
+                marker_Variable.markerVariable = marker_Variable.markerPreVariable;
+                break;
+            case ItemType.RepeatThisFloor:
+                break;
         }
-        return false;
+        return true;
     }
 
     // 씬 이동 (마을로, 계층이동)
@@ -238,29 +273,37 @@ public class DungeonManager : MonoBehaviour
     }
 
     // 층 이동 시 나타날 층 세팅
-    public void FloorSetting(int keyMul, bool multy, bool repeat)
+    public void FloorSetting()
     {
+        phaseClear = false;
         dungeonClear = false;
-        sectionClear = false;
+        usedKey = false;
         spawnerCount = 0;
         selectedMapNum = Random.Range(0, mapList.Length);
 
-        if ((currentStage - 2) > 0)  // 보스스테이지 설정
+        ++currentStage;
+        ++bossStageCount;
+        if (!bossSetting)
         {
-            int bossStage = currentStage % 5;
-            if (currentStage == 5)
-                bossStage = 5;
+            if ((bossStageCount % 5 - 2) > 0)  // 보스스테이지 설정
+            {
+                int bossStage = bossStageCount % 5;
+                if (bossStageCount == 5)
+                    bossStage = 5;
 
-            if (bossStage * 20 > Random.Range(0, 81))
-                bossSetting = true;
+                if (bossStageCount * 20 > Random.Range(50, 81))
+                    bossSetting = true;
+            }
         }
 
         if (bossSetting)    // 보스 층 일때
         {
             Debug.Log("Boss");
             //BossStageSetting();
+            bossStageCount = 0;
+            bossSetting = false;
         }
-        else if (repeat)    // 맵 반복시
+        else if (floorRepeat)    // 맵 반복시
         {
             mark.GetComponent<SpriteRenderer>().sprite = markSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
 
@@ -275,12 +318,14 @@ public class DungeonManager : MonoBehaviour
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y);
                 currentStageMonsterList[i].GetComponent<Monster_Control>().MonsterInit();
             }
+            floorRepeat = false;
         }
         else            // 일반 맵일경우
         {
             // 초기 맵 랜덤 세팅
             markerRandom = Random.Range(0, 12);
-            marker.ThisMarker = (Markers)markerRandom;
+            marker.thisMarker = Markers.SetMonster_NF;
+            //marker.thisMarker = (Markers)markerRandom;
 
             mapList[selectedMapNum].GetComponent<BackgroundScrolling>().backGroundImage.transform.position = new Vector2(Random.Range(-1f, 0), Random.Range(-2f, 0));
             mark = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
@@ -288,17 +333,14 @@ public class DungeonManager : MonoBehaviour
             
             // (임시)하나만 클리어 해도 마을로
             if (currentStage > 0)
-                sectionClear = true;
+                phaseClear = true;
 
             spawner = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().spawner;
             spawnerCount = spawner.Length;
 
             monsterCount = Random.Range(3, 10);
 
-            if (multy)
-                monsterCount *= keyMul;
-            else
-                monsterCount /= keyMul;
+            monsterCount *= marker_Variable.markerVariable[0];
 
             currentMonsterCount = monsterCount;
 
@@ -313,6 +355,8 @@ public class DungeonManager : MonoBehaviour
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y), Quaternion.identity);
             }
         }
+        marker_Variable.markerPreVariable = marker_Variable.markerVariable;
+        marker_Variable.Reset();
     }
     
     public void GoToTown()
@@ -326,6 +370,15 @@ public class DungeonManager : MonoBehaviour
         camera.SetHeiWid(640, 360);
     }
     
+    public bool NewDayCheck()
+    {
+        if (newDay)
+        {
+            return true;
+        }
+        return false;
+    }
+
     // 씬 이동 후 초기화
     public void OnEnable()
     {
@@ -384,11 +437,11 @@ public class DungeonManager : MonoBehaviour
 
             for (int i = 0; i < 2; ++i)
             {
-                if (teleportPoint[teleportCount].GetComponent<Teleport>().useSystem == 9)
+                if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
                     entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
             }
 
-            FloorSetting(1, true, false);
+            FloorSetting();
         }
 
         player.transform.position = entrance;
@@ -400,48 +453,11 @@ public void PlayerDie()
     SectionTeleport(true, false);
 }
 
-
-// 퀵슬롯에서 키 선택시
-public void SelectedKey(int selectQuestion, int keyMul, bool freePass)
-{
-    if (freePass)
-        currentStage += 2;
-    else
-        ++currentStage;
-
-    switch (selectQuestion)
-    {
-        case 0:               // 마을로
-            if (SceneManager.GetActiveScene().buildIndex == 1)
-            {
-                SectionTeleport(false, false);
-            }
-            else if (SceneManager.GetActiveScene().buildIndex > 1)
-            {
-                SectionTeleport(false, true);
-            }
-            break;
-        case 1:                 // 몹 배수
-            FloorSetting(keyMul, true, false);
-            break;
-        case 2:              // 프리패스
-            FloorSetting(1, true, false);
-            break;
-        case 3:                  // 보스전
-            BossStageSetting();
-            break;
-        case 4:                // 맵 반복
-            FloorSetting(1, true, true);
-            break;
-    }
-}
-
 // 보스 층 세팅
 public void BossStageSetting()
 {
 
 }
-
 
 // 몬스터 죽을 때 마다 카운트
 public void MonsterDie()

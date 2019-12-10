@@ -94,8 +94,8 @@ public class CanvasManager : MonoBehaviour
             {
                 if (!isInventoryOn)
                 {
-                    isInventoryOn = true;
                     OpenInGameMenu();
+                    isInventoryOn = true;
                 }
                 else
                 {
