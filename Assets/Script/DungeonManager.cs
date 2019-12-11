@@ -42,6 +42,32 @@ public class MarkerVariable
     }
 }
 
+/*
+ * 층, 소환몹갯수로 구성된 클래스
+ * FloorDatas.Floor, FloorDatas.SpawnAmount로 접근
+ * 선언은 Awake 함수 내부, 값설정은 선언시 1회 설정, 이후변경불가
+ */
+public class FloorData
+{
+    int floor;
+    int spawnAmount;
+
+    public FloorData(int Floor, int SpawnAmount)
+    {
+        floor = Floor;
+        spawnAmount = SpawnAmount;
+    }
+
+    public int Floor
+    {
+        get { return floor; }
+    }
+    public int SpawnAmount
+    {
+        get { return spawnAmount; }
+    }
+}
+
 public class DungeonManager : MonoBehaviour
 {
     #region 오브젝트 등록
@@ -110,6 +136,16 @@ public class DungeonManager : MonoBehaviour
         marker = new Marker();
         marker_Variable = new MarkerVariable();
         marker_Variable.Reset();
+
+        /*
+         * FloorData 선언
+         */
+        FloorData[] FloorDatas = new FloorData[70];
+        FloorDatas[0] = new FloorData(0, 0); // 0층, 안씀
+        for (int Floor = 1; Floor <= 70; Floor++)
+        {
+            FloorDatas[Floor] = new FloorData(Floor, Floor * 2);
+        }
     }
     private void Start()
     {
