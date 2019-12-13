@@ -64,7 +64,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -75,7 +75,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -91,18 +91,18 @@ TextureImporter:
       name: anim_mon2_die_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 120
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 20
+        y: 7
+        width: 79
+        height: 46
+      alignment: 9
+      pivot: {x: 0.34177217, y: -0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b6870cf89b11b9e42abb92ce7c29279d
+      spriteID: 1886314a5531b104b8c61a4d00794784
       vertices: []
       indices: 
       edges: []
@@ -111,18 +111,18 @@ TextureImporter:
       name: anim_mon2_die_1
       rect:
         serializedVersion: 2
-        x: 120
-        y: 0
-        width: 120
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 137
+        y: 7
+        width: 86
+        height: 44
+      alignment: 9
+      pivot: {x: 0.30232558, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 33eaf1a42cf8c5d4fb34941a380fb660
+      spriteID: 1e7f5494ee5c08a48b713969c95c73d8
       vertices: []
       indices: 
       edges: []
@@ -131,18 +131,18 @@ TextureImporter:
       name: anim_mon2_die_2
       rect:
         serializedVersion: 2
-        x: 240
-        y: 0
-        width: 120
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 260
+        y: 7
+        width: 80
+        height: 40
+      alignment: 9
+      pivot: {x: 0.38750002, y: -0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7838ea7ea85cecf40941897d423eb956
+      spriteID: 8ed6dd479efbc604da742ec7cd0580c3
       vertices: []
       indices: 
       edges: []
@@ -151,18 +151,18 @@ TextureImporter:
       name: anim_mon2_die_3
       rect:
         serializedVersion: 2
-        x: 360
-        y: 0
-        width: 120
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 381
+        y: 7
+        width: 83
+        height: 23
+      alignment: 9
+      pivot: {x: 0.37349397, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 742a3fabd74c4cf48b2d3712c47a4e1a
+      spriteID: 5376ed45daf4b9f4d8f2b5fbedbbeb26
       vertices: []
       indices: 
       edges: []

@@ -346,6 +346,7 @@ public class PlayerControl : MovingObject
             invincibleCount = 1f;
 
             playerStatus.DecreaseHP(attack);
+            actionState = ActionState.Idle;
         }
     }
     public void Landing()

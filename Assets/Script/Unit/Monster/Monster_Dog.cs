@@ -2,33 +2,14 @@
 
 public class Monster_Dog : Monster_Control
 {
-    public override void Awake()
-    {
-        base.Awake();
-    }
     public void Start()
     {
         maxRotateDelayTime = 2f;
         curRotateDelayTime = 0f;
-        maxAttackDelayTime = 2f;
+        maxAttackDelayTime = 1f;
         curAttackDelayTime = 0f;
         arrowDirection = -1;
-    }
-    public void OnDisable()
-    {
-        StopCoroutine(Moving);
-    }
-
-    public override void OnEnable()
-    {
-        base.OnEnable();
         isFaceRight = false;
-    }
-
-    // Update is called once per frame
-    public override void Update()
-    {
-        base.Update();
     }
 
     private void FixedUpdate()
@@ -36,11 +17,19 @@ public class Monster_Dog : Monster_Control
         if (actionState == ActionState.IsDead) return;
         Move();
         if (!isTrace) return;
+        if (actionState == ActionState.IsAtk) return;
         Attack();
     }
     
     void Move()
     {
+        if (actionState == ActionState.NotMove)
+        {
+            animator.SetBool("isMove", false);
+            animator.SetBool("isRun", false);
+        }
+
+        if (actionState == ActionState.NotMove) return;
         if (isTrace)
         {
             if (distanceX > 0.5f)
@@ -48,7 +37,7 @@ public class Monster_Dog : Monster_Control
                 if (actionState != ActionState.IsAtk)
                 {
                     animator.SetBool("isRun", true);
-                    rb.velocity = new Vector2(ehp.GetMoveSpeed() * 2f * arrowDirection, rb.velocity.y);
+                    rb.velocity = new Vector2(enemyStatus.GetMoveSpeed() * 2f * arrowDirection, rb.velocity.y);
                 }
             }
             else
@@ -61,20 +50,15 @@ public class Monster_Dog : Monster_Control
         {
             if (randomMove != 0)
             {
-                animator.SetBool("isRun", false);
                 animator.SetBool("isMove", true);
-                rb.velocity = new Vector2(ehp.GetMoveSpeed() * randomMove, rb.velocity.y);
+                animator.SetBool("isRun", false);
+                rb.velocity = new Vector2(enemyStatus.GetMoveSpeed() * randomMove, rb.velocity.y);
             }
             else
             {
                 animator.SetBool("isMove", false);
                 animator.SetBool("isRun", false);
             }
-        }
-        if (actionState != ActionState.NotMove)
-        {
-            animator.SetBool("isMove", false);
-            animator.SetBool("isRun", false);
         }
     }
 

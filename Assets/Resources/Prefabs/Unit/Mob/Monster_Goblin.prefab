@@ -164,16 +164,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85646b6505334a4ba164a9eb9d4864d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dil: {fileID: 0}
+  actionState: 5
+  dropItemList: {fileID: 0}
   distanceX: 0
   distanceY: 0
   isTrace: 0
   randomMove: 0
   randomMoveCount: 0
   randomAttack: 0
-  isAtk: 0
-  isJump: 0
   isDamagable: 0
+  maxRotateDelayTime: 0
+  curRotateDelayTime: 0
+  maxAttackDelayTime: 0
+  curAttackDelayTime: 0
 --- !u!114 &3085250315534159876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,12 +221,12 @@ PrefabInstance:
     - target: {fileID: 776820764541791313, guid: a23023812364dc04883cd5bf233c4956,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.2
       objectReference: {fileID: 0}
     - target: {fileID: 776820764541791313, guid: a23023812364dc04883cd5bf233c4956,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 776820764541791313, guid: a23023812364dc04883cd5bf233c4956,
         type: 3}

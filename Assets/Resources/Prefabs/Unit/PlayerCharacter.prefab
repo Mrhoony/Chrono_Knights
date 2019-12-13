@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 3981682513319129737}
   - component: {fileID: 3981682513319129742}
   - component: {fileID: 3677731558862700652}
+  - component: {fileID: 3006957613609201759}
   m_Layer: 8
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -207,60 +208,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d7b8a6907c68e418fab1b4a78e8a89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerStatusView: {fileID: 0}
-  dataBase:
-    playerData:
-      HP: 0
-      maxBuffTime: 0
-      jumpPower: 0
-      moveSpeed: 0
-      Atk: 0
-      attackSpeed: 0
-      jumpCount: 0
-      defense: 0
-      recovery: 0
-      dashDistance: 0
-      up_moveSpeed: 0
-      up_Atk: 0
-      up_attackSpeed: 0
-      up_jumpCount: 0
-      up_defense: 0
-      up_recovery: 0
-      up_dashDistance: 0
-      traning_count: []
-      currentDate: 0
-    takeKeySlot: 0
-    availableInventorySlot: 0
-    availableStorageSlot: 0
-    currentDate: 0
-    eventCheck: 
-  playerData:
-    HP: 0
-    maxBuffTime: 0
-    jumpPower: 0
-    moveSpeed: 0
-    Atk: 0
-    attackSpeed: 0
-    jumpCount: 0
-    defense: 0
-    recovery: 0
-    dashDistance: 0
-    up_moveSpeed: 0
-    up_Atk: 0
-    up_attackSpeed: 0
-    up_jumpCount: 0
-    up_defense: 0
-    up_recovery: 0
-    up_dashDistance: 0
-    traning_count: []
-    currentDate: 0
+  dataBase: {}
   currentHP: 0
   HPCut: 
   currentBuffTime: 0
   buffState: 0
   jumpPower: 6
   moveSpeed: 4
-  Atk: 4
+  attack: 0
   attackSpeed: 0
   jumpCount: 0
   defense: 0
@@ -280,24 +235,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionState: 5
   GroundCheck: {fileID: 3981682513018439649}
-  pStat: {fileID: 3981682513319129737}
+  playerStatus: {fileID: 0}
   movement: {x: 0, y: 0}
-  inputJump: 0
-  inputDodge: 0
-  isDownJump: 0
-  isAtk: 0
-  attackLock: 0
-  inputArrow: 0
-  commandCount: 1
-  attackPattern: 0
-  inputY: 0
-  atkState: 1
-  parryingCount: 0
-  dodgeCount: 0
-  invincible: 0
-  invincibleCount: 0
-  currentJumpCount: 0
-  isBlock: 0
 --- !u!61 &3677731558862700652
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -324,3 +263,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4, y: 0.58}
   m_EdgeRadius: 0
+--- !u!114 &3006957613609201759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3981682513319129743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8bca6e2af9b3b4981467d0e5a9f4b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

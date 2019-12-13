@@ -30,7 +30,7 @@ public class Menu_QuickSlot : MonoBehaviour
             Destroy(gameObject);
 
         menu = GameObject.Find("UI").GetComponent<CanvasManager>();
-        inventory = GameObject.Find("UI/Menus/Inventory").GetComponent<Menu_Inventory>();
+        inventory = GameObject.Find("UI/InGameMenu/Inventory").GetComponent<Menu_Inventory>();
         quickSlotImage = Resources.LoadAll<Sprite>("UI/ui_quickSlot");
         onQuickSlot = false;
     }

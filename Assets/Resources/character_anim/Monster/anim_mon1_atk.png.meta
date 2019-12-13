@@ -63,7 +63,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -74,7 +74,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -94,14 +94,14 @@ TextureImporter:
         y: 11
         width: 44
         height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3323705c50473a47aff84172449cc39
+      spriteID: 0c0c4a3de9771584d9da4a3a38637102
       vertices: []
       indices: 
       edges: []
@@ -114,14 +114,14 @@ TextureImporter:
         y: 11
         width: 65
         height: 34
-      alignment: 9
-      pivot: {x: 0.6, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c4c7972640fd59a45b860564a289dfcd
+      spriteID: 2b8fea4c22c1d874abea280ff1069c63
       vertices: []
       indices: 
       edges: []
@@ -134,14 +134,14 @@ TextureImporter:
         y: 11
         width: 51
         height: 29
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.627451, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ca1d3426c63cbf48914f232aec2cc91
+      spriteID: 8d7b4eebe20de3045a8b112c45e5b6dc
       vertices: []
       indices: 
       edges: []

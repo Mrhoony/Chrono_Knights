@@ -43,31 +43,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c6661363860624bbb18fab6e358b97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameStartPosition: {fileID: 0}
-  inGameMenu: {fileID: 0}
   mainMenu: {fileID: 0}
   player: {fileID: 0}
+  playerStat: {fileID: 0}
   playerStatView: {fileID: 0}
-  playerData:
-    HP: 0
-    maxBuffTime: 0
-    jumpPower: 0
-    moveSpeed: 0
-    Atk: 0
-    attackSpeed: 0
-    jumpCount: 0
-    defense: 0
-    recovery: 0
-    dashDistance: 0
-    up_moveSpeed: 0
-    up_Atk: 0
-    up_attackSpeed: 0
-    up_jumpCount: 0
-    up_defense: 0
-    up_recovery: 0
-    up_dashDistance: 0
-    traning_count: []
-    currentDate: 0
+  dataBase: {}
+  canvanManager: {fileID: 0}
+  storage: {fileID: 0}
+  inventory: {fileID: 0}
+  saveSlot:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  openSaveSlot: 0
+  gameStart: 0
   screenSize:
   - {fileID: 0}
   - {fileID: 0}
@@ -77,14 +66,3 @@ MonoBehaviour:
     screen_height: 0
     volume_BGM: 0
     volume_Effect: 0
-  LoadSlot: {fileID: 0}
-  saveSlot:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  openSaveSlot: 0
-  gameStart: 0
-  exteriorDoor: {fileID: 0}
-  SettingsMenu: {fileID: 0}
-  focus: 0
-  screenNumber: 0

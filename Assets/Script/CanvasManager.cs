@@ -46,7 +46,6 @@ public class CanvasManager : MonoBehaviour
         else
             Destroy(gameObject);
     }
-
     private void Start()
     {
         isInventoryOn = false;
@@ -78,9 +77,9 @@ public class CanvasManager : MonoBehaviour
                 isCancelOn = false;
                 OpenCancelMenu();
             }
-            else
+            else if(!isCancelOn)
             {
-                isCancelOn = false;
+                isCancelOn = true;
                 CloseCancelMenu();
             }
         }

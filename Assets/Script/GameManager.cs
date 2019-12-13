@@ -9,36 +9,34 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public CanvasManager canvanManager;
     public GameObject mainMenu;
+    private CanvasManager canvasManager;
     public GameObject player;
     public PlayerStatus playerStat;
     public GameObject playerStatView;
 
     #region save, load
     public DataBase dataBase;
+    public CanvasManager canvanManager;
     public Menu_Storage storage;
     public Menu_Inventory inventory;
-    
     public GameObject[] saveSlot;
 
-    public bool openSaveSlot;
+    BinaryFormatter bf;
+    MemoryStream ms;
+    private int focus;
+    private int slotNum;
+    private string data;
+
+    private bool openSaveSlot;
     public bool gameStart;
     #endregion
 
     public GameObject[] screenSize;
     public SystemData systemData;
-    
-    public GameObject SettingsMenu;
 
-    private int focus;
     private int screenNumber;
-
-    BinaryFormatter bf;
-    MemoryStream ms;
-    int slotNum;
-    string data;
-
+    
     private void Awake()
     {
         if (instance == null)
@@ -65,21 +63,25 @@ public class GameManager : MonoBehaviour
         inventory = canvanManager.Menus[0].GetComponent<Menu_Inventory>();
     }
 
-    public void Start()
+    private void Start()
     {
-        slotNum = 0;
-        focus = 0;
-        gameStart = false;
-
         dataBase = new DataBase();
+        canvanManager = GameObject.Find("UI").GetComponent<CanvasManager>();
 
         player.GetComponent<PlayerControl>().enabled = false;
         canvanManager.inGameMenu.SetActive(false);
         playerStatView.SetActive(false);
+
+        gameStart = false;
+
+        slotNum = 0;
+        focus = 0;
     }
 
     public void Update()
     {
+        if (canvanManager.isCancelOn || canvanManager.isInventoryOn || canvanManager.isStorageOn) return;
+
         if (SceneManager.GetActiveScene().buildIndex != 0) return;
 
         if (Input.GetKeyDown(KeyCode.Z))

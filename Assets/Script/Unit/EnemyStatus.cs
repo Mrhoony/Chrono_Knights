@@ -2,26 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStat : MonoBehaviour
+public class EnemyStatus : MonoBehaviour
 {
-    public float _moveSpeed; // 이동 속도
-    public float _HP; // 최대 체력
+    private float _moveSpeed; // 이동 속도
+    private int _HP; // 최대 체력
     public float _currentHP; // 현재 체력
-    public int _attack; // 공격력
+    private int _attack; // 공격력
     Animator anim;
 
     private void Start()
     {
         anim = GetComponent<Animator>();
         _moveSpeed = 1f;
-        _HP = 5f;
+        _HP = 5;
         _attack = 2;
     }
 
-    public void SetCurrentHP()
-    {
-        _currentHP = _HP;
-    }
     
     public void IncreaseHP(int damage)
     {
@@ -33,26 +29,18 @@ public class EnemyStat : MonoBehaviour
     }
     public void DecreaseHP(int damage)
     {
-        _currentHP = _currentHP - damage;
+        _currentHP -= damage;
         if (_currentHP <= 0)
         {
             _currentHP = 0;
         }
     }
     #region
-    public void EnemyStatInit(float moveSpeed, float HP, int attack)
+    public void EnemyStatInit(float moveSpeed, int HP, int attack)
     {
         _moveSpeed = moveSpeed;
         _HP = HP;
         _attack = attack;
-    }
-    public void SetMoveSpeed(int value)
-    {
-        _moveSpeed = value;
-    }
-    public void Set_HP(int value)
-    {
-        _HP = value;
     }
     public void Set_attack(int value)
     {
@@ -60,9 +48,9 @@ public class EnemyStat : MonoBehaviour
     }
     #endregion      // Set 메소드
     
-    public float GetCurrentHP()
+    public void SetCurrentHP()
     {
-        return _currentHP;
+        _currentHP = _HP;
     }
     public float GetMoveSpeed()
     {
@@ -71,5 +59,14 @@ public class EnemyStat : MonoBehaviour
     public int GetAttack()
     {
         return _attack;
+    }
+    public bool IsDeadCheck()
+    {
+        if(_currentHP <= 0)
+        {
+            _currentHP = 0;
+            return true;
+        }
+        return false;
     }
 }

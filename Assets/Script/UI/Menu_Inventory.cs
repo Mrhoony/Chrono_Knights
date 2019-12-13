@@ -30,7 +30,7 @@ public class Menu_Inventory : MonoBehaviour
 
     private void Awake()
     {
-        storage = GameObject.Find("UI/Menus/Storage").GetComponent<Menu_Storage>();
+        storage = GameObject.Find("UI/InGameMenu/Storage").GetComponent<Menu_Storage>();
         transforms = slots.transform.GetComponentsInChildren<Transform>();
         slotCount = transforms.Length-1;
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
@@ -116,13 +116,16 @@ public class Menu_Inventory : MonoBehaviour
         slot[focused].transform.GetChild(0).gameObject.SetActive(false);
     }
 
+    public void SetSelectedItemCount(int value)
+    {
+        seletedItemCount = value;
+    }
     public void SetInventoryItemList()
     {
         for(int i = 0; i < seletedItemCount; ++i)
         {
-            inventoryItemList[i] = storage.GetStorageItem(i);
+            inventoryItemList[i] = storage.GetSelectStorageItem(i);
             isFull[i] = true;
-            ++inventoryItemCount;
         }
         for(int i = seletedItemCount; i < availableSlot; ++i)
         {
@@ -176,7 +179,6 @@ public class Menu_Inventory : MonoBehaviour
         if (DungeonManager.instance.useKeyInDungeon(inventoryItemList[focus]))
         {
             inventoryItemList[focus] = null;
-            Debug.Log("Item use");
             QuickSlotDeleteItem(focus);
         }
     }
@@ -185,6 +187,7 @@ public class Menu_Inventory : MonoBehaviour
         for (int i = focus; i < availableSlot - 1; ++i)
         {
             if (inventoryItemList[i] != null) continue;
+            Debug.Log(focus + "null");
 
             for (int j = 1; j < availableSlot - i; ++i)
             {
@@ -193,11 +196,8 @@ public class Menu_Inventory : MonoBehaviour
                     inventoryItemList[i] = inventoryItemList[i + j];
                     isFull[i] = true;
 
-                    if (i + j == availableSlot)
-                    {
-                        inventoryItemList[i + j] = null;
-                        isFull[i + j] = false;
-                    }
+                    inventoryItemList[i + j] = null;
+                    isFull[i + j] = false;
                     break;
                 }
             }
@@ -222,10 +222,6 @@ public class Menu_Inventory : MonoBehaviour
     }
 
     #region get, set, save, load
-    public void SetSelectedItemCount(int value)
-    {
-        seletedItemCount = value;
-    }
     public int GetSelectedItemCount()
     {
         return seletedItemCount;
@@ -252,10 +248,8 @@ public class Menu_Inventory : MonoBehaviour
     {
         db.SaveInventoryData(takeItemSlot, availableSlot);
     }
-
     #endregion
-
-
+    
     void FocusedSlot(int AdjustValue)
     {
         if (focused + AdjustValue < 0 || focused + AdjustValue > availableSlot-1) { return; }

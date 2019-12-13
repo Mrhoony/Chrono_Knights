@@ -64,7 +64,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -75,7 +75,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -91,18 +91,18 @@ TextureImporter:
       name: anim_mon2_walk_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 120
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 19
+        y: 7
+        width: 81
+        height: 43
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e609ea3cc32c59d49a1c53471857a998
+      spriteID: 8037cc3cd6d3e974c9322794fe5c85a0
       vertices: []
       indices: 
       edges: []
@@ -111,18 +111,18 @@ TextureImporter:
       name: anim_mon2_walk_1
       rect:
         serializedVersion: 2
-        x: 120
-        y: 0
-        width: 120
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 139
+        y: 7
+        width: 78
+        height: 44
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: de7cd046c327c844a8bf3fe74b5941f3
+      spriteID: 00f31c7908236634e8654d99d297c784
       vertices: []
       indices: 
       edges: []
@@ -131,18 +131,18 @@ TextureImporter:
       name: anim_mon2_walk_2
       rect:
         serializedVersion: 2
-        x: 240
-        y: 0
-        width: 120
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 260
+        y: 7
+        width: 82
+        height: 43
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ab2b283e8a8b7e4439a57e7806103c72
+      spriteID: 5420d271142d5e446b1c206031ba4352
       vertices: []
       indices: 
       edges: []
@@ -151,18 +151,18 @@ TextureImporter:
       name: anim_mon2_walk_3
       rect:
         serializedVersion: 2
-        x: 360
-        y: 0
-        width: 120
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 379
+        y: 7
+        width: 78
+        height: 44
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 429df13abb922c3469e7aef332f9ee42
+      spriteID: 3d27801bc70d4aa4d9488f2c2cf8f8e5
       vertices: []
       indices: 
       edges: []

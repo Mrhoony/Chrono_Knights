@@ -103,6 +103,7 @@ public class DungeonManager : MonoBehaviour
         else
             Destroy(gameObject);
 
+        camera = CameraManager.instance;
         playerStatus = player.GetComponent<PlayerStatus>();
         menu = GameObject.Find("UI").GetComponent<CanvasManager>();
         markSprite = Resources.LoadAll<Sprite>("UI/ui_hpbell_set");
@@ -124,6 +125,8 @@ public class DungeonManager : MonoBehaviour
     }
     public void Update()
     {
+        if(menu.isCancelOn || menu.isInventoryOn || menu.isStorageOn) return;
+
         if (Input.GetButtonDown("Fire1"))           // 공격키를 눌렀을 때
         {
             if (SceneManager.GetActiveScene().buildIndex == 0)      // 메인 메뉴 화면에서
@@ -144,7 +147,6 @@ public class DungeonManager : MonoBehaviour
                 {
                     menu.GetComponent<CanvasManager>().Menus[0].GetComponent<Menu_Inventory>().DeleteStorageItem();
                     SectionTeleport(false, false);
-                    dungeonClear = true;
                 }
             }
             else if (SceneManager.GetActiveScene().buildIndex == 2)      // 마을 - 숲 화면에서
@@ -172,7 +174,15 @@ public class DungeonManager : MonoBehaviour
                     if (!dungeonClear) return;
                     if (usedKey)            // 키를 쓴경우
                     {
+                        mapList = GameObject.FindGameObjectsWithTag("BaseMap");
 
+                        for (int i = 0; i < 2; ++i)
+                        {
+                            if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
+                                entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
+                        }
+                        FloorSetting();
+                        player.transform.position = entrance;
                     }
                     else                    // 키를 안쓴경우 반응x (임시)집으로
                     {
@@ -209,6 +219,7 @@ public class DungeonManager : MonoBehaviour
                 marker.ExecuteMarker(_key.Value);
                 break;
             case ItemType.ReturnTown:
+                // 마을로 돌아간다. 클리어 정보창 표시
                 SectionTeleport(false, true);
                 break;
             case ItemType.FreePassNextFloor:
@@ -225,6 +236,7 @@ public class DungeonManager : MonoBehaviour
                 marker_Variable.markerVariable = marker_Variable.markerPreVariable;
                 break;
             case ItemType.RepeatThisFloor:
+                floorRepeat = true;
                 break;
         }
         return true;
@@ -276,7 +288,7 @@ public class DungeonManager : MonoBehaviour
     public void FloorSetting()
     {
         phaseClear = false;
-        dungeonClear = false;
+        dungeonClear = true;
         usedKey = false;
         spawnerCount = 0;
         selectedMapNum = Random.Range(0, mapList.Length);
@@ -391,6 +403,7 @@ public class DungeonManager : MonoBehaviour
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         useTeleportSystem = 10;
+
         camera = CameraManager.instance;
         camera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
         teleportPoint = GameObject.FindGameObjectsWithTag("Portal");
@@ -440,7 +453,6 @@ public class DungeonManager : MonoBehaviour
                 if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
                     entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
             }
-
             FloorSetting();
         }
 

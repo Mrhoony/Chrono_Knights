@@ -53,7 +53,7 @@ public class Boss_Merchant : Monster_Control
 
     private void Start()
     {
-        ehp = GetComponent<EnemyStat>();
+        enemyStatus = GetComponent<EnemyStatus>();
 
         DefaultMat = Resources.Load<Material>("SpriteDefault");
         WhiteFlashMat = Resources.Load<Material>("WhiteFlash");
@@ -119,7 +119,7 @@ public class Boss_Merchant : Monster_Control
     {
         animator.SetTrigger("isSkill");
         Invincible = true;
-        ehp.IncreaseHP(10);
+        enemyStatus.IncreaseHP(10);
         Debug.Log("Merchant's HP Restore!");
     }
 

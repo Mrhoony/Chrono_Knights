@@ -4,26 +4,14 @@ using UnityEngine;
 
 public class Monster_Goblin : Monster_Control
 {
-    public override void Awake()
-    {
-        base.Awake();
-    }
     void Start()
     {
         maxRotateDelayTime = 2f;
         curRotateDelayTime = 0f;
-        maxAttackDelayTime = 2f;
+        maxAttackDelayTime = 1f;
         curAttackDelayTime = 0f;
         isFaceRight = true;
         arrowDirection = 1;
-    }
-    public override void OnEnable()
-    {
-        base.OnEnable();
-    }
-    public override void Update()
-    {
-        base.Update();
     }
 
     private void FixedUpdate()
@@ -31,17 +19,19 @@ public class Monster_Goblin : Monster_Control
         if (actionState == ActionState.IsDead) return;
         Move();
         if (!isTrace) return;
+        if (actionState == ActionState.IsAtk) return;
         Attack();
     }
 
     void Move()
     {
+        if (actionState == ActionState.NotMove) return;
         if (isTrace)
         {
             if (distanceX > 1f)
             {
                 animator.SetBool("isMove", true);
-                rb.velocity = new Vector2(ehp.GetMoveSpeed() * arrowDirection, rb.velocity.y);
+                rb.velocity = new Vector2(enemyStatus.GetMoveSpeed() * arrowDirection, rb.velocity.y);
             }
             else
             {
@@ -53,7 +43,7 @@ public class Monster_Goblin : Monster_Control
             if (randomMove != 0)
             {
                 animator.SetBool("isMove", true);
-                rb.velocity = new Vector2(ehp.GetMoveSpeed() * randomMove, rb.velocity.y);
+                rb.velocity = new Vector2(enemyStatus.GetMoveSpeed() * randomMove, rb.velocity.y);
             }
             else
             {
@@ -69,6 +59,7 @@ public class Monster_Goblin : Monster_Control
         if (distanceX < 1f)
         {
             actionState = ActionState.NotMove;
+            rb.velocity = Vector2.zero;
             curAttackDelayTime += Time.fixedDeltaTime;
             if (curAttackDelayTime > maxAttackDelayTime)
             {

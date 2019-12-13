@@ -55,7 +55,7 @@ public class AnimatorManager : StateMachineBehaviour
                 {
                     if (player[i].CompareTag("Player"))
                     {
-                        player[i].gameObject.GetComponent<IsDamageable>().PlayerHit(animator.gameObject.GetComponent<EnemyStat>().GetAttack());
+                        player[i].gameObject.GetComponent<IsDamageable>().PlayerHit(animator.gameObject.GetComponent<EnemyStatus>().GetAttack());
                     }
                 }
             }

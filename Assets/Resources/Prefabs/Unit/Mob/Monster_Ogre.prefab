@@ -119,18 +119,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.026673555, y: 0.074256}
+  m_Offset: {x: 0.03, y: 0.675}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.7, y: 0.4}
-    oldSize: {x: 2.6, y: 1.5}
+    pivot: {x: 0.703125, y: 0}
+    oldSize: {x: 2.56, y: 1.33}
     newSize: {x: 2.6, y: 1.5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3485789, y: 1.348512}
+  m_Size: {x: 1.3, y: 1.35}
   m_EdgeRadius: 0
 --- !u!50 &2019069859436496175
 Rigidbody2D:
@@ -165,16 +165,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78abb0b8462ade94ba79a01f6cec3679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dil: {fileID: 0}
+  actionState: 5
+  dropItemList: {fileID: 0}
   distanceX: 0
   distanceY: 0
   isTrace: 0
   randomMove: 0
   randomMoveCount: 0
   randomAttack: 0
-  isAtk: 0
-  isJump: 0
   isDamagable: 0
+  maxRotateDelayTime: 0
+  curRotateDelayTime: 0
+  maxAttackDelayTime: 0
+  curAttackDelayTime: 0
 --- !u!114 &7954043432877404954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,12 +238,12 @@ PrefabInstance:
     - target: {fileID: 776820764541791313, guid: a23023812364dc04883cd5bf233c4956,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.3
       objectReference: {fileID: 0}
     - target: {fileID: 776820764541791313, guid: a23023812364dc04883cd5bf233c4956,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 776820764541791313, guid: a23023812364dc04883cd5bf233c4956,
         type: 3}

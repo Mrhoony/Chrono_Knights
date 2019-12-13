@@ -64,7 +64,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -75,7 +75,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -91,18 +91,18 @@ TextureImporter:
       name: anim_mon2_idle_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 120
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 21
+        y: 7
+        width: 78
+        height: 44
+      alignment: 9
+      pivot: {x: 0.46153846, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a397e0d790eccf4ebd0a777121a42d3
+      spriteID: b755913ddfec215428ba54e196420f35
       vertices: []
       indices: 
       edges: []
@@ -111,18 +111,18 @@ TextureImporter:
       name: anim_mon2_idle_1
       rect:
         serializedVersion: 2
-        x: 120
-        y: 0
-        width: 120
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 141
+        y: 7
+        width: 80
+        height: 44
+      alignment: 9
+      pivot: {x: 0.45, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0cb4fa8038a74c14ea3b8367579e7f4a
+      spriteID: 7bb54510564304040ad97b006cb8e48d
       vertices: []
       indices: 
       edges: []
@@ -131,18 +131,18 @@ TextureImporter:
       name: anim_mon2_idle_2
       rect:
         serializedVersion: 2
-        x: 240
-        y: 0
-        width: 120
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 261
+        y: 7
+        width: 78
+        height: 45
+      alignment: 9
+      pivot: {x: 0.46153846, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 592aa636e925f1a4eb57840867a90e88
+      spriteID: f26f62f6c5003fa40a8f8185d0d7f66b
       vertices: []
       indices: 
       edges: []
@@ -151,18 +151,18 @@ TextureImporter:
       name: anim_mon2_idle_3
       rect:
         serializedVersion: 2
-        x: 360
-        y: 0
-        width: 120
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 381
+        y: 7
+        width: 81
+        height: 45
+      alignment: 9
+      pivot: {x: 0.44444445, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3680504b0791b7428003d3dd746c0fd
+      spriteID: bb0bbea5d6393e149942ae35b5fed892
       vertices: []
       indices: 
       edges: []
