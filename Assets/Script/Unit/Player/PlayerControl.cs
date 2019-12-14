@@ -7,8 +7,7 @@ public class PlayerControl : MovingObject
     public static PlayerControl instance;
     public GameObject GroundCheck;
     public PlayerStatus playerStatus;
-
-    public Vector2 movement;
+    
     private float inputDirection;
     
     private float runDelay;
@@ -53,7 +52,7 @@ public class PlayerControl : MovingObject
 
     public void Start()
     {
-        currentJumpCount = playerStatus.jumpCount;
+        currentJumpCount = (int)playerStatus.GetJumpCount();
         arrowDirection = 1;
         dodgeCount = 0.5f;
         parryingCount = 0.2f;
@@ -258,7 +257,7 @@ public class PlayerControl : MovingObject
         if (inputDirection != 0)
         {
             animator.SetBool("isWalk", true);
-            rb.velocity = new Vector2(inputDirection * playerStatus.moveSpeed, rb.velocity.y);
+            rb.velocity = new Vector2(inputDirection * playerStatus.GetMoveSpeed_Result(), rb.velocity.y);
         }
         else
         {
@@ -272,13 +271,13 @@ public class PlayerControl : MovingObject
         if (inputDirection > 0 && isRrun > 1)
         {
             animator.SetBool("isRun", true);
-            rb.velocity = new Vector2(inputDirection * (playerStatus.moveSpeed + 3f), rb.velocity.y);
+            rb.velocity = new Vector2(inputDirection * (playerStatus.GetMoveSpeed_Result() + 3f), rb.velocity.y);
         }
 
         if (inputDirection < 0 && isLrun > 1)
         {
             animator.SetBool("isRun", true);
-            rb.velocity = new Vector2(inputDirection * (playerStatus.moveSpeed + 3f), rb.velocity.y);
+            rb.velocity = new Vector2(inputDirection * (playerStatus.GetMoveSpeed_Result() + 3f), rb.velocity.y);
         }
     }
     void Jump()
@@ -302,7 +301,7 @@ public class PlayerControl : MovingObject
         animator.SetBool("isJump", true);
         GroundCheck.SetActive(false);
 
-        rb.AddForce(new Vector2(0f, playerStatus.jumpPower), ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(0f, playerStatus.GetJumpPower()), ForceMode2D.Impulse);
 
         --currentJumpCount;
 
@@ -355,7 +354,7 @@ public class PlayerControl : MovingObject
         animator.SetBool("isJump_x_Atk", false);
         animator.SetTrigger("isLanding");
         actionState = ActionState.Idle;
-        currentJumpCount = playerStatus.jumpCount;
+        currentJumpCount = (int)playerStatus.GetJumpCount();
     }
     public void ParryingCheck()
     {

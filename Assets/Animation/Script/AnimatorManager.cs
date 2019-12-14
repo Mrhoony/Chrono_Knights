@@ -29,11 +29,11 @@ public class AnimatorManager : StateMachineBehaviour
             {
                 if (monster[i].CompareTag("Monster"))
                 {
-                    monster[i].gameObject.GetComponent<IsDamageable>().MonsterHit(playerControl.playerStatus.attack);
+                    monster[i].gameObject.GetComponent<IsDamageable>().MonsterHit(playerControl.playerStatus.GetAttack_Result());
                 }
                 else if (monster[i].CompareTag("BossMonster"))
                 {
-                    monster[i].gameObject.GetComponent<IsDamageable>().MonsterHit(playerControl.playerStatus.attack);
+                    monster[i].gameObject.GetComponent<IsDamageable>().MonsterHit(playerControl.playerStatus.GetAttack_Result());
                 }
             }
         }

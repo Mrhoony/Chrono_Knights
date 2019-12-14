@@ -3,10 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum MarkerVariableNumber
+{
+    MonsterModifier,
+    DropModifier,
+    SpecialMonster,
+    DamageBuffOnFloorModifier,
+    DamageBuffOnMonsterModifier,
+    DamageBuffOnPlayerModifier,
+    PosHPOnMonsterModifier,
+    NegHPOnMonsterModifier,
+    PosDashSpeedOnPlayerModifier,
+    NegDashSpeedOnPlayerModifier,
+    PosDamageOnPlayerModifier,
+    NegDamageOnPlayerModifier
+}
 public class MarkerVariable
 {
-    public int[] markerVariable;
-    public int[] markerPreVariable;
+    public MarkerVariableNumber markerVariableNumber;
+    public int[] markerVariable = new int[12];
+    public int[] markerPreVariable = new int[12];
 
     /*
     public int MonsterModifier;
@@ -15,6 +31,7 @@ public class MarkerVariable
     public float DamageBuffOnFloorModifier;
     public float DamageBuffOnMonsterModifier;
     public float DamageBuffOnPlayerModifier;
+
     public float PosHPOnMonsterModifier;
     public float NegHPOnMonsterModifier;
     public float PosDashSpeedOnPlayerModifier;
@@ -25,7 +42,6 @@ public class MarkerVariable
 
     public void Reset() // 던전 초기화 시 실행필수
     {
-        markerVariable = new int[12];
         markerVariable[0] = 1;
         markerVariable[1] = 1;
         markerVariable[2] = 0;
@@ -77,9 +93,11 @@ public class DungeonManager : MonoBehaviour
     public GameObject playerStatView;
     public GameObject player;
     private PlayerStatus playerStatus;
+    private EnemyStatus[] enemyStatus;
     private GameObject mark;
     public MarkerVariable marker_Variable;   // Marker로부터 전달받는 값 저장공간
     public Marker marker;
+    public FloorData[] FloorDatas;
     #endregion
 
     public int markerRandom;
@@ -141,9 +159,9 @@ public class DungeonManager : MonoBehaviour
         /*
          * FloorData 선언
          */
-        FloorData[] FloorDatas = new FloorData[70];
+        FloorDatas = new FloorData[71];
         FloorDatas[0] = new FloorData(0, 0); // 0층, 안씀
-        for (int Floor = 1; Floor <= 70; Floor++)
+        for (int Floor = 1; Floor <= 71; Floor++)
         {
             FloorDatas[Floor] = new FloorData(Floor, Floor * 2);
         }
@@ -328,8 +346,9 @@ public class DungeonManager : MonoBehaviour
         usedKey = false;
         spawnerCount = 0;
         selectedMapNum = Random.Range(0, mapList.Length);
-
+        
         ++currentStage;
+        // 다음층이 보스층인걸 미리 알면 순서 변경
         ++bossStageCount;
         if (!bossSetting)
         {
@@ -370,14 +389,9 @@ public class DungeonManager : MonoBehaviour
         }
         else            // 일반 맵일경우
         {
-            // 초기 맵 랜덤 세팅
-            markerRandom = Random.Range(0, 12);
-            marker.thisMarker = Markers.SetMonster_NF;
-            //marker.thisMarker = (Markers)markerRandom;
-
-            mapList[selectedMapNum].GetComponent<BackgroundScrolling>().backGroundImage.transform.position = new Vector2(Random.Range(-1f, 0), Random.Range(-2f, 0));
-            mark = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
-            mark.GetComponent<SpriteRenderer>().sprite = markSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
+            // 초기 맵 랜덤 선택
+            mapList[selectedMapNum].GetComponent<BackgroundScrolling>().backGroundImage.transform.position
+                = new Vector2(player.transform.position.x + Random.Range(-3f, 3f), player.transform.position.y + Random.Range(-2f, 2f) - currentStage * 0.2f);
             
             // (임시)하나만 클리어 해도 마을로
             if (currentStage > 0)
@@ -386,14 +400,10 @@ public class DungeonManager : MonoBehaviour
             spawner = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().spawner;
             spawnerCount = spawner.Length;
 
-            monsterCount = Random.Range(3, 10);
-
-            monsterCount *= marker_Variable.markerVariable[0];
-
+            monsterCount = FloorDatas[currentStage].SpawnAmount * marker_Variable.markerVariable[0];
             currentMonsterCount = monsterCount;
-
-            // 키 변수
             currentStageMonsterList = new GameObject[monsterCount];
+            enemyStatus = new EnemyStatus[monsterCount];
 
             // 몬스터 스폰
             for (int i = 0; i < monsterCount; ++i)
@@ -401,10 +411,49 @@ public class DungeonManager : MonoBehaviour
                 randomX = Random.Range(-1, 2);
                 currentStageMonsterList[i] = Instantiate(monsterList[Random.Range(0, monsterList.Length)], new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y), Quaternion.identity);
+                enemyStatus[i] = currentStageMonsterList[i].GetComponent<EnemyStatus>();
             }
         }
+        SetFloorStatus();
+
+        markerRandom = Random.Range(0, 12);
+        marker.thisMarker = (Markers)markerRandom;
+        mark = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
+        mark.GetComponent<SpriteRenderer>().sprite = markSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
+
         marker_Variable.markerPreVariable = marker_Variable.markerVariable;
         marker_Variable.Reset();
+    }
+
+    public void SetFloorStatus()
+    {
+        switch (marker.thisMarker)
+        {
+            case Markers.SetDamageBuffOnFloor_NF:
+                playerStatus.SetAttackMulty_Result(marker_Variable.markerVariable[(int)MarkerVariableNumber.DamageBuffOnFloorModifier], true);
+                break;
+            case Markers.SetDamageBuffOnMonster_NF:
+                playerStatus.SetAttackMulty_Result(marker_Variable.markerVariable[(int)MarkerVariableNumber.PosDamageOnPlayerModifier], true);
+                break;
+            case Markers.SetDamageBuffOnPlayer_NF:
+                break;
+            case Markers.SetPosHPOnMonster_NF:
+                break;
+            case Markers.SetNegHPOnMonster_NF:
+                break;
+            case Markers.SetPosDamageOnPlayer_NF:
+                playerStatus.SetAttackAdd_Result(marker_Variable.markerVariable[(int)MarkerVariableNumber.PosDamageOnPlayerModifier], true);
+                break;
+            case Markers.SetNegDamageOnPlayer_NF:
+                playerStatus.SetAttackAdd_Result(marker_Variable.markerVariable[(int)MarkerVariableNumber.PosDamageOnPlayerModifier], false);
+                break;
+            case Markers.SetPosDashSpeedOnPlayer_NF:
+                playerStatus.SetDashDistance_Result(marker_Variable.markerVariable[(int)MarkerVariableNumber.PosDashSpeedOnPlayerModifier], true);
+                break;
+            case Markers.SetNegDashSpeedOnPlayer_NF:
+                playerStatus.SetDashDistance_Result(marker_Variable.markerVariable[(int)MarkerVariableNumber.PosDashSpeedOnPlayerModifier], false);
+                break;
+        }
     }
     
     public void GoToTown()
@@ -417,7 +466,6 @@ public class DungeonManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
         camera.SetHeiWid(640, 360);
     }
-    
     public bool NewDayCheck()
     {
         if (newDay)

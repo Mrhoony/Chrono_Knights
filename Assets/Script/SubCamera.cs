@@ -34,7 +34,7 @@ public class SubCamera : MonoBehaviour
     {
         if (target.gameObject != null)
         {
-            moveSpeed = target.gameObject.GetComponent<PlayerControl>().playerStatus.moveSpeed;
+            moveSpeed = target.gameObject.GetComponent<PlayerControl>().playerStatus.GetMoveSpeed_Result();
             targetPosition.Set(target.transform.position.x, target.transform.position.y, transform.position.z);
 
             tempX = transform.position.x - target.transform.position.x;

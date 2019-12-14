@@ -16,18 +16,23 @@ public class PlayerStatus : MonoBehaviour
     public float currentBuffTime;   // 현재 버프량
     public int buffState;
 
-    public float jumpPower;
+    private float jumpPower;
 
-    public float moveSpeed;     // 이동 속도
-    public int attack;  // 공격력
-    public float attackSpeed;
-    public int jumpCount;
-    public int defense;     // 안정성(방어력)
-    public float recovery;      // 회복력
-    public float dashDistance;  // 대시거리
+    private float moveSpeed;     // 이동 속도
+    private int attack;  // 공격력
+    private float attackSpeed;
+    private int jumpCount;
+    private int defense;     // 안정성(방어력)
+    private float recovery;      // 회복력
+    private float dashDistance;  // 대시거리
+
+    private float moveSpeed_Result;
+    private int attack_Result;
+    private float dashDistance_Result;
+
 
     float[] traningStat;
-    
+
     // Start is called before the first frame uplayerDataate
     void Awake()
     {
@@ -79,7 +84,7 @@ public class PlayerStatus : MonoBehaviour
         if (MonsterAttack < 0)
             MonsterAttack = 0;
 
-        if(currentHP / playerData.GetStatus(7) >= 0.8)
+        if (currentHP / playerData.GetStatus(7) >= 0.8)
         {
             HPCutCheck(0.8f, 0, MonsterAttack);
         }
@@ -137,10 +142,99 @@ public class PlayerStatus : MonoBehaviour
     public void SetBuff(int buffLevel)
     {
         currentBuffTime += 10 * buffLevel;
-        if(currentBuffTime > playerData.GetMaxBuffTime())
+        if (currentBuffTime > playerData.GetMaxBuffTime())
         {
             currentBuffTime = playerData.GetMaxBuffTime();
         }
         playerStatusView.SetBuff(1);
     }
+
+    #region get, set
+    public float GetRecovery()
+    {
+        return recovery;
+    }
+    public float GetJumpCount()
+    {
+        return jumpCount;
+    }
+    public float GetJumpPower()
+    {
+        return jumpPower;
+    }
+
+    public void SetAttackMulty_Result(int multyAttack, bool multy)
+    {
+        if (multy)
+        {
+            attack_Result = attack * multyAttack;
+        }
+        else
+        {
+            attack_Result = attack / multyAttack;
+            if(attack_Result < 1)
+            {
+                attack_Result = 1;
+            }
+        }
+    }
+    public void SetAttackAdd_Result(int addAttack, bool add)
+    {
+        if (add)
+        {
+            attack_Result = attack + addAttack;
+        }
+        else
+        {
+            attack_Result = attack - addAttack;
+            if (attack_Result < 1)
+            {
+                attack_Result = 1;
+            }
+        }
+    }
+    public void SetMoveSpeed_Result(int multyMoveSpeed, bool multy)
+    {
+        if (multy)
+        {
+            moveSpeed_Result = moveSpeed * multyMoveSpeed;
+        }
+        else
+        {
+            moveSpeed_Result = moveSpeed / multyMoveSpeed;
+            if (moveSpeed_Result < 1)
+            {
+                moveSpeed_Result = 1;
+            }
+        }
+    }
+    public void SetDashDistance_Result(int multyDashDIstance, bool multy)
+    {
+        if (multy)
+        {
+            dashDistance_Result = dashDistance * multyDashDIstance;
+        }
+        else
+        {
+            dashDistance_Result = dashDistance / multyDashDIstance;
+            if (dashDistance_Result < 1)
+            {
+                dashDistance_Result = 1;
+            }
+        }
+    }
+
+    public int GetAttack_Result()
+    {
+        return attack_Result;
+    }
+    public float GetMoveSpeed_Result()
+    {
+        return moveSpeed_Result;
+    }
+    public float GetDashDistance_Result()
+    {
+        return dashDistance_Result;
+    }
+    #endregion
 }
