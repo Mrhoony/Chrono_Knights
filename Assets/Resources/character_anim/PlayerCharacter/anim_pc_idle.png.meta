@@ -64,7 +64,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -75,7 +75,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -95,14 +95,14 @@ TextureImporter:
         y: 0
         width: 102
         height: 59
-      alignment: 9
-      pivot: {x: 0.5392157, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e100275bb92a0d439495ca130d5cd08
+      spriteID: 46db5cef71526b149a069f543f805aaa
       vertices: []
       indices: 
       edges: []
@@ -115,14 +115,14 @@ TextureImporter:
         y: 0
         width: 102
         height: 59
-      alignment: 9
-      pivot: {x: 0.5392157, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86030585514c51641999df33bdf36faf
+      spriteID: 2bf5849113f0a034bb43632ce3cf6444
       vertices: []
       indices: 
       edges: []
@@ -134,15 +134,15 @@ TextureImporter:
         x: 609
         y: 0
         width: 102
-        height: 59
-      alignment: 9
-      pivot: {x: 0.5392157, y: 0.5}
+        height: 58
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f69614e3c4a9eb9438b38e689651e1cb
+      spriteID: 021a500465b231f40a590d4d0a6d14aa
       vertices: []
       indices: 
       edges: []
@@ -154,15 +154,15 @@ TextureImporter:
         x: 865
         y: 0
         width: 102
-        height: 59
-      alignment: 9
-      pivot: {x: 0.5392157, y: 0.5}
+        height: 58
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 58a08cc83efe7c14585bab21dd2aff0c
+      spriteID: d9e3db455c8684d4f8864f329f4d5250
       vertices: []
       indices: 
       edges: []

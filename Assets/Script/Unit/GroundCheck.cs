@@ -5,8 +5,6 @@ using UnityEngine;
 public class GroundCheck : MonoBehaviour
 {
     private GameObject parentObject;
-    private PlayerControl playerControl;
-    private Monster_Control monsterControl;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,8 +17,7 @@ public class GroundCheck : MonoBehaviour
         {
             if (parentObject.CompareTag("Player"))
             {
-                playerControl = parentObject.GetComponent<PlayerControl>();
-                playerControl.Landing();
+                parentObject.GetComponent<PlayerControl>().Landing();
             }
             else if (parentObject.CompareTag("Monster"))
             {

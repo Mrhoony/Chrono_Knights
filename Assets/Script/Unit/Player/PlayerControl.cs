@@ -16,8 +16,8 @@ public class PlayerControl : MovingObject
 
     private int inputArrow;
     private bool inputAttackX;
-    private bool inputAttackY;
-    private bool inputJump;
+    public bool inputAttackY;
+    public bool inputJump;
     private bool inputDodge;
     
     private Queue inputAttackList = new Queue();
@@ -31,7 +31,7 @@ public class PlayerControl : MovingObject
     private bool invincible;
     private float invincibleCount;
 
-    private int currentJumpCount;
+    public int currentJumpCount;
 
     private bool isBlock;
 
@@ -71,18 +71,9 @@ public class PlayerControl : MovingObject
                 invincible = false;
         }
 
-        if (Input.GetButtonDown("Fire1"))
-        {
-            inputAttackX = true;
-        }
-        if (Input.GetButtonDown("Fire2"))
-        {
-            inputAttackY = true;
-        }
-        if (Input.GetButtonUp("Fire2") && inputAttackY)
-        {
-            inputAttackY = false;
-        }
+        if (Input.GetButtonDown("Fire1") && !animator.GetBool("is_y_Atk")) inputAttackX = true;
+
+        if (Input.GetButtonUp("Fire2") && inputAttackY) inputAttackY = false;
         
         if (rb.velocity.y <= -0.5f)
         {
@@ -121,7 +112,8 @@ public class PlayerControl : MovingObject
         if (Input.GetButtonDown("Fire3") && dodgeCount <= 0) inputDodge = true;
 
         if (actionState == ActionState.IsAtk) return;             // notMove 가 아닐 때
-        
+
+        if (Input.GetButtonDown("Fire2")) inputAttackY = true;
         if (Input.GetButtonDown("Jump")) inputJump = true;
     }
     
@@ -133,10 +125,10 @@ public class PlayerControl : MovingObject
         animator.SetBool("is_xFx_Atk", false);
         animator.SetBool("is_xxx_Atk", false);
         animator.SetBool("is_xFxFx_Atk", false);
+        animator.SetBool("is_y_Atk", false);
         commandCount = 1;
         attackState = 1;
     }
-
     void RunCheck()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -205,7 +197,6 @@ public class PlayerControl : MovingObject
         if (inputAttackX)
         {
             inputAttackX = false;
-            if (inputAttackY) return;
 
             if (actionState == ActionState.IsJump)
             {
@@ -235,6 +226,7 @@ public class PlayerControl : MovingObject
         if (inputAttackY)
         {
             if (actionState == ActionState.IsJump) return;
+            actionState = ActionState.IsAtk;
 
             if (attackPattern != 0) inputAttackList.Clear();
 
@@ -284,28 +276,15 @@ public class PlayerControl : MovingObject
     {
         if (!inputJump) return;
         inputJump = false;
-
-        if (actionState == ActionState.IsAtk)
-        {
-            return;
-        }
-        if (currentJumpCount < 1 && actionState == ActionState.IsJump)
-        {
-            return;
-        }
-
+        if (currentJumpCount < 1) return;
+        --currentJumpCount;
         actionState = ActionState.IsJump;
-        rb.velocity = Vector2.zero;
 
         animator.SetTrigger("isJumpTrigger");
         animator.SetBool("isJump", true);
         GroundCheck.SetActive(false);
 
         rb.AddForce(new Vector2(0f, playerStatus.GetJumpPower()), ForceMode2D.Impulse);
-
-        --currentJumpCount;
-
-        //StartCoroutine(JumpIgnore(pStat.jumpPower * 0.1f));
     }
     void Dodge()
     {
@@ -350,10 +329,10 @@ public class PlayerControl : MovingObject
     }
     public void Landing()
     {
+        actionState = ActionState.Idle;
         animator.SetBool("isJump", false);
         animator.SetBool("isJump_x_Atk", false);
         animator.SetTrigger("isLanding");
-        actionState = ActionState.Idle;
         currentJumpCount = (int)playerStatus.GetJumpCount();
     }
     public void ParryingCheck()
@@ -386,6 +365,7 @@ public class PlayerControl : MovingObject
         attackLock = !attackLock;
         do
         {
+            actionState = ActionState.IsAtk;
             if (rb.velocity.x * rb.velocity.x > 0)
             {
                 rb.velocity = Vector2.zero;
@@ -393,7 +373,6 @@ public class PlayerControl : MovingObject
                 isRrun = 0;
                 isLrun = 0;
             }
-            actionState = ActionState.IsAtk;
             switch (inputAttackList.Dequeue())
             {
                 case 1:

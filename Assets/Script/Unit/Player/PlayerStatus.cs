@@ -44,6 +44,10 @@ public class PlayerStatus : MonoBehaviour
     {
         playerData = _playerData;
         playerEquip.Init();
+
+        SetMoveSpeed_Result(1, true);
+        SetAttackMulty_Result(1, true);
+        SetDashDistance_Result(1, true);
     }
 
     public void NewStart(PlayerData playerData)

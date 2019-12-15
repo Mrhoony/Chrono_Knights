@@ -161,7 +161,7 @@ public class DungeonManager : MonoBehaviour
          */
         FloorDatas = new FloorData[71];
         FloorDatas[0] = new FloorData(0, 0); // 0층, 안씀
-        for (int Floor = 1; Floor <= 71; Floor++)
+        for (int Floor = 1; Floor <= 70; Floor++)
         {
             FloorDatas[Floor] = new FloorData(Floor, Floor * 2);
         }

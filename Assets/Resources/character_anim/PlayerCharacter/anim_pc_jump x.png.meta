@@ -6,6 +6,9 @@ TextureImporter:
     21300002: anim_pc_jump x_1
     21300004: anim_pc_jump x_2
     21300006: anim_pc_jump x_3
+    21300008: anim_pc_jump x_2
+    21300010: anim_pc_jump x_3
+    21300012: anim_pc_jump x_9
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -64,7 +67,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -75,7 +78,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -91,18 +94,18 @@ TextureImporter:
       name: anim_pc_jump x_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 256
-        height: 128
+        x: 101
+        y: 43
+        width: 86
+        height: 85
       alignment: 9
-      pivot: {x: 0.61, y: 0.64}
+      pivot: {x: 0.5813953, y: 0.05882353}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7c24053a2c0889e468c80b5a01e547f4
+      spriteID: 40225fc07ca6a6344bf66d886a54be65
       vertices: []
       indices: 
       edges: []
@@ -111,18 +114,18 @@ TextureImporter:
       name: anim_pc_jump x_1
       rect:
         serializedVersion: 2
-        x: 256
-        y: 0
-        width: 256
-        height: 128
+        x: 346
+        y: 49
+        width: 102
+        height: 74
       alignment: 9
-      pivot: {x: 0.61, y: 0.64}
+      pivot: {x: 0.5392157, y: -0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f649eb34d36dd04db79a15a6a6bac1c
+      spriteID: 694bbd01e278dcc42a5416bf7b80f20d
       vertices: []
       indices: 
       edges: []
@@ -131,18 +134,18 @@ TextureImporter:
       name: anim_pc_jump x_2
       rect:
         serializedVersion: 2
-        x: 512
+        x: 602
         y: 0
-        width: 256
-        height: 128
+        width: 161
+        height: 112
       alignment: 9
-      pivot: {x: 0.61, y: 0.64}
+      pivot: {x: 0.35403728, y: 0.41964287}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7493b3db549af344dbbe329114a0cf6c
+      spriteID: c17b17a740826a74c9f56f9356b603bc
       vertices: []
       indices: 
       edges: []
@@ -151,18 +154,18 @@ TextureImporter:
       name: anim_pc_jump x_3
       rect:
         serializedVersion: 2
-        x: 768
-        y: 0
-        width: 256
-        height: 128
+        x: 889
+        y: 33
+        width: 119
+        height: 81
       alignment: 9
-      pivot: {x: 0.61, y: 0.64}
+      pivot: {x: 0.21848741, y: 0.19753087}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c9144ae51980fb40bb1847497fc8eef
+      spriteID: 0e78617ee1255cf4782de696f087f144
       vertices: []
       indices: 
       edges: []
