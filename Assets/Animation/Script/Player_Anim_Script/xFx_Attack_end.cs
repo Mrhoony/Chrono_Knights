@@ -19,11 +19,11 @@ public class xFx_Attack_end : AnimatorManager
         }
         if (stateInfo.normalizedTime > 0.2f)
         {
-            playerControl.SetAttackState(3);
             if (!move)
             {
-                playerControl.DashAttackDistance(2f);
                 move = true;
+                playerControl.SetAttackState(3);
+                playerControl.DashAttackDistance(2f);
             }
         }
     }

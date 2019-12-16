@@ -13,6 +13,7 @@ public class PlayerControl : MovingObject
     private float runDelay;
     private int isRrun;
     private int isLrun;
+    private bool isFall;
 
     private int inputArrow;
     private bool inputAttackX;
@@ -25,9 +26,8 @@ public class PlayerControl : MovingObject
     private int commandCount;
     private int attackState;
     private int attackPattern;
-
-    private float parryingCount;
-    private float dodgeCount;
+    
+    private bool dodgable;
     private bool invincible;
     private float invincibleCount;
 
@@ -54,51 +54,36 @@ public class PlayerControl : MovingObject
     {
         currentJumpCount = (int)playerStatus.GetJumpCount();
         arrowDirection = 1;
-        dodgeCount = 0.5f;
-        parryingCount = 0.2f;
         commandCount = 1;
         attackState = 1;
+        isFall = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // 무적 시간
-        if (invincibleCount > 0)
-        {
-            invincibleCount -= Time.deltaTime;
-            if (invincibleCount <= 0)
-                invincible = false;
-        }
-
         if (Input.GetButtonDown("Fire1") && !animator.GetBool("is_y_Atk")) inputAttackX = true;
-
         if (Input.GetButtonUp("Fire2") && inputAttackY) inputAttackY = false;
         
-        if (rb.velocity.y <= -0.5f)
-        {
-            GroundCheck.SetActive(true);
-        }
-
         if (actionState == ActionState.NotMove) return;             // notMove 가 아닐 때
 
         inputDirection = Input.GetAxisRaw("Horizontal");
-        
+
+        // 낙하 체크
+        if (rb.velocity.y <= -0.5f)
+        {
+            if (!isFall)
+            {
+                isFall = true;
+                animator.SetTrigger("isFall");
+            }
+            GroundCheck.SetActive(true);
+        }
+
         // 대쉬 딜레이
         RunCheck();
-
-        // 회피
-        if (dodgeCount > 0) dodgeCount -= Time.deltaTime;
-
-        if (actionState == ActionState.IsParrying)
-        {
-            parryingCount -= Time.deltaTime;
-            if (parryingCount < 0f)
-            {
-                actionState = ActionState.Idle;
-                parryingCount = 0.2f;
-            }
-        }
+        
+        if (actionState == ActionState.IsParrying) StartCoroutine(ParryingCount());
 
         if (Input.GetKey(KeyCode.UpArrow))
             inputArrow = 30;
@@ -109,12 +94,27 @@ public class PlayerControl : MovingObject
         else
             inputArrow = 0;
 
-        if (Input.GetButtonDown("Fire3") && dodgeCount <= 0) inputDodge = true;
+        if (Input.GetButtonDown("Fire3") && dodgable) inputDodge = true;
 
-        if (actionState == ActionState.IsAtk) return;             // notMove 가 아닐 때
+        if (actionState == ActionState.IsAtk) return;
 
         if (Input.GetButtonDown("Fire2")) inputAttackY = true;
         if (Input.GetButtonDown("Jump")) inputJump = true;
+    }
+    IEnumerator InvincibleCount()
+    {
+        yield return new WaitForSeconds(3f);
+        invincible = false;
+    }
+    IEnumerator ParryingCount()
+    {
+        yield return new WaitForSeconds(0.2f);
+        actionState = ActionState.Idle;
+    }
+    IEnumerator DodgeCount()
+    {
+        yield return new WaitForSeconds(0.5f);
+        dodgable = true;
     }
     
     public void InputInit()
@@ -197,9 +197,9 @@ public class PlayerControl : MovingObject
         if (inputAttackX)
         {
             inputAttackX = false;
-
             if (actionState == ActionState.IsJump)
             {
+                isFall = false;
                 inputAttackList.Enqueue(inputArrow + 6);
                 if (!attackLock)
                     StartCoroutine(AttackList());
@@ -208,6 +208,7 @@ public class PlayerControl : MovingObject
             {
                 if (commandCount <= attackState)
                 {
+                    animator.SetBool("isWalk", false);
                     actionState = ActionState.IsAtk;
                     inputAttackList.Enqueue(inputArrow + commandCount);
                     ++commandCount;
@@ -226,6 +227,7 @@ public class PlayerControl : MovingObject
         if (inputAttackY)
         {
             if (actionState == ActionState.IsJump) return;
+            animator.SetBool("isWalk", false);
             actionState = ActionState.IsAtk;
 
             if (attackPattern != 0) inputAttackList.Clear();
@@ -289,22 +291,25 @@ public class PlayerControl : MovingObject
     void Dodge()
     {
         if (!inputDodge) return;
-
         inputDodge = false;
+
         actionState = ActionState.NotMove;
+        rb.velocity = Vector2.zero;
+
 
         GroundCheck.SetActive(false);
         StartCoroutine(DodgeIgnore(0.5f));
 
         animator.SetTrigger("isDodge");
-        rb.velocity = Vector2.zero;
         if (inputDirection != arrowDirection)
             rb.AddForce(new Vector2(-arrowDirection * 4f, 5f), ForceMode2D.Impulse);
         else
             rb.AddForce(new Vector2(arrowDirection * 4f, 5f), ForceMode2D.Impulse);
-        dodgeCount = 0.5f;
-        
+        dodgable = false;
         invincible = true;
+
+        StartCoroutine(DodgeCount());
+        StartCoroutine(InvincibleCount());
     }
 
     public void Hit(int attack)
@@ -319,11 +324,12 @@ public class PlayerControl : MovingObject
         else
         {
             actionState = ActionState.NotMove;
-            animator.SetTrigger("isHit");
-            invincible = true;
-            invincibleCount = 1f;
 
             playerStatus.DecreaseHP(attack);
+            animator.SetTrigger("isHit");
+            invincible = true;
+            StartCoroutine(InvincibleCount());
+
             actionState = ActionState.Idle;
         }
     }
@@ -333,6 +339,7 @@ public class PlayerControl : MovingObject
         animator.SetBool("isJump", false);
         animator.SetBool("isJump_x_Atk", false);
         animator.SetTrigger("isLanding");
+        isFall = false;
         currentJumpCount = (int)playerStatus.GetJumpCount();
     }
     public void ParryingCheck()
@@ -357,7 +364,7 @@ public class PlayerControl : MovingObject
     }
     public void DashAttackDistance(float dashDistanceMulty)
     {
-        rb.velocity = new Vector2(dashDistanceMulty * arrowDirection, rb.velocity.y);
+        rb.velocity = new Vector2(dashDistanceMulty * playerStatus.GetDashDistance_Result() * arrowDirection, rb.velocity.y);
     }
     
     IEnumerator AttackList()

@@ -22,7 +22,7 @@ public class xFxFx_Attack_end : AnimatorManager
         {
             if (!move)
             {
-                playerControl.DashAttackDistance(4f);
+                playerControl.DashAttackDistance(3f);
                 move = true;
             }
         }
