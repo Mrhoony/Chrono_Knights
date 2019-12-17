@@ -7,6 +7,7 @@ public enum ItemType
     Number, ReturnTown, ReturnPreFloor, FreePassNextFloor, FreePassThisFloor, BossFloor, RepeatThisFloor
 }
 
+[System.Serializable]
 public class Key
 {
     public ItemType Type;

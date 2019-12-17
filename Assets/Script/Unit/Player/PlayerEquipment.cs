@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class PlayerEquipment
 {
+    [Serializable]
     public struct Equipment
     {
         private string _name;

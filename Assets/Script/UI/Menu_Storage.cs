@@ -10,22 +10,22 @@ public class Menu_Storage : MonoBehaviour
     public GameObject slots;
     public GameObject[] slot;
 
-    private Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
+    public Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
 
-    private Transform[] transforms;
-    private int slotCount;
-    private bool onStorage;
-    private bool upgradeItem;               // 아이템 강화 사용할 때
+    public Transform[] transforms;
+    public int slotCount;
+    public bool onStorage;
+    public bool upgradeItem;               // 아이템 강화 사용할 때
 
     // 창고 슬롯
-    private int availableSlot;       // 사용 가능한 슬롯 수
-    private int boxFull;
-    private int boxNum;              // 창고 번호 (*24)
+    public int availableSlot;       // 사용 가능한 슬롯 수
+    public int boxFull;
+    public int boxNum;              // 창고 번호 (*24)
 
     // 한 슬롯 변수
-    private int focus;
+    public int focus;
     private Key[] storageKeyList;
-    private bool[] isFull;
+    public bool[] isFull;
     public bool[] isSelected;       // 선택된 슬롯
     public int selectSlotNum;         // 선택된 슬롯 번호
     public int[] selectedSlot;      // 선택된 슬롯 번호 목록
@@ -36,30 +36,30 @@ public class Menu_Storage : MonoBehaviour
     private void Awake()
     {
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
-
         transforms = slots.transform.GetComponentsInChildren<Transform>();
-        menu = GameObject.Find("UI").GetComponent<CanvasManager>();
-        inventory = menu.Menus[0].GetComponent<Menu_Inventory>();
         slotCount = transforms.Length - 1;
 
         slot = new GameObject[slotCount];
         isFull = new bool[72];
         isSelected = new bool[72];
-
-        onStorage = false;
-
+        
         for (int i = 1; i < slotCount + 1; ++i)
         {
             slot[i - 1] = transforms[i].gameObject;
             slot[i - 1].transform.GetChild(1).gameObject.SetActive(true);
         }
 
+        Init();
+    }
+
+    public void Init()
+    {
+        Debug.Log("Init");
         for (int i = 0; i < 72; ++i)
         {
             isFull[i] = false;
         }
-
-        selectedSlot = new int[inventory.GetTakeItemSlot()];
+        onStorage = false;
     }
 
     public void Update()

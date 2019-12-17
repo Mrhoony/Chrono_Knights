@@ -8,9 +8,8 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-
-    public GameObject mainMenu;
-    private CanvasManager canvasManager;
+    
+    public GameObject startButton;
     public GameObject player;
     public PlayerStatus playerStat;
     public GameObject playerStatView;
@@ -24,11 +23,11 @@ public class GameManager : MonoBehaviour
 
     BinaryFormatter bf;
     MemoryStream ms;
-    private int focus;
-    private int slotNum;
-    private string data;
+    public int focus;
+    public int slotNum;
+    public string data;
 
-    private bool openSaveSlot;
+    public bool openSaveSlot;
     public bool gameStart;
     #endregion
 
@@ -74,8 +73,8 @@ public class GameManager : MonoBehaviour
 
         gameStart = false;
 
-        slotNum = 0;
         focus = 0;
+        slotNum = 1;
     }
 
     public void Update()
@@ -88,13 +87,20 @@ public class GameManager : MonoBehaviour
         {
             if (DungeonManager.instance.useTeleportSystem == 9)
             {
-                if (!openSaveSlot)
+                if (gameStart)
                 {
-                    OpenLoad();
+                    SaveGame();
                 }
                 else
                 {
-                    LoadGame();
+                    if (!openSaveSlot)
+                    {
+                        OpenLoad();
+                    }
+                    else
+                    {
+                        LoadGame();
+                    }
                 }
             }
         }
@@ -123,6 +129,8 @@ public class GameManager : MonoBehaviour
         else if (focus + AdjustValue > 2) focus = 0;
         else focus += AdjustValue;
 
+        slotNum = focus + 1;
+
         saveSlot[focus].GetComponent<Image>().color = new Color(255, 255, 255, 100);
     }
     public void SelectSlot(int _slotNum)
@@ -139,14 +147,19 @@ public class GameManager : MonoBehaviour
         dataBase.playerData = playerStat.playerData;
         dataBase.SaveCurrentDate(DungeonManager.instance.currentDate);
         storage.SaveStorageData(dataBase);
+        storage.Init();
         inventory.SaveInventoryData(dataBase);
+        inventory.Init();
 
         bf.Serialize(ms, dataBase);
         data = Convert.ToBase64String(ms.GetBuffer());
 
         PlayerPrefs.SetString("SaveSlot" + slotNum, data);
 
-        canvanManager.GetComponent<CanvasManager>().CloseCancelMenu();
+        Debug.Log("Save");
+
+        gameStart = false;
+        startButton.SetActive(true);
     }
     public void LoadGame()
     {
@@ -177,9 +190,11 @@ public class GameManager : MonoBehaviour
         }
         CloseLoad();
 
+        Debug.Log("Load");
+
         canvanManager.inGameMenu.SetActive(true);
         playerStatView.SetActive(true);
-        mainMenu.SetActive(false);
+        startButton.SetActive(false);
         gameStart = true;
 
         player.GetComponent<PlayerControl>().enabled = true;
@@ -188,8 +203,8 @@ public class GameManager : MonoBehaviour
     
     public void DeleteSave()
     {
-        if(PlayerPrefs.HasKey("PlayerData" + slotNum))
-            PlayerPrefs.DeleteKey("PlayerData" + slotNum);
+        if(PlayerPrefs.HasKey("SaveSlot" + slotNum))
+            PlayerPrefs.DeleteKey("SaveSlot" + slotNum);
     }
 
     public void OpenLoad()
@@ -228,14 +243,14 @@ public class GameManager : MonoBehaviour
         bf.Serialize(ms, systemData);
         data = Convert.ToBase64String(ms.GetBuffer());
 
-        PlayerPrefs.SetString("SystemData", data);
+        PlayerPrefs.SetString("SystemData" + slotNum.ToString(), data);
         Debug.Log("save complete");
     }
     public void SettingSet()
     {
-        if (PlayerPrefs.HasKey("SystemData" + slotNum))
+        if (PlayerPrefs.HasKey("SystemData" + slotNum.ToString()))
         {
-            data = PlayerPrefs.GetString("SystemData", null);
+            data = PlayerPrefs.GetString("SystemData" + slotNum.ToString(), null);
 
             if (!string.IsNullOrEmpty(data))
             {

@@ -50,7 +50,7 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     void Update()
     {
         // 체력바 갱신
-        HPBar.fillAmount = playerStatus.currentHP / playerStatus.playerData.GetStatus(6);
+        HPBar.fillAmount = playerStatus.currentHP / playerStatus.playerData.GetStatus((int)PlayerStat.HP);
         buffBar.fillAmount = playerStatus.currentBuffTime / playerStatus.playerData.GetMaxBuffTime();
 
         // 맞은 횟수 비례 최대 흔들리는 각도

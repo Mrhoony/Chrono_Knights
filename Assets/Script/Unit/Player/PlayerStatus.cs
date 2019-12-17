@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerStat
+{
+    attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount, HP, jumpPower
+}
+
 public class PlayerStatus : MonoBehaviour
 {
     MainUI_PlayerStatusView playerStatusView;
@@ -16,19 +21,19 @@ public class PlayerStatus : MonoBehaviour
     public float currentBuffTime;   // 현재 버프량
     public int buffState;
 
-    private float jumpPower;
+    public float jumpPower;
 
-    private float moveSpeed;     // 이동 속도
-    private int attack;  // 공격력
-    private float attackSpeed;
-    private int jumpCount;
-    private int defense;     // 안정성(방어력)
-    private float recovery;      // 회복력
-    private float dashDistance;  // 대시거리
+    public float moveSpeed;     // 이동 속도
+    public int attack;  // 공격력
+    public float attackSpeed;
+    public int jumpCount;
+    public int defense;     // 안정성(방어력)
+    public float recovery;      // 회복력
+    public float dashDistance;  // 대시거리
 
-    private float moveSpeed_Result;
-    private int attack_Result;
-    private float dashDistance_Result;
+    public float moveSpeed_Result;
+    public int attack_Result;
+    public float dashDistance_Result;
 
 
     float[] traningStat;

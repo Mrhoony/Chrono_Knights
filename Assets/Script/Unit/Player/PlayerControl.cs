@@ -7,33 +7,33 @@ public class PlayerControl : MovingObject
     public static PlayerControl instance;
     public GameObject GroundCheck;
     public PlayerStatus playerStatus;
-    
-    private float inputDirection;
-    
-    private float runDelay;
-    private int isRrun;
-    private int isLrun;
-    private bool isFall;
 
-    private int inputArrow;
-    private bool inputAttackX;
+    public float inputDirection;
+
+    public float runDelay;
+    public int isRrun;
+    public int isLrun;
+    public bool isFall;
+
+    public int inputArrow;
+    public bool inputAttackX;
     public bool inputAttackY;
     public bool inputJump;
-    private bool inputDodge;
-    
-    private Queue inputAttackList = new Queue();
-    private bool attackLock;
-    private int commandCount;
-    private int attackState;
-    private int attackPattern;
-    
-    private bool dodgable;
-    private bool invincible;
-    private float invincibleCount;
+    public bool inputDodge;
+
+    public Queue inputAttackList = new Queue();
+    public bool attackLock;
+    public int commandCount;
+    public int attackState;
+    public int attackPattern;
+
+    public bool dodgable;
+    public bool invincible;
+    public float invincibleCount;
 
     public int currentJumpCount;
 
-    private bool isBlock;
+    public bool isBlock;
 
     private void Awake()
     {

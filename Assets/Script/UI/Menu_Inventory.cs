@@ -6,9 +6,8 @@ using UnityEngine.UI;
 public class Menu_Inventory : MonoBehaviour
 {
     // 초기화 영역
-    public GameObject player;
     public GameObject slots;
-    private Menu_Storage storage;
+    public Menu_Storage storage;
 
     private Transform[] transforms;
     private GameObject[] slot;           // 인벤토리 슬롯
@@ -30,10 +29,10 @@ public class Menu_Inventory : MonoBehaviour
 
     private void Awake()
     {
-        storage = GameObject.Find("UI/InGameMenu/Storage").GetComponent<Menu_Storage>();
+        keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
+
         transforms = slots.transform.GetComponentsInChildren<Transform>();
         slotCount = transforms.Length-1;
-        keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
 
         slot = new GameObject[slotCount];
         isFull = new bool[slotCount];
@@ -43,7 +42,17 @@ public class Menu_Inventory : MonoBehaviour
         {
             slot[i - 1] = transforms[i].gameObject;
             slot[i - 1].transform.GetChild(1).gameObject.SetActive(true);
-            isFull[i - 1] = false;
+        }
+        Init();
+    }
+
+    public void Init()
+    {
+        Debug.Log("Init");
+        for (int i = 0; i < slotCount; ++i)
+        {
+            inventoryItemList[i] = null;
+            isFull[i] = false;
         }
         isInventoryOn = false;
         seletedItemCount = 0;
@@ -51,6 +60,7 @@ public class Menu_Inventory : MonoBehaviour
         availableSlot = 6;
         inventoryItemCount = 0;
     }
+
     private void Update()
     {
         if (!isInventoryOn) return;
