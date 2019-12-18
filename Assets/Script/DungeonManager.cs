@@ -377,7 +377,7 @@ public class DungeonManager : MonoBehaviour
         {
             // 초기 맵 랜덤 선택
             mapList[selectedMapNum].GetComponent<BackgroundScrolling>().backGroundImage.transform.position
-                = new Vector2(player.transform.position.x + Random.Range(-3f, 3f), player.transform.position.y + Random.Range(-2f, 2f) - currentStage * 0.2f);
+                = entrance + new Vector2(Random.Range(-0.5f, 0.5f), -(currentStage * 0.2f));
             
             // (임시)하나만 클리어 해도 마을로
             if (currentStage > 0)

@@ -61,8 +61,11 @@ public class PlayerControl : MovingObject
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1") && !animator.GetBool("is_y_Atk")) inputAttackX = true;
-        if (Input.GetButtonUp("Fire2") && inputAttackY) inputAttackY = false;
+        if(weaponType == 0)
+        {
+            if (Input.GetButtonDown("Fire1") && !animator.GetBool("is_y_Atk")) inputAttackX = true;
+            if (Input.GetButtonUp("Fire2") && inputAttackY) inputAttackY = false;
+        }
 
         if (actionState == ActionState.NotMove) return;             // notMove 가 아닐 때
 
