@@ -43,10 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c6661363860624bbb18fab6e358b97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenu: {fileID: 0}
+  startButton: {fileID: 0}
   player: {fileID: 0}
   playerStat: {fileID: 0}
   playerStatView: {fileID: 0}
+  bedBlind: {fileID: 0}
   dataBase: {}
   canvanManager: {fileID: 0}
   storage: {fileID: 0}
@@ -55,6 +56,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  focus: 0
+  slotNum: 0
+  data: 
   openSaveSlot: 0
   gameStart: 0
   screenSize:

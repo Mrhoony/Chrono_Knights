@@ -29,10 +29,10 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
         equipment = playerEquipment.equipment;
         for (int i = 0; i < 7; ++i)
         {
-            if (equipment[i].key != null)
+            if (equipment[i].itemCode != 0)
             {
-                equipmentSlot[i].GetComponent<Image>().sprite = equipment[i].key.sprite;
-                equipmentSlot[i].transform.GetChild(0).GetComponent<Image>().sprite = equipmentBorder[equipment[i].key.keyRarity];
+                equipmentSlot[i].GetComponent<Image>().sprite = Item_Database.instance.GetItem(equipment[i].itemCode).sprite;
+                equipmentSlot[i].transform.GetChild(0).GetComponent<Image>().sprite = equipmentBorder[Item_Database.instance.GetItem(equipment[i].itemCode).keyRarity];
             }
             else
             {

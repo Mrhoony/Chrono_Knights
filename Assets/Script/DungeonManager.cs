@@ -23,23 +23,7 @@ public class MarkerVariable
     public MarkerVariableNumber markerVariableNumber;
     public int[] markerVariable = new int[12];
     public int[] markerPreVariable = new int[12];
-
-    /*
-    public int MonsterModifier;
-    public int DropModifier;
-    public int SpecialMonster;
-    public float DamageBuffOnFloorModifier;
-    public float DamageBuffOnMonsterModifier;
-    public float DamageBuffOnPlayerModifier;
-
-    public float PosHPOnMonsterModifier;
-    public float NegHPOnMonsterModifier;
-    public float PosDashSpeedOnPlayerModifier;
-    public float NegDashSpeedOnPlayerModifier;
-    public float PosDamageOnPlayerModifier;
-    public float NegDamageOnPlayerModifier;
-    */
-
+    
     public void Reset() // 던전 초기화 시 실행필수
     {
         markerVariable[0] = 1;
@@ -145,8 +129,10 @@ public class DungeonManager : MonoBehaviour
             instance = this;
         }
         else
+        {
             Destroy(gameObject);
-
+            return;
+        }
         camera = CameraManager.instance;
         playerStatus = player.GetComponent<PlayerStatus>();
         menu = GameObject.Find("UI").GetComponent<CanvasManager>();
@@ -199,7 +185,7 @@ public class DungeonManager : MonoBehaviour
                 }
                 else if (useTeleportSystem == 1)    // 캐릭터가 숲 입구 (임시 던전 입구)에 있을 경우 숲(던전)으로 간다
                 {
-                    menu.GetComponent<CanvasManager>().Menus[0].GetComponent<Menu_Inventory>().DeleteStorageItem();
+                    menu.Menus[0].GetComponent<Menu_Inventory>().DeleteStorageItem();
                     SectionTeleport(false, false);
                 }
             }
@@ -240,7 +226,7 @@ public class DungeonManager : MonoBehaviour
                     }
                     else                    // 키를 안쓴경우 반응x (임시)집으로
                     {
-                        menu.GetComponent<CanvasManager>().Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
+                        menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
                         ReturnToTown();
                         ComeBackHome();
                     }

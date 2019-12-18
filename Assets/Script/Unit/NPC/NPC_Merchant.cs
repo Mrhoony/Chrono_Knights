@@ -21,12 +21,4 @@ public class NPC_Merchant : NPC_Control
             }
         }
     }
-
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.CompareTag("Player"))
-        {
-            inPlayer = true;
-        }
-    }
 }

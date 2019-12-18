@@ -19,14 +19,14 @@ public class x_Attack_end : AnimatorManager
         }
         if(stateInfo.normalizedTime > 0.3f)
         {
-            playerControl.SetAttackState(2);
+            playerControl.gameObject.GetComponent<Weapon_Spear>().SetAttackState(2);
         }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        playerControl.AttackMotionCheck();
+        playerControl.gameObject.GetComponent<Weapon_Spear>().AttackMotionCheck();
         Init();
     }
 

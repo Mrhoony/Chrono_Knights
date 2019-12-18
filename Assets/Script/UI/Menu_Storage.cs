@@ -24,7 +24,8 @@ public class Menu_Storage : MonoBehaviour
 
     // 한 슬롯 변수
     public int focus;
-    private Key[] storageKeyList;
+    private Key[] storageItemList;
+    public int[] storageItemCodeList;
     public bool[] isFull;
     public bool[] isSelected;       // 선택된 슬롯
     public int selectSlotNum;         // 선택된 슬롯 번호
@@ -33,31 +34,29 @@ public class Menu_Storage : MonoBehaviour
     public int selectedItemCount;
     public int takeItemCount;
     
-    private void Awake()
+    public void Init()
     {
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
         transforms = slots.transform.GetComponentsInChildren<Transform>();
         slotCount = transforms.Length - 1;
 
-        slot = new GameObject[slotCount];
-        isFull = new bool[72];
-        isSelected = new bool[72];
-        
+        Debug.Log("storageInit");
+        slot = new GameObject[72];
         for (int i = 1; i < slotCount + 1; ++i)
         {
             slot[i - 1] = transforms[i].gameObject;
             slot[i - 1].transform.GetChild(1).gameObject.SetActive(true);
         }
-
-        Init();
-    }
-
-    public void Init()
-    {
-        Debug.Log("Init");
+        storageItemList = new Key[72];
+        storageItemCodeList = new int[72];
+        isFull = new bool[72];
+        isSelected = new bool[72];
         for (int i = 0; i < 72; ++i)
         {
+            storageItemList[i] = null;
+            storageItemCodeList[i] = 0;
             isFull[i] = false;
+            isSelected[i] = false;
         }
         onStorage = false;
     }
@@ -77,7 +76,7 @@ public class Menu_Storage : MonoBehaviour
         {
             if (upgradeItem)
             {
-                if (storageKeyList[focus] != null)
+                if (storageItemList[focus].keyCode != 0)
                 {
                     upgradeItem = false;
                     CloseStorageWithUpgrade(true);
@@ -85,7 +84,7 @@ public class Menu_Storage : MonoBehaviour
             }
             else
             {
-                if (storageKeyList[focus] == null) return;
+                if (storageItemList[focus].keyCode == 0) return;
                 
                 if (!isSelected[focus])
                 {
@@ -135,14 +134,13 @@ public class Menu_Storage : MonoBehaviour
         {
             boxFull = availableSlot - (boxNum * 24);
         }
-
         for (int i = boxNum * 24; i < boxFull; ++i)
         {
-            if (storageKeyList[i] != null)
+            if (storageItemList[i] != null)
             {
                 isFull[i] = true;
-                slot[i - (boxNum * 24)].GetComponent<Image>().sprite = storageKeyList[i].sprite;
-                slot[i - (boxNum * 24)].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[11 - storageKeyList[i].keyRarity];
+                slot[i - (boxNum * 24)].GetComponent<Image>().sprite = storageItemList[i].sprite;
+                slot[i - (boxNum * 24)].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[11 - storageItemList[i].keyRarity];
                 if (isSelected[i])
                     slot[i - (boxNum * 24)].transform.GetChild(2).gameObject.SetActive(true);
             }
@@ -159,20 +157,22 @@ public class Menu_Storage : MonoBehaviour
             slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[7];
         }
     }
+
     public void PutInBox(Key[] key)
     {
+        Debug.Log("putInBoxStorage");
         int i;
         for (i = 0; i < availableSlot; ++i)
         {
-            if (storageKeyList[i] == null)
-                break;
-        }
-        for(int j = 0; j < key.Length; ++j)
-        {
-            if(i < availableSlot)
+            if (storageItemList[i] != null) continue;
+
+            for (int j = 0; j < key.Length; ++j)
             {
-                storageKeyList[i] = key[j];
-                ++i;
+                if (i < availableSlot)
+                {
+                    storageItemList[i] = key[j];
+                    ++i;
+                }
             }
         }
     }
@@ -262,7 +262,7 @@ public class Menu_Storage : MonoBehaviour
         {
             if (selectedSlot[i] > availableSlot) return;
 
-            storageKeyList[selectedSlot[i]] = null;
+            storageItemList[selectedSlot[i]] = null;
             isFull[selectedSlot[i]] = false;
             isSelected[selectedSlot[i]] = false;
             slot[selectedSlot[i]].transform.GetChild(2).gameObject.SetActive(false);
@@ -273,15 +273,15 @@ public class Menu_Storage : MonoBehaviour
 
     public Key GetSelectStorageItem(int _focus)
     {
-        return storageKeyList[selectedSlot[_focus]];
+        return storageItemList[selectedSlot[_focus]];
     }
     public Key GetStorageItem(int _focus)
     {
-        return storageKeyList[_focus];
+        return storageItemList[_focus];
     }
     public void EnchantedKey(int _focus)        // 인챈트, 업그레이드 성공시 아이템 창고에서 제거
     {
-        storageKeyList[_focus] = null;
+        storageItemList[_focus] = null;
         int count = selectedSlot.Length;
         
         if (isSelected[_focus])      // 인벤토리 선택된 아이템 제거
@@ -299,24 +299,25 @@ public class Menu_Storage : MonoBehaviour
         inventory.SetSelectedItemCount(selectedItemCount);
         inventory.SetInventoryItemList();
     }
+
     public void StorageSlotSort(int _focus)
     {
-        for (int i = _focus; i < availableSlot-1; ++i)
+        for (int i = _focus; i < availableSlot - 1; ++i)
         {
             for (int j = 1; j < availableSlot - i; ++j)
             {
-                if (storageKeyList[i] != null) break;
+                if (storageItemList[i] == null) break;
 
-                if (storageKeyList[i + j] != null)
+                if (storageItemList[i+j] != null)
                 {
-                    storageKeyList[i] = storageKeyList[i + j];
+                    storageItemList[i] = storageItemList[i + j];
                     isFull[i] = isFull[i + j];
                     isSelected[i] = isSelected[i + j];
                     slot[i].transform.GetChild(2).gameObject.SetActive(slot[i + j].transform.GetChild(2).gameObject.activeInHierarchy);
                     
                     if (i + j != availableSlot)
                     {
-                        storageKeyList[i + j] = null;
+                        storageItemList[i + j] = null;
                         isFull[i + j] = false;
                         isSelected[i + j] = false;
                         slot[i + j].transform.GetChild(2).gameObject.SetActive(false);
@@ -327,15 +328,44 @@ public class Menu_Storage : MonoBehaviour
         }
     }
     
-    public void LoadStorageData(Key[] _key, int _availableSlot)
+    public void LoadStorageData(int[] _keyCode, int _availableSlot)
     {
-        storageKeyList = _key;
-        // 키 입력 받아서 창고 초기화 함수 추가
+        storageItemCodeList = _keyCode;
         availableSlot = _availableSlot;
+
+        for (int i = 0; i < 72; ++i)
+        {
+            storageItemList[i] = null;
+            storageItemCodeList[i] = 0;
+            isFull[i] = false;
+            isSelected[i] = false;
+        }
+
+        for (int i = 0; i < availableSlot; ++i)
+        {
+            if (Item_Database.instance.GetItem(storageItemCodeList[i]) == null) continue;
+            storageItemList[i] = Item_Database.instance.GetItem(storageItemCodeList[i]);
+        }
     }
     public void SaveStorageData(DataBase db)
     {
-        db.SaveStorageData(storageKeyList, availableSlot);
+        for (int i = 0; i < availableSlot; ++i)
+        {
+            if (storageItemList[i] == null)
+            {
+                storageItemCodeList[i] = 0;
+                continue;
+            }
+            storageItemCodeList[i] = storageItemList[i].keyCode;
+        }
+        db.SaveStorageData(storageItemCodeList, availableSlot);
+        for (int i = 0; i < 72; ++i)
+        {
+            storageItemList[i] = null;
+            storageItemCodeList[i] = 0;
+            isFull[i] = false;
+            isSelected[i] = false;
+        }
     }
 
     void FocusedSlot(int AdjustValue)

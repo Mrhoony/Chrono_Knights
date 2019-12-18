@@ -13,6 +13,7 @@ public class Teleport : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inPlayer = true;
+            collision.transform.GetChild(1).gameObject.SetActive(true);
             DungeonManager.instance.useTeleportSystem = useSystem;
         }
     }
@@ -22,6 +23,7 @@ public class Teleport : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inPlayer = false;
+            collision.transform.GetChild(1).gameObject.SetActive(false);
             DungeonManager.instance.useTeleportSystem = 10;
         }
     }

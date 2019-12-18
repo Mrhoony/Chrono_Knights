@@ -6645,6 +6645,17 @@ MonoBehaviour:
   inventory: {fileID: 82245446886466468}
   slots: {fileID: 1818763031507814095}
   slot: []
+  keyItemBorderSprite: []
+  transforms: []
+  slotCount: 0
+  onStorage: 0
+  upgradeItem: 0
+  availableSlot: 0
+  boxFull: 0
+  boxNum: 0
+  focus: 0
+  storageItemCodeList: 
+  isFull: 
   isSelected: 
   selectSlotNum: 0
   selectedSlot: 
@@ -10483,6 +10494,7 @@ MonoBehaviour:
   - {fileID: 82245447099281006}
   - {fileID: 82245446308750420}
   - {fileID: 82245446562029025}
+  equipment: []
 --- !u!1 &82245446670211034
 GameObject:
   m_ObjectHideFlags: 0
@@ -12353,7 +12365,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slots: {fileID: 82245445934220065}
   storage: {fileID: 82245446187993114}
+  slotCount: 0
+  availableSlot: 0
   inventoryItemCount: 0
+  seletedItemCount: 0
+  takeItemSlot: 0
+  isFull: 
+  isInventoryOn: 0
+  focused: 0
 --- !u!1 &82245446892198815
 GameObject:
   m_ObjectHideFlags: 0

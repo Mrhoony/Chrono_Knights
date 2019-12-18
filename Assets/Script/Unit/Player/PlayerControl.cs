@@ -7,26 +7,24 @@ public class PlayerControl : MovingObject
     public static PlayerControl instance;
     public GameObject GroundCheck;
     public PlayerStatus playerStatus;
+    public Weapon_Spear weaponSpear;
+
+    public int weaponType;
 
     public float inputDirection;
+
+    public int inputArrow;
+    public bool inputAttackX;
+    public bool inputAttackY;
 
     public float runDelay;
     public int isRrun;
     public int isLrun;
     public bool isFall;
-
-    public int inputArrow;
-    public bool inputAttackX;
-    public bool inputAttackY;
+    
     public bool inputJump;
     public bool inputDodge;
-
-    public Queue inputAttackList = new Queue();
-    public bool attackLock;
-    public int commandCount;
-    public int attackState;
-    public int attackPattern;
-
+    
     public bool dodgable;
     public bool invincible;
     public float invincibleCount;
@@ -48,14 +46,15 @@ public class PlayerControl : MovingObject
         rb = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponentInChildren<Animator>();
         playerStatus = GetComponent<PlayerStatus>();
+        weaponSpear = GetComponent<Weapon_Spear>();
+        weaponSpear.Init(animator, rb);
     }
 
     public void Start()
     {
         currentJumpCount = (int)playerStatus.GetJumpCount();
         arrowDirection = 1;
-        commandCount = 1;
-        attackState = 1;
+        weaponType = 0;
         isFall = false;
     }
 
@@ -64,7 +63,7 @@ public class PlayerControl : MovingObject
     {
         if (Input.GetButtonDown("Fire1") && !animator.GetBool("is_y_Atk")) inputAttackX = true;
         if (Input.GetButtonUp("Fire2") && inputAttackY) inputAttackY = false;
-        
+
         if (actionState == ActionState.NotMove) return;             // notMove 가 아닐 때
 
         inputDirection = Input.GetAxisRaw("Horizontal");
@@ -100,6 +99,18 @@ public class PlayerControl : MovingObject
 
         if (Input.GetButtonDown("Fire2")) inputAttackY = true;
         if (Input.GetButtonDown("Jump")) inputJump = true;
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            if(weaponType == 0)
+            {
+
+            }
+            else if (weaponType == 1)
+            {
+                weaponType = 0;
+                weaponSpear.enabled = false;
+            }
+        }
     }
     IEnumerator InvincibleCount()
     {
@@ -117,18 +128,7 @@ public class PlayerControl : MovingObject
         dodgable = true;
     }
     
-    public void InputInit()
-    {
-        inputAttackList.Clear();
-        animator.SetBool("is_x_Atk", false);
-        animator.SetBool("is_xx_Atk", false);
-        animator.SetBool("is_xFx_Atk", false);
-        animator.SetBool("is_xxx_Atk", false);
-        animator.SetBool("is_xFxFx_Atk", false);
-        animator.SetBool("is_y_Atk", false);
-        commandCount = 1;
-        attackState = 1;
-    }
+
     void RunCheck()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -172,8 +172,10 @@ public class PlayerControl : MovingObject
         if (actionState == ActionState.NotMove) return;
 
         Dodge();
-        AttackX();
-        AttackY();
+        if(weaponType == 0)
+        {
+            SpearAttack();
+        }
         
         if (actionState == ActionState.IsAtk) return;
 
@@ -192,60 +194,32 @@ public class PlayerControl : MovingObject
         Jump();
     }
 
-    void AttackX()
+    void SpearAttack()
     {
         if (inputAttackX)
         {
-            inputAttackX = false;
             if (actionState == ActionState.IsJump)
             {
+                weaponSpear.JumpAttackX(inputArrow);
                 isFall = false;
-                inputAttackList.Enqueue(inputArrow + 6);
-                if (!attackLock)
-                    StartCoroutine(AttackList());
             }
             else
             {
-                if (commandCount <= attackState)
-                {
-                    animator.SetBool("isWalk", false);
-                    actionState = ActionState.IsAtk;
-                    inputAttackList.Enqueue(inputArrow + commandCount);
-                    ++commandCount;
-
-                    if (!attackLock)
-                        StartCoroutine(AttackList());
-
-                    if (commandCount > 3)
-                        commandCount = 1;
-                }
+                weaponSpear.AttackX(inputArrow);
+                inputAttackX = false;
             }
+            actionState = ActionState.IsAtk;
         }
-    }
-    void AttackY()
-    {
         if (inputAttackY)
         {
-            if (actionState == ActionState.IsJump) return;
-            animator.SetBool("isWalk", false);
+            weaponSpear.AttackY(inputArrow);
             actionState = ActionState.IsAtk;
-
-            if (attackPattern != 0) inputAttackList.Clear();
-
-            inputAttackList.Enqueue(inputArrow + 5);
-            if (!attackLock)
-                StartCoroutine(AttackList());
         }
-        else
-        {
-            if (animator.GetBool("is_y_Atk"))
-            {
-                inputAttackList.Enqueue(0);
-                if (!attackLock)
-                    StartCoroutine(AttackList());
-            }
-        }
+
+        if (!inputAttackY)
+            weaponSpear.AttackYFinal();
     }
+
     void Move()
     {
         if (inputDirection != 0)
@@ -347,10 +321,6 @@ public class PlayerControl : MovingObject
         animator.SetBool("is_x_Atk", true);
         Debug.Log("parrying");
     }
-    public void PlayerMoveSet()
-    {
-        actionState = ActionState.Idle;
-    }
 
     IEnumerator DodgeIgnore(float time)
     {
@@ -366,125 +336,8 @@ public class PlayerControl : MovingObject
     {
         rb.velocity = new Vector2(dashDistanceMulty * playerStatus.GetDashDistance_Result() * arrowDirection, rb.velocity.y);
     }
-    
-    IEnumerator AttackList()
+    public void PlayerMoveSet()
     {
-        attackLock = !attackLock;
-        do
-        {
-            actionState = ActionState.IsAtk;
-            if (rb.velocity.x * rb.velocity.x > 0)
-            {
-                rb.velocity = Vector2.zero;
-                animator.SetBool("isRun", false);
-                isRrun = 0;
-                isLrun = 0;
-            }
-            switch (inputAttackList.Dequeue())
-            {
-                case 1:
-                case 11:
-                    attackPattern = 0;
-                    animator.SetBool("is_x_Atk", true);
-                    break;
-                case 31:
-                    animator.SetBool("is_x_Atk", true);
-                    break;
-                case 41:
-                    actionState = ActionState.IsParrying;
-                    animator.SetBool("is_x_Atk", true);
-                    break;
-                case 2:
-                    animator.SetBool("is_xx_Atk", true);
-                    break;
-                case 12:
-                    attackPattern = 1;
-                    animator.SetBool("is_xFx_Atk", true);
-                    break;
-                case 32:
-                    attackPattern = 2;
-                    animator.SetBool("is_xx_Atk", true);
-                    break;
-                case 3:
-                    if(attackPattern == 0)
-                    {
-                        animator.SetBool("is_xxx_Atk", true);
-                    }
-                    else if (attackPattern == 1)
-                    {
-                        animator.SetBool("is_xFxFx_Atk", true);
-                    }
-                    break;
-                case 13:
-                    if (attackPattern == 0)
-                    {
-                        animator.SetBool("is_xxx_Atk", true);
-                    }
-                    else if (attackPattern == 1)
-                    {
-                        animator.SetBool("is_xFxFx_Atk", true);
-                    }
-                    break;
-                case 33:
-                    if (attackPattern == 1)
-                    {
-                        animator.SetBool("is_xxx_Atk", true);
-                    }
-                    else
-                        animator.SetBool("is_xxx_Atk", true);
-                    break;
-                case 5:
-                    animator.SetBool("is_y_Atk", true);
-                    break;
-                case 15:
-                case 35:
-                case 45:
-                    animator.SetBool("is_y_Atk", true);
-                    break;
-                case 0:
-                    animator.SetBool("is_y_up_Atk", true);
-                    break;
-                case 6:
-                case 16:
-                case 36:
-                case 46:
-                    animator.SetBool("isJump_x_Atk", true);
-                    break;
-            }
-            yield return null;
-        } while (inputAttackList.Count > 0);
-        attackLock = !attackLock;
-    }
-
-    public void SetAttackState(int _attackState)
-    {
-        attackState = _attackState;
-    }
-    public void AttackMotionCheck()
-    {
-        if (attackPattern == 0)
-        {
-            if (!animator.GetBool("is_xx_Atk"))
-            {
-                InputInit();
-                PlayerMoveSet();
-            }
-        }
-        else if (attackPattern == 1)
-        {
-            if (!animator.GetBool("is_xFx_Atk"))
-            {
-                InputInit();
-                PlayerMoveSet();
-            }
-        }
-        else if (attackPattern == 2)
-        {
-            if (!animator.GetBool("is_xFx_Atk"))
-            {
-                InputInit();
-                PlayerMoveSet();
-            }
-        }
+        actionState = ActionState.Idle;
     }
 }

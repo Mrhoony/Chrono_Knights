@@ -16,7 +16,10 @@ public class Item_Database : MonoBehaviour
             instance = this;
         }
         else
+        {
             Destroy(gameObject);
+            return;
+        }
         InputKeyItem();
     }
 
@@ -29,12 +32,12 @@ public class Item_Database : MonoBehaviour
         keyItem.Add(new Key("유니크", 3, 3, 233, ItemType.Number, ""));
     }
 
-    public Key KeyInformation(Key key)
+    public Key GetItem(int _keyCode)
     {
         int i = 0;
         for (i = 0; i < keyItem.Count; i++)
         {
-            if (keyItem[i].keyCode == key.keyCode)
+            if (keyItem[i].keyCode == _keyCode)
             {
                 return keyItem[i];
             }

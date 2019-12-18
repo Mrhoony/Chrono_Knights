@@ -19,7 +19,7 @@ public class xx_Attack_end : AnimatorManager
         }
         if (stateInfo.normalizedTime > 0.1f)
         {
-            playerControl.SetAttackState(3);
+            playerControl.gameObject.GetComponent<Weapon_Spear>().SetAttackState(3);
             if (!move)
             {
                 playerControl.DashAttackDistance(2f);
@@ -33,7 +33,7 @@ public class xx_Attack_end : AnimatorManager
     {
         if (!animator.GetBool("is_xxx_Atk"))
         {
-            playerControl.InputInit();
+            playerControl.gameObject.GetComponent<Weapon_Spear>().InputInit();
             playerControl.PlayerMoveSet();
         }
         Init();

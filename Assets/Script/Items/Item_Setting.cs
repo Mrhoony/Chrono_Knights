@@ -7,7 +7,6 @@ public enum ItemType
     Number, ReturnTown, ReturnPreFloor, FreePassNextFloor, FreePassThisFloor, BossFloor, RepeatThisFloor
 }
 
-[System.Serializable]
 public class Key
 {
     public ItemType Type;
@@ -27,7 +26,8 @@ public class Key
         keyEffect = _keyEffect;
         keyRarity = _keyRarity;
         sprites = Resources.LoadAll<Sprite>("item/ItemIcon");
-        sprite = sprites[_keyCode];
+        keyCode = _keyCode;
+        sprite = sprites[keyCode];
         Description = _Description;
         switch (type)
         {

@@ -8,7 +8,7 @@ public class DataBase
 {
     public PlayerData playerData;
 
-    private Key[] storageKeyList;
+    private int[] storageItemCodeList;
     private int availableStorageSlot;
 
     private int takeKeySlot;
@@ -20,16 +20,16 @@ public class DataBase
     public DataBase()
     {
         playerData = new PlayerData();
-        storageKeyList = new Key[72];
+        storageItemCodeList = new int[72];
         availableStorageSlot = 36;
         takeKeySlot = 3;
         availableInventorySlot = 6;
         currentDate = 0;
     }
 
-    public Key[] GetStorageKeyList()
+    public int[] GetStorageItemCodeList()
     {
-        return storageKeyList;
+        return storageItemCodeList;
     }
     public int GetAvailableStorageSlot()
     {
@@ -52,9 +52,9 @@ public class DataBase
     {
         currentDate = _currentDate;
     }
-    public void SaveStorageData(Key[] _storageKeyList, int _availableStorageSLot)
+    public void SaveStorageData(int[] _storageKeyList, int _availableStorageSLot)
     {
-        storageKeyList = _storageKeyList;
+        storageItemCodeList = _storageKeyList;
         availableStorageSlot = _availableStorageSLot;
     }
     public void SaveInventoryData(int _takeKeySlot, int _availableInventorySlot)

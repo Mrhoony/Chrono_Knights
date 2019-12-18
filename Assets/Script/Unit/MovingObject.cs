@@ -2,6 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ActionState
+{
+    IsDead,
+    NotMove,
+    IsJump,
+    IsAtk,
+    IsParrying,
+    Idle
+}
+
 public class MovingObject : MonoBehaviour
 {
     protected Rigidbody2D rb;
@@ -12,17 +22,7 @@ public class MovingObject : MonoBehaviour
         common, poison, bleeding, slow
     }
     private string currentState;
-
-    public enum ActionState
-    {
-        IsDead,
-        NotMove,
-        IsJump,
-        IsAtk,
-        IsParrying,
-        Idle
-    }
-
+    
     public ActionState actionState = ActionState.Idle; 
 
     protected bool isFaceRight; // 보는 방향

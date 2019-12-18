@@ -8,6 +8,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     protected PlayerData playerData;
     protected CanvasManager menu;
     protected Menu_Storage storage;
+    protected Item_Database itemDatabase;
 
     public GameObject npc_blacksmith;
     protected PlayerEquipment playerEquipment;
@@ -31,6 +32,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     public virtual void Start()
     {
         menu = transform.parent.GetComponent<Menu_TownUI>().menu;
+        itemDatabase = Item_Database.instance;
         storage = menu.Menus[3].GetComponent<Menu_Storage>();
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         playerData = playerStat.playerData;
@@ -78,7 +80,8 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     {
         if (enchant)
         {
-            equipment[num].key = key;
+            equipment[num].itemCode = key.keyCode;
+            equipment[num].itemRarity = key.keyRarity;
             equipment[num].enchant = enchant;
             equipment[num].name = key.keyName;
             equipment[num].upStatus = upCount;
@@ -99,7 +102,8 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     {
         if (enchant)
         {
-            equipment[num].key = key;
+            equipment[num].itemCode = key.keyCode;
+            equipment[num].itemRarity = key.keyRarity;
             equipment[num].enchant = enchant;
             equipment[num].name = key.keyName;
             equipment[num].upStatus = upCount;

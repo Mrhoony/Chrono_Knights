@@ -22,7 +22,7 @@ public class xFx_Attack_end : AnimatorManager
             if (!move)
             {
                 move = true;
-                playerControl.SetAttackState(3);
+                playerControl.gameObject.GetComponent<Weapon_Spear>().SetAttackState(3);
                 playerControl.DashAttackDistance(2f);
             }
         }
@@ -33,7 +33,7 @@ public class xFx_Attack_end : AnimatorManager
     {
         if (!animator.GetBool("is_xFxFx_Atk"))
         {
-            playerControl.InputInit();
+            playerControl.gameObject.GetComponent<Weapon_Spear>().InputInit();
             playerControl.PlayerMoveSet();
         }
         Init();

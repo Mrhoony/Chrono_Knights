@@ -13,7 +13,7 @@ public class Monster_Frog_Attack : AnimatorManager
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (animator.gameObject.GetComponent<Monster_Frog>().actionState != MovingObject.ActionState.IsAtk) return;
+        if (animator.gameObject.GetComponent<Monster_Frog>().actionState != ActionState.IsAtk) return;
         MonsterAttack(animator, stateInfo, 0.3f, animator.gameObject.transform.position.x, animator.gameObject.transform.position.y, 0.2f, 0.2f);
     }
 

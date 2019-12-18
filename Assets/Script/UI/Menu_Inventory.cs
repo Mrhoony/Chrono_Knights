@@ -14,50 +14,39 @@ public class Menu_Inventory : MonoBehaviour
 
     private Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
 
-    private int slotCount;
-    private int availableSlot;
+    public int slotCount;
+    public int availableSlot;
     
     public int inventoryItemCount;
 
-    private int seletedItemCount;         // 창고에서 선택된 아이템 수
-    private int takeItemSlot;             // 가져갈 수 있는 슬롯 수
-    private bool[] isFull;               // 슬롯이 비었는지 아닌지
-    private Key[] inventoryItemList;      // 인벤토리 키 목록
+    public int seletedItemCount;         // 창고에서 선택된 아이템 수
+    public int takeItemSlot;             // 가져갈 수 있는 슬롯 수
+    public Key[] inventoryItemList;      // 인벤토리 키 목록
+    public bool[] isFull;               // 슬롯이 비었는지 아닌지
 
-    private bool isInventoryOn;
-    private int focused = 0;
-
-    private void Awake()
+    public bool isInventoryOn;
+    public int focused = 0;
+    
+    public void Init()
     {
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
-
         transforms = slots.transform.GetComponentsInChildren<Transform>();
-        slotCount = transforms.Length-1;
+        slotCount = transforms.Length - 1;
 
-        slot = new GameObject[slotCount];
-        isFull = new bool[slotCount];
-        inventoryItemList = new Key[slotCount];
-
+        slot = new GameObject[24];
         for (int i = 1; i < slotCount + 1; ++i)
         {
             slot[i - 1] = transforms[i].gameObject;
             slot[i - 1].transform.GetChild(1).gameObject.SetActive(true);
         }
-        Init();
-    }
-
-    public void Init()
-    {
-        Debug.Log("Init");
+        inventoryItemList = new Key[24];
+        isFull = new bool[24];
         for (int i = 0; i < slotCount; ++i)
         {
             inventoryItemList[i] = null;
             isFull[i] = false;
         }
         isInventoryOn = false;
-        seletedItemCount = 0;
-        takeItemSlot = 3;
-        availableSlot = 6;
         inventoryItemCount = 0;
     }
 
@@ -84,6 +73,7 @@ public class Menu_Inventory : MonoBehaviour
                 isFull[i] = true;
                 inventoryItemList[i] = _key;
                 ++inventoryItemCount;
+                Debug.Log(inventoryItemList[i].keyCode);
 
                 return true;
             }
@@ -159,6 +149,7 @@ public class Menu_Inventory : MonoBehaviour
 
     public void PutInBox(bool isDead)           // 던전에서 복귀할 때 창고에 키 넣기
     {
+        Debug.Log("putInBoxInventory");
         if (isDead)
         {
             for(int i = takeItemSlot; i < availableSlot; ++i)
@@ -169,18 +160,19 @@ public class Menu_Inventory : MonoBehaviour
         }
         else
         {
+            Debug.Log(inventoryItemList[0]);
             storage.GetComponent<Menu_Storage>().PutInBox(inventoryItemList);
         }
-        DeleteInventorySlotItem();
+        InventoryClear();
     }
-    public void DeleteInventorySlotItem()       // 던전에서 복귀할 때 인벤토리 비우기
+    public void InventoryClear()
     {
-        for(int i = 0; i < availableSlot; ++i)
+        for (int i = 0; i < slotCount; ++i)
         {
             inventoryItemList[i] = null;
             isFull[i] = false;
         }
-        seletedItemCount = 0;
+        isInventoryOn = false;
         inventoryItemCount = 0;
     }
 

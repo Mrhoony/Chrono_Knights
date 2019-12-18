@@ -33,7 +33,7 @@ public class NPC_Trainer : NPC_Control
 
     public void OpenTraningMenu()
     {
-        Time.timeScale = 0;
+        
         player.GetComponent<PlayerControl>().enabled = false;
         openTraningUI = true;
         traningUI.SetActive(true);
@@ -44,21 +44,6 @@ public class NPC_Trainer : NPC_Control
         openTraningUI = false;
         traningUI.SetActive(false);
         player.GetComponent<PlayerControl>().enabled = true;
-        Time.timeScale = 1;
-    }
-
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            inPlayer = true;
-        }
-    }
-    public void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            inPlayer = false;
-        }
+        
     }
 }

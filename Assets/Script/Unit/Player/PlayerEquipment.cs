@@ -11,7 +11,8 @@ public class PlayerEquipment
     {
         private string _name;
         private float[] _addStatus;
-        private Key _key;
+        private int _itemCode;
+        private int _itemRarity;
         private int _upStatus;
         private int _downStatus;
         private bool _enchant;
@@ -28,14 +29,19 @@ public class PlayerEquipment
             get { return _addStatus; }
             set { _addStatus = value; }
         }
-        public Key key
+        public int itemCode
         {
-            get{ return _key; }
+            get{ return _itemCode; }
+            set { _itemCode = value; }
+        }
+        public int itemRarity
+        {
+            get { return _itemRarity; }
             set
             {
-                _key = value;
-                if(_key != null)
-                    switch (_key.keyRarity)
+                _itemRarity = value;
+                if (_itemRarity != 0)
+                    switch (_itemRarity)
                     {
                         case 1:
                             _Max = 0.8f;
@@ -74,11 +80,11 @@ public class PlayerEquipment
             get { return _Min; }
         }
 
-        public void Init(string _name, float[] _addStatus, Key _key = null)
+        public void Init(string _name, float[] _addStatus, int _itemCode = 0)
         {
             name = _name;
             addStatus = _addStatus;
-            key = _key;
+            itemCode = _itemCode;
             upStatus = 8;
             downStatus = 8;
             enchant = false;

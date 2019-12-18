@@ -66,10 +66,10 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
 
                     acceptSlot[0].transform.GetChild(0).gameObject.SetActive(true);
 
-                    if (equipment[equipFocused].key != null)
+                    if (equipment[equipFocused].itemCode != 0)
                     {
-                        acceptSlot[0].GetComponent<Image>().sprite = equipment[equipFocused].key.sprite;
-                        acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[equipment[equipFocused].key.keyRarity];
+                        acceptSlot[0].GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[equipFocused].itemCode).sprite;
+                        acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[equipFocused].itemCode).keyRarity];
                     }
                     else
                     {
@@ -145,10 +145,10 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
 
         for(int i = 0; i < 7; ++i)
         {
-            if (equipment[i].key != null)
+            if (equipment[i].itemCode != 0)
             {
-                equipSlots[i].GetComponent<Image>().sprite = equipment[i].key.sprite;       // 키 아이템
-                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[equipment[i].key.keyRarity]; // 레어도
+                equipSlots[i].GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[i].itemCode).sprite;       // 키 아이템
+                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[i].itemCode).keyRarity]; // 레어도
             }
             else
             {
@@ -184,7 +184,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
     {
         if (num < 0 || num > 7) return;
 
-        if (Item_Database.instance.KeyInformation(key) != null)
+        if (Item_Database.instance.GetItem(key.keyCode) != null)
         {
             playerEquipment.Init(num);
             upgradeCount = Random.Range(0, 7);
@@ -220,15 +220,15 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
         acceptSlot[1].GetComponent<Image>().sprite = keyItemBorderSprite[6];
         acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
         
-        acceptSlot[2].GetComponent<Image>().sprite = equipment[num].key.sprite;
-        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[equipment[num].key.keyRarity];
+        acceptSlot[2].GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[num].itemCode).sprite;
+        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[num].itemCode).keyRarity];
         
         for (int i = 0; i < 7; ++i)
         {
-            if (equipment[i].key != null)
+            if (equipment[i].itemCode != 0)
             {
-                equipSlots[i].GetComponent<Image>().sprite = equipment[i].key.sprite;       // 키 아이템
-                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[equipment[i].key.keyRarity]; // 레어도
+                equipSlots[i].GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[i].itemCode).sprite;       // 키 아이템
+                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[i].itemCode).keyRarity]; // 레어도
             }
             else
             {

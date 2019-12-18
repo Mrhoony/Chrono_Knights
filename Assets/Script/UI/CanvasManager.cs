@@ -44,7 +44,10 @@ public class CanvasManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else
+        {
             Destroy(gameObject);
+            return;
+        }
     }
     private void Start()
     {
@@ -118,7 +121,7 @@ public class CanvasManager : MonoBehaviour
 
     public void OpenInGameMenu()        // I로 인벤토리 열 때
     {
-        Time.timeScale = 0;
+        
         player.GetComponent<PlayerControl>().enabled = false;
         focus = 0;
 
@@ -129,7 +132,6 @@ public class CanvasManager : MonoBehaviour
 
         foreach (Scrollbar bar in sb)
         {
-            Debug.Log("barSize");
             bar.size = 0;
             bar.value = 1;
         }
@@ -140,7 +142,7 @@ public class CanvasManager : MonoBehaviour
         Menus[focus].SetActive(false);
         playerStatusInfo.SetActive(false);
         player.GetComponent<PlayerControl>().enabled = true;
-        Time.timeScale = 1;
+        
     }
 
     // 강화 창에서 창고 열 경우
@@ -173,7 +175,7 @@ public class CanvasManager : MonoBehaviour
         if (isCancelOn) return;
 
         isStorageOn = true;
-        Time.timeScale = 0;
+        
         player.GetComponent<PlayerControl>().enabled = false;
         Menus[3].SetActive(true);
         Menus[3].GetComponent<Menu_Storage>().OpenStorage();
@@ -183,7 +185,7 @@ public class CanvasManager : MonoBehaviour
         isStorageOn = false;
         Menus[3].SetActive(false);
         player.GetComponent<PlayerControl>().enabled = true;
-        Time.timeScale = 1;
+        
     }
     
     void ChangeMenu(int AdjustValue)
@@ -206,13 +208,13 @@ public class CanvasManager : MonoBehaviour
     public void OpenCancelMenu()
     {
         player.GetComponent<PlayerControl>().enabled = false;
-        Time.timeScale = 0;
+        
         CancelMenu.SetActive(true);
     }
     public void CloseCancelMenu()
     {
         CancelMenu.SetActive(false);
-        Time.timeScale = 1;
+        
         player.GetComponent<PlayerControl>().enabled = true;
     }
 
