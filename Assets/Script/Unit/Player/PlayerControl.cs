@@ -8,6 +8,7 @@ public class PlayerControl : MovingObject
     public GameObject GroundCheck;
     public PlayerStatus playerStatus;
     public Weapon_Spear weaponSpear;
+    public Weapon_Gun weaponGun;    // Gun_Controller.cs
 
     public int weaponType;
 
@@ -48,6 +49,7 @@ public class PlayerControl : MovingObject
         playerStatus = GetComponent<PlayerStatus>();
         weaponSpear = GetComponent<Weapon_Spear>();
         weaponSpear.Init(animator, rb);
+        weaponGun = GetComponent<Weapon_Gun>(); // weaponGun 선언
     }
 
     public void Start()
@@ -106,14 +108,19 @@ public class PlayerControl : MovingObject
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            if(weaponType == 0)
+            if(weaponType == 0) // 스피어 -> 건
             {
-
+                weaponType = 1;
+                weaponSpear.enabled = false;    // 스피어 오프
+                weaponGun.enabled = true;       // 건 온
+                animator.runtimeAnimatorController = Resources.Load(weaponGun.ControllerPath) as RuntimeAnimatorController; // 건 애니메이터 변경
             }
             else if (weaponType == 1)
             {
                 weaponType = 0;
-                weaponSpear.enabled = false;
+                weaponGun.enabled = false;
+                weaponSpear.enabled = true;
+                animator.runtimeAnimatorController = Resources.Load(weaponGun.ControllerPath) as RuntimeAnimatorController; // 스피어 애니메이터 변경
             }
         }
     }
@@ -173,15 +180,15 @@ public class PlayerControl : MovingObject
 
     private void FixedUpdate()
     {
-        if (actionState == ActionState.NotMove) return;
-
+        if (actionState == ActionState.NotMove) return;     // 피격 시 입력무시
+        if (actionState == ActionState.IsAtk) return;       // 공격 중 입력무시
+        
         Dodge();
+
         if(weaponType == 0)
         {
             SpearAttack();
         }
-        
-        if (actionState == ActionState.IsAtk) return;
 
         // 캐릭터 뒤집기
         if (inputDirection > 0 && isFaceRight)
