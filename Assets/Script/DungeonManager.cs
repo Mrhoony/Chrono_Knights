@@ -358,9 +358,8 @@ public class DungeonManager : MonoBehaviour
         }
         else if (floorRepeat)    // 맵 반복시
         {
-            mark.GetComponent<SpriteRenderer>().sprite = markSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
-
             player.transform.position = entrance;
+            mark.GetComponent<SpriteRenderer>().sprite = markSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
 
             currentMonsterCount = monsterCount;
 
@@ -375,9 +374,10 @@ public class DungeonManager : MonoBehaviour
         }
         else            // 일반 맵일경우
         {
+            player.transform.position = entrance;
             // 초기 맵 랜덤 선택
             mapList[selectedMapNum].GetComponent<BackgroundScrolling>().backGroundImage.transform.position
-                = entrance + new Vector2(Random.Range(-0.5f, 0.5f), -(currentStage * 0.2f));
+                = new Vector2(Random.Range(-0.5f, 0.5f), -(currentStage * 0.2f));
             
             // (임시)하나만 클리어 해도 마을로
             if (currentStage > 0)

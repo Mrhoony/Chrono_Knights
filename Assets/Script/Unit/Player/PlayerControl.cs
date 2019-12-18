@@ -56,6 +56,7 @@ public class PlayerControl : MovingObject
         arrowDirection = 1;
         weaponType = 0;
         isFall = false;
+        dodgable = true;
     }
 
     // Update is called once per frame
@@ -102,6 +103,7 @@ public class PlayerControl : MovingObject
 
         if (Input.GetButtonDown("Fire2")) inputAttackY = true;
         if (Input.GetButtonDown("Jump")) inputJump = true;
+
         if (Input.GetKeyDown(KeyCode.S))
         {
             if(weaponType == 0)
@@ -117,7 +119,7 @@ public class PlayerControl : MovingObject
     }
     IEnumerator InvincibleCount()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         invincible = false;
     }
     IEnumerator ParryingCount()
@@ -127,11 +129,10 @@ public class PlayerControl : MovingObject
     }
     IEnumerator DodgeCount()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(3f);
         dodgable = true;
     }
     
-
     void RunCheck()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -272,8 +273,7 @@ public class PlayerControl : MovingObject
 
         actionState = ActionState.NotMove;
         rb.velocity = Vector2.zero;
-
-
+        
         GroundCheck.SetActive(false);
         StartCoroutine(DodgeIgnore(0.5f));
 

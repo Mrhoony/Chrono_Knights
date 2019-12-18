@@ -34,8 +34,7 @@ public class Item_Database : MonoBehaviour
 
     public Key GetItem(int _keyCode)
     {
-        int i = 0;
-        for (i = 0; i < keyItem.Count; i++)
+        for (int i = 0; i < keyItem.Count; i++)
         {
             if (keyItem[i].keyCode == _keyCode)
             {

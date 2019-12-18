@@ -47,6 +47,7 @@ public class Menu_Storage : MonoBehaviour
             slot[i - 1] = transforms[i].gameObject;
             slot[i - 1].transform.GetChild(1).gameObject.SetActive(true);
         }
+
         storageItemList = new Key[72];
         storageItemCodeList = new int[72];
         isFull = new bool[72];
@@ -164,15 +165,16 @@ public class Menu_Storage : MonoBehaviour
         int i;
         for (i = 0; i < availableSlot; ++i)
         {
-            if (storageItemList[i] != null) continue;
+            if (storageItemList[i] == null) break;
+        }
+        for (int j = 0; j < key.Length; ++j)
+        {
+            if (key[j] == null) continue;
 
-            for (int j = 0; j < key.Length; ++j)
+            if (i < availableSlot)
             {
-                if (i < availableSlot)
-                {
-                    storageItemList[i] = key[j];
-                    ++i;
-                }
+                storageItemList[i] = key[j];
+                ++i;
             }
         }
     }
@@ -313,7 +315,7 @@ public class Menu_Storage : MonoBehaviour
                     storageItemList[i] = storageItemList[i + j];
                     isFull[i] = isFull[i + j];
                     isSelected[i] = isSelected[i + j];
-                    slot[i].transform.GetChild(2).gameObject.SetActive(slot[i + j].transform.GetChild(2).gameObject.activeInHierarchy);
+                    slot[i].transform.GetChild(2).gameObject.SetActive(true);
                     
                     if (i + j != availableSlot)
                     {
@@ -330,9 +332,6 @@ public class Menu_Storage : MonoBehaviour
     
     public void LoadStorageData(int[] _keyCode, int _availableSlot)
     {
-        storageItemCodeList = _keyCode;
-        availableSlot = _availableSlot;
-
         for (int i = 0; i < 72; ++i)
         {
             storageItemList[i] = null;
@@ -341,24 +340,39 @@ public class Menu_Storage : MonoBehaviour
             isSelected[i] = false;
         }
 
+        storageItemCodeList = _keyCode;
+        availableSlot = _availableSlot;
+
         for (int i = 0; i < availableSlot; ++i)
         {
+            Debug.Log(Item_Database.instance.GetItem(storageItemCodeList[i]));
             if (Item_Database.instance.GetItem(storageItemCodeList[i]) == null) continue;
+            Debug.Log(Item_Database.instance.GetItem(storageItemCodeList[i]).keyCode);
             storageItemList[i] = Item_Database.instance.GetItem(storageItemCodeList[i]);
         }
     }
-    public void SaveStorageData(DataBase db)
+    public int[] SaveStorageItemCodeList()
     {
         for (int i = 0; i < availableSlot; ++i)
         {
             if (storageItemList[i] == null)
             {
                 storageItemCodeList[i] = 0;
+                Debug.Log(i);
                 continue;
             }
             storageItemCodeList[i] = storageItemList[i].keyCode;
+            Debug.Log(storageItemCodeList[i]);
         }
-        db.SaveStorageData(storageItemCodeList, availableSlot);
+        return storageItemCodeList;
+    }
+    public int SaveStorageAvailableSlot()
+    {
+        return availableSlot;
+    }
+
+    public void SaveStorageClear()
+    {
         for (int i = 0; i < 72; ++i)
         {
             storageItemList[i] = null;

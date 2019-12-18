@@ -17,11 +17,14 @@ public class SubCamera : MonoBehaviour
     {
         if (instance == null)
         {
-            DontDestroyOnLoad(this);
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
-            Destroy(this);
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
     // Start is called before the first frame update
     void Start()

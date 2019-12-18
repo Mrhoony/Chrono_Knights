@@ -70,11 +70,9 @@ public class Menu_Inventory : MonoBehaviour
         {
             if (!isFull[i])
             {
-                isFull[i] = true;
                 inventoryItemList[i] = _key;
+                isFull[i] = true;
                 ++inventoryItemCount;
-                Debug.Log(inventoryItemList[i].keyCode);
-
                 return true;
             }
         }
@@ -160,14 +158,13 @@ public class Menu_Inventory : MonoBehaviour
         }
         else
         {
-            Debug.Log(inventoryItemList[0]);
             storage.GetComponent<Menu_Storage>().PutInBox(inventoryItemList);
         }
         InventoryClear();
     }
     public void InventoryClear()
     {
-        for (int i = 0; i < slotCount; ++i)
+        for (int i = 0; i < 24; ++i)
         {
             inventoryItemList[i] = null;
             isFull[i] = false;

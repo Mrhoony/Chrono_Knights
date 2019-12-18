@@ -41,11 +41,14 @@ public class GameManager : MonoBehaviour
     {
         if (instance == null)
         {
-            DontDestroyOnLoad(this);
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
-            Destroy(this);
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         Physics2D.IgnoreLayerCollision(5, 10);
         Physics2D.IgnoreLayerCollision(8, 10);
@@ -57,6 +60,7 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(13, 14);
         Physics2D.IgnoreLayerCollision(14, 14);
 
+        dataBase = new DataBase();
         playerStat = player.GetComponent<PlayerStatus>();
         canvanManager = GameObject.Find("UI").GetComponent<CanvasManager>();
         storage = canvanManager.Menus[3].GetComponent<Menu_Storage>();
@@ -65,7 +69,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        dataBase = new DataBase();
+        dataBase.Init();
         canvanManager = GameObject.Find("UI").GetComponent<CanvasManager>();
 
         player.GetComponent<PlayerControl>().enabled = false;
@@ -92,6 +96,7 @@ public class GameManager : MonoBehaviour
             {
                 if (gameStart)
                 {
+                    gameStart = false;
                     SaveGame();
                 }
                 else
@@ -149,16 +154,18 @@ public class GameManager : MonoBehaviour
         // 유저 정보
         dataBase.playerData = playerStat.playerData;
         dataBase.SaveCurrentDate(DungeonManager.instance.currentDate);
-        storage.SaveStorageData(dataBase);
+        dataBase.SaveStorageData(storage.SaveStorageItemCodeList(), storage.SaveStorageAvailableSlot());
+        Debug.Log(dataBase.storageItemCodeList[0]);
         inventory.SaveInventoryData(dataBase);
-
+        
         bf.Serialize(ms, dataBase);
         data = Convert.ToBase64String(ms.GetBuffer());
+        
+        storage.SaveStorageClear();
 
-        PlayerPrefs.SetString("SaveSlot" + slotNum, data);
+        PlayerPrefs.SetString("SaveSlot" + slotNum.ToString(), data);
         player.GetComponent<PlayerControl>().enabled = false;
-        gameStart = false;
-        GameObject.Find("bg_mainScene_blind");
+        bedBlind = GameObject.Find("BackGroundSet/Base/bg_mainScene_blind");
         bedBlind.SetActive(true);
         startButton.SetActive(true);
 
@@ -166,9 +173,10 @@ public class GameManager : MonoBehaviour
     }
     public void LoadGame()
     {
-        if(PlayerPrefs.HasKey("SaveSlot" + slotNum))
+        if(PlayerPrefs.HasKey("SaveSlot" + slotNum.ToString()))
         {
-            data = PlayerPrefs.GetString("SaveSlot" + slotNum, null);
+            Debug.Log("hasData");
+            data = PlayerPrefs.GetString("SaveSlot" + slotNum.ToString(), null);
 
             if (!string.IsNullOrEmpty(data))
             {
@@ -186,6 +194,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            Debug.Log("NoData");
             playerStat.NewStart(dataBase.playerData);
             storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetAvailableStorageSlot());
             inventory.LoadInventoryData(dataBase.GetTakeKeySlot(), dataBase.GetAvailableInventorySlot());
@@ -206,8 +215,11 @@ public class GameManager : MonoBehaviour
     
     public void DeleteSave()
     {
-        if(PlayerPrefs.HasKey("SaveSlot" + slotNum))
-            PlayerPrefs.DeleteKey("SaveSlot" + slotNum);
+        if(PlayerPrefs.HasKey("SaveSlot" + slotNum.ToString()))
+        {
+            PlayerPrefs.DeleteKey("SaveSlot" + slotNum.ToString());
+            Debug.Log("saveDelete");
+        }
     }
 
     public void OpenLoad()
@@ -221,7 +233,6 @@ public class GameManager : MonoBehaviour
         slotNum = focus + 1;
         saveSlot[0].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
     }
-
     public void CloseLoad()
     {
         saveSlot[focus].GetComponent<Image>().color = new Color(1, 1, 1, 1);

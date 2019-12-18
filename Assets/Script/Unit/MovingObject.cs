@@ -21,12 +21,12 @@ public class MovingObject : MonoBehaviour
     {
         common, poison, bleeding, slow
     }
-    private string currentState;
+    public string currentState;
     
-    public ActionState actionState = ActionState.Idle; 
+    public ActionState actionState = ActionState.Idle;
 
-    protected bool isFaceRight; // 보는 방향
-    protected int arrowDirection;
+    public bool isFaceRight; // 보는 방향
+    public int arrowDirection;
 
     public void Flip()
     {

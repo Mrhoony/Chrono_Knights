@@ -48,7 +48,13 @@ MonoBehaviour:
   playerStat: {fileID: 0}
   playerStatView: {fileID: 0}
   bedBlind: {fileID: 0}
-  dataBase: {}
+  dataBase:
+    storageItemCodeList: 
+    availableStorageSlot: 0
+    takeKeySlot: 0
+    availableInventorySlot: 0
+    currentDate: 0
+    eventCheck: 
   canvanManager: {fileID: 0}
   storage: {fileID: 0}
   inventory: {fileID: 0}

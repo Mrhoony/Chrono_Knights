@@ -29,7 +29,10 @@ public class CameraManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else
+        {
             Destroy(gameObject);
+            return;
+        }
 
         Height = 640;
         Width = 360;

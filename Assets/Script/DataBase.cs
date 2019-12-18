@@ -7,17 +7,14 @@ using UnityEngine;
 public class DataBase
 {
     public PlayerData playerData;
+    public int[] storageItemCodeList;
+    public int availableStorageSlot;
+    public int takeKeySlot;
+    public int availableInventorySlot;
+    public int currentDate;
+    public bool[] eventCheck;
 
-    private int[] storageItemCodeList;
-    private int availableStorageSlot;
-
-    private int takeKeySlot;
-    private int availableInventorySlot;
-
-    private int currentDate;
-    private bool[] eventCheck;
-
-    public DataBase()
+    public void Init()
     {
         playerData = new PlayerData();
         storageItemCodeList = new int[72];
