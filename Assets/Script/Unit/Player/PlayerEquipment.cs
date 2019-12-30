@@ -10,7 +10,7 @@ public class PlayerEquipment
     public struct Equipment
     {
         private string _name;
-        private float[] _addStatus;
+        public float[] _addStatus;
         private int _itemCode;
         private int _itemRarity;
         private int _upStatus;

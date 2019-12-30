@@ -6,10 +6,10 @@ using UnityEngine;
 [Serializable]
 public class PlayerData
 {
-    private float maxBuffTime;   // 현재 버프량
+    private float ammo;   // 현재 버프량
 
-    private float[] status;      // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount, HP, jumpPower
-    private float[] equipmentStatus;    // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount
+    public float[] status;      // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount, HP, jumpPower
+    public float[] equipmentStatus;    // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount
 
     private float[] traningStat;
     private float[] limitTraning;
@@ -70,8 +70,8 @@ public class PlayerData
 
         status[6] = 1f;
         equipmentStatus[6] = 0;
-        
-        maxBuffTime = 100;
+
+        ammo = 100;
 
         playerEquipment.Init();
     }
@@ -98,7 +98,7 @@ public class PlayerData
     }
     public float GetMaxBuffTime()
     {
-        return maxBuffTime;
+        return ammo;
     }
 
     public void renew()

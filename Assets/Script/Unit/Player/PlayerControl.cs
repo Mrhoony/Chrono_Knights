@@ -17,6 +17,7 @@ public class PlayerControl : MovingObject
     public int inputArrow;
     public bool inputAttackX;
     public bool inputAttackY;
+    public bool finalAttackY;
 
     public float runDelay;
     public int isRrun;
@@ -67,7 +68,11 @@ public class PlayerControl : MovingObject
         if(weaponType == 0)
         {
             if (Input.GetButtonDown("Fire1") && !animator.GetBool("is_y_Atk")) inputAttackX = true;
-            if (Input.GetButtonUp("Fire2") && inputAttackY) inputAttackY = false;
+            if (Input.GetButtonUp("Fire2") && inputAttackY)
+            {
+                inputAttackY = false;
+                finalAttackY = true;
+            }
         }
 
         if (actionState == ActionState.NotMove) return;             // notMove 가 아닐 때
@@ -181,14 +186,16 @@ public class PlayerControl : MovingObject
     private void FixedUpdate()
     {
         if (actionState == ActionState.NotMove) return;     // 피격 시 입력무시
+
+        if (weaponType == 0)
+        {
+            SpearAttack();
+        }
+
         if (actionState == ActionState.IsAtk) return;       // 공격 중 입력무시
         
         Dodge();
 
-        if(weaponType == 0)
-        {
-            SpearAttack();
-        }
 
         // 캐릭터 뒤집기
         if (inputDirection > 0 && isFaceRight)
@@ -221,14 +228,16 @@ public class PlayerControl : MovingObject
             }
             actionState = ActionState.IsAtk;
         }
-        if (inputAttackY)
+        else if (inputAttackY)
         {
             weaponSpear.AttackY(inputArrow);
             actionState = ActionState.IsAtk;
         }
-
-        if (!inputAttackY)
+        else if (finalAttackY)
+        {
+            finalAttackY = false;
             weaponSpear.AttackYFinal();
+        }
     }
 
     void Move()

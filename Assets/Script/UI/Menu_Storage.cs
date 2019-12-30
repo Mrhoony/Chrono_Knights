@@ -292,14 +292,16 @@ public class Menu_Storage : MonoBehaviour
             {
                 if (selectedSlot[i] != _focus) continue;
 
-                if (i + 1 == count) selectedSlot[i + 1] = 99;
-                else selectedSlot[i] = selectedSlot[i + 1] - 1;
+                selectedSlot[i] = selectedSlot[i + 1] - 1;
+                selectedSlot[i + 1] = 99;
+
+                if (i + 1 == count-1) break;
             }
             --selectedItemCount;
+            inventory.SetSelectedItemCount(selectedItemCount);
+            inventory.SetInventoryItemList();
         }
         StorageSlotSort(_focus);
-        inventory.SetSelectedItemCount(selectedItemCount);
-        inventory.SetInventoryItemList();
     }
 
     public void StorageSlotSort(int _focus)

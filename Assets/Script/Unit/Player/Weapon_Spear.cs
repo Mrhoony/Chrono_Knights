@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Weapon_Spear : MonoBehaviour
 {
+    public string ControllerPath = "AnimatorController/Player_Control/Spear/Spear_Controller";
     public bool attackLock;
     public int commandCount;
     public int attackState;
