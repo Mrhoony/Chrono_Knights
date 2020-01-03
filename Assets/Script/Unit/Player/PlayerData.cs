@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class PlayerData
 {
-    private float ammo;   // 현재 버프량
+    private float ammo;   // 현재 장탄 수
 
     public float[] status;      // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount, HP, jumpPower
     public float[] equipmentStatus;    // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount
@@ -17,9 +17,9 @@ public class PlayerData
 
     private int currentDate;
 
-    private PlayerEquipment playerEquipment = new PlayerEquipment();
+    public PlayerEquipment playerEquipment = new PlayerEquipment();
 
-    public PlayerData()
+    public void Init()
     {
         traningStat = new float[6];
         traningStat[0] = 0;
@@ -62,7 +62,7 @@ public class PlayerData
         status[3] = 1f;
         equipmentStatus[3] = 0;
 
-        status[4] = 2f;
+        status[4] = 1f;
         equipmentStatus[4] = 0;
 
         status[5] = 1f;
@@ -73,7 +73,9 @@ public class PlayerData
 
         ammo = 100;
 
-        playerEquipment.Init();
+        playerEquipment = new PlayerEquipment();
+
+        Debug.Log("playerData init");
     }
 
     public int[] GetTraningCount()
@@ -101,12 +103,14 @@ public class PlayerData
         return ammo;
     }
 
-    public void renew()
+    public void renew(PlayerEquipment _playerEquipment)
     {
+        playerEquipment = _playerEquipment;
         for(int i = 0; i < 7; ++i)
         {
             equipmentStatus[i] = playerEquipment.GetStatusValue(i);
         }
+        Debug.Log("player renew");
     }
 
     public PlayerEquipment GetPlayerEquipment()

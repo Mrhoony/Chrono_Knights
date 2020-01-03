@@ -24,7 +24,7 @@ public class Menu_Storage : MonoBehaviour
 
     // 한 슬롯 변수
     public int focus;
-    private Key[] storageItemList;
+    public Key[] storageItemList;
     public int[] storageItemCodeList;
     public bool[] isFull;
     public bool[] isSelected;       // 선택된 슬롯
@@ -39,8 +39,7 @@ public class Menu_Storage : MonoBehaviour
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
         transforms = slots.transform.GetComponentsInChildren<Transform>();
         slotCount = transforms.Length - 1;
-
-        Debug.Log("storageInit");
+        
         slot = new GameObject[72];
         for (int i = 1; i < slotCount + 1; ++i)
         {
@@ -52,13 +51,8 @@ public class Menu_Storage : MonoBehaviour
         storageItemCodeList = new int[72];
         isFull = new bool[72];
         isSelected = new bool[72];
-        for (int i = 0; i < 72; ++i)
-        {
-            storageItemList[i] = null;
-            storageItemCodeList[i] = 0;
-            isFull[i] = false;
-            isSelected[i] = false;
-        }
+        SaveStorageClear();
+
         onStorage = false;
     }
 
@@ -125,7 +119,7 @@ public class Menu_Storage : MonoBehaviour
         }
     }
 
-    public void StorageSet()           // 창고 활성화시 초기화
+    public void StorageSet()           // 창고 활성화시 UI 초기화
     {
         if (availableSlot - (boxNum * 24) > 24)
         {
@@ -286,16 +280,20 @@ public class Menu_Storage : MonoBehaviour
         storageItemList[_focus] = null;
         int count = selectedSlot.Length;
         
-        if (isSelected[_focus])      // 인벤토리 선택된 아이템 제거
+        if (isSelected[_focus])      // 인벤토리 선택 취소
         {
             for (int i = 0; i < count; ++i)
             {
                 if (selectedSlot[i] != _focus) continue;
 
-                selectedSlot[i] = selectedSlot[i + 1] - 1;
-                selectedSlot[i + 1] = 99;
-
-                if (i + 1 == count-1) break;
+                if(i == count-1)
+                {
+                    selectedSlot[i] = 99;
+                }
+                else
+                {
+                    selectedSlot[i] = selectedSlot[i + 1] - 1;
+                }
             }
             --selectedItemCount;
             inventory.SetSelectedItemCount(selectedItemCount);
@@ -310,7 +308,7 @@ public class Menu_Storage : MonoBehaviour
         {
             for (int j = 1; j < availableSlot - i; ++j)
             {
-                if (storageItemList[i] == null) break;
+                if (storageItemList[i] != null) break;
 
                 if (storageItemList[i+j] != null)
                 {
@@ -360,11 +358,9 @@ public class Menu_Storage : MonoBehaviour
             if (storageItemList[i] == null)
             {
                 storageItemCodeList[i] = 0;
-                Debug.Log(i);
                 continue;
             }
             storageItemCodeList[i] = storageItemList[i].keyCode;
-            Debug.Log(storageItemCodeList[i]);
         }
         return storageItemCodeList;
     }

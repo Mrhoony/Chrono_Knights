@@ -65,11 +65,15 @@ public class GameManager : MonoBehaviour
         canvanManager = GameObject.Find("UI").GetComponent<CanvasManager>();
         storage = canvanManager.Menus[3].GetComponent<Menu_Storage>();
         inventory = canvanManager.Menus[0].GetComponent<Menu_Inventory>();
+
+        Debug.Log("gameManager awake");
     }
 
     private void Start()
     {
         dataBase.Init();
+        playerStat.Init();
+        playerStat.HPInit();
         canvanManager = GameObject.Find("UI").GetComponent<CanvasManager>();
 
         player.GetComponent<PlayerControl>().enabled = false;
@@ -82,6 +86,8 @@ public class GameManager : MonoBehaviour
 
         focus = 0;
         slotNum = 1;
+
+        Debug.Log("gameManager Start");
     }
 
     public void Update()

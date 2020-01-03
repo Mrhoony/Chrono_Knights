@@ -34,8 +34,7 @@ public class PlayerStatus : MonoBehaviour
     public float moveSpeed_Result;
     public int attack_Result;
     public float dashDistance_Result;
-
-
+    
     float[] traningStat;
 
     // Start is called before the first frame uplayerDataate
@@ -43,12 +42,13 @@ public class PlayerStatus : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         playerStatusView = GameObject.Find("UI/Hpbar").GetComponent<MainUI_PlayerStatusView>();
+        Debug.Log("playerstatus awake");
     }
 
     public void SetPlayerData(PlayerData _playerData)
     {
         playerData = _playerData;
-        playerEquip.Init();
+        playerEquip = playerData.GetPlayerEquipment();
 
         SetMoveSpeed_Result(1, true);
         SetAttackMulty_Result(1, true);
@@ -63,6 +63,8 @@ public class PlayerStatus : MonoBehaviour
 
     public void Init()
     {
+        playerData = new PlayerData();
+        playerData.Init();
         traningStat = playerData.GetTraningStat();
 
         currentHP = playerData.GetStatus(7);
@@ -142,12 +144,10 @@ public class PlayerStatus : MonoBehaviour
             playerStatusView.SetHPCut(HPCutNum);
         }
     }
-
     public void IncreaseHP()
     {
         currentHP += playerData.GetStatus(0);
     }
-
     public void SetBuff(int buffLevel)
     {
         currentBuffTime += 10 * buffLevel;
@@ -165,11 +165,15 @@ public class PlayerStatus : MonoBehaviour
     }
     public float GetJumpCount()
     {
-        return jumpCount;
+        return (int)(playerData.GetStatus(6) + playerData.GetEquipmentStatus(6));
     }
     public float GetJumpPower()
     {
         return jumpPower;
+    }
+    public void SetAttackSpeed()
+    {
+        animator.SetFloat("AttackSpeed", playerData.GetStatus(3) + playerData.GetEquipmentStatus(3) + traningStat[3]);
     }
 
     public void SetAttackMulty_Result(int multyAttack, bool multy)

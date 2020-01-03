@@ -125,8 +125,8 @@ public class DungeonManager : MonoBehaviour
     {
         if (instance == null)
         {
-            DontDestroyOnLoad(gameObject);
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -498,8 +498,6 @@ public class DungeonManager : MonoBehaviour
                         entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
                 }
             }
-            playerStatus.Init();
-            playerStatus.HPInit();
         }
         else if(SceneManager.GetActiveScene().buildIndex == 1)  // 마을 화면 일 때
         {

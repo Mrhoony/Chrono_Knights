@@ -78,12 +78,12 @@ public class CanvasManager : MonoBehaviour
             else if(isCancelOn)
             {
                 isCancelOn = false;
-                OpenCancelMenu();
+                CloseCancelMenu();
             }
             else if(!isCancelOn)
             {
                 isCancelOn = true;
-                CloseCancelMenu();
+                OpenCancelMenu();
             }
         }
 

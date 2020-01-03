@@ -9,15 +9,15 @@ public class PlayerEquipment
     [Serializable]
     public struct Equipment
     {
-        private string _name;
+        public string _name;
         public float[] _addStatus;
-        private int _itemCode;
-        private int _itemRarity;
-        private int _upStatus;
-        private int _downStatus;
-        private bool _enchant;
-        private float _Max;
-        private float _Min;
+        public int _itemCode;
+        public int _itemRarity;
+        public int _upStatus;
+        public int _downStatus;
+        public bool _enchant;
+        public float _Max;
+        public float _Min;
 
         public string name
         {
@@ -93,7 +93,7 @@ public class PlayerEquipment
 
     public Equipment[] equipment;      // 0 bell, 1 armor, 2 spear, 3 gun, 4 shoes, 5 gloves, 6 activeEquip
     
-    public void Init()
+    public PlayerEquipment()
     {
         float[] addStatus = {0,0,0,0,0,0,0};
         equipment = new Equipment[7];
@@ -104,7 +104,7 @@ public class PlayerEquipment
         equipment[3].Init("흰 옷", addStatus);
         equipment[4].Init("가죽 신발", addStatus);
         equipment[5].Init("맨 손", addStatus);
-        equipment[6].Init("", addStatus);
+        equipment[6].Init("액티브", addStatus);
     }
 
     public void Init(int num)

@@ -22,6 +22,8 @@ public class DataBase
         takeKeySlot = 3;
         availableInventorySlot = 6;
         currentDate = 0;
+
+        Debug.Log("database init");
     }
 
     public int[] GetStorageItemCodeList()

@@ -18,6 +18,7 @@ public class PlayerControl : MovingObject
     public bool inputAttackX;
     public bool inputAttackY;
     public bool finalAttackY;
+    public float attackSpeed;
 
     public float runDelay;
     public int isRrun;
@@ -37,13 +38,16 @@ public class PlayerControl : MovingObject
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
         {
             Destroy(gameObject);
             return;
         }
-        instance = this;
-        DontDestroyOnLoad(gameObject);
 
         rb = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponentInChildren<Animator>();
@@ -51,6 +55,8 @@ public class PlayerControl : MovingObject
         weaponSpear = GetComponent<Weapon_Spear>();
         weaponSpear.Init(animator, rb);
         weaponGun = GetComponent<Weapon_Gun>(); // weaponGun 선언
+
+        Debug.Log("control awake");
     }
 
     public void Start()
@@ -58,6 +64,7 @@ public class PlayerControl : MovingObject
         currentJumpCount = (int)playerStatus.GetJumpCount();
         arrowDirection = 1;
         weaponType = 0;
+        attackSpeed = 1;
         isFall = false;
         dodgable = true;
     }
@@ -78,6 +85,20 @@ public class PlayerControl : MovingObject
         if (actionState == ActionState.NotMove) return;             // notMove 가 아닐 때
 
         inputDirection = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (arrowDirection > 0)
+            {
+                isLrun = 0;
+                isRrun = 2;
+            }
+            else if (arrowDirection < 0)
+            {
+                isRrun = 0;
+                isLrun = 2;
+            }
+        }
 
         // 낙하 체크
         if (rb.velocity.y <= -0.5f)
