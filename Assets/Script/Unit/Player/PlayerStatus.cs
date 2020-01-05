@@ -64,6 +64,7 @@ public class PlayerStatus : MonoBehaviour
     public void Init()
     {
         playerData = new PlayerData();
+        HPInit();
         playerData.Init();
         traningStat = playerData.GetTraningStat();
 

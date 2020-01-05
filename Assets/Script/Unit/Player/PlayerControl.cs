@@ -26,6 +26,7 @@ public class PlayerControl : MovingObject
     public bool isFall;
     
     public bool inputJump;
+    public bool jumpping;
     public bool inputDodge;
     
     public bool dodgable;
@@ -61,6 +62,7 @@ public class PlayerControl : MovingObject
 
     public void Start()
     {
+        playerStatus.Init();
         currentJumpCount = (int)playerStatus.GetJumpCount();
         arrowDirection = 1;
         weaponType = 0;
@@ -105,8 +107,12 @@ public class PlayerControl : MovingObject
         {
             if (!isFall)
             {
-                isFall = true;
-                animator.SetTrigger("isFall");
+                if (!jumpping)
+                {
+                    --currentJumpCount;
+                    isFall = true;
+                    animator.SetTrigger("isFallTrigger");
+                }
             }
             GroundCheck.SetActive(true);
         }
@@ -208,16 +214,13 @@ public class PlayerControl : MovingObject
     {
         if (actionState == ActionState.NotMove) return;     // 피격 시 입력무시
 
-        if (weaponType == 0)
-        {
-            SpearAttack();
-        }
+        if (weaponType == 0) SpearAttack();
+        if (weaponType == 1) SpearAttack();
+
+        Dodge();
 
         if (actionState == ActionState.IsAtk) return;       // 공격 중 입력무시
         
-        Dodge();
-
-
         // 캐릭터 뒤집기
         if (inputDirection > 0 && isFaceRight)
         {
@@ -294,9 +297,11 @@ public class PlayerControl : MovingObject
         if (!inputJump) return;
         inputJump = false;
         if (currentJumpCount < 1) return;
+        jumpping = true;
         --currentJumpCount;
         actionState = ActionState.IsJump;
 
+        animator.SetBool("isLand", false);
         animator.SetTrigger("isJumpTrigger");
         animator.SetBool("isJump", true);
         GroundCheck.SetActive(false);
@@ -314,6 +319,7 @@ public class PlayerControl : MovingObject
         GroundCheck.SetActive(false);
         StartCoroutine(DodgeIgnore(0.5f));
 
+        animator.SetBool("isLand", false);
         animator.SetTrigger("isDodge");
         if (inputDirection != arrowDirection)
             rb.AddForce(new Vector2(-arrowDirection * 4f, 5f), ForceMode2D.Impulse);
@@ -324,6 +330,17 @@ public class PlayerControl : MovingObject
 
         StartCoroutine(DodgeCount());
         StartCoroutine(InvincibleCount());
+    }
+
+    public void fly()
+    {
+        animator.SetBool("isLand", false);
+    }
+
+    public void StopPlayer()
+    {
+        rb.velocity = Vector2.zero;
+        animator.SetTrigger("PlayerStop");
     }
 
     public void Hit(int attack)
@@ -349,12 +366,15 @@ public class PlayerControl : MovingObject
     }
     public void Landing()
     {
+        Debug.Log("Landing");
+        currentJumpCount = (int)playerStatus.GetJumpCount();
         actionState = ActionState.Idle;
         animator.SetBool("isJump", false);
         animator.SetBool("isJump_x_Atk", false);
-        animator.SetTrigger("isLanding");
+        animator.SetBool("isLand", true);
         isFall = false;
-        currentJumpCount = (int)playerStatus.GetJumpCount();
+        jumpping = false;
+        Debug.Log(currentJumpCount);
     }
     public void ParryingCheck()
     {

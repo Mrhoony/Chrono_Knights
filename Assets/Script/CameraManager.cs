@@ -18,7 +18,7 @@ public class CameraManager : MonoBehaviour
     private float halfHeight;
     private float halfWidth;
 
-    private new Camera camera;
+    private Camera mainCamera;
     private PixelPerfectCamera perfectCamera;
 
     public void Awake()
@@ -39,7 +39,7 @@ public class CameraManager : MonoBehaviour
 
         Screen.SetResolution(Screen.width, (Screen.width * 16) / 9, true);
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        camera = GetComponent<Camera>();
+        mainCamera = GetComponent<Camera>();
         perfectCamera = GetComponent<PixelPerfectCamera>();
 
         GameStartScreenSet();
@@ -85,7 +85,7 @@ public class CameraManager : MonoBehaviour
         bound = box;
         minBound = bound.bounds.min;
         maxBound = bound.bounds.max;
-        halfHeight = camera.orthographicSize;
+        halfHeight = mainCamera.orthographicSize;
         halfWidth = halfHeight * 1280 / 720;
     }
 

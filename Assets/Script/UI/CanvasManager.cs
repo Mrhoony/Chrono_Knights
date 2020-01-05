@@ -121,7 +121,7 @@ public class CanvasManager : MonoBehaviour
 
     public void OpenInGameMenu()        // I로 인벤토리 열 때
     {
-        
+        player.GetComponent<PlayerControl>().StopPlayer();
         player.GetComponent<PlayerControl>().enabled = false;
         focus = 0;
 
@@ -175,7 +175,8 @@ public class CanvasManager : MonoBehaviour
         if (isCancelOn) return;
 
         isStorageOn = true;
-        
+
+        player.GetComponent<PlayerControl>().StopPlayer();
         player.GetComponent<PlayerControl>().enabled = false;
         Menus[3].SetActive(true);
         Menus[3].GetComponent<Menu_Storage>().OpenStorage();
@@ -207,6 +208,7 @@ public class CanvasManager : MonoBehaviour
 
     public void OpenCancelMenu()
     {
+        player.GetComponent<PlayerControl>().StopPlayer();
         player.GetComponent<PlayerControl>().enabled = false;
         
         CancelMenu.SetActive(true);

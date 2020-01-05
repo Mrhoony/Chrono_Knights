@@ -72,7 +72,7 @@ public class DungeonManager : MonoBehaviour
 {
     #region 오브젝트 등록
     public static DungeonManager instance;
-    public new CameraManager camera;
+    public CameraManager mainCamera;
     private CanvasManager menu;
     public GameObject playerStatView;
     public GameObject player;
@@ -133,7 +133,7 @@ public class DungeonManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        camera = CameraManager.instance;
+
         playerStatus = player.GetComponent<PlayerStatus>();
         menu = GameObject.Find("UI").GetComponent<CanvasManager>();
         markSprite = Resources.LoadAll<Sprite>("UI/ui_hpbell_set");
@@ -141,10 +141,7 @@ public class DungeonManager : MonoBehaviour
         marker = new Marker();
         marker_Variable = new MarkerVariable();
         marker_Variable.Reset();
-
-        /*
-         * FloorData 선언
-         */
+        
         FloorDatas = new FloorData[71];
         FloorDatas[0] = new FloorData(0, 0); // 0층, 안씀
         for (int Floor = 1; Floor <= 70; Floor++)
@@ -158,6 +155,7 @@ public class DungeonManager : MonoBehaviour
         monsterCount = 0;
         currentMonsterCount = 0;
         bossStageCount = 0;
+        useTeleportSystem = 10;
         bossSetting = false;
         newDay = false;
         dungeonClear = false;
@@ -165,77 +163,49 @@ public class DungeonManager : MonoBehaviour
     }
     public void Update()
     {
-        if(menu.isCancelOn || menu.isInventoryOn || menu.isStorageOn) return;
+        if (menu.isCancelOn || menu.isInventoryOn || menu.isStorageOn) return;
+        if (useTeleportSystem == 10) return;
 
         if (Input.GetButtonDown("Fire1"))           // 공격키를 눌렀을 때
         {
             if (SceneManager.GetActiveScene().buildIndex == 0)      // 메인 메뉴 화면에서
             {
-                if (useTeleportSystem == 1)    // 캐릭터가 문 앞에 있을 때 마을로 간다
-                {
-                    GoToTown();
-                    dungeonClear = false;
-                }
+                SectionTeleport(false, false);
             }
             else if (SceneManager.GetActiveScene().buildIndex == 1)      // 마을 화면에서
             {
-                if (useTeleportSystem == 0)          // 캐릭터가 집 문앞에 있을 경우 집으로 들어간다
-                {
-                    ComeBackHome();
-                }
-                else if (useTeleportSystem == 1)    // 캐릭터가 숲 입구 (임시 던전 입구)에 있을 경우 숲(던전)으로 간다
-                {
-                    menu.Menus[0].GetComponent<Menu_Inventory>().DeleteStorageItem();
-                    SectionTeleport(false, false);
-                }
+                SectionTeleport(false, false);
             }
             else if (SceneManager.GetActiveScene().buildIndex == 2)      // 마을 - 숲 화면에서
             {
-                if (useTeleportSystem == 0)          // 캐릭터가 집 문앞에 있을 경우 집으로 들어간다
-                {
-                }
-                else if (useTeleportSystem == 1)    // 캐릭터가 숲 입구 (임시 던전 입구)에 있을 경우 숲(던전)으로 간다
-                {
-                }
+                //SectionTeleport(false, false);
             }
             else if (SceneManager.GetActiveScene().buildIndex == 3)      // 숲 - 타워 화면에서
             {
-                if (useTeleportSystem == 0)          // 캐릭터가 집 문앞에 있을 경우 집으로 들어간다
-                {
-                }
-                else if (useTeleportSystem == 1)    // 캐릭터가 숲 입구 (임시 던전 입구)에 있을 경우 숲(던전)으로 간다
-                {
-                }
+                //SectionTeleport(false, false);
             }
             else if (SceneManager.GetActiveScene().buildIndex == 4)
             {
                 if (useTeleportSystem == 8)         // 던전 포탈 앞에 서있을 경우 다음던전 또는 집으로 이동한다.
                 {
                     if (!dungeonClear) return;
+
                     if (usedKey)            // 키를 쓴경우
                     {
-                        mapList = GameObject.FindGameObjectsWithTag("BaseMap");
-
-                        for (int i = 0; i < 2; ++i)
-                        {
-                            if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
-                                entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
-                        }
                         FloorSetting();
-                        player.transform.position = entrance;
                     }
                     else                    // 키를 안쓴경우 반응x (임시)집으로
                     {
                         menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
-                        ReturnToTown();
-                        ComeBackHome();
+                        DungeonInit();
+                        SectionTeleport(false, true);
                     }
                 }
             }
         }
     }
 
-    public void ReturnToTown()
+    public void DungeonInit()
     {
         newDay = true;
         bossSetting = false;
@@ -264,6 +234,7 @@ public class DungeonManager : MonoBehaviour
                 break;
             case ItemType.FreePassNextFloor:
                 ++currentStage;
+                ++bossStageCount;
                 FloorSetting();
                 break;
             case ItemType.FreePassThisFloor:
@@ -285,42 +256,49 @@ public class DungeonManager : MonoBehaviour
     // 씬 이동 (마을로, 계층이동)
     public void SectionTeleport(bool isDead, bool dungeonEscape)
     {
-        if (dungeonEscape)
+        if (!isDead)
         {
-            SceneManager.LoadScene(0);
-            newDay = true;
-            dungeonClear = false;
-            playerStatus.Init();
-            playerStatus.HPInit();
+            switch (useTeleportSystem)
+            {
+                case 0:
+                    mainCamera.SetHeiWid(640, 360);
+                    SceneManager.LoadScene(useTeleportSystem);
+                    break;
+                case 1:
+                    mainCamera.SetHeiWid(1280, 720);
+                    SceneManager.LoadScene(useTeleportSystem);
+                    break;
+                case 2:
+                    menu.Menus[0].GetComponent<Menu_Inventory>().DeleteStorageItem();
+                    SceneManager.LoadScene(4);
+                    break;
+                case 3:
+                    //SceneManager.LoadScene(useTeleportSystem);
+                    break;
+                case 4:
+                    //SceneManager.LoadScene(useTeleportSystem);
+                    break;
+                case 8:
+                    if (dungeonEscape)
+                    {
+                        mainCamera.SetHeiWid(640, 360);
+                        SceneManager.LoadScene(0);
+                        NewDayCheck();
+                        ++currentDate;
+                        playerStatus.Init();
+                    }
+                    break;
+                case 9:
+                    break;
+            }
         }
         else
         {
-            if (!isDead)
-            {
-                if (SceneManager.GetActiveScene().buildIndex == 1)
-                {
-                    SceneManager.LoadScene("TowerFirstFloor");
-                }
-                else if (SceneManager.GetActiveScene().buildIndex == 4)
-                {
-                    SceneManager.LoadScene("MainMenu");
-                    newDay = true;
-                    NewDayCheck();
-                    dungeonClear = false;
-                    ++currentDate;
-                    playerStatus.Init();
-                    playerStatus.HPInit();
-                }
-            }
-            else
-            {
-                SceneManager.LoadScene("MainMenu");
-                newDay = true;
-                NewDayCheck();
-                dungeonClear = false;
-                playerStatus.Init();
-                playerStatus.HPInit();
-            }
+            mainCamera.SetHeiWid(640, 360);
+            SceneManager.LoadScene(0);
+            NewDayCheck();
+            ++currentDate;
+            playerStatus.Init();
         }
     }
 
@@ -328,11 +306,19 @@ public class DungeonManager : MonoBehaviour
     public void FloorSetting()
     {
         phaseClear = false;
-        dungeonClear = true;
+        dungeonClear = true;    //false 로 변경
         usedKey = false;
         spawnerCount = 0;
+
+        mapList = GameObject.FindGameObjectsWithTag("BaseMap");
         selectedMapNum = Random.Range(0, mapList.Length);
-        
+
+        for (int i = 0; i < 2; ++i)
+        {
+            if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
+                entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
+        }
+
         ++currentStage;
         // 다음층이 보스층인걸 미리 알면 순서 변경
         ++bossStageCount;
@@ -344,7 +330,7 @@ public class DungeonManager : MonoBehaviour
                 if (bossStageCount == 5)
                     bossStage = 5;
 
-                if (bossStageCount * 20 > Random.Range(50, 81))
+                if (bossStageCount * 20 > Random.Range(50, 90))
                     bossSetting = true;
             }
         }
@@ -358,7 +344,6 @@ public class DungeonManager : MonoBehaviour
         }
         else if (floorRepeat)    // 맵 반복시
         {
-            player.transform.position = entrance;
             mark.GetComponent<SpriteRenderer>().sprite = markSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
 
             currentMonsterCount = monsterCount;
@@ -374,7 +359,6 @@ public class DungeonManager : MonoBehaviour
         }
         else            // 일반 맵일경우
         {
-            player.transform.position = entrance;
             // 초기 맵 랜덤 선택
             mapList[selectedMapNum].GetComponent<BackgroundScrolling>().backGroundImage.transform.position
                 = new Vector2(Random.Range(-0.5f, 0.5f), -(currentStage * 0.2f));
@@ -409,6 +393,8 @@ public class DungeonManager : MonoBehaviour
 
         marker_Variable.markerPreVariable = marker_Variable.markerVariable;
         marker_Variable.Reset();
+
+        player.transform.position = entrance;
     }
 
     public void SetFloorStatus()
@@ -441,17 +427,7 @@ public class DungeonManager : MonoBehaviour
                 break;
         }
     }
-    
-    public void GoToTown()
-    {
-        SceneManager.LoadScene("Town");
-        camera.SetHeiWid(1280, 720);
-    }
-    public void ComeBackHome()
-    {
-        SceneManager.LoadScene("MainMenu");
-        camera.SetHeiWid(640, 360);
-    }
+
     public bool NewDayCheck()
     {
         if (newDay)
@@ -472,13 +448,13 @@ public class DungeonManager : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        useTeleportSystem = 10;
+        mainCamera = CameraManager.instance;
 
-        camera = CameraManager.instance;
-        camera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
+        useTeleportSystem = 10;
+        
         teleportPoint = GameObject.FindGameObjectsWithTag("Portal");
         int teleportCount = teleportPoint.Length;
-        
+
         if (SceneManager.GetActiveScene().buildIndex == 0)      // 메인 메뉴 씬 일 때
         {
             if (!GameManager.instance.gameStart)
@@ -488,7 +464,6 @@ public class DungeonManager : MonoBehaviour
                     if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
                         entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
                 }
-                player.GetComponent<PlayerControl>().enabled = false;
             }
             else
             {
@@ -508,22 +483,13 @@ public class DungeonManager : MonoBehaviour
         else if (SceneManager.GetActiveScene().buildIndex == 3)  // 숲 - 타워 화면 일 때
         {
             mapList = GameObject.FindGameObjectsWithTag("BaseMap");
-            //SelectedKey(1, 1, false);
         }
         else if (SceneManager.GetActiveScene().buildIndex == 4)  // 타워 첫번째 층 일 때
         {
-            dungeonClear = false;
-
-            mapList = GameObject.FindGameObjectsWithTag("BaseMap");
-
-            for (int i = 0; i < 2; ++i)
-            {
-                if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
-                    entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
-            }
             FloorSetting();
         }
 
+        mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
         player.transform.position = entrance;
     }
 }
