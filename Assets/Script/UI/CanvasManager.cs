@@ -1,7 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+public enum content
+{
+    DungeonKey = 1,
+    Enchant = 2,
+    Upgrade = 3,
+    Buff = 4
+}
 
 public class CanvasManager : MonoBehaviour
 {
@@ -19,6 +28,8 @@ public class CanvasManager : MonoBehaviour
     public GameObject KeySettingMenu;
     public GameObject LoadSlots;
     public Scrollbar[] sb;
+    public GameObject fadeInOut;
+    public bool isFadeInOut;
     #endregion
 
     public bool isInventoryOn;
@@ -27,14 +38,6 @@ public class CanvasManager : MonoBehaviour
     public bool isLoadSlotOn;
     private int useContent;
     private int focus;
-
-    private enum content
-    {
-        DungeonKey = 1,
-        Enchant = 2,
-        Upgrade = 3,
-        Buff = 4
-    }
     
     private void Awake()
     {
@@ -58,6 +61,7 @@ public class CanvasManager : MonoBehaviour
         {
             Menus[i].SetActive(false);
         }
+        isFadeInOut = false;
     }
 
     private void Update()
@@ -117,6 +121,55 @@ public class CanvasManager : MonoBehaviour
                 }
             }
         }
+    }
+    
+    public void FadeInOut(bool fadeIn)
+    {
+        if (fadeIn)
+            StartCoroutine(FadeIn());
+        else
+            StartCoroutine(FadeOut());
+    }
+
+    IEnumerator FadeIn()
+    {
+        fadeInOut.SetActive(true);
+
+        Debug.Log("fade in");
+
+        Color fadeColor = fadeInOut.GetComponent<Image>().color;
+        while (fadeColor.a > 0f)
+        {
+            fadeColor.a -= Time.deltaTime / 2f;
+            fadeInOut.GetComponent<Image>().color = fadeColor;
+            yield return null;
+        }
+        if (fadeColor.a < 0f) fadeColor.a = 0f;
+        fadeInOut.GetComponent<Image>().color = fadeColor;
+
+        fadeInOut.SetActive(false);
+        Debug.Log("fade in end");
+        DungeonManager.instance.isSceneLoading = false;
+    }
+    IEnumerator FadeOut()
+    {
+        fadeInOut.SetActive(true);
+
+        Debug.Log("fade out");
+
+        Color fadeColor = fadeInOut.GetComponent<Image>().color;
+        while (fadeColor.a < 1f)
+        {
+            fadeColor.a += Time.deltaTime / 2f;
+            fadeInOut.GetComponent<Image>().color = fadeColor;
+            yield return null;
+        }
+        if (fadeColor.a > 1f) fadeColor.a = 1f;
+        fadeInOut.GetComponent<Image>().color = fadeColor;
+
+        fadeInOut.SetActive(false);
+        Debug.Log("fade out end");
+        DungeonManager.instance.SceneLoad();
     }
 
     public void OpenInGameMenu()        // I로 인벤토리 열 때

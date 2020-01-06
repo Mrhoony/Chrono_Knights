@@ -81,6 +81,7 @@ public class DungeonManager : MonoBehaviour
     public MarkerVariable marker_Variable;   // Marker로부터 전달받는 값 저장공간
     public Marker marker;
     public FloorData[] FloorDatas;
+    public Dungeon_UI dungeonUI;
     #endregion
 
     public int markerRandom;
@@ -92,6 +93,7 @@ public class DungeonManager : MonoBehaviour
     public int currentDate;
 
     private bool newDay;
+    public bool isDead;
     
     #region 던전 생성 관련
     private GameObject[] mapList;
@@ -110,6 +112,8 @@ public class DungeonManager : MonoBehaviour
     public int bossStageCount;
     public bool floorRepeat;
 
+    public bool isSceneLoading;
+    public bool dungeonEscape;
     public bool dungeonClear;   // 던전 클리어시
     public bool phaseClear;   // 페이즈 클리어시
 
@@ -155,32 +159,46 @@ public class DungeonManager : MonoBehaviour
         currentMonsterCount = 0;
         bossStageCount = 0;
         useTeleportSystem = 10;
+        isSceneLoading = false;
         bossSetting = false;
         newDay = false;
         dungeonClear = false;
+        dungeonEscape = false;
         floorRepeat = false;
+        phaseClear = false;
     }
     public void Update()
     {
         if (menu.isCancelOn || menu.isInventoryOn || menu.isStorageOn) return;
         if (useTeleportSystem == 10) return;
+        if (isSceneLoading) return;
 
         if (Input.GetButtonDown("Fire1"))           // 공격키를 눌렀을 때
         {
             if (SceneManager.GetActiveScene().buildIndex == 0)      // 메인 메뉴 화면에서
             {
-                SectionTeleport(false, false);
+                if(useTeleportSystem == 1)
+                {
+                    isSceneLoading = true;
+                    menu.FadeInOut(false);
+                }
             }
             else if (SceneManager.GetActiveScene().buildIndex == 1)      // 마을 화면에서
             {
-                SectionTeleport(false, false);
+                if(useTeleportSystem != 10)
+                {
+                    isSceneLoading = true;
+                    menu.FadeInOut(false);
+                }
             }
             else if (SceneManager.GetActiveScene().buildIndex == 2)      // 마을 - 숲 화면에서
             {
+                //menu.FadeOut();
                 //SectionTeleport(false, false);
             }
             else if (SceneManager.GetActiveScene().buildIndex == 3)      // 숲 - 타워 화면에서
             {
+                //menu.FadeOut();
                 //SectionTeleport(false, false);
             }
             else if (SceneManager.GetActiveScene().buildIndex == 4)
@@ -191,13 +209,14 @@ public class DungeonManager : MonoBehaviour
 
                     if (usedKey)            // 키를 쓴경우
                     {
-                        FloorSetting();
+                        isSceneLoading = true;
+                        menu.FadeInOut(false);
+                        menu.FadeInOut(true);
                     }
                     else                    // 키를 안쓴경우 반응x (임시)집으로
                     {
-                        menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
-                        DungeonInit();
-                        SectionTeleport(false, true);
+                        isSceneLoading = true;
+                        menu.FadeInOut(false);
                     }
                 }
             }
@@ -229,7 +248,8 @@ public class DungeonManager : MonoBehaviour
                 break;
             case ItemType.ReturnTown:
                 // 마을로 돌아간다. 클리어 정보창 표시
-                SectionTeleport(false, true);
+                isSceneLoading = true;
+                menu.FadeInOut(false);
                 break;
             case ItemType.FreePassNextFloor:
                 ++currentStage;
@@ -252,8 +272,18 @@ public class DungeonManager : MonoBehaviour
         return true;
     }
 
-    // 씬 이동 (마을로, 계층이동)
-    public void SectionTeleport(bool isDead, bool dungeonEscape)
+    public void PlayerIsDead()
+    {
+        isDead = true;
+        /*
+         *  플레이어 죽었을 때 게임 오버 창 표시
+         */
+        isSceneLoading = true;
+        menu.FadeInOut(false);
+        menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(true);
+    }
+
+    public void SceneLoad()
     {
         if (!isDead)
         {
@@ -282,9 +312,16 @@ public class DungeonManager : MonoBehaviour
                     {
                         mainCamera.SetHeiWid(640, 360);
                         SceneManager.LoadScene(0);
+                        DungeonInit();
                         NewDayCheck();
                         ++currentDate;
                         playerStatus.Init();
+                        menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
+                    }
+                    else if (phaseClear)
+                    {
+                        phaseClear = false;
+                        SceneManager.LoadScene(5);
                     }
                     break;
                 case 9:
@@ -295,9 +332,11 @@ public class DungeonManager : MonoBehaviour
         {
             mainCamera.SetHeiWid(640, 360);
             SceneManager.LoadScene(0);
+            DungeonInit();
             NewDayCheck();
             ++currentDate;
             playerStatus.Init();
+            menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(true);
         }
     }
 
@@ -394,6 +433,8 @@ public class DungeonManager : MonoBehaviour
         marker_Variable.Reset();
 
         player.transform.position = entrance;
+
+        dungeonUI.SetDungeonFloor(currentStage);
     }
 
     public void SetFloorStatus()
@@ -488,13 +529,17 @@ public class DungeonManager : MonoBehaviour
         {
             mapList = GameObject.FindGameObjectsWithTag("BaseMap");
         }
-        else if (SceneManager.GetActiveScene().buildIndex == 4)  // 타워 첫번째 층 일 때
+        else if (SceneManager.GetActiveScene().buildIndex >= 4)  // 타워 첫번째 층 일 때
         {
+            dungeonUI = GameObject.Find("DungeonUI").GetComponent<Dungeon_UI>();
             FloorSetting();
         }
 
         mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
         player.transform.position = entrance;
+
+        menu.FadeInOut(true);
+        isSceneLoading = false;
     }
 }
 /*
