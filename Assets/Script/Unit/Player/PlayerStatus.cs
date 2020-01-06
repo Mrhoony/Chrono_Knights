@@ -11,8 +11,7 @@ public class PlayerStatus : MonoBehaviour
 {
     MainUI_PlayerStatusView playerStatusView;
     Animator animator;
-
-    public DataBase dataBase;
+    
     public PlayerData playerData;
     public PlayerEquipment playerEquip;
 
@@ -71,6 +70,11 @@ public class PlayerStatus : MonoBehaviour
         currentHP = playerData.GetStatus(7);
         jumpPower = playerData.GetStatus(8);
 
+        PlayerStatusUpdate();
+    }
+
+    public void PlayerStatusUpdate()
+    {
         attack = (int)(playerData.GetStatus(0) + playerData.GetEquipmentStatus(0) + traningStat[0]);
         defense = (int)(playerData.GetStatus(1) + playerData.GetEquipmentStatus(1) + traningStat[1]);
         moveSpeed = playerData.GetStatus(2) + playerData.GetEquipmentStatus(2) + traningStat[2];
@@ -78,6 +82,10 @@ public class PlayerStatus : MonoBehaviour
         dashDistance = playerData.GetStatus(4) + playerData.GetEquipmentStatus(4) + traningStat[4];
         recovery = playerData.GetStatus(5) + playerData.GetEquipmentStatus(5) + traningStat[5];
         jumpCount = (int)(playerData.GetStatus(6) + playerData.GetEquipmentStatus(6));
+
+        animator.SetFloat("AttackSpeed", attackSpeed);
+        SetMoveSpeed_Result(1, true);
+        SetDashDistance_Result(1, true);
     }
 
     public void HPInit()
@@ -171,10 +179,6 @@ public class PlayerStatus : MonoBehaviour
     public float GetJumpPower()
     {
         return jumpPower;
-    }
-    public void SetAttackSpeed()
-    {
-        animator.SetFloat("AttackSpeed", playerData.GetStatus(3) + playerData.GetEquipmentStatus(3) + traningStat[3]);
     }
 
     public void SetAttackMulty_Result(int multyAttack, bool multy)

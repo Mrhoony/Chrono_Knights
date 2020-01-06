@@ -20,7 +20,6 @@ public enum MarkerVariableNumber
 }
 public class MarkerVariable
 {
-    public MarkerVariableNumber markerVariableNumber;
     public int[] markerVariable = new int[12];
     public int[] markerPreVariable = new int[12];
     
@@ -476,6 +475,11 @@ public class DungeonManager : MonoBehaviour
         }
         else if(SceneManager.GetActiveScene().buildIndex == 1)  // 마을 화면 일 때
         {
+            for (int i = 0; i < teleportCount; ++i)
+            {
+                if (teleportPoint[i].GetComponent<Teleport>().useSystem == 0)
+                    entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
+            }
         }
         else if (SceneManager.GetActiveScene().buildIndex == 2)  // 마을 - 숲 화면 일 때
         {

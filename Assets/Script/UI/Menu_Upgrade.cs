@@ -209,6 +209,6 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
         acceptSlot[upgradeFocus].transform.GetChild(0).gameObject.SetActive(true);
 
         playerData.renew(playerEquipment);
-        playerStat.SetAttackSpeed();
+        playerStat.PlayerStatusUpdate();
     }
 }

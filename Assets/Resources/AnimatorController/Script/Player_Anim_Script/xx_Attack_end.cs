@@ -15,16 +15,16 @@ public class xx_Attack_end : AnimatorManager
     {
         if (stateInfo.normalizedTime > 0.1f && atk < 1)
         {
-            Attack(0.5f, 0f, 1f, 0.5f);
-        }
-        if (stateInfo.normalizedTime > 0.1f)
-        {
-            playerControl.gameObject.GetComponent<Weapon_Spear>().SetAttackState(3);
             if (!move)
             {
                 playerControl.DashAttackDistance(2f);
                 move = true;
             }
+            Attack(0.5f, 0f, 1f, 0.5f);
+        }
+        if (stateInfo.normalizedTime > 0.3f)
+        {
+            playerControl.gameObject.GetComponent<Weapon_Spear>().SetAttackState(3);
         }
     }
 

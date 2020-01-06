@@ -15,16 +15,12 @@ public class xFxFx_Attack_end : AnimatorManager
     {
         if (stateInfo.normalizedTime > 0.2f && atk < 2)
         {
-            Attack(1f, 0f, 2f, 0.5f);
-        }
-
-        if(stateInfo.normalizedTime > 0.1f)
-        {
             if (!move)
             {
                 playerControl.DashAttackDistance(3f);
                 move = true;
             }
+            Attack(1f, 0f, 2f, 0.5f);
         }
     }
 

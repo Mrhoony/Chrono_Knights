@@ -246,6 +246,6 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
         acceptSlot[enchantFocused].transform.GetChild(0).gameObject.SetActive(true);
 
         playerData.renew(playerEquipment);
-        playerStat.SetAttackSpeed();
+        playerStat.PlayerStatusUpdate();
     }
 }
