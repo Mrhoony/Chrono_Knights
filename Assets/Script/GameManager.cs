@@ -67,9 +67,11 @@ public class GameManager : MonoBehaviour
         inventory = canvanManager.Menus[0].GetComponent<Menu_Inventory>();
 
         Debug.Log("gameManager awake");
+
+        Init();
     }
 
-    private void Start()
+    private void Init()
     {
         dataBase.Init();
         playerStat.Init();

@@ -57,10 +57,12 @@ public class PlayerControl : MovingObject
         weaponSpear.Init(animator, rb);
         weaponGun = GetComponent<Weapon_Gun>(); // weaponGun 선언
 
+        Init();
+
         Debug.Log("control awake");
     }
 
-    public void Start()
+    public void Init()
     {
         playerStatus.Init();
         currentJumpCount = (int)playerStatus.GetJumpCount();

@@ -2900,6 +2900,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1513902113, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1513902115, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
       propertyPath: m_Color.a
       value: 1

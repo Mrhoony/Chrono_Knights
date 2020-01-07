@@ -94,6 +94,8 @@ public class DungeonManager : MonoBehaviour
 
     private bool newDay;
     public bool isDead;
+    public bool freePassFloor;
+    public int bossClear;
     
     #region 던전 생성 관련
     private GameObject[] mapList;
@@ -113,7 +115,6 @@ public class DungeonManager : MonoBehaviour
     public bool floorRepeat;
 
     public bool isSceneLoading;
-    public bool dungeonEscape;
     public bool dungeonClear;   // 던전 클리어시
     public bool phaseClear;   // 페이즈 클리어시
 
@@ -152,21 +153,23 @@ public class DungeonManager : MonoBehaviour
             FloorDatas[Floor] = new FloorData(Floor, Floor * 2);
         }
     }
-    private void Start()
+    private void Init()
     {
         currentStage = 0;
         monsterCount = 0;
         currentMonsterCount = 0;
         bossStageCount = 0;
         useTeleportSystem = 10;
+        bossClear = 0;
         isSceneLoading = false;
         bossSetting = false;
         newDay = false;
         dungeonClear = false;
-        dungeonEscape = false;
         floorRepeat = false;
         phaseClear = false;
+        freePassFloor = false;
     }
+
     public void Update()
     {
         if (menu.isCancelOn || menu.isInventoryOn || menu.isStorageOn) return;
@@ -180,7 +183,7 @@ public class DungeonManager : MonoBehaviour
                 if(useTeleportSystem == 1)
                 {
                     isSceneLoading = true;
-                    menu.FadeInOut(false);
+                    menu.FadeOutStart(true);
                 }
             }
             else if (SceneManager.GetActiveScene().buildIndex == 1)      // 마을 화면에서
@@ -188,7 +191,7 @@ public class DungeonManager : MonoBehaviour
                 if(useTeleportSystem != 10)
                 {
                     isSceneLoading = true;
-                    menu.FadeInOut(false);
+                    menu.FadeOutStart(true);
                 }
             }
             else if (SceneManager.GetActiveScene().buildIndex == 2)      // 마을 - 숲 화면에서
@@ -201,7 +204,7 @@ public class DungeonManager : MonoBehaviour
                 //menu.FadeOut();
                 //SectionTeleport(false, false);
             }
-            else if (SceneManager.GetActiveScene().buildIndex == 4)
+            else if (SceneManager.GetActiveScene().buildIndex >= 4)
             {
                 if (useTeleportSystem == 8)         // 던전 포탈 앞에 서있을 경우 다음던전 또는 집으로 이동한다.
                 {
@@ -210,13 +213,12 @@ public class DungeonManager : MonoBehaviour
                     if (usedKey)            // 키를 쓴경우
                     {
                         isSceneLoading = true;
-                        menu.FadeInOut(false);
-                        menu.FadeInOut(true);
+                        menu.FadeOutStart(false);
                     }
                     else                    // 키를 안쓴경우 반응x (임시)집으로
                     {
                         isSceneLoading = true;
-                        menu.FadeInOut(false);
+                        menu.FadeOutStart(true);
                     }
                 }
             }
@@ -249,12 +251,10 @@ public class DungeonManager : MonoBehaviour
             case ItemType.ReturnTown:
                 // 마을로 돌아간다. 클리어 정보창 표시
                 isSceneLoading = true;
-                menu.FadeInOut(false);
+                menu.FadeOutStart(true);
                 break;
             case ItemType.FreePassNextFloor:
-                ++currentStage;
-                ++bossStageCount;
-                FloorSetting();
+                freePassFloor = true;
                 break;
             case ItemType.FreePassThisFloor:
                 FloorSetting();
@@ -278,9 +278,9 @@ public class DungeonManager : MonoBehaviour
         /*
          *  플레이어 죽었을 때 게임 오버 창 표시
          */
-        isSceneLoading = true;
-        menu.FadeInOut(false);
         menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(true);
+        isSceneLoading = true;
+        menu.FadeOutStart(true);
     }
 
     public void SceneLoad()
@@ -308,20 +308,26 @@ public class DungeonManager : MonoBehaviour
                     //SceneManager.LoadScene(useTeleportSystem);
                     break;
                 case 8:
-                    if (dungeonEscape)
+                    if (phaseClear)
                     {
-                        mainCamera.SetHeiWid(640, 360);
-                        SceneManager.LoadScene(0);
+                        phaseClear = false;
                         DungeonInit();
                         NewDayCheck();
                         ++currentDate;
-                        playerStatus.Init();
+                        playerStatus.ReturnToTown();
                         menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
+                        mainCamera.SetHeiWid(640, 360);
+                        SceneManager.LoadScene(0);
                     }
-                    else if (phaseClear)
+                    else
                     {
-                        phaseClear = false;
-                        SceneManager.LoadScene(5);
+                        DungeonInit();
+                        NewDayCheck();
+                        ++currentDate;
+                        playerStatus.ReturnToTown();
+                        menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
+                        mainCamera.SetHeiWid(640, 360);
+                        SceneManager.LoadScene(0);
                     }
                     break;
                 case 9:
@@ -330,13 +336,14 @@ public class DungeonManager : MonoBehaviour
         }
         else
         {
-            mainCamera.SetHeiWid(640, 360);
-            SceneManager.LoadScene(0);
+            isDead = false;
             DungeonInit();
             NewDayCheck();
             ++currentDate;
-            playerStatus.Init();
+            playerStatus.ReturnToTown();
             menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(true);
+            mainCamera.SetHeiWid(640, 360);
+            SceneManager.LoadScene(0);
         }
     }
 
@@ -346,6 +353,7 @@ public class DungeonManager : MonoBehaviour
         phaseClear = false;
         dungeonClear = true;    //false 로 변경
         usedKey = false;
+        freePassFloor = false;
         spawnerCount = 0;
 
         mapList = GameObject.FindGameObjectsWithTag("BaseMap");
@@ -360,14 +368,15 @@ public class DungeonManager : MonoBehaviour
         ++currentStage;
         // 다음층이 보스층인걸 미리 알면 순서 변경
         ++bossStageCount;
+        if (freePassFloor)
+        {
+            ++currentStage;
+            ++bossStageCount;
+        }
         if (!bossSetting)
         {
-            if ((bossStageCount % 5 - 2) > 0)  // 보스스테이지 설정
+            if ((bossStageCount - (5 * bossClear) - 2) > 0)  // 보스스테이지 설정
             {
-                int bossStage = bossStageCount % 5;
-                if (bossStageCount == 5)
-                    bossStage = 5;
-
                 if (bossStageCount * 20 > Random.Range(50, 90))
                     bossSetting = true;
             }
@@ -499,6 +508,7 @@ public class DungeonManager : MonoBehaviour
         {
             if (!GameManager.instance.gameStart)
             {
+                Init();
                 for (int i = 0; i < teleportCount; ++i)
                 {
                     if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
@@ -538,8 +548,7 @@ public class DungeonManager : MonoBehaviour
         mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
         player.transform.position = entrance;
 
-        menu.FadeInOut(true);
-        isSceneLoading = false;
+        menu.FadeInStart();
     }
 }
 /*

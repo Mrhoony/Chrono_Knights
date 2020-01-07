@@ -73,6 +73,12 @@ public class PlayerStatus : MonoBehaviour
         PlayerStatusUpdate();
     }
 
+    public void ReturnToTown()
+    {
+        HPInit();
+        PlayerStatusUpdate();
+    }
+
     public void PlayerStatusUpdate()
     {
         attack = (int)(playerData.GetStatus(0) + playerData.GetEquipmentStatus(0) + traningStat[0]);

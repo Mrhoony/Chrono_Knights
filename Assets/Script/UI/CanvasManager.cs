@@ -123,12 +123,15 @@ public class CanvasManager : MonoBehaviour
         }
     }
     
-    public void FadeInOut(bool fadeIn)
+    public void FadeInStart()
     {
-        if (fadeIn)
-            StartCoroutine(FadeIn());
-        else
-            StartCoroutine(FadeOut());
+        StartCoroutine(FadeIn());
+    }
+
+    public void FadeOutStart(bool sceneLoad)
+    {
+        player.GetComponent<PlayerControl>().enabled = false;
+        StartCoroutine(FadeOut(sceneLoad));
     }
 
     IEnumerator FadeIn()
@@ -150,8 +153,9 @@ public class CanvasManager : MonoBehaviour
         fadeInOut.SetActive(false);
         Debug.Log("fade in end");
         DungeonManager.instance.isSceneLoading = false;
+        player.GetComponent<PlayerControl>().enabled = true;
     }
-    IEnumerator FadeOut()
+    IEnumerator FadeOut(bool sceneLoad)
     {
         fadeInOut.SetActive(true);
 
@@ -169,7 +173,13 @@ public class CanvasManager : MonoBehaviour
 
         fadeInOut.SetActive(false);
         Debug.Log("fade out end");
-        DungeonManager.instance.SceneLoad();
+        if (sceneLoad)
+            DungeonManager.instance.SceneLoad();
+        else
+        {
+            DungeonManager.instance.FloorSetting();
+            FadeInStart();
+        }
     }
 
     public void OpenInGameMenu()        // I로 인벤토리 열 때
