@@ -154,7 +154,9 @@ public class CanvasManager : MonoBehaviour
         fadeInOut.SetActive(false);
         Debug.Log("fade in end");
         DungeonManager.instance.isSceneLoading = false;
-        player.GetComponent<PlayerControl>().enabled = true;
+
+        if(GameManager.instance.GetGameStart())
+            player.GetComponent<PlayerControl>().enabled = true;
     }
     IEnumerator FadeOut(bool sceneLoad)
     {

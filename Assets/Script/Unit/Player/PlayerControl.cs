@@ -5,10 +5,14 @@ using UnityEngine;
 public class PlayerControl : MovingObject
 {
     public static PlayerControl instance;
+    public BoxCollider2D playerCharacterCollider;
+    public LayerMask rayDashLayerMask;
     public GameObject GroundCheck;
     public PlayerStatus playerStatus;
     public Weapon_Spear weaponSpear;
-    public Weapon_Gun weaponGun;    // Gun_Controller.cs
+    public Weapon_Gun weaponGun;
+    public RaycastHit2D playerDashTopDistance;
+    public RaycastHit2D playerDashBotDistance;
 
     public int weaponType;
 
@@ -23,7 +27,6 @@ public class PlayerControl : MovingObject
     public float runDelay;
     public int isRrun;
     public int isLrun;
-    public bool isFall;
     
     public bool inputJump;
     public bool jumpping;
@@ -52,6 +55,7 @@ public class PlayerControl : MovingObject
 
         rb = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponentInChildren<Animator>();
+        playerCharacterCollider = gameObject.GetComponent<BoxCollider2D>();
         playerStatus = GetComponent<PlayerStatus>();
         weaponSpear = GetComponent<Weapon_Spear>();
         weaponSpear.Init(animator, rb);
@@ -69,7 +73,6 @@ public class PlayerControl : MovingObject
         arrowDirection = 1;
         weaponType = 0;
         attackSpeed = 1;
-        isFall = false;
         dodgable = true;
     }
 
@@ -107,14 +110,10 @@ public class PlayerControl : MovingObject
         // 낙하 체크
         if (rb.velocity.y <= -0.5f)
         {
-            if (!isFall)
+            if (!jumpping)
             {
-                if (!jumpping)
-                {
-                    --currentJumpCount;
-                    isFall = true;
-                    animator.SetTrigger("isFallTrigger");
-                }
+                --currentJumpCount;
+                animator.SetTrigger("isFallTrigger");
             }
             GroundCheck.SetActive(true);
         }
@@ -245,7 +244,6 @@ public class PlayerControl : MovingObject
             if (actionState == ActionState.IsJump)
             {
                 weaponSpear.JumpAttackX(inputArrow);
-                isFall = false;
             }
             else
             {
@@ -374,7 +372,6 @@ public class PlayerControl : MovingObject
         animator.SetBool("isJump", false);
         animator.SetBool("isJump_x_Atk", false);
         animator.SetBool("isLand", true);
-        isFall = false;
         jumpping = false;
         Debug.Log(currentJumpCount);
     }
@@ -396,7 +393,31 @@ public class PlayerControl : MovingObject
     }
     public void DashAttackDistance(float dashDistanceMulty)
     {
-        transform.position = new Vector2(transform.position.x + dashDistanceMulty * playerStatus.GetDashDistance_Result() * arrowDirection * 0.1f, transform.position.y);
+        playerDashTopDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, playerCharacterCollider.size.y), new Vector2(arrowDirection, 0), dashDistanceMulty * 0.1f, rayDashLayerMask);
+        playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, transform.position.y), new Vector2(arrowDirection, 0), dashDistanceMulty * 0.1f, rayDashLayerMask);
+        
+        float topDistance = playerDashTopDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
+        float botDistance = playerDashBotDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
+        
+        if (playerDashBotDistance && playerDashTopDistance)
+        {
+            if(topDistance * topDistance > botDistance * botDistance)
+            {
+                if (botDistance < 0)
+                    botDistance = -botDistance;
+                dashDistanceMulty = botDistance;
+            }
+            else
+            {
+                if (topDistance < 0)
+                    topDistance = -topDistance;
+                dashDistanceMulty = topDistance;
+            }
+            transform.position = new Vector2(transform.position.x + dashDistanceMulty * arrowDirection, transform.position.y);
+
+        }
+        else
+            transform.position = new Vector2(transform.position.x + dashDistanceMulty * playerStatus.GetDashDistance_Result() * arrowDirection * 0.1f, transform.position.y);
     }
     public void PlayerMoveSet()
     {

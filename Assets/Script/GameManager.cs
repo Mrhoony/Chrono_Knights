@@ -74,15 +74,13 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
         dataBase.Init();
-        playerStat.Init();
-        playerStat.HPInit();
-        canvanManager = GameObject.Find("UI").GetComponent<CanvasManager>();
 
         player.GetComponent<PlayerControl>().enabled = false;
-        storage.Init();
-        inventory.Init();
         canvanManager.inGameMenu.SetActive(false);
         playerStatView.SetActive(false);
+
+        storage.Init();
+        inventory.Init();
 
         gameStart = false;
 
