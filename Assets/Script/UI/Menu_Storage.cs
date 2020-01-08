@@ -71,7 +71,7 @@ public class Menu_Storage : MonoBehaviour
         {
             if (upgradeItem)
             {
-                if (storageItemList[focus].keyCode != 0)
+                if (storageItemList[focus] != null)
                 {
                     upgradeItem = false;
                     CloseStorageWithUpgrade(true);
@@ -79,7 +79,7 @@ public class Menu_Storage : MonoBehaviour
             }
             else
             {
-                if (storageItemList[focus].keyCode == 0) return;
+                if (storageItemList[focus] == null) return;
                 
                 if (!isSelected[focus])
                 {
@@ -129,7 +129,8 @@ public class Menu_Storage : MonoBehaviour
         {
             boxFull = availableSlot - (boxNum * 24);
         }
-        for (int i = boxNum * 24; i < boxFull; ++i)
+
+        for (int i = boxNum * 24; i < boxFull + (boxNum * 24); ++i)
         {
             if (storageItemList[i] != null)
             {
@@ -368,7 +369,6 @@ public class Menu_Storage : MonoBehaviour
     {
         return availableSlot;
     }
-
     public void SaveStorageClear()
     {
         for (int i = 0; i < 72; ++i)

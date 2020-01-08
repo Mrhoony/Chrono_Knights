@@ -229,5 +229,11 @@ public class Monster_Control : MovingObject
         {
             dropItemList.ItemDropChance();
         }
+        DeadAnimation();
+    }
+
+    public void DeadAnimation()
+    {
+        Destroy(gameObject);
     }
 }

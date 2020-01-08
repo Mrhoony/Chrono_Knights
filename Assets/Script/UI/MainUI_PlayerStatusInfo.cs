@@ -11,21 +11,22 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
     Sprite[] inventorySet;
     PlayerStatus playerStatus;
     PlayerData playerData;
-
     PlayerEquipment playerEquipment;
     public PlayerEquipment.Equipment[] equipment;
 
     private void Awake()
     {
+        equipmentBorder = Resources.LoadAll<Sprite>("UI/ui_status_set");
+        inventorySet = Resources.LoadAll<Sprite>("UI/Inventory_Set");
+
         playerStatus = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         playerData = playerStatus.playerData;
         playerEquipment = playerData.GetPlayerEquipment();
-        equipmentBorder = Resources.LoadAll<Sprite>("UI/ui_status_set");
-        inventorySet = Resources.LoadAll<Sprite>("UI/Inventory_Set");
     }
 
     public void OnStatusMenu()
     {
+        playerEquipment = playerStatus.playerData.GetPlayerEquipment();
         equipment = playerEquipment.equipment;
         for (int i = 0; i < 7; ++i)
         {

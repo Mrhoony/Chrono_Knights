@@ -448,6 +448,8 @@ public class DungeonManager : MonoBehaviour
 
     public void SetFloorStatus()
     {
+        playerStatus.PlayerStatusUpdate();
+
         switch (marker.thisMarker)
         {
             case Markers.SetDamageBuffOnFloor_NF:

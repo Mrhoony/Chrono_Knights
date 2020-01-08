@@ -115,7 +115,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 230
-        y: 267
+        y: 272
         width: 30
         height: 30
       alignment: 0
@@ -135,7 +135,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 230
-        y: 230
+        y: 235
         width: 30
         height: 30
       alignment: 0
@@ -155,7 +155,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 230
-        y: 191
+        y: 196
         width: 30
         height: 30
       alignment: 0
@@ -171,31 +171,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_status_set_4
-      rect:
-        serializedVersion: 2
-        x: 138
-        y: 309
-        width: 108
-        height: 2
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 19ad396314ee83e41a0db99298eb3f5e
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: ui_status_set_5
       rect:
         serializedVersion: 2
         x: 243
-        y: 163
+        y: 168
         width: 1
         height: 10
       alignment: 0
@@ -219,7 +199,7 @@ TextureImporter:
         width: 108
         height: 2
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

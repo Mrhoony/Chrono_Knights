@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
         if (canvanManager.isCancelOn || canvanManager.isInventoryOn || canvanManager.isStorageOn) return;
 
         if (SceneManager.GetActiveScene().buildIndex != 0) return;
-
+        
         if (Input.GetKeyDown(KeyCode.Z))
         {
             if (DungeonManager.instance.useTeleportSystem == 9)
@@ -135,6 +135,24 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
         if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
+    }
+
+    public bool GetGameStart()
+    {
+        return gameStart;
+    }
+
+    public void MouseFocusSlot(int AdjustValue)
+    {
+        saveSlot[focus].GetComponent<Image>().color = new Color(1, 1, 1, 1);
+
+        focus = AdjustValue;
+
+        saveSlot[AdjustValue].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
+    }
+    public void MouseFocusOut(int AdjustValue)
+    {
+        saveSlot[AdjustValue].GetComponent<Image>().color = new Color(1, 1, 1, 1);
     }
     
     void FocusedSlot(int AdjustValue)
@@ -306,6 +324,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Quit"); // Application.Quit()은 에디터 상에서 작동x로 Debug.log로 동작 확인, 빌드시 삭제
         //Application.Quit();
     }
+
     // MainMenu Scene 나오게 설정
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void FirstLoad()

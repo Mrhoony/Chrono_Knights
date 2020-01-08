@@ -35,15 +35,7 @@ public class PlayerStatus : MonoBehaviour
     public float dashDistance_Result;
     
     float[] traningStat;
-
-    // Start is called before the first frame uplayerDataate
-    void Awake()
-    {
-        animator = GetComponent<Animator>();
-        playerStatusView = GameObject.Find("UI/Hpbar").GetComponent<MainUI_PlayerStatusView>();
-        Debug.Log("playerstatus awake");
-    }
-
+    
     public void SetPlayerData(PlayerData _playerData)
     {
         playerData = _playerData;
@@ -62,6 +54,9 @@ public class PlayerStatus : MonoBehaviour
 
     public void Init()
     {
+        animator = GetComponent<Animator>();
+        playerStatusView = GameObject.Find("UI/Hpbar").GetComponent<MainUI_PlayerStatusView>();
+
         playerData = new PlayerData();
         HPInit();
         playerData.Init();
@@ -71,6 +66,7 @@ public class PlayerStatus : MonoBehaviour
         jumpPower = playerData.GetStatus(8);
 
         PlayerStatusUpdate();
+        Debug.Log("player status Init");
     }
 
     public void ReturnToTown()

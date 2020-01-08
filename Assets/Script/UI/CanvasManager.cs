@@ -66,6 +66,8 @@ public class CanvasManager : MonoBehaviour
 
     private void Update()
     {
+        if (!GameManager.instance.GetGameStart()) return;
+
         //인게임 세팅 관련 ( 사운드, 화면 크기 등)
         if (Input.GetButtonDown("Cancel"))
         {
@@ -127,7 +129,6 @@ public class CanvasManager : MonoBehaviour
     {
         StartCoroutine(FadeIn());
     }
-
     public void FadeOutStart(bool sceneLoad)
     {
         player.GetComponent<PlayerControl>().enabled = false;
@@ -143,7 +144,7 @@ public class CanvasManager : MonoBehaviour
         Color fadeColor = fadeInOut.GetComponent<Image>().color;
         while (fadeColor.a > 0f)
         {
-            fadeColor.a -= Time.deltaTime / 2f;
+            fadeColor.a -= Time.deltaTime / 1f;
             fadeInOut.GetComponent<Image>().color = fadeColor;
             yield return null;
         }
@@ -164,7 +165,7 @@ public class CanvasManager : MonoBehaviour
         Color fadeColor = fadeInOut.GetComponent<Image>().color;
         while (fadeColor.a < 1f)
         {
-            fadeColor.a += Time.deltaTime / 2f;
+            fadeColor.a += Time.deltaTime / 1f;
             fadeInOut.GetComponent<Image>().color = fadeColor;
             yield return null;
         }
@@ -195,7 +196,7 @@ public class CanvasManager : MonoBehaviour
 
         foreach (Scrollbar bar in sb)
         {
-            bar.size = 0;
+            bar.size = 0.1f;
             bar.value = 1;
         }
     }

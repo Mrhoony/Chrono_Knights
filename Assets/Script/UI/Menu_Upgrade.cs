@@ -76,6 +76,13 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
                     acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = keyItemBorderSprite[6];
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                equipSlots[equipFocused].transform.GetChild(0).gameObject.SetActive(false);
+                equipFocused = 0;
+                npc_blacksmith.GetComponent<NPC_Blacksmith>().CloseUpgradeMenu();
+            }
         }
         else
         {
@@ -110,6 +117,15 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
                     }
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                upgradeOn = false;
+                acceptSlot[upgradeFocus].transform.GetChild(0).gameObject.SetActive(false);
+                acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
+                upgradeFocus = 0;
+                selectUpgradeItem.SetActive(false);
+            }
         }
     }
     public void SetKey(int focus)
@@ -131,7 +147,8 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
         upgradeOn = false;
         equipFocused = 0;
         upgradeFocus = 0;
-
+        Debug.Log(equipment);
+        Debug.Log(playerEquipment.equipment);
         equipment = playerEquipment.equipment;
 
         for (int i = 0; i < 7; ++i)

@@ -100,7 +100,6 @@ public class NPC_Blacksmith : NPC_Control
 
     public void OpenSelectMenu()
     {
-        
         player.GetComponent<PlayerControl>().enabled = false;
         focus = 0;
         openSelectUI = true;
@@ -114,6 +113,5 @@ public class NPC_Blacksmith : NPC_Control
         openSelectUI = false;
         selectUI.SetActive(false);
         player.GetComponent<PlayerControl>().enabled = true;
-        
     }
 }
