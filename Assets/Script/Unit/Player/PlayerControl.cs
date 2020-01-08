@@ -31,6 +31,8 @@ public class PlayerControl : MovingObject
     public bool inputJump;
     public bool jumpping;
     public bool inputDodge;
+    public bool isGround;
+    public bool isJumpAttack;
     
     public bool dodgable;
     public bool invincible;
@@ -110,10 +112,10 @@ public class PlayerControl : MovingObject
         // 낙하 체크
         if (rb.velocity.y <= -0.5f)
         {
-            if (!jumpping)
+            if (!jumpping && !isGround)
             {
+                jumpping = true;
                 --currentJumpCount;
-                animator.SetTrigger("isFallTrigger");
             }
             GroundCheck.SetActive(true);
         }
@@ -169,7 +171,7 @@ public class PlayerControl : MovingObject
     }
     IEnumerator DodgeCount()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(0.5f);
         dodgable = true;
     }
     
@@ -241,14 +243,18 @@ public class PlayerControl : MovingObject
     {
         if (inputAttackX)
         {
+            inputAttackX = false;
+            if (isJumpAttack) return;
+
             if (actionState == ActionState.IsJump)
             {
+                Debug.Log("input jump x");
                 weaponSpear.JumpAttackX(inputArrow);
             }
             else
             {
+                Debug.Log("input x");
                 weaponSpear.AttackX(inputArrow);
-                inputAttackX = false;
             }
             actionState = ActionState.IsAtk;
         }
@@ -296,18 +302,22 @@ public class PlayerControl : MovingObject
     {
         if (!inputJump) return;
         inputJump = false;
-        if (currentJumpCount < 1) return;
+
+        if (currentJumpCount < 1 && jumpping) return;
+        isGround = false;
+        GroundCheck.SetActive(false);
+        actionState = ActionState.IsJump;
+
         jumpping = true;
         --currentJumpCount;
-        actionState = ActionState.IsJump;
 
         animator.SetBool("isLand", false);
         animator.SetTrigger("isJumpTrigger");
         animator.SetBool("isJump", true);
-        GroundCheck.SetActive(false);
 
         rb.AddForce(new Vector2(0f, playerStatus.GetJumpPower()), ForceMode2D.Impulse);
     }
+
     void Dodge()
     {
         if (!inputDodge) return;
@@ -332,15 +342,22 @@ public class PlayerControl : MovingObject
         StartCoroutine(InvincibleCount());
     }
 
-    public void fly()
-    {
-        animator.SetBool("isLand", false);
-    }
-
     public void StopPlayer()
     {
-        rb.velocity = Vector2.zero;
+        actionState = ActionState.NotMove;
+        StartCoroutine(InputIgnore());
+        Debug.Log("input ignore");
         animator.SetTrigger("PlayerStop");
+        animator.SetBool("isWalk", false);
+        animator.SetBool("isRun", false);
+        weaponSpear.InputInit();
+        rb.velocity = Vector2.zero;
+    }
+
+    IEnumerator InputIgnore()
+    {
+        yield return new WaitForSeconds(0.5f);
+        actionState = ActionState.Idle;
     }
 
     public void Hit(int attack)
@@ -366,14 +383,16 @@ public class PlayerControl : MovingObject
     }
     public void Landing()
     {
+        isGround = true;
         Debug.Log("Landing");
-        currentJumpCount = (int)playerStatus.GetJumpCount();
-        actionState = ActionState.Idle;
         animator.SetBool("isJump", false);
         animator.SetBool("isJump_x_Atk", false);
         animator.SetBool("isLand", true);
-        jumpping = false;
         Debug.Log(currentJumpCount);
+        jumpping = false;
+        currentJumpCount = (int)playerStatus.GetJumpCount();
+        actionState = ActionState.Idle;
+        isJumpAttack = false;
     }
     public void ParryingCheck()
     {
@@ -390,6 +409,34 @@ public class PlayerControl : MovingObject
     void Dead()
     {
         Debug.Log("Dead!!");
+    }
+
+    public void AttackDistance(float DistanceMulty)
+    {
+        playerDashTopDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, playerCharacterCollider.size.y), new Vector2(arrowDirection, 0), DistanceMulty * 0.1f, rayDashLayerMask);
+        playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, transform.position.y), new Vector2(arrowDirection, 0), DistanceMulty * 0.1f, rayDashLayerMask);
+
+        float topDistance = playerDashTopDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
+        float botDistance = playerDashBotDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
+
+        if (playerDashBotDistance && playerDashTopDistance)
+        {
+            if (topDistance * topDistance > botDistance * botDistance)
+            {
+                if (botDistance < 0)
+                    botDistance = -botDistance;
+                DistanceMulty = botDistance;
+            }
+            else
+            {
+                if (topDistance < 0)
+                    topDistance = -topDistance;
+                DistanceMulty = topDistance;
+            }
+            transform.position = new Vector2(transform.position.x + DistanceMulty * arrowDirection, transform.position.y);
+        }
+        else
+            transform.position = new Vector2(transform.position.x + DistanceMulty * arrowDirection * 0.1f, transform.position.y);
     }
     public void DashAttackDistance(float dashDistanceMulty)
     {
@@ -414,13 +461,18 @@ public class PlayerControl : MovingObject
                 dashDistanceMulty = topDistance;
             }
             transform.position = new Vector2(transform.position.x + dashDistanceMulty * arrowDirection, transform.position.y);
-
         }
         else
             transform.position = new Vector2(transform.position.x + dashDistanceMulty * playerStatus.GetDashDistance_Result() * arrowDirection * 0.1f, transform.position.y);
     }
     public void PlayerMoveSet()
     {
+        if (!dodgable) return;
         actionState = ActionState.Idle;
+    }
+    public void PlayerJumpAttackEnd()
+    {
+        isJumpAttack = true;
+        actionState = ActionState.IsJump;
     }
 }

@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour
             {
                 if (gameStart)
                 {
+                    PlayerControl.instance.StopPlayer();
                     gameStart = false;
                     SaveGame();
                 }

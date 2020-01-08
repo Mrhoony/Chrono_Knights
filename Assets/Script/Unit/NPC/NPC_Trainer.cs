@@ -16,6 +16,7 @@ public class NPC_Trainer : NPC_Control
             {
                 if (Input.GetButtonDown("Fire1"))
                 {
+                    PlayerControl.instance.StopPlayer();
                     OpenTraningMenu();
                 }
 

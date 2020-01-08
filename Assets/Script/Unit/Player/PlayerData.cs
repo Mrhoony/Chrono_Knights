@@ -68,7 +68,7 @@ public class PlayerData
         status[5] = 1f;
         equipmentStatus[5] = 0;
 
-        status[6] = 1f;
+        status[6] = 2f;
         equipmentStatus[6] = 0;
 
         ammo = 100;

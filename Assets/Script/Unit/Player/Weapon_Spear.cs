@@ -173,31 +173,4 @@ public class Weapon_Spear : MonoBehaviour
     {
         attackState = _attackState;
     }
-    public void AttackMotionCheck()
-    {
-        if (attackPattern == 0)
-        {
-            if (!animator.GetBool("is_xx_Atk"))
-            {
-                InputInit();
-                PlayerControl.instance.actionState = ActionState.Idle;
-            }
-        }
-        else if (attackPattern == 1)
-        {
-            if (!animator.GetBool("is_xFx_Atk"))
-            {
-                InputInit();
-                PlayerControl.instance.actionState = ActionState.Idle;
-            }
-        }
-        else if (attackPattern == 2)
-        {
-            if (!animator.GetBool("is_xFx_Atk"))
-            {
-                InputInit();
-                PlayerControl.instance.actionState = ActionState.Idle;
-            }
-        }
-    }
 }

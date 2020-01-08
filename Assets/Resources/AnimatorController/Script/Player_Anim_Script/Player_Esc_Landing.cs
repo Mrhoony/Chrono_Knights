@@ -19,8 +19,7 @@ public class Player_Esc_Landing : AnimatorManager
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        playerControl.gameObject.GetComponent<Weapon_Spear>().InputInit();
-        playerControl.PlayerMoveSet();
+        //playerControl.gameObject.GetComponent<Weapon_Spear>().InputInit();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

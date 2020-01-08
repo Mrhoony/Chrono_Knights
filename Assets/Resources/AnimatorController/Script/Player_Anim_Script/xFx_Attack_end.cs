@@ -18,7 +18,7 @@ public class xFx_Attack_end : AnimatorManager
             if (!move)
             {
                 move = true;
-                playerControl.DashAttackDistance(4f);
+                playerControl.AttackDistance(3f);
             }
             Attack(0.5f, 0f, 1f, 0.5f);
         }

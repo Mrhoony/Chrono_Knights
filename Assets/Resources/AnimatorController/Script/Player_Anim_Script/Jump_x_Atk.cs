@@ -13,7 +13,7 @@ public class Jump_x_Atk : AnimatorManager
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(stateInfo.normalizedTime < 0.8)
+        if(stateInfo.normalizedTime < 0.9f)
             animator.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0.4f);
     }
 
@@ -21,6 +21,7 @@ public class Jump_x_Atk : AnimatorManager
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.SetBool("isJump_x_Atk", false);
+        PlayerControl.instance.PlayerJumpAttackEnd();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

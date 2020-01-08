@@ -24,6 +24,7 @@ public class Storage : MonoBehaviour
 
             if (!onStorage)
             {
+                PlayerControl.instance.StopPlayer();
                 onStorage = true;
                 menu.OpenStorage();
             }
