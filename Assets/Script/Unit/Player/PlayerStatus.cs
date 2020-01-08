@@ -9,7 +9,7 @@ public enum PlayerStat
 
 public class PlayerStatus : MonoBehaviour
 {
-    MainUI_PlayerStatusView playerStatusView;
+    public MainUI_PlayerStatusView playerStatusView;
     Animator animator;
     
     public PlayerData playerData;
@@ -55,7 +55,6 @@ public class PlayerStatus : MonoBehaviour
     public void Init()
     {
         animator = GetComponent<Animator>();
-        playerStatusView = GameObject.Find("UI/Hpbar").GetComponent<MainUI_PlayerStatusView>();
 
         playerData = new PlayerData();
         HPInit();

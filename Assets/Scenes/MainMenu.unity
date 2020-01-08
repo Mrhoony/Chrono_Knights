@@ -496,6 +496,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 82245447478733252}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &454079516 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 82245447091772888, guid: 187d72a635af2f04a891caed4b95c247,
+    type: 3}
+  m_PrefabInstance: {fileID: 82245447478733252}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454079515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71c07a32e63faf4d827d118b6ed69b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &470070028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3496,6 +3508,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 3981682513319129737, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: playerStatusView
+      value: 
+      objectReference: {fileID: 454079516}
     - target: {fileID: 3981682513319129783, guid: 9a383a931a8c9254fae17696f9cad381,
         type: 3}
       propertyPath: m_LocalPosition.x

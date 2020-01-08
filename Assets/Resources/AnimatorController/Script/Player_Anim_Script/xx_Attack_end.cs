@@ -17,12 +17,12 @@ public class xx_Attack_end : AnimatorManager
         {
             if (!move)
             {
-                playerControl.DashAttackDistance(2f);
+                playerControl.DashAttackDistance(3f);
                 move = true;
             }
             Attack(0.5f, 0f, 1f, 0.5f);
         }
-        if (stateInfo.normalizedTime > 0.3f)
+        if (stateInfo.normalizedTime > 0.4f)
         {
             playerControl.gameObject.GetComponent<Weapon_Spear>().SetAttackState(3);
         }

@@ -20,6 +20,7 @@ TagManager:
   - Item
   - ItemSlot
   - Slope
+  - Wall
   layers:
   - Default
   - TransparentFX

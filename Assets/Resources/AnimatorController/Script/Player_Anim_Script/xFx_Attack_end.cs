@@ -18,11 +18,11 @@ public class xFx_Attack_end : AnimatorManager
             if (!move)
             {
                 move = true;
-                playerControl.DashAttackDistance(2f);
+                playerControl.DashAttackDistance(4f);
             }
             Attack(0.5f, 0f, 1f, 0.5f);
         }
-        if (stateInfo.normalizedTime > 0.3f)
+        if (stateInfo.normalizedTime > 0.4f)
         {
             playerControl.gameObject.GetComponent<Weapon_Spear>().SetAttackState(3);
         }

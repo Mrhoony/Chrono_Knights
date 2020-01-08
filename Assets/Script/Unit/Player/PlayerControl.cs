@@ -396,7 +396,7 @@ public class PlayerControl : MovingObject
     }
     public void DashAttackDistance(float dashDistanceMulty)
     {
-        rb.velocity = new Vector2(dashDistanceMulty * playerStatus.GetDashDistance_Result() * arrowDirection, rb.velocity.y);
+        transform.position = new Vector2(transform.position.x + dashDistanceMulty * playerStatus.GetDashDistance_Result() * arrowDirection * 0.1f, transform.position.y);
     }
     public void PlayerMoveSet()
     {

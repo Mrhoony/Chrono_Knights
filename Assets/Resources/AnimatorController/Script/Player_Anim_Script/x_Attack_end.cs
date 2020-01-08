@@ -17,7 +17,7 @@ public class x_Attack_end : AnimatorManager
         {
             Attack(0.5f, 0f, 1f, 0.5f);
         }
-        if(stateInfo.normalizedTime > 0.3f)
+        if(stateInfo.normalizedTime > 0.4f)
         {
             playerControl.gameObject.GetComponent<Weapon_Spear>().SetAttackState(2);
         }
