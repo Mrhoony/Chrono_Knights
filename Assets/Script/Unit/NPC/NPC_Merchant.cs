@@ -13,7 +13,7 @@ public class NPC_Merchant : NPC_Control
             {
                 if (Input.GetButtonDown("Fire1"))
                 {
-                    PlayerControl.instance.StopPlayer();
+                    if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
                 }
 
                 if (Input.GetButtonDown("Fire2"))

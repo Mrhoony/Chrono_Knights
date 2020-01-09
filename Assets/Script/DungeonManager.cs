@@ -182,7 +182,7 @@ public class DungeonManager : MonoBehaviour
             {
                 if(useTeleportSystem == 1)
                 {
-                    PlayerControl.instance.StopPlayer();
+                    if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
                     isSceneLoading = true;
                     menu.FadeOutStart(true);
                 }
@@ -191,7 +191,7 @@ public class DungeonManager : MonoBehaviour
             {
                 if(useTeleportSystem != 10)
                 {
-                    PlayerControl.instance.StopPlayer();
+                    if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
                     isSceneLoading = true;
                     menu.FadeOutStart(true);
                 }
@@ -212,7 +212,7 @@ public class DungeonManager : MonoBehaviour
                 {
                     if (!dungeonClear) return;
 
-                    PlayerControl.instance.StopPlayer();
+                    if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
 
                     if (usedKey)            // 키를 쓴경우
                     {

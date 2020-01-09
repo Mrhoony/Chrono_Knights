@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
             {
                 if (gameStart)
                 {
-                    PlayerControl.instance.StopPlayer();
+                    if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
                     gameStart = false;
                     SaveGame();
                 }

@@ -110,7 +110,7 @@ public class PlayerControl : MovingObject
         }
 
         // 낙하 체크
-        if (rb.velocity.y <= -0.5f)
+        if (rb.velocity.y <= 0f)
         {
             if (!jumpping && !isGround)
             {
@@ -220,9 +220,11 @@ public class PlayerControl : MovingObject
         if (weaponType == 0) SpearAttack();
         if (weaponType == 1) SpearAttack();
 
+        Jump();
         Dodge();
 
         if (actionState == ActionState.IsAtk) return;       // 공격 중 입력무시
+        if (actionState == ActionState.IsJumpAttack) return;
         
         // 캐릭터 뒤집기
         if (inputDirection > 0 && isFaceRight)
@@ -236,7 +238,6 @@ public class PlayerControl : MovingObject
 
         Move();
         Run();
-        Jump();
     }
 
     void SpearAttack()
@@ -249,14 +250,15 @@ public class PlayerControl : MovingObject
             if (actionState == ActionState.IsJump)
             {
                 Debug.Log("input jump x");
+                actionState = ActionState.IsJumpAttack;
                 weaponSpear.JumpAttackX(inputArrow);
             }
             else
             {
                 Debug.Log("input x");
+                actionState = ActionState.IsAtk;
                 weaponSpear.AttackX(inputArrow);
             }
-            actionState = ActionState.IsAtk;
         }
         else if (inputAttackY)
         {
@@ -274,11 +276,15 @@ public class PlayerControl : MovingObject
     {
         if (inputDirection != 0)
         {
+            if(actionState == ActionState.Idle)
+                actionState = ActionState.IsMove;
             animator.SetBool("isWalk", true);
             rb.velocity = new Vector2(inputDirection * playerStatus.GetMoveSpeed_Result(), rb.velocity.y);
         }
         else
         {
+            if (actionState == ActionState.IsMove)
+                actionState = ActionState.Idle;
             animator.SetBool("isWalk", false);
             animator.SetBool("isRun", false);
             rb.velocity = new Vector2(0f, rb.velocity.y);
@@ -288,12 +294,16 @@ public class PlayerControl : MovingObject
     {
         if (inputDirection > 0 && isRrun > 1)
         {
+            if (actionState == ActionState.Idle)
+                actionState = ActionState.IsMove;
             animator.SetBool("isRun", true);
             rb.velocity = new Vector2(inputDirection * (playerStatus.GetMoveSpeed_Result() + 3f), rb.velocity.y);
         }
 
         if (inputDirection < 0 && isLrun > 1)
         {
+            if (actionState == ActionState.Idle)
+                actionState = ActionState.IsMove;
             animator.SetBool("isRun", true);
             rb.velocity = new Vector2(inputDirection * (playerStatus.GetMoveSpeed_Result() + 3f), rb.velocity.y);
         }
@@ -303,7 +313,10 @@ public class PlayerControl : MovingObject
         if (!inputJump) return;
         inputJump = false;
 
+        if (inputDodge) return;
+        if (actionState == ActionState.IsAtk) return;       // 공격 중 입력무시
         if (currentJumpCount < 1 && jumpping) return;
+
         isGround = false;
         GroundCheck.SetActive(false);
         actionState = ActionState.IsJump;
@@ -315,6 +328,7 @@ public class PlayerControl : MovingObject
         animator.SetTrigger("isJumpTrigger");
         animator.SetBool("isJump", true);
 
+        rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(0f, playerStatus.GetJumpPower()), ForceMode2D.Impulse);
     }
 
@@ -324,17 +338,18 @@ public class PlayerControl : MovingObject
         inputDodge = false;
 
         actionState = ActionState.NotMove;
-        rb.velocity = Vector2.zero;
         
         GroundCheck.SetActive(false);
         StartCoroutine(DodgeIgnore(0.5f));
 
         animator.SetBool("isLand", false);
         animator.SetTrigger("isDodge");
-        if (inputDirection != arrowDirection)
-            rb.AddForce(new Vector2(-arrowDirection * 4f, 5f), ForceMode2D.Impulse);
-        else
+
+        rb.velocity = Vector2.zero;
+        if (inputDirection == arrowDirection)
             rb.AddForce(new Vector2(arrowDirection * 4f, 5f), ForceMode2D.Impulse);
+        else
+            rb.AddForce(new Vector2(-arrowDirection * 4f, 5f), ForceMode2D.Impulse);
         dodgable = false;
         invincible = true;
 
@@ -345,13 +360,13 @@ public class PlayerControl : MovingObject
     public void StopPlayer()
     {
         actionState = ActionState.NotMove;
+        rb.velocity = Vector2.zero;
         StartCoroutine(InputIgnore());
         Debug.Log("input ignore");
         animator.SetTrigger("PlayerStop");
         animator.SetBool("isWalk", false);
         animator.SetBool("isRun", false);
         weaponSpear.InputInit();
-        rb.velocity = Vector2.zero;
     }
 
     IEnumerator InputIgnore()

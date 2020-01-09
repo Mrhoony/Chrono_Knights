@@ -7,8 +7,10 @@ public enum ActionState
     IsDead,
     NotMove,
     IsJump,
+    IsJumpAttack,
     IsAtk,
     IsParrying,
+    IsMove,
     Idle
 }
 

@@ -19,6 +19,7 @@ public class Storage : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
             menu = GameObject.Find("UI").GetComponent<CanvasManager>();
             if (menu.isInventoryOn || menu.isCancelOn) return;
 
