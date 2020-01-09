@@ -26,6 +26,7 @@ public class NPC_Blacksmith : NPC_Control
         {
             if (!openSelectUI)
             {
+                PlayerControl.instance.StopPlayer();
                 OpenSelectMenu();
             }
             else

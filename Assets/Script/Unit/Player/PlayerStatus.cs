@@ -175,7 +175,7 @@ public class PlayerStatus : MonoBehaviour
     }
     public float GetJumpCount()
     {
-        return (int)(playerData.GetStatus(6) + playerData.GetEquipmentStatus(6));
+        return jumpCount;
     }
     public float GetJumpPower()
     {

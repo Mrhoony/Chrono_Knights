@@ -88,6 +88,7 @@ public class CanvasManager : MonoBehaviour
             }
             else if(!isCancelOn)
             {
+                PlayerControl.instance.StopPlayer();
                 isCancelOn = true;
                 OpenCancelMenu();
             }
@@ -102,6 +103,7 @@ public class CanvasManager : MonoBehaviour
             {
                 if (!isInventoryOn)
                 {
+                    PlayerControl.instance.StopPlayer();
                     OpenInGameMenu();
                     isInventoryOn = true;
                 }
@@ -139,6 +141,9 @@ public class CanvasManager : MonoBehaviour
     {
         fadeInOut.SetActive(true);
 
+        if (GameManager.instance.GetGameStart())
+            player.GetComponent<PlayerControl>().enabled = true;
+
         Debug.Log("fade in");
 
         Color fadeColor = fadeInOut.GetComponent<Image>().color;
@@ -154,9 +159,6 @@ public class CanvasManager : MonoBehaviour
         fadeInOut.SetActive(false);
         Debug.Log("fade in end");
         DungeonManager.instance.isSceneLoading = false;
-
-        if(GameManager.instance.GetGameStart())
-            player.GetComponent<PlayerControl>().enabled = true;
     }
     IEnumerator FadeOut(bool sceneLoad)
     {

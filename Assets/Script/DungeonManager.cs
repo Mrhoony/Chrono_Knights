@@ -182,6 +182,7 @@ public class DungeonManager : MonoBehaviour
             {
                 if(useTeleportSystem == 1)
                 {
+                    PlayerControl.instance.StopPlayer();
                     isSceneLoading = true;
                     menu.FadeOutStart(true);
                 }
@@ -190,6 +191,7 @@ public class DungeonManager : MonoBehaviour
             {
                 if(useTeleportSystem != 10)
                 {
+                    PlayerControl.instance.StopPlayer();
                     isSceneLoading = true;
                     menu.FadeOutStart(true);
                 }
@@ -209,6 +211,8 @@ public class DungeonManager : MonoBehaviour
                 if (useTeleportSystem == 8)         // 던전 포탈 앞에 서있을 경우 다음던전 또는 집으로 이동한다.
                 {
                     if (!dungeonClear) return;
+
+                    PlayerControl.instance.StopPlayer();
 
                     if (usedKey)            // 키를 쓴경우
                     {

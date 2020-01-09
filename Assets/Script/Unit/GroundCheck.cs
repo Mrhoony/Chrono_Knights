@@ -51,11 +51,11 @@ public class GroundCheck : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Slope"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
             if (parentObject.CompareTag("Player"))
             {
-                parentObject.GetComponent<PlayerControl>().fly();
+                parentObject.GetComponent<PlayerControl>().isGround = false;
             }
         }
     }
