@@ -137,9 +137,33 @@ public class CanvasManager : MonoBehaviour
         StartCoroutine(FadeOut(sceneLoad));
     }
 
-    IEnumerator FadeIn()
+    IEnumerator FadeOut(bool sceneLoad)
     {
         fadeInOut.SetActive(true);
+
+        Debug.Log("fade out");
+
+        Color fadeColor = fadeInOut.GetComponent<Image>().color;
+        while (fadeColor.a < 1f)
+        {
+            fadeColor.a += Time.deltaTime / 1f;
+            fadeInOut.GetComponent<Image>().color = fadeColor;
+            yield return null;
+        }
+        if (fadeColor.a > 1f) fadeColor.a = 1f;
+        fadeInOut.GetComponent<Image>().color = fadeColor;
+
+        Debug.Log("fade out end");
+        if (sceneLoad)
+            DungeonManager.instance.SceneLoad();
+        else
+        {
+            DungeonManager.instance.FloorSetting();
+            FadeInStart();
+        }
+    }
+    IEnumerator FadeIn()
+    {
 
         if (GameManager.instance.GetGameStart())
             player.GetComponent<PlayerControl>().enabled = true;
@@ -159,32 +183,6 @@ public class CanvasManager : MonoBehaviour
         fadeInOut.SetActive(false);
         Debug.Log("fade in end");
         DungeonManager.instance.isSceneLoading = false;
-    }
-    IEnumerator FadeOut(bool sceneLoad)
-    {
-        fadeInOut.SetActive(true);
-
-        Debug.Log("fade out");
-
-        Color fadeColor = fadeInOut.GetComponent<Image>().color;
-        while (fadeColor.a < 1f)
-        {
-            fadeColor.a += Time.deltaTime / 1f;
-            fadeInOut.GetComponent<Image>().color = fadeColor;
-            yield return null;
-        }
-        if (fadeColor.a > 1f) fadeColor.a = 1f;
-        fadeInOut.GetComponent<Image>().color = fadeColor;
-
-        fadeInOut.SetActive(false);
-        Debug.Log("fade out end");
-        if (sceneLoad)
-            DungeonManager.instance.SceneLoad();
-        else
-        {
-            DungeonManager.instance.FloorSetting();
-            FadeInStart();
-        }
     }
 
     public void OpenInGameMenu()        // I로 인벤토리 열 때

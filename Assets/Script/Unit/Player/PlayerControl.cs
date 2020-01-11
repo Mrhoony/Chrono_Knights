@@ -22,15 +22,15 @@ public class PlayerControl : MovingObject
     public bool inputAttackX;
     public bool inputAttackY;
     public bool finalAttackY;
+    public bool inputJump;
+    public bool inputDodge;
+
     public float attackSpeed;
 
     public float runDelay;
     public int isRrun;
     public int isLrun;
     
-    public bool inputJump;
-    public bool jumpping;
-    public bool inputDodge;
     public bool isGround;
     public bool isJumpAttack;
     
@@ -76,15 +76,16 @@ public class PlayerControl : MovingObject
         weaponType = 0;
         attackSpeed = 1;
         dodgable = true;
+        isJumpAttack = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(weaponType == 0)
+        if (weaponType == 0)
         {
             if (Input.GetButtonDown("Fire1") && !animator.GetBool("is_y_Atk")) inputAttackX = true;
-            if (Input.GetButtonUp("Fire2") && inputAttackY)
+            if (Input.GetButtonUp("Fire2"))
             {
                 inputAttackY = false;
                 finalAttackY = true;
@@ -110,11 +111,13 @@ public class PlayerControl : MovingObject
         }
 
         // 낙하 체크
-        if (rb.velocity.y <= 0f)
+        if (rb.velocity.y <= -0.5f)
         {
-            if (!jumpping && !isGround)
+            if (actionState == ActionState.IsAtk) return;
+            if (actionState == ActionState.IsJumpAttack) return;       // 공격 중 입력무시
+            if (actionState != ActionState.IsJump && !isGround)
             {
-                jumpping = true;
+                actionState = ActionState.IsJump;
                 --currentJumpCount;
             }
             GroundCheck.SetActive(true);
@@ -138,7 +141,7 @@ public class PlayerControl : MovingObject
 
         if (actionState == ActionState.IsAtk) return;
 
-        if (Input.GetButtonDown("Fire2")) inputAttackY = true;
+        if (Input.GetButton("Fire2")) inputAttackY = true;
         if (Input.GetButtonDown("Jump")) inputJump = true;
 
         if (Input.GetKeyDown(KeyCode.S))
@@ -215,6 +218,8 @@ public class PlayerControl : MovingObject
 
     private void FixedUpdate()
     {
+        Debug.DrawRay(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, transform.position.y), new Vector2(arrowDirection, 0), Color.red, 3f * 0.1f);
+
         if (actionState == ActionState.NotMove) return;     // 피격 시 입력무시
 
         if (weaponType == 0) SpearAttack();
@@ -224,8 +229,8 @@ public class PlayerControl : MovingObject
         Dodge();
 
         if (actionState == ActionState.IsAtk) return;       // 공격 중 입력무시
-        if (actionState == ActionState.IsJumpAttack) return;
-        
+        if (actionState == ActionState.IsJumpAttack) return;       // 공격 중 입력무시
+
         // 캐릭터 뒤집기
         if (inputDirection > 0 && isFaceRight)
         {
@@ -245,10 +250,12 @@ public class PlayerControl : MovingObject
         if (inputAttackX)
         {
             inputAttackX = false;
-            if (isJumpAttack) return;
+            if (actionState == ActionState.IsJumpAttack) return;       // 공격 중 입력무시
 
             if (actionState == ActionState.IsJump)
             {
+                if (isJumpAttack) return;
+                isJumpAttack = true;
                 Debug.Log("input jump x");
                 actionState = ActionState.IsJumpAttack;
                 weaponSpear.JumpAttackX(inputArrow);
@@ -262,11 +269,15 @@ public class PlayerControl : MovingObject
         }
         else if (inputAttackY)
         {
-            weaponSpear.AttackY(inputArrow);
+            if (actionState == ActionState.IsJump) return;
+            if (actionState == ActionState.IsJumpAttack) return;       // 공격 중 입력무시
             actionState = ActionState.IsAtk;
+            weaponSpear.AttackY(inputArrow);
         }
         else if (finalAttackY)
         {
+            if (actionState == ActionState.IsJump) return;
+            if (actionState == ActionState.IsJumpAttack) return;       // 공격 중 입력무시
             finalAttackY = false;
             weaponSpear.AttackYFinal();
         }
@@ -315,13 +326,12 @@ public class PlayerControl : MovingObject
 
         if (inputDodge) return;
         if (actionState == ActionState.IsAtk) return;       // 공격 중 입력무시
-        if (currentJumpCount < 1 && jumpping) return;
+        if (currentJumpCount < 1 && actionState == ActionState.IsJump) return;
 
         isGround = false;
         GroundCheck.SetActive(false);
         actionState = ActionState.IsJump;
-
-        jumpping = true;
+        
         --currentJumpCount;
 
         animator.SetBool("isLand", false);
@@ -347,9 +357,13 @@ public class PlayerControl : MovingObject
 
         rb.velocity = Vector2.zero;
         if (inputDirection == arrowDirection)
-            rb.AddForce(new Vector2(arrowDirection * 4f, 5f), ForceMode2D.Impulse);
-        else
+        {
             rb.AddForce(new Vector2(-arrowDirection * 4f, 5f), ForceMode2D.Impulse);
+        }
+        else
+        {
+            rb.AddForce(new Vector2(arrowDirection * 4f, 5f), ForceMode2D.Impulse);
+        }
         dodgable = false;
         invincible = true;
 
@@ -398,16 +412,16 @@ public class PlayerControl : MovingObject
     }
     public void Landing()
     {
+        if (actionState == ActionState.IsAtk) return;
         isGround = true;
+        isJumpAttack = false;
         Debug.Log("Landing");
         animator.SetBool("isJump", false);
         animator.SetBool("isJump_x_Atk", false);
         animator.SetBool("isLand", true);
         Debug.Log(currentJumpCount);
-        jumpping = false;
         currentJumpCount = (int)playerStatus.GetJumpCount();
         actionState = ActionState.Idle;
-        isJumpAttack = false;
     }
     public void ParryingCheck()
     {
@@ -428,26 +442,14 @@ public class PlayerControl : MovingObject
 
     public void AttackDistance(float DistanceMulty)
     {
-        playerDashTopDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, playerCharacterCollider.size.y), new Vector2(arrowDirection, 0), DistanceMulty * 0.1f, rayDashLayerMask);
-        playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, transform.position.y), new Vector2(arrowDirection, 0), DistanceMulty * 0.1f, rayDashLayerMask);
-
-        float topDistance = playerDashTopDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
-        float botDistance = playerDashBotDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
-
-        if (playerDashBotDistance && playerDashTopDistance)
+        //playerDashTopDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, transform.position.y + playerCharacterCollider.size.y), new Vector2(arrowDirection, 0), DistanceMulty * 0.1f, rayDashLayerMask);
+        playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, transform.position.y + 0.1f), new Vector2(arrowDirection, 0), DistanceMulty * 0.1f, rayDashLayerMask);
+        
+        if (playerDashBotDistance)
         {
-            if (topDistance * topDistance > botDistance * botDistance)
-            {
-                if (botDistance < 0)
-                    botDistance = -botDistance;
-                DistanceMulty = botDistance;
-            }
-            else
-            {
-                if (topDistance < 0)
-                    topDistance = -topDistance;
-                DistanceMulty = topDistance;
-            }
+            //float topDistance = playerDashTopDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
+            float botDistance = playerDashBotDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
+            DistanceMulty = botDistance;
             transform.position = new Vector2(transform.position.x + DistanceMulty * arrowDirection, transform.position.y);
         }
         else
@@ -455,26 +457,15 @@ public class PlayerControl : MovingObject
     }
     public void DashAttackDistance(float dashDistanceMulty)
     {
-        playerDashTopDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, playerCharacterCollider.size.y), new Vector2(arrowDirection, 0), dashDistanceMulty * 0.1f, rayDashLayerMask);
+        //playerDashTopDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, transform.position.y + playerCharacterCollider.size.y), new Vector2(arrowDirection, 0), dashDistanceMulty * 0.1f, rayDashLayerMask);
         playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, transform.position.y), new Vector2(arrowDirection, 0), dashDistanceMulty * 0.1f, rayDashLayerMask);
         
-        float topDistance = playerDashTopDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
-        float botDistance = playerDashBotDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
-        
-        if (playerDashBotDistance && playerDashTopDistance)
+        //float topDistance = playerDashTopDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
+
+        if (playerDashBotDistance)
         {
-            if(topDistance * topDistance > botDistance * botDistance)
-            {
-                if (botDistance < 0)
-                    botDistance = -botDistance;
-                dashDistanceMulty = botDistance;
-            }
-            else
-            {
-                if (topDistance < 0)
-                    topDistance = -topDistance;
-                dashDistanceMulty = topDistance;
-            }
+            float botDistance = playerDashBotDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
+            dashDistanceMulty = botDistance;
             transform.position = new Vector2(transform.position.x + dashDistanceMulty * arrowDirection, transform.position.y);
         }
         else
@@ -487,7 +478,6 @@ public class PlayerControl : MovingObject
     }
     public void PlayerJumpAttackEnd()
     {
-        isJumpAttack = true;
         actionState = ActionState.IsJump;
     }
 }

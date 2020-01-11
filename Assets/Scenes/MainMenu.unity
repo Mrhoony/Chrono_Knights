@@ -1137,9 +1137,9 @@ GameObject:
   - component: {fileID: 852955870}
   - component: {fileID: 852955872}
   - component: {fileID: 852955871}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Wall
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1171,7 +1171,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -3.4, y: 0}
+  m_Offset: {x: -4, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1182,7 +1182,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4, y: 3.6}
+  m_Size: {x: 1.6, y: 3.6}
   m_EdgeRadius: 0
 --- !u!61 &852955872
 BoxCollider2D:
@@ -1197,7 +1197,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 3.4, y: 0}
+  m_Offset: {x: 4, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1208,7 +1208,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4, y: 3.6}
+  m_Size: {x: 1.6, y: 3.6}
   m_EdgeRadius: 0
 --- !u!114 &859099079 stripped
 MonoBehaviour:
@@ -2338,6 +2338,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 2001624151}
+    - target: {fileID: 82245445457459822, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 82245445984920781, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -2914,7 +2919,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1513902114, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 1513902115, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
       propertyPath: m_Color.a
@@ -3053,6 +3058,10 @@ PrefabInstance:
     - target: {fileID: 82245446920216168, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1513902116, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
+      propertyPath: m_CullTransparentMesh
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3591,7 +3600,7 @@ PrefabInstance:
     - target: {fileID: 3981682513018439651, guid: 9a383a931a8c9254fae17696f9cad381,
         type: 3}
       propertyPath: m_Offset.y
-      value: 0.005
+      value: -0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
