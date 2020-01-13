@@ -121,8 +121,10 @@ public class Monster_Control : MovingObject
     
     public void MonsterInit()
     {
+        Debug.Log("MonsterInit");
+        
         actionState = ActionState.Idle;
-        enemyStatus.SetCurrentHP();
+        enemyStatus.MonsterInit();
         moveSpeed = enemyStatus.GetMoveSpeed();
         StartCoroutine(SearchPlayer());
 
@@ -133,7 +135,7 @@ public class Monster_Control : MovingObject
     public void BossMonsterInit()
     {
         actionState = ActionState.Idle;
-        enemyStatus.SetCurrentHP();
+        enemyStatus.MonsterInit();
         moveSpeed = enemyStatus.GetMoveSpeed();
         StartCoroutine(SearchPlayerBoss());
     }
@@ -177,7 +179,6 @@ public class Monster_Control : MovingObject
             }
         }
     }
-
     public void NotMoveDelayTime()
     {
         if (actionState == ActionState.NotMove)
@@ -195,10 +196,8 @@ public class Monster_Control : MovingObject
     public void MonsterHit(int attack)
     {
         if (actionState == ActionState.IsDead) return;
-
-        random = Random.Range(-2f, 2f);
-        
         actionState = ActionState.NotMove;
+        random = Random.Range(-2f, 2f);
         rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(1f * PlayerControl.instance.GetArrowDirection() + random * 0.1f, 0f), ForceMode2D.Impulse);
 
@@ -234,6 +233,6 @@ public class Monster_Control : MovingObject
 
     public void DeadAnimation()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

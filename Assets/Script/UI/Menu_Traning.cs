@@ -92,7 +92,7 @@ public class Menu_Traning : MonoBehaviour
 
             gauge[stat].fillAmount = traningStat[stat] / limit_traning[stat];
 
-            playerStat.Init();
+            playerStat.PlayerStatusUpdate();
             
             button.SetActive(false);
         }

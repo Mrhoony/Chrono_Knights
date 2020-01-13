@@ -17,6 +17,7 @@ public class DataBase
     public void Init()
     {
         playerData = new PlayerData();
+        playerData.Init();
         storageItemCodeList = new int[72];
         availableStorageSlot = 36;
         takeKeySlot = 3;

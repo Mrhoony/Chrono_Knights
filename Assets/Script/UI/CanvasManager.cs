@@ -35,6 +35,7 @@ public class CanvasManager : MonoBehaviour
     public bool isInventoryOn;
     public bool isStorageOn;
     public bool isCancelOn;
+    public bool isDungeonCancelOn;
     public bool isLoadSlotOn;
     private int useContent;
     private int focus;
@@ -86,11 +87,22 @@ public class CanvasManager : MonoBehaviour
                 isCancelOn = false;
                 CloseCancelMenu();
             }
-            else if(!isCancelOn)
+            else if(!isCancelOn && !DungeonManager.instance.inDungeon)
             {
                 PlayerControl.instance.StopPlayer();
                 isCancelOn = true;
                 OpenCancelMenu();
+            }
+            else if (isDungeonCancelOn)
+            {
+                isDungeonCancelOn = false;
+                //CloseDungeonMenu();
+            }
+            else if(!isDungeonCancelOn && DungeonManager.instance.inDungeon)
+            {
+                isDungeonCancelOn = true;
+                //OpenDungeonMenu();
+                DungeonManager.instance.PlayerIsDead();
             }
         }
 
@@ -284,6 +296,15 @@ public class CanvasManager : MonoBehaviour
         CancelMenu.SetActive(false);
         
         player.GetComponent<PlayerControl>().enabled = true;
+    }
+
+    public void OpenDungeonMenu()
+    {
+
+    }
+    public void CloseDungeonMenu()
+    {
+
     }
 
     public void OpenSettings()

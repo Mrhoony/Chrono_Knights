@@ -76,7 +76,6 @@ public class DungeonManager : MonoBehaviour
     public GameObject playerStatView;
     public GameObject player;
     private PlayerStatus playerStatus;
-    private EnemyStatus[] enemyStatus;
     private GameObject mark;
     public MarkerVariable marker_Variable;   // Marker로부터 전달받는 값 저장공간
     public Marker marker;
@@ -96,6 +95,7 @@ public class DungeonManager : MonoBehaviour
     public bool isDead;
     public bool freePassFloor;
     public int bossClear;
+    public bool inDungeon;
     
     #region 던전 생성 관련
     private GameObject[] mapList;
@@ -402,6 +402,7 @@ public class DungeonManager : MonoBehaviour
             for (int i = 0; i < monsterCount; ++i)
             {
                 randomX = Random.Range(-1, 2);
+                currentStageMonsterList[i].SetActive(true);
                 currentStageMonsterList[i].transform.position = new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y);
                 currentStageMonsterList[i].GetComponent<Monster_Control>().MonsterInit();
@@ -411,9 +412,6 @@ public class DungeonManager : MonoBehaviour
         else            // 일반 맵일경우
         {
             // 초기 맵 랜덤 선택
-            mapList[selectedMapNum].GetComponent<BackgroundScrolling>().backGroundImage.transform.position
-                = new Vector2(Random.Range(-0.5f, 0.5f), -(currentStage * 0.2f));
-            
             // (임시)하나만 클리어 해도 마을로
             if (currentStage > 0)
                 phaseClear = true;
@@ -424,7 +422,6 @@ public class DungeonManager : MonoBehaviour
             monsterCount = FloorDatas[currentStage].SpawnAmount * marker_Variable.markerVariable[0];
             currentMonsterCount = monsterCount;
             currentStageMonsterList = new GameObject[monsterCount];
-            enemyStatus = new EnemyStatus[monsterCount];
 
             // 몬스터 스폰
             for (int i = 0; i < monsterCount; ++i)
@@ -432,7 +429,6 @@ public class DungeonManager : MonoBehaviour
                 randomX = Random.Range(-1, 2);
                 currentStageMonsterList[i] = Instantiate(monsterList[Random.Range(0, monsterList.Length)], new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y), Quaternion.identity);
-                enemyStatus[i] = currentStageMonsterList[i].GetComponent<EnemyStatus>();
             }
         }
         SetFloorStatus();
@@ -446,7 +442,8 @@ public class DungeonManager : MonoBehaviour
         marker_Variable.Reset();
 
         player.transform.position = entrance;
-
+        mapList[selectedMapNum].GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, currentStage);
+        
         dungeonUI.SetDungeonFloor(currentStage);
     }
 
@@ -512,6 +509,7 @@ public class DungeonManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().buildIndex == 0)      // 메인 메뉴 씬 일 때
         {
+            inDungeon = false;
             if (!GameManager.instance.gameStart)
             {
                 Init();
@@ -529,6 +527,7 @@ public class DungeonManager : MonoBehaviour
                         entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
                 }
             }
+            player.transform.position = entrance;
         }
         else if(SceneManager.GetActiveScene().buildIndex == 1)  // 마을 화면 일 때
         {
@@ -537,22 +536,25 @@ public class DungeonManager : MonoBehaviour
                 if (teleportPoint[i].GetComponent<Teleport>().useSystem == 0)
                     entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
             }
+            player.transform.position = entrance;
         }
         else if (SceneManager.GetActiveScene().buildIndex == 2)  // 마을 - 숲 화면 일 때
         {
+            player.transform.position = entrance;
         }
         else if (SceneManager.GetActiveScene().buildIndex == 3)  // 숲 - 타워 화면 일 때
         {
             mapList = GameObject.FindGameObjectsWithTag("BaseMap");
+            player.transform.position = entrance;
         }
         else if (SceneManager.GetActiveScene().buildIndex >= 4)  // 타워 첫번째 층 일 때
         {
+            inDungeon = true;
             dungeonUI = GameObject.Find("DungeonUI").GetComponent<Dungeon_UI>();
             FloorSetting();
         }
 
         mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
-        player.transform.position = entrance;
 
         menu.FadeInStart();
     }

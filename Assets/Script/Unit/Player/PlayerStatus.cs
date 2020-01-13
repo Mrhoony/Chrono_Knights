@@ -38,34 +38,14 @@ public class PlayerStatus : MonoBehaviour
     
     public void SetPlayerData(PlayerData _playerData)
     {
+        Debug.Log("player status Init");
+
+        animator = GetComponent<Animator>();
         playerData = _playerData;
         playerEquip = playerData.GetPlayerEquipment();
-
-        SetMoveSpeed_Result(1, true);
-        SetAttackMulty_Result(1, true);
-        SetDashDistance_Result(1, true);
-    }
-
-    public void NewStart(PlayerData playerData)
-    {
-        SetPlayerData(playerData);
-        Init();
-    }
-
-    public void Init()
-    {
-        animator = GetComponent<Animator>();
-
-        playerData = new PlayerData();
-        HPInit();
-        playerData.Init();
         traningStat = playerData.GetTraningStat();
 
-        currentHP = playerData.GetStatus(7);
-        jumpPower = playerData.GetStatus(8);
-
-        PlayerStatusUpdate();
-        Debug.Log("player status Init");
+        ReturnToTown();
     }
 
     public void ReturnToTown()
@@ -76,6 +56,8 @@ public class PlayerStatus : MonoBehaviour
 
     public void PlayerStatusUpdate()
     {
+        Debug.Log("Player status update");
+
         attack = (int)(playerData.GetStatus(0) + playerData.GetEquipmentStatus(0) + traningStat[0]);
         defense = (int)(playerData.GetStatus(1) + playerData.GetEquipmentStatus(1) + traningStat[1]);
         moveSpeed = playerData.GetStatus(2) + playerData.GetEquipmentStatus(2) + traningStat[2];
@@ -83,14 +65,18 @@ public class PlayerStatus : MonoBehaviour
         dashDistance = playerData.GetStatus(4) + playerData.GetEquipmentStatus(4) + traningStat[4];
         recovery = playerData.GetStatus(5) + playerData.GetEquipmentStatus(5) + traningStat[5];
         jumpCount = (int)(playerData.GetStatus(6) + playerData.GetEquipmentStatus(6));
+        jumpPower = playerData.GetStatus(8);
 
-        animator.SetFloat("AttackSpeed", attackSpeed);
+        PlayerControl.instance.SetAnimationAttackSpeed(attackSpeed);
         SetMoveSpeed_Result(1, true);
+        SetAttackMulty_Result(1, true);
         SetDashDistance_Result(1, true);
     }
 
     public void HPInit()
     {
+        currentHP = playerData.GetStatus(7);
+
         HPCut = new bool[4];
         for (int i = 0; i < 4; ++i)
         {

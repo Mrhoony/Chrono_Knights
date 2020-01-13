@@ -13,7 +13,6 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     public GameObject npc_blacksmith;
     protected PlayerEquipment playerEquipment;
     protected PlayerEquipment.Equipment[] equipment;
-    protected PlayerEquipment.Equipment upgradeEquipment;
     protected Key selectedkey;
 
     public GameObject[] equipSlots;
@@ -88,6 +87,12 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
             equipment[num].addStatus[equipment[num].upStatus] = upPercent * 0.01f;
             if (equipment[num].addStatus[equipment[num].upStatus] > equipment[num].max)
                 equipment[num].addStatus[equipment[num].upStatus] = equipment[num].max;
+
+            if (equipment[num].downStatus != 8)
+            {
+                equipment[num].addStatus[equipment[num].downStatus] = 0;
+                equipment[num].downStatus = 8;
+            }
         }
         else
         {
@@ -109,11 +114,10 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
             equipment[num].upStatus = upCount;
             equipment[num].downStatus = downCount;
             equipment[num].addStatus[equipment[num].upStatus] = upPercent * 0.01f;
-
             if (equipment[num].addStatus[equipment[num].upStatus] > equipment[num].max)
                 equipment[num].addStatus[equipment[num].upStatus] = equipment[num].max;
-            equipment[num].addStatus[equipment[num].downStatus] = -downPercent * 0.01f;
 
+            equipment[num].addStatus[equipment[num].downStatus] = -downPercent * 0.01f;
             if (equipment[num].addStatus[equipment[num].downStatus] > equipment[num].max)
                 equipment[num].addStatus[equipment[num].downStatus] = equipment[num].max;
         }
@@ -121,14 +125,15 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
         {
             equipment[num].name += key.keyName;
             equipment[num].addStatus[equipment[num].upStatus] += upPercent * 0.01f;
-
             if (equipment[num].addStatus[equipment[num].upStatus] > equipment[num].max)
                 equipment[num].addStatus[equipment[num].upStatus] = equipment[num].max;
 
-            equipment[num].addStatus[equipment[num].downStatus] -= downPercent * 0.01f;
-            if (equipment[num].addStatus[equipment[num].downStatus] < equipment[num].min)
-                equipment[num].addStatus[equipment[num].downStatus] = equipment[num].min;
-
+            if(equipment[num].downStatus != 8)
+            {
+                equipment[num].addStatus[equipment[num].downStatus] -= downPercent * 0.01f;
+                if (equipment[num].addStatus[equipment[num].downStatus] < equipment[num].min)
+                    equipment[num].addStatus[equipment[num].downStatus] = equipment[num].min;
+            }
         }
     }
     

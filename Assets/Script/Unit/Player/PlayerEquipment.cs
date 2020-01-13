@@ -142,6 +142,95 @@ public class PlayerEquipment
         equipment[equipNum].addStatus = status;
     }
 
+    public string GetStatusName(int slotNum, bool upDown)
+    {
+        string statusName = "";
+
+        if (upDown)
+        {
+            switch (equipment[slotNum].upStatus)
+            {
+                case 0:
+                    statusName = "공격력";
+                    break;
+                case 1:
+                    statusName = "방어력";
+                    break;
+                case 2:
+                    statusName = "이동 속도";
+                    break;
+                case 3:
+                    statusName = "공격 속도";
+                    break;
+                case 4:
+                    statusName = "돌진 거리";
+                    break;
+                case 5:
+                    statusName = "회복력";
+                    break;
+                case 6:
+                    statusName = "점프 횟수";
+                    break;
+                case 8:
+                    statusName = "";
+                    break;
+            }
+        }
+        else
+        {
+            switch (equipment[slotNum].downStatus)
+            {
+                case 0:
+                    statusName = "공격력";
+                    break;
+                case 1:
+                    statusName = "방어력";
+                    break;
+                case 2:
+                    statusName = "이동 속도";
+                    break;
+                case 3:
+                    statusName = "공격 속도";
+                    break;
+                case 4:
+                    statusName = "돌진 거리";
+                    break;
+                case 5:
+                    statusName = "회복력";
+                    break;
+                case 6:
+                    statusName = "점프 횟수";
+                    break;
+                case 8:
+                    statusName = "";
+                    break;
+            }
+        }
+        return statusName;
+    }
+    public string GetUpStatus(int slotNum)
+    {
+        string StatusString;
+
+        if (equipment[slotNum].upStatus != 8)
+            StatusString = equipment[slotNum].addStatus[equipment[slotNum].upStatus].ToString("N2");
+        else
+            StatusString = "";
+
+        return StatusString;
+    }
+    public string GetDownStatus(int slotNum)
+    {
+        string StatusString;
+
+        if (equipment[slotNum].downStatus != 8)
+            StatusString = equipment[slotNum].addStatus[equipment[slotNum].downStatus].ToString("N2");
+        else
+            StatusString = "";
+
+        return StatusString;
+    }
+
     public float GetStatusValue(int statusNum)
     {
         float value = 0;

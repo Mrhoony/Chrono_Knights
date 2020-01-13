@@ -180,7 +180,6 @@ public class GameManager : MonoBehaviour
         dataBase.playerData = playerStat.playerData;
         dataBase.SaveCurrentDate(DungeonManager.instance.currentDate);
         dataBase.SaveStorageData(storage.SaveStorageItemCodeList(), storage.SaveStorageAvailableSlot());
-        Debug.Log(dataBase.storageItemCodeList[0]);
         inventory.SaveInventoryData(dataBase);
         
         bf.Serialize(ms, dataBase);
@@ -220,7 +219,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("NoData");
-            playerStat.NewStart(dataBase.playerData);
+            playerStat.SetPlayerData(dataBase.playerData);
             storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetAvailableStorageSlot());
             inventory.LoadInventoryData(dataBase.GetTakeKeySlot(), dataBase.GetAvailableInventorySlot());
 

@@ -811,7 +811,8 @@ MonoBehaviour:
   backGroundImage: {fileID: 8486008666298102139}
   mapBase: {fileID: 228690750169941190}
   spawnerSet: {fileID: 3951754705557024108}
-  spawner: []
+  spawner:
+  - {fileID: 602594351304469207}
   teleporter: {fileID: 8055036928131770194}
 --- !u!212 &677870154838953054
 SpriteRenderer:
@@ -2411,7 +2412,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8486008666298102139}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.39, y: -0.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 228690751400717994}
@@ -2477,11 +2478,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BG_Teleporter
       objectReference: {fileID: 0}
-    - target: {fileID: 7443935283691990570, guid: 2d9268bbeeb77ce4983b0ccefc049264,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: -1
-      objectReference: {fileID: 0}
     - target: {fileID: 4373339083708845769, guid: 2d9268bbeeb77ce4983b0ccefc049264,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2537,15 +2533,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4373339083708845769, guid: 2d9268bbeeb77ce4983b0ccefc049264,
+    - target: {fileID: 7443935283691990570, guid: 2d9268bbeeb77ce4983b0ccefc049264,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4373339083708845769, guid: 2d9268bbeeb77ce4983b0ccefc049264,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
+      propertyPath: m_SortingOrder
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 760659192046019371, guid: 2d9268bbeeb77ce4983b0ccefc049264,
         type: 3}
@@ -2723,16 +2714,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6969864062718967608, guid: 0c128068b5913b646b78c0371cd4c399,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c128068b5913b646b78c0371cd4c399, type: 3}
 --- !u!4 &602594351304469206 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6969864062718967608, guid: 0c128068b5913b646b78c0371cd4c399,
+    type: 3}
+  m_PrefabInstance: {fileID: 7558507134937667054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &602594351304469207 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6969864062718967609, guid: 0c128068b5913b646b78c0371cd4c399,
     type: 3}
   m_PrefabInstance: {fileID: 7558507134937667054}
   m_PrefabAsset: {fileID: 0}

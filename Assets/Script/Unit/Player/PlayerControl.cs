@@ -25,8 +25,6 @@ public class PlayerControl : MovingObject
     public bool inputJump;
     public bool inputDodge;
 
-    public float attackSpeed;
-
     public float runDelay;
     public int isRrun;
     public int isLrun;
@@ -62,21 +60,13 @@ public class PlayerControl : MovingObject
         weaponSpear = GetComponent<Weapon_Spear>();
         weaponSpear.Init(animator, rb);
         weaponGun = GetComponent<Weapon_Gun>(); // weaponGun 선언
-
-        Init();
-
-        Debug.Log("control awake");
-    }
-
-    public void Init()
-    {
-        playerStatus.Init();
-        currentJumpCount = (int)playerStatus.GetJumpCount();
+        
         arrowDirection = 1;
         weaponType = 0;
-        attackSpeed = 1;
         dodgable = true;
         isJumpAttack = false;
+
+        Debug.Log("control awake");
     }
 
     // Update is called once per frame
@@ -442,34 +432,35 @@ public class PlayerControl : MovingObject
 
     public void AttackDistance(float DistanceMulty)
     {
-        //playerDashTopDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, transform.position.y + playerCharacterCollider.size.y), new Vector2(arrowDirection, 0), DistanceMulty * 0.1f, rayDashLayerMask);
-        playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, transform.position.y + 0.1f), new Vector2(arrowDirection, 0), DistanceMulty * 0.1f, rayDashLayerMask);
+        playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection
+            , transform.position.y + 0.1f), new Vector2(arrowDirection, 0), DistanceMulty, rayDashLayerMask);
         
         if (playerDashBotDistance)
         {
-            //float topDistance = playerDashTopDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
             float botDistance = playerDashBotDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
-            DistanceMulty = botDistance;
+            if (DistanceMulty > Mathf.Abs(botDistance) - playerCharacterCollider.size.x * 0.5f)
+                DistanceMulty = Mathf.Abs(botDistance) - playerCharacterCollider.size.x * 0.5f;
             transform.position = new Vector2(transform.position.x + DistanceMulty * arrowDirection, transform.position.y);
         }
         else
             transform.position = new Vector2(transform.position.x + DistanceMulty * arrowDirection * 0.1f, transform.position.y);
+        Debug.Log(DistanceMulty);
     }
     public void DashAttackDistance(float dashDistanceMulty)
     {
-        //playerDashTopDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, transform.position.y + playerCharacterCollider.size.y), new Vector2(arrowDirection, 0), dashDistanceMulty * 0.1f, rayDashLayerMask);
-        playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection, transform.position.y), new Vector2(arrowDirection, 0), dashDistanceMulty * 0.1f, rayDashLayerMask);
+        playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection
+            , transform.position.y), new Vector2(arrowDirection, 0), dashDistanceMulty, rayDashLayerMask);
         
-        //float topDistance = playerDashTopDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
-
         if (playerDashBotDistance)
         {
             float botDistance = playerDashBotDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
-            dashDistanceMulty = botDistance;
+            if (dashDistanceMulty > Mathf.Abs(botDistance) - playerCharacterCollider.size.x * 0.5f)
+                dashDistanceMulty = Mathf.Abs(botDistance) - playerCharacterCollider.size.x * 0.5f;
             transform.position = new Vector2(transform.position.x + dashDistanceMulty * arrowDirection, transform.position.y);
         }
         else
-            transform.position = new Vector2(transform.position.x + dashDistanceMulty * playerStatus.GetDashDistance_Result() * arrowDirection * 0.1f, transform.position.y);
+            transform.position = new Vector2(transform.position.x + dashDistanceMulty * playerStatus.GetDashDistance_Result() * arrowDirection * 0.5f, transform.position.y);
+        Debug.Log(dashDistanceMulty);
     }
     public void PlayerMoveSet()
     {
@@ -479,5 +470,9 @@ public class PlayerControl : MovingObject
     public void PlayerJumpAttackEnd()
     {
         actionState = ActionState.IsJump;
+    }
+    public void SetAnimationAttackSpeed(float _attackSpeed)
+    {
+        animator.SetFloat("AttackSpeed", _attackSpeed);
     }
 }
