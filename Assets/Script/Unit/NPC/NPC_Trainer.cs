@@ -34,17 +34,17 @@ public class NPC_Trainer : NPC_Control
 
     public void OpenTraningMenu()
     {
-        
         player.GetComponent<PlayerControl>().enabled = false;
         openTraningUI = true;
         traningUI.SetActive(true);
+        traningUI.GetComponent<Menu_Traning>().OpenTraningMenu();
     }
 
     public void CloseTraningMenu()
     {
         openTraningUI = false;
+        traningUI.GetComponent<Menu_Traning>().CloseTraningMenu();
         traningUI.SetActive(false);
         player.GetComponent<PlayerControl>().enabled = true;
-        
     }
 }

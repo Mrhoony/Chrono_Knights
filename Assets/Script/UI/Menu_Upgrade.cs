@@ -42,6 +42,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
                     {
                         upgradeOn = true;
                         upgrading = false;
+                        upgradeFocus = 0;
                         selectUpgradeItem.SetActive(true);
                     }
                     else
@@ -49,6 +50,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
                 }
                 else
                 {
+                    upgrading = false;
                     upgradeOn = true;
 
                     selectUpgradeItem.SetActive(true);

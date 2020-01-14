@@ -17,9 +17,11 @@ public class GameManager : MonoBehaviour
 
     #region save, load
     public DataBase dataBase;
+    public DungeonManager dungeonManager;
     public CanvasManager canvanManager;
     public Menu_Storage storage;
     public Menu_Inventory inventory;
+    public Menu_Traning traning;
     public Button[] saveSlot;
 
     BinaryFormatter bf;
@@ -62,13 +64,14 @@ public class GameManager : MonoBehaviour
 
         dataBase = new DataBase();
         playerStat = player.GetComponent<PlayerStatus>();
+        dungeonManager = DungeonManager.instance;
         canvanManager = GameObject.Find("UI").GetComponent<CanvasManager>();
         storage = canvanManager.Menus[3].GetComponent<Menu_Storage>();
         inventory = canvanManager.Menus[0].GetComponent<Menu_Inventory>();
+        
+        Init();
 
         Debug.Log("gameManager awake");
-
-        Init();
     }
 
     private void Init()
@@ -178,9 +181,9 @@ public class GameManager : MonoBehaviour
 
         // 유저 정보
         dataBase.playerData = playerStat.playerData;
-        dataBase.SaveCurrentDate(DungeonManager.instance.currentDate);
-        dataBase.SaveStorageData(storage.SaveStorageItemCodeList(), storage.SaveStorageAvailableSlot());
-        inventory.SaveInventoryData(dataBase);
+        dataBase.SaveGameData(dungeonManager.GetCurrentDate(), dungeonManager.GetEventFlag());
+        dataBase.SaveStorageData(storage.GetStorageItemCodeList(), storage.GetStorageAvailableSlot());
+        dataBase.SaveInventoryData(inventory.GetTakeItemSlot(), inventory.GetAvailableSlot());
         
         bf.Serialize(ms, dataBase);
         data = Convert.ToBase64String(ms.GetBuffer());
@@ -211,7 +214,7 @@ public class GameManager : MonoBehaviour
                 dataBase = (DataBase)bf.Deserialize(ms);
                 
                 playerStat.SetPlayerData(dataBase.playerData);
-                DungeonManager.instance.currentDate = dataBase.GetcurrentDate();
+                dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetEventFlag());
                 storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetAvailableStorageSlot());
                 inventory.LoadInventoryData(dataBase.GetTakeKeySlot(), dataBase.GetAvailableInventorySlot());
             }
@@ -220,6 +223,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("NoData");
             playerStat.SetPlayerData(dataBase.playerData);
+            dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetEventFlag());
             storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetAvailableStorageSlot());
             inventory.LoadInventoryData(dataBase.GetTakeKeySlot(), dataBase.GetAvailableInventorySlot());
 

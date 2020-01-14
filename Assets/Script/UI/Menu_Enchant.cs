@@ -150,7 +150,6 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
 
         equipSlots[equipFocused].transform.GetChild(0).gameObject.SetActive(true);
     }
-
     public void OpenSelectedEnchantMenu()
     {
         acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);

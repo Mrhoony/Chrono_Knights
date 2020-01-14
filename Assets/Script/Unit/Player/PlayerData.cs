@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class PlayerData
 {
-    private float ammo;   // 현재 장탄 수
+    private int maxAmmo;   // 현재 장탄 수
 
     public float[] status;      // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount, HP, jumpPower
     public float[] equipmentStatus;    // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount
@@ -14,8 +14,6 @@ public class PlayerData
     private float[] traningStat;
     private float[] limitTraning;
     private int[] traning_count;
-
-    private int currentDate;
 
     public PlayerEquipment playerEquipment = new PlayerEquipment();
 
@@ -71,7 +69,7 @@ public class PlayerData
         status[6] = 2f;
         equipmentStatus[6] = 0;
 
-        ammo = 100;
+        maxAmmo = 10;
 
         playerEquipment = new PlayerEquipment();
 
@@ -98,9 +96,9 @@ public class PlayerData
     {
         return equipmentStatus[equipmentStatusNumber];
     }
-    public float GetMaxBuffTime()
+    public int GetMaxAmmo()
     {
-        return ammo;
+        return maxAmmo;
     }
 
     public void renew(PlayerEquipment _playerEquipment)

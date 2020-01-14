@@ -10,14 +10,13 @@ public enum PlayerStat
 public class PlayerStatus : MonoBehaviour
 {
     public MainUI_PlayerStatusView playerStatusView;
-    Animator animator;
     
     public PlayerData playerData;
     public PlayerEquipment playerEquip;
 
     public float currentHP;     // 현재 체력
     public bool[] HPCut;
-    public float currentBuffTime;   // 현재 버프량
+    public int currentAmmo;   // 현재 버프량
     public int buffState;
 
     public float jumpPower;
@@ -39,15 +38,13 @@ public class PlayerStatus : MonoBehaviour
     public void SetPlayerData(PlayerData _playerData)
     {
         Debug.Log("player status Init");
-
-        animator = GetComponent<Animator>();
+        
         playerData = _playerData;
         playerEquip = playerData.GetPlayerEquipment();
         traningStat = playerData.GetTraningStat();
 
         ReturnToTown();
     }
-
     public void ReturnToTown()
     {
         HPInit();
@@ -62,7 +59,7 @@ public class PlayerStatus : MonoBehaviour
         defense = (int)(playerData.GetStatus(1) + playerData.GetEquipmentStatus(1) + traningStat[1]);
         moveSpeed = playerData.GetStatus(2) + playerData.GetEquipmentStatus(2) + traningStat[2];
         attackSpeed = playerData.GetStatus(3) + playerData.GetEquipmentStatus(3) + traningStat[3];
-        dashDistance = playerData.GetStatus(4) + playerData.GetEquipmentStatus(4) + traningStat[4];
+        dashDistance = (playerData.GetStatus(4) + playerData.GetEquipmentStatus(4) + traningStat[4]) * 0.5f;
         recovery = playerData.GetStatus(5) + playerData.GetEquipmentStatus(5) + traningStat[5];
         jumpCount = (int)(playerData.GetStatus(6) + playerData.GetEquipmentStatus(6));
         jumpPower = playerData.GetStatus(8);
@@ -146,10 +143,10 @@ public class PlayerStatus : MonoBehaviour
     }
     public void SetBuff(int buffLevel)
     {
-        currentBuffTime += 10 * buffLevel;
-        if (currentBuffTime > playerData.GetMaxBuffTime())
+        currentAmmo += 10 * buffLevel;
+        if (currentAmmo > playerData.GetMaxAmmo())
         {
-            currentBuffTime = playerData.GetMaxBuffTime();
+            currentAmmo = playerData.GetMaxAmmo();
         }
         playerStatusView.SetBuff(1);
     }

@@ -16,7 +16,6 @@ public class Menu_Inventory : MonoBehaviour
 
     public int slotCount;
     public int availableSlot;
-    
     public int inventoryItemCount;
 
     public int seletedItemCount;         // 창고에서 선택된 아이템 수
@@ -243,10 +242,7 @@ public class Menu_Inventory : MonoBehaviour
         takeItemSlot = _takeItemSlot;
         availableSlot = _availableSlot;
     }
-    public void SaveInventoryData(DataBase db)
-    {
-        db.SaveInventoryData(takeItemSlot, availableSlot);
-    }
+
     #endregion
     
     void FocusedSlot(int AdjustValue)

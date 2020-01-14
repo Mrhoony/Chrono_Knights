@@ -176,7 +176,6 @@ public class CanvasManager : MonoBehaviour
     }
     IEnumerator FadeIn()
     {
-
         if (GameManager.instance.GetGameStart())
             player.GetComponent<PlayerControl>().enabled = true;
 

@@ -34,6 +34,8 @@ public class Menu_Traning : MonoBehaviour
 
     public void OpenTraningMenu()
     {
+        Debug.Log("open traning");
+
         Init();
         button.SetActive(true);
 

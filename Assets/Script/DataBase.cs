@@ -12,7 +12,7 @@ public class DataBase
     public int takeKeySlot;
     public int availableInventorySlot;
     public int currentDate;
-    public bool[] eventCheck;
+    public bool[] eventFlag;
 
     public void Init()
     {
@@ -23,6 +23,11 @@ public class DataBase
         takeKeySlot = 3;
         availableInventorySlot = 6;
         currentDate = 0;
+        eventFlag = new bool[36];
+        for(int i = 0; i < 36; ++i)
+        {
+            eventFlag[i] = false;
+        }
 
         Debug.Log("database init");
     }
@@ -43,14 +48,23 @@ public class DataBase
     {
         return availableInventorySlot;
     }
-    public int GetcurrentDate()
+    public int GetCurrentDate()
     {
         return currentDate;
     }
+    public bool[] GetEventFlag()
+    {
+        return eventFlag;
+    }
+    public bool GetEventFlag(int flagNum)
+    {
+        return eventFlag[flagNum];
+    }
 
-    public void SaveCurrentDate(int _currentDate)
+    public void SaveGameData(int _currentDate, bool[] _eventFlag)
     {
         currentDate = _currentDate;
+        eventFlag = _eventFlag;
     }
     public void SaveStorageData(int[] _storageKeyList, int _availableStorageSLot)
     {

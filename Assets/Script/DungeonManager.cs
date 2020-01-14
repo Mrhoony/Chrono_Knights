@@ -96,10 +96,12 @@ public class DungeonManager : MonoBehaviour
     public bool freePassFloor;
     public int bossClear;
     public bool inDungeon;
+    public bool[] eventFlag;
     
     #region 던전 생성 관련
     private GameObject[] mapList;
     public GameObject[] monsterList;
+    public GameObject[] bossMonsterList;
     public GameObject[] currentStageMonsterList;
     public GameObject[] spawner;
 
@@ -153,6 +155,7 @@ public class DungeonManager : MonoBehaviour
             FloorDatas[Floor] = new FloorData(Floor, Floor * 2);
         }
     }
+
     private void Init()
     {
         currentStage = 0;
@@ -389,9 +392,16 @@ public class DungeonManager : MonoBehaviour
         if (bossSetting)    // 보스 층 일때
         {
             Debug.Log("Boss");
-            //BossStageSetting();
             bossStageCount = 0;
             bossSetting = false;
+            spawner = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().spawner;
+            spawnerCount = spawner.Length;
+
+            int randomBoss = Random.Range(0, bossMonsterList.Length);
+
+            Instantiate(bossMonsterList[randomBoss], new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x
+                                                         , spawner[Random.Range(0, spawnerCount)].transform.position.y), Quaternion.identity);
+
         }
         else if (floorRepeat)    // 맵 반복시
         {
@@ -557,6 +567,21 @@ public class DungeonManager : MonoBehaviour
         mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
 
         menu.FadeInStart();
+    }
+
+    public int GetCurrentDate()
+    {
+        return currentDate;
+    }
+    public bool[] GetEventFlag()
+    {
+        return eventFlag;
+    }
+
+    public void LoadGamePlayDate(int _currentDate, bool[] _eventFlag)
+    {
+        currentDate = _currentDate;
+        eventFlag = _eventFlag;
     }
 }
 /*

@@ -352,7 +352,7 @@ public class Menu_Storage : MonoBehaviour
             storageItemList[i] = Item_Database.instance.GetItem(storageItemCodeList[i]);
         }
     }
-    public int[] SaveStorageItemCodeList()
+    public int[] GetStorageItemCodeList()
     {
         for (int i = 0; i < availableSlot; ++i)
         {
@@ -365,7 +365,7 @@ public class Menu_Storage : MonoBehaviour
         }
         return storageItemCodeList;
     }
-    public int SaveStorageAvailableSlot()
+    public int GetStorageAvailableSlot()
     {
         return availableSlot;
     }
