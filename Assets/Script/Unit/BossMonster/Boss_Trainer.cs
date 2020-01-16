@@ -60,8 +60,7 @@ public class Boss_Trainer : Monster_Control
 
     private void Start()
     {
-        curRotateDelayTime = 0f;
-        maxRotateDelayTime = 4f;
+        rotateDelayTime = 4f;
         attack1TimeDelay = 5f;
         attack1Timer = 0f;
         dashAttackCoolTime = 7f;

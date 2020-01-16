@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class PlayerData
 {
-    private int maxAmmo;   // 현재 장탄 수
+    public int maxAmmo;   // 현재 장탄 수
 
     public float[] status;      // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount, HP, jumpPower
     public float[] equipmentStatus;    // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount

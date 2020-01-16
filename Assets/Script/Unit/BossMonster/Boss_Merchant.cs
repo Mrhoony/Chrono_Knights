@@ -36,6 +36,8 @@ public class Boss_Merchant : Monster_Control
     #region Attack Parameters
 
     public bool ReadytoAttack;
+    float attack1CoolTime;
+    float attack2CoolTime;
     float attack1TimeDelay;    
     float attack1Timer;
 
@@ -53,61 +55,78 @@ public class Boss_Merchant : Monster_Control
 
     private void Start()
     {
-        enemyStatus = GetComponent<EnemyStatus>();
-
         DefaultMat = Resources.Load<Material>("SpriteDefault");
         WhiteFlashMat = Resources.Load<Material>("WhiteFlash");
-
-        curRotateDelayTime = 0f;
-        maxRotateDelayTime = 0.8f;
+        
+        rotateDelayTime = 0.8f;
+        attack1CoolTime = 4f;
+        attack2CoolTime = 1f;
         attack1TimeDelay = 0f;
         attack1Timer = 5f;
-
-        MovementDirection = 1;
+        arrowDirection = 1;
+        isTrace = true;
         isFaceRight = true;
         ReadytoAttack = true;
-        isCheckRotationDirection = true;
 
         Invincible = false;
     }
 
+    public new void OnEnable()
+    {
+        target = GameObject.Find("PlayerCharacter");
+        BossMonsterInit();
+    }
+
     private void FixedUpdate()
     {
-        MonsterFlip();
+        if (actionState == ActionState.IsDead) return;
+        if (!isTrace) return;
+        if (actionState == ActionState.IsAtk) return;
+        if (actionState == ActionState.NotMove) return;
+        Move();
         Attack1();
     }
 
     public void Move()
     {
-        curRotateDelayTime += Time.deltaTime;
-
-        if (curRotateDelayTime < maxRotateDelayTime)
+        if (distanceX < 0.5f)
         {
-            rb.velocity = new Vector2(-1f * MovementDirection, rb.velocity.y);            
-        }
-
-        if (curRotateDelayTime >= maxRotateDelayTime)
-        {
-            curRotateDelayTime = 0f;
-            animator.SetBool("isMove", false);
+            actionState = ActionState.NotMove;
+            StartCoroutine(MoveDelayTime(rotateDelayTime));
+            animator.SetTrigger("isDodgeTrigger");
+            rb.velocity = new Vector2(enemyStatus.GetMoveSpeed() * -arrowDirection, rb.velocity.y + 2f);
         }
     }
 
     void Attack1()
     {
-        if (ReadytoAttack)
+        if (distanceX > 0.5f)
         {
-            attack1TimeDelay += Time.deltaTime;
-        }
+            if (ReadytoAttack)
+            {
+                attack1TimeDelay += Time.deltaTime;
+            }
 
-        if (attack1TimeDelay >= attack1Timer)
-        {
-            actionState = ActionState.IsAtk;
-            animator.SetBool("isAttack", true);
-            rb.velocity = new Vector2(-1f * MovementDirection, rb.velocity.y);
-
-            attack1TimeDelay = 0f;
+            if (attack1TimeDelay >= attack1Timer)
+            {
+                attack1TimeDelay = 0f;
+                ReadytoAttack = false;
+                actionState = ActionState.IsAtk;
+                transform.position = new Vector2(target.transform.position.x + target.GetComponent<PlayerControl>().GetArrowDirection() * -0.3f, target.transform.position.y);
+                StartCoroutine(AttackCoolTime(attack1CoolTime));
+            }
         }
+    }
+    public void Attack1Move(float moveDistance)
+    {
+        transform.position = new Vector2(transform.position.x + moveDistance * arrowDirection, transform.position.y);
+    }
+
+    IEnumerator AttackCoolTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        actionState = ActionState.Idle;
+        ReadytoAttack = true;
     }
 
     void Gaurd()

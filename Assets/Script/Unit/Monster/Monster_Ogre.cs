@@ -4,20 +4,21 @@ public class Monster_Ogre : Monster_Control
 {
     void Start()
     {
-        maxRotateDelayTime = 2f;
-        curRotateDelayTime = 0f;
+        rotateDelayTime = 2f;
         maxAttackDelayTime = 1f;
         curAttackDelayTime = 0f;
         isFaceRight = true;
         arrowDirection = 1;
+        actionState = ActionState.Idle;
     }
 
     private void FixedUpdate()
     {
         if (actionState == ActionState.IsDead) return;
-        Move();
         if (!isTrace) return;
         if (actionState == ActionState.IsAtk) return;
+        Move();
+        if (actionState == ActionState.NotMove) return;
         Attack();
     }
 
@@ -26,35 +27,31 @@ public class Monster_Ogre : Monster_Control
         if (actionState == ActionState.NotMove)
         {
             animator.SetBool("isMove", false);
+            return;
         }
 
-        if (actionState == ActionState.NotMove) return;
-
-        if (actionState != ActionState.IsAtk)
+        if (isTrace)
         {
-            if (isTrace)
+            if (distanceX > 2f)
             {
-                if (distanceX > 2f)
-                {
-                    animator.SetBool("isMove", true);
-                    rb.velocity = new Vector2(enemyStatus.GetMoveSpeed() * arrowDirection, rb.velocity.y);
-                }
-                else
-                {
-                    animator.SetBool("isMove", false);
-                }
+                animator.SetBool("isMove", true);
+                rb.velocity = new Vector2(enemyStatus.GetMoveSpeed() * arrowDirection, rb.velocity.y);
             }
             else
             {
-                if (randomMove != 0)
-                {
-                    animator.SetBool("isMove", true);
-                    rb.velocity = new Vector2(enemyStatus.GetMoveSpeed() * randomMove, rb.velocity.y);
-                }
-                else
-                {
-                    animator.SetBool("isMove", false);
-                }
+                animator.SetBool("isMove", false);
+            }
+        }
+        else
+        {
+            if (randomMove != 0)
+            {
+                animator.SetBool("isMove", true);
+                rb.velocity = new Vector2(enemyStatus.GetMoveSpeed() * randomMove, rb.velocity.y);
+            }
+            else
+            {
+                animator.SetBool("isMove", false);
             }
         }
     }
@@ -74,8 +71,8 @@ public class Monster_Ogre : Monster_Control
                     animator.SetTrigger("isAtkH_Trigger");
                 else
                     animator.SetTrigger("isAtkV_Trigger");
-                curRotateDelayTime = 0f;
                 curAttackDelayTime = 0f;
+                StartCoroutine(MoveDelayTime(rotateDelayTime));
             }
         }
     }

@@ -4,20 +4,21 @@ public class Monster_Dog : Monster_Control
 {
     public void Start()
     {
-        maxRotateDelayTime = 2f;
-        curRotateDelayTime = 0f;
+        rotateDelayTime = 2f;
         maxAttackDelayTime = 1f;
         curAttackDelayTime = 0f;
         arrowDirection = -1;
         isFaceRight = false;
+        actionState = ActionState.Idle;
     }
 
     private void FixedUpdate()
     {
         if (actionState == ActionState.IsDead) return;
-        Move();
         if (!isTrace) return;
         if (actionState == ActionState.IsAtk) return;
+        Move();
+        if (actionState == ActionState.NotMove) return;
         Attack();
     }
     
@@ -27,9 +28,8 @@ public class Monster_Dog : Monster_Control
         {
             animator.SetBool("isMove", false);
             animator.SetBool("isRun", false);
+            return;
         }
-
-        if (actionState == ActionState.NotMove) return;
         if (isTrace)
         {
             if (distanceX > 0.5f)
@@ -73,8 +73,8 @@ public class Monster_Dog : Monster_Control
             {
                 actionState = ActionState.IsAtk;
                 animator.SetBool("isAtk_Trigger", true);
-                curRotateDelayTime = 0f;
                 curAttackDelayTime = 0f;
+                StartCoroutine(MoveDelayTime(rotateDelayTime));
             }
         }
     }

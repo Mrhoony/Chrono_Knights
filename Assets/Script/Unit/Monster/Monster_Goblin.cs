@@ -6,26 +6,31 @@ public class Monster_Goblin : Monster_Control
 {
     void Start()
     {
-        maxRotateDelayTime = 2f;
-        curRotateDelayTime = 0f;
+        rotateDelayTime = 2f;
         maxAttackDelayTime = 1f;
         curAttackDelayTime = 0f;
         isFaceRight = true;
         arrowDirection = 1;
+        actionState = ActionState.Idle;
     }
 
     private void FixedUpdate()
     {
         if (actionState == ActionState.IsDead) return;
-        Move();
         if (!isTrace) return;
         if (actionState == ActionState.IsAtk) return;
+        Move();
+        if (actionState == ActionState.NotMove) return;
         Attack();
     }
 
     void Move()
     {
-        if (actionState == ActionState.NotMove) return;
+        if (actionState == ActionState.NotMove)
+        {
+            animator.SetBool("isMove", false);
+            return;
+        }
         if (isTrace)
         {
             if (distanceX > 1f)
@@ -50,8 +55,6 @@ public class Monster_Goblin : Monster_Control
                 animator.SetBool("isMove", false);
             }
         }
-        if (actionState == ActionState.NotMove)
-            animator.SetBool("isMove", false);
     }
 
     void Attack()
@@ -65,8 +68,8 @@ public class Monster_Goblin : Monster_Control
             {
                 actionState = ActionState.IsAtk;
                 animator.SetTrigger("isAtk");
-                curRotateDelayTime = 0f;
                 curAttackDelayTime = 0f;
+                StartCoroutine(MoveDelayTime(rotateDelayTime));
             }
         }
     }

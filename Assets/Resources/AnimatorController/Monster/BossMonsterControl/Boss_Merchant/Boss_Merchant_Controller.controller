@@ -14,49 +14,49 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isSkill
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isMove
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isCounter
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isCounterMove
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isHitTrigger
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isDodgeTrigger
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isDead
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -82,11 +82,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c5dc113b38a5df42abd1e0e6e728cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animObject: {fileID: 0}
-  monster: []
-  player: []
-  atk: 0
-  move: 0
 --- !u!114 &114260238662611546
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -99,11 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d17b678373992640a2f1847ba08b531, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animObject: {fileID: 0}
-  monster: []
-  player: []
-  atk: 0
-  move: 0
 --- !u!114 &114270600466517856
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,11 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c54d9e084ca20004bb7d893b752d7150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animObject: {fileID: 0}
-  monster: []
-  player: []
-  atk: 0
-  move: 0
 --- !u!114 &114401920670021836
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,11 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18969e5fe43b8bd4cb8b0ab5007e928e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animObject: {fileID: 0}
-  monster: []
-  player: []
-  atk: 0
-  move: 0
 --- !u!114 &114920693721211536
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -150,11 +130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbadda7bc4e95d14cafbea610099632b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animObject: {fileID: 0}
-  monster: []
-  player: []
-  atk: 0
-  move: 0
 --- !u!1101 &1101043723438990092
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -609,7 +584,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Boss_Merchant_Idel
+  m_Name: Boss_Merchant_Idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

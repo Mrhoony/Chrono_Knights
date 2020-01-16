@@ -193,7 +193,9 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetString("SaveSlot" + slotNum.ToString(), data);
         player.GetComponent<PlayerControl>().enabled = false;
         bedBlind = GameObject.Find("BackGroundSet/Base/bg_mainScene_blind");
+        canvanManager.inGameMenu.SetActive(false);
         bedBlind.SetActive(true);
+        playerStatView.SetActive(false);
         startButton.SetActive(true);
 
         Debug.Log("Save");

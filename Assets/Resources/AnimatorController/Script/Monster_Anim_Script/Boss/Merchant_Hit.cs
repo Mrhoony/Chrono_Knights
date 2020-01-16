@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Merchant_Hit : StateMachineBehaviour
+public class Merchant_Hit : AnimatorManager
 {
     SpriteRenderer sr;
     Material DefaultMat;

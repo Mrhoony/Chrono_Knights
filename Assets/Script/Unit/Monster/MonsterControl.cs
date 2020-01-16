@@ -25,8 +25,8 @@ public class Monster_Control : MovingObject
     public float randomAttack;
     public bool isDamagable;
 
-    public float maxRotateDelayTime;
-    public float curRotateDelayTime;
+    public float rotateDelayTime;
+    public float attackCoolTime;
     public float maxAttackDelayTime;
     public float curAttackDelayTime;
     
@@ -35,17 +35,15 @@ public class Monster_Control : MovingObject
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         enemyStatus = GetComponent<EnemyStatus>();
-        eft = transform.GetChild(0).gameObject;
         dropItemList = GetComponent<DropItemList>();
+        eft = transform.GetChild(0).gameObject;
     }
 
     public virtual void Update()
     {
         if (actionState == ActionState.IsDead) return;
-        NotMoveDelayTime();
-        if (actionState == ActionState.NotMove) return;
-        AttackDelayTime();
         if (actionState == ActionState.IsAtk) return;
+        if (actionState == ActionState.NotMove) return;
         MonsterFlip();
     }
 
@@ -76,7 +74,6 @@ public class Monster_Control : MovingObject
                 if (!isTrace)
                 {
                     isTrace = true;
-                    curRotateDelayTime = 0f;
                     StopCoroutine(Moving);
                 }
             }
@@ -118,7 +115,13 @@ public class Monster_Control : MovingObject
         Moving = RandomMove(randomMoveCount);
         StartCoroutine(Moving);
     }
-    
+    public IEnumerator MoveDelayTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        actionState = ActionState.Idle;
+    }
+
     public void MonsterInit()
     {
         Debug.Log("MonsterInit");
@@ -134,10 +137,16 @@ public class Monster_Control : MovingObject
     }
     public void BossMonsterInit()
     {
+        Debug.Log("BossMonsterInit");
+
         actionState = ActionState.Idle;
         enemyStatus.MonsterInit();
         moveSpeed = enemyStatus.GetMoveSpeed();
         StartCoroutine(SearchPlayerBoss());
+
+        randomMoveCount = Random.Range(2f, 3f);
+        Moving = RandomMove(randomMoveCount);
+        StartCoroutine(Moving);
     }
 
     public void MonsterFlip()
@@ -165,38 +174,12 @@ public class Monster_Control : MovingObject
             }
         }
     }
-    public void AttackDelayTime()
-    {
-        if (actionState == ActionState.IsAtk)
-        {
-            curAttackDelayTime = 0;
-            curRotateDelayTime += Time.deltaTime;
-            if (curRotateDelayTime > maxRotateDelayTime)
-            {
-                actionState = ActionState.Idle;
-                MonsterFlip();
-                curRotateDelayTime = 0f;
-            }
-        }
-    }
-    public void NotMoveDelayTime()
-    {
-        if (actionState == ActionState.NotMove)
-        {
-            curRotateDelayTime += Time.deltaTime;
-            if (curRotateDelayTime > maxRotateDelayTime)
-            {
-                actionState = ActionState.Idle;
-                MonsterFlip();
-                curRotateDelayTime = 0f;
-            }
-        }
-    }
 
     public void MonsterHit(int attack)
     {
         if (actionState == ActionState.IsDead) return;
         actionState = ActionState.NotMove;
+        StartCoroutine(MoveDelayTime(1f));
         random = Random.Range(-2f, 2f);
         rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(1f * PlayerControl.instance.GetArrowDirection() + random * 0.1f, 0f), ForceMode2D.Impulse);

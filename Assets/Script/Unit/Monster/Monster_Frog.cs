@@ -8,8 +8,7 @@ public class Monster_Frog : Monster_Control
     
     public void Start()
     {
-        maxRotateDelayTime = randomMoveCount;
-        curRotateDelayTime = 0f;
+        rotateDelayTime = 2f;
         maxAttackDelayTime = 2f;
         curAttackDelayTime = 0f;
         arrowDirection = 1;
@@ -20,9 +19,10 @@ public class Monster_Frog : Monster_Control
     private void FixedUpdate()
     {
         if (actionState == ActionState.IsDead) return;
-        Jump();
         if (!isTrace) return;
         if (actionState == ActionState.IsAtk) return;
+        Jump();
+        if (actionState == ActionState.NotMove) return;
         Attack();
     }
 
@@ -36,17 +36,13 @@ public class Monster_Frog : Monster_Control
             animator.SetTrigger("isJump");
             animator.SetBool("isJumping", true);
             rb.velocity = new Vector2(1.5f * randomMove, 2f);
-            curRotateDelayTime = 0f;
-
-            randomMoveCount = Random.Range(2f, 3f);
-            maxRotateDelayTime = randomMoveCount;
+            StartCoroutine(MoveDelayTime(rotateDelayTime));
         }
     }
 
     void Attack()
     {
         actionState = ActionState.NotMove;
-        curRotateDelayTime = 0f;
         curAttackDelayTime += Time.deltaTime;
         if (curAttackDelayTime > maxAttackDelayTime)
         {
@@ -63,6 +59,7 @@ public class Monster_Frog : Monster_Control
                 AttackStart(4f, 1f);
                 animator.SetTrigger("isAttack");
             }
+            StartCoroutine(MoveDelayTime(rotateDelayTime));
             curAttackDelayTime = 0f;
         }
     }
