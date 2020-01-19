@@ -33,7 +33,7 @@ public class AnimatorManager : StateMachineBehaviour
                 }
                 else if (monster[i].CompareTag("BossMonster"))
                 {
-                    monster[i].gameObject.GetComponent<IsDamageable>().MonsterHit(playerControl.playerStatus.GetAttack_Result());
+                    monster[i].gameObject.GetComponent<IsDamageable>().BossMonsterHit(playerControl.playerStatus.GetAttack_Result());
                 }
             }
         }

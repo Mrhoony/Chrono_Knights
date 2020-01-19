@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Menu_Upgrade : Menu_EquipmentUpgrade
@@ -158,11 +156,13 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
     }
     public void OpenSelectUpgradeMenu()
     {
+        acceptSlot[0].transform.GetChild(0).gameObject.SetActive(true);
+        acceptSlot[1].transform.GetChild(0).gameObject.SetActive(true);
+        acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
+
         upgradeButton.GetComponent<Image>().color = new Color(upgradeButton.GetComponent<Image>().color.r,
             upgradeButton.GetComponent<Image>().color.g, upgradeButton.GetComponent<Image>().color.b, 255);
         upgradeButton.interactable = true;
-
-        acceptSlot[0].transform.GetChild(1).gameObject.SetActive(true);
 
         if (equipment[equipFocused].itemCode != 0)
         {
@@ -187,8 +187,11 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
         acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
         acceptSlot[2].GetComponent<Image>().sprite = keyItemBorderSprite[6];
         acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+        acceptSlot[2].transform.GetChild(2).GetComponent<Text>().text = "";
+        acceptSlot[2].transform.GetChild(3).GetComponent<Text>().text = "";
+        acceptSlot[2].transform.GetChild(4).GetComponent<Text>().text = "";
+        acceptSlot[2].transform.GetChild(5).GetComponent<Text>().text = "";
     }
-
     public void Upgrade(int num, Key key)
     {
         if (num < 0 || num > 7) return;

@@ -52,7 +52,7 @@ public class Boss_Trainer : Monster_Control
 
     public bool Invincible;
 
-    private new void OnEnable()
+    public new void OnEnable()
     {
         target = GameObject.Find("PlayerCharacter");
         BossMonsterInit();

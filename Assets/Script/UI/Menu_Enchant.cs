@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Menu_Enchant : Menu_EquipmentUpgrade
@@ -10,10 +8,10 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
     public Button enchantButton;
     Sprite[] slotImage;
 
-    public bool enchantOn;
-    public bool enchantting;
+    bool enchantOn;
+    bool enchantting;
 
-    public int enchantFocused;
+    int enchantFocused;
 
     public override void Start()
     {
@@ -117,6 +115,17 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
             }
         }
     }
+    public void SetKey(int focus)
+    {
+        keySlotFocus = focus;
+        selectedkey = storage.GetStorageItem(focus);
+
+        acceptSlot[1].GetComponent<Image>().sprite = selectedkey.sprite;
+        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[selectedkey.keyRarity];
+
+        acceptSlot[2].GetComponent<Image>().sprite = selectedkey.sprite;
+        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[selectedkey.keyRarity];
+    }
 
     // 인챈트 창 열었을 때
     public void OpenEnchantMenu()
@@ -152,21 +161,14 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
     }
     public void OpenSelectedEnchantMenu()
     {
+        acceptSlot[0].transform.GetChild(0).gameObject.SetActive(true);
         acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);
         acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
 
-        acceptSlot[1].GetComponent<Image>().sprite = keyItemBorderSprite[6];
-        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
-        acceptSlot[2].GetComponent<Image>().sprite = keyItemBorderSprite[6];
-        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = keyItemBorderSprite[6];
-
         enchantButton.GetComponent<Image>().color = new Color(enchantButton.GetComponent<Image>().color.r,
             enchantButton.GetComponent<Image>().color.g, enchantButton.GetComponent<Image>().color.b, 255);
-
         enchantButton.interactable = true;
-
-        acceptSlot[0].transform.GetChild(0).gameObject.SetActive(true);
-
+        
         if (equipment[equipFocused].itemCode != 0)
         {
             acceptSlot[0].GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[equipFocused].itemCode).sprite;
@@ -186,22 +188,15 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
             acceptSlot[0].transform.GetChild(5).GetComponent<Text>().text = "";
         }
 
-        acceptSlot[2].GetComponent<Image>().sprite = acceptSlot[1].GetComponent<Image>().sprite;
-        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite;
+        acceptSlot[1].GetComponent<Image>().sprite = keyItemBorderSprite[6];
+        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+        acceptSlot[2].GetComponent<Image>().sprite = keyItemBorderSprite[6];
+        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+        acceptSlot[2].transform.GetChild(2).GetComponent<Text>().text = "";
+        acceptSlot[2].transform.GetChild(3).GetComponent<Text>().text = "";
+        acceptSlot[2].transform.GetChild(4).GetComponent<Text>().text = "";
+        acceptSlot[2].transform.GetChild(5).GetComponent<Text>().text = "";
     }
-
-    public void SetKey(int focus)
-    {
-        keySlotFocus = focus;
-        selectedkey = storage.GetStorageItem(focus);
-
-        acceptSlot[1].GetComponent<Image>().sprite = selectedkey.sprite;
-        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[selectedkey.keyRarity];
-
-        acceptSlot[2].GetComponent<Image>().sprite = selectedkey.sprite;
-        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[selectedkey.keyRarity];
-    }
-
     public void Enchant(int num, Key key)
     {
         if (num < 0 || num > 7) return;

@@ -4,24 +4,20 @@ using UnityEngine;
 
 public class Merchant_Attack1 : AnimatorManager
 {
-    GameObject MonsterSelf;
-    bool ReadytoAttack;
-
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        MonsterSelf = animator.gameObject;
-        MonsterSelf.GetComponent<Boss_Merchant>().ReadytoAttack = false;
-        ReadytoAttack = true;
+        atk = 1;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (ReadytoAttack && stateInfo.normalizedTime > 0.3f)
+        if (atk < 2 && stateInfo.normalizedTime > 0.3f)
         {
-            ReadytoAttack = false;
+            ++atk;
             MonsterAttack(animator, stateInfo, 0.6f, 0.5f, 0f, 0.8f, 0.2f);
+            animator.GetComponent<Boss_Merchant>().AttackMove(0.2f);
         }        
     }
 

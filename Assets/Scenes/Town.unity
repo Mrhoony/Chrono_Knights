@@ -2669,6 +2669,41 @@ PrefabInstance:
       propertyPath: m_Text
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4555930296537646151, guid: f68ae6bc76b324d46861b049c78611c1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6318543700950130417, guid: f68ae6bc76b324d46861b049c78611c1,
+        type: 3}
+      propertyPath: m_Name
+      value: Focus
+      objectReference: {fileID: 0}
+    - target: {fileID: 7487067116469728960, guid: f68ae6bc76b324d46861b049c78611c1,
+        type: 3}
+      propertyPath: m_Name
+      value: Focus
+      objectReference: {fileID: 0}
+    - target: {fileID: 1529772613194917386, guid: f68ae6bc76b324d46861b049c78611c1,
+        type: 3}
+      propertyPath: m_Name
+      value: EquipmentBorder
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243365588663802649, guid: f68ae6bc76b324d46861b049c78611c1,
+        type: 3}
+      propertyPath: m_Name
+      value: Focus
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997438435915746444, guid: f68ae6bc76b324d46861b049c78611c1,
+        type: 3}
+      propertyPath: m_Name
+      value: ResultEquipmentBorder
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070998817055208185, guid: f68ae6bc76b324d46861b049c78611c1,
+        type: 3}
+      propertyPath: m_Name
+      value: Focus
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f68ae6bc76b324d46861b049c78611c1, type: 3}
 --- !u!1 &1854475258 stripped

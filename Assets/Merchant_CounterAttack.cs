@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Merchant_Attack3 : AnimatorManager
+public class Merchant_CounterAttack : AnimatorManager
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -17,14 +17,14 @@ public class Merchant_Attack3 : AnimatorManager
         {
             ++atk;
             MonsterAttack(animator, stateInfo, 0.6f, 0.5f, 0f, 0.8f, 0.2f);
-            animator.GetComponent<Boss_Merchant>().AttackMove(0.4f);
+            animator.GetComponent<Boss_Merchant>().AttackMove(-0.2f);
         }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
-    //
+    //    
     //}
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
