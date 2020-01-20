@@ -2,84 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss_Trainer : Monster_Control
+public class Boss_Trainer : BossMonsterControl
 {
     #region Debug Attack Position and Range
-    public enum AttackTypes
-    {
-        Attack1,
-        DashAttack,
-    }
-    public AttackTypes AttackType;
+
     public float Debug_AttackPositionX;
     public float Debug_AttackPositionY;
     public float Debug_AttackRangeX;
     public float Debug_AttackRangeY;
-    #endregion
-
-    #region Check Direction
-    
-    #endregion
-
-    #region Base Components
 
     #endregion
 
-    #region Move Parameters
-
-    #endregion
-
-    #region Attack Parameters
-
-    public bool ReadytoAttack;
-    float attack1TimeDelay;
-    float attack1Timer;
     float dashAttackCoolTime;
-    float dashAttackTimer;
-
-    bool isAttack1;
-    bool isDashAttack;
-
-    #endregion
-
-    #region Gaurd Parameters
-    float gaurdTimeDelay;
-    float gaurdTimer;
-    #endregion
-
     Material DefaultMat;
     Material WhiteFlashMat;
-
-    public bool Invincible;
-
-    public new void OnEnable()
-    {
-        target = GameObject.Find("PlayerCharacter");
-        BossMonsterInit();
-    }
-
+    
     private void Start()
     {
         rotateDelayTime = 4f;
-        attack1TimeDelay = 5f;
-        attack1Timer = 0f;
+        attackCoolTime = 5f;
         dashAttackCoolTime = 7f;
-        attack1Timer = 0f;
-
         arrowDirection = 1;
+
         isFaceRight = true;
-        ReadytoAttack = true;
 
         Invincible = false;
-        isTrace = true;
+        isGuard = false;
+
+        StartCoroutine(MoveDelayTime(attackCoolTime));
     }
 
     private void FixedUpdate()
     {
+        if (actionState == ActionState.IsDead) return;
         if (actionState != ActionState.Idle) return;
         Move();
-        Attack1();
-        DashAttack();
+        Attack();
     }
 
     public void Move()
@@ -89,41 +47,50 @@ public class Boss_Trainer : Monster_Control
         else
         {
             animator.SetBool("isMove", true);
-            rb.velocity = new Vector2(arrowDirection, rb.velocity.y);
+            rb.velocity = new Vector2(arrowDirection * moveSpeed, rb.velocity.y);
+        }
+    }
+
+    void Attack()
+    {
+        counter = Random.Range(0, 100);
+
+        if (counter < 40)
+        {
+            Guard();
+        }
+
+        if (distanceX < 1f)
+        {
+            Attack1();
+        }
+        else if(distanceX > 4f)
+        {
+            DashAttack();
         }
     }
 
     void Attack1()
     {
-        if (ReadytoAttack)
-            attack1Timer += Time.deltaTime;
-        
-        if (distanceX > 1f) return;
-
-        if (attack1Timer >= attack1TimeDelay)
-        {
-            actionState = ActionState.IsAtk;
-            animator.SetTrigger("isAttack1");
-            rb.velocity = new Vector2(arrowDirection, rb.velocity.y);
-
-            attack1Timer = 0f;
-        }
+        actionState = ActionState.IsAtk;
+        animator.SetTrigger("isAttack1");
+        rb.velocity = new Vector2(arrowDirection, rb.velocity.y);
+        StartCoroutine(MoveDelayTime(attackCoolTime));
     }
-
     void DashAttack()
     {
-        if (dashAttackTimer < dashAttackCoolTime) return;
-
-        if (distanceX > 4f)
-        {
-            actionState = ActionState.IsAtk;
-            animator.SetTrigger("isDashAttack");
-            rb.velocity = new Vector2(3f * arrowDirection, rb.velocity.y);
-
-            dashAttackTimer = 0f;
-        }
+        actionState = ActionState.IsAtk;
+        animator.SetTrigger("isDashAttack");
+        rb.velocity = new Vector2(3f * arrowDirection, rb.velocity.y);
+        StartCoroutine(MoveDelayTime(dashAttackCoolTime));
     }
-
+    void Guard()
+    {
+        isGuard = true;
+        actionState = ActionState.IsAtk;
+        StartCoroutine(MoveDelayTime(attackCoolTime));
+    }
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

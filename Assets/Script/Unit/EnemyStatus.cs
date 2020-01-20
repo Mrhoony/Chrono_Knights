@@ -37,7 +37,7 @@ public class EnemyStatus : MonoBehaviour
     }
     public void MonsterInit()
     {
-        EnemyStatInit(2, 5, 1);
+        EnemyStatInit(1f, 5, 1);
         _currentHP = _HP;
     }
     public float GetMoveSpeed()

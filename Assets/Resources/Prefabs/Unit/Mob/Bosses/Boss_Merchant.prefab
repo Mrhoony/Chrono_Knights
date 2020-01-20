@@ -133,12 +133,10 @@ MonoBehaviour:
   attackCoolTime: 0
   maxAttackDelayTime: 0
   curAttackDelayTime: 0
-  AttackType: 0
   Debug_AttackPositionX: 0
   Debug_AttackPositionY: 0
   Debug_AttackRangeX: 0
   Debug_AttackRangeY: 0
-  isCheckRotationDirection: 0
   ReadytoAttack: 0
   Invincible: 0
 --- !u!50 &6363715144914464030
@@ -212,6 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd8bca6e2af9b3b4981467d0e5a9f4b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossNumber: 1
 --- !u!1001 &4457297336243286712
 PrefabInstance:
   m_ObjectHideFlags: 0

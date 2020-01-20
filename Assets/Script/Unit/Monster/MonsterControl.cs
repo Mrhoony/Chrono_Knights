@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Monster_Control : MovingObject
 {
-    protected GameObject target;
-    protected Vector2 playerPos;
-    protected GameObject eft;
-    protected EnemyStatus enemyStatus;
+    public GameObject target;
+    public Vector2 playerPos;
+    public GameObject eft;
+    public EnemyStatus enemyStatus;
     public DropItemList dropItemList;
 
     public float distanceX;
@@ -15,8 +15,7 @@ public class Monster_Control : MovingObject
     
     protected float random;
     
-    private float moveSpeed;
-
+    public float moveSpeed;
     protected IEnumerator Moving;
 
     public bool isTrace;
@@ -42,8 +41,7 @@ public class Monster_Control : MovingObject
     public virtual void Update()
     {
         if (actionState == ActionState.IsDead) return;
-        if (actionState == ActionState.IsAtk) return;
-        if (actionState == ActionState.NotMove) return;
+        if (actionState != ActionState.Idle) return;
         MonsterFlip();
     }
 
@@ -77,7 +75,7 @@ public class Monster_Control : MovingObject
                     StopCoroutine(Moving);
                 }
             }
-            else if(distanceX > 2f || distanceY > 2f)
+            else if(distanceX > 3f || distanceY > 2f)
             {
                 if (isTrace)
                 {
@@ -87,20 +85,6 @@ public class Monster_Control : MovingObject
                     curAttackDelayTime = 0f;
                 }
             }
-            yield return null;
-        }
-    }
-    public IEnumerator SearchPlayerBoss()
-    {
-        while (actionState != ActionState.IsDead)
-        {
-            playerPos = target.transform.position;
-            distanceX = playerPos.x - transform.position.x;
-            distanceY = playerPos.y - transform.position.y;
-
-            if (distanceX < 0) distanceX *= -1f;
-            if (distanceY < 0) distanceY *= -1f;
-            
             yield return null;
         }
     }
@@ -135,20 +119,6 @@ public class Monster_Control : MovingObject
         Moving = RandomMove(randomMoveCount);
         StartCoroutine(Moving);
     }
-    public void BossMonsterInit()
-    {
-        Debug.Log("BossMonsterInit");
-
-        actionState = ActionState.Idle;
-        enemyStatus.MonsterInit();
-        moveSpeed = enemyStatus.GetMoveSpeed();
-        StartCoroutine(SearchPlayerBoss());
-
-        randomMoveCount = Random.Range(2f, 3f);
-        Moving = RandomMove(randomMoveCount);
-        StartCoroutine(Moving);
-    }
-
     public void MonsterFlip()
     {
         if (isTrace)
