@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss_Merchant : BossMonsterControl
+public class Boss_Merchant : BossMonster_Control
 {
     #region Debug Attack Position and Range
 
@@ -77,11 +77,6 @@ public class Boss_Merchant : BossMonsterControl
         transform.position = new Vector2(target.transform.position.x + target.GetComponent<PlayerControl>().GetArrowDirection() * -0.3f, target.transform.position.y);
         animator.SetTrigger("isAttack1Trigger");
         StartCoroutine(MoveDelayTime(attackCoolTime));
-    }
-
-    public void AttackMove(float moveDistance)
-    {
-        transform.position = new Vector2(transform.position.x + moveDistance * arrowDirection, transform.position.y);
     }
 
     void Attack2()

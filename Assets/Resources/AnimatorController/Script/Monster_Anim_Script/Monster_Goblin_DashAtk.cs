@@ -11,29 +11,23 @@ public class Monster_Goblin_DashAtk : AnimatorManager
     {
         monster_Goblin = animator.gameObject.GetComponent<Monster_Goblin>();
         atk = 0;
-        move = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        MonsterAttack(animator, stateInfo, 0.5f, 0.5f, 0f, 0.8f, 0.2f);
-
-        if (stateInfo.normalizedTime > 0.4f)
+        if (atk < 1 && stateInfo.normalizedTime > 0.5f)
         {
-            if (!move)
-            {
-                monster_Goblin.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(3f * monster_Goblin.GetArrowDirection(), monster_Goblin.gameObject.GetComponent<Rigidbody2D>().velocity.y);
-                move = true;
-            }
+            monster_Goblin.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(3f * monster_Goblin.GetArrowDirection(), monster_Goblin.gameObject.GetComponent<Rigidbody2D>().velocity.y);
+            MonsterAttack(animator, stateInfo, 0.5f, 0f, 0.8f, 0.2f);
         }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        atk = 0;
-    }
+    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //
+    //}
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

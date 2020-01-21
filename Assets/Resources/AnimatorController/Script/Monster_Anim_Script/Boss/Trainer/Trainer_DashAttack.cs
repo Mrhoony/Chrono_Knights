@@ -2,23 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Merchant_Attack2_1 : AnimatorManager
+public class Trainer_DashAttack : AnimatorManager
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        atk = 1;
+        atk = 0;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (atk < 2 && stateInfo.normalizedTime > 0.5f)
+        if (atk < 1 && stateInfo.normalizedTime > 0.3f)
         {
-            ++atk;
-            MonsterAttack(animator, stateInfo, 0.6f, 0.5f, 0f, 0.8f, 0.2f);
-            animator.GetComponent<Boss_Merchant>().AttackMove(0.2f);
+            Debug.Log("dashAttack");
+
+            MonsterAttack(animator, stateInfo, 0.5f, 0f, 0.8f, 0.2f);
+            animator.GetComponent<Boss_Trainer>().AttackMove(0.5f);
         }
+    }
+
+    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        animator.GetComponent<Boss_Trainer>().DashAttackEnd();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

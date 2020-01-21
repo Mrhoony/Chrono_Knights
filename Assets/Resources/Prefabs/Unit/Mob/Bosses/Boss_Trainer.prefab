@@ -293,25 +293,27 @@ MonoBehaviour:
   actionState: 5
   isFaceRight: 0
   arrowDirection: 0
+  target: {fileID: 0}
+  playerPos: {x: 0, y: 0}
+  eft: {fileID: 0}
+  enemyStatus: {fileID: 0}
   dropItemList: {fileID: 0}
   distanceX: 0
   distanceY: 0
-  isTrace: 0
-  randomMove: 0
-  randomMoveCount: 0
-  randomAttack: 0
+  playerPosition: 0
+  moveSpeed: 0
   isDamagable: 0
+  isGuard: 0
+  counter: 0
+  Invincible: 0
   rotateDelayTime: 0
   attackCoolTime: 0
   maxAttackDelayTime: 0
   curAttackDelayTime: 0
-  AttackType: 0
   Debug_AttackPositionX: 0
   Debug_AttackPositionY: 0
   Debug_AttackRangeX: 0
   Debug_AttackRangeY: 0
-  ReadytoAttack: 0
-  Invincible: 0
 --- !u!114 &3909595181139401192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,5 +326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ffe67a1023780419849c8610590db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DropItems: []
-  DropChances: 
+  DropItems:
+  - {fileID: 9128683610158317328, guid: e6ca7410da7c9374aad6f35ae733c7cd, type: 3}
+  DropChances: 32000000

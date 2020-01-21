@@ -38,14 +38,7 @@ public class Monster_Control : MovingObject
         eft = transform.GetChild(0).gameObject;
     }
 
-    public virtual void Update()
-    {
-        if (actionState == ActionState.IsDead) return;
-        if (actionState != ActionState.Idle) return;
-        MonsterFlip();
-    }
-
-    public virtual void OnEnable()
+    public void OnEnable()
     {
         target = GameObject.Find("PlayerCharacter");
         MonsterInit();
@@ -56,6 +49,13 @@ public class Monster_Control : MovingObject
         StopCoroutine(Moving);
     }
 
+    public virtual void Update()
+    {
+        if (actionState == ActionState.IsDead) return;
+        if (actionState != ActionState.Idle) return;
+        MonsterFlip();
+    }
+    
     public IEnumerator SearchPlayer()
     {
         while (actionState != ActionState.IsDead)

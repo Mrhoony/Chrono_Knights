@@ -15,8 +15,7 @@ public class Merchant_CounterAttack : AnimatorManager
     {
         if (atk < 2 && stateInfo.normalizedTime > 0.3f)
         {
-            ++atk;
-            MonsterAttack(animator, stateInfo, 0.6f, 0.5f, 0f, 0.8f, 0.2f);
+            MonsterAttack(animator, stateInfo, 0.5f, 0f, 0.8f, 0.2f);
             animator.GetComponent<Boss_Merchant>().AttackMove(-0.2f);
         }
     }

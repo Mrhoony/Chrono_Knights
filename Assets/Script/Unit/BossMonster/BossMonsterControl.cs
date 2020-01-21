@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossMonsterControl : MovingObject
+public class BossMonster_Control : MovingObject
 {
     public GameObject target;
     public Vector2 playerPos;
@@ -26,8 +26,17 @@ public class BossMonsterControl : MovingObject
     public float maxAttackDelayTime;
     public float curAttackDelayTime;
 
+    public virtual void Awake()
+    {
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        enemyStatus = GetComponent<EnemyStatus>();
+        dropItemList = GetComponent<DropItemList>();
+        eft = transform.GetChild(0).gameObject;
+    }
+
     // Start is called before the first frame update
-    void Start()
+    public void OnEnable()
     {
         target = GameObject.Find("PlayerCharacter");
         BossMonsterInit();
@@ -125,5 +134,10 @@ public class BossMonsterControl : MovingObject
         yield return new WaitForSeconds(time);
 
         actionState = ActionState.Idle;
+    }
+
+    public void AttackMove(float moveDistance)
+    {
+        transform.position = new Vector2(transform.position.x + moveDistance * arrowDirection, transform.position.y);
     }
 }

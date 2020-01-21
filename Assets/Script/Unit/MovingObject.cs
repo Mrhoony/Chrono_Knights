@@ -13,19 +13,19 @@ public enum ActionState
     IsMove,
     Idle
 }
+public enum State
+{
+    common, poison, bleeding, slow
+}
 
 public class MovingObject : MonoBehaviour
 {
     protected Rigidbody2D rb;
     protected Animator animator;
 
-    protected enum State
-    {
-        common, poison, bleeding, slow
-    }
     public string currentState;
     
-    public ActionState actionState = ActionState.Idle;
+    public ActionState actionState;
 
     public bool isFaceRight; // 보는 방향
     public int arrowDirection;
@@ -49,6 +49,7 @@ public class MovingObject : MonoBehaviour
     {
         return arrowDirection;
     }
+
     public ActionState GetActionState()
     {
         return actionState;

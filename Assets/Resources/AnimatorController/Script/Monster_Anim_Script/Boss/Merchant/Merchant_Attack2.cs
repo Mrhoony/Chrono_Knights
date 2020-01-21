@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster_Ogre_AtkH : AnimatorManager
+public class Merchant_Attack2 : AnimatorManager
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -15,14 +15,15 @@ public class Monster_Ogre_AtkH : AnimatorManager
     {
         if (atk < 1 && stateInfo.normalizedTime > 0.3f)
         {
-            MonsterAttack(animator, stateInfo, 1f, 0f, 3f, 0.5f);
+            MonsterAttack(animator, stateInfo, 0.5f, 0f, 0.8f, 0.2f);
+            animator.GetComponent<Boss_Merchant>().AttackMove(0.2f);
         }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
-    //
+    //    
     //}
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

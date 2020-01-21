@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss_Trainer : BossMonsterControl
+public class Boss_Trainer : BossMonster_Control
 {
     #region Debug Attack Position and Range
 
@@ -35,14 +35,14 @@ public class Boss_Trainer : BossMonsterControl
     private void FixedUpdate()
     {
         if (actionState == ActionState.IsDead) return;
-        if (actionState != ActionState.Idle) return;
         Move();
+        if (actionState != ActionState.Idle) return;
         Attack();
     }
 
     public void Move()
     {
-        if (distanceX < 1f)
+        if (actionState == ActionState.IsAtk)
             animator.SetBool("isMove", false);
         else
         {
@@ -53,37 +53,61 @@ public class Boss_Trainer : BossMonsterControl
 
     void Attack()
     {
-        counter = Random.Range(0, 100);
-
-        if (counter < 40)
-        {
-            Guard();
-        }
-
         if (distanceX < 1f)
         {
-            Attack1();
+            counter = Random.Range(0, 100);
+
+            if (counter < 40)
+                Guard();
+            else
+                Attack1();
         }
-        else if(distanceX > 4f)
+        else if(distanceX > 4f && distanceX < 7f)
         {
-            DashAttack();
+            DashMove();
         }
     }
 
     void Attack1()
     {
+        Debug.Log("attack");
         actionState = ActionState.IsAtk;
         animator.SetTrigger("isAttack1");
-        rb.velocity = new Vector2(arrowDirection, rb.velocity.y);
         StartCoroutine(MoveDelayTime(attackCoolTime));
     }
-    void DashAttack()
+    public void DashAttack()
     {
-        actionState = ActionState.IsAtk;
-        animator.SetTrigger("isDashAttack");
-        rb.velocity = new Vector2(3f * arrowDirection, rb.velocity.y);
+        Debug.Log("dashAttack");
+        StopCoroutine("DashDuration");
+        animator.SetBool("isDashAttack", false);
         StartCoroutine(MoveDelayTime(dashAttackCoolTime));
     }
+    public void DashMove()
+    {
+        actionState = ActionState.IsAtk;
+        animator.SetBool("isDash", true);
+        animator.SetBool("isDashAttack", true);
+        StartCoroutine("DashDuration");
+        rb.velocity = new Vector2(arrowDirection * moveSpeed, rb.velocity.y);
+    }
+    public void DashAttackEnd()
+    {
+        animator.SetBool("isDash", false);
+    }
+
+    public void Dash()
+    {
+        Debug.Log("dash");
+        rb.velocity = new Vector2(arrowDirection * moveSpeed * 2f, rb.velocity.y);
+    }
+    IEnumerator DashDuration()
+    {
+        yield return new WaitForSeconds(3f);
+        animator.SetBool("isDash", false);
+        animator.SetBool("isDashAttack", false);
+        StartCoroutine(MoveDelayTime(attackCoolTime));
+    }
+    
     void Guard()
     {
         isGuard = true;

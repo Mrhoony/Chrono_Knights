@@ -14,7 +14,10 @@ public class Monster_Dog_Attack : AnimatorManager
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        MonsterAttack(animator, stateInfo, 0.6f, 0.5f, 0f, 0.8f, 0.2f);
+        if (atk < 1 && stateInfo.normalizedTime > 0.6f)
+        {
+            MonsterAttack(animator, stateInfo, 0.5f, 0f, 0.8f, 0.2f);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
