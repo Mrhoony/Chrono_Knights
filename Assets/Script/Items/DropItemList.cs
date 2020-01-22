@@ -10,18 +10,20 @@ using UnityEngine;
 
 public class DropItemList : MonoBehaviour
 {
-    public GameObject[] DropItems;
-    public int[] DropChances;
+    public GameObject[] dropItems;
+    public int[] dropChances;
+    public int dropItemList;
 
     public void ItemDropChance()
     {
-        int DropChance = Random.Range(1, 101);
+        int dropChance = Random.Range(1, 101);
+        dropItemList = dropItems.Length;
 
-        for(int i=0; i<DropItems.Length; i++)
+        for (int i=0; i< dropItemList; i++)
         {
-            if(DropChance > DropChances[i])
+            if(dropChance > dropChances[i])
             {
-                Instantiate(DropItems[i], new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity);
+                Instantiate(dropItems[i], new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity);
             }
         }
     }

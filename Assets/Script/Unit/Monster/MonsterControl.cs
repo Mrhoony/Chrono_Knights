@@ -150,11 +150,12 @@ public class Monster_Control : MovingObject
         if (actionState == ActionState.IsDead) return;
         actionState = ActionState.NotMove;
         StartCoroutine(MoveDelayTime(1f));
-        random = Random.Range(-2f, 2f);
+        random = Random.Range(-0.2f, 0.2f);
         rb.velocity = Vector2.zero;
-        rb.AddForce(new Vector2(1f * PlayerControl.instance.GetArrowDirection() + random * 0.1f, 0f), ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(PlayerControl.instance.GetArrowDirection() + random, 0.2f), ForceMode2D.Impulse);
 
         enemyStatus.DecreaseHP(attack);
+
         if (enemyStatus.IsDeadCheck())
         {
             Dead();

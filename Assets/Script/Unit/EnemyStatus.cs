@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyStatus : MonoBehaviour
 {
+    public EnemyHPBar enemyHPBar;
     private float _moveSpeed; // 이동 속도
     private int _HP; // 최대 체력
     private int _currentHP; // 현재 체력
@@ -24,6 +25,7 @@ public class EnemyStatus : MonoBehaviour
         {
             _currentHP = 0;
         }
+        enemyHPBar.SetHPBar(_currentHP, _HP);
     }
     public void EnemyStatInit(float moveSpeed, int HP, int attack)
     {
