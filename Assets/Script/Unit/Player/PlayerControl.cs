@@ -154,7 +154,7 @@ public class PlayerControl : MovingObject
     }
     IEnumerator InvincibleCount()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         invincible = false;
     }
     IEnumerator ParryingCount()
@@ -164,7 +164,9 @@ public class PlayerControl : MovingObject
     }
     IEnumerator DodgeCount()
     {
-        yield return new WaitForSeconds(0.5f);
+        playerCharacterCollider.enabled = false;
+        yield return new WaitForSeconds(0.3f);
+        playerCharacterCollider.enabled = true;
         dodgable = true;
     }
     

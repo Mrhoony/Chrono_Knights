@@ -121,6 +121,7 @@ public class BossMonster_Control : MovingObject
             {
                 actionState = ActionState.IsDead;
                 gameObject.tag = "DeadBody";
+                DungeonManager.instance.FloorBossKill();
             }
             else
             {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster_Control : MovingObject
+public abstract class Monster_Control : MovingObject
 {
     public GameObject target;
     public Vector2 playerPos;
@@ -113,11 +113,12 @@ public class Monster_Control : MovingObject
         actionState = ActionState.Idle;
         enemyStatus.MonsterInit();
         moveSpeed = enemyStatus.GetMoveSpeed();
-        StartCoroutine(SearchPlayer());
 
         randomMoveCount = Random.Range(2f, 3f);
         Moving = RandomMove(randomMoveCount);
         StartCoroutine(Moving);
+
+        StartCoroutine(SearchPlayer());
     }
     public void MonsterFlip()
     {

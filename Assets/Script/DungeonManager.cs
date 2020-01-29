@@ -152,10 +152,9 @@ public class DungeonManager : MonoBehaviour
         FloorDatas[0] = new FloorData(0, 0); // 0층, 안씀
         for (int Floor = 1; Floor <= 70; Floor++)
         {
-            FloorDatas[Floor] = new FloorData(Floor, Floor * 2);
+            FloorDatas[Floor] = new FloorData(Floor, Floor * 4);
         }
     }
-
     private void Init()
     {
         currentStage = 0;
@@ -172,10 +171,22 @@ public class DungeonManager : MonoBehaviour
         phaseClear = false;
         freePassFloor = false;
     }
+    public void DungeonInit()
+    {
+        newDay = true;
+        bossSetting = false;
+        dungeonClear = false;
+        floorRepeat = false;
+
+        currentStage = 0;
+        bossStageCount = 0;
+        monsterCount = 0;
+        currentMonsterCount = 0;
+    }
 
     public void Update()
     {
-        if (menu.isCancelOn || menu.isInventoryOn || menu.isStorageOn) return;
+        if (menu.GameMenuOnCheck()) return;
         if (useTeleportSystem == 10) return;
         if (isSceneLoading) return;
 
@@ -231,20 +242,7 @@ public class DungeonManager : MonoBehaviour
             }
         }
     }
-
-    public void DungeonInit()
-    {
-        newDay = true;
-        bossSetting = false;
-        dungeonClear = false;
-        floorRepeat = false;
-
-        currentStage = 0;
-        bossStageCount= 0;
-        monsterCount = 0;
-        currentMonsterCount = 0;
-    }
-
+    
     public bool useKeyInDungeon(Key _key)
     {
         if (usedKey) return false;
@@ -278,7 +276,6 @@ public class DungeonManager : MonoBehaviour
         }
         return true;
     }
-
     public void PlayerIsDead()
     {
         isDead = true;
@@ -318,23 +315,11 @@ public class DungeonManager : MonoBehaviour
                     if (phaseClear)
                     {
                         phaseClear = false;
-                        DungeonInit();
-                        NewDayCheck();
-                        ++currentDate;
-                        playerStatus.ReturnToTown();
-                        menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
-                        mainCamera.SetHeiWid(640, 360);
-                        SceneManager.LoadScene(0);
+                        SceneManager.LoadScene(5);
                     }
                     else
                     {
-                        DungeonInit();
-                        NewDayCheck();
-                        ++currentDate;
-                        playerStatus.ReturnToTown();
-                        menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
-                        mainCamera.SetHeiWid(640, 360);
-                        SceneManager.LoadScene(0);
+                        ReturnToTown();
                     }
                     break;
                 case 9:
@@ -344,14 +329,19 @@ public class DungeonManager : MonoBehaviour
         else
         {
             isDead = false;
-            DungeonInit();
-            NewDayCheck();
-            ++currentDate;
-            playerStatus.ReturnToTown();
-            menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(true);
-            mainCamera.SetHeiWid(640, 360);
-            SceneManager.LoadScene(0);
+            ReturnToTown();
         }
+    }
+
+    public void ReturnToTown()
+    {
+        DungeonInit();
+        NewDayCheck();
+        ++currentDate;
+        playerStatus.ReturnToTown();
+        menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(true);
+        mainCamera.SetHeiWid(640, 360);
+        SceneManager.LoadScene(0);
     }
 
     // 층 이동 시 나타날 층 세팅
@@ -394,6 +384,7 @@ public class DungeonManager : MonoBehaviour
             Debug.Log("Boss");
             bossStageCount = 0;
             bossSetting = false;
+
             spawner = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().spawner;
             spawnerCount = spawner.Length;
 
@@ -401,7 +392,6 @@ public class DungeonManager : MonoBehaviour
 
             Instantiate(bossMonsterList[randomBoss], new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y), Quaternion.identity);
-
         }
         else if (floorRepeat)    // 맵 반복시
         {
@@ -422,10 +412,10 @@ public class DungeonManager : MonoBehaviour
         else            // 일반 맵일경우
         {
             // 초기 맵 랜덤 선택
-            // (임시)하나만 클리어 해도 마을로
+            /* (임시)하나만 클리어 해도 마을로
             if (currentStage > 0)
                 phaseClear = true;
-
+            */
             spawner = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().spawner;
             spawnerCount = spawner.Length;
 
@@ -452,7 +442,7 @@ public class DungeonManager : MonoBehaviour
         marker_Variable.Reset();
 
         player.transform.position = entrance;
-        mapList[selectedMapNum].GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, currentStage);
+        mapList[selectedMapNum].GetComponent<BackgroundScrolling>().SetBackGroundPosition(currentStage);
         
         dungeonUI.SetDungeonFloor(currentStage);
     }
@@ -499,6 +489,12 @@ public class DungeonManager : MonoBehaviour
         return false;
     }
 
+    public void FloorBossKill()
+    {
+        ++bossClear;
+        phaseClear = true;
+    }
+
     // 씬 이동 후 초기화
     public void OnEnable()
     {
@@ -541,12 +537,14 @@ public class DungeonManager : MonoBehaviour
         }
         else if(SceneManager.GetActiveScene().buildIndex == 1)  // 마을 화면 일 때
         {
+            mapList = GameObject.FindGameObjectsWithTag("BaseMap");
             for (int i = 0; i < teleportCount; ++i)
             {
                 if (teleportPoint[i].GetComponent<Teleport>().useSystem == 0)
                     entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
             }
             player.transform.position = entrance;
+            mapList[0].GetComponent<BackgroundScrolling>().SetBackGroundPosition(0);
         }
         else if (SceneManager.GetActiveScene().buildIndex == 2)  // 마을 - 숲 화면 일 때
         {

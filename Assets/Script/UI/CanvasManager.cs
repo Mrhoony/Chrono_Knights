@@ -138,6 +138,12 @@ public class CanvasManager : MonoBehaviour
             }
         }
     }
+
+    public bool GameMenuOnCheck()
+    {
+        if (isCancelOn || isInventoryOn || isStorageOn) return true;
+        else return false;
+    }
     
     public void FadeInStart()
     {

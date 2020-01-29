@@ -5,15 +5,16 @@ using UnityEngine;
 public class BackgroundScrolling : MonoBehaviour
 {
     private Transform cameraTrasform;
-    public float[] ParalaxSpeed;
-
-    public GameObject backGroundImage;
+    public float[] ParalaxSpeedX;
+    public float[] ParalaxSpeedY;
+    
     public GameObject mapBase;
     public GameObject spawnerSet;
     public GameObject[] spawner;
     public GameObject teleporter;
 
     private Transform[] layers;
+    private int layerCount;
 
     private float lastCameraX;
     private float lastCameraY;
@@ -36,13 +37,15 @@ public class BackgroundScrolling : MonoBehaviour
             layers[i] = transform.GetChild(i);
             layers[i].transform.position = new Vector2(0f, layers[i].transform.position.y);
         }
+        layerCount = layers.Length;
     }
 
-    public void SetBackGroundPosition(Vector2 playerPosition, int currentStage)
+    public void SetBackGroundPosition(int currentStage)
     {
-        for (int i = 0; i < layers.Length; ++i)
+        for (int i = 0; i < layerCount; ++i)
         {
-            layers[i].transform.position = new Vector2(playerPosition.x + Random.Range(-0.5f, 0.5f), layers[i].transform.position.y - (currentStage * 0.2f));
+            layers[i].transform.position = new Vector2(cameraTrasform.position.x + Random.Range(-0.5f, 0.5f)
+                , layers[i].transform.position.y - (currentStage * 0.2f));
         }
     }
 
@@ -52,9 +55,10 @@ public class BackgroundScrolling : MonoBehaviour
         deltaX = cameraTrasform.position.x - lastCameraX;
         deltaY = cameraTrasform.position.y - lastCameraY;
 
-        for(int i = 0; i < layers.Length; ++i)
+        for(int i = 0; i < layerCount; ++i)
         {
-            layers[i].transform.position = new Vector2(layers[i].transform.position.x + deltaX * ParalaxSpeed[i], layers[i].transform.position.y + deltaY * ParalaxSpeed[i] * 2f);
+            layers[i].transform.position = new Vector2(layers[i].transform.position.x + deltaX * ParalaxSpeedX[i]
+                , layers[i].transform.position.y + deltaY * ParalaxSpeedY[i] * 2f);
         }
 
         lastCameraX = cameraTrasform.position.x;

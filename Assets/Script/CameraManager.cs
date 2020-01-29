@@ -7,7 +7,7 @@ public class CameraManager : MonoBehaviour
 
     static public CameraManager instance;
     public GameObject target;
-    private BoxCollider2D bound;
+    public BoxCollider2D bound;
 
     private Vector3 targetPosition;
     private Vector2 minBound;

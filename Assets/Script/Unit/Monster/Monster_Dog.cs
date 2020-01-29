@@ -18,7 +18,6 @@ public class Monster_Dog : Monster_Control
         if (!isTrace) return;
         if (actionState == ActionState.IsAtk) return;
         Move();
-        if (actionState == ActionState.NotMove) return;
         Attack();
     }
     

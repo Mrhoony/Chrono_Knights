@@ -346,9 +346,10 @@ public class Menu_Storage : MonoBehaviour
 
         for (int i = 0; i < availableSlot; ++i)
         {
-            Debug.Log(Item_Database.instance.GetItem(storageItemCodeList[i]));
+            //Debug.Log(Item_Database.instance.GetItem(storageItemCodeList[i]));
+            //Debug.Log(Item_Database.instance.GetItem(storageItemCodeList[i]).keyCode);
+
             if (Item_Database.instance.GetItem(storageItemCodeList[i]) == null) continue;
-            Debug.Log(Item_Database.instance.GetItem(storageItemCodeList[i]).keyCode);
             storageItemList[i] = Item_Database.instance.GetItem(storageItemCodeList[i]);
         }
     }
