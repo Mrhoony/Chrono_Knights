@@ -10,13 +10,12 @@ public class Monster_Goblin_bow : Monster_Control
 
     void Start()
     {
-        rotateDelayTime = 2f;
+        rotateDelayTime = 3f;
         maxAttackDelayTime = 1f;
         curAttackDelayTime = 0f;
         isFaceRight = true;
         arrowDirection = 1;
         actionState = ActionState.Idle;
-        arrow = Instantiate(arrow, transform.position, Quaternion.identity);
         arrow.GetComponent<ProjectileObjectArrow>().Init(gameObject);
         arrow.SetActive(false);
     }
@@ -24,9 +23,9 @@ public class Monster_Goblin_bow : Monster_Control
     private void FixedUpdate()
     {
         if (actionState == ActionState.IsDead) return;
-        if (!isTrace) return;
         if (actionState == ActionState.IsAtk) return;
         Move();
+        if (!isTrace) return;
         Attack();
     }
 
@@ -37,16 +36,19 @@ public class Monster_Goblin_bow : Monster_Control
             animator.SetBool("isMove", false);
             return;
         }
+        Debug.Log("move");
         if (isTrace)
         {
             if (distanceX > 3f)
             {
                 animator.SetBool("isMove", true);
-                rb.velocity = new Vector2(enemyStatus.GetMoveSpeed() * arrowDirection, rb.velocity.y);
+                rb.velocity = new Vector2(moveSpeed * arrowDirection, rb.velocity.y);
+                Debug.Log("move 1");
             }
             else
             {
                 animator.SetBool("isMove", false);
+                Debug.Log("move 11");
             }
         }
         else
@@ -54,11 +56,13 @@ public class Monster_Goblin_bow : Monster_Control
             if (randomMove != 0)
             {
                 animator.SetBool("isMove", true);
-                rb.velocity = new Vector2(enemyStatus.GetMoveSpeed() * randomMove, rb.velocity.y);
+                rb.velocity = new Vector2(moveSpeed * randomMove, rb.velocity.y);
+                Debug.Log("move2");
             }
             else
             {
                 animator.SetBool("isMove", false);
+                Debug.Log("move22");
             }
         }
     }
@@ -99,6 +103,6 @@ public class Monster_Goblin_bow : Monster_Control
     {
         arrow.SetActive(true);
         arrow.transform.position = shootingPosition.transform.position;
-        arrow.GetComponent<ProjectileObjectArrow>().arrowShooting(distanceX * arrowDirection);
+        arrow.GetComponent<ProjectileObjectArrow>().arrowShooting(distanceX, arrowDirection);
     }
 }

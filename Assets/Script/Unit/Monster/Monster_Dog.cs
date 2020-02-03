@@ -15,9 +15,9 @@ public class Monster_Dog : Monster_Control
     private void FixedUpdate()
     {
         if (actionState == ActionState.IsDead) return;
-        if (!isTrace) return;
         if (actionState == ActionState.IsAtk) return;
         Move();
+        if (!isTrace) return;
         Attack();
     }
     

@@ -40,7 +40,6 @@ public class MarkerVariable
         markerVariable[11] = 1;
     }
 }
-
 /*
  * 층, 소환몹갯수로 구성된 클래스
  * FloorDatas.Floor, FloorDatas.SpawnAmount로 접근
@@ -378,7 +377,6 @@ public class DungeonManager : MonoBehaviour
                     bossSetting = true;
             }
         }
-
         if (bossSetting)    // 보스 층 일때
         {
             Debug.Log("Boss");

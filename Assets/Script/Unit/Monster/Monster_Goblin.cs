@@ -17,10 +17,9 @@ public class Monster_Goblin : Monster_Control
     private void FixedUpdate()
     {
         if (actionState == ActionState.IsDead) return;
-        if (!isTrace) return;
         if (actionState == ActionState.IsAtk) return;
         Move();
-        if (actionState == ActionState.NotMove) return;
+        if (!isTrace) return;
         Attack();
     }
 

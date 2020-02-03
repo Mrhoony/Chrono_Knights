@@ -79,10 +79,13 @@ public abstract class Monster_Control : MovingObject
             {
                 if (isTrace)
                 {
-                    actionState = ActionState.Idle;
-                    isTrace = false;
-                    StartCoroutine(Moving);
-                    curAttackDelayTime = 0f;
+                    if(actionState != ActionState.IsAtk)
+                    {
+                        actionState = ActionState.Idle;
+                        isTrace = false;
+                        StartCoroutine(Moving);
+                        curAttackDelayTime = 0f;
+                    }
                 }
             }
             yield return null;

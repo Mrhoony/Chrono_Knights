@@ -2,38 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon_Spear : MonoBehaviour
+public class Weapon_Spear : PlayerWeaponType
 {
-    public string ControllerPath = "AnimatorController/Player_Control/Spear/Spear_Controller";
-    public bool attackLock;
-    public int commandCount;
-    public int attackState;
-    public int attackPattern;
-
-    public Animator animator;
-    public Rigidbody2D rb;
-
-    public Queue inputAttackList = new Queue();
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        commandCount = 1;
-        attackState = 1;
-    }
-    
-    public void Init(Animator _animator, Rigidbody2D _rigidbody)
-    {
-        animator = _animator;
-        rb = _rigidbody;
-    }
-
     public void AttackX(int inputArrow)
     {
         if (commandCount <= attackState)
         {
             animator.SetBool("isWalk", false);
-            inputAttackList.Enqueue(inputArrow + commandCount);
+            inputAttackList = inputArrow + commandCount;
             ++commandCount;
 
             if (!attackLock)
@@ -45,44 +21,28 @@ public class Weapon_Spear : MonoBehaviour
     }
     public void JumpAttackX(int inputArrow)
     {
-        inputAttackList.Enqueue(inputArrow + 6);
+        inputAttackList = inputArrow + 6;
         if (!attackLock)
             StartCoroutine(AttackList());
     }
-
     public void AttackY(int inputArrow)
     {
         animator.SetBool("isWalk", false);
-
-        if (attackPattern != 0) inputAttackList.Clear();
-
-        inputAttackList.Enqueue(inputArrow + 5);
+        
+        inputAttackList = inputArrow + 5;
         if (!attackLock)
             StartCoroutine(AttackList());
     }
     public void AttackYFinal()
-{
-    if (animator.GetBool("is_y_Atk"))
     {
-        inputAttackList.Enqueue(0);
-        if (!attackLock)
-            StartCoroutine(AttackList());
+        if (animator.GetBool("is_y_Atk"))
+        {
+            inputAttackList = 0;
+            if (!attackLock)
+                StartCoroutine(AttackList());
+        }
     }
-}
-
-    public void InputInit()
-    {
-        inputAttackList.Clear();
-        animator.SetBool("is_x_Atk", false);
-        animator.SetBool("is_xx_Atk", false);
-        animator.SetBool("is_xFx_Atk", false);
-        animator.SetBool("is_xxx_Atk", false);
-        animator.SetBool("is_xFxFx_Atk", false);
-        animator.SetBool("is_y_Atk", false);
-        commandCount = 1;
-        attackState = 1;
-    }
-
+    
     IEnumerator AttackList()
     {
         attackLock = !attackLock;
@@ -93,7 +53,7 @@ public class Weapon_Spear : MonoBehaviour
                 rb.velocity = Vector2.zero;
                 animator.SetBool("isRun", false);
             }
-            switch (inputAttackList.Dequeue())
+            switch (inputAttackList)
             {
                 case 1:
                 case 11:
@@ -163,14 +123,14 @@ public class Weapon_Spear : MonoBehaviour
                 case 46:
                     animator.SetBool("isJump_x_Atk", true);
                     break;
+                case 9:
+                    InputInit();
+                    break;
             }
             yield return null;
-        } while (inputAttackList.Count > 0);
+        } while (PlayerControl.instance.actionState == ActionState.IsAtk);
+        InputInit();
         attackLock = !attackLock;
     }
 
-    public void SetAttackState(int _attackState)
-    {
-        attackState = _attackState;
-    }
 }

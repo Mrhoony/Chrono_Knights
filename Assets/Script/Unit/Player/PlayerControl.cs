@@ -58,9 +58,10 @@ public class PlayerControl : MovingObject
         playerCharacterCollider = gameObject.GetComponent<BoxCollider2D>();
         playerStatus = GetComponent<PlayerStatus>();
         weaponSpear = GetComponent<Weapon_Spear>();
+        weaponGun = GetComponent<Weapon_Gun>();
+
         weaponSpear.Init(animator, rb);
-        weaponGun = GetComponent<Weapon_Gun>(); // weaponGun 선언
-        
+
         arrowDirection = 1;
         weaponType = 0;
         dodgable = true;
@@ -80,6 +81,10 @@ public class PlayerControl : MovingObject
                 inputAttackY = false;
                 finalAttackY = true;
             }
+        }
+        else if(weaponType == 1)
+        {
+            if (Input.GetButtonDown("Fire1")) inputAttackX = true;
         }
 
         if (actionState == ActionState.NotMove) return;             // notMove 가 아닐 때
@@ -131,7 +136,14 @@ public class PlayerControl : MovingObject
 
         if (actionState == ActionState.IsAtk) return;
 
-        if (Input.GetButton("Fire2")) inputAttackY = true;
+        if (weaponType == 0)
+        {
+            if (Input.GetButton("Fire2")) inputAttackY = true;
+        }
+        else if (weaponType == 1)
+        {
+
+        }
         if (Input.GetButtonDown("Jump")) inputJump = true;
 
         if (Input.GetKeyDown(KeyCode.S))
@@ -141,14 +153,14 @@ public class PlayerControl : MovingObject
                 weaponType = 1;
                 weaponSpear.enabled = false;    // 스피어 오프
                 weaponGun.enabled = true;       // 건 온
-                animator.runtimeAnimatorController = Resources.Load(weaponGun.ControllerPath) as RuntimeAnimatorController; // 건 애니메이터 변경
+                weaponGun.Init(animator, rb);
             }
             else if (weaponType == 1)
             {
                 weaponType = 0;
                 weaponGun.enabled = false;
                 weaponSpear.enabled = true;
-                animator.runtimeAnimatorController = Resources.Load(weaponGun.ControllerPath) as RuntimeAnimatorController; // 스피어 애니메이터 변경
+                weaponSpear.Init(animator, rb);
             }
         }
     }
@@ -215,7 +227,7 @@ public class PlayerControl : MovingObject
         if (actionState == ActionState.NotMove) return;     // 피격 시 입력무시
 
         if (weaponType == 0) SpearAttack();
-        if (weaponType == 1) SpearAttack();
+        if (weaponType == 1) GunAttack();
 
         Jump();
         Dodge();
@@ -272,6 +284,29 @@ public class PlayerControl : MovingObject
             if (actionState == ActionState.IsJumpAttack) return;       // 공격 중 입력무시
             finalAttackY = false;
             weaponSpear.AttackYFinal();
+        }
+    }
+
+    void GunAttack()
+    {
+        if (inputAttackX)
+        {
+            inputAttackX = false;
+            if (actionState == ActionState.IsJumpAttack) return;       // 공격 중 입력무시
+            if (actionState == ActionState.IsJump)
+            {
+                if (isJumpAttack) return;
+                isJumpAttack = true;
+                Debug.Log("input jump x");
+                actionState = ActionState.IsJumpAttack;
+                weaponGun.JumpAttackX(inputArrow);
+            }
+            else
+            {
+                Debug.Log("input x");
+                actionState = ActionState.IsAtk;
+                weaponGun.AttackX(inputArrow);
+            }
         }
     }
 
@@ -333,7 +368,6 @@ public class PlayerControl : MovingObject
         rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(0f, playerStatus.GetJumpPower()), ForceMode2D.Impulse);
     }
-
     void Dodge()
     {
         if (!inputDodge) return;
@@ -472,6 +506,21 @@ public class PlayerControl : MovingObject
     public void PlayerJumpAttackEnd()
     {
         actionState = ActionState.IsJump;
+    }
+
+    public void SetAttackState(int _attackState)
+    {
+        if (weaponType == 0)
+            weaponSpear.SetAttackState(_attackState);
+        else
+            weaponGun.SetAttackState(_attackState);
+    }
+    public void InputInit()
+    {
+        if(weaponType == 0)
+            weaponSpear.InputInit();
+        else
+            weaponGun.InputInit();
     }
     public void SetAnimationAttackSpeed(float _attackSpeed)
     {

@@ -24,7 +24,7 @@ public class xx_Attack_end : AnimatorManager
         }
         if (stateInfo.normalizedTime > 0.4f)
         {
-            playerControl.gameObject.GetComponent<Weapon_Spear>().SetAttackState(3);
+            playerControl.SetAttackState(3);
         }
     }
 
@@ -33,7 +33,7 @@ public class xx_Attack_end : AnimatorManager
     {
         if (!animator.GetBool("is_xxx_Atk"))
         {
-            playerControl.gameObject.GetComponent<Weapon_Spear>().InputInit();
+            playerControl.InputInit();
             playerControl.PlayerMoveSet();
         }
         Init();

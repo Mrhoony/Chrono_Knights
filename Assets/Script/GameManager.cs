@@ -129,7 +129,6 @@ public class GameManager : MonoBehaviour
             {
                 CloseLoad();
                 canvanManager.inGameMenu.SetActive(true);
-                player.GetComponent<PlayerControl>().enabled = true;
             }
         }
 
@@ -270,8 +269,6 @@ public class GameManager : MonoBehaviour
         openSaveSlot = false;
         canvanManager.CloseLoadSlot();
         startButton.SetActive(true);
-        player.GetComponent<PlayerControl>().enabled = true;
-        
     }
 
     public void OpenSetting()

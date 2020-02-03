@@ -19,10 +19,9 @@ public class Monster_Frog : Monster_Control
     private void FixedUpdate()
     {
         if (actionState == ActionState.IsDead) return;
-        if (!isTrace) return;
         if (actionState == ActionState.IsAtk) return;
         Jump();
-        if (actionState == ActionState.NotMove) return;
+        if (!isTrace) return;
         Attack();
     }
 

@@ -7,6 +7,8 @@ public class ProjectileObjectArrow : MonoBehaviour
     public bool isHit;
     public Rigidbody2D rb;
     public GameObject parentObject;
+    public float distance;
+    public int arrowDirection;
 
     public void Init(GameObject _parentObject)
     {
@@ -19,14 +21,18 @@ public class ProjectileObjectArrow : MonoBehaviour
     {
         if (isHit) return;
 
-        transform.localEulerAngles = new Vector3(0, 0, rb.velocity.y * 10f / rb.velocity.x);
+        transform.localEulerAngles = new Vector3(0, 0, rb.velocity.y * 45f * arrowDirection / rb.velocity.x);
     }
 
-    public void arrowShooting(float distance)
+    public void arrowShooting(float _distance, int _arrowDirection)
     {
         isHit = false;
         rb.gravityScale = 1;
         rb.velocity = Vector2.zero;
+        arrowDirection = _arrowDirection;
+        distance = _distance * arrowDirection;
+        if (distance > 3) distance = 3f;
+        if (distance < -3) distance = -3f;
         rb.AddForce(new Vector2(distance * 2.5f, 4f), ForceMode2D.Impulse);
     }
 
