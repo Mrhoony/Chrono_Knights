@@ -20,7 +20,7 @@ public class Menu_Inventory : MonoBehaviour
 
     public int seletedItemCount;         // 창고에서 선택된 아이템 수
     public int takeItemSlot;             // 가져갈 수 있는 슬롯 수
-    public Key[] inventoryItemList;      // 인벤토리 키 목록
+    public Item[] inventoryItemList;      // 인벤토리 키 목록
     public bool[] isFull;               // 슬롯이 비었는지 아닌지
 
     public bool isInventoryOn;
@@ -38,7 +38,7 @@ public class Menu_Inventory : MonoBehaviour
             slot[i - 1] = transforms[i].gameObject;
             slot[i - 1].transform.GetChild(1).gameObject.SetActive(true);
         }
-        inventoryItemList = new Key[24];
+        inventoryItemList = new Item[24];
         isFull = new bool[24];
         for (int i = 0; i < slotCount; ++i)
         {
@@ -63,13 +63,13 @@ public class Menu_Inventory : MonoBehaviour
             // 키 위치 변경
         }
     }
-    public bool GetKeyItem(Key _key)        // 아이템 획득시 인벤토리 등록
+    public bool GetKeyItem(Item _Item)        // 아이템 획득시 인벤토리 등록
     {
         for (int i = 0; i < availableSlot; i++)
         {
             if (!isFull[i])
             {
-                inventoryItemList[i] = _key;
+                inventoryItemList[i] = _Item;
                 isFull[i] = true;
                 ++inventoryItemCount;
                 return true;
@@ -93,7 +93,7 @@ public class Menu_Inventory : MonoBehaviour
             if (inventoryItemList[i] != null)
             {
                 slot[i].GetComponent<Image>().sprite = inventoryItemList[i].sprite;
-                slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[11 - inventoryItemList[i].keyRarity];
+                slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[11 - inventoryItemList[i].itemRarity];
                 isFull[i] = true;
             }
             else
@@ -130,7 +130,6 @@ public class Menu_Inventory : MonoBehaviour
             isFull[i] = false;
         }
     }
-
     public void takeItemSlotUpgrade(int upgrade)
     {
         takeItemSlot += upgrade;
@@ -171,17 +170,21 @@ public class Menu_Inventory : MonoBehaviour
         isInventoryOn = false;
         inventoryItemCount = 0;
     }
-
-    public void QuickSlotUseItem(int focus)
+    
+    public void QuickSlotUseKey(int focus)              // 던전 포탈 앞에서 퀵슬롯으로 아이템 사용시
     {
         if (DungeonManager.instance.useKeyInDungeon(inventoryItemList[focus]))
         {
-            inventoryItemList[focus] = null;
             QuickSlotDeleteItem(focus);
         }
     }
-    public void QuickSlotDeleteItem(int focus)
+    public void QuickSlotUseItem(int focus)             // 퀵슬롯으로 아이템 사용시 ( 마을에서 사용시 창고도비우기 or 마을에서 사용 x )
     {
+        QuickSlotDeleteItem(focus);
+    }
+    public void QuickSlotDeleteItem(int focus)          // 사용된 아이템 인벤토리에서 제거
+    {
+        inventoryItemList[focus] = null;
         for (int i = focus; i < availableSlot - 1; ++i)
         {
             if (inventoryItemList[i] != null) continue;
@@ -232,7 +235,7 @@ public class Menu_Inventory : MonoBehaviour
     {
         return takeItemSlot;
     }
-    public Key[] GetInventoryItemList()
+    public Item[] GetInventoryItemList()
     {
         return inventoryItemList;
     }

@@ -6,34 +6,37 @@ public enum ItemType
 {
     Number, ReturnTown, ReturnPreFloor, FreePassNextFloor, FreePassThisFloor, BossFloor, RepeatThisFloor
 }
-
-public class Key
+public enum ItemUsingType
 {
-    public ItemType Type;
+    health, attack, defense, moveSpeed, bullet     // 1 회복, 2 공버프, 3 방버프, 4 공속버프, 5 이속버프
+}
+
+public class Item
+{
+    public ItemType itemType;
+    public ItemUsingType usingType;
+    public int usingStatus;
     
-    public Sprite[] sprites;
     public Sprite sprite;
-    public string keyName;
-    public int keyEffect;     // 1 회복, 2 공버프, 3 방버프, 4 공속버프, 5 이속버프
-    public int keyRarity;
-    public int keyCode;
+    public string itemName;
+    public int itemRarity;
+    public int itemCode;
     public int Value;
     public string Description;
     
-    public Key(string _keyName, int _keyEffect, int _keyRarity, int _keyCode, ItemType type, string _Description)
+    public Item(string _itemName, int _itemRarity, int _itemCode, string _Description, ItemType _itemType, ItemUsingType _usingType, int _usingStatus = 0)
     {
-        keyName = _keyName;
-        keyEffect = _keyEffect;
-        keyRarity = _keyRarity;
-        sprites = Resources.LoadAll<Sprite>("item/ItemIcon");
-        keyCode = _keyCode;
-        sprite = sprites[keyCode];
+        itemName = _itemName;
+        itemRarity = _itemRarity;
+        itemCode = _itemCode;
+        sprite = Resources.LoadAll<Sprite>("item/ui_itemset")[itemCode];
         Description = _Description;
-        switch (type)
+        itemType = _itemType;
+        switch (itemType)
         {
             case ItemType.Number:
                 {
-                    if(keyRarity < 2)
+                    if(itemRarity < 2)
                     {
                         Value = Random.Range(1, 5);
                     }
@@ -44,5 +47,7 @@ public class Key
                 }
                 break;
         }
+        usingType = _usingType;
+        usingStatus = _usingStatus;
     }
 }

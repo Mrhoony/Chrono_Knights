@@ -16,6 +16,7 @@ public class CanvasManager : MonoBehaviour
 {
     #region 오브젝트 등록
     public static CanvasManager instance;
+    public GameManager gm;
 
     public GameObject[] Menus;      // UI 메뉴들
     public GameObject townUI;       // 마을 UI
@@ -52,6 +53,7 @@ public class CanvasManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        gm = GameManager.instance;
     }
     private void Start()
     {
@@ -67,7 +69,7 @@ public class CanvasManager : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.instance.GetGameStart()) return;
+        if (!gm.GetGameStart()) return;
 
         //인게임 세팅 관련 ( 사운드, 화면 크기 등)
         if (Input.GetButtonDown("Cancel"))

@@ -7,6 +7,8 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
 {
     public GameObject[] playerStatusInfo;
     public GameObject[] equipmentSlot;
+    public GameObject currentProgress;
+    public GameObject statusinformation;
     Sprite[] equipmentBorder;
     Sprite[] inventorySet;
     PlayerStatus playerStatus;
@@ -21,7 +23,6 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
 
         playerStatus = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         playerData = playerStatus.playerData;
-        playerEquipment = playerData.GetPlayerEquipment();
     }
 
     public void OnStatusMenu()
@@ -32,8 +33,8 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
         {
             if (equipment[i].itemCode != 0)
             {
-                equipmentSlot[i].GetComponent<Image>().sprite = Item_Database.instance.GetItem(equipment[i].itemCode).sprite;
-                equipmentSlot[i].transform.GetChild(0).GetComponent<Image>().sprite = equipmentBorder[Item_Database.instance.GetItem(equipment[i].itemCode).keyRarity];
+                equipmentSlot[i].GetComponent<Image>().sprite = Database_ItemList.instance.GetItem(equipment[i].itemCode).sprite;
+                equipmentSlot[i].transform.GetChild(0).GetComponent<Image>().sprite = equipmentBorder[Database_ItemList.instance.GetItem(equipment[i].itemCode).itemRarity];
             }
             else
             {
@@ -41,5 +42,13 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
                 equipmentSlot[i].transform.GetChild(0).GetComponent<Image>().sprite = inventorySet[6];
             }
         }
+        statusinformation.transform.GetChild(0).GetComponent<Text>().text = playerStatus.GetAttack_Result().ToString();
+        statusinformation.transform.GetChild(1).GetComponent<Text>().text = playerStatus.GetDefence_Result().ToString();
+        statusinformation.transform.GetChild(2).GetComponent<Text>().text = playerStatus.GetMoveSpeed_Result().ToString();
+        statusinformation.transform.GetChild(3).GetComponent<Text>().text = playerStatus.GetAttackSpeed_Result().ToString();
+        statusinformation.transform.GetChild(4).GetComponent<Text>().text = playerStatus.GetDashDistance_Result().ToString();
+        statusinformation.transform.GetChild(5).GetComponent<Text>().text = playerStatus.GetRecovery_Result().ToString();
+        statusinformation.transform.GetChild(6).GetComponent<Text>().text = playerStatus.GetJumpCount().ToString();
+        statusinformation.transform.GetChild(7).GetComponent<Text>().text = playerData.GetStatus(7).ToString();
     }
 }

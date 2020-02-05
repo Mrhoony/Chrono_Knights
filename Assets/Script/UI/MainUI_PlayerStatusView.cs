@@ -106,7 +106,7 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     // 피격 후 안정화
     IEnumerator MonsterHit()
     {
-        yield return new WaitForSeconds(5f - playerStatus.GetRecovery() * 0.02f);
+        yield return new WaitForSeconds(5f - playerStatus.GetRecovery_Result() * 0.02f);
         
         hitCount -= 2f;
 

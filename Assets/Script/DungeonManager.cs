@@ -191,66 +191,65 @@ public class DungeonManager : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1"))           // 공격키를 눌렀을 때
         {
-            if (SceneManager.GetActiveScene().buildIndex == 0)      // 메인 메뉴 화면에서
+            switch (SceneManager.GetActiveScene().buildIndex)
             {
-                if(useTeleportSystem == 1)
-                {
-                    if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
-                    isSceneLoading = true;
-                    menu.FadeOutStart(true);
-                }
-            }
-            else if (SceneManager.GetActiveScene().buildIndex == 1)      // 마을 화면에서
-            {
-                if(useTeleportSystem != 10)
-                {
-                    if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
-                    isSceneLoading = true;
-                    menu.FadeOutStart(true);
-                }
-            }
-            else if (SceneManager.GetActiveScene().buildIndex == 2)      // 마을 - 숲 화면에서
-            {
-                //menu.FadeOut();
-                //SectionTeleport(false, false);
-            }
-            else if (SceneManager.GetActiveScene().buildIndex == 3)      // 숲 - 타워 화면에서
-            {
-                //menu.FadeOut();
-                //SectionTeleport(false, false);
-            }
-            else if (SceneManager.GetActiveScene().buildIndex >= 4)
-            {
-                if (useTeleportSystem == 8)         // 던전 포탈 앞에 서있을 경우 다음던전 또는 집으로 이동한다.
-                {
-                    if (!dungeonClear) return;
-
-                    if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
-
-                    if (usedKey)            // 키를 쓴경우
+                case 0:
+                    if (useTeleportSystem == 1)
                     {
-                        isSceneLoading = true;
-                        menu.FadeOutStart(false);
-                    }
-                    else                    // 키를 안쓴경우 반응x (임시)집으로
-                    {
+                        if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
                         isSceneLoading = true;
                         menu.FadeOutStart(true);
                     }
-                }
+                    break;
+                case 1:
+                    if (useTeleportSystem != 10)
+                    {
+                        if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
+                        isSceneLoading = true;
+                        menu.FadeOutStart(true);
+                    }
+                    break;
+                case 2:
+                    //menu.FadeOut();
+                    //SectionTeleport(false, false);
+                    break;
+                case 3:
+                    //menu.FadeOut();
+                    //SectionTeleport(false, false);
+                    break;
+                case 4:
+                case 5:
+                    if (useTeleportSystem == 8)         // 던전 포탈 앞에 서있을 경우 다음던전 또는 집으로 이동한다.
+                    {
+                        if (!dungeonClear) return;
+
+                        if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
+
+                        if (usedKey)            // 키를 쓴경우
+                        {
+                            isSceneLoading = true;
+                            menu.FadeOutStart(false);
+                        }
+                        else                    // 키를 안쓴경우 반응x (임시)집으로
+                        {
+                            isSceneLoading = true;
+                            menu.FadeOutStart(true);
+                        }
+                    }
+                    break;
             }
         }
     }
     
-    public bool useKeyInDungeon(Key _key)
+    public bool useKeyInDungeon(Item _Item)
     {
         if (usedKey) return false;
         usedKey = true;
         // 키가 가진 것들을 가지고 체크
-        switch (_key.Type)
+        switch (_Item.itemType)
         {
             case ItemType.Number:
-                marker.ExecuteMarker(_key.Value);
+                marker.ExecuteMarker(_Item.Value);
                 break;
             case ItemType.ReturnTown:
                 // 마을로 돌아간다. 클리어 정보창 표시

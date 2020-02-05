@@ -27,9 +27,8 @@ public class GameManager : MonoBehaviour
     BinaryFormatter bf;
     MemoryStream ms;
     public int focus;
-    public int slotNum;
     public string data;
-
+    
     public bool openSaveSlot;
     public bool gameStart;
     #endregion
@@ -88,7 +87,6 @@ public class GameManager : MonoBehaviour
         gameStart = false;
 
         focus = 0;
-        slotNum = 1;
 
         Debug.Log("gameManager Start");
     }
@@ -149,7 +147,7 @@ public class GameManager : MonoBehaviour
 
         focus = AdjustValue;
 
-        saveSlot[AdjustValue].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
+        saveSlot[focus].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
     }
     public void MouseFocusOut(int AdjustValue)
     {
@@ -164,13 +162,11 @@ public class GameManager : MonoBehaviour
         else if (focus + AdjustValue > 2) focus = 0;
         else focus += AdjustValue;
 
-        slotNum = focus + 1;
-
         saveSlot[focus].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
     }
-    public void SelectSlot(int _slotNum)
+    public void SelectSlot(int _focus)
     {
-        slotNum = _slotNum;
+        focus = _focus;
     }
 
     public void SaveGame()
@@ -189,7 +185,7 @@ public class GameManager : MonoBehaviour
         
         storage.SaveStorageClear();
 
-        PlayerPrefs.SetString("SaveSlot" + slotNum.ToString(), data);
+        PlayerPrefs.SetString("SaveSlot" + focus.ToString(), data);
         player.GetComponent<PlayerControl>().enabled = false;
         bedBlind = GameObject.Find("BackGroundSet/Base/bg_mainScene_blind");
         canvanManager.inGameMenu.SetActive(false);
@@ -201,10 +197,9 @@ public class GameManager : MonoBehaviour
     }
     public void LoadGame()
     {
-        if(PlayerPrefs.HasKey("SaveSlot" + slotNum.ToString()))
+        if(PlayerPrefs.HasKey("SaveSlot" + focus.ToString()))
         {
-            Debug.Log("hasData");
-            data = PlayerPrefs.GetString("SaveSlot" + slotNum.ToString(), null);
+            data = PlayerPrefs.GetString("SaveSlot" + focus.ToString(), null);
 
             if (!string.IsNullOrEmpty(data))
             {
@@ -227,7 +222,6 @@ public class GameManager : MonoBehaviour
             dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetEventFlag());
             storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetAvailableStorageSlot());
             inventory.LoadInventoryData(dataBase.GetTakeKeySlot(), dataBase.GetAvailableInventorySlot());
-
         }
         CloseLoad();
         
@@ -244,9 +238,9 @@ public class GameManager : MonoBehaviour
     
     public void DeleteSave()
     {
-        if(PlayerPrefs.HasKey("SaveSlot" + slotNum.ToString()))
+        if(PlayerPrefs.HasKey("SaveSlot" + focus.ToString()))
         {
-            PlayerPrefs.DeleteKey("SaveSlot" + slotNum.ToString());
+            PlayerPrefs.DeleteKey("SaveSlot" + focus.ToString());
             Debug.Log("saveDelete");
         }
     }
@@ -259,8 +253,31 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerControl>().enabled = false;
         openSaveSlot = true;
         focus = 0;
-        slotNum = focus + 1;
         saveSlot[0].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
+        
+        for(int i = 0; i < 3; ++i)
+        {
+            if (PlayerPrefs.HasKey("SaveSlot" + i.ToString()))
+            {
+                Debug.Log("hasData");
+                data = PlayerPrefs.GetString("SaveSlot" + i.ToString(), null);
+
+                if (!string.IsNullOrEmpty(data))
+                {
+                    bf = new BinaryFormatter();
+                    ms = new MemoryStream(Convert.FromBase64String(data));
+
+                    // 유저 정보
+                    dataBase = (DataBase)bf.Deserialize(ms);
+                    saveSlot[i].transform.GetChild(0).GetComponent<Text>().text = dataBase.GetCurrentDate().ToString() + " 일";
+                    Debug.Log(dataBase.GetCurrentDate().ToString() + " 일");
+                }
+            }
+            else
+            {
+                Debug.Log("NoData");
+            }
+        }
     }
     public void CloseLoad()
     {
@@ -287,14 +304,14 @@ public class GameManager : MonoBehaviour
         bf.Serialize(ms, systemData);
         data = Convert.ToBase64String(ms.GetBuffer());
 
-        PlayerPrefs.SetString("SystemData" + slotNum.ToString(), data);
+        PlayerPrefs.SetString("SystemData" + focus.ToString(), data);
         Debug.Log("save complete");
     }
     public void SettingSet()
     {
-        if (PlayerPrefs.HasKey("SystemData" + slotNum.ToString()))
+        if (PlayerPrefs.HasKey("SystemData" + focus.ToString()))
         {
-            data = PlayerPrefs.GetString("SystemData" + slotNum.ToString(), null);
+            data = PlayerPrefs.GetString("SystemData" + focus.ToString(), null);
 
             if (!string.IsNullOrEmpty(data))
             {

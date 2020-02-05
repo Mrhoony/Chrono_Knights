@@ -8,12 +8,12 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     protected PlayerData playerData;
     protected CanvasManager menu;
     protected Menu_Storage storage;
-    protected Item_Database itemDatabase;
+    protected Database_ItemList itemDatabase;
 
     public GameObject npc_blacksmith;
     protected PlayerEquipment playerEquipment;
     protected PlayerEquipment.Equipment[] equipment;
-    protected Key selectedkey;
+    protected Item selectedkey;
 
     public GameObject[] equipSlots;
     protected Sprite[] cursorImage;
@@ -31,7 +31,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     public virtual void Start()
     {
         menu = transform.parent.GetComponent<Menu_TownUI>().menu;
-        itemDatabase = Item_Database.instance;
+        itemDatabase = Database_ItemList.instance;
         storage = menu.Menus[3].GetComponent<Menu_Storage>();
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         playerData = playerStat.playerData;
@@ -75,14 +75,14 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
         return focused;
     }
 
-    public void PercentSet(int num, int upCount, float upPercent, Key key, bool enchant)
+    public void PercentSet(int num, int upCount, float upPercent, Item item, bool enchant)
     {
         if (enchant)
         {
-            equipment[num].itemCode = key.keyCode;
-            equipment[num].itemRarity = key.keyRarity;
+            equipment[num].itemCode = item.itemCode;
+            equipment[num].itemRarity = item.itemRarity;
             equipment[num].enchant = enchant;
-            equipment[num].name = key.keyName;
+            equipment[num].name = item.itemName;
             equipment[num].upStatus = upCount;
             equipment[num].addStatus[equipment[num].upStatus] = upPercent * 0.1f;
             if (equipment[num].addStatus[equipment[num].upStatus] > equipment[num].max)
@@ -96,21 +96,21 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
         }
         else
         {
-            equipment[num].name += key.keyName;
+            equipment[num].name += item.itemName;
             equipment[num].addStatus[equipment[num].upStatus] += upPercent * 0.1f;
             if (equipment[num].addStatus[equipment[num].upStatus] > equipment[num].max)
                 equipment[num].addStatus[equipment[num].upStatus] = equipment[num].max;
         }
     }
 
-    public void PercentSet(int num, int upCount, float upPercent, int downCount, float downPercent, Key key, bool enchant)
+    public void PercentSet(int num, int upCount, float upPercent, int downCount, float downPercent, Item item, bool enchant)
     {
         if (enchant)
         {
-            equipment[num].itemCode = key.keyCode;
-            equipment[num].itemRarity = key.keyRarity;
+            equipment[num].itemCode = item.itemCode;
+            equipment[num].itemRarity = item.itemRarity;
             equipment[num].enchant = enchant;
-            equipment[num].name = key.keyName;
+            equipment[num].name = item.itemName;
             equipment[num].upStatus = upCount;
             equipment[num].downStatus = downCount;
             equipment[num].addStatus[equipment[num].upStatus] = upPercent * 0.1f;
@@ -123,7 +123,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
         }
         else
         {
-            equipment[num].name += key.keyName;
+            equipment[num].name += item.itemName;
             equipment[num].addStatus[equipment[num].upStatus] += upPercent * 0.1f;
             if (equipment[num].addStatus[equipment[num].upStatus] > equipment[num].max)
                 equipment[num].addStatus[equipment[num].upStatus] = equipment[num].max;

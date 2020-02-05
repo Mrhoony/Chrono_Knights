@@ -115,7 +115,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
 
         acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);
         acceptSlot[1].GetComponent<Image>().sprite = selectedkey.sprite;
-        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[selectedkey.keyRarity];
+        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[selectedkey.itemRarity];
 
         acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
         acceptSlot[2].GetComponent<Image>().sprite = acceptSlot[0].GetComponent<Image>().sprite;
@@ -133,7 +133,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
         {
             if(equipment[i].itemCode != 0)
             {
-                equipSlots[i].GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[i].itemCode).keyRarity]; // 테두리 색
+                equipSlots[i].GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[i].itemCode).itemRarity]; // 테두리 색
                 equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[i].itemCode).sprite;      // 키아이템 이미지
                 equipSlots[i].transform.GetChild(2).GetComponent<Text>().text = playerEquipment.GetStatusName(i, true);
                 equipSlots[i].transform.GetChild(3).GetComponent<Text>().text = playerEquipment.GetUpStatus(i);
@@ -167,7 +167,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
         if (equipment[equipFocused].itemCode != 0)
         {
             acceptSlot[0].GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[equipFocused].itemCode).sprite;
-            acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[equipFocused].itemCode).keyRarity];
+            acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[equipFocused].itemCode).itemRarity];
             acceptSlot[0].transform.GetChild(2).GetComponent<Text>().text = playerEquipment.GetStatusName(equipFocused, true);
             acceptSlot[0].transform.GetChild(3).GetComponent<Text>().text = playerEquipment.GetUpStatus(equipFocused);
             acceptSlot[0].transform.GetChild(4).GetComponent<Text>().text = playerEquipment.GetStatusName(equipFocused, false);
@@ -187,33 +187,33 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
         acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
         acceptSlot[2].GetComponent<Image>().sprite = keyItemBorderSprite[6];
         acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+        acceptSlot[2].transform.GetChild(1).GetComponent<Text>().text = "";
         acceptSlot[2].transform.GetChild(2).GetComponent<Text>().text = "";
         acceptSlot[2].transform.GetChild(3).GetComponent<Text>().text = "";
         acceptSlot[2].transform.GetChild(4).GetComponent<Text>().text = "";
-        acceptSlot[2].transform.GetChild(5).GetComponent<Text>().text = "";
     }
-    public void Upgrade(int num, Key key)
+    public void Upgrade(int num, Item item)
     {
         if (num < 0 || num > 7) return;
 
         Debug.Log("upgrade");
 
-        if (Item_Database.instance.GetItem(key.keyCode) != null)
+        if (Database_ItemList.instance.GetItem(item.itemCode) != null)
         {
-            switch (key.keyRarity)
+            switch (item.itemRarity)
             {
                 case 1:
                     upgradePercent = Random.Range(1, 6);
-                    PercentSet(num, upgradeCount, upgradePercent, key, false);
+                    PercentSet(num, upgradeCount, upgradePercent, item, false);
                     break;
                 case 2:
                     upgradePercent = Random.Range(3, 11);
-                    PercentSet(num, upgradeCount, upgradePercent, key, false);
+                    PercentSet(num, upgradeCount, upgradePercent, item, false);
                     break;
                 case 3:
                     upgradePercent = Random.Range(3, 21);
                     downgradePercent = Random.Range(0, 11);
-                    PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, key, false);
+                    PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, item, false);
 
                     break;
             }
@@ -226,7 +226,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
         acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
         
         acceptSlot[2].GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[num].itemCode).sprite;
-        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[num].itemCode).keyRarity];
+        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[num].itemCode).itemRarity];
         acceptSlot[2].transform.GetChild(1).GetComponent<Text>().text = playerEquipment.GetStatusName(num, true);
         acceptSlot[2].transform.GetChild(2).GetComponent<Text>().text = playerEquipment.GetUpStatus(num);
         acceptSlot[2].transform.GetChild(3).GetComponent<Text>().text = playerEquipment.GetStatusName(num, false);
@@ -237,7 +237,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
             if (equipment[i].itemCode != 0)
             {
                 equipSlots[i].GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[i].itemCode).sprite;       // 키 아이템
-                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[i].itemCode).keyRarity]; // 레어도
+                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[i].itemCode).itemRarity]; // 레어도
                 equipSlots[i].transform.GetChild(2).GetComponent<Text>().text = playerEquipment.GetStatusName(i, true);
                 equipSlots[i].transform.GetChild(3).GetComponent<Text>().text = playerEquipment.GetUpStatus(i);
                 equipSlots[i].transform.GetChild(4).GetComponent<Text>().text = playerEquipment.GetStatusName(i, false);

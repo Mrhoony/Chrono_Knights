@@ -24,7 +24,7 @@ public class Menu_Storage : MonoBehaviour
 
     // 한 슬롯 변수
     public int focus;
-    public Key[] storageItemList;
+    public Item[] storageItemList;
     public int[] storageItemCodeList;
     public bool[] isFull;
     public bool[] isSelected;       // 선택된 슬롯
@@ -47,7 +47,7 @@ public class Menu_Storage : MonoBehaviour
             slot[i - 1].transform.GetChild(1).gameObject.SetActive(true);
         }
 
-        storageItemList = new Key[72];
+        storageItemList = new Item[72];
         storageItemCodeList = new int[72];
         isFull = new bool[72];
         isSelected = new bool[72];
@@ -136,7 +136,7 @@ public class Menu_Storage : MonoBehaviour
             {
                 isFull[i] = true;
                 slot[i - (boxNum * 24)].GetComponent<Image>().sprite = storageItemList[i].sprite;
-                slot[i - (boxNum * 24)].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[11 - storageItemList[i].keyRarity];
+                slot[i - (boxNum * 24)].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[11 - storageItemList[i].itemRarity];
                 if (isSelected[i])
                     slot[i - (boxNum * 24)].transform.GetChild(2).gameObject.SetActive(true);
             }
@@ -154,7 +154,7 @@ public class Menu_Storage : MonoBehaviour
         }
     }
 
-    public void PutInBox(Key[] key)
+    public void PutInBox(Item[] item)
     {
         Debug.Log("putInBoxStorage");
         int i;
@@ -162,13 +162,13 @@ public class Menu_Storage : MonoBehaviour
         {
             if (storageItemList[i] == null) break;
         }
-        for (int j = 0; j < key.Length; ++j)
+        for (int j = 0; j < item.Length; ++j)
         {
-            if (key[j] == null) continue;
+            if (item[j] == null) continue;
 
             if (i < availableSlot)
             {
-                storageItemList[i] = key[j];
+                storageItemList[i] = item[j];
                 ++i;
             }
         }
@@ -268,11 +268,11 @@ public class Menu_Storage : MonoBehaviour
         StorageSlotSort(0);
     }
 
-    public Key GetSelectStorageItem(int _focus)
+    public Item GetSelectStorageItem(int _focus)
     {
         return storageItemList[selectedSlot[_focus]];
     }
-    public Key GetStorageItem(int _focus)
+    public Item GetStorageItem(int _focus)
     {
         return storageItemList[_focus];
     }
@@ -331,7 +331,7 @@ public class Menu_Storage : MonoBehaviour
         }
     }
     
-    public void LoadStorageData(int[] _keyCode, int _availableSlot)
+    public void LoadStorageData(int[] _itemCode, int _availableSlot)
     {
         for (int i = 0; i < 72; ++i)
         {
@@ -341,16 +341,16 @@ public class Menu_Storage : MonoBehaviour
             isSelected[i] = false;
         }
 
-        storageItemCodeList = _keyCode;
+        storageItemCodeList = _itemCode;
         availableSlot = _availableSlot;
 
         for (int i = 0; i < availableSlot; ++i)
         {
-            //Debug.Log(Item_Database.instance.GetItem(storageItemCodeList[i]));
-            //Debug.Log(Item_Database.instance.GetItem(storageItemCodeList[i]).keyCode);
+            //Debug.Log(Database_ItemList.instance.GetItem(storageItemCodeList[i]));
+            //Debug.Log(Database_ItemList.instance.GetItem(storageItemCodeList[i]).itemCode);
 
-            if (Item_Database.instance.GetItem(storageItemCodeList[i]) == null) continue;
-            storageItemList[i] = Item_Database.instance.GetItem(storageItemCodeList[i]);
+            if (Database_ItemList.instance.GetItem(storageItemCodeList[i]) == null) continue;
+            storageItemList[i] = Database_ItemList.instance.GetItem(storageItemCodeList[i]);
         }
     }
     public int[] GetStorageItemCodeList()
@@ -362,7 +362,7 @@ public class Menu_Storage : MonoBehaviour
                 storageItemCodeList[i] = 0;
                 continue;
             }
-            storageItemCodeList[i] = storageItemList[i].keyCode;
+            storageItemCodeList[i] = storageItemList[i].itemCode;
         }
         return storageItemCodeList;
     }

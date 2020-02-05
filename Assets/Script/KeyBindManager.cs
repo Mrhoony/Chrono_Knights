@@ -54,7 +54,7 @@ public class KeyBindManager : MonoBehaviour
                 // 변경하려는 키가 이미 사용중이라면
                 // 이전에 사용 중이던 키(버튼)을 없앤다.
                 currentDictionary[myKey] = KeyCode.None;
-                //UIManager.MyInstance.UpdateKeyText(key, KeyCode.None);
+                //UIManager.MyInstance.UpdateKeyText(key, itemCode.None);
             }
 
             // 키를 등록시킨다.

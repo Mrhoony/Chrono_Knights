@@ -11,7 +11,7 @@ public class Menu_QuickSlot : MonoBehaviour
     public Menu_Inventory inventory;
     public GameObject slots;
     public GameObject[] quickSlot;
-    public Key[] inventoryKeylist;
+    public Item[] inventoryItemlist;
     public bool onQuickSlot;
     public int addQuickInventory;
 
@@ -37,7 +37,7 @@ public class Menu_QuickSlot : MonoBehaviour
 
     public void Update()
     {
-        if (menu.isInventoryOn || menu.isCancelOn || menu.isStorageOn) return;
+        if (menu.GameMenuOnCheck()) return;
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -47,8 +47,8 @@ public class Menu_QuickSlot : MonoBehaviour
                 focus = 0;
                 addQuickInventory = 0;
                 slots.SetActive(true);
-                quickSlot[0].transform.GetChild(0).gameObject.SetActive(true);
-                SetQuickSlot();
+                quickSlot[focus].transform.GetChild(0).gameObject.SetActive(true);
+                SetQuickSlot(0, 5);
             }
             else if (onQuickSlot)
             {
@@ -58,7 +58,7 @@ public class Menu_QuickSlot : MonoBehaviour
             }
         }
 
-        transform.position = new Vector2(player.transform.position.x, player.transform.position.y + 0.5f);
+        transform.position = new Vector2(player.transform.position.x, player.transform.position.y + 1f);
 
         if (!onQuickSlot) return;
         
@@ -69,24 +69,24 @@ public class Menu_QuickSlot : MonoBehaviour
         {
             if(DungeonManager.instance.useTeleportSystem == 8)
             {
-                inventory.QuickSlotUseItem(focus);
+                inventory.QuickSlotUseKey(focus);
             }
             else
             {
                 inventory.QuickSlotUseItem(focus);
             }
-            SetQuickSlot();
+            SetQuickSlot(0, 5);
         }
     }
 
-    public void SetQuickSlot()
+    public void SetQuickSlot(int low, int high)
     {
-        inventoryKeylist = inventory.GetInventoryItemList();
-        for(int i = 0; i < 5; ++i)
+        inventoryItemlist = inventory.GetInventoryItemList();
+        for(int i = low; i < high; ++i)
         {
-            if (inventoryKeylist[i] != null)
+            if (inventoryItemlist[i] != null)
             {
-                quickSlot[i].GetComponent<SpriteRenderer>().sprite = inventoryKeylist[i].sprite;
+                quickSlot[i].GetComponent<SpriteRenderer>().sprite = inventoryItemlist[i].sprite;
             }
             else
             {
@@ -105,7 +105,7 @@ public class Menu_QuickSlot : MonoBehaviour
             ++addQuickInventory;
         else if (focus + AdjustValue < addQuickInventory)
             --addQuickInventory;
-
+        SetQuickSlot(addQuickInventory, addQuickInventory + 5);
         focus += AdjustValue;
         quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(true);
     }
