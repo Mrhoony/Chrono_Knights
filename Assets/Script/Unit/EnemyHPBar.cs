@@ -5,11 +5,24 @@ using UnityEngine.UI;
 
 public class EnemyHPBar : MonoBehaviour
 {
-    public Image HPBarGauge;
-    public float HPgauge;
+    public GameObject HPBarGauge;
+    public bool isUsed = false;
     
+    public bool SetMonster()
+    {
+        if (isUsed)
+            return false;
+        else
+        {
+            isUsed = true;
+            return true;
+        }
+    }
+
     public void SetHPBar(float monsterCurrentHP, int monsterHP)
     {
-        HPBarGauge.fillAmount = 1 - (monsterCurrentHP / monsterHP);
+        Vector2 scale = HPBarGauge.transform.localScale;
+        scale.x = monsterCurrentHP / monsterHP;
+        HPBarGauge.transform.localScale = scale;
     }
 }

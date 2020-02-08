@@ -7,33 +7,28 @@ public class ProjectileObjectArrow : MonoBehaviour
     public bool isHit;
     public Rigidbody2D rb;
     public GameObject parentObject;
-    public float distance;
-    public int arrowDirection;
-
-    public void Init(GameObject _parentObject)
-    {
-        isHit = false;
-        rb = gameObject.GetComponent<Rigidbody2D>();
-        parentObject = _parentObject;
-    }
-
+    
     private void Update()
     {
         if (isHit) return;
 
-        transform.localEulerAngles = new Vector3(0, 0, rb.velocity.y * 45f * arrowDirection / rb.velocity.x);
+        transform.localEulerAngles = new Vector3(0, 0, rb.velocity.y * 45f / rb.velocity.x);
     }
 
-    public void arrowShooting(float _distance, int _arrowDirection)
+    public void arrowShooting(GameObject _parentObject, float _distance, int _arrowDirection)
     {
+        rb = gameObject.GetComponent<Rigidbody2D>();
         isHit = false;
-        rb.gravityScale = 1;
-        rb.velocity = Vector2.zero;
-        arrowDirection = _arrowDirection;
-        distance = _distance * arrowDirection;
-        if (distance > 3) distance = 3f;
-        if (distance < -3) distance = -3f;
-        rb.AddForce(new Vector2(distance * 2.5f, 4f), ForceMode2D.Impulse);
+        parentObject = _parentObject;
+        Vector2 scale = transform.localScale;
+        scale.x *= _arrowDirection;
+        transform.localScale = scale;
+        if (_distance < 0)
+            rb.gravityScale = -_distance / 5f;
+        else
+            rb.gravityScale = _distance / 5f;
+        rb.AddForce(new Vector2(_arrowDirection * 3f, 2f), ForceMode2D.Impulse);
+        Debug.Log("shooting");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

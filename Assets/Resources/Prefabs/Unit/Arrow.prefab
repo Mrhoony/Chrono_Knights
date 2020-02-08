@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5150774062967731134
 Transform:
   m_ObjectHideFlags: 0
@@ -96,6 +96,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isHit: 0
   rb: {fileID: 0}
+  parentObject: {fileID: 0}
+  distance: 0
+  arrowDirection: 0
 --- !u!50 &8831554519489360342
 Rigidbody2D:
   serializedVersion: 4

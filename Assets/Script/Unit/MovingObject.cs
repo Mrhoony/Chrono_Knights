@@ -18,7 +18,7 @@ public enum State
     common, poison, bleeding, slow
 }
 
-public class MovingObject : MonoBehaviour
+public abstract class MovingObject : MonoBehaviour
 {
     protected Rigidbody2D rb;
     protected Animator animator;

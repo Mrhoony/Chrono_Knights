@@ -44,18 +44,22 @@ public abstract class Monster_Control : MovingObject
         MonsterInit();
     }
 
-    public void OnDisable()
-    {
-        StopCoroutine(Moving);
-    }
-
     public virtual void Update()
     {
         if (actionState == ActionState.IsDead) return;
         if (actionState != ActionState.Idle) return;
         MonsterFlip();
     }
-    
+
+    public new void Flip()
+    {
+        isFaceRight = !isFaceRight;
+        Vector2 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+        arrowDirection *= -1;
+    }
+
     public IEnumerator SearchPlayer()
     {
         while (actionState != ActionState.IsDead)

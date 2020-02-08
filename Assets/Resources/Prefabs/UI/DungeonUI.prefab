@@ -242,6 +242,7 @@ GameObject:
   - component: {fileID: 2874897364581639844}
   - component: {fileID: 2874897364581639845}
   - component: {fileID: 2874897364581639842}
+  - component: {fileID: 2582293356532302919}
   m_Layer: 5
   m_Name: DungeonUI
   m_TagString: Untagged
@@ -346,6 +347,14 @@ MonoBehaviour:
   dungeonFloorText: {fileID: 2874897363792607796}
   dungeonFloorEft: {fileID: 2874897364125279248}
   dungeonFloorEftText: {fileID: 2874897365140890426}
+--- !u!222 &2582293356532302919
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2874897364581639843}
+  m_CullTransparentMesh: 0
 --- !u!1 &2874897365140890424
 GameObject:
   m_ObjectHideFlags: 0

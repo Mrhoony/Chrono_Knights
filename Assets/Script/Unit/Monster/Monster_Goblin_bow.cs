@@ -6,6 +6,7 @@ using UnityEngine;
 public class Monster_Goblin_bow : Monster_Control
 {
     public GameObject shootingPosition;
+    public GameObject arrowObject;
     public GameObject arrow;
 
     void Start()
@@ -16,8 +17,6 @@ public class Monster_Goblin_bow : Monster_Control
         isFaceRight = true;
         arrowDirection = 1;
         actionState = ActionState.Idle;
-        arrow.GetComponent<ProjectileObjectArrow>().Init(gameObject);
-        arrow.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -78,7 +77,6 @@ public class Monster_Goblin_bow : Monster_Control
             if (curAttackDelayTime > maxAttackDelayTime)
             {
                 actionState = ActionState.IsAtk;
-                arrow.SetActive(false);
                 animator.SetTrigger("isAtk");
                 curAttackDelayTime = 0f;
                 StartCoroutine(MoveDelayTime(rotateDelayTime));
@@ -96,13 +94,11 @@ public class Monster_Goblin_bow : Monster_Control
             dropItemList.ItemDropChance();
         }
         DeadAnimation();
-        Destroy(arrow);
     }
 
     public void Shooting()
     {
-        arrow.SetActive(true);
-        arrow.transform.position = shootingPosition.transform.position;
-        arrow.GetComponent<ProjectileObjectArrow>().arrowShooting(distanceX, arrowDirection);
+        arrow = Instantiate(arrowObject, shootingPosition.transform.position, Quaternion.identity);
+        arrow.GetComponent<ProjectileObjectArrow>().arrowShooting(gameObject, distanceX, arrowDirection);
     }
 }

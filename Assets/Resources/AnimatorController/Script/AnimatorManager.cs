@@ -46,7 +46,7 @@ public class AnimatorManager : StateMachineBehaviour
     {
         ++atk;
         player = Physics2D.OverlapBoxAll(
-            new Vector2(animator.gameObject.transform.position.x + (attackPosX * animator.gameObject.GetComponent<BossMonster_Control>().GetArrowDirection())
+            new Vector2(animator.gameObject.transform.position.x + (attackPosX * animator.gameObject.GetComponent<Monster_Control>().GetArrowDirection())
             , (animator.gameObject.transform.position.y))
             , new Vector2(attackRangeX, attackRangeY), 8);
 
