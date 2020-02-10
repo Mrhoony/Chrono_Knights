@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Menu_QuickSlot : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class Menu_QuickSlot : MonoBehaviour
     public int addQuickInventory;
 
     public Sprite[] quickSlotImage;
+    public GameObject quickSlotItemInfomation;
 
     public int focus;
 
@@ -47,13 +49,21 @@ public class Menu_QuickSlot : MonoBehaviour
                 focus = 0;
                 addQuickInventory = 0;
                 slots.SetActive(true);
-                quickSlot[focus].transform.GetChild(0).gameObject.SetActive(true);
+                inventoryItemlist = inventory.GetInventoryItemList();
                 SetQuickSlot(0, 5);
+                quickSlot[focus].transform.GetChild(0).gameObject.SetActive(true);
+                if(inventoryItemlist[focus] != null)
+                {
+                    quickSlotItemInfomation.SetActive(true);
+                    quickSlotItemInfomation.transform.position = quickSlot[focus].transform.position;
+                    quickSlotItemInfomation.GetComponent<ItemInfomation>().SetItemInfomation(inventoryItemlist[0]);
+                }
             }
             else if (onQuickSlot)
             {
                 onQuickSlot = false;
                 quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
+                quickSlotItemInfomation.SetActive(false);
                 slots.SetActive(false);
             }
         }
@@ -75,22 +85,23 @@ public class Menu_QuickSlot : MonoBehaviour
             {
                 inventory.QuickSlotUseItem(focus);
             }
-            SetQuickSlot(0, 5);
+            onQuickSlot = false;
+            quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
+            slots.SetActive(false);
         }
     }
 
     public void SetQuickSlot(int low, int high)
     {
-        inventoryItemlist = inventory.GetInventoryItemList();
         for(int i = low; i < high; ++i)
         {
             if (inventoryItemlist[i] != null)
             {
-                quickSlot[i].GetComponent<SpriteRenderer>().sprite = inventoryItemlist[i].sprite;
+                quickSlot[i - low].GetComponent<Image>().sprite = inventoryItemlist[i].sprite;
             }
             else
             {
-                quickSlot[i].GetComponent<SpriteRenderer>().sprite = quickSlotImage[1];
+                quickSlot[i - low].GetComponent<Image>().sprite = quickSlotImage[1];
             }
         }
     }
@@ -105,8 +116,19 @@ public class Menu_QuickSlot : MonoBehaviour
             ++addQuickInventory;
         else if (focus + AdjustValue < addQuickInventory)
             --addQuickInventory;
+
         SetQuickSlot(addQuickInventory, addQuickInventory + 5);
         focus += AdjustValue;
         quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(true);
+        if (inventoryItemlist[focus] != null)
+        {
+            quickSlotItemInfomation.SetActive(true);
+            quickSlotItemInfomation.transform.position = quickSlot[focus - addQuickInventory].transform.position;
+            quickSlotItemInfomation.GetComponent<ItemInfomation>().SetItemInfomation(inventoryItemlist[focus]);
+        }
+        else
+        {
+            quickSlotItemInfomation.SetActive(false);
+        }
     }
 }

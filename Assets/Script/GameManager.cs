@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         playerStat = player.GetComponent<PlayerStatus>();
         dungeonManager = DungeonManager.instance;
         canvanManager = GameObject.Find("UI").GetComponent<CanvasManager>();
-        storage = canvanManager.Menus[3].GetComponent<Menu_Storage>();
+        storage = canvanManager.storage.GetComponent<Menu_Storage>();
         inventory = canvanManager.Menus[0].GetComponent<Menu_Inventory>();
         
         Init();

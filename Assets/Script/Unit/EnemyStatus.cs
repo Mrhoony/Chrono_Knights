@@ -24,8 +24,7 @@ public class EnemyStatus : MonoBehaviour
 
         EnemyStatInit(1f, 5, 1);
         _currentHP = _HP;
-
-        /*
+        
         int hpbarNum = GameObject.Find("HealthBarPool").transform.childCount;
         for (int i = 0; i < hpbarNum; ++i)
         {
@@ -36,15 +35,15 @@ public class EnemyStatus : MonoBehaviour
             enemyHPBar = GameObject.Find("HealthBarPool").transform.GetChild(i).gameObject;
             break;
         }
+
         if(enemyHPBar == null)
         {
             enemyHPBar = Instantiate(Resources.Load("Prefabs/Unit/Mob/HPbar"), Vector3.zero, Quaternion.identity) as GameObject;
             enemyHPBar.GetComponent<EnemyHPBar>().SetMonster();
         }
-        */
 
-        enemyHPBar = Instantiate(Resources.Load("Prefabs/Unit/Mob/HPbar"), Vector3.zero, Quaternion.identity) as GameObject;
-        enemyHPBar.GetComponent<EnemyHPBar>().SetMonster();
+        //enemyHPBar = Instantiate(Resources.Load("Prefabs/Unit/Mob/HPbar"), Vector3.zero, Quaternion.identity) as GameObject;
+        //enemyHPBar.GetComponent<EnemyHPBar>().SetMonster();
         enemyHPBar.SetActive(true);
         isMove = true;
     }

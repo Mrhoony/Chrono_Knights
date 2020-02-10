@@ -19,6 +19,7 @@ public class CanvasManager : MonoBehaviour
     public GameManager gm;
 
     public GameObject[] Menus;      // UI 메뉴들
+    public GameObject storage;
     public GameObject townUI;       // 마을 UI
     public GameObject player;
 
@@ -63,6 +64,7 @@ public class CanvasManager : MonoBehaviour
         for (int i = 0; i < Menus.Length; ++i)
         {
             Menus[i].SetActive(false);
+            storage.SetActive(false);
         }
         isFadeInOut = false;
     }
@@ -236,8 +238,8 @@ public class CanvasManager : MonoBehaviour
         isStorageOn = true;
         townUI = GameObject.Find("TownUI");
         useContent = used;
-        Menus[3].SetActive(true);
-        Menus[3].GetComponent<Menu_Storage>().OpenStorageWithUpgrade();
+        storage.SetActive(true);
+        storage.GetComponent<Menu_Storage>().OpenStorageWithUpgrade();
     }
     public void CloseUpgradeStorage(int focused)
     {
@@ -251,7 +253,7 @@ public class CanvasManager : MonoBehaviour
                 townUI.GetComponent<Menu_TownUI>().townMenus[3].GetComponent<Menu_Upgrade>().SetKey(focused);
                 break;
         }
-        Menus[3].SetActive(false);
+        storage.SetActive(false);
     }
 
     // 일반적으로 창고를 열 경우
@@ -263,13 +265,13 @@ public class CanvasManager : MonoBehaviour
 
         player.GetComponent<PlayerControl>().StopPlayer();
         player.GetComponent<PlayerControl>().enabled = false;
-        Menus[3].SetActive(true);
-        Menus[3].GetComponent<Menu_Storage>().OpenStorage();
+        storage.SetActive(true);
+        storage.GetComponent<Menu_Storage>().OpenStorage();
     }
     public void CloseStorage()
     {
         isStorageOn = false;
-        Menus[3].SetActive(false);
+        storage.SetActive(false);
         player.GetComponent<PlayerControl>().enabled = true;
         
     }
@@ -304,16 +306,7 @@ public class CanvasManager : MonoBehaviour
         
         player.GetComponent<PlayerControl>().enabled = true;
     }
-
-    public void OpenDungeonMenu()
-    {
-
-    }
-    public void CloseDungeonMenu()
-    {
-
-    }
-
+    
     public void OpenSettings()
     {
         SettingsMenu.GetComponent<RectTransform>().anchoredPosition = new Vector3(200, 0, 0);

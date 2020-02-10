@@ -11,6 +11,7 @@ TextureImporter:
     21300012: ui_storage_set_6
     21300014: ui_storage_set_7
     21300016: ui_storage_set_8
+    21300018: ui_storage_set_9
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -268,6 +269,26 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6f3be052f1efb9541899a3a8aac0ac27
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_storage_set_9
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 80
+        width: 4
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fddb88e9b2753284289857ed8892e17f
       vertices: []
       indices: 
       edges: []
