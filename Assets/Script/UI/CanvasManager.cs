@@ -28,7 +28,6 @@ public class CanvasManager : MonoBehaviour
     public GameObject CancelMenu;
     public GameObject SettingsMenu;
     public GameObject KeySettingMenu;
-    public GameObject LoadSlots;
     public Scrollbar[] sb;
     public GameObject fadeInOut;
     public bool isFadeInOut;
@@ -273,7 +272,6 @@ public class CanvasManager : MonoBehaviour
         isStorageOn = false;
         storage.SetActive(false);
         player.GetComponent<PlayerControl>().enabled = true;
-        
     }
     
     void ChangeMenu(int AdjustValue)
@@ -336,16 +334,5 @@ public class CanvasManager : MonoBehaviour
     public void CloseKeySettings()
     {
         KeySettingMenu.SetActive(false);
-    }
-
-    public bool OpenLoadSlot()
-    {
-        if (isCancelOn || isInventoryOn || isStorageOn) return false;
-        LoadSlots.SetActive(true);
-        return true;
-    }
-    public void CloseLoadSlot()
-    {
-        LoadSlots.SetActive(false);
     }
 }

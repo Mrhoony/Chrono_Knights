@@ -21,6 +21,8 @@ public class ItemInfomation : MonoBehaviour
 
     public void SetItemInventoryInformation(Item item)
     {
-
+        itemName.text = item.itemName;
+        itemRarity.text = item.itemRarity.ToString();
+        itemEffect.text = item.usingType.ToString();
     }
 }

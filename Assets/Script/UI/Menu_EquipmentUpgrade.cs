@@ -32,7 +32,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     {
         menu = transform.parent.GetComponent<Menu_TownUI>().menu;
         itemDatabase = Database_ItemList.instance;
-        storage = menu.Menus[3].GetComponent<Menu_Storage>();
+        storage = menu.storage.GetComponent<Menu_Storage>();
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         playerData = playerStat.playerData;
         playerEquipment = playerStat.playerEquip;

@@ -8,6 +8,7 @@ public class Menu_Inventory : MonoBehaviour
     // 초기화 영역
     public GameObject slots;
     public Menu_Storage storage;
+    public GameObject itemInformation;
 
     private Transform[] transforms;
     private GameObject[] slot;           // 인벤토리 슬롯
@@ -85,6 +86,16 @@ public class Menu_Inventory : MonoBehaviour
 
         focused = 0;
         slot[focused].transform.GetChild(0).gameObject.SetActive(true);
+
+        if (inventoryItemList[focused] != null)
+        {
+            itemInformation.SetActive(true);
+            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(inventoryItemList[0]);
+        }
+        else
+        {
+            itemInformation.SetActive(false);
+        }
     }
     public void InventorySet()           // 인벤토리 활성화시 아이템 세팅
     {
@@ -111,6 +122,7 @@ public class Menu_Inventory : MonoBehaviour
     public void CloseInventory()
     {
         slot[focused].transform.GetChild(0).gameObject.SetActive(false);
+        itemInformation.SetActive(false);
     }
 
     public void SetSelectedItemCount(int value)
@@ -254,6 +266,16 @@ public class Menu_Inventory : MonoBehaviour
 
         slot[focused].transform.GetChild(0).gameObject.SetActive(false);
         focused += AdjustValue;
+
+        if (inventoryItemList[focused] != null)
+        {
+            itemInformation.SetActive(true);
+            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(inventoryItemList[focused]);
+        }
+        else
+        {
+            itemInformation.SetActive(false);
+        }
         slot[focused].transform.GetChild(0).gameObject.SetActive(true);
     }
 }

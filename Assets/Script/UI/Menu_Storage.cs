@@ -9,6 +9,7 @@ public class Menu_Storage : MonoBehaviour
     public Menu_Inventory inventory;
     public GameObject slots;
     public GameObject[] slot;
+    public GameObject itemInformation;
 
     public Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
 
@@ -196,11 +197,22 @@ public class Menu_Storage : MonoBehaviour
         
         StorageSet();
         slot[focus].transform.GetChild(0).gameObject.SetActive(true);
+        if (storageItemList[focus] != null)
+        {
+            itemInformation.SetActive(true);
+            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(storageItemList[focus]);
+        }
+        else
+        {
+            itemInformation.SetActive(false);
+        }
     }
     public void CloseStorageWithUpgrade(bool isSelect)
     {
         onStorage = false;
         upgradeItem = false;
+
+        itemInformation.SetActive(false);
 
         if (isSelect)
         {
@@ -222,6 +234,17 @@ public class Menu_Storage : MonoBehaviour
         takeItemCount = inventory.GetTakeItemSlot();
         selectedSlot = new int[inventory.GetTakeItemSlot()];
         StorageSet();
+
+        if (storageItemList[focus] != null)
+        {
+            itemInformation.SetActive(true);
+            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(storageItemList[focus]);
+        }
+        else
+        {
+            itemInformation.SetActive(false);
+        }
+
         slot[focus].transform.GetChild(0).gameObject.SetActive(true);
     }
     public void CloseStorage()      
@@ -232,6 +255,7 @@ public class Menu_Storage : MonoBehaviour
         inventory.SetInventoryItemList();
         slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
         focus = 0;
+        itemInformation.SetActive(false);
         menu.CloseStorage();
     }
     public void SetSelectedItemSlotNum()    // 선택된 아이템 슬롯 번호를 저장
@@ -409,6 +433,17 @@ public class Menu_Storage : MonoBehaviour
             StorageSet();
         }
         focus += AdjustValue;
+
+        if (storageItemList[focus] != null)
+        {
+            itemInformation.SetActive(true);
+            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(storageItemList[focus]);
+        }
+        else
+        {
+            itemInformation.SetActive(false);
+        }
+
         slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(true);
     }
 }

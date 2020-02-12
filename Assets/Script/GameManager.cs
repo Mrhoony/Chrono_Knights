@@ -10,23 +10,28 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     
     public GameObject startButton;
+    public GameObject[] startButtons;
+
     public GameObject player;
     public PlayerStatus playerStat;
     public GameObject playerStatView;
     public GameObject bedBlind;
 
     #region save, load
-    public DataBase dataBase;
     public DungeonManager dungeonManager;
     public CanvasManager canvanManager;
     public Menu_Storage storage;
     public Menu_Inventory inventory;
     public Menu_Traning traning;
-    public Button[] saveSlot;
+
+    public GameObject saveSlot;
+    public GameObject[] saveSlots;
+    public DataBase dataBase;
 
     BinaryFormatter bf;
     MemoryStream ms;
-    public int focus;
+    public int gameSlotFocus;
+    public int saveSlotFocus;
     public string data;
     
     public bool openSaveSlot;
@@ -35,7 +40,6 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] screenSize;
     public SystemData systemData;
-
     private int screenNumber;
     
     private void Awake()
@@ -61,13 +65,11 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(13, 14);
         Physics2D.IgnoreLayerCollision(14, 14);
 
-        dataBase = new DataBase();
         playerStat = player.GetComponent<PlayerStatus>();
-        dungeonManager = DungeonManager.instance;
-        canvanManager = GameObject.Find("UI").GetComponent<CanvasManager>();
         storage = canvanManager.storage.GetComponent<Menu_Storage>();
         inventory = canvanManager.Menus[0].GetComponent<Menu_Inventory>();
-        
+        dataBase = new DataBase();
+
         Init();
 
         Debug.Log("gameManager awake");
@@ -78,22 +80,22 @@ public class GameManager : MonoBehaviour
         dataBase.Init();
 
         player.GetComponent<PlayerControl>().enabled = false;
-        canvanManager.inGameMenu.SetActive(false);
-        playerStatView.SetActive(false);
 
         storage.Init();
         inventory.Init();
 
         gameStart = false;
+        saveSlotFocus = 0;
+        gameSlotFocus = 0;
 
-        focus = 0;
-
+        playerStatView.SetActive(false);
+        canvanManager.inGameMenu.SetActive(false);
         Debug.Log("gameManager Start");
     }
 
     public void Update()
     {
-        if (canvanManager.isCancelOn || canvanManager.isInventoryOn || canvanManager.isStorageOn) return;
+        if (canvanManager.GameMenuOnCheck()) return;
 
         if (SceneManager.GetActiveScene().buildIndex != 0) return;
         
@@ -111,7 +113,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (!openSaveSlot)
                     {
-                        OpenLoad();
+                        GameStartMenuSelect();
                     }
                     else
                     {
@@ -130,43 +132,50 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (!openSaveSlot) return;
-
-        if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
+        if (openSaveSlot)
+        {
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { SaveFocusedSlot(1); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { SaveFocusedSlot(-1); }
+        }
+        if (!gameStart && !openSaveSlot)
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow)) { GameStartFocusedSlot(-1); }
+            if (Input.GetKeyDown(KeyCode.DownArrow)) { GameStartFocusedSlot(1); }
+        }
     }
 
     public bool GetGameStart()
     {
         return gameStart;
     }
-
-    public void MouseFocusSlot(int AdjustValue)
-    {
-        saveSlot[focus].GetComponent<Image>().color = new Color(1, 1, 1, 1);
-
-        focus = AdjustValue;
-
-        saveSlot[focus].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
-    }
-    public void MouseFocusOut(int AdjustValue)
-    {
-        saveSlot[AdjustValue].GetComponent<Image>().color = new Color(1, 1, 1, 1);
-    }
     
-    void FocusedSlot(int AdjustValue)
+    void SaveFocusedSlot(int AdjustValue)
     {
-        saveSlot[focus].GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        saveSlots[saveSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        saveSlots[saveSlotFocus].transform.position = new Vector3(saveSlots[saveSlotFocus].transform.position.x
+            , saveSlots[saveSlotFocus].transform.position.y - 5f, saveSlots[saveSlotFocus].transform.position.z);
 
-        if (focus + AdjustValue < 0) focus = 2;
-        else if (focus + AdjustValue > 2) focus = 0;
-        else focus += AdjustValue;
+        if (saveSlotFocus + AdjustValue < 0) saveSlotFocus = 2;
+        else if (saveSlotFocus + AdjustValue > 2) saveSlotFocus = 0;
+        else saveSlotFocus += AdjustValue;
 
-        saveSlot[focus].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
+        saveSlots[saveSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
+        saveSlots[saveSlotFocus].transform.position = new Vector3(saveSlots[saveSlotFocus].transform.position.x
+            , saveSlots[saveSlotFocus].transform.position.y + 5f, saveSlots[saveSlotFocus].transform.position.z);
     }
-    public void SelectSlot(int _focus)
+    void GameStartFocusedSlot(int AdjustValue)
     {
-        focus = _focus;
+        startButtons[gameSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        startButtons[gameSlotFocus].transform.position = new Vector3(startButtons[gameSlotFocus].transform.position.x
+            , startButtons[gameSlotFocus].transform.position.y - 5f, startButtons[gameSlotFocus].transform.position.z);
+
+        if (gameSlotFocus + AdjustValue < 0) gameSlotFocus = 2;
+        else if (gameSlotFocus + AdjustValue > 2) gameSlotFocus = 0;
+        else gameSlotFocus += AdjustValue;
+
+        startButtons[gameSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
+        startButtons[gameSlotFocus].transform.position = new Vector3(startButtons[gameSlotFocus].transform.position.x
+            , startButtons[gameSlotFocus].transform.position.y + 5f, startButtons[gameSlotFocus].transform.position.z);
     }
 
     public void SaveGame()
@@ -185,7 +194,7 @@ public class GameManager : MonoBehaviour
         
         storage.SaveStorageClear();
 
-        PlayerPrefs.SetString("SaveSlot" + focus.ToString(), data);
+        PlayerPrefs.SetString("SaveSlot" + saveSlotFocus.ToString(), data);
         player.GetComponent<PlayerControl>().enabled = false;
         bedBlind = GameObject.Find("BackGroundSet/Base/bg_mainScene_blind");
         canvanManager.inGameMenu.SetActive(false);
@@ -197,9 +206,9 @@ public class GameManager : MonoBehaviour
     }
     public void LoadGame()
     {
-        if(PlayerPrefs.HasKey("SaveSlot" + focus.ToString()))
+        if(PlayerPrefs.HasKey("SaveSlot" + saveSlotFocus.ToString()))
         {
-            data = PlayerPrefs.GetString("SaveSlot" + focus.ToString(), null);
+            data = PlayerPrefs.GetString("SaveSlot" + saveSlotFocus.ToString(), null);
 
             if (!string.IsNullOrEmpty(data))
             {
@@ -235,25 +244,46 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Load");
     }
-    
     public void DeleteSave()
     {
-        if(PlayerPrefs.HasKey("SaveSlot" + focus.ToString()))
+        if(PlayerPrefs.HasKey("SaveSlot" + saveSlotFocus.ToString()))
         {
-            PlayerPrefs.DeleteKey("SaveSlot" + focus.ToString());
+            PlayerPrefs.DeleteKey("SaveSlot" + saveSlotFocus.ToString());
             Debug.Log("saveDelete");
+        }
+    }
+    
+    public void CloseLoadSlot()
+    {
+        saveSlot.SetActive(false);
+    }
+
+    public void GameStartMenuSelect()
+    {
+        switch (gameSlotFocus)
+        {
+            case 0:
+                OpenLoad();
+                break;
+            case 1:
+                canvanManager.OpenSettings();
+                break;
+            case 2:
+                Debug.Log("game over");
+                break;
         }
     }
 
     public void OpenLoad()
     {
-        if (!canvanManager.OpenLoadSlot()) return;
         startButton.SetActive(false);
-        
+        saveSlot.SetActive(true);
+
         player.GetComponent<PlayerControl>().enabled = false;
         openSaveSlot = true;
-        focus = 0;
-        saveSlot[0].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
+        saveSlotFocus = 0;
+        saveSlots[0].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
+        saveSlots[0].transform.position = new Vector3(saveSlots[0].transform.position.x, saveSlots[0].transform.position.y + 5f, saveSlots[0].transform.position.z);
         
         for(int i = 0; i < 3; ++i)
         {
@@ -269,7 +299,7 @@ public class GameManager : MonoBehaviour
 
                     // 유저 정보
                     dataBase = (DataBase)bf.Deserialize(ms);
-                    saveSlot[i].transform.GetChild(0).GetComponent<Text>().text = dataBase.GetCurrentDate().ToString() + " 일";
+                    saveSlots[i].transform.GetChild(0).GetComponent<Text>().text = dataBase.GetCurrentDate().ToString() + " 일";
                     Debug.Log(dataBase.GetCurrentDate().ToString() + " 일");
                 }
             }
@@ -281,17 +311,15 @@ public class GameManager : MonoBehaviour
     }
     public void CloseLoad()
     {
-        saveSlot[focus].GetComponent<Image>().color = new Color(1, 1, 1, 1);
-        focus = 0;
+        saveSlots[saveSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        saveSlots[saveSlotFocus].transform.position = new Vector3(saveSlots[saveSlotFocus].transform.position.x
+            , saveSlots[saveSlotFocus].transform.position.y + 5f, saveSlots[saveSlotFocus].transform.position.z);
+        saveSlotFocus = 0;
         openSaveSlot = false;
-        canvanManager.CloseLoadSlot();
+        CloseLoadSlot();
         startButton.SetActive(true);
     }
-
-    public void OpenSetting()
-    {
-        //inGameMenu.GetComponent<MainUI_InGameMenu>().OpenSettings(screenWidth, screenHeigth);
-    }
+    
     public void SettingSave()
     {
         bf = new BinaryFormatter();
@@ -304,14 +332,14 @@ public class GameManager : MonoBehaviour
         bf.Serialize(ms, systemData);
         data = Convert.ToBase64String(ms.GetBuffer());
 
-        PlayerPrefs.SetString("SystemData" + focus.ToString(), data);
+        PlayerPrefs.SetString("SystemData", data);
         Debug.Log("save complete");
     }
     public void SettingSet()
     {
-        if (PlayerPrefs.HasKey("SystemData" + focus.ToString()))
+        if (PlayerPrefs.HasKey("SystemData"))
         {
-            data = PlayerPrefs.GetString("SystemData" + focus.ToString(), null);
+            data = PlayerPrefs.GetString("SystemData", null);
 
             if (!string.IsNullOrEmpty(data))
             {

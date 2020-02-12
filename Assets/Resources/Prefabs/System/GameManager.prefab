@@ -44,26 +44,151 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startButton: {fileID: 0}
+  startButtons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   player: {fileID: 0}
   playerStat: {fileID: 0}
   playerStatView: {fileID: 0}
   bedBlind: {fileID: 0}
+  dungeonManager: {fileID: 0}
+  canvanManager: {fileID: 0}
+  storage: {fileID: 0}
+  inventory: {fileID: 0}
+  traning: {fileID: 0}
+  saveSlot: {fileID: 0}
+  saveSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   dataBase:
+    playerData:
+      maxAmmo: 0
+      status: []
+      equipmentStatus: []
+      playerEquipment:
+        equipment:
+        - _name: "\uC885"
+          _addStatus:
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          _itemCode: 0
+          _itemRarity: 0
+          _upStatus: 8
+          _downStatus: 8
+          _enchant: 0
+          _Max: 0
+          _Min: 0
+        - _name: "\uCC3D"
+          _addStatus:
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          _itemCode: 0
+          _itemRarity: 0
+          _upStatus: 8
+          _downStatus: 8
+          _enchant: 0
+          _Max: 0
+          _Min: 0
+        - _name: "\uCD1D"
+          _addStatus:
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          _itemCode: 0
+          _itemRarity: 0
+          _upStatus: 8
+          _downStatus: 8
+          _enchant: 0
+          _Max: 0
+          _Min: 0
+        - _name: "\uD770 \uC637"
+          _addStatus:
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          _itemCode: 0
+          _itemRarity: 0
+          _upStatus: 8
+          _downStatus: 8
+          _enchant: 0
+          _Max: 0
+          _Min: 0
+        - _name: "\uAC00\uC8FD \uC2E0\uBC1C"
+          _addStatus:
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          _itemCode: 0
+          _itemRarity: 0
+          _upStatus: 8
+          _downStatus: 8
+          _enchant: 0
+          _Max: 0
+          _Min: 0
+        - _name: "\uB9E8 \uC190"
+          _addStatus:
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          _itemCode: 0
+          _itemRarity: 0
+          _upStatus: 8
+          _downStatus: 8
+          _enchant: 0
+          _Max: 0
+          _Min: 0
+        - _name: "\uC561\uD2F0\uBE0C"
+          _addStatus:
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          _itemCode: 0
+          _itemRarity: 0
+          _upStatus: 8
+          _downStatus: 8
+          _enchant: 0
+          _Max: 0
+          _Min: 0
     storageItemCodeList: 
     availableStorageSlot: 0
     takeKeySlot: 0
     availableInventorySlot: 0
     currentDate: 0
-    eventCheck: 
-  canvanManager: {fileID: 0}
-  storage: {fileID: 0}
-  inventory: {fileID: 0}
-  saveSlot:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  focus: 0
-  slotNum: 0
+    eventFlag: 
+  gameSlotFocus: 0
+  saveSlotFocus: 0
   data: 
   openSaveSlot: 0
   gameStart: 0
