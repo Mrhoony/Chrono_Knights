@@ -15,10 +15,12 @@ public class PlayerData
     private float[] limitTraning;
     private int[] traning_count;
 
-    public PlayerEquipment playerEquipment = new PlayerEquipment();
+    public PlayerEquipment playerEquipment;
 
     public void Init()
     {
+        playerEquipment = new PlayerEquipment();
+
         traningStat = new float[6];
         traningStat[0] = 0;
         traningStat[1] = 0;
@@ -70,8 +72,8 @@ public class PlayerData
         equipmentStatus[6] = 0;
 
         maxAmmo = 10;
-
-        playerEquipment = new PlayerEquipment();
+        
+        playerEquipment.PlayerEquipmentInit();
 
         Debug.Log("playerData init");
     }

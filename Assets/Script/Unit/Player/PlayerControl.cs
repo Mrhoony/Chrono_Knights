@@ -9,6 +9,8 @@ public class PlayerControl : MovingObject
     public LayerMask rayDashLayerMask;
     public GameObject GroundCheck;
     public PlayerStatus playerStatus;
+    public SkillManager skillManager;
+
     public Weapon_Spear weaponSpear;
     public Weapon_Gun weaponGun;
     public RaycastHit2D playerDashTopDistance;
@@ -58,10 +60,10 @@ public class PlayerControl : MovingObject
         playerCharacterCollider = gameObject.GetComponent<BoxCollider2D>();
         playerStatus = GetComponent<PlayerStatus>();
         weaponSpear = GetComponent<Weapon_Spear>();
-        weaponGun = GetComponent<Weapon_Gun>();
-
         weaponSpear.Init(animator, rb);
-
+        weaponGun = GetComponent<Weapon_Gun>();
+        skillManager.Init();
+        
         arrowDirection = 1;
         weaponType = 0;
         dodgable = true;
@@ -73,6 +75,7 @@ public class PlayerControl : MovingObject
     // Update is called once per frame
     void Update()
     {
+        // x 공격 입력
         if (weaponType == 0)
         {
             if (Input.GetButtonDown("Fire1") && !animator.GetBool("is_y_Atk")) inputAttackX = true;
@@ -91,6 +94,7 @@ public class PlayerControl : MovingObject
 
         inputDirection = Input.GetAxisRaw("Horizontal");
 
+        // shift 키 입력시 대쉬
         if (Input.GetKey(KeyCode.LeftShift))
         {
             if (arrowDirection > 0)
@@ -123,19 +127,18 @@ public class PlayerControl : MovingObject
         
         if (actionState == ActionState.IsParrying) StartCoroutine(ParryingCount());
 
-        if (Input.GetKey(KeyCode.UpArrow))
-            inputArrow = 30;
-        else if (Input.GetKey(KeyCode.DownArrow))
-            inputArrow = 40;
-        else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
-            inputArrow = 10;
-        else
-            inputArrow = 0;
+        // 커맨드용 입력
+        if (Input.GetKey(KeyCode.UpArrow))        inputArrow = 30;
+        else if (Input.GetKey(KeyCode.DownArrow)) inputArrow = 40;
+        else if (inputDirection != 0) inputArrow = 10;
+        else inputArrow = 0;
 
+        // 회피
         if (Input.GetButtonDown("Fire3") && dodgable) inputDodge = true;
 
         if (actionState == ActionState.IsAtk) return;
-
+        
+        // y 공격 입력
         if (weaponType == 0)
         {
             if (Input.GetButton("Fire2")) inputAttackY = true;
@@ -144,8 +147,10 @@ public class PlayerControl : MovingObject
         {
 
         }
+
         if (Input.GetButtonDown("Jump")) inputJump = true;
 
+        // 장착 무기 변경
         if (Input.GetKeyDown(KeyCode.S))
         {
             if(weaponType == 0) // 스피어 -> 건
@@ -164,6 +169,7 @@ public class PlayerControl : MovingObject
             }
         }
     }
+
     IEnumerator InvincibleCount()
     {
         yield return new WaitForSeconds(0.5f);
@@ -217,6 +223,49 @@ public class PlayerControl : MovingObject
                 isRrun = 0;
                 isLrun = 0;
             }
+        }
+    }
+
+    public void InputSkillButton()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if (playerStatus.playerEquip.equipment[0].skillCode == 0 || playerStatus.playerEquip.equipment[0].isUsed) return;
+            skillManager.SkillCheck(playerStatus.playerEquip.equipment[0]);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            if (playerStatus.playerEquip.equipment[1].skillCode == 0 || playerStatus.playerEquip.equipment[1].isUsed) return;
+            skillManager.SkillCheck(playerStatus.playerEquip.equipment[1]);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            if (playerStatus.playerEquip.equipment[2].skillCode == 0 || playerStatus.playerEquip.equipment[2].isUsed) return;
+            skillManager.SkillCheck(playerStatus.playerEquip.equipment[2]);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            if (playerStatus.playerEquip.equipment[3].skillCode == 0 || playerStatus.playerEquip.equipment[3].isUsed) return;
+            skillManager.SkillCheck(playerStatus.playerEquip.equipment[3]);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            if (playerStatus.playerEquip.equipment[4].skillCode == 0 || playerStatus.playerEquip.equipment[4].isUsed) return;
+            skillManager.SkillCheck(playerStatus.playerEquip.equipment[4]);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            if (playerStatus.playerEquip.equipment[5].skillCode == 0 || playerStatus.playerEquip.equipment[5].isUsed) return;
+            skillManager.SkillCheck(playerStatus.playerEquip.equipment[5]);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            if (playerStatus.playerEquip.equipment[6].skillCode == 0 || playerStatus.playerEquip.equipment[6].isUsed) return;
+            skillManager.SkillCheck(playerStatus.playerEquip.equipment[6]);
+        }
+        else
+        {
+            return;
         }
     }
 
@@ -498,6 +547,7 @@ public class PlayerControl : MovingObject
             transform.position = new Vector2(transform.position.x + dashDistanceMulty * playerStatus.GetDashDistance_Result() * arrowDirection * 0.5f, transform.position.y);
         Debug.Log(dashDistanceMulty);
     }
+
     public void PlayerMoveSet()
     {
         if (!dodgable) return;

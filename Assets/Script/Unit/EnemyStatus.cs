@@ -15,7 +15,7 @@ public class EnemyStatus : MonoBehaviour
     public void Update()
     {
         if (!isMove) return;
-        enemyHPBar.transform.position = new Vector3(transform.position.x, transform.position.y + boxCollider2D.bounds.size.y + 0.2f, transform.position.z);
+        enemyHPBar.transform.position = new Vector3(Camera.main.WorldToScreenPoint(transform.position).x, Camera.main.WorldToScreenPoint(transform.position).y + (boxCollider2D.bounds.size.y * 100f), transform.position.z);
     }
 
     public void MonsterInit()
@@ -25,25 +25,23 @@ public class EnemyStatus : MonoBehaviour
         EnemyStatInit(1f, 5, 1);
         _currentHP = _HP;
         
-        int hpbarNum = GameObject.Find("HealthBarPool").transform.childCount;
+        int hpbarNum = GameObject.Find("DungeonPoolManager/HealthBarPool").transform.childCount;
         for (int i = 0; i < hpbarNum; ++i)
         {
-            if (!GameObject.Find("HealthBarPool").transform.GetChild(i).GetComponent<EnemyHPBar>().SetMonster())
+            if (!GameObject.Find("DungeonPoolManager/HealthBarPool").transform.GetChild(i).GetComponent<EnemyHPBar>().SetMonster())
             {
                 continue;
             }
-            enemyHPBar = GameObject.Find("HealthBarPool").transform.GetChild(i).gameObject;
+            enemyHPBar = GameObject.Find("DungeonPoolManager/HealthBarPool").transform.GetChild(i).gameObject;
             break;
         }
 
         if(enemyHPBar == null)
         {
             enemyHPBar = Instantiate(Resources.Load("Prefabs/Unit/Mob/HPbar"), Vector3.zero, Quaternion.identity) as GameObject;
+            enemyHPBar.transform.parent = GameObject.Find("DungeonPoolManager/HealthBarPool").transform;
             enemyHPBar.GetComponent<EnemyHPBar>().SetMonster();
         }
-
-        //enemyHPBar = Instantiate(Resources.Load("Prefabs/Unit/Mob/HPbar"), Vector3.zero, Quaternion.identity) as GameObject;
-        //enemyHPBar.GetComponent<EnemyHPBar>().SetMonster();
         enemyHPBar.SetActive(true);
         isMove = true;
     }

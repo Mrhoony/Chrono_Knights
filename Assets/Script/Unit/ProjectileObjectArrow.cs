@@ -6,7 +6,7 @@ public class ProjectileObjectArrow : MonoBehaviour
 {
     public bool isHit;
     public Rigidbody2D rb;
-    public GameObject parentObject;
+    public int damage;
     
     private void Update()
     {
@@ -15,18 +15,21 @@ public class ProjectileObjectArrow : MonoBehaviour
         transform.localEulerAngles = new Vector3(0, 0, rb.velocity.y * 45f / rb.velocity.x);
     }
 
-    public void arrowShooting(GameObject _parentObject, float _distance, int _arrowDirection)
+    public void arrowShooting(int _damage, float _distance, int _arrowDirection)
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
         isHit = false;
-        parentObject = _parentObject;
+        damage = _damage;
+
         Vector2 scale = transform.localScale;
         scale.x *= _arrowDirection;
         transform.localScale = scale;
+
         if (_distance < 0)
             rb.gravityScale = -_distance / 5f;
         else
             rb.gravityScale = _distance / 5f;
+
         rb.AddForce(new Vector2(_arrowDirection * 3f, 2f), ForceMode2D.Impulse);
         Debug.Log("shooting");
     }
@@ -40,7 +43,7 @@ public class ProjectileObjectArrow : MonoBehaviour
             if (collision.CompareTag("Player"))
             {
                 isHit = true;
-                collision.gameObject.GetComponent<IsDamageable>().PlayerHit(parentObject.GetComponentInParent<EnemyStatus>().GetAttack());
+                collision.gameObject.GetComponent<IsDamageable>().Hit(damage);
                 gameObject.SetActive(false);
             }
             else if (collision.CompareTag("Ground"))

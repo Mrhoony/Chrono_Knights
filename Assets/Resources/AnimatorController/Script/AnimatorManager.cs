@@ -13,9 +13,9 @@ public class AnimatorManager : StateMachineBehaviour
 
     public void Init()
     {
-        atk = 0;
         move = false;
         playerControl = PlayerControl.instance;
+        atk = 0;
     }
 
     public void Attack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
@@ -32,11 +32,7 @@ public class AnimatorManager : StateMachineBehaviour
             {
                 if (monster[i].CompareTag("Monster"))
                 {
-                    monster[i].gameObject.GetComponent<IsDamageable>().MonsterHit(playerControl.playerStatus.GetAttack_Result());
-                }
-                else if (monster[i].CompareTag("BossMonster"))
-                {
-                    monster[i].gameObject.GetComponent<IsDamageable>().BossMonsterHit(playerControl.playerStatus.GetAttack_Result());
+                    monster[i].gameObject.GetComponent<IsDamageable>().Hit(playerControl.playerStatus.GetAttack_Result());
                 }
             }
         }
@@ -57,7 +53,7 @@ public class AnimatorManager : StateMachineBehaviour
             {
                 if (player[i].CompareTag("Player"))
                 {
-                    player[i].gameObject.GetComponent<IsDamageable>().PlayerHit(animator.gameObject.GetComponent<EnemyStatus>().GetAttack());
+                    player[i].gameObject.GetComponent<IsDamageable>().Hit(animator.gameObject.GetComponent<EnemyStatus>().GetAttack());
                 }
             }
         }

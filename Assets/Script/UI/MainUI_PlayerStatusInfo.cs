@@ -33,8 +33,8 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
         {
             if (equipment[i].itemCode != 0)
             {
-                equipmentSlot[i].GetComponent<Image>().sprite = Database_ItemList.instance.GetItem(equipment[i].itemCode).sprite;
-                equipmentSlot[i].transform.GetChild(0).GetComponent<Image>().sprite = equipmentBorder[Database_ItemList.instance.GetItem(equipment[i].itemCode).itemRarity];
+                equipmentSlot[i].GetComponent<Image>().sprite = Database_Game.instance.GetItem(equipment[i].itemCode).sprite;
+                equipmentSlot[i].transform.GetChild(0).GetComponent<Image>().sprite = equipmentBorder[Database_Game.instance.GetItem(equipment[i].itemCode).itemRarity];
             }
             else
             {

@@ -35,19 +35,16 @@ public class Monster_Goblin_bow : Monster_Control
             animator.SetBool("isMove", false);
             return;
         }
-        Debug.Log("move");
         if (isTrace)
         {
             if (distanceX > 3f)
             {
                 animator.SetBool("isMove", true);
                 rb.velocity = new Vector2(moveSpeed * arrowDirection, rb.velocity.y);
-                Debug.Log("move 1");
             }
             else
             {
                 animator.SetBool("isMove", false);
-                Debug.Log("move 11");
             }
         }
         else
@@ -56,12 +53,10 @@ public class Monster_Goblin_bow : Monster_Control
             {
                 animator.SetBool("isMove", true);
                 rb.velocity = new Vector2(moveSpeed * randomMove, rb.velocity.y);
-                Debug.Log("move2");
             }
             else
             {
                 animator.SetBool("isMove", false);
-                Debug.Log("move22");
             }
         }
     }
@@ -99,6 +94,6 @@ public class Monster_Goblin_bow : Monster_Control
     public void Shooting()
     {
         arrow = Instantiate(arrowObject, shootingPosition.transform.position, Quaternion.identity);
-        arrow.GetComponent<ProjectileObjectArrow>().arrowShooting(gameObject, distanceX, arrowDirection);
+        arrow.GetComponent<ProjectileObjectArrow>().arrowShooting(enemyStatus.GetAttack(), distanceX, arrowDirection);
     }
 }

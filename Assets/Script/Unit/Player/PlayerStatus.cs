@@ -155,7 +155,7 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
-    public void SetBuff(int buffLevel)
+    public void SetAmmo(int buffLevel)
     {
         currentAmmo += 10 * buffLevel;
         if (currentAmmo > playerData.GetMaxAmmo())

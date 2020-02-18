@@ -12,27 +12,20 @@ public enum bossMonsterList
 public class IsDamageable : MonoBehaviour
 {
     public int bossNumber;
-
-    public void PlayerHit(int attack)
+    
+    public void Hit(int attack)
     {
-        gameObject.GetComponent<PlayerControl>().Hit(attack);
-    }
-
-    public void MonsterHit(int attack)
-    {
-        gameObject.GetComponent<Monster_Control>().MonsterHit(attack);
-    }
-
-    public void BossMonsterHit(int attack)
-    {
-        switch (bossNumber)
+        if (gameObject.CompareTag("Player"))
         {
-            case 1:
-                gameObject.GetComponent<Boss_Merchant>().MonsterHit(attack);
-                break;
-            case 2:
-                gameObject.GetComponent<Boss_Trainer>().MonsterHit(attack);
-                break;
+            gameObject.GetComponent<PlayerControl>().Hit(attack);
+        }
+        else if(gameObject.CompareTag("Monster"))
+        {
+            gameObject.GetComponent<Monster_Control>().MonsterHit(attack);
+        }
+        else
+        {
+            gameObject.GetComponent<BossMonster_Control>().MonsterHit(attack);
         }
     }
 }

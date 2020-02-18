@@ -198,7 +198,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
 
         Debug.Log("upgrade");
 
-        if (Database_ItemList.instance.GetItem(item.itemCode) != null)
+        if (itemDatabase.GetItem(item.itemCode) != null)
         {
             switch (item.itemRarity)
             {

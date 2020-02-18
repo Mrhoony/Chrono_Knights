@@ -8,7 +8,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     protected PlayerData playerData;
     protected CanvasManager menu;
     protected Menu_Storage storage;
-    protected Database_ItemList itemDatabase;
+    protected Database_Game itemDatabase;
 
     public GameObject npc_blacksmith;
     protected PlayerEquipment playerEquipment;
@@ -31,7 +31,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     public virtual void Start()
     {
         menu = transform.parent.GetComponent<Menu_TownUI>().menu;
-        itemDatabase = Database_ItemList.instance;
+        itemDatabase = Database_Game.instance;
         storage = menu.storage.GetComponent<Menu_Storage>();
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         playerData = playerStat.playerData;
@@ -79,27 +79,30 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     {
         if (enchant)
         {
-            equipment[num].itemCode = item.itemCode;
-            equipment[num].itemRarity = item.itemRarity;
-            equipment[num].enchant = enchant;
-            equipment[num].name = item.itemName;
+            equipment[num].EquipmentItemSetting(item);
             equipment[num].upStatus = upCount;
-            equipment[num].addStatus[equipment[num].upStatus] = upPercent * 0.1f;
-            if (equipment[num].addStatus[equipment[num].upStatus] > equipment[num].max)
-                equipment[num].addStatus[equipment[num].upStatus] = equipment[num].max;
+            equipment[num].addStatus[upCount] = upPercent * 0.1f;
 
+            Debug.Log(equipment[num].upStatus);
+            Debug.Log(equipment[num].addStatus[upCount]);
+
+            if (equipment[num].addStatus[upCount] > equipment[num].max)
+                equipment[num].addStatus[upCount] = equipment[num].max;
+            
             if (equipment[num].downStatus != 8)
             {
                 equipment[num].addStatus[equipment[num].downStatus] = 0;
                 equipment[num].downStatus = 8;
             }
+
+            equipment[num].skillCode = item.skillCode;
         }
         else
         {
             equipment[num].name += item.itemName;
-            equipment[num].addStatus[equipment[num].upStatus] += upPercent * 0.1f;
-            if (equipment[num].addStatus[equipment[num].upStatus] > equipment[num].max)
-                equipment[num].addStatus[equipment[num].upStatus] = equipment[num].max;
+            equipment[num].addStatus[upCount] += upPercent * 0.1f;
+            if (equipment[num].addStatus[upCount] > equipment[num].max)
+                equipment[num].addStatus[upCount] = equipment[num].max;
         }
     }
 
@@ -107,32 +110,32 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     {
         if (enchant)
         {
-            equipment[num].itemCode = item.itemCode;
-            equipment[num].itemRarity = item.itemRarity;
-            equipment[num].enchant = enchant;
-            equipment[num].name = item.itemName;
+            equipment[num].EquipmentItemSetting(item);
             equipment[num].upStatus = upCount;
             equipment[num].downStatus = downCount;
-            equipment[num].addStatus[equipment[num].upStatus] = upPercent * 0.1f;
-            if (equipment[num].addStatus[equipment[num].upStatus] > equipment[num].max)
-                equipment[num].addStatus[equipment[num].upStatus] = equipment[num].max;
+            equipment[num].addStatus[upCount] = upPercent * 0.1f;
+            if (equipment[num].addStatus[upCount] > equipment[num].max)
+                equipment[num].addStatus[upCount] = equipment[num].max;
 
-            equipment[num].addStatus[equipment[num].downStatus] = -downPercent * 0.1f;
-            if (equipment[num].addStatus[equipment[num].downStatus] > equipment[num].max)
-                equipment[num].addStatus[equipment[num].downStatus] = equipment[num].max;
+            equipment[num].addStatus[downCount] = -downPercent * 0.1f;
+            if (equipment[num].addStatus[downCount] > equipment[num].max)
+                equipment[num].addStatus[downCount] = equipment[num].max;
+
+
+            equipment[num].skillCode = item.skillCode;
         }
         else
         {
             equipment[num].name += item.itemName;
-            equipment[num].addStatus[equipment[num].upStatus] += upPercent * 0.1f;
-            if (equipment[num].addStatus[equipment[num].upStatus] > equipment[num].max)
-                equipment[num].addStatus[equipment[num].upStatus] = equipment[num].max;
+            equipment[num].addStatus[upCount] += upPercent * 0.1f;
+            if (equipment[num].addStatus[upCount] > equipment[num].max)
+                equipment[num].addStatus[upCount] = equipment[num].max;
 
             if(equipment[num].downStatus != 8)
             {
-                equipment[num].addStatus[equipment[num].downStatus] -= downPercent * 0.1f;
-                if (equipment[num].addStatus[equipment[num].downStatus] < equipment[num].min)
-                    equipment[num].addStatus[equipment[num].downStatus] = equipment[num].min;
+                equipment[num].addStatus[downCount] -= downPercent * 0.1f;
+                if (equipment[num].addStatus[downCount] < equipment[num].min)
+                    equipment[num].addStatus[downCount] = equipment[num].min;
             }
         }
     }

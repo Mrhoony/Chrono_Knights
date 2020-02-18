@@ -11,19 +11,20 @@ using UnityEngine;
 public class DropItemList : MonoBehaviour
 {
     public GameObject[] dropItems;
+    public GameObject item;
     public int[] dropChances;
-    public int dropItemList;
 
     public void ItemDropChance()
     {
         int dropChance = Random.Range(1, 101);
-        dropItemList = dropItems.Length;
+        int dropItemList = dropItems.Length;
 
         for (int i=0; i< dropItemList; i++)
         {
             if(dropChance > dropChances[i])
             {
-                Instantiate(dropItems[i], new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity);
+                item = Instantiate(dropItems[i], new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity);
+                item.transform.parent = GameObject.Find("DungeonPoolManager/DropItemPool").transform;
             }
         }
     }

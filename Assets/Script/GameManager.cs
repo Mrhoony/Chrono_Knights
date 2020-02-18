@@ -132,6 +132,14 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (openSaveSlot)
+            {
+                DeleteSave();
+            }
+        }
+
         if (openSaveSlot)
         {
             if (Input.GetKeyDown(KeyCode.RightArrow)) { SaveFocusedSlot(1); }
@@ -249,6 +257,7 @@ public class GameManager : MonoBehaviour
         if(PlayerPrefs.HasKey("SaveSlot" + saveSlotFocus.ToString()))
         {
             PlayerPrefs.DeleteKey("SaveSlot" + saveSlotFocus.ToString());
+            LoadSlotInformation(saveSlotFocus);
             Debug.Log("saveDelete");
         }
     }
@@ -279,7 +288,6 @@ public class GameManager : MonoBehaviour
         startButton.SetActive(false);
         saveSlot.SetActive(true);
 
-        player.GetComponent<PlayerControl>().enabled = false;
         openSaveSlot = true;
         saveSlotFocus = 0;
         saveSlots[0].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
@@ -287,26 +295,30 @@ public class GameManager : MonoBehaviour
         
         for(int i = 0; i < 3; ++i)
         {
-            if (PlayerPrefs.HasKey("SaveSlot" + i.ToString()))
-            {
-                Debug.Log("hasData");
-                data = PlayerPrefs.GetString("SaveSlot" + i.ToString(), null);
+            LoadSlotInformation(i);
+        }
+    }
+    public void LoadSlotInformation(int i)
+    {
+        if (PlayerPrefs.HasKey("SaveSlot" + i.ToString()))
+        {
+            Debug.Log("hasData");
+            data = PlayerPrefs.GetString("SaveSlot" + i.ToString(), null);
 
-                if (!string.IsNullOrEmpty(data))
-                {
-                    bf = new BinaryFormatter();
-                    ms = new MemoryStream(Convert.FromBase64String(data));
-
-                    // 유저 정보
-                    dataBase = (DataBase)bf.Deserialize(ms);
-                    saveSlots[i].transform.GetChild(0).GetComponent<Text>().text = dataBase.GetCurrentDate().ToString() + " 일";
-                    Debug.Log(dataBase.GetCurrentDate().ToString() + " 일");
-                }
-            }
-            else
+            if (!string.IsNullOrEmpty(data))
             {
-                Debug.Log("NoData");
+                bf = new BinaryFormatter();
+                ms = new MemoryStream(Convert.FromBase64String(data));
+
+                // 유저 정보
+                dataBase = (DataBase)bf.Deserialize(ms);
+                saveSlots[i].transform.GetChild(0).GetComponent<Text>().text = dataBase.GetCurrentDate().ToString() + " 일";
             }
+        }
+        else
+        {
+            Debug.Log("NoData");
+            saveSlots[i].transform.GetChild(0).GetComponent<Text>().text = "";
         }
     }
     public void CloseLoad()

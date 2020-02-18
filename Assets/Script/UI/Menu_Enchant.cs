@@ -201,7 +201,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
     {
         if (num < 0 || num > 7) return;
 
-        if (Database_ItemList.instance.GetItem(item.itemCode) != null)
+        if (itemDatabase.GetItem(item.itemCode) != null)
         {
             playerEquipment.Init(num);
             upgradeCount = Random.Range(0, 7);

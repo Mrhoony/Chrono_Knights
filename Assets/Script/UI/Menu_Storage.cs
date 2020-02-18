@@ -373,8 +373,8 @@ public class Menu_Storage : MonoBehaviour
             //Debug.Log(Database_ItemList.instance.GetItem(storageItemCodeList[i]));
             //Debug.Log(Database_ItemList.instance.GetItem(storageItemCodeList[i]).itemCode);
 
-            if (Database_ItemList.instance.GetItem(storageItemCodeList[i]) == null) continue;
-            storageItemList[i] = Database_ItemList.instance.GetItem(storageItemCodeList[i]);
+            if (Database_Game.instance.GetItem(storageItemCodeList[i]) == null) continue;
+            storageItemList[i] = Database_Game.instance.GetItem(storageItemCodeList[i]);
         }
     }
     public int[] GetStorageItemCodeList()

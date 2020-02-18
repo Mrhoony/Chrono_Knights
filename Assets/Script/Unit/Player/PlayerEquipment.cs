@@ -9,91 +9,60 @@ public class PlayerEquipment
     [Serializable]
     public struct Equipment
     {
-        public string _name;
-        public float[] _addStatus;
-        public int _itemCode;
-        public int _itemRarity;
-        public int _upStatus;
-        public int _downStatus;
-        public bool _enchant;
-        public float _Max;
-        public float _Min;
+        public string name;
+        public float[] addStatus;    // 0 addmoveSpeed 1 addAtk 2 addAttackSpeed 3 addDefense 4 addJumpCount 5 addRecovery 6 addDashDistance
+        public int itemCode;
+        public int itemRarity;
+        public bool enchant;
+        public int upStatus;
+        public int downStatus;
+        public float max;
+        public float min;
+        public int skillCode;
+        public int skillRarity;
+        public bool isUsed;
 
-        public string name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-        public float[] addStatus    // 0 addmoveSpeed 1 addAtk 2 addAttackSpeed 3 addDefense 4 addJumpCount 5 addRecovery 6 addDashDistance
-        {
-            get { return _addStatus; }
-            set { _addStatus = value; }
-        }
-        public int itemCode
-        {
-            get{ return _itemCode; }
-            set { _itemCode = value; }
-        }
-        public int itemRarity
-        {
-            get { return _itemRarity; }
-            set
-            {
-                _itemRarity = value;
-                if (_itemRarity != 0)
-                    switch (_itemRarity)
-                    {
-                        case 1:
-                            _Max = 0.8f;
-                            break;
-                        case 2:
-                            _Max = 1f;
-                            break;
-                        case 3:
-                            _Max = 1.5f;
-                            _Min = -1f;
-                            break;
-                    }
-            }
-        }
-        public bool enchant
-        {
-            get { return _enchant; }
-            set { _enchant = value; }
-        }
-        public int upStatus
-        {
-            get { return _upStatus; }
-            set { _upStatus = value; }
-        }
-        public int downStatus
-        {
-            get { return _downStatus; }
-            set { _downStatus = value; }
-        }
-        public float max
-        {
-            get { return _Max; }
-        }
-        public float min
-        {
-            get { return _Min; }
-        }
-
-        public void Init(string _name, float[] _addStatus, int _itemCode = 0)
+        public void Init(string _name, float[] _addStatus)
         {
             name = _name;
             addStatus = _addStatus;
-            itemCode = _itemCode;
             upStatus = 8;
             downStatus = 8;
+            isUsed = false;
             enchant = false;
+            itemCode = 0;
+            skillCode = 0;
+        }
+
+        public void EquipmentItemSetting(Item _item)
+        {
+            name = _item.itemName;
+            itemCode = _item.itemCode;
+            itemRarity = _item.itemRarity;
+            skillRarity = itemRarity;
+            if (itemRarity != 0)
+            {
+                switch (itemRarity)
+                {
+                    case 1:
+                        max = 4f;
+                        break;
+                    case 2:
+                        max = 8f;
+                        break;
+                    case 3:
+                        max = 15f;
+                        min = -10f;
+                        break;
+                }
+            }
+            enchant = true;
         }
     }
 
     public Equipment[] equipment;      // 0 bell, 1 armor, 2 spear, 3 gun, 4 shoes, 5 gloves, 6 activeEquip
     
-    public PlayerEquipment()
+    public void PlayerEquipmentInit()
     {
         float[] addStatus = {0,0,0,0,0,0,0};
         equipment = new Equipment[7];
@@ -105,8 +74,9 @@ public class PlayerEquipment
         equipment[4].Init("가죽 신발", addStatus);
         equipment[5].Init("맨 손", addStatus);
         equipment[6].Init("액티브", addStatus);
-    }
 
+        Debug.Log("equipment Init");
+    }
     public void Init(int num)
     {
         float[] addStatus = { 0, 0, 0, 0, 0, 0, 0 };
