@@ -27,6 +27,7 @@ public class Menu_Storage : MonoBehaviour
     public int focus;
     public Item[] storageItemList;
     public int[] storageItemCodeList;
+    public int[] storageItemSkillCodeList;
     public bool[] isFull;
     public bool[] isSelected;       // 선택된 슬롯
     public int selectSlotNum;         // 선택된 슬롯 번호
@@ -50,6 +51,7 @@ public class Menu_Storage : MonoBehaviour
 
         storageItemList = new Item[72];
         storageItemCodeList = new int[72];
+        storageItemSkillCodeList = new int[72];
         isFull = new bool[72];
         isSelected = new bool[72];
         SaveStorageClear();
@@ -355,24 +357,23 @@ public class Menu_Storage : MonoBehaviour
         }
     }
     
-    public void LoadStorageData(int[] _itemCode, int _availableSlot)
+    public void LoadStorageData(int[] _itemCode, int[] _itemSkillCodeList, int _availableSlot)
     {
         for (int i = 0; i < 72; ++i)
         {
             storageItemList[i] = null;
             storageItemCodeList[i] = 0;
+            storageItemSkillCodeList[i] = 0;
             isFull[i] = false;
             isSelected[i] = false;
         }
 
         storageItemCodeList = _itemCode;
+        storageItemSkillCodeList = _itemSkillCodeList;
         availableSlot = _availableSlot;
 
         for (int i = 0; i < availableSlot; ++i)
         {
-            //Debug.Log(Database_ItemList.instance.GetItem(storageItemCodeList[i]));
-            //Debug.Log(Database_ItemList.instance.GetItem(storageItemCodeList[i]).itemCode);
-
             if (Database_Game.instance.GetItem(storageItemCodeList[i]) == null) continue;
             storageItemList[i] = Database_Game.instance.GetItem(storageItemCodeList[i]);
         }
@@ -390,6 +391,19 @@ public class Menu_Storage : MonoBehaviour
         }
         return storageItemCodeList;
     }
+    public int[] GetStorageItemSkillCodeList()
+    {
+        for (int i = 0; i < availableSlot; ++i)
+        {
+            if (storageItemList[i] == null)
+            {
+                storageItemSkillCodeList[i] = 0;
+                continue;
+            }
+            storageItemSkillCodeList[i] = storageItemList[i].skillCode;
+        }
+        return storageItemSkillCodeList;
+    }
     public int GetStorageAvailableSlot()
     {
         return availableSlot;
@@ -400,6 +414,7 @@ public class Menu_Storage : MonoBehaviour
         {
             storageItemList[i] = null;
             storageItemCodeList[i] = 0;
+            storageItemSkillCodeList[i] = 0;
             isFull[i] = false;
             isSelected[i] = false;
         }

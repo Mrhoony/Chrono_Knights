@@ -194,7 +194,7 @@ public class GameManager : MonoBehaviour
         // 유저 정보
         dataBase.playerData = playerStat.playerData;
         dataBase.SaveGameData(dungeonManager.GetCurrentDate(), dungeonManager.GetEventFlag());
-        dataBase.SaveStorageData(storage.GetStorageItemCodeList(), storage.GetStorageAvailableSlot());
+        dataBase.SaveStorageData(storage.GetStorageItemCodeList(), dataBase.GetStorageItemSkillCodeList(), storage.GetStorageAvailableSlot());
         dataBase.SaveInventoryData(inventory.GetTakeItemSlot(), inventory.GetAvailableSlot());
         
         bf.Serialize(ms, dataBase);
@@ -228,7 +228,7 @@ public class GameManager : MonoBehaviour
                 
                 playerStat.SetPlayerData(dataBase.playerData);
                 dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetEventFlag());
-                storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetAvailableStorageSlot());
+                storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetStorageItemSkillCodeList(), dataBase.GetAvailableStorageSlot());
                 inventory.LoadInventoryData(dataBase.GetTakeKeySlot(), dataBase.GetAvailableInventorySlot());
             }
         }
@@ -237,7 +237,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("NoData");
             playerStat.SetPlayerData(dataBase.playerData);
             dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetEventFlag());
-            storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetAvailableStorageSlot());
+            storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetStorageItemSkillCodeList(), dataBase.GetAvailableStorageSlot());
             inventory.LoadInventoryData(dataBase.GetTakeKeySlot(), dataBase.GetAvailableInventorySlot());
         }
         CloseLoad();

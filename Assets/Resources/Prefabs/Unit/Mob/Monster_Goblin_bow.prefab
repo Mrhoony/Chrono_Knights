@@ -167,6 +167,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyHPBar: {fileID: 0}
+  boxCollider2D: {fileID: 0}
+  isMove: 0
 --- !u!114 &2926893720238208953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,8 +197,8 @@ MonoBehaviour:
   dropItems:
   - {fileID: 5795833314817906566, guid: 9e2e3d63deac2d74181edafcfd2979ad, type: 3}
   - {fileID: 3260981150320431944, guid: 7bf41a314e46824429162ed5988b14a1, type: 3}
+  item: {fileID: 0}
   dropChances: 2800000014000000
-  dropItemList: 0
 --- !u!114 &2926893720238208952
 MonoBehaviour:
   m_ObjectHideFlags: 0

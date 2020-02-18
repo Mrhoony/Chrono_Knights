@@ -8,6 +8,7 @@ public class DataBase
 {
     public PlayerData playerData;
     public int[] storageItemCodeList;
+    public int[] storageItemSkillCodeList;
     public int availableStorageSlot;
     public int takeKeySlot;
     public int availableInventorySlot;
@@ -19,6 +20,7 @@ public class DataBase
         playerData = new PlayerData();
         playerData.Init();
         storageItemCodeList = new int[72];
+        storageItemSkillCodeList = new int[72];
         availableStorageSlot = 36;
         takeKeySlot = 3;
         availableInventorySlot = 6;
@@ -35,6 +37,10 @@ public class DataBase
     public int[] GetStorageItemCodeList()
     {
         return storageItemCodeList;
+    }
+    public int[] GetStorageItemSkillCodeList()
+    {
+        return storageItemSkillCodeList;
     }
     public int GetAvailableStorageSlot()
     {
@@ -66,9 +72,10 @@ public class DataBase
         currentDate = _currentDate;
         eventFlag = _eventFlag;
     }
-    public void SaveStorageData(int[] _storageKeyList, int _availableStorageSLot)
+    public void SaveStorageData(int[] _storageItemList, int[] _storageItemSkillList, int _availableStorageSLot)
     {
-        storageItemCodeList = _storageKeyList;
+        storageItemCodeList = _storageItemList;
+        storageItemSkillCodeList = _storageItemSkillList;
         availableStorageSlot = _availableStorageSLot;
     }
     public void SaveInventoryData(int _takeKeySlot, int _availableInventorySlot)
