@@ -28,7 +28,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     protected int keySlotFocus;
 
     // Start is called before the first frame update
-    public virtual void Start()
+    public virtual void OnEnable()
     {
         menu = transform.parent.GetComponent<Menu_TownUI>().menu;
         itemDatabase = Database_Game.instance;

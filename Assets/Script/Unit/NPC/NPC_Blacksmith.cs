@@ -19,7 +19,7 @@ public class NPC_Blacksmith : NPC_Control
     void Update()
     {
         if (!inPlayer) return;
-        if (menu.isCancelOn || menu.isInventoryOn) return;
+        if (menu.GameMenuOnCheck()) return;
         if (openEnchantUI || openUpgradeUI) return;
         
         if (Input.GetKeyDown(KeyCode.Z))

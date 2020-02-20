@@ -77,6 +77,7 @@ public class EnemyStatus : MonoBehaviour
         {
             _currentHP = 0;
             enemyHPBar.SetActive(false);
+            enemyHPBar.GetComponent<EnemyHPBar>().MonsterDie();
             return true;
         }
         return false;

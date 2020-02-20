@@ -137,6 +137,8 @@ public class PlayerControl : MovingObject
         if (Input.GetButtonDown("Fire3") && dodgable) inputDodge = true;
 
         if (actionState == ActionState.IsAtk) return;
+
+        InputSkillButton();
         
         // y 공격 입력
         if (weaponType == 0)
@@ -231,36 +233,43 @@ public class PlayerControl : MovingObject
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             if (playerStatus.playerEquip.equipment[0].skillCode == 0 || playerStatus.playerEquip.equipment[0].isUsed) return;
+            Debug.Log("스킬 1 입력");
             skillManager.SkillCheck(playerStatus.playerEquip.equipment[0]);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             if (playerStatus.playerEquip.equipment[1].skillCode == 0 || playerStatus.playerEquip.equipment[1].isUsed) return;
+            Debug.Log("스킬 2 입력");
             skillManager.SkillCheck(playerStatus.playerEquip.equipment[1]);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             if (playerStatus.playerEquip.equipment[2].skillCode == 0 || playerStatus.playerEquip.equipment[2].isUsed) return;
+            Debug.Log("스킬 3 입력");
             skillManager.SkillCheck(playerStatus.playerEquip.equipment[2]);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             if (playerStatus.playerEquip.equipment[3].skillCode == 0 || playerStatus.playerEquip.equipment[3].isUsed) return;
+            Debug.Log("스킬 4 입력");
             skillManager.SkillCheck(playerStatus.playerEquip.equipment[3]);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             if (playerStatus.playerEquip.equipment[4].skillCode == 0 || playerStatus.playerEquip.equipment[4].isUsed) return;
+            Debug.Log("스킬 5 입력");
             skillManager.SkillCheck(playerStatus.playerEquip.equipment[4]);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             if (playerStatus.playerEquip.equipment[5].skillCode == 0 || playerStatus.playerEquip.equipment[5].isUsed) return;
+            Debug.Log("스킬 6 입력");
             skillManager.SkillCheck(playerStatus.playerEquip.equipment[5]);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha7))
         {
             if (playerStatus.playerEquip.equipment[6].skillCode == 0 || playerStatus.playerEquip.equipment[6].isUsed) return;
+            Debug.Log("스킬 7 입력");
             skillManager.SkillCheck(playerStatus.playerEquip.equipment[6]);
         }
         else

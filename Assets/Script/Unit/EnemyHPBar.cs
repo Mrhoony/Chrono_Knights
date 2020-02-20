@@ -11,12 +11,19 @@ public class EnemyHPBar : MonoBehaviour
     public bool SetMonster()
     {
         if (isUsed)
+        {
             return false;
+        }
         else
         {
             isUsed = true;
             return true;
         }
+    }
+
+    public void MonsterDie()
+    {
+        isUsed = false;
     }
 
     public void SetHPBar(float monsterCurrentHP, int monsterHP)

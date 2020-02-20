@@ -13,12 +13,11 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
 
     int enchantFocused;
 
-    public override void Start()
+    public override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
         slotImage = Resources.LoadAll<Sprite>("UI/ui_enchant_set");
         cursorImage = Resources.LoadAll<Sprite>("UI/ui_upgrade_slotncursor");
-        gameObject.SetActive(false);
     }
 
     public void Update()

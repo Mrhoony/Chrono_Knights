@@ -6,36 +6,49 @@ using UnityEngine.UI;
 public class Menu_Traning : MonoBehaviour
 {
     public PlayerStatus playerStat;
-    public PlayerData playerData;
     public GameObject button;
-
-    public int[] limitUpgrade;
+    
     public GameObject[] traningButton;
-    public Button btn;
     public Image[] gauge;
-    ColorBlock cor;
 
-    public float[] traningStat;
     public float[] limit_traning;
+    public float[] traningStat;
     public int[] traning_count;
+    public int focus;
+    public bool isTraningOn = false;
 
-    public void Awake()
+    public void Update()
     {
-        playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
-        playerData = playerStat.playerData;
+        if (!isTraningOn) return;
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if(focus < 7)
+            {
+                Traning(focus);
+            }
+            else
+            {
+
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-1); }
+        if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(1); }
     }
 
     public void Init()
     {
-        limit_traning = playerData.GetLimitTraning();
-        traningStat = playerData.GetTraningStat();
-        traning_count = playerData.GetTraningCount();
+        playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
+        limit_traning = playerStat.playerData.GetLimitTraning();
+        traningStat = playerStat.playerData.GetTraningStat();
+        traning_count = playerStat.playerData.GetTraningCount();
+        focus = 0;
+        isTraningOn = true;
     }
 
     public void OpenTraningMenu()
     {
-        Debug.Log("open traning");
-
         Init();
         button.SetActive(true);
 
@@ -44,32 +57,32 @@ public class Menu_Traning : MonoBehaviour
             for (int i = 0; i < 6; ++i)
             {
                 gauge[i].fillAmount = traningStat[i] / limit_traning[i];
-                btn = traningButton[i].GetComponent<Button>();
-                
-                cor = btn.colors;
 
                 if (traningStat[i] >= limit_traning[i])
                 {
-                    traningButton[i].GetComponent<Button>().interactable = false;
-                    cor.normalColor = new Color(cor.normalColor.r, cor.normalColor.g, cor.normalColor.b, 120f);
+                    traningButton[i].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
                 }
                 else
                 {
-                    traningButton[i].GetComponent<Button>().interactable = true;
-                    cor.normalColor = new Color(cor.normalColor.r, cor.normalColor.g, cor.normalColor.b, 255f);
+                    traningButton[i].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
                 }
-                btn.colors = cor;
             }
+            traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
         }
+
+        Debug.Log("open traning");
     }
 
     public void CloseTraningMenu()
     {
+        isTraningOn = false;
         button.SetActive(false);
     }
 
     public void Traning(int stat)
     {
+        if (traningStat[stat] >= limit_traning[stat]) return;
+
         if (limit_traning[stat] > 0)
         {
             switch (stat)
@@ -95,8 +108,23 @@ public class Menu_Traning : MonoBehaviour
             gauge[stat].fillAmount = traningStat[stat] / limit_traning[stat];
 
             playerStat.PlayerStatusUpdate();
-            
+
             button.SetActive(false);
         }
+    }
+
+    void FocusedSlot(int AdjustValue)
+    {
+        if (focus < 0 || focus > 6) { return; }
+
+        traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+
+        focus += AdjustValue;
+        if (focus < 0) focus = 0;
+        else if (focus > 6) focus = 6;
+
+        traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
+
+        Debug.Log("focus move");
     }
 }

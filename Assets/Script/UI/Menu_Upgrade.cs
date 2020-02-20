@@ -13,12 +13,11 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
 
     int upgradeFocus;
 
-    public override void Start()
+    public override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
         slotImage = Resources.LoadAll<Sprite>("UI/ui_upgrade_set");
         cursorImage = Resources.LoadAll<Sprite>("UI/ui_upgrade_slotncursor");
-        gameObject.SetActive(false);
     }
 
     public void Update()

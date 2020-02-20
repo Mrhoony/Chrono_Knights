@@ -443,6 +443,16 @@ public class DungeonManager : MonoBehaviour
         
         dungeonUI.SetDungeonFloor(currentStage);
     }
+    public void FloorReset()
+    {
+        for(int i = 0; i < monsterCount; ++i)
+        {
+            if(currentStageMonsterList[i] != null)
+            {
+                Destroy(currentStageMonsterList[i].gameObject);
+            }
+        }
+    }
 
     public void SetFloorStatus()
     {

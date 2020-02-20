@@ -9387,125 +9387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStat: {fileID: 0}
-  playerData:
-    status: []
-    equipmentStatus: []
-    playerEquipment:
-      equipment:
-      - _name: "\uC885"
-        _addStatus:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        _itemCode: 0
-        _itemRarity: 0
-        _upStatus: 8
-        _downStatus: 8
-        _enchant: 0
-        _Max: 0
-        _Min: 0
-      - _name: "\uCC3D"
-        _addStatus:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        _itemCode: 0
-        _itemRarity: 0
-        _upStatus: 8
-        _downStatus: 8
-        _enchant: 0
-        _Max: 0
-        _Min: 0
-      - _name: "\uCD1D"
-        _addStatus:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        _itemCode: 0
-        _itemRarity: 0
-        _upStatus: 8
-        _downStatus: 8
-        _enchant: 0
-        _Max: 0
-        _Min: 0
-      - _name: "\uD770 \uC637"
-        _addStatus:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        _itemCode: 0
-        _itemRarity: 0
-        _upStatus: 8
-        _downStatus: 8
-        _enchant: 0
-        _Max: 0
-        _Min: 0
-      - _name: "\uAC00\uC8FD \uC2E0\uBC1C"
-        _addStatus:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        _itemCode: 0
-        _itemRarity: 0
-        _upStatus: 8
-        _downStatus: 8
-        _enchant: 0
-        _Max: 0
-        _Min: 0
-      - _name: "\uB9E8 \uC190"
-        _addStatus:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        _itemCode: 0
-        _itemRarity: 0
-        _upStatus: 8
-        _downStatus: 8
-        _enchant: 0
-        _Max: 0
-        _Min: 0
-      - _name: "\uC561\uD2F0\uBE0C"
-        _addStatus:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        _itemCode: 0
-        _itemRarity: 0
-        _upStatus: 8
-        _downStatus: 8
-        _enchant: 0
-        _Max: 0
-        _Min: 0
   button: {fileID: 8142600363516990469}
-  limitUpgrade: 
   traningButton:
   - {fileID: 8142600363369654211}
   - {fileID: 8142600364405622789}
@@ -9513,7 +9395,6 @@ MonoBehaviour:
   - {fileID: 8142600364116785419}
   - {fileID: 8142600363409057337}
   - {fileID: 8142600363033675777}
-  btn: {fileID: 0}
   gauge:
   - {fileID: 8142600363742103300}
   - {fileID: 8142600364957902126}
@@ -9521,9 +9402,11 @@ MonoBehaviour:
   - {fileID: 8142600363050658351}
   - {fileID: 8142600363489842970}
   - {fileID: 8142600363450534015}
-  traningStat: []
   limit_traning: []
+  traningStat: []
   traning_count: 
+  focus: 0
+  isTraningOn: 0
 --- !u!1 &8142600363033675777
 GameObject:
   m_ObjectHideFlags: 0
@@ -10410,7 +10293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8142600363516990470
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10477,7 +10360,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8142600363562598993
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10566,9 +10449,6 @@ MonoBehaviour:
   - {fileID: 5634915217513276462}
   - {fileID: 8182910073316624371}
   enchantButton: {fileID: 9152738956962365044}
-  enchantOn: 0
-  enchantting: 0
-  enchantFocused: 0
 --- !u!1 &8142600363604454439
 GameObject:
   m_ObjectHideFlags: 0
@@ -12924,7 +12804,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8142600364361054064
 RectTransform:
   m_ObjectHideFlags: 0
