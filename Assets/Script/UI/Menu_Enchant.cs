@@ -8,10 +8,10 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
     public Button enchantButton;
     Sprite[] slotImage;
 
-    bool enchantOn;
-    bool enchantting;
+    public bool enchantOn;
+    public bool enchantting;
 
-    int enchantFocused;
+    public int enchantFocused;
 
     public override void OnEnable()
     {

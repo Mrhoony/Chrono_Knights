@@ -5,27 +5,26 @@ using UnityEngine;
 public class Monster_Frog_Attack : AnimatorManager
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //   
-    //}
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        multyHitCount = 0;
+    }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (animator.gameObject.GetComponent<Monster_Frog>().actionState != ActionState.IsAtk) return;
-
-        if (atk < 1 && stateInfo.normalizedTime > 0.3f)
+        if (multyHitCount < 1 && stateInfo.normalizedTime > 0.3f)
         {
-            MonsterAttack(animator, stateInfo, animator.gameObject.transform.position.x, animator.gameObject.transform.position.y, 0.2f, 0.2f);
+            ++multyHitCount;
+            animator.GetComponent<Monster_Frog>().MonsterAttack(0f, 0f, 0.2f, 0.2f);
         }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        atk = 0;
-    }
+    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //
+    //}
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

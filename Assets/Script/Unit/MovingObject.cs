@@ -27,6 +27,8 @@ public abstract class MovingObject : MonoBehaviour
     
     public ActionState actionState;
 
+    public int overlap;
+
     public bool isFaceRight; // 보는 방향
     public int arrowDirection;
 

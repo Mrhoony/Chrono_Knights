@@ -74,7 +74,6 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("gameManager awake");
     }
-
     private void Init()
     {
         dataBase.Init();
@@ -92,7 +91,6 @@ public class GameManager : MonoBehaviour
         canvanManager.inGameMenu.SetActive(false);
         Debug.Log("gameManager Start");
     }
-
     public void Update()
     {
         if (canvanManager.GameMenuOnCheck()) return;
@@ -167,6 +165,8 @@ public class GameManager : MonoBehaviour
         else if (saveSlotFocus + AdjustValue > 2) saveSlotFocus = 0;
         else saveSlotFocus += AdjustValue;
 
+        data = PlayerPrefs.GetString("SaveSlot" + saveSlotFocus.ToString(), null);
+
         saveSlots[saveSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
         saveSlots[saveSlotFocus].transform.position = new Vector3(saveSlots[saveSlotFocus].transform.position.x
             , saveSlots[saveSlotFocus].transform.position.y + 5f, saveSlots[saveSlotFocus].transform.position.z);
@@ -194,7 +194,7 @@ public class GameManager : MonoBehaviour
         // 유저 정보
         dataBase.playerData = playerStat.playerData;
         dataBase.SaveGameData(dungeonManager.GetCurrentDate(), dungeonManager.GetEventFlag());
-        dataBase.SaveStorageData(storage.GetStorageItemCodeList(), dataBase.GetStorageItemSkillCodeList(), storage.GetStorageAvailableSlot());
+        dataBase.SaveStorageData(storage.GetStorageItemCodeList(), storage.GetStorageItemSkillCodeList(), storage.GetStorageAvailableSlot());
         dataBase.SaveInventoryData(inventory.GetTakeItemSlot(), inventory.GetAvailableSlot());
         
         bf.Serialize(ms, dataBase);
@@ -258,6 +258,7 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.DeleteKey("SaveSlot" + saveSlotFocus.ToString());
             LoadSlotInformation(saveSlotFocus);
+            data = PlayerPrefs.GetString("SaveSlot" + saveSlotFocus.ToString(), null);
             Debug.Log("saveDelete");
         }
     }

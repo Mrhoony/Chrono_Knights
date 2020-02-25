@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Monster_Dog : Monster_Control
+public class Monster_Dog : NormalMonsterControl
 {
     public void Start()
     {
@@ -12,16 +12,8 @@ public class Monster_Dog : Monster_Control
         actionState = ActionState.Idle;
     }
 
-    private void FixedUpdate()
-    {
-        if (actionState == ActionState.IsDead) return;
-        if (actionState == ActionState.IsAtk) return;
-        Move();
-        if (!isTrace) return;
-        Attack();
-    }
     
-    void Move()
+    public override void Move()
     {
         if (actionState == ActionState.NotMove)
         {
@@ -61,7 +53,7 @@ public class Monster_Dog : Monster_Control
         }
     }
 
-    void Attack()
+    public override void Attack()
     {
         if (distanceX < 0.5f)
         {

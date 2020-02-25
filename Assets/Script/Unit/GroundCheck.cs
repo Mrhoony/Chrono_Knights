@@ -21,7 +21,7 @@ public class GroundCheck : MonoBehaviour
             }
             else if (parentObject.CompareTag("Monster"))
             {
-                parentObject.GetComponent<Monster_Control>().Landing();
+                parentObject.GetComponent<NormalMonsterControl>().Landing();
             }
         }
         /*

@@ -10,6 +10,8 @@ public class PlayerControl : MovingObject
     public GameObject GroundCheck;
     public PlayerStatus playerStatus;
     public SkillManager skillManager;
+    
+    public Collider2D[] monster;
 
     public Weapon_Spear weaponSpear;
     public Weapon_Gun weaponGun;
@@ -584,5 +586,23 @@ public class PlayerControl : MovingObject
     public void SetAnimationAttackSpeed(float _attackSpeed)
     {
         animator.SetFloat("AttackSpeed", _attackSpeed);
+    }
+    
+    public void Attack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
+    {
+        monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackPosX * GetArrowDirection())
+            , transform.position.y + attackPosY), new Vector2(attackRangeX, attackRangeY), 0);
+
+        if (monster != null)
+        {
+            overlap = monster.Length;
+            for (int i = 0; i < overlap; ++i)
+            {
+                if (monster[i].CompareTag("Monster"))
+                {
+                    monster[i].gameObject.GetComponent<IsDamageable>().Hit(playerStatus.GetAttack_Result());
+                }
+            }
+        }
     }
 }

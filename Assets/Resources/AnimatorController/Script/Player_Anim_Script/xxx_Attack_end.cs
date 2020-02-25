@@ -7,20 +7,20 @@ public class xxx_Attack_end : AnimatorManager
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Init();
+        AnimationInit();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (stateInfo.normalizedTime > 0.2f && atk < 2)
+        if (stateInfo.normalizedTime > 0.2f && multyHitCount < 2)
         {
             if (!move)
             {
                 move = true;
                 playerControl.DashAttackDistance(1f);
             }
-            Attack(0.5f, 0f, 1f, 1f);
+            playerControl.Attack(0.5f, 0f, 1f, 1f);
         }
     }
 

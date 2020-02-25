@@ -5,6 +5,7 @@ using UnityEngine;
 public class SkillManager : MonoBehaviour
 {
     public static SkillManager instance;
+    public PlayerStatus playerStatus;
     public Skill[] buffSkillList;
     public int[] buffRarity;
     public Skill skill;
@@ -23,6 +24,7 @@ public class SkillManager : MonoBehaviour
 
     public void Init()
     {
+        playerStatus = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         buffSkillList = new Skill[7];
         buffRarity = new int[7];
         
@@ -37,6 +39,8 @@ public class SkillManager : MonoBehaviour
 
     public void SkillCheck(PlayerEquipment.Equipment equipment)
     {
+        if(equipment.isUsed) return;
+
         switch (equipment.skillCode)
         {
             case 100:
@@ -45,7 +49,6 @@ public class SkillManager : MonoBehaviour
             case 103:
             case 104:
             case 105:
-            case 106:
                 SetStatBuff(equipment);
                 break;
         }
@@ -54,6 +57,19 @@ public class SkillManager : MonoBehaviour
     public void SetStatBuff(PlayerEquipment.Equipment equipment)
     {
         skill = Database_Game.instance.CheckSkill(equipment.skillCode);
+
+        switch (equipment.skillCode)
+        {
+            case 100:
+            case 101:
+            case 102:
+            case 103:
+            case 104:
+            case 105:
+                SetStatBuff(equipment);
+                break;
+        }
+
         for (int i = 0; i < 7; ++i)
         {
             if (buffSkillList[i] == skill)
@@ -71,11 +87,17 @@ public class SkillManager : MonoBehaviour
             }
         }
     }
-
     public void BuffSkillSetting(int i, PlayerEquipment.Equipment equipment)
     {
         buffSkillList[i] = skill;
         buffRarity[i] = buffSkillList[i].skillRarity;
+
+        if(skillBuffDurationCheck[i] != null)
+        {
+            StopCoroutine(skillBuffDurationCheck[i]);
+            StopCoroutine(skillCoolTimeCheck[i]);
+            Debug.Log("실행중인 버프 종료");
+        }
 
         skillBuffDurationCheck[i] = BuffDuration(skill.skillTimeDuration, i);
         StartCoroutine(skillBuffDurationCheck[i]);
@@ -83,7 +105,6 @@ public class SkillManager : MonoBehaviour
         StartCoroutine(skillCoolTimeCheck[i]);
         equipment.isUsed = true;
     }
-
     public IEnumerator BuffDuration(float duraionTime, int i)
     {
         //버프 활성화
@@ -91,10 +112,9 @@ public class SkillManager : MonoBehaviour
         yield return new WaitForSeconds(duraionTime);
         //버프 종료
         buffSkillList[i] = null;
-        buffRarity[i] = buffSkillList[i].skillRarity;
+        buffRarity[i] = 0;
         Debug.Log("BuffSkillEnd");
     }
-
     public IEnumerator SkillCoolTime(float coolTime, PlayerEquipment.Equipment equipment, int i)
     {
         yield return new WaitForSeconds(coolTime);

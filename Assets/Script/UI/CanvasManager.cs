@@ -242,7 +242,6 @@ public class CanvasManager : MonoBehaviour
     }
     public void CloseUpgradeStorage(int focused)
     {
-        isStorageOn = false;
         switch (useContent)
         {
             case (int)content.Enchant:
@@ -253,13 +252,18 @@ public class CanvasManager : MonoBehaviour
                 break;
         }
         storage.SetActive(false);
+        isStorageOn = false;
+    }
+    public void CloseUpgradeStorage()
+    {
+        storage.SetActive(false);
+        isStorageOn = false;
     }
 
     // 일반적으로 창고를 열 경우
     public void OpenStorage()
     {
         if (isCancelOn) return;
-
         isStorageOn = true;
 
         player.GetComponent<PlayerControl>().StopPlayer();
@@ -269,9 +273,9 @@ public class CanvasManager : MonoBehaviour
     }
     public void CloseStorage()
     {
-        isStorageOn = false;
         storage.SetActive(false);
         player.GetComponent<PlayerControl>().enabled = true;
+        isStorageOn = false;
     }
     
     void ChangeMenu(int AdjustValue)

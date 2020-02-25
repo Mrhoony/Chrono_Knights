@@ -75,6 +75,11 @@ public class Boss_Trainer : BossMonster_Control
         animator.SetTrigger("isAttack1");
         StartCoroutine(MoveDelayTime(attackCoolTime));
     }
+    public void Dash()
+    {
+        Debug.Log("dash");
+        rb.velocity = new Vector2(arrowDirection * moveSpeed * 2f, rb.velocity.y);
+    }
     public void DashAttack()
     {
         Debug.Log("dashAttack");
@@ -95,11 +100,6 @@ public class Boss_Trainer : BossMonster_Control
         animator.SetBool("isDash", false);
     }
 
-    public void Dash()
-    {
-        Debug.Log("dash");
-        rb.velocity = new Vector2(arrowDirection * moveSpeed * 2f, rb.velocity.y);
-    }
     IEnumerator DashDuration()
     {
         yield return new WaitForSeconds(3f);

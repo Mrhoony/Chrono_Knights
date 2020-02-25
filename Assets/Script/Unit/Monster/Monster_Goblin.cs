@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster_Goblin : Monster_Control
+public class Monster_Goblin : NormalMonsterControl
 {
     void Start()
     {
@@ -13,17 +13,8 @@ public class Monster_Goblin : Monster_Control
         arrowDirection = 1;
         actionState = ActionState.Idle;
     }
-
-    private void FixedUpdate()
-    {
-        if (actionState == ActionState.IsDead) return;
-        if (actionState == ActionState.IsAtk) return;
-        Move();
-        if (!isTrace) return;
-        Attack();
-    }
-
-    void Move()
+    
+    public override void Move()
     {
         if (actionState == ActionState.NotMove)
         {
@@ -56,7 +47,7 @@ public class Monster_Goblin : Monster_Control
         }
     }
 
-    void Attack()
+    public override void Attack()
     {
         if (distanceX < 1f)
         {

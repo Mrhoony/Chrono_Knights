@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster_Frog : Monster_Control
+public class Monster_Frog : NormalMonsterControl
 {
     public GameObject box;
     
@@ -16,16 +16,16 @@ public class Monster_Frog : Monster_Control
         actionState = ActionState.Idle;
     }
     
-    private void FixedUpdate()
+    private new void FixedUpdate()
     {
         if (actionState == ActionState.IsDead) return;
         if (actionState == ActionState.IsAtk) return;
-        Jump();
+        Move();
         if (!isTrace) return;
         Attack();
     }
 
-    void Jump()
+    public override void Move()
     {
         if (actionState == ActionState.NotMove) return;
         
@@ -39,7 +39,7 @@ public class Monster_Frog : Monster_Control
         }
     }
 
-    void Attack()
+    public override void Attack()
     {
         actionState = ActionState.NotMove;
         curAttackDelayTime += Time.deltaTime;

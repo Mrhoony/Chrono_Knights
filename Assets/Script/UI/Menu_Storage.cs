@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Menu_Storage : MonoBehaviour
 {
-    public CanvasManager menu;
+    public CanvasManager canvasManager;
     public Menu_Inventory inventory;
     public GameObject slots;
     public GameObject[] slot;
@@ -61,8 +61,7 @@ public class Menu_Storage : MonoBehaviour
 
     public void Update()
     {
-        if (menu.isInventoryOn || menu.isCancelOn) return;
-        
+        if (canvasManager.isInventoryOn || canvasManager.isCancelOn) return;
         if (!onStorage) return;
 
         if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
@@ -215,15 +214,15 @@ public class Menu_Storage : MonoBehaviour
         upgradeItem = false;
 
         itemInformation.SetActive(false);
+        slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
 
         if (isSelect)
         {
-            slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
-            menu.CloseUpgradeStorage(focus);
+            canvasManager.CloseUpgradeStorage(focus);
         }
         else
         {
-            gameObject.SetActive(false);
+            canvasManager.CloseUpgradeStorage();
         }
     }
 
@@ -258,7 +257,7 @@ public class Menu_Storage : MonoBehaviour
         slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
         focus = 0;
         itemInformation.SetActive(false);
-        menu.CloseStorage();
+        canvasManager.CloseStorage();
     }
     public void SetSelectedItemSlotNum()    // 선택된 아이템 슬롯 번호를 저장
     {

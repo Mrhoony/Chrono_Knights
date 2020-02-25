@@ -7,17 +7,16 @@ public class Trainer_DashAttack : AnimatorManager
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        atk = 0;
+        multyHitCount = 0;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (atk < 1 && stateInfo.normalizedTime > 0.3f)
+        if (multyHitCount < 1 && stateInfo.normalizedTime > 0.3f)
         {
-            Debug.Log("dashAttack");
-
-            MonsterAttack(animator, stateInfo, 0.5f, 0f, 0.8f, 0.2f);
+            multyHitCount++;
+            animator.GetComponent<Boss_Trainer>().MonsterAttack(0.5f, 0f, 0.8f, 0.2f);
             animator.GetComponent<Boss_Trainer>().AttackMove(0.5f);
         }
     }

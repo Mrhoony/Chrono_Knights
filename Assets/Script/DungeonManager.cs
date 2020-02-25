@@ -387,7 +387,8 @@ public class DungeonManager : MonoBehaviour
 
             int randomBoss = Random.Range(0, bossMonsterList.Length);
 
-            Instantiate(bossMonsterList[randomBoss], new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x
+            currentStageMonsterList = new GameObject[1];
+            currentStageMonsterList[0] = Instantiate(bossMonsterList[randomBoss], new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y), Quaternion.identity);
         }
         else if (floorRepeat)    // 맵 반복시
@@ -402,7 +403,7 @@ public class DungeonManager : MonoBehaviour
                 currentStageMonsterList[i].SetActive(true);
                 currentStageMonsterList[i].transform.position = new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y);
-                currentStageMonsterList[i].GetComponent<Monster_Control>().MonsterInit();
+                currentStageMonsterList[i].GetComponent<NormalMonsterControl>().MonsterInit();
             }
             floorRepeat = false;
         }
@@ -418,6 +419,7 @@ public class DungeonManager : MonoBehaviour
 
             monsterCount = FloorDatas[currentStage].SpawnAmount * marker_Variable.markerVariable[0];
             currentMonsterCount = monsterCount;
+
             currentStageMonsterList = new GameObject[monsterCount];
 
             // 몬스터 스폰
@@ -572,6 +574,11 @@ public class DungeonManager : MonoBehaviour
         mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
 
         menu.FadeInStart();
+    }
+
+    public GameObject[] GetCurrentMonsterList()
+    {
+        return currentStageMonsterList;
     }
 
     public int GetCurrentDate()

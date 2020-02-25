@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster_Goblin_bow : Monster_Control
+public class Monster_Goblin_bow : NormalMonsterControl
 {
     public GameObject shootingPosition;
     public GameObject arrowObject;
@@ -18,17 +18,8 @@ public class Monster_Goblin_bow : Monster_Control
         arrowDirection = 1;
         actionState = ActionState.Idle;
     }
-
-    private void FixedUpdate()
-    {
-        if (actionState == ActionState.IsDead) return;
-        if (actionState == ActionState.IsAtk) return;
-        Move();
-        if (!isTrace) return;
-        Attack();
-    }
-
-    void Move()
+    
+    public override void Move()
     {
         if (actionState == ActionState.NotMove)
         {
@@ -61,7 +52,7 @@ public class Monster_Goblin_bow : Monster_Control
         }
     }
 
-    void Attack()
+    public override void Attack()
     {
         if (distanceX < 3f)
         {

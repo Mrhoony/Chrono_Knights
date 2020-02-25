@@ -1341,10 +1341,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff022c91d3207f240b300b3d919fcb79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buffList: 
+  playerStatus: {fileID: 0}
   buffRarity: 
-  buffTime: []
-  buffCoolTime: []
 --- !u!1 &1058596574
 GameObject:
   m_ObjectHideFlags: 0
@@ -2150,6 +2148,11 @@ PrefabInstance:
       propertyPath: itemInformation
       value: 
       objectReference: {fileID: 82245447478733253}
+    - target: {fileID: 82245446187993114, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: canvasManager
+      value: 
+      objectReference: {fileID: 1116762776}
     - target: {fileID: 82245445457459811, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: player
@@ -2963,15 +2966,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3815408304545588570, guid: e6b2d8bb473408247898cb7b38ff6be4,
-        type: 3}
-      propertyPath: useSystem
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 3815408304545588571, guid: e6b2d8bb473408247898cb7b38ff6be4,
         type: 3}
       propertyPath: m_Radius
       value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3815408304545588570, guid: e6b2d8bb473408247898cb7b38ff6be4,
+        type: 3}
+      propertyPath: useSystem
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6b2d8bb473408247898cb7b38ff6be4, type: 3}
