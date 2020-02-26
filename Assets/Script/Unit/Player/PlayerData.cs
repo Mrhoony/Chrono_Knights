@@ -106,7 +106,7 @@ public class PlayerData
     public void renew(PlayerEquipment _playerEquipment)
     {
         playerEquipment = _playerEquipment;
-        for(int i = 0; i < 7; ++i)
+        for(int i = 0; i < 6; ++i)
         {
             equipmentStatus[i] = playerEquipment.GetStatusValue(i);
         }

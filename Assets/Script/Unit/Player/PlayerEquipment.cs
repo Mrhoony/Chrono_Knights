@@ -10,14 +10,14 @@ public class PlayerEquipment
     public struct Equipment
     {
         public string name;
-        public float[] addStatus;    // 0 addmoveSpeed 1 addAtk 2 addAttackSpeed 3 addDefense 4 addJumpCount 5 addRecovery 6 addDashDistance
+        public float[] addStatus;    // 0 addAtk 1 addDefense 2 addmoveSpeed 3 addAttackSpeed 4 addDashDistance 5 addRecovery 6 addJumpCount
         public int itemCode;
         public int itemRarity;
         public bool enchant;
         public int upStatus;
         public int downStatus;
-        public float max;
-        public float min;
+        public float[] max;
+        public float[] min;
         public int skillCode;
         public int skillRarity;
         public bool isUsed;
@@ -28,43 +28,141 @@ public class PlayerEquipment
             addStatus = _addStatus;
             upStatus = 8;
             downStatus = 8;
+            max = new float[6];
+            min = new float[6];
             isUsed = false;
             enchant = false;
             itemCode = 0;
             skillCode = 0;
         }
-
         public void EquipmentItemSetting(Item _item)
         {
             name = _item.itemName;
             itemCode = _item.itemCode;
             itemRarity = _item.itemRarity;
+            skillCode = _item.skillCode;
             skillRarity = itemRarity;
             if (itemRarity != 0)
             {
                 switch (itemRarity)
                 {
                     case 1:
-                        max = 4f;
+                        LimitUpgradeSet(4f);
                         break;
                     case 2:
-                        max = 8f;
+                        LimitUpgradeSet(8f);
                         break;
                     case 3:
-                        max = 15f;
-                        min = -10f;
+                        LimitUpgradeSet(15f, -10f);
                         break;
                 }
             }
             enchant = true;
         }
+        public void EquipmentStatusEnchant(int _status, float _addStatus, bool _upgrade)
+        {
+            if (_upgrade)
+            {
+                upStatus = _status;
+                switch (upStatus)
+                {
+                    case 0:
+                    case 1:
+                        addStatus[upStatus] = _addStatus;
+                        if (addStatus[upStatus] > max[upStatus]) addStatus[upStatus] = max[upStatus];
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                        addStatus[_status] = _addStatus * 0.1f;
+                        if (addStatus[upStatus] > max[upStatus]) addStatus[upStatus] = max[upStatus];
+                        break;
+                }
+            }
+            else
+            {
+                downStatus = _status;
+                switch (downStatus)
+                {
+                    case 0:
+                    case 1:
+                        addStatus[downStatus] = _addStatus;
+                        if (addStatus[downStatus] < min[downStatus]) addStatus[downStatus] = min[downStatus];
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                        addStatus[downStatus] = _addStatus * 0.1f;
+                        if (addStatus[downStatus] < min[downStatus]) addStatus[downStatus] = min[downStatus];
+                        break;
+                }
+            }
+        }
+        public void EquipmentStatusUpgrade(int _status, float _addStatus, bool _upgrade)
+        {
+            if (_upgrade)
+            {
+                switch (_status)
+                {
+                    case 0:
+                    case 1:
+                        addStatus[_status] += _addStatus;
+                        if (addStatus[_status] > max[_status]) addStatus[_status] = max[_status];
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                        addStatus[_status] += _addStatus * 0.1f;
+                        if (addStatus[_status] > max[_status]) addStatus[_status] = max[_status];
+                        break;
+                }
+            }
+            else
+            {
+                switch (_status)
+                {
+                    case 0:
+                    case 1:
+                        addStatus[_status] += _addStatus;
+                        if (addStatus[_status] < min[_status]) addStatus[_status] = min[_status];
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                        addStatus[_status] += _addStatus * 0.1f;
+                        if (addStatus[_status] < min[_status]) addStatus[_status] = min[_status];
+                        break;
+                }
+            }
+        }
+        public void LimitUpgradeSet(float _max, float _min = 0)
+        {
+            max[0] = _max;
+            max[1] = _max;
+            max[2] = _max * 0.1f;
+            max[3] = _max * 0.1f;
+            max[4] = _max * 0.1f;
+            max[5] = _max * 0.1f;
+
+            min[0] = _min;
+            min[1] = _min;
+            min[2] = _min * 0.1f;
+            min[3] = _min * 0.1f;
+            min[4] = _min * 0.1f;
+            min[5] = _min * 0.1f;
+        }
     }
+
 
     public Equipment[] equipment;      // 0 bell, 1 armor, 2 spear, 3 gun, 4 shoes, 5 gloves, 6 activeEquip
     
     public void PlayerEquipmentInit()
     {
-        float[] addStatus = {0,0,0,0,0,0,0};
+        float[] addStatus = {0,0,0,0,0,0};
         equipment = new Equipment[7];
 
         equipment[0].Init("종", addStatus);
@@ -138,9 +236,6 @@ public class PlayerEquipment
                 case 5:
                     statusName = "회복력";
                     break;
-                case 6:
-                    statusName = "점프 횟수";
-                    break;
                 case 8:
                     statusName = "";
                     break;
@@ -167,9 +262,6 @@ public class PlayerEquipment
                     break;
                 case 5:
                     statusName = "회복력";
-                    break;
-                case 6:
-                    statusName = "점프 횟수";
                     break;
                 case 8:
                     statusName = "";

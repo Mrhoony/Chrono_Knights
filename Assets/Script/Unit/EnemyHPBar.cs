@@ -5,31 +5,31 @@ using UnityEngine.UI;
 
 public class EnemyHPBar : MonoBehaviour
 {
+    public EnemyStatus allocatedMonster;
     public GameObject HPBarGauge;
     public bool isUsed = false;
     
-    public bool SetMonster()
+    public bool SetMonster(EnemyStatus monster)
     {
-        if (isUsed)
-        {
-            return false;
-        }
+        if (isUsed) return false;
         else
         {
             isUsed = true;
+            allocatedMonster = monster;
             return true;
         }
     }
 
     public void MonsterDie()
     {
+        allocatedMonster = null;
         isUsed = false;
     }
 
-    public void SetHPBar(float monsterCurrentHP, int monsterHP)
+    public void SetHPBar()
     {
         Vector2 scale = HPBarGauge.transform.localScale;
-        scale.x = monsterCurrentHP / monsterHP;
+        scale.x = (float)allocatedMonster.GetCurrentHP() / allocatedMonster.GetHP();
         HPBarGauge.transform.localScale = scale;
     }
 }

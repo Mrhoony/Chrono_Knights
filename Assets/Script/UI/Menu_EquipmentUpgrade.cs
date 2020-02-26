@@ -18,14 +18,14 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     public GameObject[] equipSlots;
     protected Sprite[] cursorImage;
     protected Sprite[] keyItemBorderSprite;
-    protected int equipFocused;
+    public int equipFocused;
 
-    protected int upgradeCount;
-    protected int upgradePercent;
-    protected int downgradeCount;
-    protected int downgradePercent;
+    public int upgradeCount;
+    public float upgradePercent;
+    public int downgradeCount;
+    public float downgradePercent;
 
-    protected int keySlotFocus;
+    public int keySlotFocus;
 
     // Start is called before the first frame update
     public virtual void OnEnable()
@@ -39,7 +39,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
     }
 
-    public int FocusedSlot1(GameObject[] slots, int AdjustValue, int focused)
+    public int FocusSlotEquipmentSelect(GameObject[] slots, int AdjustValue, int focused)
     {
         slots[focused].transform.GetChild(0).gameObject.SetActive(false);
         
@@ -55,7 +55,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
         return focused;
     }
 
-    public int FocusedSlot2(GameObject[] slots, int AdjustValue, int focused)
+    public int FocusSlotItemSelect(GameObject[] slots, int AdjustValue, int focused)
     {
         slots[focused].transform.GetChild(0).gameObject.SetActive(false);
 
@@ -80,29 +80,17 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
         if (enchant)
         {
             equipment[num].EquipmentItemSetting(item);
-            equipment[num].upStatus = upCount;
-            equipment[num].addStatus[upCount] = upPercent * 0.1f;
-
-            Debug.Log(equipment[num].upStatus);
-            Debug.Log(equipment[num].addStatus[upCount]);
-
-            if (equipment[num].addStatus[upCount] > equipment[num].max)
-                equipment[num].addStatus[upCount] = equipment[num].max;
+            equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
             
             if (equipment[num].downStatus != 8)
             {
                 equipment[num].addStatus[equipment[num].downStatus] = 0;
                 equipment[num].downStatus = 8;
             }
-
-            equipment[num].skillCode = item.skillCode;
         }
         else
         {
-            equipment[num].name += item.itemName;
-            equipment[num].addStatus[upCount] += upPercent * 0.1f;
-            if (equipment[num].addStatus[upCount] > equipment[num].max)
-                equipment[num].addStatus[upCount] = equipment[num].max;
+            equipment[num].EquipmentStatusUpgrade(upCount, upPercent, true);
         }
     }
 
@@ -111,39 +99,17 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
         if (enchant)
         {
             equipment[num].EquipmentItemSetting(item);
-            equipment[num].upStatus = upCount;
-            equipment[num].downStatus = downCount;
-            equipment[num].addStatus[upCount] = upPercent * 0.1f;
-            if (equipment[num].addStatus[upCount] > equipment[num].max)
-                equipment[num].addStatus[upCount] = equipment[num].max;
-
-            equipment[num].addStatus[downCount] = -downPercent * 0.1f;
-            if (equipment[num].addStatus[downCount] > equipment[num].max)
-                equipment[num].addStatus[downCount] = equipment[num].max;
-
-
-            equipment[num].skillCode = item.skillCode;
+            equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
+            equipment[num].EquipmentStatusEnchant(downCount, downPercent, false);
         }
         else
         {
-            equipment[num].name += item.itemName;
-            equipment[num].addStatus[upCount] += upPercent * 0.1f;
-            if (equipment[num].addStatus[upCount] > equipment[num].max)
-                equipment[num].addStatus[upCount] = equipment[num].max;
+            equipment[num].EquipmentStatusUpgrade(upCount, upPercent, true);
 
-            if(equipment[num].downStatus != 8)
+            if (equipment[num].downStatus != 8)
             {
-                equipment[num].addStatus[downCount] -= downPercent * 0.1f;
-                if (equipment[num].addStatus[downCount] < equipment[num].min)
-                    equipment[num].addStatus[downCount] = equipment[num].min;
+                equipment[num].EquipmentStatusUpgrade(downCount, downPercent, false);
             }
         }
-    }
-    
-    public void BoolInit(bool[] b)
-    {
-        int length = b.Length;
-        for (int i = 0; i < length; i++)
-            b[i] = false;
     }
 }

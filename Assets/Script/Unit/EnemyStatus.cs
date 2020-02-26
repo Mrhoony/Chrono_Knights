@@ -28,7 +28,7 @@ public class EnemyStatus : MonoBehaviour
         int hpbarNum = GameObject.Find("DungeonPoolManager/HealthBarPool").transform.childCount;
         for (int i = 0; i < hpbarNum; ++i)
         {
-            if (!GameObject.Find("DungeonPoolManager/HealthBarPool").transform.GetChild(i).GetComponent<EnemyHPBar>().SetMonster())
+            if (!GameObject.Find("DungeonPoolManager/HealthBarPool").transform.GetChild(i).GetComponent<EnemyHPBar>().SetMonster(this))
             {
                 continue;
             }
@@ -40,7 +40,7 @@ public class EnemyStatus : MonoBehaviour
         {
             enemyHPBar = Instantiate(Resources.Load("Prefabs/Unit/Mob/HPbar"), Vector3.zero, Quaternion.identity) as GameObject;
             enemyHPBar.transform.parent = GameObject.Find("DungeonPoolManager/HealthBarPool").transform;
-            enemyHPBar.GetComponent<EnemyHPBar>().SetMonster();
+            enemyHPBar.GetComponent<EnemyHPBar>().SetMonster(this);
         }
         enemyHPBar.SetActive(true);
         isMove = true;
@@ -59,7 +59,7 @@ public class EnemyStatus : MonoBehaviour
         {
             _currentHP = _HP;
         }
-        enemyHPBar.GetComponent<EnemyHPBar>().SetHPBar(_currentHP, _HP);
+        enemyHPBar.GetComponent<EnemyHPBar>().SetHPBar();
     }
     public void DecreaseHP(int damage)
     {
@@ -68,7 +68,7 @@ public class EnemyStatus : MonoBehaviour
         {
             _currentHP = 0;
         }
-        enemyHPBar.GetComponent<EnemyHPBar>().SetHPBar(_currentHP, _HP);
+        enemyHPBar.GetComponent<EnemyHPBar>().SetHPBar();
     }
 
     public bool IsDeadCheck()
@@ -76,8 +76,9 @@ public class EnemyStatus : MonoBehaviour
         if (_currentHP <= 0)
         {
             _currentHP = 0;
-            enemyHPBar.SetActive(false);
             enemyHPBar.GetComponent<EnemyHPBar>().MonsterDie();
+            enemyHPBar.SetActive(false);
+            enemyHPBar = null;
             return true;
         }
         return false;
@@ -94,5 +95,13 @@ public class EnemyStatus : MonoBehaviour
     public int GetAttack()
     {
         return _attack;
+    }
+    public int GetHP()
+    {
+        return _HP;
+    }
+    public int GetCurrentHP()
+    {
+        return _currentHP;
     }
 }

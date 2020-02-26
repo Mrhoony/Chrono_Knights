@@ -25,10 +25,10 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
         if (menu.isStorageOn) return;
         if (!upgradeOn)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { equipFocused = FocusedSlot1(equipSlots, 1, equipFocused); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { equipFocused = FocusedSlot1(equipSlots, -1, equipFocused); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { equipFocused = FocusedSlot1(equipSlots, 1, equipFocused); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { equipFocused = FocusedSlot1(equipSlots, -1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { equipFocused = FocusSlotEquipmentSelect(equipSlots, 1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { equipFocused = FocusSlotEquipmentSelect(equipSlots, -1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.DownArrow)) { equipFocused = FocusSlotEquipmentSelect(equipSlots, 1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) { equipFocused = FocusSlotEquipmentSelect(equipSlots, -1, equipFocused); }
 
             if (Input.GetKeyDown(KeyCode.Z))
             {
@@ -64,10 +64,10 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { upgradeFocus = FocusedSlot2(acceptSlot, 1, upgradeFocus); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { upgradeFocus = FocusedSlot2(acceptSlot, -1, upgradeFocus); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { upgradeFocus = FocusedSlot2(acceptSlot, 1, upgradeFocus); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { upgradeFocus = FocusedSlot2(acceptSlot, -1, upgradeFocus); }
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { upgradeFocus = FocusSlotItemSelect(acceptSlot, 1, upgradeFocus); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { upgradeFocus = FocusSlotItemSelect(acceptSlot, -1, upgradeFocus); }
+            if (Input.GetKeyDown(KeyCode.DownArrow)) { upgradeFocus = FocusSlotItemSelect(acceptSlot, 1, upgradeFocus); }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) { upgradeFocus = FocusSlotItemSelect(acceptSlot, -1, upgradeFocus); }
 
             if (Input.GetKeyDown(KeyCode.Z))
             {
@@ -202,16 +202,16 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
             switch (item.itemRarity)
             {
                 case 1:
-                    upgradePercent = Random.Range(1, 6);
+                    upgradePercent = Random.Range(0.05f, 0.1f);
                     PercentSet(num, upgradeCount, upgradePercent, item, false);
                     break;
                 case 2:
-                    upgradePercent = Random.Range(3, 11);
+                    upgradePercent = Random.Range(0.1f, 0.2f);
                     PercentSet(num, upgradeCount, upgradePercent, item, false);
                     break;
                 case 3:
-                    upgradePercent = Random.Range(3, 21);
-                    downgradePercent = Random.Range(0, 11);
+                    upgradePercent = Random.Range(0.5f, 1f);
+                    downgradePercent = Random.Range(0.05f, 0.2f);
                     PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, item, false);
 
                     break;

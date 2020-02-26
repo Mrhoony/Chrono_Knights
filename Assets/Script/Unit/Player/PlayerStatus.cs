@@ -18,17 +18,16 @@ public class PlayerStatus : MonoBehaviour
     public bool[] HPCut;
     public int currentAmmo;   // 현재 버프량
     public int buffState;
-
-    public float jumpPower;
-
-    public int attack;  // 공격력
-    public int defense;     // 안정성(방어력)
+    
+    public float attack;        // 공격력
+    public float defense;       // 안정성(방어력)
     public float moveSpeed;     // 이동 속도
-    public float attackSpeed;
+    public float attackSpeed;   // 공격 속도
     public float dashDistance;  // 대시거리
     public float recovery;      // 회복력
 
-    public int jumpCount;
+    public float jumpCount;
+    public float jumpPower;
 
     public int attack_Result;
     public int defense_Result;     // 안정성(방어력)
@@ -59,13 +58,14 @@ public class PlayerStatus : MonoBehaviour
     {
         Debug.Log("Player status update");
 
-        attack = (int)(playerData.GetStatus(0) + playerData.GetEquipmentStatus(0) + traningStat[0]);
-        defense = (int)(playerData.GetStatus(1) + playerData.GetEquipmentStatus(1) + traningStat[1]);
-        moveSpeed = (playerData.GetStatus(2) + playerData.GetEquipmentStatus(2) * 0.1f + traningStat[2]);
-        attackSpeed = (playerData.GetStatus(3) + playerData.GetEquipmentStatus(3) * 0.1f + traningStat[3]);
-        dashDistance = (playerData.GetStatus(4) + playerData.GetEquipmentStatus(4) * 0.05f + traningStat[4]);
+        attack = playerData.GetStatus(0) + playerData.GetEquipmentStatus(0) + traningStat[0];
+        defense = playerData.GetStatus(1) + playerData.GetEquipmentStatus(1) + traningStat[1];
+        moveSpeed = playerData.GetStatus(2) + playerData.GetEquipmentStatus(2) + traningStat[2];
+        attackSpeed = playerData.GetStatus(3) + playerData.GetEquipmentStatus(3) + traningStat[3];
+        dashDistance = playerData.GetStatus(4) + playerData.GetEquipmentStatus(4) + traningStat[4];
         recovery = playerData.GetStatus(5) + playerData.GetEquipmentStatus(5) + traningStat[5];
-        jumpCount = (int)(playerData.GetStatus(6) + playerData.GetEquipmentStatus(6));
+        jumpCount = playerData.GetStatus(6) + playerData.GetEquipmentStatus(6);
+
         jumpPower = playerData.GetStatus(8);
         currentAmmo = playerData.GetMaxAmmo();
 
@@ -89,32 +89,32 @@ public class PlayerStatus : MonoBehaviour
         }
         playerStatusView.Init();
     }
-    public void DecreaseHP(int MonsterAttack)
+    public void DecreaseHP(int damage)
     {
-        MonsterAttack -= defense;
-        if (MonsterAttack < 0)
-            MonsterAttack = 0;
+        damage -= (int)defense;
+        if (damage < 0)
+            damage = 0;
 
         if (currentHP / playerData.GetStatus(7) >= 0.8)
         {
-            HPCutCheck(0.8f, 0, MonsterAttack);
+            HPCutCheck(0.8f, 0, damage);
         }
         else if (currentHP / playerData.GetStatus(7) >= 0.6)
         {
-            HPCutCheck(0.6f, 1, MonsterAttack);
+            HPCutCheck(0.6f, 1, damage);
         }
         else if (currentHP / playerData.GetStatus(7) >= 0.4)
         {
-            HPCutCheck(0.4f, 2, MonsterAttack);
+            HPCutCheck(0.4f, 2, damage);
         }
         else if (currentHP / playerData.GetStatus(7) >= 0.2)
         {
-            HPCutCheck(0.2f, 3, MonsterAttack);
+            HPCutCheck(0.2f, 3, damage);
         }
         else
-            currentHP -= MonsterAttack;
+            currentHP -= damage;
 
-        playerStatusView.Hit(MonsterAttack);
+        playerStatusView.Hit(damage);
 
         if (currentHP <= 0) // 죽었을 때 결과창 보여주고 마을로
         {
@@ -126,7 +126,7 @@ public class PlayerStatus : MonoBehaviour
             //animator.SetTrigger("isHit");
         }
     }
-    public bool IncreaseHP(int addCurrentHP, bool add)
+    public bool IncreaseHP(int addCurrentHP)
     {
         if (currentHP < playerData.GetStatus(7))
         {
@@ -137,11 +137,11 @@ public class PlayerStatus : MonoBehaviour
         }
         else return false;
     }
-    public void HPCutCheck(float HPPercent, int HPCutNum, int MonsterAttack)
+    public void HPCutCheck(float HPPercent, int HPCutNum, int damage)
     {
         if (HPCut[HPCutNum])
         {
-            currentHP -= MonsterAttack;
+            currentHP -= damage;
             if (currentHP / playerData.GetStatus(7) <= HPPercent)
             {
                 currentHP = playerData.GetStatus(7) * HPPercent;
@@ -179,11 +179,11 @@ public class PlayerStatus : MonoBehaviour
     {
         if (multy)
         {
-            attack_Result = attack * multyAttack;
+            attack_Result = (int)attack * multyAttack;
         }
         else
         {
-            attack_Result = attack / multyAttack;
+            attack_Result = (int)attack / multyAttack;
             if(attack_Result < 1)
             {
                 attack_Result = 1;
@@ -194,11 +194,11 @@ public class PlayerStatus : MonoBehaviour
     {
         if (add)
         {
-            attack_Result = attack + addAttack;
+            attack_Result = (int)attack + addAttack;
         }
         else
         {
-            attack_Result = attack - addAttack;
+            attack_Result = (int)attack - addAttack;
             if (attack_Result < 1)
             {
                 attack_Result = 1;
@@ -209,11 +209,11 @@ public class PlayerStatus : MonoBehaviour
     {
         if (add)
         {
-            defense_Result = defense + addDefense;
+            defense_Result = (int)defense + addDefense;
         }
         else
         {
-            defense_Result = defense - addDefense;
+            defense_Result = (int)defense - addDefense;
         }
     }
     public void SetMoveSpeed_Result(int multyMoveSpeed, bool multy)

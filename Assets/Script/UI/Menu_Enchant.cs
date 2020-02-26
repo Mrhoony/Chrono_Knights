@@ -26,10 +26,10 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
 
         if (!enchantOn)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { equipFocused = FocusedSlot1(equipSlots, 1, equipFocused); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { equipFocused = FocusedSlot1(equipSlots, -1, equipFocused); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { equipFocused = FocusedSlot1(equipSlots, 1, equipFocused); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { equipFocused = FocusedSlot1(equipSlots, -1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { equipFocused = FocusSlotEquipmentSelect(equipSlots, 1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { equipFocused = FocusSlotEquipmentSelect(equipSlots, -1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.DownArrow)) { equipFocused = FocusSlotEquipmentSelect(equipSlots, 1, equipFocused); }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) { equipFocused = FocusSlotEquipmentSelect(equipSlots, -1, equipFocused); }
 
             if (Input.GetKeyDown(KeyCode.Z))
             {
@@ -68,10 +68,10 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { enchantFocused = FocusedSlot2(acceptSlot, 1, enchantFocused); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { enchantFocused = FocusedSlot2(acceptSlot, -1, enchantFocused); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { enchantFocused = FocusedSlot2(acceptSlot, 1, enchantFocused); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { enchantFocused = FocusedSlot2(acceptSlot, -1, enchantFocused); }
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { enchantFocused = FocusSlotItemSelect(acceptSlot, 1, enchantFocused); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { enchantFocused = FocusSlotItemSelect(acceptSlot, -1, enchantFocused); }
+            if (Input.GetKeyDown(KeyCode.DownArrow)) { enchantFocused = FocusSlotItemSelect(acceptSlot, 1, enchantFocused); }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) { enchantFocused = FocusSlotItemSelect(acceptSlot, -1, enchantFocused); }
 
             if (Input.GetKeyDown(KeyCode.Z))
             {
@@ -196,6 +196,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
         acceptSlot[2].transform.GetChild(3).GetComponent<Text>().text = "";
         acceptSlot[2].transform.GetChild(4).GetComponent<Text>().text = "";
     }
+
     public void Enchant(int num, Item item)
     {
         if (num < 0 || num > 7) return;
@@ -203,16 +204,16 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
         if (itemDatabase.GetItem(item.itemCode) != null)
         {
             playerEquipment.Init(num);
-            upgradeCount = Random.Range(0, 7);
+            upgradeCount = Random.Range(0, 6);
 
             switch (item.itemRarity)
             {
                 case 1:
-                    upgradePercent = Random.Range(5, 11);
+                    upgradePercent = Random.Range(0.05f, 0.1f);
                     PercentSet(num, upgradeCount, upgradePercent, item, true);
                     break;
                 case 2:
-                    upgradePercent = Random.Range(40, 61);
+                    upgradePercent = Random.Range(0.2f, 0.4f);
                     PercentSet(num, upgradeCount, upgradePercent, item, true);
                     break;
                 case 3:
@@ -222,8 +223,8 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                     }
                     while (upgradeCount == downgradeCount);
 
-                    upgradePercent = Random.Range(100, 121);
-                    downgradePercent = Random.Range(40, 51);
+                    upgradePercent = Random.Range(0.6f, 1f);
+                    downgradePercent = Random.Range(0.4f, 0.5f);
                     PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, item, true);
                     break;
             }
