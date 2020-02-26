@@ -39,6 +39,8 @@ public class Menu_QuickSlot : MonoBehaviour
     {
         if (menu.GameMenuOnCheck()) return;
 
+        slots.transform.position = new Vector3(Camera.main.WorldToScreenPoint(player.transform.position).x, Camera.main.WorldToScreenPoint(player.transform.position).y + 150f, 0f);
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (!onQuickSlot)
@@ -66,7 +68,6 @@ public class Menu_QuickSlot : MonoBehaviour
             }
         }
 
-        transform.position = new Vector2(player.transform.position.x, player.transform.position.y + 1f);
 
         if (!onQuickSlot) return;
         
@@ -85,6 +86,7 @@ public class Menu_QuickSlot : MonoBehaviour
             }
             onQuickSlot = false;
             quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
+            quickSlotItemInfomation.SetActive(false);
             slots.SetActive(false);
         }
     }

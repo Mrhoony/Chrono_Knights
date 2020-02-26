@@ -10,6 +10,7 @@ public class ItemInfomation : MonoBehaviour
     public Text itemRarity;
     public Text itemEffect;
     public Text itemEquipEffect;
+    public Text itemDescription;
 
     public void SetItemInfomation(Item item)
     {
@@ -17,6 +18,7 @@ public class ItemInfomation : MonoBehaviour
         itemName.text = item.itemName;
         itemRarity.text = item.itemRarity.ToString();
         itemEffect.text = item.usingType.ToString();
+        itemDescription.text = item.Description;
     }
 
     public void SetItemInventoryInformation(Item item)
@@ -24,5 +26,6 @@ public class ItemInfomation : MonoBehaviour
         itemName.text = item.itemName;
         itemRarity.text = item.itemRarity.ToString();
         itemEffect.text = item.usingType.ToString();
+        itemDescription.text = item.Description;
     }
 }

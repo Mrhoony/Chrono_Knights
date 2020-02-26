@@ -43,6 +43,7 @@ public class EnemyStatus : MonoBehaviour
             enemyHPBar.GetComponent<EnemyHPBar>().SetMonster(this);
         }
         enemyHPBar.SetActive(true);
+        enemyHPBar.GetComponent<EnemyHPBar>().SetHPBar();
         isMove = true;
     }
     public void EnemyStatInit(float moveSpeed, int HP, int attack)
