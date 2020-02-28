@@ -53,7 +53,6 @@ public class CanvasManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        gm = GameManager.instance;
     }
     private void Start()
     {

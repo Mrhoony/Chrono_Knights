@@ -363,25 +363,34 @@ public class DungeonManager : MonoBehaviour
         ++currentStage;
         // 다음층이 보스층인걸 미리 알면 순서 변경
         ++bossStageCount;
+
+        // 다음 층 스킵
         if (freePassFloor)
         {
+            FloorReset();
+
             ++currentStage;
             ++bossStageCount;
         }
+
+        // 보스 스테이지 설정
         if (!bossSetting)
         {
+            // 이벤트 플래그로 구간별 보스 등장
             if ((bossStageCount - (5 * bossClear) - 2) > 0)  // 보스스테이지 설정
             {
                 if (bossStageCount * 20 > Random.Range(50, 90))
                     bossSetting = true;
             }
         }
+
         if (bossSetting)    // 보스 층 일때
         {
-            Debug.Log("Boss");
-            bossStageCount = 0;
             bossSetting = false;
+            bossStageCount = 0;
 
+            FloorReset();
+            
             spawner = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().spawner;
             spawnerCount = spawner.Length;
 
@@ -393,8 +402,6 @@ public class DungeonManager : MonoBehaviour
         }
         else if (floorRepeat)    // 맵 반복시
         {
-            mark.GetComponent<SpriteRenderer>().sprite = markSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
-
             currentMonsterCount = monsterCount;
 
             for (int i = 0; i < monsterCount; ++i)
@@ -409,6 +416,7 @@ public class DungeonManager : MonoBehaviour
         }
         else            // 일반 맵일경우
         {
+            FloorReset();
             // 초기 맵 랜덤 선택
             /* (임시)하나만 클리어 해도 마을로
             if (currentStage > 0)
@@ -445,6 +453,7 @@ public class DungeonManager : MonoBehaviour
         
         dungeonUI.SetDungeonFloor(currentStage);
     }
+
     public void FloorReset()
     {
         for(int i = 0; i < monsterCount; ++i)
@@ -454,6 +463,7 @@ public class DungeonManager : MonoBehaviour
                 Destroy(currentStageMonsterList[i].gameObject);
             }
         }
+        // 구조물 위치 초기화
     }
 
     public void SetFloorStatus()

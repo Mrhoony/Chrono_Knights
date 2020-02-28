@@ -56,7 +56,7 @@ public class Menu_QuickSlot : MonoBehaviour
                 {
                     quickSlotItemInfomation.SetActive(true);
                     quickSlotItemInfomation.transform.position = quickSlot[focus].transform.position;
-                    quickSlotItemInfomation.GetComponent<ItemInfomation>().SetItemInfomation(inventoryItemlist[0]);
+                    quickSlotItemInfomation.GetComponent<ItemInfomation>().SetItemInformationQuickSlot(inventoryItemlist[0]);
                 }
             }
             else if (onQuickSlot)
@@ -124,7 +124,7 @@ public class Menu_QuickSlot : MonoBehaviour
         {
             quickSlotItemInfomation.SetActive(true);
             quickSlotItemInfomation.transform.position = quickSlot[focus - addQuickInventory].transform.position;
-            quickSlotItemInfomation.GetComponent<ItemInfomation>().SetItemInfomation(inventoryItemlist[focus]);
+            quickSlotItemInfomation.GetComponent<ItemInfomation>().SetItemInformationQuickSlot(inventoryItemlist[focus]);
         }
         else
         {

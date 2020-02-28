@@ -28,4 +28,12 @@ public class ItemInfomation : MonoBehaviour
         itemEffect.text = item.usingType.ToString();
         itemDescription.text = item.Description;
     }
+
+    public void SetItemInformationQuickSlot(Item item)
+    {
+        itemSprite.GetComponent<Image>().sprite = item.sprite;
+        itemName.text = item.itemName;
+        itemRarity.text = item.itemRarity.ToString();
+        itemEffect.text = item.usingType.ToString();
+    }
 }

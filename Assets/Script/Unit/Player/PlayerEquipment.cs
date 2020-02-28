@@ -13,7 +13,6 @@ public class PlayerEquipment
         public float[] addStatus;    // 0 addAtk 1 addDefense 2 addmoveSpeed 3 addAttackSpeed 4 addDashDistance 5 addRecovery 6 addJumpCount
         public int itemCode;
         public int itemRarity;
-        public bool enchant;
         public int upStatus;
         public int downStatus;
         public float[] max;
@@ -21,6 +20,7 @@ public class PlayerEquipment
         public int skillCode;
         public int skillRarity;
         public bool isUsed;
+        public bool enchant;
 
         public void Init(string _name, float[] _addStatus)
         {
@@ -204,12 +204,6 @@ public class PlayerEquipment
         }
     }
 
-    public void SetEquipOption(int equipNum, string equipName, float[] status)
-    {
-        equipment[equipNum].name = equipName;
-        equipment[equipNum].addStatus = status;
-    }
-
     public string GetStatusName(int slotNum, bool upDown)
     {
         string statusName = "";
@@ -292,7 +286,6 @@ public class PlayerEquipment
 
         return StatusString;
     }
-
     public float GetStatusValue(int statusNum)
     {
         float value = 0;

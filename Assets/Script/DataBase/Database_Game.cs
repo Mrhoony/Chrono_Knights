@@ -80,6 +80,7 @@ public class Item
         usingStatus = _usingStatus;
         skillCode = _skillCode;
     }
+
     public void SetSkillNum(int _skillCode)
     {
         skillCode = _skillCode;
@@ -110,14 +111,14 @@ public class Database_Game : MonoBehaviour
     }
 
     void InputItem()
-    {                     // 이름, 효과, 등급, 아이템 코드, 장비화 이름, 
+    {                     // 이름, 등급, 아이템 코드, 효과 
         Item.Add(new Item("커먼", 1, 7, "", ItemType.Number, ItemUsingType.health, 20));
         Item.Add(new Item("커먼", 1, 7, "", ItemType.ReturnTown, ItemUsingType.attack, 2));
-        Item.Add(new Item("커먼", 1, 7, "", ItemType.RepeatThisFloor, ItemUsingType.defense, 1));
         Item.Add(new Item("매직", 2, 8, "", ItemType.Number, ItemUsingType.moveSpeed, 1));
         Item.Add(new Item("유니크", 3, 9, "", ItemType.Number, ItemUsingType.attack, 5));
         Item.Add(new Item("유니크", 3, 9, "", ItemType.Number, ItemUsingType.attack, 5));
         Item.Add(new Item("유니크", 3, 9, "", ItemType.Number, ItemUsingType.attack, 5));
+        Item.Add(new Item("유니크", 3, 7, "", ItemType.RepeatThisFloor, ItemUsingType.defense, 1));
     }
 
     void InputSkill()
@@ -127,6 +128,7 @@ public class Database_Game : MonoBehaviour
         skillList.Add(new Skill(SkillType.Effect_Myself, "Defense UP", 102, 1, "방어력을 증가시킨다", 5f, 5f));
         skillList.Add(new Skill(SkillType.Effect_Myself, "Attack Speed UP", 103, 1, "공격속도를 증가시킨다", 5f, 5f));
     }
+
     public int[] GetSkillRarityList(int minRarity)
     {
         int skillListCount = skillList.Count;
