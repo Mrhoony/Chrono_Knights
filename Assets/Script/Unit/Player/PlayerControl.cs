@@ -160,15 +160,11 @@ public class PlayerControl : MovingObject
             if(weaponType == 0) // 스피어 -> 건
             {
                 weaponType = 1;
-                weaponSpear.enabled = false;    // 스피어 오프
-                weaponGun.enabled = true;       // 건 온
                 weaponGun.Init(animator, rb);
             }
             else if (weaponType == 1)
             {
                 weaponType = 0;
-                weaponGun.enabled = false;
-                weaponSpear.enabled = true;
                 weaponSpear.Init(animator, rb);
             }
         }

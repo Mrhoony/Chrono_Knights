@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Xml;
 
 public enum ItemType
 {
@@ -12,9 +13,9 @@ public enum ItemUsingType
 }
 public enum SkillType
 {
-    Effect_Myself,
-    Effect_Attack,
-    Effect_Area
+    Passive,
+    Active,
+    Unlock
 }
 
 public class Skill
@@ -24,17 +25,17 @@ public class Skill
     public int skillCode;
     public string skillDescription;
     public int skillRarity;
-    public float skillCoolTime;
+    public int skillOnCount;
     public float skillTimeDuration;
 
-    public Skill(SkillType _skillType, string _skillName, int _skillCode, int _skillRarity, string _skillDescription, float _skillCoolTime = 0, float _skillTimeDuration = 0)
+    public Skill(SkillType _skillType, string _skillName, int _skillCode, int _skillRarity, string _skillDescription, int _skillOnCount = 0, float _skillTimeDuration = 0)
     {
         skillType = _skillType;
         skillName = _skillName;
         skillCode = _skillCode;
         skillRarity = _skillRarity;
         skillDescription = _skillDescription;
-        skillCoolTime = _skillCoolTime;
+        skillOnCount = _skillOnCount;
         skillTimeDuration = _skillTimeDuration;
     }
 }
@@ -91,6 +92,9 @@ public class Database_Game : MonoBehaviour
 {
     public static Database_Game instance;
 
+    string itemXMLFileName = "ItemDataBase";
+    string skillXMLFileName = "SkillDataBase";
+
     public List<Item> Item = new List<Item>();
     public List<Skill> skillList = new List<Skill>();
 
@@ -106,27 +110,61 @@ public class Database_Game : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        InputItem();
-        InputSkill();
+        InputItem(itemXMLFileName);
+        InputSkill(skillXMLFileName);
     }
 
-    void InputItem()
-    {                     // 이름, 등급, 아이템 코드, 효과 
-        Item.Add(new Item("커먼", 1, 7, "", ItemType.Number, ItemUsingType.health, 20));
-        Item.Add(new Item("커먼", 1, 7, "", ItemType.ReturnTown, ItemUsingType.attack, 2));
-        Item.Add(new Item("매직", 2, 8, "", ItemType.Number, ItemUsingType.moveSpeed, 1));
-        Item.Add(new Item("유니크", 3, 9, "", ItemType.Number, ItemUsingType.attack, 5));
-        Item.Add(new Item("유니크", 3, 9, "", ItemType.Number, ItemUsingType.attack, 5));
-        Item.Add(new Item("유니크", 3, 9, "", ItemType.Number, ItemUsingType.attack, 5));
-        Item.Add(new Item("유니크", 3, 7, "", ItemType.RepeatThisFloor, ItemUsingType.defense, 1));
-    }
-
-    void InputSkill()
+    XmlNodeList XmlNodeReturn(string filePass)
     {
-        skillList.Add(new Skill(SkillType.Effect_Myself, "Heal", 100, 1, "체력을 회복한다", 5f));
-        skillList.Add(new Skill(SkillType.Effect_Myself, "Attack UP", 101, 1, "공격력을 증가시킨다", 5f, 5f));
-        skillList.Add(new Skill(SkillType.Effect_Myself, "Defense UP", 102, 1, "방어력을 증가시킨다", 5f, 5f));
-        skillList.Add(new Skill(SkillType.Effect_Myself, "Attack Speed UP", 103, 1, "공격속도를 증가시킨다", 5f, 5f));
+        TextAsset textAsset = (TextAsset)Resources.Load("XML/" + filePass);
+        XmlDocument XMLFile = new XmlDocument();
+        XMLFile.LoadXml(textAsset.text);
+
+        XmlNodeList nodelist = XMLFile.SelectNodes(filePass);
+        return nodelist;
+    }
+    void InputItem(string _itemFileName)
+    {
+        XmlNodeList nodelist = XmlNodeReturn(_itemFileName);
+        foreach (XmlNode node in nodelist)
+        {
+            if(node.Name.Equals("ItemDataBase") && node.HasChildNodes)
+            {
+                foreach(XmlNode _item in node)
+                {
+                    Item.Add(new Item(
+                        _item.Attributes.GetNamedItem("itemName").Value,
+                        int.Parse(_item.Attributes.GetNamedItem("itemRarity").Value),
+                        int.Parse(_item.Attributes.GetNamedItem("itemCode").Value),
+                        _item.Attributes.GetNamedItem("itemDescription").Value,
+                        (ItemType)System.Enum.Parse(typeof(ItemType), _item.Attributes.GetNamedItem("itemType").Value),
+                        (ItemUsingType)System.Enum.Parse(typeof(ItemUsingType), _item.Attributes.GetNamedItem("itemUsingType").Value),
+                        int.Parse(_item.Attributes.GetNamedItem("itemValue").Value)));
+                }
+            }
+        }
+    }
+    void InputSkill(string _skillFileName)
+    {
+        XmlNodeList nodelist = XmlNodeReturn(_skillFileName);
+
+        foreach (XmlNode node in nodelist)
+        {
+            if (node.Name.Equals("SkillDataBase") && node.HasChildNodes)
+            {
+                foreach (XmlNode _skill in node)
+                {
+                    skillList.Add(new Skill(
+                        (SkillType)System.Enum.Parse(typeof(SkillType), _skill.Attributes.GetNamedItem("skillType").Value),
+                        _skill.Attributes.GetNamedItem("skillName").Value,
+                        int.Parse(_skill.Attributes.GetNamedItem("skillCode").Value),
+                        int.Parse(_skill.Attributes.GetNamedItem("skillRarity").Value),
+                        _skill.Attributes.GetNamedItem("skillDescription").Value,
+                        int.Parse(_skill.Attributes.GetNamedItem("skillOnCount").Value),
+                        float.Parse(_skill.Attributes.GetNamedItem("skillTimeDuration").Value)));
+                }
+            }
+        }
     }
 
     public int[] GetSkillRarityList(int minRarity)

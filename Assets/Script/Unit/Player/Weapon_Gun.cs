@@ -47,13 +47,13 @@ public class Weapon_Gun : PlayerWeaponType
     IEnumerator AttackList()
     {
         attackLock = !attackLock;
+        if (rb.velocity.x * rb.velocity.x > 0)
+        {
+            rb.velocity = Vector2.zero;
+            animator.SetBool("isRun", false);
+        }
         do
         {
-            if (rb.velocity.x * rb.velocity.x > 0)
-            {
-                rb.velocity = Vector2.zero;
-                animator.SetBool("isRun", false);
-            }
             switch (inputAttackList)
             {
                 case 1:
@@ -136,10 +136,8 @@ public class Weapon_Gun : PlayerWeaponType
                     Debug.Log("jx");
                     animator.SetBool("isJump_x_Atk", true);
                     break;
-                case 9:
-                    InputInit();
-                    break;
             }
+            inputAttackList = 9;
             yield return null;
         } while (PlayerControl.instance.actionState == ActionState.IsAtk);
         InputInit();

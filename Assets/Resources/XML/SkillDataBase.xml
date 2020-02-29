@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<SkillDataBase>
+	<Field skillType="Active" skillName="Heal" skillCode="100" skillRarity="1" skillDescription="체력을 회복한다." skillOnCount="5" skillTimeDuration="0"/>
+	<Field skillType="Active" skillName="Attack UP" skillCode="101" skillRarity="1" skillDescription="공격력을 증가시킨다." skillOnCount="5" skillTimeDuration="5"/>
+	<Field skillType="Active" skillName="Defense UP" skillCode="102" skillRarity="1" skillDescription="방어력을 증가시킨다." skillOnCount="5" skillTimeDuration="5"/>
+	<Field skillType="Active" skillName="Attack Speed UP" skillCode="103" skillRarity="1" skillDescription="공격속도를 증가시킨다." skillOnCount="5" skillTimeDuration="5"/>
+</SkillDataBase>
