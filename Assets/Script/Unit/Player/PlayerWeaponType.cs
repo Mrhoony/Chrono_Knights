@@ -27,7 +27,7 @@ public class PlayerWeaponType : MonoBehaviour
 
     public void InputInit()
     {
-        inputAttackList = 9;
+        inputAttackList = 0;
         animator.SetBool("is_x_Atk", false);
         animator.SetBool("is_xx_Atk", false);
         animator.SetBool("is_xFx_Atk", false);

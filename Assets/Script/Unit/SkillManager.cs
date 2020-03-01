@@ -95,11 +95,14 @@ public class SkillManager : MonoBehaviour
         if(skillBuffDurationCheck[i] != null)
         {
             StopCoroutine(skillBuffDurationCheck[i]);
+            StopCoroutine(skillCoolTimeCheck[i]);
             Debug.Log("실행중인 버프 종료");
         }
 
         skillBuffDurationCheck[i] = BuffDuration(skill.skillTimeDuration, i);
         StartCoroutine(skillBuffDurationCheck[i]);
+        skillCoolTimeCheck[i] = SkillCoolTime(skill.skillCoolTime, equipment, i);
+        StartCoroutine(skillCoolTimeCheck[i]);
         equipment.isUsed = true;
     }
     public IEnumerator BuffDuration(float duraionTime, int i)
