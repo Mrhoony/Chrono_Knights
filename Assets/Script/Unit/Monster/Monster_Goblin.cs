@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class Monster_Goblin : NormalMonsterControl
 {
-    void Start()
+    void OnEnable()
     {
+        monsterCode = 3;
         rotateDelayTime = 2f;
         maxAttackDelayTime = 1f;
         curAttackDelayTime = 0f;
         isFaceRight = true;
         arrowDirection = 1;
         actionState = ActionState.Idle;
+        MonsterInit(monsterCode);
     }
     
     public override void Move()

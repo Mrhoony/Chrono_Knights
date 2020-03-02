@@ -2,16 +2,17 @@
 
 public class Monster_Dog : NormalMonsterControl
 {
-    public void Start()
+    void OnEnable()
     {
+        monsterCode = 2;
         rotateDelayTime = 2f;
         maxAttackDelayTime = 1f;
         curAttackDelayTime = 0f;
         arrowDirection = -1;
         isFaceRight = false;
         actionState = ActionState.Idle;
+        MonsterInit(monsterCode);
     }
-
     
     public override void Move()
     {

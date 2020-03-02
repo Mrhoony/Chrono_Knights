@@ -29,6 +29,7 @@ public abstract class Monster_Control : MovingObject
         enemyStatus = GetComponent<EnemyStatus>();
         dropItemList = GetComponent<DropItemList>();
         eft = transform.GetChild(0).gameObject;
+        target = GameObject.Find("PlayerCharacter");
     }
     // Update is called once per frame
     public void Update()

@@ -112,11 +112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e291d43c5668f34c952f8e541f027fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: []
-  player: []
   playerControl: {fileID: 0}
-  atk: 0
-  overlap: 0
+  multyHitCount: 0
   move: 0
 --- !u!114 &114254752842631842
 MonoBehaviour:
@@ -130,11 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e3f004c77fee2e4f9821dccaac780d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: []
-  player: []
   playerControl: {fileID: 0}
-  atk: 0
-  overlap: 0
+  multyHitCount: 0
   move: 0
 --- !u!114 &114875693695922090
 MonoBehaviour:
@@ -148,11 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 237b5f223df4201468babb892f324eeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: []
-  player: []
   playerControl: {fileID: 0}
-  atk: 0
-  overlap: 0
+  multyHitCount: 0
   move: 0
 --- !u!114 &114896966625932174
 MonoBehaviour:
@@ -166,11 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81f3fcd23b5a8d94593c127068d2620a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: []
-  player: []
   playerControl: {fileID: 0}
-  atk: 0
-  overlap: 0
+  multyHitCount: 0
   move: 0
 --- !u!114 &114926239671473628
 MonoBehaviour:
@@ -184,11 +172,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adc1dcf195f6a5848a2e01ca8eca3300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: []
-  player: []
   playerControl: {fileID: 0}
-  atk: 0
-  overlap: 0
+  multyHitCount: 0
   move: 0
 --- !u!1101 &1101003609753460082
 AnimatorStateTransition:
@@ -465,7 +450,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0
+  m_ExitTime: 1
   m_HasExitTime: 0
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
@@ -490,7 +475,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0
+  m_ExitTime: 1
   m_HasExitTime: 0
   m_HasFixedDuration: 0
   m_InterruptionSource: 0

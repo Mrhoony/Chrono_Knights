@@ -402,6 +402,7 @@ public class DungeonManager : MonoBehaviour
         }
         else if (floorRepeat)    // 맵 반복시
         {
+            floorRepeat = false;
             currentMonsterCount = monsterCount;
 
             for (int i = 0; i < monsterCount; ++i)
@@ -410,9 +411,7 @@ public class DungeonManager : MonoBehaviour
                 currentStageMonsterList[i].SetActive(true);
                 currentStageMonsterList[i].transform.position = new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y);
-                currentStageMonsterList[i].GetComponent<NormalMonsterControl>().MonsterInit();
             }
-            floorRepeat = false;
         }
         else            // 일반 맵일경우
         {
@@ -606,28 +605,3 @@ public class DungeonManager : MonoBehaviour
         eventFlag = _eventFlag;
     }
 }
-/*
-public void PlayerDie()
-{
-    SectionTeleport(true, false);
-}
-
-// 보스 층 세팅
-public void BossStageSetting()
-{
-
-}
-
-// 몬스터 죽을 때 마다 카운트
-public void MonsterDie()
-{
-    --currentMonsterCount;
-    if (currentMonsterCount <= 0)   // 몬스터가 다 죽으면
-    {
-        Rect rect = choice.GetComponent<SpriteRenderer>().sprite.rect;
-        rect.size = new Vector2(22f, 22f);
-        dungeonClear = true;
-    }
-}
-
-*/

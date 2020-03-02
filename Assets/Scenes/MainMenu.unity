@@ -2300,6 +2300,26 @@ PrefabInstance:
       propertyPath: m_FontData.m_Alignment
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4233040171110105220, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233040171110105220, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_Text
+      value: 11111111111111111111
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233040171110105220, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233040171110105220, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_FontData.m_LineSpacing
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 82245445457459823, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2779,26 +2799,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Padding.m_Top
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4233040171110105220, guid: 187d72a635af2f04a891caed4b95c247,
-        type: 3}
-      propertyPath: m_FontData.m_Alignment
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4233040171110105220, guid: 187d72a635af2f04a891caed4b95c247,
-        type: 3}
-      propertyPath: m_Text
-      value: 11111111111111111111
-      objectReference: {fileID: 0}
-    - target: {fileID: 4233040171110105220, guid: 187d72a635af2f04a891caed4b95c247,
-        type: 3}
-      propertyPath: m_FontData.m_FontSize
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4233040171110105220, guid: 187d72a635af2f04a891caed4b95c247,
-        type: 3}
-      propertyPath: m_FontData.m_LineSpacing
-      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 82245445669965203, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
@@ -3613,6 +3613,21 @@ PrefabInstance:
       propertyPath: animatorController
       value: 
       objectReference: {fileID: 9100000, guid: f840dad22774fbf4fb5579cd035ec4ff, type: 2}
+    - target: {fileID: 3677731558862700652, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: d75e9e7e1b1be14458e788b37b8f3b9a, type: 2}
+    - target: {fileID: 3981682513319129738, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_Interpolate
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3981682513319129738, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: d75e9e7e1b1be14458e788b37b8f3b9a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
 --- !u!1001 &7500526060979330915

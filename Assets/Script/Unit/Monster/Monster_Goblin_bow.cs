@@ -9,14 +9,16 @@ public class Monster_Goblin_bow : NormalMonsterControl
     public GameObject arrowObject;
     public GameObject arrow;
 
-    void Start()
+    void OnEnable()
     {
+        monsterCode = 4;
         rotateDelayTime = 3f;
         maxAttackDelayTime = 1f;
         curAttackDelayTime = 0f;
         isFaceRight = true;
         arrowDirection = 1;
         actionState = ActionState.Idle;
+        MonsterInit(monsterCode);
     }
     
     public override void Move()

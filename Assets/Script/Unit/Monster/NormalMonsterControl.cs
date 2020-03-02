@@ -12,17 +12,14 @@ public abstract class NormalMonsterControl : Monster_Control
     public float randomAttack;
     public bool isDamagable;
 
-    public void OnEnable()
-    {
-        target = GameObject.Find("PlayerCharacter");
-        MonsterInit();
-    }
-    public void MonsterInit()
+    public int monsterCode;
+    
+    public void MonsterInit(int monsterCode)
     {
         Debug.Log("MonsterInit");
 
         actionState = ActionState.Idle;
-        enemyStatus.MonsterInit();
+        enemyStatus.MonsterInit(monsterCode);
         moveSpeed = enemyStatus.GetMoveSpeed();
 
         randomMoveCount = Random.Range(2f, 3f);

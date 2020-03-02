@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Xml;
 
 public enum ItemType
 {
@@ -38,7 +39,6 @@ public class Skill
         skillTimeDuration = _skillTimeDuration;
     }
 }
-
 public class Item
 {
     public ItemType itemType;
@@ -94,6 +94,10 @@ public class Database_Game : MonoBehaviour
     public List<Item> Item = new List<Item>();
     public List<Skill> skillList = new List<Skill>();
 
+    readonly string itemXMLFileName = "ItemDataBase";
+    readonly string skillXMLFileName = "SkillDataBase";
+    readonly string MonsterXMLFileName = "MonsterDataBase";
+
     private void Awake()
     {
         if (instance == null)
@@ -106,27 +110,80 @@ public class Database_Game : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        InputItem();
-        InputSkill();
+        InputItemData(itemXMLFileName);
+        InputSkillData(skillXMLFileName);
+        InputMonsterData(MonsterXMLFileName);
     }
 
-    void InputItem()
-    {                     // 이름, 등급, 아이템 코드, 효과 
-        Item.Add(new Item("커먼", 1, 7, "", ItemType.Number, ItemUsingType.health, 20));
-        Item.Add(new Item("커먼", 1, 7, "", ItemType.ReturnTown, ItemUsingType.attack, 2));
-        Item.Add(new Item("매직", 2, 8, "", ItemType.Number, ItemUsingType.moveSpeed, 1));
-        Item.Add(new Item("유니크", 3, 9, "", ItemType.Number, ItemUsingType.attack, 5));
-        Item.Add(new Item("유니크", 3, 9, "", ItemType.Number, ItemUsingType.attack, 5));
-        Item.Add(new Item("유니크", 3, 9, "", ItemType.Number, ItemUsingType.attack, 5));
-        Item.Add(new Item("유니크", 3, 7, "", ItemType.RepeatThisFloor, ItemUsingType.defense, 1));
-    }
-
-    void InputSkill()
+    XmlNodeList XmlNodeReturn(string filePass)
     {
-        skillList.Add(new Skill(SkillType.Effect_Myself, "Heal", 100, 1, "체력을 회복한다", 5f));
-        skillList.Add(new Skill(SkillType.Effect_Myself, "Attack UP", 101, 1, "공격력을 증가시킨다", 5f, 5f));
-        skillList.Add(new Skill(SkillType.Effect_Myself, "Defense UP", 102, 1, "방어력을 증가시킨다", 5f, 5f));
-        skillList.Add(new Skill(SkillType.Effect_Myself, "Attack Speed UP", 103, 1, "공격속도를 증가시킨다", 5f, 5f));
+        TextAsset textAsset = (TextAsset)Resources.Load("XML/" + filePass);
+        XmlDocument XMLFile = new XmlDocument();
+        XMLFile.LoadXml(textAsset.text);
+        
+        XmlNodeList nodelist = XMLFile.SelectNodes(filePass);
+        return nodelist;
+    }
+
+    void InputItemData(string _itemFileName)
+    {
+        XmlNodeList nodelist = XmlNodeReturn(_itemFileName);
+        foreach (XmlNode node in nodelist)
+        {
+            if (node.Name.Equals(_itemFileName) && node.HasChildNodes)
+            {
+                foreach (XmlNode data in node)
+                {
+                    Item.Add(new Item(
+                        data.Attributes.GetNamedItem("itemName").Value,
+                        int.Parse(data.Attributes.GetNamedItem("itemRarity").Value),
+                        int.Parse(data.Attributes.GetNamedItem("itemCode").Value),
+                        data.Attributes.GetNamedItem("itemDescription").Value,
+                        (ItemType)System.Enum.Parse(typeof(ItemType), data.Attributes.GetNamedItem("itemType").Value),
+                        (ItemUsingType)System.Enum.Parse(typeof(ItemUsingType), data.Attributes.GetNamedItem("itemUsingType").Value),
+                        int.Parse(data.Attributes.GetNamedItem("itemValue").Value)));
+                }
+            }
+        }
+    }
+
+    void InputSkillData(string _skillFileName)
+    {
+        XmlNodeList nodelist = XmlNodeReturn(_skillFileName);
+
+        foreach (XmlNode node in nodelist)
+        {
+            if (node.Name.Equals(_skillFileName) && node.HasChildNodes)
+            {
+                foreach (XmlNode data in node)
+                {
+                    skillList.Add(new Skill(
+                        (SkillType)System.Enum.Parse(typeof(SkillType), data.Attributes.GetNamedItem("skillType").Value),
+                        data.Attributes.GetNamedItem("skillName").Value,
+                        int.Parse(data.Attributes.GetNamedItem("skillCode").Value),
+                        int.Parse(data.Attributes.GetNamedItem("skillRarity").Value),
+                        data.Attributes.GetNamedItem("skillDescription").Value,
+                        int.Parse(data.Attributes.GetNamedItem("skillOnCount").Value),
+                        float.Parse(data.Attributes.GetNamedItem("skillTimeDuration").Value)));
+                }
+            }
+        }
+    }
+
+    void InputMonsterData(string _monsterFileName)
+    {
+        XmlNodeList nodelist = XmlNodeReturn(_monsterFileName);
+
+        foreach (XmlNode node in nodelist)
+        {
+            if (node.Name.Equals(_monsterFileName) && node.HasChildNodes)
+            {
+                foreach (XmlNode data in node)
+                {
+
+                }
+            }
+        }
     }
 
     public int[] GetSkillRarityList(int minRarity)

@@ -8,6 +8,8 @@ public class EnemyHPBar : MonoBehaviour
     public EnemyStatus allocatedMonster;
     public GameObject HPBarGauge;
     public bool isUsed = false;
+    public Text monsterName;
+    public Text monsterCurrentHP;
     
     public bool SetMonster(EnemyStatus monster)
     {

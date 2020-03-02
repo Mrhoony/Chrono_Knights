@@ -6,14 +6,16 @@ public class Monster_Frog : NormalMonsterControl
 {
     public GameObject box;
     
-    public void Start()
+    void OnEnable()
     {
+        monsterCode = 1;
         rotateDelayTime = 2f;
         maxAttackDelayTime = 2f;
         curAttackDelayTime = 0f;
         arrowDirection = 1;
         isFaceRight = true;
         actionState = ActionState.Idle;
+        MonsterInit(monsterCode);
     }
     
     private new void FixedUpdate()

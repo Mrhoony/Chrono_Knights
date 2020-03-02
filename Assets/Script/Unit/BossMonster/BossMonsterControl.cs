@@ -10,11 +10,11 @@ public class BossMonster_Control : Monster_Control
     public bool isGuard;
     public int counter;
     public bool Invincible;
+    public int bossMonsterCode;
     
     // Start is called before the first frame update
     public void OnEnable()
     {
-        target = GameObject.Find("PlayerCharacter");
         BossMonsterInit();
     }
     public void BossMonsterInit()
@@ -22,7 +22,7 @@ public class BossMonster_Control : Monster_Control
         Debug.Log("BossMonsterInit");
 
         actionState = ActionState.Idle;
-        enemyStatus.MonsterInit();
+        enemyStatus.BossMonsterInit(bossMonsterCode);
         moveSpeed = enemyStatus.GetMoveSpeed();
         StartCoroutine(SearchPlayerBoss());
     }
