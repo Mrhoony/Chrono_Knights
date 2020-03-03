@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MonsterType
+{
+    monster, bossMonster
+}
+
 public abstract class Monster_Control : MovingObject
 {
     public Collider2D[] player;
@@ -10,6 +15,9 @@ public abstract class Monster_Control : MovingObject
     public GameObject eft;
     public EnemyStatus enemyStatus;
     public DropItemList dropItemList;
+
+    public string monsterName;
+    public int monsterCode;
 
     public float distanceX;
     public float distanceY;

@@ -5,11 +5,18 @@ using UnityEngine;
 public class EnemyStatus : MonoBehaviour
 {
     public GameObject enemyHPBar;
+    public Monster monster;
     public BoxCollider2D boxCollider2D;
-    private float _moveSpeed; // 이동 속도
-    private int _HP; // 최대 체력
-    private int _currentHP; // 현재 체력
-    private int _attack; // 공격력
+
+    public string monsterName;
+    public int _HP; // 최대 체력
+    public float _currentHP; // 현재 체력
+    public float _moveSpeed; // 이동 속도
+    public float _attackSpeed;
+    public float _attackRange;
+    public int _attack; // 공격력
+    public int _defense;
+
     private bool bossMonster;
     
     public void Update()
@@ -18,14 +25,15 @@ public class EnemyStatus : MonoBehaviour
             enemyHPBar.transform.position = new Vector3(Camera.main.WorldToScreenPoint(transform.position).x, Camera.main.WorldToScreenPoint(transform.position).y + boxCollider2D.bounds.size.y + 100f, transform.position.z);
     }
 
-    public void MonsterInit(int monsterCode)
+    public void MonsterInit(int _monsterCode)
     {
         boxCollider2D = GetComponent<BoxCollider2D>();
-
-        EnemyStatInit(1f, 5, 1);
+        
+        EnemyStatInit(Database_Game.instance.GetMonsterStatus(_monsterCode));
         _currentHP = _HP;
         
         int hpbarNum = GameObject.Find("DungeonUI/DungeonPoolManager/HealthBarPool").transform.childCount;
+
         for (int i = 0; i < hpbarNum; ++i)
         {
             if (!GameObject.Find("DungeonUI/DungeonPoolManager/HealthBarPool").transform.GetChild(i).GetComponent<EnemyHPBar>().SetMonster(this))
@@ -47,9 +55,9 @@ public class EnemyStatus : MonoBehaviour
         bossMonster = false;
     }
 
-    public void BossMonsterInit(int bossMonsterCode)
+    public void BossMonsterInit(int _bossMonsterCode)
     {
-        EnemyStatInit(1f, 5, 1);
+        EnemyStatInit(Database_Game.instance.GetMonsterStatus(_bossMonsterCode));
         _currentHP = _HP;
 
         int hpbarNum = GameObject.Find("DungeonUI/DungeonPoolManager/BossHealthBarPool").transform.childCount;
@@ -71,13 +79,18 @@ public class EnemyStatus : MonoBehaviour
         }
         enemyHPBar.SetActive(true);
         enemyHPBar.GetComponent<EnemyHPBar>().SetHPBar();
+        bossMonster = true;
     }
 
-    public void EnemyStatInit(float moveSpeed, int HP, int attack)
+    public void EnemyStatInit(Monster _monster)
     {
-        _moveSpeed = moveSpeed;
-        _HP = HP;
-        _attack = attack;
+        monsterName = _monster.monsterName;
+        _HP = _monster.monsterHP;
+        _moveSpeed = _monster.monsterMoveSpeed;
+        _attackSpeed = _monster.monsterAttackSpeed;
+        _attackRange = _monster.monsterAttackRange;
+        _attack = _monster.monsterAttack;
+        _defense = _monster.monsterDefense;
     }
 
     public void IncreaseHP(int damage)
@@ -123,13 +136,5 @@ public class EnemyStatus : MonoBehaviour
     public int GetAttack()
     {
         return _attack;
-    }
-    public int GetHP()
-    {
-        return _HP;
-    }
-    public int GetCurrentHP()
-    {
-        return _currentHP;
     }
 }

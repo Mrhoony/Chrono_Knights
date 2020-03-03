@@ -13,9 +13,9 @@ public enum ItemUsingType
 }
 public enum SkillType
 {
-    Effect_Myself,
-    Effect_Attack,
-    Effect_Area
+    Active,
+    Passive,
+    Unlock
 }
 
 public class Skill
@@ -86,6 +86,31 @@ public class Item
         skillCode = _skillCode;
     }
 }
+public class Monster
+{
+    public int monsterCode;
+    public string monsterName;
+    public int monsterHP;
+    public float monsterMoveSpeed;
+    public float monsterAttackSpeed;
+    public float monsterAttackRange;
+    public int monsterAttack;
+    public int monsterDefense;
+    public int monsterPopChance;
+
+    public Monster(int _monsterCode, string _monsterName, int _monsterHP, float _monstermoveSpeed, float _monsterAttackSpeed, float _monsterAttackRange, int _monsterAttack, int _monsterDefense, int _monsterPopChance)
+    {
+        monsterCode = _monsterCode;
+        monsterName = _monsterName;
+        monsterHP = _monsterHP;
+        monsterMoveSpeed = _monstermoveSpeed;
+        monsterAttackSpeed = _monsterAttackSpeed;
+        monsterAttackRange = _monsterAttackRange;
+        monsterAttack = _monsterAttack;
+        monsterDefense = _monsterDefense;
+        monsterPopChance = _monsterPopChance;
+    }
+}
 
 public class Database_Game : MonoBehaviour
 {
@@ -93,6 +118,7 @@ public class Database_Game : MonoBehaviour
 
     public List<Item> Item = new List<Item>();
     public List<Skill> skillList = new List<Skill>();
+    public List<Monster> monsterList = new List<Monster>();
 
     readonly string itemXMLFileName = "ItemDataBase";
     readonly string skillXMLFileName = "SkillDataBase";
@@ -145,8 +171,8 @@ public class Database_Game : MonoBehaviour
                 }
             }
         }
+        Debug.Log("Input ItemData");
     }
-
     void InputSkillData(string _skillFileName)
     {
         XmlNodeList nodelist = XmlNodeReturn(_skillFileName);
@@ -168,8 +194,8 @@ public class Database_Game : MonoBehaviour
                 }
             }
         }
+        Debug.Log("Input skillData");
     }
-
     void InputMonsterData(string _monsterFileName)
     {
         XmlNodeList nodelist = XmlNodeReturn(_monsterFileName);
@@ -180,10 +206,26 @@ public class Database_Game : MonoBehaviour
             {
                 foreach (XmlNode data in node)
                 {
-
+                    monsterList.Add(new Monster(
+                        int.Parse(data.Attributes.GetNamedItem("monsterCode").Value),
+                        data.Attributes.GetNamedItem("monsterName").Value,
+                        int.Parse(data.Attributes.GetNamedItem("monsterHP").Value),
+                        float.Parse(data.Attributes.GetNamedItem("monsterMoveSpeed").Value),
+                        float.Parse(data.Attributes.GetNamedItem("monsterAttackSpeed").Value),
+                        float.Parse(data.Attributes.GetNamedItem("monsterAttackRange").Value),
+                        int.Parse(data.Attributes.GetNamedItem("monsterAttack").Value),
+                        int.Parse(data.Attributes.GetNamedItem("monsterDefense").Value),
+                        int.Parse(data.Attributes.GetNamedItem("monsterPopChance").Value)
+                        ));
                 }
             }
         }
+        Debug.Log("Input MonsterData");
+    }
+
+    public Monster GetMonsterStatus(int _monsterCode)
+    {
+        return monsterList[_monsterCode -1];
     }
 
     public int[] GetSkillRarityList(int minRarity)

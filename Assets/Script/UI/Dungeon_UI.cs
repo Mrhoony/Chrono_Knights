@@ -5,9 +5,8 @@ using UnityEngine.UI;
 
 public class Dungeon_UI : MonoBehaviour
 {
-    public GameObject dungeonFloor;
-    public Text dungeonFloorText;
     public GameObject dungeonFloorEft;
+    public Text dungeonFloorText;
     public Text dungeonFloorEftText;
     
     public void SetDungeonFloor(int stage)
@@ -20,7 +19,7 @@ public class Dungeon_UI : MonoBehaviour
     IEnumerator DungeonFloorEft()
     {
         dungeonFloorEft.SetActive(true);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         dungeonFloorEft.SetActive(false);
     }
 }

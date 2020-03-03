@@ -12,8 +12,6 @@ public abstract class NormalMonsterControl : Monster_Control
     public float randomAttack;
     public bool isDamagable;
 
-    public int monsterCode;
-    
     public void MonsterInit(int monsterCode)
     {
         Debug.Log("MonsterInit");

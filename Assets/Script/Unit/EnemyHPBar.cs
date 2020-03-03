@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class EnemyHPBar : MonoBehaviour
@@ -9,7 +7,6 @@ public class EnemyHPBar : MonoBehaviour
     public GameObject HPBarGauge;
     public bool isUsed = false;
     public Text monsterName;
-    public Text monsterCurrentHP;
     
     public bool SetMonster(EnemyStatus monster)
     {
@@ -18,6 +15,7 @@ public class EnemyHPBar : MonoBehaviour
         {
             isUsed = true;
             allocatedMonster = monster;
+            monsterName.text = monster.monsterName;
             return true;
         }
     }
@@ -30,8 +28,8 @@ public class EnemyHPBar : MonoBehaviour
 
     public void SetHPBar()
     {
-        Vector2 scale = HPBarGauge.transform.localScale;
-        scale.x = (float)allocatedMonster.GetCurrentHP() / allocatedMonster.GetHP();
+        Vector3 scale = HPBarGauge.transform.localScale;
+        scale.x = allocatedMonster._currentHP / allocatedMonster._HP;
         HPBarGauge.transform.localScale = scale;
     }
 }
