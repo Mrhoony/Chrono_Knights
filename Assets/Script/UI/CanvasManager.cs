@@ -110,15 +110,14 @@ public class CanvasManager : MonoBehaviour
 
         if (isLoadSlotOn || isCancelOn) return;
 
-        //인벤토리, 업적창, 스토리 관련
+        // 인벤토리, 업적창, 스토리 관련
         if (!isStorageOn)
         {
             if (Input.GetKeyDown(KeyCode.I))
             {
                 if (!isInventoryOn)
                 {
-                    PlayerControl.instance.StopPlayer();
-                    OpenInGameMenu();
+                    OpenInGameMenu(false);
                     isInventoryOn = true;
                 }
                 else
@@ -204,15 +203,15 @@ public class CanvasManager : MonoBehaviour
         DungeonManager.instance.isSceneLoading = false;
     }
 
-    public void OpenInGameMenu()        // I로 인벤토리 열 때
+    public void OpenInGameMenu(bool _useItemInDungeon)        // I로 인벤토리 열 때
     {
         player.GetComponent<PlayerControl>().StopPlayer();
         player.GetComponent<PlayerControl>().enabled = false;
         focus = 0;
 
-        Menus[0].SetActive(true);
         playerStatusInfo.SetActive(true);
-        Menus[0].GetComponent<Menu_Inventory>().OpenInventory();
+        Menus[0].SetActive(true);
+        Menus[0].GetComponent<Menu_Inventory>().OpenInventory(_useItemInDungeon);
         playerStatusInfo.GetComponent<MainUI_PlayerStatusInfo>().OnStatusMenu();
 
         foreach (Scrollbar bar in sb)

@@ -76,14 +76,7 @@ public class Menu_QuickSlot : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            if(DungeonManager.instance.useTeleportSystem == 8)
-            {
-                inventory.QuickSlotUseKey(focus);
-            }
-            else
-            {
-                inventory.QuickSlotUseItem(focus);
-            }
+            inventory.UseIteminQuickSlot(focus);
             onQuickSlot = false;
             quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
             quickSlotItemInfomation.SetActive(false);

@@ -54,7 +54,7 @@ public class BackgroundScrolling : MonoBehaviour
     {
         deltaX = cameraTrasform.position.x - lastCameraX;
         deltaY = cameraTrasform.position.y - lastCameraY;
-
+        
         for(int i = 0; i < layerCount; ++i)
         {
             layers[i].transform.position = new Vector2(layers[i].transform.position.x + deltaX * ParalaxSpeedX[i]

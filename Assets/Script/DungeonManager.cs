@@ -210,19 +210,10 @@ public class DungeonManager : MonoBehaviour
                     }
                     break;
                 case 2:
-                    //menu.FadeOut();
-                    //SectionTeleport(false, false);
-                    break;
                 case 3:
-                    //menu.FadeOut();
-                    //SectionTeleport(false, false);
-                    break;
-                case 4:
-                case 5:
                     if (useTeleportSystem == 8)         // 던전 포탈 앞에 서있을 경우 다음던전 또는 집으로 이동한다.
                     {
                         if (!dungeonClear) return;
-
                         if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
 
                         if (usedKey)            // 키를 쓴경우
@@ -232,8 +223,7 @@ public class DungeonManager : MonoBehaviour
                         }
                         else                    // 키를 안쓴경우 반응x (임시)집으로
                         {
-                            isSceneLoading = true;
-                            menu.FadeOutStart(true);
+                            menu.OpenInGameMenu(true);
                         }
                     }
                     break;
@@ -301,7 +291,7 @@ public class DungeonManager : MonoBehaviour
                     break;
                 case 2:
                     menu.Menus[0].GetComponent<Menu_Inventory>().DeleteStorageItem();
-                    SceneManager.LoadScene(4);
+                    SceneManager.LoadScene("Tower_First_Floor");
                     break;
                 case 3:
                     //SceneManager.LoadScene(useTeleportSystem);
@@ -313,7 +303,7 @@ public class DungeonManager : MonoBehaviour
                     if (phaseClear)
                     {
                         phaseClear = false;
-                        SceneManager.LoadScene(5);
+                        SceneManager.LoadScene("Tower_Second_Floor");
                     }
                     else
                     {
@@ -565,15 +555,6 @@ public class DungeonManager : MonoBehaviour
             mapList[0].GetComponent<BackgroundScrolling>().SetBackGroundPosition(0);
         }
         else if (SceneManager.GetActiveScene().buildIndex == 2)  // 마을 - 숲 화면 일 때
-        {
-            player.transform.position = entrance;
-        }
-        else if (SceneManager.GetActiveScene().buildIndex == 3)  // 숲 - 타워 화면 일 때
-        {
-            mapList = GameObject.FindGameObjectsWithTag("BaseMap");
-            player.transform.position = entrance;
-        }
-        else if (SceneManager.GetActiveScene().buildIndex >= 4)  // 타워 첫번째 층 일 때
         {
             inDungeon = true;
             dungeonUI = GameObject.Find("DungeonUI").GetComponent<Dungeon_UI>();

@@ -9,7 +9,7 @@ public enum ItemType
 }
 public enum ItemUsingType
 {
-    health, attack, defense, moveSpeed, bullet     // 1 회복, 2 공버프, 3 방버프, 4 공속버프, 5 이속버프
+    Health, Bullet, Attack, Defense, MoveSpeed
 }
 public enum SkillType
 {

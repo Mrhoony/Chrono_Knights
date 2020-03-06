@@ -9,10 +9,7 @@ public class Menu_Inventory : MonoBehaviour
     public GameObject slots;
     public Menu_Storage storage;
     public GameObject itemInformation;
-
-    private Transform[] transforms;
     private GameObject[] slot;           // 인벤토리 슬롯
-
     private Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
 
     public int slotCount;
@@ -25,12 +22,13 @@ public class Menu_Inventory : MonoBehaviour
     public bool[] isFull;               // 슬롯이 비었는지 아닌지
 
     public bool isInventoryOn;
+    public bool isDungeonOpen;
     public int focused = 0;
     
     public void Init()
     {
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
-        transforms = slots.transform.GetComponentsInChildren<Transform>();
+        Transform[] transforms = slots.transform.GetComponentsInChildren<Transform>();
         slotCount = transforms.Length - 1;
 
         slot = new GameObject[24];
@@ -61,7 +59,14 @@ public class Menu_Inventory : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            // 키 위치 변경
+            if (isDungeonOpen)
+            {
+                UseKeyInDungeon(focused);
+            }
+            else
+            {
+                // 아이템 위치 변경
+            }
         }
     }
     public bool GetKeyItem(Item _Item)        // 아이템 획득시 인벤토리 등록
@@ -79,9 +84,10 @@ public class Menu_Inventory : MonoBehaviour
         return false;
     }
 
-    public void OpenInventory()
+    public void OpenInventory(bool _inDungeon)
     {
         isInventoryOn = true;
+        isDungeonOpen = _inDungeon;
         InventorySet();
 
         focused = 0;
@@ -183,24 +189,24 @@ public class Menu_Inventory : MonoBehaviour
         inventoryItemCount = 0;
     }
     
-    public void QuickSlotUseKey(int focus)              // 던전 포탈 앞에서 퀵슬롯으로 아이템 사용시
+    public void UseKeyInDungeon(int focus)              // 던전 포탈 앞에서 퀵슬롯으로 아이템 사용시
     {
         if (DungeonManager.instance.useKeyInDungeon(inventoryItemList[focus]))
         {
-            QuickSlotDeleteItem(focus);
+            DeleteItem(focus);
         }
     }
-    public void QuickSlotUseItem(int focus)             // 퀵슬롯으로 아이템 사용시 ( 마을에서 사용시 창고도비우기 or 마을에서 사용 x )
+    public void UseIteminQuickSlot(int focus)             // 퀵슬롯으로 아이템 사용시 ( 마을에서 사용시 창고도비우기 or 마을에서 사용 x )
     {
-        QuickSlotDeleteItem(focus);
+        DeleteItem(focus);
     }
-    public void QuickSlotDeleteItem(int focus)          // 사용된 아이템 인벤토리에서 제거
+    public void DeleteItem(int focus)          // 사용된 아이템 인벤토리에서 제거
     {
         inventoryItemList[focus] = null;
         for (int i = focus; i < availableSlot - 1; ++i)
         {
             if (inventoryItemList[i] != null) continue;
-            Debug.Log(focus + "null");
+            Debug.Log(focus + " null");
 
             for (int j = 1; j < availableSlot - i; ++i)
             {
