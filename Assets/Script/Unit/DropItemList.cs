@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /*
  * 몬스터 프리팹에 스크립트를 추가
@@ -11,7 +9,6 @@ using UnityEngine;
 public class DropItemList : MonoBehaviour
 {
     public GameObject[] dropItems;
-    public GameObject item;
     public int[] dropChances;
 
     public void ItemDropChance()
@@ -23,8 +20,7 @@ public class DropItemList : MonoBehaviour
         {
             if(dropChance > dropChances[i])
             {
-                item = Instantiate(dropItems[i], new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity);
-                item.transform.parent = GameObject.Find("DungeonPoolManager/DropItemPool").transform;
+                Instantiate(dropItems[i], new Vector2(transform.position.x + Random.Range(-0.1f, 0.1f), transform.position.y + 0.2f), Quaternion.identity);
             }
         }
     }

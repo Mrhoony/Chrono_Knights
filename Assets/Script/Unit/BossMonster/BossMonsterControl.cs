@@ -10,21 +10,15 @@ public class BossMonster_Control : Monster_Control
     public bool isGuard;
     public int counter;
     public bool Invincible;
-    public int bossMonsterCode;
     
-    // Start is called before the first frame update
-    public void OnEnable()
+    public void BossMonsterInit(int _monsterCode)
     {
-        BossMonsterInit();
-    }
-    public void BossMonsterInit()
-    {
-        Debug.Log("BossMonsterInit");
-
         actionState = ActionState.Idle;
-        enemyStatus.BossMonsterInit(bossMonsterCode);
+        enemyStatus.BossMonsterInit(monsterCode);
         moveSpeed = enemyStatus.GetMoveSpeed();
         StartCoroutine(SearchPlayerBoss());
+
+        Debug.Log("BossMonsterInit");
     }
     public override void MonsterFlip()
     {

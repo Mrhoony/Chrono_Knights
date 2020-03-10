@@ -225,7 +225,14 @@ public class Database_Game : MonoBehaviour
 
     public Monster GetMonsterStatus(int _monsterCode)
     {
-        return monsterList[_monsterCode -1];
+        int count = monsterList.Count;
+        for(int i = 0; i<count; ++i)
+        {
+            if(monsterList[i].monsterCode == _monsterCode)
+                return monsterList[i];
+        }
+        Debug.Log("몬스터가 존재하지 않음");
+        return null;
     }
 
     public int[] GetSkillRarityList(int minRarity)
@@ -253,13 +260,15 @@ public class Database_Game : MonoBehaviour
 
     public Item GetItem(int _itemCode)
     {
-        for (int i = 0; i < Item.Count; i++)
+        int count = Item.Count;
+        for (int i = 0; i < count; i++)
         {
             if (Item[i].itemCode == _itemCode)
             {
                 return Item[i];
             }
         }
+        Debug.Log("아이템이 존재하지 않음");
         return null;
     }
 
@@ -272,6 +281,7 @@ public class Database_Game : MonoBehaviour
                 return skillList[i];
             }
         }
+        Debug.Log("스킬이 존재하지 않음");
         return null;
     }
 }

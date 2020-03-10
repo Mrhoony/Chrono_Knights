@@ -10,15 +10,15 @@ public class Monster_Goblin_DashAtk : AnimatorManager
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         monster_Goblin = animator.gameObject.GetComponent<Monster_Goblin>();
-        multyHitCount = 0;
+        move = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (multyHitCount < 1 && stateInfo.normalizedTime > 0.5f)
+        if (!move && stateInfo.normalizedTime > 0.5f)
         {
-            ++multyHitCount;
+            move = true;
             monster_Goblin.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(3f * monster_Goblin.GetArrowDirection(), monster_Goblin.gameObject.GetComponent<Rigidbody2D>().velocity.y);
             monster_Goblin.MonsterAttack(0.5f, 0f, 0.8f, 0.2f);
         }

@@ -149,7 +149,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControl: {fileID: 0}
-  multyHitCount: 0
   move: 0
 --- !u!114 &114095594326582514
 MonoBehaviour:
@@ -164,7 +163,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControl: {fileID: 0}
-  multyHitCount: 0
   move: 0
 --- !u!114 &114203495327028290
 MonoBehaviour:
@@ -179,7 +177,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControl: {fileID: 0}
-  multyHitCount: 0
   move: 0
 --- !u!114 &114290340356262696
 MonoBehaviour:
@@ -194,7 +191,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControl: {fileID: 0}
-  multyHitCount: 0
   move: 0
 --- !u!114 &114307509740346832
 MonoBehaviour:
@@ -209,7 +205,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControl: {fileID: 0}
-  multyHitCount: 0
   move: 0
 --- !u!114 &114432262926731758
 MonoBehaviour:
@@ -224,7 +219,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControl: {fileID: 0}
-  multyHitCount: 0
   move: 0
 --- !u!114 &114458274319889628
 MonoBehaviour:
@@ -239,7 +233,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControl: {fileID: 0}
-  multyHitCount: 0
   move: 0
 --- !u!114 &114476647888167026
 MonoBehaviour:
@@ -254,7 +247,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControl: {fileID: 0}
-  multyHitCount: 0
   move: 0
 --- !u!114 &114716587517737700
 MonoBehaviour:
@@ -269,7 +261,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControl: {fileID: 0}
-  multyHitCount: 0
   move: 0
 --- !u!114 &114739368754546606
 MonoBehaviour:
@@ -296,7 +287,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControl: {fileID: 0}
-  multyHitCount: 0
   move: 0
 --- !u!1101 &1101009773454521448
 AnimatorStateTransition:
@@ -492,8 +482,8 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.5
-  m_HasExitTime: 0
+  m_ExitTime: 1
+  m_HasExitTime: 1
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -520,8 +510,8 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.5
-  m_HasExitTime: 0
+  m_ExitTime: 1
+  m_HasExitTime: 1
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -834,6 +824,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: is_xx_Atk
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: is_xFx_Atk
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102808038498048712}
   m_Solo: 0
@@ -920,9 +913,9 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.5
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
+  m_ExitTime: 1
+  m_HasExitTime: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -995,8 +988,8 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.5
-  m_HasExitTime: 0
+  m_ExitTime: 1
+  m_HasExitTime: 1
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -1529,10 +1522,10 @@ AnimatorStateMachine:
     m_Position: {x: 864, y: 168, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102985345993347034}
-    m_Position: {x: 744, y: 36, z: 0}
+    m_Position: {x: 756, y: 48, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102588282376619528}
-    m_Position: {x: 744, y: -24, z: 0}
+    m_Position: {x: 756, y: -24, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102538204313052634}
     m_Position: {x: -180, y: -240, z: 0}

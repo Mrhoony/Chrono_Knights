@@ -7,14 +7,14 @@ public class Monster_Ogre_AtkV : AnimatorManager
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        multyHitCount = 0;
+        move = false;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (multyHitCount < 2 && stateInfo.normalizedTime > 0.3f)
+        if (!move && stateInfo.normalizedTime > 0.3f)
         {
-            ++multyHitCount;
+            move = true;
             animator.GetComponent<Monster_Ogre>().MonsterAttack(1f, 0f, 3f, 0.5f);
         }
     }

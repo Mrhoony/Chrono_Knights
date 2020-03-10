@@ -7,15 +7,15 @@ public class Merchant_Attack1 : AnimatorManager
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        multyHitCount = 0;
+        Init();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (multyHitCount < 1 && stateInfo.normalizedTime > 0.3f)
+        if (!move && stateInfo.normalizedTime > 0.3f)
         {
-            multyHitCount++;
+            move = true;
             animator.GetComponent<Boss_Merchant>().MonsterAttack(0.5f, 0f, 0.8f, 0.2f);
             animator.GetComponent<Boss_Merchant>().AttackMove(0.2f);
         }        

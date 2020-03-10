@@ -7,20 +7,20 @@ public class xFxFx_Attack_end : AnimatorManager
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        AnimationInit();
+        Init();
+        playerControl.multyHitCount = 0;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (stateInfo.normalizedTime > 0.2f && multyHitCount < 2)
+        if (stateInfo.normalizedTime > 0.2f)
         {
             if (!move)
             {
-                move = true;
+                move = playerControl.Attack(1f, 0f, 2f, 0.5f);
                 playerControl.DashAttackDistance(1f);
             }
-            playerControl.Attack(1f, 0f, 2f, 0.5f);
         }
     }
 
@@ -28,8 +28,9 @@ public class xFxFx_Attack_end : AnimatorManager
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         playerControl.InputInit();
-        playerControl.PlayerMoveSet();
+        playerControl.MoveSet();
         Init();
+        playerControl.multyHitCount = 0;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

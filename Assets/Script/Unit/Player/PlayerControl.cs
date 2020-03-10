@@ -15,6 +15,8 @@ public class PlayerControl : MovingObject
     public Weapon_Gun weaponGun;
 
     public int weaponType;
+    public int[] weaponMultyHit;
+    public int multyHitCount;
 
     public float inputDirection;
 
@@ -34,11 +36,9 @@ public class PlayerControl : MovingObject
     
     public bool dodgable;
     public bool invincible;
-
-    public int currentJumpCount;
-
     public bool isBlock;
-
+    public int currentJumpCount;
+    
     private void Awake()
     {
         if (instance == null)
@@ -58,9 +58,11 @@ public class PlayerControl : MovingObject
         playerStatus = GetComponent<PlayerStatus>();
         weaponSpear = GetComponent<Weapon_Spear>();
         weaponSpear.Init(animator, rb);
+        weaponMultyHit = weaponSpear.GetWeaponMultyHit();
         weaponGun = GetComponent<Weapon_Gun>();
         skillManager.Init();
-        
+
+        multyHitCount = 0;
         arrowDirection = 1;
         weaponType = 0;
         dodgable = true;
@@ -72,6 +74,7 @@ public class PlayerControl : MovingObject
     // Update is called once per frame
     void Update()
     {
+        if (CanvasManager.instance.GameMenuOnCheck()) return;
         // x 공격 입력
         if (weaponType == 0)
         {
@@ -156,11 +159,13 @@ public class PlayerControl : MovingObject
             {
                 weaponType = 1;
                 weaponGun.Init(animator, rb);
+                weaponMultyHit = weaponGun.GetWeaponMultyHit();
             }
             else if (weaponType == 1)
             {
                 weaponType = 0;
                 weaponSpear.Init(animator, rb);
+                weaponMultyHit = weaponSpear.GetWeaponMultyHit();
             }
         }
     }
@@ -400,12 +405,10 @@ public class PlayerControl : MovingObject
         if (inputDirection == arrowDirection)
         {
             rb.velocity = new Vector2(arrowDirection * 4f, 5f);
-            Debug.Log("step");
         }
         else
         {
             rb.velocity = new Vector2(-arrowDirection * 4f, 5f);
-            Debug.Log("back step");
         }
         
         dodgable = false;
@@ -424,7 +427,7 @@ public class PlayerControl : MovingObject
         animator.SetTrigger("PlayerStop");
         animator.SetBool("isWalk", false);
         animator.SetBool("isRun", false);
-        weaponSpear.InputInit();
+        InputInit();
     }
 
     IEnumerator InputIgnore()
@@ -511,12 +514,7 @@ public class PlayerControl : MovingObject
         else
             transform.position = new Vector2(transform.position.x + dashDistanceMulty * playerStatus.GetDashDistance_Result() * arrowDirection * 0.5f, transform.position.y);
     }
-
-    public void PlayerMoveSet()
-    {
-        if (!dodgable) return;
-        actionState = ActionState.Idle;
-    }
+    
     public void PlayerJumpAttackEnd()
     {
         actionState = ActionState.IsJump;
@@ -536,12 +534,17 @@ public class PlayerControl : MovingObject
         else
             weaponGun.InputInit();
     }
+    public void MoveSet()
+    {
+        if (!dodgable) return;
+        actionState = ActionState.Idle;
+    }
     public void SetAnimationAttackSpeed(float _attackSpeed)
     {
         animator.SetFloat("AttackSpeed", _attackSpeed);
     }
     
-    public void Attack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
+    public bool Attack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
     {
         Collider2D[] monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackPosX * GetArrowDirection())
             , transform.position.y + attackPosY), new Vector2(attackRangeX, attackRangeY), 0);
@@ -555,7 +558,29 @@ public class PlayerControl : MovingObject
                 {
                     monster[i].gameObject.GetComponent<IsDamageable>().Hit(playerStatus.GetAttack_Result());
                 }
+                else if (monster[i].CompareTag("BossMonster"))
+                {
+                    monster[i].gameObject.GetComponent<IsDamageable>().Hit(playerStatus.GetAttack_Result());
+                }
             }
+        }
+
+        ++multyHitCount;
+        int attackState;
+        if (weaponType == 0)
+            attackState = weaponSpear.GetAttackState();
+        else
+            attackState = weaponGun.GetAttackState();
+
+        Debug.Log("attack");
+
+        if (multyHitCount < weaponMultyHit[attackState - 1])
+        {
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 }

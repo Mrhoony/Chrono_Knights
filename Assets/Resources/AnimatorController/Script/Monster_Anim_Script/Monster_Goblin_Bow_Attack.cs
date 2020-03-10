@@ -7,15 +7,15 @@ public class Monster_Goblin_Bow_Attack : AnimatorManager
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        multyHitCount = 0;
+        move = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (multyHitCount < 1 && stateInfo.normalizedTime > 0.7f)
+        if (!move && stateInfo.normalizedTime > 0.7f)
         {
-            multyHitCount++;
+            move = true;
             animator.GetComponent<Monster_Goblin_bow>().Shooting();
         }
     }

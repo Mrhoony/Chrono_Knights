@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Menu_Inventory : MonoBehaviour
 {
     // 초기화 영역
+    public CanvasManager canvasManager;
     public GameObject slots;
     public Menu_Storage storage;
     public GameObject itemInformation;
@@ -27,6 +26,7 @@ public class Menu_Inventory : MonoBehaviour
     
     public void Init()
     {
+        canvasManager = CanvasManager.instance;
         keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
         Transform[] transforms = slots.transform.GetComponentsInChildren<Transform>();
         slotCount = transforms.Length - 1;
@@ -61,27 +61,34 @@ public class Menu_Inventory : MonoBehaviour
         {
             if (isDungeonOpen)
             {
-                UseKeyInDungeon(focused);
+                UseItemInDungeon(focused);
             }
             else
             {
                 // 아이템 위치 변경
             }
         }
-    }
-    public bool GetKeyItem(Item _Item)        // 아이템 획득시 인벤토리 등록
-    {
-        for (int i = 0; i < availableSlot; i++)
+
+        if (Input.GetKeyDown(KeyCode.X))    // 아이템 선택 취소
         {
-            if (!isFull[i])
+            if (isDungeonOpen)
             {
-                inventoryItemList[i] = _Item;
-                isFull[i] = true;
-                ++inventoryItemCount;
-                return true;
+                isDungeonOpen = false;
+                canvasManager.CloseInGameMenu();
+            }
+            else
+            {
+                canvasManager.CloseInGameMenu();
             }
         }
-        return false;
+    }
+    public void UseItemInDungeon(int focus)              // 던전 포탈 앞에서 퀵슬롯으로 아이템 사용시
+    {
+        if (DungeonManager.instance.useKeyInDungeon(inventoryItemList[focus]))
+        {
+            DeleteItem(focus);
+            canvasManager.CloseInGameMenu();
+        }
     }
 
     public void OpenInventory(bool _inDungeon)
@@ -129,6 +136,7 @@ public class Menu_Inventory : MonoBehaviour
     {
         slot[focused].transform.GetChild(0).gameObject.SetActive(false);
         itemInformation.SetActive(false);
+        isInventoryOn = false;
     }
 
     public void SetSelectedItemCount(int value)
@@ -189,13 +197,6 @@ public class Menu_Inventory : MonoBehaviour
         inventoryItemCount = 0;
     }
     
-    public void UseKeyInDungeon(int focus)              // 던전 포탈 앞에서 퀵슬롯으로 아이템 사용시
-    {
-        if (DungeonManager.instance.useKeyInDungeon(inventoryItemList[focus]))
-        {
-            DeleteItem(focus);
-        }
-    }
     public void UseIteminQuickSlot(int focus)             // 퀵슬롯으로 아이템 사용시 ( 마을에서 사용시 창고도비우기 or 마을에서 사용 x )
     {
         DeleteItem(focus);
@@ -265,7 +266,21 @@ public class Menu_Inventory : MonoBehaviour
     }
 
     #endregion
-    
+
+    public bool GetKeyItem(Item _Item)        // 아이템 획득시 인벤토리 등록
+    {
+        for (int i = 0; i < availableSlot; i++)
+        {
+            if (!isFull[i])
+            {
+                inventoryItemList[i] = _Item;
+                isFull[i] = true;
+                ++inventoryItemCount;
+                return true;
+            }
+        }
+        return false;
+    }
     void FocusedSlot(int AdjustValue)
     {
         if (focused + AdjustValue < 0 || focused + AdjustValue > availableSlot-1) { return; }

@@ -112,9 +112,9 @@ GameObject:
   - component: {fileID: 5460930356469532294}
   - component: {fileID: 3592176665141119383}
   - component: {fileID: 1413264401882939199}
-  - component: {fileID: 2955822291919763376}
-  - component: {fileID: 3856520411252202345}
   - component: {fileID: 2142315843151646616}
+  - component: {fileID: 3856520411252202345}
+  - component: {fileID: 2955822291919763376}
   - component: {fileID: 3909595181139401192}
   m_Layer: 10
   m_Name: Boss_Trainer
@@ -252,31 +252,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2955822291919763376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6298394293875124484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd8bca6e2af9b3b4981467d0e5a9f4b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bossNumber: 2
---- !u!114 &3856520411252202345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6298394293875124484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fae2a592394f04f93fcda3120dea15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2142315843151646616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,29 +266,67 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 
   actionState: 5
+  overlap: 0
   isFaceRight: 0
   arrowDirection: 0
+  player: []
   target: {fileID: 0}
   playerPos: {x: 0, y: 0}
   eft: {fileID: 0}
   enemyStatus: {fileID: 0}
   dropItemList: {fileID: 0}
+  monsterName: 
+  monsterCode: 0
   distanceX: 0
   distanceY: 0
-  playerPosition: 0
   moveSpeed: 0
-  isDamagable: 0
-  isGuard: 0
-  counter: 0
-  Invincible: 0
   rotateDelayTime: 0
   attackCoolTime: 0
   maxAttackDelayTime: 0
   curAttackDelayTime: 0
+  playerPosition: 0
+  isDamagable: 0
+  isGuard: 0
+  counter: 0
+  Invincible: 0
   Debug_AttackPositionX: 0
   Debug_AttackPositionY: 0
   Debug_AttackRangeX: 0
   Debug_AttackRangeY: 0
+--- !u!114 &3856520411252202345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6298394293875124484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fae2a592394f04f93fcda3120dea15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyHPBar: {fileID: 0}
+  boxCollider2D: {fileID: 0}
+  monsterName: 
+  _HP: 0
+  _currentHP: 0
+  _moveSpeed: 0
+  _attackSpeed: 0
+  _attackRange: 0
+  _attack: 0
+  _defense: 0
+--- !u!114 &2955822291919763376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6298394293875124484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8bca6e2af9b3b4981467d0e5a9f4b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3909595181139401192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ffe67a1023780419849c8610590db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DropItems:
-  - {fileID: 9128683610158317328, guid: e6ca7410da7c9374aad6f35ae733c7cd, type: 3}
-  DropChances: 32000000
+  dropItems:
+  - {fileID: 4542179881440881234, guid: e9d0ef79f941c27458dba0baf4b550b1, type: 3}
+  - {fileID: 4542179881440881234, guid: e9d0ef79f941c27458dba0baf4b550b1, type: 3}
+  dropChances: 1400000050000000

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +19,6 @@ public class CanvasManager : MonoBehaviour
     public GameObject[] Menus;      // UI 메뉴들
     public GameObject storage;
     public GameObject townUI;       // 마을 UI
-    public GameObject player;
 
     public GameObject inGameMenu;
     public GameObject playerStatusInfo;
@@ -76,18 +73,18 @@ public class CanvasManager : MonoBehaviour
         {
             if (isInventoryOn)
             {
-                isInventoryOn = false;
                 CloseInGameMenu();
+                isInventoryOn = false;
             }
             else if (isStorageOn)
             {
-                isStorageOn = false;
                 CloseStorage();
+                isStorageOn = false;
             }
             else if(isCancelOn)
             {
-                isCancelOn = false;
                 CloseCancelMenu();
+                isCancelOn = false;
             }
             else if(!isCancelOn && !DungeonManager.instance.inDungeon)
             {
@@ -97,8 +94,8 @@ public class CanvasManager : MonoBehaviour
             }
             else if (isDungeonCancelOn)
             {
-                isDungeonCancelOn = false;
                 //CloseDungeonMenu();
+                isDungeonCancelOn = false;
             }
             else if(!isDungeonCancelOn && DungeonManager.instance.inDungeon)
             {
@@ -117,13 +114,13 @@ public class CanvasManager : MonoBehaviour
             {
                 if (!isInventoryOn)
                 {
-                    OpenInGameMenu(false);
                     isInventoryOn = true;
+                    OpenInGameMenu(false);
                 }
                 else
                 {
-                    isInventoryOn = false;
                     CloseInGameMenu();
+                    isInventoryOn = false;
                 }
             }
             if (isInventoryOn)
@@ -152,12 +149,12 @@ public class CanvasManager : MonoBehaviour
     }
     public void FadeOutStart(bool sceneLoad)
     {
-        player.GetComponent<PlayerControl>().enabled = false;
         StartCoroutine(FadeOut(sceneLoad));
     }
 
     IEnumerator FadeOut(bool sceneLoad)
     {
+        PlayerControl.instance.enabled = false;
         fadeInOut.SetActive(true);
 
         Debug.Log("fade out");
@@ -184,7 +181,7 @@ public class CanvasManager : MonoBehaviour
     IEnumerator FadeIn()
     {
         if (GameManager.instance.GetGameStart())
-            player.GetComponent<PlayerControl>().enabled = true;
+            PlayerControl.instance.enabled = true;
 
         Debug.Log("fade in");
 
@@ -205,8 +202,9 @@ public class CanvasManager : MonoBehaviour
 
     public void OpenInGameMenu(bool _useItemInDungeon)        // I로 인벤토리 열 때
     {
-        player.GetComponent<PlayerControl>().StopPlayer();
-        player.GetComponent<PlayerControl>().enabled = false;
+        PlayerControl.instance.StopPlayer();
+        PlayerControl.instance.enabled = false;
+        isInventoryOn = true;
         focus = 0;
 
         playerStatusInfo.SetActive(true);
@@ -220,13 +218,14 @@ public class CanvasManager : MonoBehaviour
             bar.value = 1;
         }
     }
+
     public void CloseInGameMenu()       // I로 인벤토리 닫을 때
     {
         Menus[0].GetComponent<Menu_Inventory>().CloseInventory();
         Menus[focus].SetActive(false);
         playerStatusInfo.SetActive(false);
-        player.GetComponent<PlayerControl>().enabled = true;
-        
+        isInventoryOn = false;
+        PlayerControl.instance.enabled = true;
     }
 
     // 강화 창에서 창고 열 경우
@@ -264,15 +263,15 @@ public class CanvasManager : MonoBehaviour
         if (isCancelOn) return;
         isStorageOn = true;
 
-        player.GetComponent<PlayerControl>().StopPlayer();
-        player.GetComponent<PlayerControl>().enabled = false;
+        PlayerControl.instance.StopPlayer();
+        PlayerControl.instance.enabled = false;
         storage.SetActive(true);
         storage.GetComponent<Menu_Storage>().OpenStorage();
     }
     public void CloseStorage()
     {
         storage.SetActive(false);
-        player.GetComponent<PlayerControl>().enabled = true;
+        PlayerControl.instance.enabled = true;
         isStorageOn = false;
     }
     
@@ -295,16 +294,14 @@ public class CanvasManager : MonoBehaviour
 
     public void OpenCancelMenu()
     {
-        player.GetComponent<PlayerControl>().StopPlayer();
-        player.GetComponent<PlayerControl>().enabled = false;
-        
+        PlayerControl.instance.StopPlayer();
+        PlayerControl.instance.enabled = false;
         CancelMenu.SetActive(true);
     }
     public void CloseCancelMenu()
     {
         CancelMenu.SetActive(false);
-        
-        player.GetComponent<PlayerControl>().enabled = true;
+        PlayerControl.instance.enabled = true;
     }
     
     public void OpenSettings()

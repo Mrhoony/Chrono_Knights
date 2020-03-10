@@ -12,6 +12,7 @@ public class PlayerWeaponType : MonoBehaviour
     public int commandCount;
     public int attackState;
     public int attackPattern;
+    public int[] weaponMultyHit;
 
     public int inputAttackList;
 
@@ -23,11 +24,16 @@ public class PlayerWeaponType : MonoBehaviour
         commandCount = 1;
         attackState = 1;
         inputAttackList = 9;
+        weaponMultyHit = new int[3];
+        for(int i = 0; i < weaponMultyHit.Length; ++i)
+        {
+            weaponMultyHit[i] = 1;
+        }
     }
 
     public void InputInit()
     {
-        inputAttackList = 0;
+        inputAttackList = 9;
         animator.SetBool("is_x_Atk", false);
         animator.SetBool("is_xx_Atk", false);
         animator.SetBool("is_xFx_Atk", false);
@@ -40,5 +46,14 @@ public class PlayerWeaponType : MonoBehaviour
     public void SetAttackState(int _attackState)
     {
         attackState = _attackState;
+    }
+    public int GetAttackState()
+    {
+        return attackState;
+    }
+
+    public int[] GetWeaponMultyHit()
+    {
+        return weaponMultyHit;
     }
 }

@@ -68,4 +68,22 @@ public class Monster_Ogre : NormalMonsterControl
             }
         }
     }
+
+    public override void MonsterHit(int damage)
+    {
+        if (actionState == ActionState.IsDead) return;
+
+        enemyStatus.DecreaseHP(damage);
+
+        if (enemyStatus.IsDeadCheck())
+        {
+            Dead();
+            actionState = ActionState.IsDead;
+            gameObject.tag = "DeadBody";
+        }
+        else
+        {
+            eft.SetActive(true);
+        }
+    }
 }

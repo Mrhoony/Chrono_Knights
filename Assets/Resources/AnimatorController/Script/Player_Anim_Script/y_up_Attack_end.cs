@@ -7,15 +7,16 @@ public class y_up_Attack_end : AnimatorManager
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        AnimationInit();
+        Init();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (stateInfo.normalizedTime > 0.5f && multyHitCount < 1)
+        if (stateInfo.normalizedTime > 0.5f)
         {
-            playerControl.Attack(0.5f, 0f, 1f, 0.5f);
+            if(!move)
+                playerControl.Attack(0.5f, 0f, 1f, 0.5f);
         }
     }
 
@@ -24,7 +25,10 @@ public class y_up_Attack_end : AnimatorManager
     {
         animator.SetBool("is_y_Atk", false);
         animator.SetBool("is_y_up_Atk", false);
-        playerControl.PlayerMoveSet();
+        playerControl.InputInit();
+        playerControl.MoveSet();
+        Init();
+        playerControl.multyHitCount = 0;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

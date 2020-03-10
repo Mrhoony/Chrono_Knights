@@ -155,7 +155,6 @@ public class Menu_Storage : MonoBehaviour
             slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[7];
         }
     }
-
     public void PutInBox(Item[] item)
     {
         Debug.Log("putInBoxStorage");

@@ -167,25 +167,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 
   actionState: 5
+  overlap: 0
   isFaceRight: 0
   arrowDirection: 0
+  player: []
   target: {fileID: 0}
   playerPos: {x: 0, y: 0}
   eft: {fileID: 0}
   enemyStatus: {fileID: 0}
   dropItemList: {fileID: 0}
+  monsterName: 
+  monsterCode: 0
   distanceX: 0
   distanceY: 0
   moveSpeed: 0
+  rotateDelayTime: 0
+  attackCoolTime: 0
+  maxAttackDelayTime: 0
+  curAttackDelayTime: 0
   isTrace: 0
   randomMove: 0
   randomMoveCount: 0
   randomAttack: 0
   isDamagable: 0
-  rotateDelayTime: 0
-  attackCoolTime: 0
-  maxAttackDelayTime: 0
-  curAttackDelayTime: 0
 --- !u!114 &7954043432877404954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +204,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHPBar: {fileID: 0}
   boxCollider2D: {fileID: 0}
-  isMove: 0
+  monsterName: 
+  _HP: 0
+  _currentHP: 0
+  _moveSpeed: 0
+  _attackSpeed: 0
+  _attackRange: 0
+  _attack: 0
+  _defense: 0
 --- !u!114 &1192311299816614499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,9 +224,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ffe67a1023780419849c8610590db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropItems: []
-  item: {fileID: 0}
-  dropChances: 
+  dropItems:
+  - {fileID: 5776145730567348363, guid: 9a5e0868a99a6b04fa4ec9bfdf2ad3ce, type: 3}
+  - {fileID: 4542179881440881234, guid: e9d0ef79f941c27458dba0baf4b550b1, type: 3}
+  dropChances: 5000000028000000
 --- !u!114 &210807573871128104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,7 +240,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd8bca6e2af9b3b4981467d0e5a9f4b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossNumber: 0
 --- !u!1001 &9107242547645759692
 PrefabInstance:
   m_ObjectHideFlags: 0

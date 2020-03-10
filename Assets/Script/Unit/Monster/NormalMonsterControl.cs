@@ -138,7 +138,7 @@ public abstract class NormalMonsterControl : Monster_Control
         animator.SetBool("isJumping", false);
     }
 
-    void Dead()
+    public void Dead()
     {
         animator.SetBool("isDead", true);
         StopCoroutine(Moving);

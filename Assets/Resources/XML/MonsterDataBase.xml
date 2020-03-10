@@ -8,4 +8,6 @@
 	<Field monsterCode="6" monsterName="Golem" monsterHP="100" monsterMoveSpeed="0.2" monsterAttackSpeed="2" monsterAttackRange="2" monsterAttack="5" monsterDefense="2" monsterPopChance="5"/>
 	<Field monsterCode="7" monsterName="Bear" monsterHP="50" monsterMoveSpeed="1.5" monsterAttackSpeed="1" monsterAttackRange="1.5" monsterAttack="4" monsterDefense="1" monsterPopChance="4"/>
 	<Field monsterCode="8" monsterName="Dokkaebi" monsterHP="150" monsterMoveSpeed="1" monsterAttackSpeed="2" monsterAttackRange="2" monsterAttack="8" monsterDefense="1" monsterPopChance="5"/>
+	<Field monsterCode="1001" monsterName="Merchant" monsterHP="200" monsterMoveSpeed="1" monsterAttackSpeed="2" monsterAttackRange="1" monsterAttack="5" monsterDefense="1" monsterPopChance="0"/>
+	<Field monsterCode="1002" monsterName="Trainer" monsterHP="300" monsterMoveSpeed="3" monsterAttackSpeed="1" monsterAttackRange="2" monsterAttack="3" monsterDefense="2" monsterPopChance="0"/>
 </MonsterDataBase>

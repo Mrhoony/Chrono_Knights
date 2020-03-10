@@ -17,17 +17,19 @@ public class Boss_Trainer : BossMonster_Control
     Material DefaultMat;
     Material WhiteFlashMat;
     
-    private void Start()
+    private void OnEnable()
     {
+        arrowDirection = 1;
+        isFaceRight = true;
+
         rotateDelayTime = 4f;
         attackCoolTime = 5f;
         dashAttackCoolTime = 7f;
-        arrowDirection = 1;
-
-        isFaceRight = true;
-
+        
         Invincible = false;
         isGuard = false;
+        monsterCode = 1002;
+        BossMonsterInit(monsterCode);
 
         StartCoroutine(MoveDelayTime(attackCoolTime));
     }

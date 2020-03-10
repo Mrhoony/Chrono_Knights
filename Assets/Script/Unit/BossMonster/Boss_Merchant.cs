@@ -18,7 +18,7 @@ public class Boss_Merchant : BossMonster_Control
     Material DefaultMat;
     Material WhiteFlashMat;
 
-    private void Start()
+    private void OnEnable()
     {
         DefaultMat = Resources.Load<Material>("SpriteDefault");
         WhiteFlashMat = Resources.Load<Material>("WhiteFlash");
@@ -30,6 +30,8 @@ public class Boss_Merchant : BossMonster_Control
         isGuard = false;
         isFaceRight = true;
         Invincible = false;
+        monsterCode = 1001;
+        BossMonsterInit(monsterCode);
 
         actionState = ActionState.NotMove;
         StartCoroutine(MoveDelayTime(2f));
