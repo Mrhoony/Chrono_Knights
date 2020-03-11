@@ -230,7 +230,7 @@ public class PlayerEquipment
                 case 5:
                     statusName = "회복력";
                     break;
-                case 8:
+                default:
                     statusName = "";
                     break;
             }
@@ -257,7 +257,7 @@ public class PlayerEquipment
                 case 5:
                     statusName = "회복력";
                     break;
-                case 8:
+                default:
                     statusName = "";
                     break;
             }

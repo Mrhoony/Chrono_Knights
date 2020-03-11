@@ -90,6 +90,8 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
                             menu.OpenUpgradeStorage(3);
                             break;
                         case 3:
+                            acceptSlot[upgradeFocus].transform.GetChild(0).gameObject.SetActive(false);
+                            upgradeFocus = 0;
                             Upgrade(equipFocused, selectedkey);
                             break;
                     }
@@ -132,8 +134,8 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
         {
             if(equipment[i].itemCode != 0)
             {
-                equipSlots[i].GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[i].itemCode).itemRarity]; // 테두리 색
-                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[i].itemCode).sprite;      // 키아이템 이미지
+                equipSlots[i].GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[i].itemCode).sprite;  // 테두리 색
+                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[i].itemCode).itemRarity];      // 키아이템 이미지
                 equipSlots[i].transform.GetChild(2).GetComponent<Text>().text = playerEquipment.GetStatusName(i, true);
                 equipSlots[i].transform.GetChild(3).GetComponent<Text>().text = playerEquipment.GetUpStatus(i);
                 equipSlots[i].transform.GetChild(4).GetComponent<Text>().text = playerEquipment.GetStatusName(i, false);
@@ -151,12 +153,12 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
             equipSlots[i].transform.GetChild(1).gameObject.SetActive(true);
         }
 
-        equipSlots[equipFocused].transform.GetChild(1).gameObject.SetActive(true);
+        equipSlots[equipFocused].transform.GetChild(0).gameObject.SetActive(true);
     }
     public void OpenSelectUpgradeMenu()
     {
         acceptSlot[0].transform.GetChild(0).gameObject.SetActive(true);
-        acceptSlot[1].transform.GetChild(0).gameObject.SetActive(true);
+        acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);
         acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
 
         upgradeButton.GetComponent<Image>().color = new Color(upgradeButton.GetComponent<Image>().color.r,
