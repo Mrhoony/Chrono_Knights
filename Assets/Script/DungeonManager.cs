@@ -474,7 +474,6 @@ public class DungeonManager : MonoBehaviour
             ReturnToTown();
         }
     }
-
     public void PlayerIsDead()
     {
         isDead = true;
@@ -558,6 +557,8 @@ public class DungeonManager : MonoBehaviour
 
             int randomBoss = Random.Range(0, bossMonsterList.Length);
 
+            monsterCount = 1;
+            currentMonsterCount = monsterCount;
             currentStageMonsterList = new GameObject[1];
             currentStageMonsterList[0] = Instantiate(bossMonsterList[randomBoss], new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y), Quaternion.identity);

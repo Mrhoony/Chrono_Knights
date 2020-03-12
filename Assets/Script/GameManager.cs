@@ -150,11 +150,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool GetGameStart()
-    {
-        return gameStart;
-    }
-    
     void SaveFocusedSlot(int AdjustValue)
     {
         saveSlots[saveSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 1);
@@ -327,7 +322,6 @@ public class GameManager : MonoBehaviour
         saveSlots[saveSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 1);
         saveSlots[saveSlotFocus].transform.position = new Vector3(saveSlots[saveSlotFocus].transform.position.x
             , saveSlots[saveSlotFocus].transform.position.y + 5f, saveSlots[saveSlotFocus].transform.position.z);
-        saveSlotFocus = 0;
         openSaveSlot = false;
         CloseLoadSlot();
         startButton.SetActive(true);
@@ -382,6 +376,11 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Quit"); // Application.Quit()은 에디터 상에서 작동x로 Debug.log로 동작 확인, 빌드시 삭제
         //Application.Quit();
+    }
+
+    public bool GetGameStart()
+    {
+        return gameStart;
     }
 
     // MainMenu Scene 나오게 설정

@@ -219,7 +219,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                 case 3:
                     do
                     {
-                        downgradeCount = Random.Range(0, 7);
+                        downgradeCount = Random.Range(0, 6);
                     }
                     while (upgradeCount == downgradeCount);
 

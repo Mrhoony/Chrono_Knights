@@ -207,7 +207,7 @@ public class Menu_Inventory : MonoBehaviour
         for (int i = focus; i < availableSlot - 1; ++i)
         {
             if (inventoryItemList[i] != null) continue;
-            Debug.Log(focus + " null");
+            Debug.Log(focus);
 
             for (int j = 1; j < availableSlot - i; ++i)
             {
@@ -218,7 +218,22 @@ public class Menu_Inventory : MonoBehaviour
 
                     inventoryItemList[i + j] = null;
                     isFull[i + j] = false;
+
+                    if (i + j == availableSlot)
+                    {
+                        i = availableSlot - 1;
+                    }
                     break;
+                }
+                else
+                {
+                    if (i + j == availableSlot)
+                    {
+                        inventoryItemList[i] = null;
+                        isFull[i] = false;
+                        i = availableSlot - 1;
+                        break;
+                    }
                 }
             }
         }
