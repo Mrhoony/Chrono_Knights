@@ -9,11 +9,8 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     public PlayerStatus playerStatus;
     public Image HPBar;
     public Image[] HPBarCut;
-
     public Image buffBar;
-
     public Image[] buffState;
-
     public Image bell;
     public float currentHP;
 
@@ -119,19 +116,16 @@ public class MainUI_PlayerStatusView : MonoBehaviour
                 bell.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
             }
         }
-
-
-
         bellRotation = bell.transform.rotation.eulerAngles.z;
         if (180 <= bellRotation) bellRotation -= 360;
         //속도 계산 4개의 면이 존재함
         if (0 <= bellRotation)
         {
-            if (true == isright) bellspd -= bellPower2 * Time.deltaTime;
+            if (isright) bellspd -= bellPower2 * Time.deltaTime;
             else bellspd -= bellPower * Time.deltaTime;
         }
         else {
-            if (true == isright) bellspd += bellPower * Time.deltaTime;
+            if (isright) bellspd += bellPower * Time.deltaTime;
             else bellspd += bellPower2 * Time.deltaTime;
         }
 
@@ -142,7 +136,7 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     // 피격 후 안정화
     IEnumerator MonsterHit()
     {
-        yield return new WaitForSeconds(5f - playerStatus.GetRecovery_Result() * 0.02f);
+        yield return new WaitForSeconds(5f - playerStatus.GetRecovery_Result() * 0.1f);
         
         targetRotation -= dmgRecovery;
         if (0 >= targetRotation) targetRotation = 0;
@@ -162,12 +156,10 @@ public class MainUI_PlayerStatusView : MonoBehaviour
         monsterHit = MonsterHit();
         StartCoroutine(monsterHit);
     }
-
     public void SetHPCut(int i)
     {
         HPBarCut[i].enabled = false;
     }
-    
     public void SetBuff(int value)
     {
         for(int i = 0; i < buffState.Length; ++i)
