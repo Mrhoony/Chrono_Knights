@@ -119,16 +119,16 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
             {
                 case 1:
                     upgradePercent = Random.Range(0.05f, 0.1f);
-                    PercentSet(num, upgradeCount, upgradePercent, item, false);
+                    PercentSet(num, upgradePercent, item);
                     break;
                 case 2:
                     upgradePercent = Random.Range(0.1f, 0.2f);
-                    PercentSet(num, upgradeCount, upgradePercent, item, false);
+                    PercentSet(num,  upgradePercent, item);
                     break;
                 case 3:
                     upgradePercent = Random.Range(0.5f, 1f);
                     downgradePercent = Random.Range(0.05f, 0.2f);
-                    PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, item, false);
+                    PercentSet(num,  upgradePercent, downgradePercent, item);
 
                     break;
             }
@@ -146,8 +146,6 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
 
         for (int i = 0; i < 7; ++i)
         {
-            equipSlots[i].GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[i].itemCode).sprite;       // 키 아이템
-
             if (equipment[i].itemCode != 0)
             {
                 SetSlot(equipSlots[i], i, 2);

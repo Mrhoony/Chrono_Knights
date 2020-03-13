@@ -75,6 +75,7 @@ public class Menu_Storage : MonoBehaviour
             {
                 if (storageItemList[focus] != null)
                 {
+                    slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);
                     upgradeItem = false;
                     CloseStorageWithUpgrade(true);
                 }
@@ -210,7 +211,6 @@ public class Menu_Storage : MonoBehaviour
     public void CloseStorageWithUpgrade(bool isSelect)
     {
         onStorage = false;
-        upgradeItem = false;
 
         itemInformation.SetActive(false);
         slot[focus - (boxNum * 24)].transform.GetChild(0).gameObject.SetActive(false);

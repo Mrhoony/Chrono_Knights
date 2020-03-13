@@ -120,11 +120,11 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
             {
                 case 1:
                     upgradePercent = Random.Range(0.05f, 0.1f);
-                    PercentSet(num, upgradeCount, upgradePercent, item, true);
+                    PercentSet(num, upgradeCount, upgradePercent, item);
                     break;
                 case 2:
                     upgradePercent = Random.Range(0.2f, 0.4f);
-                    PercentSet(num, upgradeCount, upgradePercent, item, true);
+                    PercentSet(num, upgradeCount, upgradePercent, item);
                     break;
                 case 3:
                     do
@@ -135,7 +135,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
 
                     upgradePercent = Random.Range(0.6f, 1f);
                     downgradePercent = Random.Range(0.4f, 0.5f);
-                    PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, item, true);
+                    PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, item);
                     break;
             }
             storage.EnchantedKey(keySlotFocus);

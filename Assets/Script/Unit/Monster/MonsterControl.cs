@@ -55,7 +55,7 @@ public abstract class Monster_Control : MovingObject
         actionState = ActionState.Idle;
     }
     // 몬스터 공격 판정
-    public void MonsterAttack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
+    public virtual void MonsterAttack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
     {
         player = Physics2D.OverlapBoxAll(
             new Vector2(transform.position.x + (attackPosX * GetArrowDirection()), transform.position.y), new Vector2(attackRangeX, attackRangeY), 8);

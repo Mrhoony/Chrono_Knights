@@ -147,11 +147,31 @@ public class CanvasManager : MonoBehaviour
     {
         StartCoroutine(FadeIn());
     }
+    IEnumerator FadeIn()
+    {
+        if (GameManager.instance.GetGameStart())
+            PlayerControl.instance.enabled = true;
+
+        Debug.Log("fade in");
+
+        Color fadeColor = fadeInOut.GetComponent<Image>().color;
+        while (fadeColor.a > 0f)
+        {
+            fadeColor.a -= Time.deltaTime / 1f;
+            fadeInOut.GetComponent<Image>().color = fadeColor;
+            yield return null;
+        }
+        if (fadeColor.a < 0f) fadeColor.a = 0f;
+        fadeInOut.GetComponent<Image>().color = fadeColor;
+
+        fadeInOut.SetActive(false);
+        Debug.Log("fade in end");
+        DungeonManager.instance.isSceneLoading = false;
+    }
     public void FadeOutStart(bool sceneLoad)
     {
         StartCoroutine(FadeOut(sceneLoad));
     }
-
     IEnumerator FadeOut(bool sceneLoad)
     {
         PlayerControl.instance.enabled = false;
@@ -177,27 +197,6 @@ public class CanvasManager : MonoBehaviour
             DungeonManager.instance.FloorSetting();
             FadeInStart();
         }
-    }
-    IEnumerator FadeIn()
-    {
-        if (GameManager.instance.GetGameStart())
-            PlayerControl.instance.enabled = true;
-
-        Debug.Log("fade in");
-
-        Color fadeColor = fadeInOut.GetComponent<Image>().color;
-        while (fadeColor.a > 0f)
-        {
-            fadeColor.a -= Time.deltaTime / 1f;
-            fadeInOut.GetComponent<Image>().color = fadeColor;
-            yield return null;
-        }
-        if (fadeColor.a < 0f) fadeColor.a = 0f;
-        fadeInOut.GetComponent<Image>().color = fadeColor;
-
-        fadeInOut.SetActive(false);
-        Debug.Log("fade in end");
-        DungeonManager.instance.isSceneLoading = false;
     }
 
     public void OpenInGameMenu(bool _useItemInDungeon)        // I로 인벤토리 열 때
@@ -248,13 +247,13 @@ public class CanvasManager : MonoBehaviour
                 townUI.GetComponent<Menu_TownUI>().townMenus[3].GetComponent<Menu_Upgrade>().SetKey(focused);
                 break;
         }
-        storage.SetActive(false);
         isStorageOn = false;
+        storage.SetActive(false);
     }
     public void CloseUpgradeStorage()
     {
-        storage.SetActive(false);
         isStorageOn = false;
+        storage.SetActive(false);
     }
 
     // 일반적으로 창고를 열 경우

@@ -73,7 +73,9 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
             upgradeButton.GetComponent<Image>().color.g, upgradeButton.GetComponent<Image>().color.b, 255);
 
         acceptSlot[0].transform.GetChild(0).gameObject.SetActive(true);
+        acceptSlot[0].transform.GetChild(1).gameObject.SetActive(true);
         acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = equipmentSet[selectEquipFocused];
+
         if (equipment[selectEquipFocused].itemCode != 0)
         {
             SetSlot(acceptSlot[0], selectEquipFocused, 2);
@@ -96,11 +98,11 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
 
         acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);
         acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = selectedkey.sprite;
-        acceptSlot[1].GetComponent<Image>().sprite = keyItemBorderSprite[selectedkey.itemRarity];
+        acceptSlot[1].transform.GetChild(2).GetComponent<Image>().sprite = keyItemBorderSprite[selectedkey.itemRarity];
 
         acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
         acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = selectedkey.sprite;
-        acceptSlot[2].GetComponent<Image>().sprite = keyItemBorderSprite[selectedkey.itemRarity];
+        acceptSlot[2].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[selectedkey.itemRarity];
     }
 
     public void SetSlot(GameObject _slot, int _slotNum, int _startNum)
@@ -155,40 +157,34 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
         return focused;
     }
 
-    public void PercentSet(int num, int upCount, float upPercent, Item item, bool enchant)
+    public void PercentSet(int num, int upCount, float upPercent, Item item)
     {
-        if (enchant)
+        equipment[num].EquipmentItemSetting(item);
+        equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
+
+        if (equipment[num].downStatus != 8)
         {
-            equipment[num].EquipmentItemSetting(item);
-            equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
-            
-            if (equipment[num].downStatus != 8)
-            {
-                equipment[num].addStatus[equipment[num].downStatus] = 0;
-                equipment[num].downStatus = 8;
-            }
-        }
-        else
-        {
-            equipment[num].EquipmentStatusUpgrade(upCount, upPercent, true);
+            equipment[num].addStatus[equipment[num].downStatus] = 0;
+            equipment[num].downStatus = 8;
         }
     }
-    public void PercentSet(int num, int upCount, float upPercent, int downCount, float downPercent, Item item, bool enchant)
+    public void PercentSet(int num, int upCount, float upPercent, int downCount, float downPercent, Item item)
     {
-        if (enchant)
-        {
-            equipment[num].EquipmentItemSetting(item);
-            equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
-            equipment[num].EquipmentStatusEnchant(downCount, downPercent, false);
-        }
-        else
-        {
-            equipment[num].EquipmentStatusUpgrade(upCount, upPercent, true);
+        equipment[num].EquipmentItemSetting(item);
+        equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
+        equipment[num].EquipmentStatusEnchant(downCount, downPercent, false);
+    }
+    public void PercentSet(int num, float upPercent, Item item)
+    {
+        equipment[num].EquipmentStatusUpgrade(equipment[num].upStatus, upPercent, true);
+    }
+    public void PercentSet(int num, float upPercent, float downPercent, Item item)
+    {
+        equipment[num].EquipmentStatusUpgrade(equipment[num].upStatus, upPercent, true);
 
-            if (equipment[num].downStatus != 8)
-            {
-                equipment[num].EquipmentStatusUpgrade(downCount, downPercent, false);
-            }
+        if (equipment[num].downStatus != 8)
+        {
+            equipment[num].EquipmentStatusUpgrade(equipment[num].downStatus, downPercent, false);
         }
     }
 }

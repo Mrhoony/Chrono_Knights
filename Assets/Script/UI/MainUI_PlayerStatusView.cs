@@ -15,7 +15,7 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     public float currentHP;
 
     private static float maxBellRotation = 80;
-    private static float doublemaxBellRotation = 6400;
+    //private static float doublemaxBellRotation = 6400;
     private float beforeRotation;
     public float targetRotation;
     private float bellRotation;
@@ -75,7 +75,7 @@ public class MainUI_PlayerStatusView : MonoBehaviour
         //각도 끝에 도달한경우 반대방향 힘 재계산
         if (0 != targetRotation)
         {
-            if ((true == isright && bellRotation >= beforeRotation) || (false == isright && bellRotation <= (-1*beforeRotation)))
+            if ((isright && bellRotation >= beforeRotation) || (!isright && bellRotation <= (-1*beforeRotation)))
             {
                 //Debug.Log("Rotation : " + bellRotation + "   beforeRotation : " + beforeRotation);
                 //로테이션값 0일때 강제로 이동시킴
