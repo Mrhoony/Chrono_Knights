@@ -43,6 +43,8 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
                 }
                 else
                 {
+                    if (!equipment[selectEquipFocused].enchant) return;
+
                     open_SelectItemUI = true;
                     selectUpgradeItem.SetActive(true);
                     OpenSelectedItemMenu();
@@ -118,16 +120,16 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
             switch (item.itemRarity)
             {
                 case 1:
-                    upgradePercent = Random.Range(0.05f, 0.1f);
+                    upgradePercent = Random.Range(5, 10);
                     PercentSet(num, upgradePercent, item);
                     break;
                 case 2:
-                    upgradePercent = Random.Range(0.1f, 0.2f);
+                    upgradePercent = Random.Range(10, 20);
                     PercentSet(num,  upgradePercent, item);
                     break;
                 case 3:
-                    upgradePercent = Random.Range(0.5f, 1f);
-                    downgradePercent = Random.Range(0.05f, 0.2f);
+                    upgradePercent = Random.Range(20, 40);
+                    downgradePercent = Random.Range(5, 20);
                     PercentSet(num,  upgradePercent, downgradePercent, item);
 
                     break;
@@ -164,5 +166,18 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
         acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(true);
         
         playerStat.PlayerStatusUpdate(playerEquipment);
+    }
+    public void PercentSet(int num, float upPercent, Item item)
+    {
+        equipment[num].EquipmentStatusUpgrade(equipment[num].upStatus, upPercent, true);
+    }
+    public void PercentSet(int num, float upPercent, float downPercent, Item item)
+    {
+        equipment[num].EquipmentStatusUpgrade(equipment[num].upStatus, upPercent, true);
+
+        if (equipment[num].downStatus != 8)
+        {
+            equipment[num].EquipmentStatusUpgrade(equipment[num].downStatus, downPercent, false);
+        }
     }
 }

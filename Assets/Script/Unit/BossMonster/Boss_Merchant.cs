@@ -1,18 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Boss_Merchant : BossMonster_Control
 {
-    #region Debug Attack Position and Range
-
-    public float Debug_AttackPositionX;
-    public float Debug_AttackPositionY;
-    public float Debug_AttackRangeX;
-    public float Debug_AttackRangeY;
-
-    #endregion
-    
     float backAttackCoolTime;
     
     Material DefaultMat;
@@ -40,59 +30,102 @@ public class Boss_Merchant : BossMonster_Control
     private void FixedUpdate()
     {
         if (actionState == ActionState.IsDead) return;
-        if (actionState != ActionState.Idle) return;
+        MonsterFlip();
         Move();
         Attack();
     }
 
-    public void Move()
+    void Move()
     {
+        if (actionState != ActionState.Idle) return;
+
         if (distanceX < 1f)
         {
             actionState = ActionState.NotMove;
             StartCoroutine(MoveDelayTime(rotateDelayTime));
             animator.SetTrigger("isDodgeTrigger");
-            rb.velocity = new Vector2(moveSpeed * -arrowDirection, rb.velocity.y + 2f);
+            rb.velocity = new Vector2(moveSpeed * -arrowDirection * 2, rb.velocity.y + 2f);
         }
     }
-
     void Attack()
     {
-        counter = Random.Range(0, 100);
+        if (actionState != ActionState.Idle) return;
 
-        if(counter < 20)
+        counter = Random.Range(0, 10);
+        if(counter < 1)
         {
             Guard();
         }
         else
         {
-            if (distanceX <= 2f)
+            if (distanceX <= 3f)
                 Attack1();
             else
                 Attack2();
         }
     }
-
+    
     void Attack1()
     {
         actionState = ActionState.IsAtk;
-        transform.position = new Vector2(target.transform.position.x + target.GetComponent<PlayerControl>().GetArrowDirection() * -0.3f, target.transform.position.y);
+        MonsterFlip();
         animator.SetTrigger("isAttack1Trigger");
         StartCoroutine(MoveDelayTime(attackCoolTime));
     }
-
     void Attack2()
     {
         actionState = ActionState.IsAtk;
-        transform.position = new Vector2(target.transform.position.x + target.GetComponent<PlayerControl>().GetArrowDirection() * -0.3f, target.transform.position.y);
+        transform.position = new Vector2(target.transform.position.x + target.GetComponent<PlayerControl>().GetArrowDirection() * -1f, target.transform.position.y);
+        MonsterFlip();
         animator.SetTrigger("isAttack2Trigger");
         StartCoroutine(MoveDelayTime(backAttackCoolTime));
+    }
+    public override void MonsterHit(int damage)
+    {
+        if (actionState == ActionState.IsDead) return;
+
+        if (isGuard)
+        {
+            StopCoroutine(GuardCount());
+            animator.SetBool("isCounterAttack", true);
+        }
+        else
+        {
+            actionState = ActionState.NotMove;
+            StartCoroutine(MoveDelayTime(1f));
+            random = Random.Range(-2f, 2f);
+            rb.velocity = Vector2.zero;
+
+            rb.AddForce(new Vector2(1f * playerPosition + random * 0.1f, 0.2f), ForceMode2D.Impulse);
+
+            enemyStatus.DecreaseHP(damage);
+
+            if (enemyStatus.IsDeadCheck())
+            {
+                actionState = ActionState.IsDead;
+                gameObject.tag = "DeadBody";
+                DungeonManager.instance.FloorBossKill();
+            }
+            else
+            {
+                animator.SetTrigger("isHit");
+                eft.SetActive(true);
+            }
+        }
     }
 
     void Guard()
     {
-        isGuard = true;
         actionState = ActionState.IsAtk;
+        isGuard = true;
+        animator.SetBool("isCounterWait", true);
+        StartCoroutine(GuardCount());
+    }
+    IEnumerator GuardCount()
+    {
+        yield return new WaitForSeconds(2f);
+        isGuard = false;
+        animator.SetBool("isCounterWait", false);
         StartCoroutine(MoveDelayTime(attackCoolTime));
     }
 
@@ -102,11 +135,5 @@ public class Boss_Merchant : BossMonster_Control
         Invincible = true;
         enemyStatus.IncreaseHP(10);
         Debug.Log("Merchant's HP Restore!");
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(new Vector3(transform.position.x + Debug_AttackPositionX, transform.position.y + Debug_AttackPositionY), new Vector3(Debug_AttackRangeX, Debug_AttackRangeY));
     }
 }

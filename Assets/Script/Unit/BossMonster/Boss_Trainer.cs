@@ -3,15 +3,6 @@ using UnityEngine;
 
 public class Boss_Trainer : BossMonster_Control
 {
-    #region Debug Attack Position and Range
-
-    public float Debug_AttackPositionX;
-    public float Debug_AttackPositionY;
-    public float Debug_AttackRangeX;
-    public float Debug_AttackRangeY;
-
-    #endregion
-
     float dashAttackCoolTime;
     Material DefaultMat;
     Material WhiteFlashMat;
@@ -36,34 +27,35 @@ public class Boss_Trainer : BossMonster_Control
     private void FixedUpdate()
     {
         if (actionState == ActionState.IsDead) return;
+        MonsterFlip();
         Move();
-        if (actionState != ActionState.Idle) return;
         Attack();
     }
 
     public void Move()
     {
-        if (actionState == ActionState.IsAtk)
-            animator.SetBool("isMove", false);
-        else
+        if (actionState != ActionState.Idle) return;
+
+        if (distanceX >= 1f && distanceX < 4)
         {
             animator.SetBool("isMove", true);
             rb.velocity = new Vector2(arrowDirection * moveSpeed, rb.velocity.y);
+        }
+        else
+        {
+            animator.SetBool("isMove", false);
         }
     }
 
     void Attack()
     {
+        if (actionState != ActionState.Idle) return;
+
         if (distanceX < 1f)
         {
-            counter = Random.Range(0, 100);
-
-            if (counter < 40)
-                Guard();
-            else
-                Attack1();
+            Attack1();
         }
-        else if(distanceX > 4f && distanceX < 7f)
+        else if(distanceX >= 4f)
         {
             DashMove();
         }
@@ -78,15 +70,15 @@ public class Boss_Trainer : BossMonster_Control
     }
     public void Dash()
     {
-        Debug.Log("dash");
         rb.velocity = new Vector2(arrowDirection * moveSpeed * 2f, rb.velocity.y);
+        Debug.Log("dash");
     }
     public void DashAttack()
     {
-        Debug.Log("dashAttack");
         StopCoroutine("DashDuration");
         animator.SetBool("isDashAttack", false);
         StartCoroutine(MoveDelayTime(dashAttackCoolTime));
+        Debug.Log("dashAttack");
     }
     public void DashMove()
     {
@@ -95,6 +87,7 @@ public class Boss_Trainer : BossMonster_Control
         animator.SetBool("isDashAttack", true);
         StartCoroutine("DashDuration");
         rb.velocity = new Vector2(arrowDirection * moveSpeed, rb.velocity.y);
+        Debug.Log("dashMove");
     }
     public void DashAttackEnd()
     {
@@ -108,17 +101,29 @@ public class Boss_Trainer : BossMonster_Control
         animator.SetBool("isDashAttack", false);
         StartCoroutine(MoveDelayTime(attackCoolTime));
     }
-    
-    void Guard()
+
+    public override void MonsterHit(int damage)
     {
-        isGuard = true;
-        actionState = ActionState.IsAtk;
-        StartCoroutine(MoveDelayTime(attackCoolTime));
-    }
-    
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(new Vector3(transform.position.x + Debug_AttackPositionX, transform.position.y + Debug_AttackPositionY), new Vector3(Debug_AttackRangeX, Debug_AttackRangeY));
+        if (actionState == ActionState.IsDead) return;
+
+        actionState = ActionState.NotMove;
+        StartCoroutine(MoveDelayTime(1f));
+        random = Random.Range(-2f, 2f);
+        rb.velocity = Vector2.zero;
+
+        rb.AddForce(new Vector2(1f * playerPosition + random * 0.1f, 0.2f), ForceMode2D.Impulse);
+
+        enemyStatus.DecreaseHP(damage);
+        if (enemyStatus.IsDeadCheck())
+        {
+            actionState = ActionState.IsDead;
+            gameObject.tag = "DeadBody";
+            DungeonManager.instance.FloorBossKill();
+        }
+        else
+        {
+            animator.SetTrigger("isHit");
+            eft.SetActive(true);
+        }
     }
 }

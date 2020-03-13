@@ -47,13 +47,13 @@ public class PlayerEquipment
                 switch (itemRarity)
                 {
                     case 1:
-                        LimitUpgradeSet(4f);
+                        LimitUpgradeSet(0.8f);
                         break;
                     case 2:
-                        LimitUpgradeSet(8f);
+                        LimitUpgradeSet(1f);
                         break;
                     case 3:
-                        LimitUpgradeSet(15f, -10f);
+                        LimitUpgradeSet(1.5f, -1f);
                         break;
                 }
             }
@@ -64,96 +64,44 @@ public class PlayerEquipment
             if (_upgrade)
             {
                 upStatus = _status;
-                switch (upStatus)
-                {
-                    case 0:
-                    case 1:
-                        addStatus[upStatus] = _addStatus;
-                        if (addStatus[upStatus] > max[upStatus]) addStatus[upStatus] = max[upStatus];
-                        break;
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                        addStatus[_status] = _addStatus * 0.1f;
-                        if (addStatus[upStatus] > max[upStatus]) addStatus[upStatus] = max[upStatus];
-                        break;
-                }
+                addStatus[upStatus] = _addStatus * 0.01f;
+                if (addStatus[upStatus] > max[upStatus]) addStatus[upStatus] = max[upStatus];
             }
             else
             {
                 downStatus = _status;
-                switch (downStatus)
-                {
-                    case 0:
-                    case 1:
-                        addStatus[downStatus] = _addStatus;
-                        if (addStatus[downStatus] < min[downStatus]) addStatus[downStatus] = min[downStatus];
-                        break;
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                        addStatus[downStatus] = _addStatus * 0.1f;
-                        if (addStatus[downStatus] < min[downStatus]) addStatus[downStatus] = min[downStatus];
-                        break;
-                }
+                addStatus[downStatus] = _addStatus * 0.01f;
+                if (addStatus[downStatus] < min[downStatus]) addStatus[downStatus] = min[downStatus];
             }
         }
         public void EquipmentStatusUpgrade(int _status, float _addStatus, bool _upgrade)
         {
             if (_upgrade)
             {
-                switch (_status)
-                {
-                    case 0:
-                    case 1:
-                        addStatus[_status] += _addStatus;
-                        if (addStatus[_status] > max[_status]) addStatus[_status] = max[_status];
-                        break;
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                        addStatus[_status] += _addStatus * 0.1f;
-                        if (addStatus[_status] > max[_status]) addStatus[_status] = max[_status];
-                        break;
-                }
+                addStatus[_status] += _addStatus * 0.01f;
+                if (addStatus[_status] > max[_status]) addStatus[_status] = max[_status];
             }
             else
             {
-                switch (_status)
-                {
-                    case 0:
-                    case 1:
-                        addStatus[_status] += _addStatus;
-                        if (addStatus[_status] < min[_status]) addStatus[_status] = min[_status];
-                        break;
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                        addStatus[_status] += _addStatus * 0.1f;
-                        if (addStatus[_status] < min[_status]) addStatus[_status] = min[_status];
-                        break;
-                }
+                addStatus[_status] += _addStatus * 0.01f;
+                if (addStatus[_status] < min[_status]) addStatus[_status] = min[_status];
             }
         }
         public void LimitUpgradeSet(float _max, float _min = 0)
         {
             max[0] = _max;
             max[1] = _max;
-            max[2] = _max * 0.1f;
-            max[3] = _max * 0.1f;
-            max[4] = _max * 0.1f;
-            max[5] = _max * 0.1f;
+            max[2] = _max;
+            max[3] = _max;
+            max[4] = _max;
+            max[5] = _max;
 
             min[0] = _min;
             min[1] = _min;
-            min[2] = _min * 0.1f;
-            min[3] = _min * 0.1f;
-            min[4] = _min * 0.1f;
-            min[5] = _min * 0.1f;
+            min[2] = _min;
+            min[3] = _min;
+            min[4] = _min;
+            min[5] = _min;
         }
     }
     
@@ -268,7 +216,7 @@ public class PlayerEquipment
         string StatusString;
 
         if (equipment[slotNum].upStatus != 8)
-            StatusString = equipment[slotNum].addStatus[equipment[slotNum].upStatus].ToString("N2");
+            StatusString = ((int)(equipment[slotNum].addStatus[equipment[slotNum].upStatus] * 100)).ToString();
         else
             StatusString = "";
 
@@ -279,7 +227,7 @@ public class PlayerEquipment
         string StatusString;
 
         if (equipment[slotNum].downStatus != 8)
-            StatusString = equipment[slotNum].addStatus[equipment[slotNum].downStatus].ToString("N2");
+            StatusString = ((int)(equipment[slotNum].addStatus[equipment[slotNum].downStatus] * 100)).ToString();
         else
             StatusString = "";
 

@@ -214,7 +214,11 @@ public class GameManager : MonoBehaviour
     }
     public void LoadGame()
     {
-        if(PlayerPrefs.HasKey("SaveSlot" + saveSlotFocus.ToString()))
+        startButtons[gameSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        startButtons[gameSlotFocus].transform.position = new Vector3(startButtons[gameSlotFocus].transform.position.x
+            , startButtons[gameSlotFocus].transform.position.y - 5f, startButtons[gameSlotFocus].transform.position.z);
+
+        if (PlayerPrefs.HasKey("SaveSlot" + saveSlotFocus.ToString()))
         {
             data = PlayerPrefs.GetString("SaveSlot" + saveSlotFocus.ToString(), null);
 

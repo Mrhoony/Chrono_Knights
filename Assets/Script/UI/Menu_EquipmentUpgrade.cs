@@ -25,9 +25,9 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     public int selectItemUIFocused;
 
     public int upgradeCount;
-    public float upgradePercent;
+    public int upgradePercent;
     public int downgradeCount;
-    public float downgradePercent;
+    public int downgradePercent;
 
     public int keySlotFocus;
 
@@ -109,9 +109,18 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     {
         _slot.transform.GetChild(_startNum).GetComponent<Image>().sprite = keyItemBorderSprite[equipment[_slotNum].itemRarity]; // 레어도
         _slot.transform.GetChild(_startNum + 1).GetComponent<Text>().text = playerEquipment.GetStatusName(_slotNum, true);
-        _slot.transform.GetChild(_startNum + 2).GetComponent<Text>().text = playerEquipment.GetUpStatus(_slotNum);
-        _slot.transform.GetChild(_startNum + 3).GetComponent<Text>().text = playerEquipment.GetStatusName(_slotNum, false);
-        _slot.transform.GetChild(_startNum + 4).GetComponent<Text>().text = playerEquipment.GetDownStatus(_slotNum);
+        _slot.transform.GetChild(_startNum + 2).GetComponent<Text>().text = playerEquipment.GetUpStatus(_slotNum) + " %";
+
+        if(playerEquipment.GetStatusName(_slotNum, false) != "")
+        {
+            _slot.transform.GetChild(_startNum + 3).GetComponent<Text>().text = playerEquipment.GetStatusName(_slotNum, false);
+            _slot.transform.GetChild(_startNum + 4).GetComponent<Text>().text = playerEquipment.GetDownStatus(_slotNum) + " %";
+        }
+        else
+        {
+            _slot.transform.GetChild(_startNum + 3).GetComponent<Text>().text = "";
+            _slot.transform.GetChild(_startNum + 4).GetComponent<Text>().text = "";
+        }
     }
     public void ClearSlot(GameObject _slotNum, int _startNum)
     {
@@ -157,34 +166,4 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
         return focused;
     }
 
-    public void PercentSet(int num, int upCount, float upPercent, Item item)
-    {
-        equipment[num].EquipmentItemSetting(item);
-        equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
-
-        if (equipment[num].downStatus != 8)
-        {
-            equipment[num].addStatus[equipment[num].downStatus] = 0;
-            equipment[num].downStatus = 8;
-        }
-    }
-    public void PercentSet(int num, int upCount, float upPercent, int downCount, float downPercent, Item item)
-    {
-        equipment[num].EquipmentItemSetting(item);
-        equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
-        equipment[num].EquipmentStatusEnchant(downCount, downPercent, false);
-    }
-    public void PercentSet(int num, float upPercent, Item item)
-    {
-        equipment[num].EquipmentStatusUpgrade(equipment[num].upStatus, upPercent, true);
-    }
-    public void PercentSet(int num, float upPercent, float downPercent, Item item)
-    {
-        equipment[num].EquipmentStatusUpgrade(equipment[num].upStatus, upPercent, true);
-
-        if (equipment[num].downStatus != 8)
-        {
-            equipment[num].EquipmentStatusUpgrade(equipment[num].downStatus, downPercent, false);
-        }
-    }
 }

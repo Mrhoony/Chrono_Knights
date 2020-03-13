@@ -39,13 +39,6 @@ public abstract class Monster_Control : MovingObject
         eft = transform.GetChild(0).gameObject;
         target = GameObject.Find("PlayerCharacter");
     }
-    // Update is called once per frame
-    public void Update()
-    {
-        if (actionState == ActionState.IsDead) return;
-        if (actionState != ActionState.Idle) return;
-        MonsterFlip();
-    }
 
     // 몬스터 행동시 딜레이
     public IEnumerator MoveDelayTime(float time)

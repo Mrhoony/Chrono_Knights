@@ -210,7 +210,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7, y: 0.8}
+  m_Size: {x: 0.7, y: 0.75}
   m_EdgeRadius: 0
 --- !u!50 &3592176665141119383
 Rigidbody2D:
@@ -289,10 +289,6 @@ MonoBehaviour:
   isGuard: 0
   counter: 0
   Invincible: 0
-  Debug_AttackPositionX: 0
-  Debug_AttackPositionY: 0
-  Debug_AttackRangeX: 0
-  Debug_AttackRangeY: 0
 --- !u!114 &3856520411252202345
 MonoBehaviour:
   m_ObjectHideFlags: 0

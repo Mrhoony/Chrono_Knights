@@ -35,11 +35,12 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
             equipmentSlot[i].GetComponent<Image>().sprite = equipmentSet[i];
             if (equipment[i].itemCode != 0)
             {
+                equipmentSlot[i].transform.GetChild(0).gameObject.SetActive(true);
                 equipmentSlot[i].transform.GetChild(0).GetComponent<Image>().sprite = equipmentBorder[Database_Game.instance.GetItem(equipment[i].itemCode).itemRarity];
             }
             else
             {
-                equipmentSlot[i].transform.GetChild(0).GetComponent<Image>().sprite = inventorySet[4];
+                equipmentSlot[i].transform.GetChild(0).gameObject.SetActive(false);
             }
         }
         statusinformation.transform.GetChild(0).GetComponent<Text>().text = playerStatus.GetAttack_Result().ToString();

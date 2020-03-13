@@ -15,6 +15,7 @@ public abstract class NormalMonsterControl : Monster_Control
     public void MonsterInit(int monsterCode)
     {
         Debug.Log("MonsterInit");
+        gameObject.tag = "Monster";
 
         actionState = ActionState.Idle;
         enemyStatus.MonsterInit(monsterCode);

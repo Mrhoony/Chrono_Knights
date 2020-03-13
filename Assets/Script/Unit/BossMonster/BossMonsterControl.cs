@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossMonster_Control : Monster_Control
+public abstract class BossMonster_Control : Monster_Control
 {
     public int playerPosition;
-
     public bool isDamagable;
     public bool isGuard;
     public int counter;
@@ -13,6 +12,8 @@ public class BossMonster_Control : Monster_Control
     
     public void BossMonsterInit(int _monsterCode)
     {
+        gameObject.tag = "BossMonster";
+
         actionState = ActionState.Idle;
         enemyStatus.BossMonsterInit(monsterCode);
         moveSpeed = enemyStatus.GetMoveSpeed();
@@ -22,6 +23,8 @@ public class BossMonster_Control : Monster_Control
     }
     public override void MonsterFlip()
     {
+        if (actionState != ActionState.Idle) return;
+
         if (playerPos.x < transform.position.x && isFaceRight)
         {
             Flip();
@@ -31,6 +34,8 @@ public class BossMonster_Control : Monster_Control
             Flip();
         }
     }
+
+
     public IEnumerator SearchPlayerBoss()
     {
         while (actionState != ActionState.IsDead)
@@ -51,37 +56,8 @@ public class BossMonster_Control : Monster_Control
             yield return null;
         }
     }
-    public override void MonsterHit(int damage)
-    {
-        if (actionState == ActionState.IsDead) return;
+    public abstract override void MonsterHit(int damage);
 
-        if (isGuard)
-        {
-            animator.SetTrigger("isCounterTrigger");
-        }
-        else
-        {
-            actionState = ActionState.NotMove;
-            StartCoroutine(MoveDelayTime(1f));
-            random = Random.Range(-2f, 2f);
-            rb.velocity = Vector2.zero;
-
-            rb.AddForce(new Vector2(1f * playerPosition + random * 0.1f, 0.2f), ForceMode2D.Impulse);
-
-            enemyStatus.DecreaseHP(damage);
-            if (enemyStatus.IsDeadCheck())
-            {
-                actionState = ActionState.IsDead;
-                gameObject.tag = "DeadBody";
-                DungeonManager.instance.FloorBossKill();
-            }
-            else
-            {
-                animator.SetTrigger("isHit");
-                eft.SetActive(true);
-            }
-        }
-    }
     public void AttackMove(float moveDistance)
     {
         transform.position = new Vector2(transform.position.x + moveDistance * arrowDirection, transform.position.y);

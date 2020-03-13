@@ -119,11 +119,11 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
             switch (item.itemRarity)
             {
                 case 1:
-                    upgradePercent = Random.Range(0.05f, 0.1f);
+                    upgradePercent = Random.Range(5, 20);
                     PercentSet(num, upgradeCount, upgradePercent, item);
                     break;
                 case 2:
-                    upgradePercent = Random.Range(0.2f, 0.4f);
+                    upgradePercent = Random.Range(20, 40);
                     PercentSet(num, upgradeCount, upgradePercent, item);
                     break;
                 case 3:
@@ -133,8 +133,9 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                     }
                     while (upgradeCount == downgradeCount);
 
-                    upgradePercent = Random.Range(0.6f, 1f);
-                    downgradePercent = Random.Range(0.4f, 0.5f);
+                    upgradePercent = Random.Range(40, 60);
+                    downgradePercent = Random.Range(10, 20);
+
                     PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, item);
                     break;
             }
@@ -171,5 +172,22 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
         acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(true);
         
         playerStat.PlayerStatusUpdate(playerEquipment);
+    }
+    public void PercentSet(int num, int upCount, float upPercent, Item item)
+    {
+        equipment[num].EquipmentItemSetting(item);
+        equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
+
+        if (equipment[num].downStatus != 8)
+        {
+            equipment[num].addStatus[equipment[num].downStatus] = 0;
+            equipment[num].downStatus = 8;
+        }
+    }
+    public void PercentSet(int num, int upCount, float upPercent, int downCount, float downPercent, Item item)
+    {
+        equipment[num].EquipmentItemSetting(item);
+        equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
+        equipment[num].EquipmentStatusEnchant(downCount, downPercent, false);
     }
 }

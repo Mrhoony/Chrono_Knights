@@ -18,27 +18,6 @@ public enum SkillType
     Unlock
 }
 
-public class Skill
-{
-    public SkillType skillType;
-    public string skillName;
-    public int skillCode;
-    public string skillDescription;
-    public int skillRarity;
-    public float skillCoolTime;
-    public float skillTimeDuration;
-
-    public Skill(SkillType _skillType, string _skillName, int _skillCode, int _skillRarity, string _skillDescription, float _skillCoolTime = 0, float _skillTimeDuration = 0)
-    {
-        skillType = _skillType;
-        skillName = _skillName;
-        skillCode = _skillCode;
-        skillRarity = _skillRarity;
-        skillDescription = _skillDescription;
-        skillCoolTime = _skillCoolTime;
-        skillTimeDuration = _skillTimeDuration;
-    }
-}
 public class Item
 {
     public ItemType itemType;
@@ -71,7 +50,7 @@ public class Item
                     }
                     else
                     {
-                        Value = Random.Range(1, 4) * 5;
+                        Value = Random.Range(1, 3) * 5;
                     }
                 }
                 break;
@@ -84,6 +63,27 @@ public class Item
     public void SetSkillNum(int _skillCode)
     {
         skillCode = _skillCode;
+    }
+}
+public class Skill
+{
+    public SkillType skillType;
+    public string skillName;
+    public int skillCode;
+    public string skillDescription;
+    public int skillRarity;
+    public float skillCoolTime;
+    public float skillTimeDuration;
+
+    public Skill(SkillType _skillType, string _skillName, int _skillCode, int _skillRarity, string _skillDescription, float _skillCoolTime = 0, float _skillTimeDuration = 0)
+    {
+        skillType = _skillType;
+        skillName = _skillName;
+        skillCode = _skillCode;
+        skillRarity = _skillRarity;
+        skillDescription = _skillDescription;
+        skillCoolTime = _skillCoolTime;
+        skillTimeDuration = _skillTimeDuration;
     }
 }
 public class Monster
