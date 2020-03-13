@@ -20,8 +20,6 @@ public class Boss_Trainer : BossMonster_Control
         isGuard = false;
         monsterCode = 1002;
         BossMonsterInit(monsterCode);
-
-        StartCoroutine(MoveDelayTime(attackCoolTime));
     }
 
     private void FixedUpdate()
@@ -63,10 +61,18 @@ public class Boss_Trainer : BossMonster_Control
 
     void Attack1()
     {
-        Debug.Log("attack");
         actionState = ActionState.IsAtk;
-        animator.SetTrigger("isAttack1");
+        animator.SetTrigger("isAttackTrigger");
         StartCoroutine(MoveDelayTime(attackCoolTime));
+        Debug.Log("attack");
+    }
+    public void DashMove()
+    {
+        actionState = ActionState.IsAtk;
+        animator.SetTrigger("isDashTrigger");
+        StartCoroutine(DashDuration());
+        rb.velocity = new Vector2(arrowDirection * moveSpeed, rb.velocity.y);
+        Debug.Log("dashMove");
     }
     public void Dash()
     {
@@ -75,28 +81,15 @@ public class Boss_Trainer : BossMonster_Control
     }
     public void DashAttack()
     {
-        StopCoroutine("DashDuration");
-        animator.SetBool("isDashAttack", false);
+        StopCoroutine(DashDuration());
+        animator.SetTrigger("isDashAttackTrigger");
         StartCoroutine(MoveDelayTime(dashAttackCoolTime));
         Debug.Log("dashAttack");
-    }
-    public void DashMove()
-    {
-        actionState = ActionState.IsAtk;
-        animator.SetBool("isDash", true);
-        animator.SetBool("isDashAttack", true);
-        StartCoroutine("DashDuration");
-        rb.velocity = new Vector2(arrowDirection * moveSpeed, rb.velocity.y);
-        Debug.Log("dashMove");
-    }
-    public void DashAttackEnd()
-    {
-        animator.SetBool("isDash", false);
     }
 
     IEnumerator DashDuration()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         animator.SetBool("isDash", false);
         animator.SetBool("isDashAttack", false);
         StartCoroutine(MoveDelayTime(attackCoolTime));
@@ -107,6 +100,7 @@ public class Boss_Trainer : BossMonster_Control
         if (actionState == ActionState.IsDead) return;
 
         actionState = ActionState.NotMove;
+        StopAllCoroutines();
         StartCoroutine(MoveDelayTime(1f));
         random = Random.Range(-2f, 2f);
         rb.velocity = Vector2.zero;

@@ -2991,7 +2991,7 @@ PrefabInstance:
         type: 3}
       propertyPath: bossMonsterList.Array.data[0]
       value: 
-      objectReference: {fileID: 6298394293875124484, guid: 070c54db304500b4ea0655b754db7a74,
+      objectReference: {fileID: 8315407001163370714, guid: 070c54db304500b4ea0655b754db7a74,
         type: 3}
     - target: {fileID: 8598324638961123333, guid: bb52788c74313754aaac85eedbfab2b6,
         type: 3}

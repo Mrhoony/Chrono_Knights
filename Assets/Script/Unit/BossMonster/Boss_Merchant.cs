@@ -92,6 +92,7 @@ public class Boss_Merchant : BossMonster_Control
         else
         {
             actionState = ActionState.NotMove;
+            StopAllCoroutines();
             StartCoroutine(MoveDelayTime(1f));
             random = Random.Range(-2f, 2f);
             rb.velocity = Vector2.zero;
