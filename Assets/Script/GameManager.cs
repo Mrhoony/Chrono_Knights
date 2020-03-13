@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("gameManager awake");
     }
+
     private void Init()
     {
         dataBase.Init();
@@ -89,27 +90,30 @@ public class GameManager : MonoBehaviour
 
         playerStatView.SetActive(false);
         canvanManager.inGameMenu.SetActive(false);
+
+        OpenStartButton();
+
         Debug.Log("gameManager Start");
     }
+
     public void Update()
     {
         if (canvanManager.GameMenuOnCheck()) return;
-
-        if (SceneManager.GetActiveScene().buildIndex != 0) return;
+        if (SceneManager.GetActiveScene().buildIndex != 0) return;      // 씬 넘버가 0일때만 실행
         
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            if (DungeonManager.instance.useTeleportSystem == 9)
+            if (DungeonManager.instance.useTeleportSystem == 9)         // 침대 앞에 있을 경우
             {
-                if (gameStart)
+                if (gameStart)          // 게임 실행중이면
                 {
                     if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
                     gameStart = false;
-                    SaveGame();
+                    SaveGame();         // 게임을 세이브
                 }
-                else
+                else                    // 게임이 실행중이 아니면
                 {
-                    if (!openSaveSlot)
+                    if (!openSaveSlot)      // 세이브창이 켜져있지 않으면
                     {
                         GameStartMenuSelect();
                     }
@@ -188,7 +192,7 @@ public class GameManager : MonoBehaviour
 
         // 유저 정보
         dataBase.playerData = playerStat.playerData;
-        dataBase.SaveGameData(dungeonManager.GetCurrentDate(), dungeonManager.GetEventFlag());
+        dataBase.SaveGameData(dungeonManager.GetCurrentDate(), dungeonManager.GetTrainigPossible(), dungeonManager.GetEventFlag());
         dataBase.SaveStorageData(storage.GetStorageItemCodeList(), storage.GetStorageItemSkillCodeList(), storage.GetStorageAvailableSlot());
         dataBase.SaveInventoryData(inventory.GetTakeItemSlot(), inventory.GetAvailableSlot());
         
@@ -203,7 +207,8 @@ public class GameManager : MonoBehaviour
         canvanManager.inGameMenu.SetActive(false);
         bedBlind.SetActive(true);
         playerStatView.SetActive(false);
-        startButton.SetActive(true);
+
+        OpenStartButton();
 
         Debug.Log("Save");
     }
@@ -222,7 +227,7 @@ public class GameManager : MonoBehaviour
                 dataBase = (DataBase)bf.Deserialize(ms);
                 
                 playerStat.SetPlayerData(dataBase.playerData);
-                dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetEventFlag());
+                dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag());
                 storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetStorageItemSkillCodeList(), dataBase.GetAvailableStorageSlot());
                 inventory.LoadInventoryData(dataBase.GetTakeKeySlot(), dataBase.GetAvailableInventorySlot());
             }
@@ -231,7 +236,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("NoData");
             playerStat.SetPlayerData(dataBase.playerData);
-            dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetEventFlag());
+            dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag());
             storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetStorageItemSkillCodeList(), dataBase.GetAvailableStorageSlot());
             inventory.LoadInventoryData(dataBase.GetTakeKeySlot(), dataBase.GetAvailableInventorySlot());
         }
@@ -257,11 +262,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("saveDelete");
         }
     }
-    
-    public void CloseLoadSlot()
-    {
-        saveSlot.SetActive(false);
-    }
 
     public void GameStartMenuSelect()
     {
@@ -277,6 +277,14 @@ public class GameManager : MonoBehaviour
                 Debug.Log("game over");
                 break;
         }
+    }
+    public void OpenStartButton()
+    {
+        startButton.SetActive(true);
+
+        startButtons[0].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
+        startButtons[0].transform.position = new Vector3(startButtons[0].transform.position.x
+            , startButtons[0].transform.position.y + 5f, startButtons[0].transform.position.z);
     }
 
     public void OpenLoad()
@@ -323,10 +331,10 @@ public class GameManager : MonoBehaviour
         saveSlots[saveSlotFocus].transform.position = new Vector3(saveSlots[saveSlotFocus].transform.position.x
             , saveSlots[saveSlotFocus].transform.position.y + 5f, saveSlots[saveSlotFocus].transform.position.z);
         openSaveSlot = false;
-        CloseLoadSlot();
+        saveSlot.SetActive(false);
         startButton.SetActive(true);
     }
-    
+
     public void SettingSave()
     {
         bf = new BinaryFormatter();
@@ -358,7 +366,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
     public void ScreenSizeSelect(bool LR)
     {
         if (LR)
@@ -377,7 +384,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Quit"); // Application.Quit()은 에디터 상에서 작동x로 Debug.log로 동작 확인, 빌드시 삭제
         //Application.Quit();
     }
-
     public bool GetGameStart()
     {
         return gameStart;

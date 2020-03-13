@@ -2054,26 +2054,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
-    - target: {fileID: 3843364863715260113, guid: 187d72a635af2f04a891caed4b95c247,
-        type: 3}
-      propertyPath: m_Text
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3843364863715260113, guid: 187d72a635af2f04a891caed4b95c247,
-        type: 3}
-      propertyPath: m_FontData.m_FontSize
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 3843364863715260113, guid: 187d72a635af2f04a891caed4b95c247,
-        type: 3}
-      propertyPath: m_FontData.m_LineSpacing
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3843364863715260113, guid: 187d72a635af2f04a891caed4b95c247,
-        type: 3}
-      propertyPath: m_FontData.m_Alignment
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 82245446886466468, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: itemInformation
@@ -2089,6 +2069,41 @@ PrefabInstance:
       propertyPath: canvasManager
       value: 
       objectReference: {fileID: 1116762776}
+    - target: {fileID: 82245445457459811, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 411236570}
+    - target: {fileID: 82245445457459811, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: gm
+      value: 
+      objectReference: {fileID: 1146401371}
+    - target: {fileID: 82245445457459811, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: sb.Array.data[0]
+      value: 
+      objectReference: {fileID: 82245447478733255}
+    - target: {fileID: 3843364863715260113, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_Text
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843364863715260113, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843364863715260113, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_FontData.m_LineSpacing
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843364863715260113, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6337771438183710766, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_Text
@@ -2109,16 +2124,6 @@ PrefabInstance:
       propertyPath: m_FontData.m_Alignment
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 82245445457459811, guid: 187d72a635af2f04a891caed4b95c247,
-        type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 411236570}
-    - target: {fileID: 82245445457459811, guid: 187d72a635af2f04a891caed4b95c247,
-        type: 3}
-      propertyPath: gm
-      value: 
-      objectReference: {fileID: 1146401371}
     - target: {fileID: 2959071127988047716, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_Text
@@ -2639,6 +2644,11 @@ PrefabInstance:
       propertyPath: m_Padding.m_Top
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 82245446666752435, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 82245445669965203, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
     - {fileID: 82245446950369203, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
@@ -2655,6 +2665,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 82245447478733252}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &82245447478733255 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8362553286905181647, guid: 187d72a635af2f04a891caed4b95c247,
+    type: 3}
+  m_PrefabInstance: {fileID: 82245447478733252}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2061169968, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &347987306046757590
 PrefabInstance:
   m_ObjectHideFlags: 0

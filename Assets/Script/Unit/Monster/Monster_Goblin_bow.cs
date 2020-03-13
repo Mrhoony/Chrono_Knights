@@ -72,7 +72,7 @@ public class Monster_Goblin_bow : NormalMonsterControl
         }
     }
 
-    public void Dead()
+    public new void Dead()
     {
         animator.SetBool("isDead", true);
         StopCoroutine(Moving);

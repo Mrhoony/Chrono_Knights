@@ -7,15 +7,16 @@ public class Menu_Traning : MonoBehaviour
 {
     public PlayerStatus playerStat;
     public GameObject button;
-    
     public GameObject[] traningButton;
     public Image[] gauge;
+    public NPC_Trainer npc_Trainer;
 
     public float[] limit_traning;
     public float[] traningStat;
     public int[] traning_count;
     public int focus;
     public bool isTraningOn = false;
+    public bool isTraningPossible;
 
     public void Update()
     {
@@ -23,37 +24,32 @@ public class Menu_Traning : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            if(focus < 7)
+            if(focus < 6)
             {
+                if (!isTraningPossible) return;
                 Traning(focus);
             }
             else
             {
-
+                npc_Trainer.CloseTraningMenu();
             }
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-1); }
         if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(1); }
     }
-
-    public void Init()
+    
+    public void OpenTraningMenu(NPC_Trainer _trainer)
     {
-        playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
-        limit_traning = playerStat.playerData.GetLimitTraning();
-        traningStat = playerStat.playerData.GetTraningStat();
-        traning_count = playerStat.playerData.GetTraningCount();
-        focus = 0;
         isTraningOn = true;
-    }
-
-    public void OpenTraningMenu()
-    {
+        npc_Trainer = _trainer;
         Init();
-        button.SetActive(true);
 
-        if (DungeonManager.instance.NewDayCheck())
+        isTraningPossible = DungeonManager.instance.NewDayCheck();
+
+        if (isTraningPossible)
         {
+            button.SetActive(true);
             for (int i = 0; i < 6; ++i)
             {
                 gauge[i].fillAmount = traningStat[i] / limit_traning[i];
@@ -67,16 +63,31 @@ public class Menu_Traning : MonoBehaviour
                     traningButton[i].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
                 }
             }
-            traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
+            traningButton[0].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
+            focus = 0;
+        }
+        else
+        {
+            button.SetActive(false);
+            traningButton[6].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
+            focus = 6;
         }
 
         Debug.Log("open traning");
     }
+    public void Init()
+    {
+        playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
+        limit_traning = playerStat.playerData.GetLimitTraning();
+        traningStat = playerStat.playerData.GetTraningStat();
+        traning_count = playerStat.playerData.GetTraningCount();
+    }
 
     public void CloseTraningMenu()
     {
-        isTraningOn = false;
+        focus = 0;
         button.SetActive(false);
+        isTraningOn = false;
     }
 
     public void Traning(int stat)
@@ -107,8 +118,9 @@ public class Menu_Traning : MonoBehaviour
 
             gauge[stat].fillAmount = traningStat[stat] / limit_traning[stat];
 
-            playerStat.PlayerStatusUpdate();
-
+            playerStat.PlayerStatusInit();
+            isTraningPossible = true;
+            FocusedSlot(6);
             button.SetActive(false);
         }
     }
@@ -124,7 +136,5 @@ public class Menu_Traning : MonoBehaviour
         else if (focus > 6) focus = 6;
 
         traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
-
-        Debug.Log("focus move");
     }
 }

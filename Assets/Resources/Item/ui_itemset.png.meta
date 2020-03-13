@@ -2,13 +2,13 @@ fileFormatVersion: 2
 guid: e4e8325710260c244962c37c96ede22f
 TextureImporter:
   fileIDToRecycleName:
-    21300000: ui_itemset_0
-    21300002: ui_itemset_1
-    21300004: ui_itemset_2
-    21300006: ui_itemset_3
-    21300008: ui_itemset_4
-    21300010: ui_itemset_5
-    21300012: ui_itemset_6
+    21300000: 1 ui_equipment_gun
+    21300002: 0 ui_equipment_spear
+    21300004: 2 ui_equipment_bullet
+    21300006: 3 ui_equipment_Tanktop
+    21300008: 4 ui_equipment_shoes
+    21300010: 5 ui_equipment_gloves
+    21300012: 6 ui_equipment_bell
     21300014: ui_itemset_7
     21300016: ui_itemset_8
     21300018: ui_itemset_9
@@ -103,7 +103,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ui_itemset_0
+      name: 1 ui_equipment_gun
       rect:
         serializedVersion: 2
         x: 0
@@ -123,7 +123,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_itemset_1
+      name: 0 ui_equipment_spear
       rect:
         serializedVersion: 2
         x: 26
@@ -143,7 +143,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_itemset_2
+      name: 2 ui_equipment_bullet
       rect:
         serializedVersion: 2
         x: 57
@@ -163,7 +163,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_itemset_3
+      name: 3 ui_equipment_Tanktop
       rect:
         serializedVersion: 2
         x: 82
@@ -183,7 +183,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_itemset_4
+      name: 4 ui_equipment_shoes
       rect:
         serializedVersion: 2
         x: 1
@@ -203,7 +203,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_itemset_5
+      name: 5 ui_equipment_gloves
       rect:
         serializedVersion: 2
         x: 29
@@ -223,7 +223,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_itemset_6
+      name: 6 ui_equipment_bell
       rect:
         serializedVersion: 2
         x: 53

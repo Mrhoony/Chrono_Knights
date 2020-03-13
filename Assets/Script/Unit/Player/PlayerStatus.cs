@@ -48,15 +48,22 @@ public class PlayerStatus : MonoBehaviour
 
         ReturnToTown();
     }
+
     public void ReturnToTown()
     {
         HPInit();
-        PlayerStatusUpdate();
+        PlayerStatusUpdate(playerEquip);
     }
 
-    public void PlayerStatusUpdate()
+    public void PlayerStatusInit()
+    {
+        PlayerStatusUpdate(playerEquip);
+    }
+
+    public void PlayerStatusUpdate(PlayerEquipment _playerEquipment)
     {
         Debug.Log("Player status update");
+        playerData.renew(_playerEquipment);
 
         attack = playerData.GetStatus(0) + playerData.GetEquipmentStatus(0) + traningStat[0];
         defense = playerData.GetStatus(1) + playerData.GetEquipmentStatus(1) + traningStat[1];
@@ -75,6 +82,7 @@ public class PlayerStatus : MonoBehaviour
         SetAttackSpeedAdd_Result(0, true);
         SetDashDistance_Result(1, true);
         SetRecoveryAdd_Result(0, true);
+
         PlayerControl.instance.SetAnimationAttackSpeed(attackSpeed_Result);
     }
 
@@ -91,7 +99,7 @@ public class PlayerStatus : MonoBehaviour
     }
     public void DecreaseHP(int damage)
     {
-        damage -= (int)defense;
+        damage -= defense_Result;
         if (damage < 0)
             damage = 0;
 
@@ -154,10 +162,9 @@ public class PlayerStatus : MonoBehaviour
             playerStatusView.SetHPCut(HPCutNum);
         }
     }
-
-    public void SetAmmo(int buffLevel)
+    public void SetAmmo(int AmmoSupllement)
     {
-        currentAmmo += 10 * buffLevel;
+        currentAmmo += 10 * AmmoSupllement;
         if (currentAmmo > playerData.GetMaxAmmo())
         {
             currentAmmo = playerData.GetMaxAmmo();

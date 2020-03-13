@@ -13,6 +13,7 @@ public class DataBase
     public int takeKeySlot;
     public int availableInventorySlot;
     public int currentDate;
+    public bool isTrainigPossible;
     public bool[] eventFlag;
 
     public void Init()
@@ -25,6 +26,7 @@ public class DataBase
         takeKeySlot = 3;
         availableInventorySlot = 6;
         currentDate = 0;
+        isTrainigPossible = false;
         eventFlag = new bool[36];
         for(int i = 0; i < 36; ++i)
         {
@@ -42,6 +44,7 @@ public class DataBase
     {
         return storageItemSkillCodeList;
     }
+    #region 저장 영역
     public int GetAvailableStorageSlot()
     {
         return availableStorageSlot;
@@ -50,6 +53,7 @@ public class DataBase
     {
         return takeKeySlot;
     }
+
     public int GetAvailableInventorySlot()
     {
         return availableInventorySlot;
@@ -62,14 +66,19 @@ public class DataBase
     {
         return eventFlag;
     }
+    public bool GetTrainingPossible()
+    {
+        return isTrainigPossible;
+    }
     public bool GetEventFlag(int flagNum)
     {
         return eventFlag[flagNum];
     }
 
-    public void SaveGameData(int _currentDate, bool[] _eventFlag)
+    public void SaveGameData(int _currentDate, bool _isTrainigPossible, bool[] _eventFlag)
     {
         currentDate = _currentDate;
+        isTrainigPossible = _isTrainigPossible;
         eventFlag = _eventFlag;
     }
     public void SaveStorageData(int[] _storageItemList, int[] _storageItemSkillList, int _availableStorageSLot)
@@ -83,4 +92,5 @@ public class DataBase
         takeKeySlot = _takeKeySlot;
         availableInventorySlot = _availableInventorySlot;
     }
+    #endregion
 }

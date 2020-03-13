@@ -3,11 +3,11 @@ guid: 37ff09514a91e5e41b4be8442eec20d9
 TextureImporter:
   fileIDToRecycleName:
     21300000: Inventory_Panel
-    21300002: Inventory_UnSeal
-    21300004: ui_inven_set_2
-    21300006: ui_inven_set_3
-    21300008: ui_inven_set_4
-    21300010: ui_inven_set_5
+    21300002: 4 Inventory_UnSeal
+    21300004: 0 ui_inven_set_2
+    21300006: 3 ui_inven_set_3
+    21300008: 2 ui_inven_set_4
+    21300010: 1 ui_inven_set_5
     21300012: Inventory_Focus
     21300014: Inventory_ScrollCursor
     21300016: Inventory_Set_0
@@ -115,7 +115,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Inventory_UnSeal
+      name: 4 Inventory_UnSeal
       rect:
         serializedVersion: 2
         x: 476
@@ -135,7 +135,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_inven_set_2
+      name: 0 ui_inven_set_2
       rect:
         serializedVersion: 2
         x: 476
@@ -155,7 +155,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_inven_set_3
+      name: 3 ui_inven_set_3
       rect:
         serializedVersion: 2
         x: 477
@@ -175,7 +175,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_inven_set_4
+      name: 2 ui_inven_set_4
       rect:
         serializedVersion: 2
         x: 477
@@ -195,7 +195,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui_inven_set_5
+      name: 1 ui_inven_set_5
       rect:
         serializedVersion: 2
         x: 477

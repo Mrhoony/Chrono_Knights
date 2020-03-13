@@ -138,7 +138,7 @@ public class Menu_Storage : MonoBehaviour
             {
                 isFull[i] = true;
                 slot[i - (boxNum * 24)].GetComponent<Image>().sprite = storageItemList[i].sprite;
-                slot[i - (boxNum * 24)].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[11 - storageItemList[i].itemRarity];
+                slot[i - (boxNum * 24)].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[storageItemList[i].itemRarity];
                 if (isSelected[i])
                     slot[i - (boxNum * 24)].transform.GetChild(2).gameObject.SetActive(true);
             }
@@ -146,13 +146,13 @@ public class Menu_Storage : MonoBehaviour
             {
                 isFull[i] = false;
                 slot[i - (boxNum * 24)].GetComponent<Image>().sprite = null;
-                slot[i - (boxNum * 24)].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+                slot[i - (boxNum * 24)].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[4];
                 slot[i - (boxNum * 24)].transform.GetChild(2).gameObject.SetActive(false);
             }
         }
         for(int i = boxFull; i < 24; ++i)
         {
-            slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[7];
+            slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[0];
         }
     }
     public void PutInBox(Item[] item)

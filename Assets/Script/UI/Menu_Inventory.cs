@@ -117,19 +117,19 @@ public class Menu_Inventory : MonoBehaviour
             if (inventoryItemList[i] != null)
             {
                 slot[i].GetComponent<Image>().sprite = inventoryItemList[i].sprite;
-                slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[11 - inventoryItemList[i].itemRarity];
+                slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[inventoryItemList[i].itemRarity];
                 isFull[i] = true;
             }
             else
             {
                 slot[i].GetComponent<Image>().sprite = null;
-                slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
+                slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[4];
                 isFull[i] = false;
             }
         }
         for(int i = availableSlot; i < 24; ++i)
         {
-            slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[7];
+            slot[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[0];
         }
     }
     public void CloseInventory()

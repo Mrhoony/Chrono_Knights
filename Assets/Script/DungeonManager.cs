@@ -249,7 +249,7 @@ public class DungeonManager : MonoBehaviour
     public int useTeleportSystem;       // 텔레포트 사용 방법 0~4 입구, 10 사용 안함
     public int currentDate;
 
-    private bool newDay;
+    private bool isTraingPossible;
     public bool isDead;
     public bool freePassFloor;
     public int bossClear;
@@ -309,6 +309,13 @@ public class DungeonManager : MonoBehaviour
         FloorDatas = new FloorData[70];
         FloorDangerousSetting(0);
     }
+    private void FloorDangerousSetting(int plusDangerous)
+    {
+        for (int floor = 1; floor < 71; ++floor)
+        {
+            FloorDatas[floor - 1] = new FloorData(floor, bossClear, floor * 2);
+        }
+    }
     private void Init()
     {
         currentStage = 0;
@@ -319,22 +326,15 @@ public class DungeonManager : MonoBehaviour
         bossClear = 0;
         isSceneLoading = false;
         bossSetting = false;
-        newDay = false;
+        isTraingPossible = true;
         dungeonClear = false;
         floorRepeat = false;
         phaseClear = false;
         freePassFloor = false;
     }
-    private void FloorDangerousSetting(int plusDangerous)
-    {
-        for (int floor = 1; floor < 71; ++floor)
-        {
-            FloorDatas[floor - 1] = new FloorData(floor, bossClear, floor * 2);
-        }
-    }
     public void DungeonInit()
     {
-        newDay = true;
+        isTraingPossible = true;
         bossSetting = false;
         dungeonClear = false;
         floorRepeat = false;
@@ -394,7 +394,6 @@ public class DungeonManager : MonoBehaviour
             }
         }
     }
-    
     public bool useKeyInDungeon(Item _Item)
     {
         if (usedKey) return false;
@@ -435,23 +434,17 @@ public class DungeonManager : MonoBehaviour
         {
             switch (useTeleportSystem)
             {
-                case 0:
+                case 0:     // 집 현관 문
                     mainCamera.SetHeiWid(640, 360);
                     SceneManager.LoadScene(useTeleportSystem);
                     break;
-                case 1:
+                case 1:     // 마을로 향하는 문
                     mainCamera.SetHeiWid(1280, 720);
                     SceneManager.LoadScene(useTeleportSystem);
                     break;
-                case 2:
+                case 2:     // 탑으로 향하는 길
                     menu.Menus[0].GetComponent<Menu_Inventory>().DeleteStorageItem();
                     SceneManager.LoadScene("Tower_First_Floor");
-                    break;
-                case 3:
-                    //SceneManager.LoadScene(useTeleportSystem);
-                    break;
-                case 4:
-                    //SceneManager.LoadScene(useTeleportSystem);
                     break;
                 case 8:
                     if (phaseClear)
@@ -486,18 +479,21 @@ public class DungeonManager : MonoBehaviour
     }
     public void ReturnToTown()
     {
+        /*
+         *  정상적으로 복귀 시 게임 오버 창 표시
+         */
         DungeonInit();
-        NewDayCheck();
         ++currentDate;
         playerStatus.ReturnToTown();
-        menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(true);
+        menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
         mainCamera.SetHeiWid(640, 360);
         SceneManager.LoadScene(0);
     }
     public bool NewDayCheck()
     {
-        if (newDay)
+        if (isTraingPossible)
         {
+            isTraingPossible = false;
             return true;
         }
         return false;
@@ -615,7 +611,6 @@ public class DungeonManager : MonoBehaviour
         
         dungeonUI.SetDungeonFloor(currentStage);
     }
-
     public void FloorReset()
     {
         for(int i = 0; i < monsterCount; ++i)
@@ -631,7 +626,7 @@ public class DungeonManager : MonoBehaviour
     // 아이템이 사용된 층에 효과를 적용
     public void SetFloorStatus()
     {
-        playerStatus.PlayerStatusUpdate();
+        playerStatus.PlayerStatusInit();
 
         switch (marker.thisMarker)
         {
@@ -661,7 +656,6 @@ public class DungeonManager : MonoBehaviour
                 break;
         }
     }
-    
     public void FloorBossKill()
     {
         ++bossClear;
@@ -739,14 +733,19 @@ public class DungeonManager : MonoBehaviour
     {
         return currentDate;
     }
+    public bool GetTrainigPossible()
+    {
+        return isTraingPossible;
+    }
     public bool[] GetEventFlag()
     {
         return eventFlag;
     }
 
-    public void LoadGamePlayDate(int _currentDate, bool[] _eventFlag)
+    public void LoadGamePlayDate(int _currentDate, bool _isTrainingPossible, bool[] _eventFlag)
     {
         currentDate = _currentDate;
+        isTraingPossible = _isTrainingPossible;
         eventFlag = _eventFlag;
     }
 }

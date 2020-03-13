@@ -4,199 +4,109 @@ using UnityEngine.UI;
 public class Menu_Enchant : Menu_EquipmentUpgrade
 {
     public GameObject selectEnchantItem;
-    public GameObject[] acceptSlot;
-    public Button enchantButton;
     Sprite[] slotImage;
-
-    public bool enchantOn;
-    public bool enchantting;
-
-    public int enchantFocused;
 
     public override void OnEnable()
     {
         base.OnEnable();
         slotImage = Resources.LoadAll<Sprite>("UI/ui_enchant_set");
-        cursorImage = Resources.LoadAll<Sprite>("UI/ui_upgrade_slotncursor");
     }
 
     public void Update()
     {
-        if (menu.isStorageOn) return;
+        if (menu.GameMenuOnCheck()) return;
+        if (!open_BlackSmithUI) return;
 
-        if (!enchantOn)
+        if (!open_SelectItemUI)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { equipFocused = FocusSlotEquipmentSelect(equipSlots, 1, equipFocused); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { equipFocused = FocusSlotEquipmentSelect(equipSlots, -1, equipFocused); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { equipFocused = FocusSlotEquipmentSelect(equipSlots, 1, equipFocused); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { equipFocused = FocusSlotEquipmentSelect(equipSlots, -1, equipFocused); }
-
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(equipSlots, 1, selectEquipFocused); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(equipSlots, -1, selectEquipFocused); }
+            if (Input.GetKeyDown(KeyCode.DownArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(equipSlots, 1, selectEquipFocused); }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(equipSlots, -1, selectEquipFocused); }
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                if (equipFocused == 7)
+                if (selectEquipFocused == 7)
                 {
-                    if (enchantting)    // 장비 재선택 취소
+                    if (open_ReSelectEquipment)    // 장비 재선택 취소
                     {
-                        enchantting = false;
-                        enchantOn = true;
-                        enchantFocused = 0;
+                        open_ReSelectEquipment = false;
+                        open_SelectItemUI = true;
+                        selectItemUIFocused = 0;
                         selectEnchantItem.SetActive(true);
                     }
                     else                 // 마법 부여 취소
                     {
-                        equipSlots[equipFocused].transform.GetChild(0).gameObject.SetActive(false);
-                        equipFocused = 0;
+                        equipSlots[selectEquipFocused].transform.GetChild(0).gameObject.SetActive(false);
+                        selectEquipFocused = 0;
                         npc_blacksmith.GetComponent<NPC_Blacksmith>().CloseEnchantMenu();
                     }
                 }
                 else
                 {
-                    enchantting = false;
-                    enchantOn = true;
-
+                    open_SelectItemUI = true;
                     selectEnchantItem.SetActive(true);
-                    OpenSelectedEnchantMenu();
+                    OpenSelectedItemMenu();
                 }
             }
-
             if (Input.GetKeyDown(KeyCode.X))
             {
-                equipSlots[equipFocused].transform.GetChild(0).gameObject.SetActive(false);
-                equipFocused = 0;
-                npc_blacksmith.GetComponent<NPC_Blacksmith>().CloseEnchantMenu();
+                if (open_ReSelectEquipment)    // 장비 재선택 취소
+                {
+                    open_ReSelectEquipment = false;
+                    open_SelectItemUI = true;
+                    selectEnchantItem.SetActive(true);
+                }
+                else                 // 마법 부여 취소
+                {
+                    equipSlots[selectEquipFocused].transform.GetChild(0).gameObject.SetActive(false);
+                    selectEquipFocused = 0;
+                    npc_blacksmith.GetComponent<NPC_Blacksmith>().CloseEnchantMenu();
+                }
             }
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { enchantFocused = FocusSlotItemSelect(acceptSlot, 1, enchantFocused); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { enchantFocused = FocusSlotItemSelect(acceptSlot, -1, enchantFocused); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { enchantFocused = FocusSlotItemSelect(acceptSlot, 1, enchantFocused); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { enchantFocused = FocusSlotItemSelect(acceptSlot, -1, enchantFocused); }
-
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { selectItemUIFocused = FocusSlotItemSelect(acceptSlot, 1, selectItemUIFocused); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { selectItemUIFocused = FocusSlotItemSelect(acceptSlot, -1, selectItemUIFocused); }
+            if (Input.GetKeyDown(KeyCode.DownArrow)) { selectItemUIFocused = FocusSlotItemSelect(acceptSlot, 1, selectItemUIFocused); }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) { selectItemUIFocused = FocusSlotItemSelect(acceptSlot, -1, selectItemUIFocused); }
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                if (enchantFocused == 4)
+                if (selectItemUIFocused == 4)
                 {
-                    enchantOn = false;
-                    acceptSlot[enchantFocused].transform.GetChild(0).gameObject.SetActive(false);
-                    acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
-                    enchantFocused = 0;
+                    open_SelectItemUI = false;
+                    acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(false);
+                    selectItemUIFocused = 0;
                     selectEnchantItem.SetActive(false);
                 }
                 else
                 {
-                    switch (enchantFocused)
+                    switch (selectItemUIFocused)
                     {
                         case 0:
-                            enchantting = true;
-                            enchantOn = false;
+                            open_SelectItemUI = false;
+                            open_ReSelectEquipment = true;
                             selectEnchantItem.SetActive(false);
                             break;
                         case 1:
                             menu.OpenUpgradeStorage(2);
                             break;
                         case 3:
-                            acceptSlot[enchantFocused].transform.GetChild(0).gameObject.SetActive(false);
-                            enchantFocused = 0;
-                            Enchant(equipFocused, selectedkey);
+                            Enchant(selectEquipFocused, selectedkey);
                             break;
                     }
                 }
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
-                enchantOn = false;
-                acceptSlot[enchantFocused].transform.GetChild(0).gameObject.SetActive(false);
-                acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
-                enchantFocused = 0;
-                OpenEnchantMenu();
+                open_SelectItemUI = false;
+                acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(false);
+                selectItemUIFocused = 0;
                 selectEnchantItem.SetActive(false);
             }
         }
     }
-    public void SetKey(int focus)
-    {
-        keySlotFocus = focus;
-        selectedkey = storage.GetStorageItem(focus);
-
-        acceptSlot[1].GetComponent<Image>().sprite = selectedkey.sprite;
-        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[selectedkey.itemRarity];
-
-        acceptSlot[2].GetComponent<Image>().sprite = selectedkey.sprite;
-        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[selectedkey.itemRarity];
-    }
-
-    // 인챈트 창 열었을 때
-    public void OpenEnchantMenu()
-    {
-        equipFocused = 0;
-        enchantFocused = 0;
-        equipment = playerEquipment.equipment;
-
-        for(int i = 0; i < 7; ++i)
-        {
-            if (equipment[i].itemCode != 0)
-            {
-                equipSlots[i].GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[i].itemCode).sprite;       // 키 아이템
-                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[i].itemCode).itemRarity]; // 레어도
-                equipSlots[i].transform.GetChild(2).GetComponent<Text>().text = playerEquipment.GetStatusName(i, true);
-                equipSlots[i].transform.GetChild(3).GetComponent<Text>().text = playerEquipment.GetUpStatus(i);
-                equipSlots[i].transform.GetChild(4).GetComponent<Text>().text = playerEquipment.GetStatusName(i, false);
-                equipSlots[i].transform.GetChild(5).GetComponent<Text>().text = playerEquipment.GetDownStatus(i);
-            }
-            else
-            {
-                equipSlots[i].GetComponent<Image>().sprite = keyItemBorderSprite[6];      // 키 아이템
-                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];   // 레어도
-                equipSlots[i].transform.GetChild(2).GetComponent<Text>().text = "";
-                equipSlots[i].transform.GetChild(3).GetComponent<Text>().text = "";
-                equipSlots[i].transform.GetChild(4).GetComponent<Text>().text = "";
-                equipSlots[i].transform.GetChild(5).GetComponent<Text>().text = "";
-            }
-            equipSlots[i].transform.GetChild(1).gameObject.SetActive(true);
-        }
-
-        equipSlots[equipFocused].transform.GetChild(0).gameObject.SetActive(true);
-    }
-    public void OpenSelectedEnchantMenu()
-    {
-        acceptSlot[0].transform.GetChild(0).gameObject.SetActive(true);
-        acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);
-        acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
-
-        enchantButton.GetComponent<Image>().color = new Color(enchantButton.GetComponent<Image>().color.r,
-            enchantButton.GetComponent<Image>().color.g, enchantButton.GetComponent<Image>().color.b, 255);
-        enchantButton.interactable = true;
-        
-        if (equipment[equipFocused].itemCode != 0)
-        {
-            acceptSlot[0].GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[equipFocused].itemCode).sprite;
-            acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[equipFocused].itemCode).itemRarity];
-            acceptSlot[0].transform.GetChild(2).GetComponent<Text>().text = playerEquipment.GetStatusName(equipFocused, true);
-            acceptSlot[0].transform.GetChild(3).GetComponent<Text>().text = playerEquipment.GetUpStatus(equipFocused);
-            acceptSlot[0].transform.GetChild(4).GetComponent<Text>().text = playerEquipment.GetStatusName(equipFocused, false);
-            acceptSlot[0].transform.GetChild(5).GetComponent<Text>().text = playerEquipment.GetDownStatus(equipFocused);
-        }
-        else
-        {
-            acceptSlot[0].GetComponent<Image>().sprite = keyItemBorderSprite[6];
-            acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
-            acceptSlot[0].transform.GetChild(2).GetComponent<Text>().text = "";
-            acceptSlot[0].transform.GetChild(3).GetComponent<Text>().text = "";
-            acceptSlot[0].transform.GetChild(4).GetComponent<Text>().text = "";
-            acceptSlot[0].transform.GetChild(5).GetComponent<Text>().text = "";
-        }
-
-        acceptSlot[1].GetComponent<Image>().sprite = keyItemBorderSprite[6];
-        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
-        acceptSlot[2].GetComponent<Image>().sprite = keyItemBorderSprite[6];
-        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = keyItemBorderSprite[6];
-        acceptSlot[2].transform.GetChild(1).GetComponent<Text>().text = "";
-        acceptSlot[2].transform.GetChild(2).GetComponent<Text>().text = "";
-        acceptSlot[2].transform.GetChild(3).GetComponent<Text>().text = "";
-        acceptSlot[2].transform.GetChild(4).GetComponent<Text>().text = "";
-    }
-
+    
     public void Enchant(int num, Item item)
     {
         if (num < 0 || num > 7) return;
@@ -232,49 +142,34 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
         }
 
         // accept 창 초기화
-        acceptSlot[0].GetComponent<Image>().sprite = keyItemBorderSprite[6];
-        acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
-        acceptSlot[1].GetComponent<Image>().sprite = keyItemBorderSprite[6];
-        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];
-        
-        acceptSlot[2].GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[num].itemCode).sprite;
-        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[num].itemCode).itemRarity];
-        acceptSlot[2].transform.GetChild(1).GetComponent<Text>().text = playerEquipment.GetStatusName(num, true);
-        acceptSlot[2].transform.GetChild(2).GetComponent<Text>().text = playerEquipment.GetUpStatus(num);
-        acceptSlot[2].transform.GetChild(3).GetComponent<Text>().text = playerEquipment.GetStatusName(num, false);
-        acceptSlot[2].transform.GetChild(4).GetComponent<Text>().text = playerEquipment.GetDownStatus(num);
+        acceptSlot[0].transform.GetChild(1).gameObject.SetActive(false);
+        ClearSlot(acceptSlot[0] , 2);
+        acceptSlot[1].transform.GetChild(1).gameObject.SetActive(false);
+        acceptSlot[1].transform.GetChild(2).gameObject.SetActive(false);
+
+        acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
+        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = equipmentSet[num];
+        SetSlot(acceptSlot[2], num, 1);
 
         for (int i = 0; i < 7; ++i)
         {
             if (equipment[i].itemCode != 0)
             {
-                equipSlots[i].GetComponent<Image>().sprite = itemDatabase.GetItem(equipment[i].itemCode).sprite;       // 키 아이템
-                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = slotImage[itemDatabase.GetItem(equipment[i].itemCode).itemRarity]; // 레어도
-                equipSlots[i].transform.GetChild(2).GetComponent<Text>().text = playerEquipment.GetStatusName(i, true);
-                equipSlots[i].transform.GetChild(3).GetComponent<Text>().text = playerEquipment.GetUpStatus(i);
-                equipSlots[i].transform.GetChild(4).GetComponent<Text>().text = playerEquipment.GetStatusName(i, false);
-                equipSlots[i].transform.GetChild(5).GetComponent<Text>().text = playerEquipment.GetDownStatus(i);
+                SetSlot(equipSlots[i], i, 2);
             }
             else
             {
-                equipSlots[i].GetComponent<Image>().sprite = keyItemBorderSprite[6];      // 키 아이템
-                equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[6];   // 레어도
-                equipSlots[i].transform.GetChild(2).GetComponent<Text>().text = "";
-                equipSlots[i].transform.GetChild(3).GetComponent<Text>().text = "";
-                equipSlots[i].transform.GetChild(4).GetComponent<Text>().text = "";
-                equipSlots[i].transform.GetChild(5).GetComponent<Text>().text = "";
+                ClearSlot(equipSlots[i], 2);
             }
         }
 
-        enchantButton.GetComponent<Image>().color = new Color(enchantButton.GetComponent<Image>().color.r,
-            enchantButton.GetComponent<Image>().color.g, enchantButton.GetComponent<Image>().color.b, 120);
-        enchantButton.interactable = false;
+        upgradeButton.GetComponent<Image>().color = new Color(upgradeButton.GetComponent<Image>().color.r,
+            upgradeButton.GetComponent<Image>().color.g, upgradeButton.GetComponent<Image>().color.b, 120);
         
-        acceptSlot[enchantFocused].transform.GetChild(0).gameObject.SetActive(false);
-        enchantFocused = 4;
-        acceptSlot[enchantFocused].transform.GetChild(0).gameObject.SetActive(true);
-
-        playerData.renew(playerEquipment);
-        playerStat.PlayerStatusUpdate();
+        acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(false);
+        selectItemUIFocused = 4;
+        acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(true);
+        
+        playerStat.PlayerStatusUpdate(playerEquipment);
     }
 }

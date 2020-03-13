@@ -79,7 +79,7 @@ public class NPC_Blacksmith : NPC_Control
     {
         openEnchantUI = true;
         enchantUI.SetActive(true);
-        enchantUI.GetComponent<Menu_Enchant>().OpenEnchantMenu();
+        enchantUI.GetComponent<Menu_Enchant>().OpenBlackSmithUI();
     }
     public void CloseEnchantMenu()
     {
@@ -91,7 +91,7 @@ public class NPC_Blacksmith : NPC_Control
     {
         openUpgradeUI = true;
         upgradeUI.SetActive(true);
-        upgradeUI.GetComponent<Menu_Upgrade>().OpenUpgradeMenu();
+        upgradeUI.GetComponent<Menu_Upgrade>().OpenBlackSmithUI();
     }
     public void CloseUpgradeMenu()
     {

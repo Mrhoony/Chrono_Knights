@@ -156,9 +156,8 @@ public class PlayerEquipment
             min[5] = _min * 0.1f;
         }
     }
-
-
-    public Equipment[] equipment;      // 0 bell, 1 armor, 2 spear, 3 gun, 4 shoes, 5 gloves, 6 activeEquip
+    
+    public Equipment[] equipment;      // 0 gun, 1 activeEquip, 2 spear, 3 tankTop, 4 shoes, 5 gloves, 6 bell
     
     public void PlayerEquipmentInit()
     {
