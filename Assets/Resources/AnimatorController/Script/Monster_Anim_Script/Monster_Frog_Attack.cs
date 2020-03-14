@@ -16,6 +16,8 @@ public class Monster_Frog_Attack : AnimatorManager
         if (!move && stateInfo.normalizedTime > 0.3f)
         {
             move = true;
+
+            animator.GetComponent<Monster_Frog>().AttackStart(4f, 1f);
             animator.GetComponent<Monster_Frog>().MonsterAttack(0f, 0f, 0.2f, 0.2f);
         }
     }

@@ -18,6 +18,7 @@ public abstract class Monster_Control : MovingObject
 
     public string monsterName;
     public int monsterCode;
+    public bool coroutine;
 
     public float distanceX;
     public float distanceY;
@@ -28,7 +29,6 @@ public abstract class Monster_Control : MovingObject
     public float rotateDelayTime;
     public float attackCoolTime;
     public float maxAttackDelayTime;
-    public float curAttackDelayTime;
 
     public void Awake()
     {
@@ -46,6 +46,7 @@ public abstract class Monster_Control : MovingObject
         yield return new WaitForSeconds(time);
 
         actionState = ActionState.Idle;
+        Debug.Log("monster idle");
     }
     // 몬스터 공격 판정
     public virtual void MonsterAttack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)

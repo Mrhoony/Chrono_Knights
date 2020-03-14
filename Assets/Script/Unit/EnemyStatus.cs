@@ -22,7 +22,8 @@ public class EnemyStatus : MonoBehaviour
     public void Update()
     {
         if(!bossMonster)
-            enemyHPBar.transform.position = new Vector3(Camera.main.WorldToScreenPoint(transform.position).x, Camera.main.WorldToScreenPoint(transform.position).y + boxCollider2D.bounds.size.y + 100f, transform.position.z);
+            if(enemyHPBar != null)
+                enemyHPBar.transform.position = new Vector3(Camera.main.WorldToScreenPoint(transform.position).x, Camera.main.WorldToScreenPoint(transform.position).y + boxCollider2D.bounds.size.y * 100f + 10f, transform.position.z);
     }
 
     public void MonsterInit(int _monsterCode)

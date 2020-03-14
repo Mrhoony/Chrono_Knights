@@ -5,9 +5,8 @@ public class Monster_Ogre : NormalMonsterControl
     void OnEnable()
     {
         monsterCode = 5;
-        rotateDelayTime = 2f;
+        rotateDelayTime = 3f;
         maxAttackDelayTime = 1f;
-        curAttackDelayTime = 0f;
         isFaceRight = true;
         arrowDirection = 1;
         actionState = ActionState.Idle;
@@ -21,6 +20,8 @@ public class Monster_Ogre : NormalMonsterControl
             animator.SetBool("isMove", false);
             return;
         }
+
+        if (actionState != ActionState.Idle) return;
 
         if (isTrace)
         {
@@ -50,22 +51,17 @@ public class Monster_Ogre : NormalMonsterControl
 
     public override void Attack()
     {
-        if (distanceX < 1f)
+        if (actionState != ActionState.Idle) return;
+
+        if (distanceX < 2f)
         {
-            actionState = ActionState.NotMove;
             rb.velocity = Vector2.zero;
-            curAttackDelayTime += Time.fixedDeltaTime;
-            if (curAttackDelayTime > maxAttackDelayTime)
-            {
-                actionState = ActionState.IsAtk;
-                randomAttack = Random.Range(0, 2);
-                if (randomAttack > 0)
-                    animator.SetTrigger("isAtkH_Trigger");
-                else
-                    animator.SetTrigger("isAtkV_Trigger");
-                curAttackDelayTime = 0f;
-                StartCoroutine(MoveDelayTime(rotateDelayTime));
-            }
+            actionState = ActionState.IsAtk;
+            randomAttack = Random.Range(0, 2);
+            if (randomAttack > 0)
+                StartCoroutine(AttackDelayCount(maxAttackDelayTime, rotateDelayTime, "isAtkH_Trigger"));
+            else
+                StartCoroutine(AttackDelayCount(maxAttackDelayTime, rotateDelayTime, "isAtkV_Trigger"));
         }
     }
 

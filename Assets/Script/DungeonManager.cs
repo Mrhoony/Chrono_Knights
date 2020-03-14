@@ -502,7 +502,6 @@ public class DungeonManager : MonoBehaviour
     // 층 이동 시 나타날 층 세팅
     public void FloorSetting()
     {
-        bossSetting = true;
         phaseClear = false;
         dungeonClear = true;    //false 로 변경
         usedKey = false;

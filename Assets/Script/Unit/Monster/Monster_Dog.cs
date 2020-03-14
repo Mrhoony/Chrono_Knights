@@ -5,13 +5,14 @@ public class Monster_Dog : NormalMonsterControl
     void OnEnable()
     {
         monsterCode = 2;
-        rotateDelayTime = 2f;
-        maxAttackDelayTime = 1f;
-        curAttackDelayTime = 0f;
+        rotateDelayTime = 4f;
+        maxAttackDelayTime = 2f;
         arrowDirection = -1;
         isFaceRight = false;
         actionState = ActionState.Idle;
         MonsterInit(monsterCode);
+
+        Debug.Log("MonsterOnEnable");
     }
     
     public override void Move()
@@ -22,9 +23,10 @@ public class Monster_Dog : NormalMonsterControl
             animator.SetBool("isRun", false);
             return;
         }
+
         if (isTrace)
         {
-            if (distanceX > 0.5f)
+            if (distanceX > 1f)
             {
                 if (actionState != ActionState.IsAtk)
                 {
@@ -56,18 +58,13 @@ public class Monster_Dog : NormalMonsterControl
 
     public override void Attack()
     {
-        if (distanceX < 0.5f)
+        if (actionState != ActionState.Idle) return;
+
+        if (distanceX < 1f)
         {
-            actionState = ActionState.NotMove;
             rb.velocity = Vector2.zero;
-            curAttackDelayTime += Time.fixedDeltaTime;
-            if (curAttackDelayTime > maxAttackDelayTime)
-            {
-                actionState = ActionState.IsAtk;
-                animator.SetBool("isAtk_Trigger", true);
-                curAttackDelayTime = 0f;
-                StartCoroutine(MoveDelayTime(rotateDelayTime));
-            }
+            actionState = ActionState.IsAtk;
+            StartCoroutine(AttackDelayCount(maxAttackDelayTime, rotateDelayTime, "isAtk_Trigger"));
         }
     }
 }

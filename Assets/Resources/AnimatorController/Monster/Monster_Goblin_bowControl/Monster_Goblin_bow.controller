@@ -21,7 +21,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: isDeadTrigger
+  - m_Name: isDead_Trigger
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -58,11 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4f4c68b48394a744a54617015ea937b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: []
-  player: []
   playerControl: {fileID: 0}
-  atk: 0
-  overlap: 0
   move: 0
 --- !u!1101 &1101031902938363896
 AnimatorStateTransition:
@@ -170,7 +166,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isDeadTrigger
+    m_ConditionEvent: isDead_Trigger
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102049778166524882}

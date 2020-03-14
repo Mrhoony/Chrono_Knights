@@ -7,9 +7,8 @@ public class Monster_Goblin : NormalMonsterControl
     void OnEnable()
     {
         monsterCode = 3;
-        rotateDelayTime = 2f;
+        rotateDelayTime = 4f;
         maxAttackDelayTime = 1f;
-        curAttackDelayTime = 0f;
         isFaceRight = true;
         arrowDirection = 1;
         actionState = ActionState.Idle;
@@ -23,6 +22,8 @@ public class Monster_Goblin : NormalMonsterControl
             animator.SetBool("isMove", false);
             return;
         }
+        if (actionState != ActionState.Idle) return;
+
         if (isTrace)
         {
             if (distanceX > 1f)
@@ -51,18 +52,13 @@ public class Monster_Goblin : NormalMonsterControl
 
     public override void Attack()
     {
+        if (actionState != ActionState.Idle) return;
+
         if (distanceX < 1f)
         {
-            actionState = ActionState.NotMove;
             rb.velocity = Vector2.zero;
-            curAttackDelayTime += Time.fixedDeltaTime;
-            if (curAttackDelayTime > maxAttackDelayTime)
-            {
-                actionState = ActionState.IsAtk;
-                animator.SetTrigger("isAtk");
-                curAttackDelayTime = 0f;
-                StartCoroutine(MoveDelayTime(rotateDelayTime));
-            }
+            actionState = ActionState.IsAtk;
+            StartCoroutine(AttackDelayCount(maxAttackDelayTime, rotateDelayTime, "isAtk"));
         }
     }
 }

@@ -14,7 +14,6 @@ public class Monster_Goblin_bow : NormalMonsterControl
         monsterCode = 4;
         rotateDelayTime = 3f;
         maxAttackDelayTime = 1f;
-        curAttackDelayTime = 0f;
         isFaceRight = true;
         arrowDirection = 1;
         actionState = ActionState.Idle;
@@ -28,6 +27,8 @@ public class Monster_Goblin_bow : NormalMonsterControl
             animator.SetBool("isMove", false);
             return;
         }
+        if (actionState != ActionState.Idle) return;
+
         if (isTrace)
         {
             if (distanceX > 3f)
@@ -56,32 +57,15 @@ public class Monster_Goblin_bow : NormalMonsterControl
 
     public override void Attack()
     {
+        if (actionState != ActionState.Idle) return;
+
         if (distanceX < 3f)
         {
-            MonsterFlip();
-            actionState = ActionState.NotMove;
             rb.velocity = Vector2.zero;
-            curAttackDelayTime += Time.fixedDeltaTime;
-            if (curAttackDelayTime > maxAttackDelayTime)
-            {
-                actionState = ActionState.IsAtk;
-                animator.SetTrigger("isAtk");
-                curAttackDelayTime = 0f;
-                StartCoroutine(MoveDelayTime(rotateDelayTime));
-            }
+            actionState = ActionState.IsAtk;
+            animator.SetTrigger("isAtk");
+            StartCoroutine(AttackDelayCount(maxAttackDelayTime, rotateDelayTime, "isAtk"));
         }
-    }
-
-    public new void Dead()
-    {
-        animator.SetBool("isDead", true);
-        StopCoroutine(Moving);
-        //duneonManager.MonsterDie();
-        if (dropItemList != null)
-        {
-            dropItemList.ItemDropChance();
-        }
-        DeadAnimation();
     }
 
     public void Shooting()

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class NormalMonsterControl : Monster_Control
 {
-    protected IEnumerator Moving;
+    IEnumerator randomMoving;
+    IEnumerator moveDelayCoroutine;
 
     public bool isTrace;
     public int randomMove;
@@ -17,18 +18,20 @@ public abstract class NormalMonsterControl : Monster_Control
         Debug.Log("MonsterInit");
         gameObject.tag = "Monster";
 
+        coroutine = false;
         actionState = ActionState.Idle;
         enemyStatus.MonsterInit(monsterCode);
         moveSpeed = enemyStatus.GetMoveSpeed();
 
-        randomMoveCount = Random.Range(2f, 3f);
-        Moving = RandomMove(randomMoveCount);
-        StartCoroutine(Moving);
-
         StartCoroutine(SearchPlayer());
+        
+        randomMoving = RandomMove();
+        StartCoroutine(randomMoving);
     }
     public override void MonsterFlip()
     {
+        if (actionState != ActionState.Idle) return;
+
         if (isTrace)
         {
             if (playerPos.x < transform.position.x && isFaceRight)
@@ -56,7 +59,7 @@ public abstract class NormalMonsterControl : Monster_Control
     public void FixedUpdate()
     {
         if (actionState == ActionState.IsDead) return;
-        if (actionState == ActionState.IsAtk) return;
+        MonsterFlip();
         Move();
         if (!isTrace) return;
         Attack();
@@ -79,8 +82,12 @@ public abstract class NormalMonsterControl : Monster_Control
             {
                 if (!isTrace)
                 {
-                    isTrace = true;
-                    StopCoroutine(Moving);
+                    if (actionState != ActionState.IsAtk)
+                    {
+                        isTrace = true;
+                        StopCoroutine(randomMoving);
+                        Debug.Log("player int");
+                    }
                 }
             }
             else if (distanceX > 3f || distanceY > 2f)
@@ -89,33 +96,58 @@ public abstract class NormalMonsterControl : Monster_Control
                 {
                     if (actionState != ActionState.IsAtk)
                     {
-                        actionState = ActionState.Idle;
                         isTrace = false;
-                        StartCoroutine(Moving);
-                        curAttackDelayTime = 0f;
+                        StartCoroutine(randomMoving);
+                        Debug.Log("player out");
                     }
                 }
             }
             yield return null;
         }
     }
-    public IEnumerator RandomMove(float time)
+    public IEnumerator RandomMove()
     {
-        randomMove = Random.Range(-1, 2);
-        actionState = ActionState.Idle;
+        if (coroutine)
+        {
+            Debug.Log("double");
+            yield break;
+        }
+        coroutine = true;
 
-        yield return new WaitForSeconds(time);
+        randomMoveCount = Random.Range(1f, 2f);
 
-        randomMoveCount = Random.Range(2f, 3f);
-        Moving = RandomMove(randomMoveCount);
-        StartCoroutine(Moving);
+        while (true)
+        {
+            randomMove = Random.Range(-1, 2);
+            yield return new WaitForSeconds(randomMoveCount);
+            Debug.Log("random move start1");
+        }
     }
-    
+    public IEnumerator AttackDelayCount(float _attackDelayCount, float _rotateDelayCount, string _triggerName)
+    {
+        yield return new WaitForSeconds(_attackDelayCount);
+        animator.SetTrigger(_triggerName);
+        moveDelayCoroutine = MoveDelayTime(_rotateDelayCount);
+        StartCoroutine(moveDelayCoroutine);
+        Debug.Log("monster attack");
+    }
+    public IEnumerator AttackDelayCountBool(float _attackDelayCount, float _rotateDelayCount, string _boolName)
+    {
+        yield return new WaitForSeconds(_attackDelayCount);
+        animator.SetBool(_boolName, true);
+        moveDelayCoroutine = MoveDelayTime(_rotateDelayCount);
+        StartCoroutine(moveDelayCoroutine);
+        Debug.Log("monster attack");
+    }
+
     public override void MonsterHit(int damage)
     {
         if (actionState == ActionState.IsDead) return;
+        
+        StopCoroutine("moveDelayCoroutine");
         actionState = ActionState.NotMove;
-        StartCoroutine(MoveDelayTime(1f));
+        moveDelayCoroutine = MoveDelayTime(1f);
+        StartCoroutine(moveDelayCoroutine);
         random = Random.Range(-0.2f, 0.2f);
         rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(PlayerControl.instance.GetArrowDirection() + random, 0.2f), ForceMode2D.Impulse);
@@ -141,14 +173,14 @@ public abstract class NormalMonsterControl : Monster_Control
 
     public void Dead()
     {
-        animator.SetBool("isDead", true);
-        StopCoroutine(Moving);
+        animator.SetTrigger("isDead_Trigger");
+        StopAllCoroutines();
         //duneonManager.MonsterDie();
         if (dropItemList != null)
         {
             dropItemList.ItemDropChance();
         }
-        DeadAnimation();
+        //DeadAnimation();
     }
 
     public void DeadAnimation()

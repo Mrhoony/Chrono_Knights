@@ -70,10 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ff1e48c39a09149b0622bbd238683e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: []
-  player: []
   playerControl: {fileID: 0}
-  atk: 0
   move: 0
 --- !u!114 &114426165147821148
 MonoBehaviour:

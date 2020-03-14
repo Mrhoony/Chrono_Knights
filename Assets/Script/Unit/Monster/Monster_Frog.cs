@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 public class Monster_Frog : NormalMonsterControl
 {
@@ -9,28 +8,19 @@ public class Monster_Frog : NormalMonsterControl
     void OnEnable()
     {
         monsterCode = 1;
-        rotateDelayTime = 2f;
+        rotateDelayTime = 3f;
         maxAttackDelayTime = 2f;
-        curAttackDelayTime = 0f;
         arrowDirection = 1;
         isFaceRight = true;
         actionState = ActionState.Idle;
         MonsterInit(monsterCode);
     }
-    
-    private new void FixedUpdate()
-    {
-        if (actionState == ActionState.IsDead) return;
-        if (actionState == ActionState.IsAtk) return;
-        Move();
-        if (!isTrace) return;
-        Attack();
-    }
 
     public override void Move()
     {
-        if (actionState == ActionState.NotMove) return;
-        
+        if (actionState != ActionState.Idle) return;
+
+        if (distanceX < 1f) return;
         if (randomMove != 0)
         {
             actionState = ActionState.NotMove;
@@ -43,25 +33,20 @@ public class Monster_Frog : NormalMonsterControl
 
     public override void Attack()
     {
-        actionState = ActionState.NotMove;
-        curAttackDelayTime += Time.deltaTime;
-        if (curAttackDelayTime > maxAttackDelayTime)
+        if (actionState != ActionState.Idle) return;
+
+        if (distanceX >= 1f) return;
+
+        actionState = ActionState.IsAtk;
+        int AttackType = Random.Range(0, 2);
+
+        if (AttackType == 0)
         {
-            actionState = ActionState.IsAtk;
-            int AttackType = Random.Range(0, 2);
-            if (AttackType == 0)
-            {
-                AttackStart(2f, 3f);
-                animator.SetTrigger("isJump");
-                animator.SetBool("isJumping", true);
-            }
-            else if (AttackType == 1)
-            {
-                AttackStart(4f, 1f);
-                animator.SetTrigger("isAttack");
-            }
-            StartCoroutine(MoveDelayTime(rotateDelayTime));
-            curAttackDelayTime = 0f;
+            StartCoroutine(AttackDelayCountBool(maxAttackDelayTime, rotateDelayTime, "isJumping"));
+        }
+        else if (AttackType == 1)
+        {
+            StartCoroutine(AttackDelayCount(maxAttackDelayTime, rotateDelayTime, "isAttack"));
         }
     }
 
