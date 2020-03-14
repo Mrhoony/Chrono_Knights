@@ -34,8 +34,7 @@ public abstract class BossMonster_Control : Monster_Control
             Flip();
         }
     }
-
-
+    
     public IEnumerator SearchPlayerBoss()
     {
         while (actionState != ActionState.IsDead)
@@ -61,5 +60,16 @@ public abstract class BossMonster_Control : Monster_Control
     public void AttackMove(float moveDistance)
     {
         transform.position = new Vector2(transform.position.x + moveDistance * arrowDirection, transform.position.y);
+    }
+
+    public override void Dead()
+    {
+        animator.SetTrigger("isDead_Trigger");
+        //duneonManager.MonsterDie();
+        if (dropItemList != null)
+        {
+            dropItemList.ItemDropChance();
+        }
+        //DeadAnimation();
     }
 }

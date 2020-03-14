@@ -149,10 +149,10 @@ public class CanvasManager : MonoBehaviour
     }
     IEnumerator FadeIn()
     {
+        yield return new WaitForSeconds(1f);
+
         if (GameManager.instance.GetGameStart())
             PlayerControl.instance.enabled = true;
-
-        Debug.Log("fade in");
 
         Color fadeColor = fadeInOut.GetComponent<Image>().color;
         while (fadeColor.a > 0f)
@@ -165,7 +165,6 @@ public class CanvasManager : MonoBehaviour
         fadeInOut.GetComponent<Image>().color = fadeColor;
 
         fadeInOut.SetActive(false);
-        Debug.Log("fade in end");
         DungeonManager.instance.isSceneLoading = false;
     }
     public void FadeOutStart(bool sceneLoad)
@@ -176,9 +175,7 @@ public class CanvasManager : MonoBehaviour
     {
         PlayerControl.instance.enabled = false;
         fadeInOut.SetActive(true);
-
-        Debug.Log("fade out");
-
+        
         Color fadeColor = fadeInOut.GetComponent<Image>().color;
         while (fadeColor.a < 1f)
         {
@@ -188,8 +185,7 @@ public class CanvasManager : MonoBehaviour
         }
         if (fadeColor.a > 1f) fadeColor.a = 1f;
         fadeInOut.GetComponent<Image>().color = fadeColor;
-
-        Debug.Log("fade out end");
+        
         if (sceneLoad)
             DungeonManager.instance.SceneLoad();
         else
@@ -227,11 +223,15 @@ public class CanvasManager : MonoBehaviour
         PlayerControl.instance.enabled = true;
     }
 
+    public void SetTownUI()
+    {
+        townUI = GameObject.Find("TownUI");
+    }
+
     // 강화 창에서 창고 열 경우
     public void OpenUpgradeStorage(int used)
     {
         isStorageOn = true;
-        townUI = GameObject.Find("TownUI");
         useContent = used;
         storage.SetActive(true);
         storage.GetComponent<Menu_Storage>().OpenStorageWithUpgrade();

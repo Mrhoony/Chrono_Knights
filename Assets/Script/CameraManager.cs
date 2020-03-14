@@ -65,12 +65,8 @@ public class CameraManager : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, targetPosition, target.GetComponent<SubCamera>().moveSpeed * 2f * Time.deltaTime);
             float clampedX = Mathf.Clamp(transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
             float clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y + halfHeight);
-
             transform.position = new Vector3(clampedX, clampedY, transform.position.z);
         }
-        
-        //targetPosition.Set(target.transform.position.x, target.transform.position.y, transform.position.z);
-        //transform.position = new Vector3(targetPosition.x, targetPosition.y, transform.position.z);
     }
 
     public void SetHeiWid(int hei, int wid)

@@ -42,7 +42,8 @@ public class BackgroundScrolling : MonoBehaviour
 
     public void SetBackGroundPosition(int currentStage)
     {
-        for (int i = 0; i < layerCount; ++i)
+        layers[0].transform.position = new Vector2(cameraTrasform.position.x, cameraTrasform.position.y - (currentStage * 0.2f));
+        for (int i = 1; i < layerCount; ++i)
         {
             layers[i].transform.position = new Vector2(cameraTrasform.position.x + Random.Range(-0.5f, 0.5f)
                 , layers[i].transform.position.y - (currentStage * 0.2f));

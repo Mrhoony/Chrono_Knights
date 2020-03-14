@@ -12,7 +12,7 @@ public class Monster_Goblin : NormalMonsterControl
         isFaceRight = true;
         arrowDirection = 1;
         actionState = ActionState.Idle;
-        MonsterInit(monsterCode);
+        MonsterInit();
     }
     
     public override void Move()

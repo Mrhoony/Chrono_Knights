@@ -17,7 +17,7 @@ public class Monster_Goblin_bow : NormalMonsterControl
         isFaceRight = true;
         arrowDirection = 1;
         actionState = ActionState.Idle;
-        MonsterInit(monsterCode);
+        MonsterInit();
     }
     
     public override void Move()
@@ -58,19 +58,19 @@ public class Monster_Goblin_bow : NormalMonsterControl
     public override void Attack()
     {
         if (actionState != ActionState.Idle) return;
-
         if (distanceX < 3f)
         {
-            rb.velocity = Vector2.zero;
             actionState = ActionState.IsAtk;
-            animator.SetTrigger("isAtk");
+            rb.velocity = Vector2.zero;
             StartCoroutine(AttackDelayCount(maxAttackDelayTime, rotateDelayTime, "isAtk"));
+            Debug.Log("goblin bow attack");
         }
     }
 
     public void Shooting()
     {
         arrow = Instantiate(arrowObject, shootingPosition.transform.position, Quaternion.identity);
+        arrow.transform.parent = GameObject.Find("DropItemPool").transform;
         arrow.GetComponent<ProjectileObjectArrow>().arrowShooting(enemyStatus.GetAttack(), distanceX, arrowDirection);
     }
 }

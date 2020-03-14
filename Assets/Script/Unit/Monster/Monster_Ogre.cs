@@ -10,7 +10,7 @@ public class Monster_Ogre : NormalMonsterControl
         isFaceRight = true;
         arrowDirection = 1;
         actionState = ActionState.Idle;
-        MonsterInit(monsterCode);
+        MonsterInit();
     }
 
     public override void Move()
@@ -70,7 +70,7 @@ public class Monster_Ogre : NormalMonsterControl
         if (actionState == ActionState.IsDead) return;
 
         enemyStatus.DecreaseHP(damage);
-
+        
         if (enemyStatus.IsDeadCheck())
         {
             Dead();
@@ -79,7 +79,8 @@ public class Monster_Ogre : NormalMonsterControl
         }
         else
         {
-            eft.SetActive(true);
+            rb.velocity = Vector2.zero;
+            rb.AddForce(new Vector2(PlayerControl.instance.GetArrowDirection() + random, 0.2f), ForceMode2D.Impulse);
         }
     }
 }

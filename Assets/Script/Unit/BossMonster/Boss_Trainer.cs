@@ -64,27 +64,22 @@ public class Boss_Trainer : BossMonster_Control
         actionState = ActionState.IsAtk;
         animator.SetTrigger("isAttackTrigger");
         StartCoroutine(MoveDelayTime(attackCoolTime));
-        Debug.Log("attack");
     }
-    public void DashMove()
+    void DashMove()
     {
         actionState = ActionState.IsAtk;
         animator.SetTrigger("isDashTrigger");
         StartCoroutine(DashDuration());
-        rb.velocity = new Vector2(arrowDirection * moveSpeed, rb.velocity.y);
-        Debug.Log("dashMove");
     }
     public void Dash()
     {
-        rb.velocity = new Vector2(arrowDirection * moveSpeed * 2f, rb.velocity.y);
-        Debug.Log("dash");
+        rb.velocity = new Vector2(arrowDirection * moveSpeed, rb.velocity.y);
     }
     public void DashAttack()
     {
         StopCoroutine(DashDuration());
         animator.SetTrigger("isDashAttackTrigger");
         StartCoroutine(MoveDelayTime(dashAttackCoolTime));
-        Debug.Log("dashAttack");
     }
 
     IEnumerator DashDuration()
@@ -100,18 +95,18 @@ public class Boss_Trainer : BossMonster_Control
         if (actionState == ActionState.IsDead) return;
 
         actionState = ActionState.NotMove;
-        StopAllCoroutines();
         StartCoroutine(MoveDelayTime(1f));
-        random = Random.Range(-2f, 2f);
+        random = Random.Range(-0.2f, 0.2f);
         rb.velocity = Vector2.zero;
 
-        rb.AddForce(new Vector2(1f * playerPosition + random * 0.1f, 0.2f), ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(1f * playerPosition + random, 0.2f), ForceMode2D.Impulse);
 
         enemyStatus.DecreaseHP(damage);
         if (enemyStatus.IsDeadCheck())
         {
             actionState = ActionState.IsDead;
             gameObject.tag = "DeadBody";
+            Dead();
             DungeonManager.instance.FloorBossKill();
         }
         else

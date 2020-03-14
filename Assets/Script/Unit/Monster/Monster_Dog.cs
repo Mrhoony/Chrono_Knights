@@ -10,7 +10,7 @@ public class Monster_Dog : NormalMonsterControl
         arrowDirection = -1;
         isFaceRight = false;
         actionState = ActionState.Idle;
-        MonsterInit(monsterCode);
+        MonsterInit();
 
         Debug.Log("MonsterOnEnable");
     }

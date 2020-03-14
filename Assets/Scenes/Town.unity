@@ -827,8 +827,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ParalaxSpeedX:
-  - 0.99
-  - 0.99
+  - 1
+  - 1
   - 0.1
   - 0.15
   ParalaxSpeedY:

@@ -13,7 +13,7 @@ public class Monster_Frog : NormalMonsterControl
         arrowDirection = 1;
         isFaceRight = true;
         actionState = ActionState.Idle;
-        MonsterInit(monsterCode);
+        MonsterInit();
     }
 
     public override void Move()

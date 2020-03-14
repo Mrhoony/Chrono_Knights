@@ -20,7 +20,9 @@ public class DropItemList : MonoBehaviour
         {
             if(dropChance > dropChances[i])
             {
-                Instantiate(dropItems[i], new Vector2(transform.position.x + Random.Range(-0.1f, 0.1f), transform.position.y + 0.2f), Quaternion.identity);
+                GameObject dropItem;
+                dropItem = Instantiate(dropItems[i], new Vector2(transform.position.x + Random.Range(-0.1f, 0.1f), transform.position.y + 0.2f), Quaternion.identity);
+                dropItem.transform.parent = GameObject.Find("DropItemPool").transform;
             }
         }
     }

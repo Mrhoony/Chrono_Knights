@@ -262,6 +262,7 @@ public class DungeonManager : MonoBehaviour
     public GameObject[] bossMonsterList;
     public GameObject[] currentStageMonsterList;
     public GameObject[] spawner;
+    public GameObject dropItemPool;
 
     private int selectedMapNum = 0;
     private int spawnerCount;
@@ -378,16 +379,29 @@ public class DungeonManager : MonoBehaviour
                         if (!dungeonClear) return;
                         if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
 
-                        if (usedKey)            // 키를 쓴경우
+                        if (!phaseClear)
                         {
-                            Debug.Log("맵이동");
-                            isSceneLoading = true;
-                            menu.FadeOutStart(false);
+                            if (usedKey)            // 키를 쓴경우
+                            {
+                                isSceneLoading = true;
+                                menu.FadeOutStart(false);
+                            }
+                            else                    // 키를 안쓴경우 인벤토리를 연다.
+                            {
+                                menu.OpenInGameMenu(true);
+                            }
                         }
-                        else                    // 키를 안쓴경우 인벤토리를 연다.
+                        else
                         {
-                            Debug.Log("아이템 사용");
-                            menu.OpenInGameMenu(true);
+                            if (usedKey)            // 키를 쓴경우
+                            {
+                                isSceneLoading = true;
+                                menu.FadeOutStart(true);
+                            }
+                            else                    // 키를 안쓴경우 인벤토리를 연다.
+                            {
+                                menu.OpenInGameMenu(true);
+                            }
                         }
                     }
                     break;
@@ -396,7 +410,8 @@ public class DungeonManager : MonoBehaviour
     }
     public bool useKeyInDungeon(Item _Item)
     {
-        if (usedKey) return false;
+        if (usedKey || phaseClear) return false;
+
         usedKey = true;
         // 키가 가진 것들을 가지고 체크
         switch (_Item.itemType)
@@ -450,7 +465,7 @@ public class DungeonManager : MonoBehaviour
                     if (phaseClear)
                     {
                         phaseClear = false;
-                        SceneManager.LoadScene("Tower_Second_Floor");
+                        SceneManager.LoadScene("Tower_First_Floor");
                     }
                     else
                     {
@@ -508,6 +523,12 @@ public class DungeonManager : MonoBehaviour
         freePassFloor = false;
         spawnerCount = 0;
 
+        int dropItemPoolCount = dropItemPool.transform.childCount;
+        for(int i = 0; i < dropItemPoolCount; ++i)
+        {
+            Destroy(dropItemPool.transform.GetChild(i).gameObject);
+        }
+
         mapList = GameObject.FindGameObjectsWithTag("BaseMap");
         selectedMapNum = Random.Range(0, mapList.Length);
 
@@ -559,27 +580,26 @@ public class DungeonManager : MonoBehaviour
             currentStageMonsterList[0] = Instantiate(bossMonsterList[randomBoss], new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y), Quaternion.identity);
         }
-        else if (floorRepeat)    // 맵 반복시
+        else if (floorRepeat && !phaseClear)    // 맵 반복시
         {
             floorRepeat = false;
             currentMonsterCount = monsterCount;
-
-            for (int i = 0; i < monsterCount; ++i)
+            if(monsterCount > 0)
             {
-                randomX = Random.Range(-1, 2);
-                currentStageMonsterList[i].SetActive(true);
-                currentStageMonsterList[i].transform.position = new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
-                                                         , spawner[Random.Range(0, spawnerCount)].transform.position.y);
+                for (int i = 0; i < monsterCount; ++i)
+                {
+                    randomX = Random.Range(-1, 2);
+                    currentStageMonsterList[i].GetComponent<NormalMonsterControl>().MonsterInit();
+                    currentStageMonsterList[i].transform.position = new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
+                                                             , spawner[Random.Range(0, spawnerCount)].transform.position.y);
+                }
             }
         }
         else            // 일반 맵일경우
         {
             FloorReset();
+
             // 초기 맵 랜덤 선택
-            /* (임시)하나만 클리어 해도 마을로
-            if (currentStage > 0)
-                phaseClear = true;
-            */
             spawner = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().spawner;
             spawnerCount = spawner.Length;
 
@@ -597,7 +617,7 @@ public class DungeonManager : MonoBehaviour
             }
         }
         SetFloorStatus();
-
+        
         markerRandom = Random.Range(0, 12);
         marker.thisMarker = (Markers)markerRandom;
         mark = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
@@ -705,6 +725,7 @@ public class DungeonManager : MonoBehaviour
         else if(SceneManager.GetActiveScene().buildIndex == 1)  // 마을 화면 일 때
         {
             mapList = GameObject.FindGameObjectsWithTag("BaseMap");
+            menu.SetTownUI();
             for (int i = 0; i < teleportCount; ++i)
             {
                 if (teleportPoint[i].GetComponent<Teleport>().useSystem == 0)
@@ -713,10 +734,11 @@ public class DungeonManager : MonoBehaviour
             player.transform.position = entrance;
             mapList[0].GetComponent<BackgroundScrolling>().SetBackGroundPosition(0);
         }
-        else if (SceneManager.GetActiveScene().buildIndex == 2)  // 마을 - 숲 화면 일 때
+        else if (SceneManager.GetActiveScene().buildIndex == 2)  // 던전 화면 일 때
         {
             inDungeon = true;
             dungeonUI = GameObject.Find("DungeonUI").GetComponent<Dungeon_UI>();
+            dropItemPool = GameObject.Find("DropItemPool");
             FloorSetting();
         }
 

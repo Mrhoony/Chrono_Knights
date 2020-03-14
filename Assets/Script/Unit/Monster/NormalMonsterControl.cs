@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class NormalMonsterControl : Monster_Control
@@ -13,10 +12,10 @@ public abstract class NormalMonsterControl : Monster_Control
     public float randomAttack;
     public bool isDamagable;
 
-    public void MonsterInit(int monsterCode)
+    public void MonsterInit()
     {
-        Debug.Log("MonsterInit");
-        gameObject.tag = "Monster";
+        animator.SetBool("isDead", false);
+        tag = "Monster";
 
         coroutine = false;
         actionState = ActionState.Idle;
@@ -86,7 +85,6 @@ public abstract class NormalMonsterControl : Monster_Control
                     {
                         isTrace = true;
                         StopCoroutine(randomMoving);
-                        Debug.Log("player int");
                     }
                 }
             }
@@ -98,7 +96,6 @@ public abstract class NormalMonsterControl : Monster_Control
                     {
                         isTrace = false;
                         StartCoroutine(randomMoving);
-                        Debug.Log("player out");
                     }
                 }
             }
@@ -109,7 +106,6 @@ public abstract class NormalMonsterControl : Monster_Control
     {
         if (coroutine)
         {
-            Debug.Log("double");
             yield break;
         }
         coroutine = true;
@@ -120,21 +116,21 @@ public abstract class NormalMonsterControl : Monster_Control
         {
             randomMove = Random.Range(-1, 2);
             yield return new WaitForSeconds(randomMoveCount);
-            Debug.Log("random move start1");
         }
     }
     public IEnumerator AttackDelayCount(float _attackDelayCount, float _rotateDelayCount, string _triggerName)
     {
         yield return new WaitForSeconds(_attackDelayCount);
         animator.SetTrigger(_triggerName);
+
         moveDelayCoroutine = MoveDelayTime(_rotateDelayCount);
         StartCoroutine(moveDelayCoroutine);
-        Debug.Log("monster attack");
     }
     public IEnumerator AttackDelayCountBool(float _attackDelayCount, float _rotateDelayCount, string _boolName)
     {
         yield return new WaitForSeconds(_attackDelayCount);
         animator.SetBool(_boolName, true);
+
         moveDelayCoroutine = MoveDelayTime(_rotateDelayCount);
         StartCoroutine(moveDelayCoroutine);
         Debug.Log("monster attack");
@@ -144,37 +140,35 @@ public abstract class NormalMonsterControl : Monster_Control
     {
         if (actionState == ActionState.IsDead) return;
         
-        StopCoroutine("moveDelayCoroutine");
-        actionState = ActionState.NotMove;
-        moveDelayCoroutine = MoveDelayTime(1f);
-        StartCoroutine(moveDelayCoroutine);
-        random = Random.Range(-0.2f, 0.2f);
-        rb.velocity = Vector2.zero;
-        rb.AddForce(new Vector2(PlayerControl.instance.GetArrowDirection() + random, 0.2f), ForceMode2D.Impulse);
-
         enemyStatus.DecreaseHP(damage);
 
         if (enemyStatus.IsDeadCheck())
         {
-            Dead();
+            StopAllCoroutines();
             actionState = ActionState.IsDead;
             gameObject.tag = "DeadBody";
+            Dead();
         }
         else
         {
             animator.SetTrigger("isHit");
-            eft.SetActive(true);
+            StopCoroutine("moveDelayCoroutine");
+            actionState = ActionState.NotMove;
+            moveDelayCoroutine = MoveDelayTime(1f);
+            StartCoroutine(moveDelayCoroutine);
+            random = Random.Range(-0.2f, 0.2f);
+            rb.velocity = Vector2.zero;
+            rb.AddForce(new Vector2(PlayerControl.instance.GetArrowDirection() + random, 0.2f), ForceMode2D.Impulse);
         }
     }
     public void Landing()
     {
         animator.SetBool("isJumping", false);
     }
-
-    public void Dead()
+    public override void Dead()
     {
+        animator.SetBool("isDead", true);
         animator.SetTrigger("isDead_Trigger");
-        StopAllCoroutines();
         //duneonManager.MonsterDie();
         if (dropItemList != null)
         {
@@ -183,8 +177,8 @@ public abstract class NormalMonsterControl : Monster_Control
         //DeadAnimation();
     }
 
-    public void DeadAnimation()
+    public void OnDestroy()
     {
-        gameObject.SetActive(false);
+        //eftPool.Clear();
     }
 }

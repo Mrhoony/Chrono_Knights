@@ -13,6 +13,7 @@ public abstract class Monster_Control : MovingObject
     public GameObject target;
     public Vector2 playerPos;
     public GameObject eft;
+    public List<GameObject> eftPool;
     public EnemyStatus enemyStatus;
     public DropItemList dropItemList;
 
@@ -46,8 +47,8 @@ public abstract class Monster_Control : MovingObject
         yield return new WaitForSeconds(time);
 
         actionState = ActionState.Idle;
-        Debug.Log("monster idle");
     }
+
     // 몬스터 공격 판정
     public virtual void MonsterAttack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
     {
@@ -69,4 +70,5 @@ public abstract class Monster_Control : MovingObject
 
     public abstract void MonsterFlip();
     public abstract void MonsterHit(int damage);
+    public abstract void Dead();
 }
