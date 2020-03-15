@@ -19,10 +19,9 @@ public class GameManager : MonoBehaviour
 
     #region save, load
     public DungeonManager dungeonManager;
-    public CanvasManager canvanManager;
+    public CanvasManager canvasManager;
     public Menu_Storage storage;
     public Menu_Inventory inventory;
-    public Menu_Traning traning;
 
     public GameObject saveSlot;
     public GameObject[] saveSlots;
@@ -66,8 +65,8 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(14, 14);
 
         playerStat = player.GetComponent<PlayerStatus>();
-        storage = canvanManager.storage.GetComponent<Menu_Storage>();
-        inventory = canvanManager.Menus[0].GetComponent<Menu_Inventory>();
+        storage = canvasManager.storage.GetComponent<Menu_Storage>();
+        inventory = canvasManager.Menus[0].GetComponent<Menu_Inventory>();
         dataBase = new DataBase();
 
         Init();
@@ -89,8 +88,8 @@ public class GameManager : MonoBehaviour
         gameSlotFocus = 0;
 
         playerStatView.SetActive(false);
-        canvanManager.inGameMenu.SetActive(false);
-
+        canvasManager.inGameMenu.SetActive(false);
+        canvasManager.FadeInStart();
         OpenStartButton();
 
         Debug.Log("gameManager Start");
@@ -98,7 +97,7 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        if (canvanManager.GameMenuOnCheck()) return;
+        if (canvasManager.GameMenuOnCheck()) return;
         if (SceneManager.GetActiveScene().buildIndex != 0) return;      // 씬 넘버가 0일때만 실행
         
         if (Input.GetKeyDown(KeyCode.Z))
@@ -130,7 +129,7 @@ public class GameManager : MonoBehaviour
             if (openSaveSlot)
             {
                 CloseLoad();
-                canvanManager.inGameMenu.SetActive(true);
+                canvasManager.inGameMenu.SetActive(true);
             }
         }
 
@@ -204,7 +203,7 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetString("SaveSlot" + saveSlotFocus.ToString(), data);
         player.GetComponent<PlayerControl>().enabled = false;
         bedBlind = GameObject.Find("BackGroundSet/Base/bg_mainScene_blind");
-        canvanManager.inGameMenu.SetActive(false);
+        canvasManager.inGameMenu.SetActive(false);
         bedBlind.SetActive(true);
         playerStatView.SetActive(false);
 
@@ -245,8 +244,8 @@ public class GameManager : MonoBehaviour
             inventory.LoadInventoryData(dataBase.GetTakeKeySlot(), dataBase.GetAvailableInventorySlot());
         }
         CloseLoad();
-        
-        canvanManager.inGameMenu.SetActive(true);
+
+        canvasManager.inGameMenu.SetActive(true);
         playerStatView.SetActive(true);
         startButton.SetActive(false);
         gameStart = true;
@@ -275,7 +274,7 @@ public class GameManager : MonoBehaviour
                 OpenLoad();
                 break;
             case 1:
-                canvanManager.OpenSettings();
+                canvasManager.OpenSettings();
                 break;
             case 2:
                 Debug.Log("game over");

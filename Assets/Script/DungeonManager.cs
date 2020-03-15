@@ -325,6 +325,7 @@ public class DungeonManager : MonoBehaviour
         bossStageCount = 0;
         useTeleportSystem = 10;
         bossClear = 0;
+        inDungeon = false;
         isSceneLoading = false;
         bossSetting = false;
         isTraingPossible = true;
@@ -340,6 +341,7 @@ public class DungeonManager : MonoBehaviour
         dungeonClear = false;
         floorRepeat = false;
 
+        ++currentDate;
         currentStage = 0;
         bossStageCount = 0;
         monsterCount = 0;
@@ -408,6 +410,7 @@ public class DungeonManager : MonoBehaviour
             }
         }
     }
+
     public bool useKeyInDungeon(Item _Item)
     {
         if (usedKey || phaseClear) return false;
@@ -490,7 +493,7 @@ public class DungeonManager : MonoBehaviour
          */
         menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(true);
         isSceneLoading = true;
-        menu.FadeOutStart(true);
+        menu.CircleFadeOutStart(true);
     }
     public void ReturnToTown()
     {
@@ -498,7 +501,6 @@ public class DungeonManager : MonoBehaviour
          *  정상적으로 복귀 시 게임 오버 창 표시
          */
         DungeonInit();
-        ++currentDate;
         playerStatus.ReturnToTown();
         menu.Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
         mainCamera.SetHeiWid(640, 360);
@@ -702,7 +704,6 @@ public class DungeonManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().buildIndex == 0)      // 메인 메뉴 씬 일 때
         {
-            inDungeon = false;
             if (!GameManager.instance.gameStart)
             {
                 Init();

@@ -27,6 +27,7 @@ public class CanvasManager : MonoBehaviour
     public GameObject KeySettingMenu;
     public Scrollbar[] sb;
     public GameObject fadeInOut;
+    public GameObject circleFadeOut;
     public bool isFadeInOut;
     #endregion
 
@@ -63,7 +64,6 @@ public class CanvasManager : MonoBehaviour
         }
         isFadeInOut = false;
     }
-
     private void Update()
     {
         if (!gm.GetGameStart()) return;
@@ -145,12 +145,11 @@ public class CanvasManager : MonoBehaviour
     
     public void FadeInStart()
     {
+        System.GC.Collect();
         StartCoroutine(FadeIn());
     }
     IEnumerator FadeIn()
     {
-        yield return new WaitForSeconds(1f);
-
         if (GameManager.instance.GetGameStart())
             PlayerControl.instance.enabled = true;
 
@@ -186,6 +185,50 @@ public class CanvasManager : MonoBehaviour
         if (fadeColor.a > 1f) fadeColor.a = 1f;
         fadeInOut.GetComponent<Image>().color = fadeColor;
         
+        if (sceneLoad)
+            DungeonManager.instance.SceneLoad();
+        else
+        {
+            DungeonManager.instance.FloorSetting();
+            FadeInStart();
+        }
+    }
+    public void CircleFadeOutStart(bool sceneLoad)
+    {
+        StartCoroutine(CircleFadeOut(sceneLoad));
+    }
+    IEnumerator CircleFadeOut(bool sceneLoad)
+    {
+        PlayerControl.instance.enabled = false;
+        circleFadeOut.SetActive(true);
+        fadeInOut.SetActive(true);
+
+        circleFadeOut.transform.position = new Vector3(
+            Camera.main.WorldToScreenPoint(PlayerControl.instance.gameObject.transform.position).x,
+            Camera.main.WorldToScreenPoint(PlayerControl.instance.gameObject.transform.position).y + 50f,
+            circleFadeOut.transform.position.z);
+
+        Color fadeColor = fadeInOut.GetComponent<Image>().color;
+        fadeColor.a = 1f;
+        fadeInOut.GetComponent<Image>().color = fadeColor;
+        
+        Vector3 fadeOutScale = circleFadeOut.transform.localScale;
+        while (fadeOutScale.x > 0f)
+        {
+            fadeOutScale.x -= 1f;
+            fadeOutScale.y -= 1f;
+            circleFadeOut.transform.localScale = fadeOutScale;
+
+            yield return null;
+        }
+
+        // 게임오버 결과창
+        
+        circleFadeOut.SetActive(false);
+        fadeOutScale.x = 100f;
+        fadeOutScale.y = 100f;
+        circleFadeOut.transform.localScale = fadeOutScale;
+
         if (sceneLoad)
             DungeonManager.instance.SceneLoad();
         else

@@ -316,264 +316,117 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d7b8a6907c68e418fab1b4a78e8a89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataBase:
-    playerData:
-      status: []
-      equipmentStatus: []
-      playerEquipment:
-        equipment:
-        - _name: "\uC885"
-          _addStatus:
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          _itemCode: 0
-          _itemRarity: 0
-          _upStatus: 8
-          _downStatus: 8
-          _enchant: 0
-          _Max: 0
-          _Min: 0
-        - _name: "\uCC3D"
-          _addStatus:
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          _itemCode: 0
-          _itemRarity: 0
-          _upStatus: 8
-          _downStatus: 8
-          _enchant: 0
-          _Max: 0
-          _Min: 0
-        - _name: "\uCD1D"
-          _addStatus:
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          _itemCode: 0
-          _itemRarity: 0
-          _upStatus: 8
-          _downStatus: 8
-          _enchant: 0
-          _Max: 0
-          _Min: 0
-        - _name: "\uD770 \uC637"
-          _addStatus:
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          _itemCode: 0
-          _itemRarity: 0
-          _upStatus: 8
-          _downStatus: 8
-          _enchant: 0
-          _Max: 0
-          _Min: 0
-        - _name: "\uAC00\uC8FD \uC2E0\uBC1C"
-          _addStatus:
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          _itemCode: 0
-          _itemRarity: 0
-          _upStatus: 8
-          _downStatus: 8
-          _enchant: 0
-          _Max: 0
-          _Min: 0
-        - _name: "\uB9E8 \uC190"
-          _addStatus:
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          _itemCode: 0
-          _itemRarity: 0
-          _upStatus: 8
-          _downStatus: 8
-          _enchant: 0
-          _Max: 0
-          _Min: 0
-        - _name: "\uC561\uD2F0\uBE0C"
-          _addStatus:
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          _itemCode: 0
-          _itemRarity: 0
-          _upStatus: 8
-          _downStatus: 8
-          _enchant: 0
-          _Max: 0
-          _Min: 0
-    storageItemCodeList: 
-    availableStorageSlot: 0
-    takeKeySlot: 0
-    availableInventorySlot: 0
-    currentDate: 0
-    eventCheck: 
+  playerStatusView: {fileID: 0}
   playerData:
+    maxAmmo: 0
     status: []
     equipmentStatus: []
     playerEquipment:
       equipment:
-      - _name: "\uC885"
-        _addStatus:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        _itemCode: 0
-        _itemRarity: 0
-        _upStatus: 8
-        _downStatus: 8
-        _enchant: 0
-        _Max: 0
-        _Min: 0
-      - _name: "\uCC3D"
-        _addStatus:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        _itemCode: 0
-        _itemRarity: 0
-        _upStatus: 8
-        _downStatus: 8
-        _enchant: 0
-        _Max: 0
-        _Min: 0
-      - _name: "\uCD1D"
-        _addStatus:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        _itemCode: 0
-        _itemRarity: 0
-        _upStatus: 8
-        _downStatus: 8
-        _enchant: 0
-        _Max: 0
-        _Min: 0
-      - _name: "\uD770 \uC637"
-        _addStatus:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        _itemCode: 0
-        _itemRarity: 0
-        _upStatus: 8
-        _downStatus: 8
-        _enchant: 0
-        _Max: 0
-        _Min: 0
-      - _name: "\uAC00\uC8FD \uC2E0\uBC1C"
-        _addStatus:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        _itemCode: 0
-        _itemRarity: 0
-        _upStatus: 8
-        _downStatus: 8
-        _enchant: 0
-        _Max: 0
-        _Min: 0
-      - _name: "\uB9E8 \uC190"
-        _addStatus:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        _itemCode: 0
-        _itemRarity: 0
-        _upStatus: 8
-        _downStatus: 8
-        _enchant: 0
-        _Max: 0
-        _Min: 0
-      - _name: "\uC561\uD2F0\uBE0C"
-        _addStatus:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        _itemCode: 0
-        _itemRarity: 0
-        _upStatus: 8
-        _downStatus: 8
-        _enchant: 0
-        _Max: 0
-        _Min: 0
+      - name: 
+        addStatus: []
+        itemCode: 0
+        itemRarity: 0
+        upStatus: 0
+        downStatus: 0
+        max: []
+        min: []
+        skillCode: 0
+        skillRarity: 0
+        isUsed: 0
+        enchant: 0
+      - name: 
+        addStatus: []
+        itemCode: 0
+        itemRarity: 0
+        upStatus: 0
+        downStatus: 0
+        max: []
+        min: []
+        skillCode: 0
+        skillRarity: 0
+        isUsed: 0
+        enchant: 0
+      - name: 
+        addStatus: []
+        itemCode: 0
+        itemRarity: 0
+        upStatus: 0
+        downStatus: 0
+        max: []
+        min: []
+        skillCode: 0
+        skillRarity: 0
+        isUsed: 0
+        enchant: 0
+      - name: 
+        addStatus: []
+        itemCode: 0
+        itemRarity: 0
+        upStatus: 0
+        downStatus: 0
+        max: []
+        min: []
+        skillCode: 0
+        skillRarity: 0
+        isUsed: 0
+        enchant: 0
+      - name: 
+        addStatus: []
+        itemCode: 0
+        itemRarity: 0
+        upStatus: 0
+        downStatus: 0
+        max: []
+        min: []
+        skillCode: 0
+        skillRarity: 0
+        isUsed: 0
+        enchant: 0
+      - name: 
+        addStatus: []
+        itemCode: 0
+        itemRarity: 0
+        upStatus: 0
+        downStatus: 0
+        max: []
+        min: []
+        skillCode: 0
+        skillRarity: 0
+        isUsed: 0
+        enchant: 0
+      - name: 
+        addStatus: []
+        itemCode: 0
+        itemRarity: 0
+        upStatus: 0
+        downStatus: 0
+        max: []
+        min: []
+        skillCode: 0
+        skillRarity: 0
+        isUsed: 0
+        enchant: 0
   playerEquip:
     equipment: []
   currentHP: 0
   HPCut: 
-  currentBuffTime: 0
+  currentAmmo: 0
   buffState: 0
-  jumpPower: 0
-  moveSpeed: 0
   attack: 0
-  attackSpeed: 0
-  jumpCount: 0
   defense: 0
-  recovery: 0
+  moveSpeed: 0
+  attackSpeed: 0
   dashDistance: 0
-  moveSpeed_Result: 0
+  recovery: 0
+  jumpCount: 0
+  jumpPower: 0
   attack_Result: 0
+  defense_Result: 0
+  moveSpeed_Result: 0
+  attackSpeed_Result: 0
   dashDistance_Result: 0
+  recovery_Result: 0
 --- !u!114 &3981682513319129742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,31 +441,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 
   actionState: 5
+  overlap: 0
   isFaceRight: 0
   arrowDirection: 0
+  playerCharacterCollider: {fileID: 0}
+  rayDashLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   GroundCheck: {fileID: 3981682513018439649}
   playerStatus: {fileID: 0}
+  skillManager: {fileID: 0}
   weaponSpear: {fileID: 0}
   weaponGun: {fileID: 0}
   weaponType: 0
+  weaponMultyHit: 
+  multyHitCount: 0
   inputDirection: 0
   inputArrow: 0
   inputAttackX: 0
   inputAttackY: 0
   finalAttackY: 0
-  attackSpeed: 0
+  inputJump: 0
+  inputDodge: 0
   runDelay: 0
   isRrun: 0
   isLrun: 0
-  isFall: 0
-  inputJump: 0
-  jumpping: 0
-  inputDodge: 0
+  isGround: 0
+  isJumpAttack: 0
   dodgable: 0
   invincible: 0
-  invincibleCount: 0
-  currentJumpCount: 0
   isBlock: 0
+  currentJumpCount: 0
 --- !u!114 &3006957613609201759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -637,13 +496,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c78bfe11b6ebb54c9df1e8a78f1e67f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ControllerPath: AnimatorController/Player_Control/Spear/Spear_Controller
+  animator: {fileID: 0}
+  animatorController: {fileID: 0}
+  rb: {fileID: 0}
   attackLock: 0
   commandCount: 0
   attackState: 0
   attackPattern: 0
-  animator: {fileID: 0}
-  rb: {fileID: 0}
+  weaponMultyHit: 
+  inputAttackList: 0
 --- !u!114 &7662008634848873354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -656,6 +517,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c5140fef0dedf141ae1b720f61298b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ControllerPath: AnimatorController/Gun/Controller
-  anim: {fileID: 0}
+  animator: {fileID: 0}
+  animatorController: {fileID: 0}
   rb: {fileID: 0}
+  attackLock: 0
+  commandCount: 0
+  attackState: 0
+  attackPattern: 0
+  weaponMultyHit: 
+  inputAttackList: 0

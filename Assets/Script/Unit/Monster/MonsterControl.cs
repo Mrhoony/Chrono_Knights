@@ -16,10 +16,15 @@ public abstract class Monster_Control : MovingObject
     public List<GameObject> eftPool;
     public EnemyStatus enemyStatus;
     public DropItemList dropItemList;
+    public SpriteRenderer spriteRenderer;
+    public Material defaultMaterial;
+    public Material whiteFlashMaterial;
 
     public string monsterName;
     public int monsterCode;
     public bool coroutine;
+    public bool moveDelay;
+    public bool hitDelay;
 
     public float distanceX;
     public float distanceY;
@@ -38,15 +43,22 @@ public abstract class Monster_Control : MovingObject
         enemyStatus = GetComponent<EnemyStatus>();
         dropItemList = GetComponent<DropItemList>();
         eft = transform.GetChild(0).gameObject;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        defaultMaterial = Resources.Load<Material>("Material/SpriteDefault");
+        whiteFlashMaterial = Resources.Load<Material>("Material/WhiteFlash");
         target = GameObject.Find("PlayerCharacter");
     }
 
     // 몬스터 행동시 딜레이
     public IEnumerator MoveDelayTime(float time)
     {
-        yield return new WaitForSeconds(time);
+        if (moveDelay) yield break;
+        moveDelay = true;
 
+        yield return new WaitForSeconds(time);
         actionState = ActionState.Idle;
+
+        moveDelay = false;
     }
 
     // 몬스터 공격 판정

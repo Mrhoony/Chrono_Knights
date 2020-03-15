@@ -566,6 +566,7 @@ public class PlayerControl : MovingObject
         }
 
         ++multyHitCount;
+
         int attackState;
         if (weaponType == 0)
             attackState = weaponSpear.GetAttackState();

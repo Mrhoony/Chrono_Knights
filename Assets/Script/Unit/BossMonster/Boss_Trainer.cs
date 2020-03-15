@@ -3,9 +3,8 @@ using UnityEngine;
 
 public class Boss_Trainer : BossMonster_Control
 {
+    IEnumerator dashCount;
     float dashAttackCoolTime;
-    Material DefaultMat;
-    Material WhiteFlashMat;
     
     private void OnEnable()
     {
@@ -38,10 +37,12 @@ public class Boss_Trainer : BossMonster_Control
         {
             animator.SetBool("isMove", true);
             rb.velocity = new Vector2(arrowDirection * moveSpeed, rb.velocity.y);
+            Debug.Log("Move");
         }
         else
         {
             animator.SetBool("isMove", false);
+            Debug.Log("notMove");
         }
     }
 
@@ -52,24 +53,29 @@ public class Boss_Trainer : BossMonster_Control
         if (distanceX < 1f)
         {
             Attack1();
+            Debug.Log("Attack");
         }
         else if(distanceX >= 4f)
         {
             DashMove();
+            Debug.Log("Dash");
         }
     }
 
     void Attack1()
     {
         actionState = ActionState.IsAtk;
-        animator.SetTrigger("isAttackTrigger");
-        StartCoroutine(MoveDelayTime(attackCoolTime));
+        animator.SetBool("isDash", true);
+        animator.SetTrigger("isAttack_Trigger");
+        moveDelayCount = MoveDelayTime(attackCoolTime);
+        StartCoroutine(moveDelayCount);
     }
     void DashMove()
     {
         actionState = ActionState.IsAtk;
-        animator.SetTrigger("isDashTrigger");
-        StartCoroutine(DashDuration());
+        animator.SetTrigger("isDash_Trigger");
+        dashCount = DashDuration();
+        StartCoroutine(dashCount);
     }
     public void Dash()
     {
@@ -77,17 +83,20 @@ public class Boss_Trainer : BossMonster_Control
     }
     public void DashAttack()
     {
-        StopCoroutine(DashDuration());
-        animator.SetTrigger("isDashAttackTrigger");
-        StartCoroutine(MoveDelayTime(dashAttackCoolTime));
+        StopCoroutine(dashCount);
+        animator.SetTrigger("isDashAttack_Trigger");
+        moveDelayCount = MoveDelayTime(dashAttackCoolTime);
+        StartCoroutine(moveDelayCount);
+        Debug.Log("DashAtk");
     }
 
     IEnumerator DashDuration()
     {
         yield return new WaitForSeconds(2f);
         animator.SetBool("isDash", false);
-        animator.SetBool("isDashAttack", false);
-        StartCoroutine(MoveDelayTime(attackCoolTime));
+        moveDelayCount = MoveDelayTime(attackCoolTime);
+        StartCoroutine(moveDelayCount);
+        Debug.Log("DashEnd");
     }
 
     public override void MonsterHit(int damage)
@@ -98,7 +107,6 @@ public class Boss_Trainer : BossMonster_Control
         StartCoroutine(MoveDelayTime(1f));
         random = Random.Range(-0.2f, 0.2f);
         rb.velocity = Vector2.zero;
-
         rb.AddForce(new Vector2(1f * playerPosition + random, 0.2f), ForceMode2D.Impulse);
 
         enemyStatus.DecreaseHP(damage);

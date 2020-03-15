@@ -191,22 +191,14 @@ public class Menu_Storage : MonoBehaviour
 
     public void OpenStorageWithUpgrade()                 // 강화에서 창고를 열었을 때
     {
-        onStorage = true;
-        upgradeItem = true;
         boxNum = 0;
         focus = 0;
-        
+        onStorage = true;
+        upgradeItem = true;
         StorageSet();
+        ItemInformationSetting(focus);
+
         slot[focus].transform.GetChild(0).gameObject.SetActive(true);
-        if (storageItemList[focus] != null)
-        {
-            itemInformation.SetActive(true);
-            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(storageItemList[focus]);
-        }
-        else
-        {
-            itemInformation.SetActive(false);
-        }
     }
     public void CloseStorageWithUpgrade(bool isSelect)
     {
@@ -234,16 +226,7 @@ public class Menu_Storage : MonoBehaviour
         takeItemCount = inventory.GetTakeItemSlot();
         selectedSlot = new int[inventory.GetTakeItemSlot()];
         StorageSet();
-
-        if (storageItemList[focus] != null)
-        {
-            itemInformation.SetActive(true);
-            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(storageItemList[focus]);
-        }
-        else
-        {
-            itemInformation.SetActive(false);
-        }
+        ItemInformationSetting(focus);
 
         slot[focus].transform.GetChild(0).gameObject.SetActive(true);
     }
@@ -258,6 +241,19 @@ public class Menu_Storage : MonoBehaviour
         itemInformation.SetActive(false);
         canvasManager.CloseStorage();
     }
+    public void ItemInformationSetting(int _focus)
+    {
+        if (storageItemList[focus] != null)
+        {
+            itemInformation.SetActive(true);
+            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(storageItemList[focus]);
+        }
+        else
+        {
+            itemInformation.SetActive(false);
+        }
+    }
+
     public void SetSelectedItemSlotNum()    // 선택된 아이템 슬롯 번호를 저장
     {
         selectSlotNum = 0;

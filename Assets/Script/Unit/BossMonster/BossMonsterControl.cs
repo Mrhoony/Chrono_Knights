@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class BossMonster_Control : Monster_Control
 {
+    public IEnumerator moveDelayCount;
     public int playerPosition;
     public bool isDamagable;
     public bool isGuard;

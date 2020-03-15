@@ -65,7 +65,14 @@ public class Menu_Inventory : MonoBehaviour
             }
             else
             {
-                // 아이템 위치 변경
+                //DeleteItem(focused);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (!isDungeonOpen)
+            {
+                DeleteItem(focused);
             }
         }
 
@@ -74,12 +81,8 @@ public class Menu_Inventory : MonoBehaviour
             if (isDungeonOpen)
             {
                 isDungeonOpen = false;
-                canvasManager.CloseInGameMenu();
             }
-            else
-            {
-                canvasManager.CloseInGameMenu();
-            }
+            canvasManager.CloseInGameMenu();
         }
     }
     public void UseItemInDungeon(int focus)              // 던전 포탈 앞에서 퀵슬롯으로 아이템 사용시

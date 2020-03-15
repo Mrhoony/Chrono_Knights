@@ -12,20 +12,12 @@ public class ItemInfomation : MonoBehaviour
     public Text itemEquipEffect;
     public Text itemDescription;
 
-    public void SetItemInfomation(Item item)
-    {
-        itemSprite.GetComponent<Image>().sprite = item.sprite;
-        itemName.text = item.itemName;
-        itemRarity.text = item.itemRarity.ToString();
-        itemEffect.text = item.usingType.ToString();
-        itemDescription.text = item.Description;
-    }
-
     public void SetItemInventoryInformation(Item item)
     {
         itemName.text = item.itemName;
         itemRarity.text = item.itemRarity.ToString();
         itemEffect.text = item.usingType.ToString();
+        itemEquipEffect.text = item.itemType.ToString();
         itemDescription.text = item.Description;
     }
 

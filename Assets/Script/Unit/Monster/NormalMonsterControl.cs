@@ -141,6 +141,8 @@ public abstract class NormalMonsterControl : Monster_Control
         if (actionState == ActionState.IsDead) return;
         
         enemyStatus.DecreaseHP(damage);
+        spriteRenderer.material = whiteFlashMaterial;
+        spriteRenderer.material = defaultMaterial;
 
         if (enemyStatus.IsDeadCheck())
         {

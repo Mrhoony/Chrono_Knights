@@ -5,15 +5,9 @@ public class Boss_Merchant : BossMonster_Control
 {
     float backAttackCoolTime;
     
-    Material DefaultMat;
-    Material WhiteFlashMat;
-
     private void OnEnable()
     {
-        DefaultMat = Resources.Load<Material>("SpriteDefault");
-        WhiteFlashMat = Resources.Load<Material>("WhiteFlash");
-        
-        rotateDelayTime = 1f;
+        rotateDelayTime = 2f;
         attackCoolTime = 6f;
         backAttackCoolTime = 4f;
         arrowDirection = 1;
@@ -86,7 +80,8 @@ public class Boss_Merchant : BossMonster_Control
 
         if (isGuard)
         {
-            StopCoroutine(GuardCount());
+            StopCoroutine("GuardCount");
+            StopCoroutine("MoveDelayTime");
             animator.SetBool("isCounterAttack", true);
         }
         else
@@ -121,6 +116,7 @@ public class Boss_Merchant : BossMonster_Control
         isGuard = true;
         animator.SetBool("isCounterWait", true);
         StartCoroutine(GuardCount());
+        Debug.Log("Guard");
     }
     IEnumerator GuardCount()
     {
@@ -128,6 +124,7 @@ public class Boss_Merchant : BossMonster_Control
         isGuard = false;
         animator.SetBool("isCounterWait", false);
         StartCoroutine(MoveDelayTime(attackCoolTime));
+        Debug.Log("Guard_Undo");
     }
 
     void Skill1()

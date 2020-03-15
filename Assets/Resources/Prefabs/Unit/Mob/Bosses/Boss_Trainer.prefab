@@ -232,7 +232,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 0
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &8147519210445272187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,17 +254,19 @@ MonoBehaviour:
   target: {fileID: 0}
   playerPos: {x: 0, y: 0}
   eft: {fileID: 0}
+  eftPool: []
   enemyStatus: {fileID: 0}
   dropItemList: {fileID: 0}
   monsterName: 
   monsterCode: 0
+  coroutine: 0
+  moveDelay: 0
   distanceX: 0
   distanceY: 0
   moveSpeed: 0
   rotateDelayTime: 0
   attackCoolTime: 0
   maxAttackDelayTime: 0
-  curAttackDelayTime: 0
   playerPosition: 0
   isDamagable: 0
   isGuard: 0
