@@ -70,7 +70,8 @@ public class Monster_Ogre : NormalMonsterControl
         if (actionState == ActionState.IsDead) return;
 
         enemyStatus.DecreaseHP(damage);
-        
+        StartCoroutine(MonsterHitEffect());
+
         if (enemyStatus.IsDeadCheck())
         {
             Dead();

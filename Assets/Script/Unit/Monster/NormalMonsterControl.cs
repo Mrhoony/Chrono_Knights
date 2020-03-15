@@ -141,12 +141,10 @@ public abstract class NormalMonsterControl : Monster_Control
         if (actionState == ActionState.IsDead) return;
         
         enemyStatus.DecreaseHP(damage);
-        spriteRenderer.material = whiteFlashMaterial;
-        spriteRenderer.material = defaultMaterial;
+        StartCoroutine(MonsterHitEffect());
 
         if (enemyStatus.IsDeadCheck())
         {
-            StopAllCoroutines();
             actionState = ActionState.IsDead;
             gameObject.tag = "DeadBody";
             Dead();
@@ -163,6 +161,16 @@ public abstract class NormalMonsterControl : Monster_Control
             rb.AddForce(new Vector2(PlayerControl.instance.GetArrowDirection() + random, 0.2f), ForceMode2D.Impulse);
         }
     }
+    public IEnumerator MonsterHitEffect()
+    {
+        if (hitDelay) yield break;
+        hitDelay = true;
+        spriteRenderer.material = whiteFlashMaterial;
+        yield return new WaitForSeconds(0.2f);
+        spriteRenderer.material = defaultMaterial;
+        hitDelay = false;
+    }
+
     public void Landing()
     {
         animator.SetBool("isJumping", false);

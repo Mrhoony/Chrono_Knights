@@ -16,7 +16,7 @@ public class y_up_Attack_end : AnimatorManager
         if (stateInfo.normalizedTime > 0.5f)
         {
             if(!move)
-                move = playerControl.Attack(0.5f, 0f, 1f, 0.5f);
+                playerControl.Attack(0.5f, 0f, 1f, 0.5f);
         }
     }
 
