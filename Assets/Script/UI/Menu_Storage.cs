@@ -11,7 +11,6 @@ public class Menu_Storage : MonoBehaviour
     public GameObject[] slot;
     public GameObject itemInformation;
 
-    public Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
 
     public Transform[] transforms;
     public int slotCount;
@@ -38,7 +37,6 @@ public class Menu_Storage : MonoBehaviour
     
     public void Init()
     {
-        keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
         transforms = slots.transform.GetComponentsInChildren<Transform>();
         slotCount = transforms.Length - 1;
         
@@ -124,6 +122,7 @@ public class Menu_Storage : MonoBehaviour
 
     public void StorageSet()           // 창고 활성화시 UI 초기화
     {
+        Sprite[] keyItemBorderSprite = canvasManager.keyItemBorderSprite;
         if (availableSlot - (boxNum * 24) > 24)
         {
             boxFull = 24;

@@ -145,6 +145,7 @@ public abstract class NormalMonsterControl : Monster_Control
 
         if (enemyStatus.IsDeadCheck())
         {
+            StopCoroutine("moveDelayCoroutine");
             actionState = ActionState.IsDead;
             gameObject.tag = "DeadBody";
             Dead();

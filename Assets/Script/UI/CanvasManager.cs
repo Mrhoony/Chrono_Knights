@@ -16,6 +16,8 @@ public class CanvasManager : MonoBehaviour
     public static CanvasManager instance;
     public GameManager gm;
 
+    public Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
+
     public GameObject[] Menus;      // UI 메뉴들
     public GameObject storage;
     public GameObject townUI;       // 마을 UI
@@ -51,6 +53,8 @@ public class CanvasManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        keyItemBorderSprite = Resources.LoadAll<Sprite>("Graphic/UI/Inventory_Set");
     }
     private void Start()
     {
@@ -205,7 +209,7 @@ public class CanvasManager : MonoBehaviour
 
         circleFadeOut.transform.position = new Vector3(
             Camera.main.WorldToScreenPoint(PlayerControl.instance.gameObject.transform.position).x,
-            Camera.main.WorldToScreenPoint(PlayerControl.instance.gameObject.transform.position).y + 50f,
+            Camera.main.WorldToScreenPoint(PlayerControl.instance.gameObject.transform.position).y,
             circleFadeOut.transform.position.z);
 
         Color fadeColor = fadeInOut.GetComponent<Image>().color;

@@ -36,6 +36,7 @@ public class Item_Looting : MonoBehaviour
         speed += Time.deltaTime * 2f;
         transform.position = new Vector2(transform.position.x, transform.position.y + Mathf.Sin(speed) * 0.002f);
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("Player"))

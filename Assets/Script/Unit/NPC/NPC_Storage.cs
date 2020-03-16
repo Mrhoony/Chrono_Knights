@@ -6,9 +6,8 @@ public class NPC_Storage : NPC_Control
 {
     public bool onStorage;
 
-    private void Awake()
+    public void Start()
     {
-        base.Awake();
         onStorage = false;
     }
 

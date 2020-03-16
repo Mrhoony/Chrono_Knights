@@ -9,7 +9,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
     public override void OnEnable()
     {
         base.OnEnable();
-        slotImage = Resources.LoadAll<Sprite>("UI/ui_upgrade_set");
+        slotImage = Resources.LoadAll<Sprite>("Graphic/UI/ui_upgrade_set");
     }
 
     public void Update()

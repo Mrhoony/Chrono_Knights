@@ -39,8 +39,8 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
         storage = menu.storage.GetComponent<Menu_Storage>();
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         playerEquipment = playerStat.playerEquip;
-        keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
-        equipmentSet = Resources.LoadAll<Sprite>("Item/ui_itemset");
+        keyItemBorderSprite = Resources.LoadAll<Sprite>("Graphic/UI/Inventory_Set");
+        equipmentSet = Resources.LoadAll<Sprite>("Graphic/Item/ui_itemset");
     }
     
     public void OpenBlackSmithUI()

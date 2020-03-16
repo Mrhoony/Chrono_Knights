@@ -31,7 +31,7 @@ public class Menu_QuickSlot : MonoBehaviour
         else
             Destroy(gameObject);
         
-        quickSlotImage = Resources.LoadAll<Sprite>("UI/ui_quickSlot");
+        quickSlotImage = Resources.LoadAll<Sprite>("Graphic/UI/ui_quickSlot");
         onQuickSlot = false;
     }
 
@@ -39,7 +39,7 @@ public class Menu_QuickSlot : MonoBehaviour
     {
         if (menu.GameMenuOnCheck()) return;
 
-        slots.transform.position = new Vector3(Camera.main.WorldToScreenPoint(player.transform.position).x, Camera.main.WorldToScreenPoint(player.transform.position).y + 150f, 0f);
+        slots.transform.position = new Vector3(Camera.main.WorldToScreenPoint(player.transform.position).x, Camera.main.WorldToScreenPoint(player.transform.position).y + 75f, 0f);
         quickSlotItemInfomation.transform.position = quickSlot[focus - addQuickInventory].transform.position;
 
         if (Input.GetKeyDown(KeyCode.Q))

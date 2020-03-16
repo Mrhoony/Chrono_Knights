@@ -9,7 +9,6 @@ public class Menu_Inventory : MonoBehaviour
     public Menu_Storage storage;
     public GameObject itemInformation;
     private GameObject[] slot;           // 인벤토리 슬롯
-    private Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
 
     public int slotCount;
     public int availableSlot;
@@ -27,7 +26,6 @@ public class Menu_Inventory : MonoBehaviour
     public void Init()
     {
         canvasManager = CanvasManager.instance;
-        keyItemBorderSprite = Resources.LoadAll<Sprite>("UI/Inventory_Set");
         Transform[] transforms = slots.transform.GetComponentsInChildren<Transform>();
         slotCount = transforms.Length - 1;
 
@@ -115,6 +113,8 @@ public class Menu_Inventory : MonoBehaviour
     }
     public void InventorySet()           // 인벤토리 활성화시 아이템 세팅
     {
+        Sprite[] keyItemBorderSprite = canvasManager.keyItemBorderSprite;
+
         for (int i = 0; i < availableSlot; ++i)
         {
             if (inventoryItemList[i] != null)
@@ -242,8 +242,8 @@ public class Menu_Inventory : MonoBehaviour
             }
         }
         --inventoryItemCount;
+        InventorySet();
     }
-    
     public void DeleteStorageItem()             // 던전 진입할 때 들고있는 키 창고에서 삭제
     {
         for (int i = 0; i < seletedItemCount; ++i)

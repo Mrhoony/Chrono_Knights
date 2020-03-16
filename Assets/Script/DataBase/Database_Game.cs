@@ -37,7 +37,7 @@ public class Item
         itemName = _itemName;
         itemRarity = _itemRarity;
         itemCode = _itemCode;
-        sprite = Resources.LoadAll<Sprite>("item/ui_itemset")[itemCode];
+        sprite = Resources.LoadAll<Sprite>("Graphic/Item/ui_itemset")[itemCode];
         Description = _Description;
         itemType = _itemType;
         switch (itemType)
