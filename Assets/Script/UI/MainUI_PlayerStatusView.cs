@@ -47,7 +47,7 @@ public class MainUI_PlayerStatusView : MonoBehaviour
         dmgMulti = 5;
         dmgRecovery = 5;
     }
-
+    
     public void Init()
     {
         int count = HPBarCut.Length;
@@ -56,14 +56,46 @@ public class MainUI_PlayerStatusView : MonoBehaviour
             HPBarCut[i].enabled = true;
         }
         DebuffReset();
+        BellReset();
     }
-    
+
+    public void BellReset()
+    {
+        bellRotation = 0;
+        beforeRotation = 0;
+        targetRotation = 0;
+        bellPower = 0;
+        bellPower2 = 0;
+        bellspd = 0;
+        isright = true;
+
+        bell.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+    }
+
     // Update is called once per frame
     void Update()
     {
         // 체력바 갱신
         HPBar.fillAmount = playerStatus.currentHP / playerStatus.playerData.GetStatus((int)PlayerStat.HP);
         //buffBar.fillAmount = playerStatus.currentAmmo / playerStatus.playerData.GetMaxAmmo();
+        Ring();
+    }
+
+    // 피격 후 안정화
+    IEnumerator MonsterHit()
+    {
+        yield return new WaitForSeconds(5f - playerStatus.GetRecovery_Result() * 0.1f);
+        
+        targetRotation -= dmgRecovery;
+        if (0 >= targetRotation) targetRotation = 0;
+        else {
+            monsterHit = MonsterHit();
+            StartCoroutine(monsterHit);
+        }
+    }
+
+    public void Ring() {
+        if (0 == beforeRotation && 0 == targetRotation) return;
 
         //로테이션값 오일러값으로 변경
         bellRotation = bell.transform.rotation.eulerAngles.z;
@@ -72,11 +104,11 @@ public class MainUI_PlayerStatusView : MonoBehaviour
         //각도 끝에 도달한경우 반대방향 힘 재계산
         if (0 != targetRotation)
         {
-            if ((isright && bellRotation >= beforeRotation) || (!isright && bellRotation <= (-1*beforeRotation)))
+            if ((isright && bellRotation >= beforeRotation) || (!isright && bellRotation <= (-1 * beforeRotation)))
             {
                 //Debug.Log("Rotation : " + bellRotation + "   beforeRotation : " + beforeRotation);
                 //로테이션값 0일때 강제로 이동시킴
-                if (1 >= bellRotation * bellRotation) 
+                if (1 >= bellRotation * bellRotation)
                 {
                     if (true == isright)
                     {
@@ -101,17 +133,12 @@ public class MainUI_PlayerStatusView : MonoBehaviour
                 bellPower2 = ((bellRotation + targetRotation) * (bellRotation + targetRotation) / (12 * targetRotation * ringTime));
 
                 beforeRotation = targetRotation;
-                
+
             }
         }
-        else {
-            if (1 >= bellRotation) {
-                bellPower = 0;
-                bellPower2 = 0;
-                beforeRotation = 0;
-                bellspd = 0;
-                bell.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            }
+        else
+        {
+            if (1 >= bellRotation) BellReset();
         }
         bellRotation = bell.transform.rotation.eulerAngles.z;
         if (180 <= bellRotation) bellRotation -= 360;
@@ -121,28 +148,15 @@ public class MainUI_PlayerStatusView : MonoBehaviour
             if (isright) bellspd -= bellPower2 * Time.deltaTime;
             else bellspd -= bellPower * Time.deltaTime;
         }
-        else {
+        else
+        {
             if (isright) bellspd += bellPower * Time.deltaTime;
             else bellspd += bellPower2 * Time.deltaTime;
         }
 
         //벨 실제로 움직임
-        bell.transform.Rotate(new Vector3(0, 0, bellspd));        
+        bell.transform.Rotate(new Vector3(0, 0, bellspd));
     }
-
-    // 피격 후 안정화
-    IEnumerator MonsterHit()
-    {
-        yield return new WaitForSeconds(5f - playerStatus.GetRecovery_Result() * 0.1f);
-        
-        targetRotation -= dmgRecovery;
-        if (0 >= targetRotation) targetRotation = 0;
-        else {
-            monsterHit = MonsterHit();
-            StartCoroutine(monsterHit);
-        }
-    }
-
     public void Hit(float monsterAtk)
     {
         Debug.Log("Hit monster atk UI test Damage : "+monsterAtk);
