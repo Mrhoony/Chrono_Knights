@@ -84,7 +84,14 @@ public class PlayerControl : MovingObject
             if (Input.GetButtonUp("Fire2"))
             {
                 inputAttackY = false;
-                finalAttackY = true;
+                if (actionState == ActionState.IsDodge)
+                {
+                    weaponSpear.InputInit();
+                }
+                else
+                {
+                    finalAttackY = true;
+                }
             }
         }
         else if(weaponType == 1)
@@ -141,17 +148,8 @@ public class PlayerControl : MovingObject
         if (actionState == ActionState.IsAtk) return;
 
         InputSkillButton();
-        
-        // y 공격 입력
-        if (weaponType == 0)
-        {
-            if (Input.GetButton("Fire2")) inputAttackY = true;
-        }
-        else if (weaponType == 1)
-        {
 
-        }
-
+        if (Input.GetButton("Fire2")) inputAttackY = true;
         if (Input.GetButtonDown("Jump")) inputJump = true;
 
         // 장착 무기 변경
@@ -247,11 +245,10 @@ public class PlayerControl : MovingObject
 
     private void FixedUpdate()
     {
-        if (actionState == ActionState.NotMove) return;     // 피격 시 입력무시
+        if (actionState == ActionState.NotMove || actionState == ActionState.IsDead || actionState == ActionState.IsDodge) return;     // 피격 시 입력무시
 
         if (weaponType == 0) SpearAttack();
         if (weaponType == 1) GunAttack();
-
         Jump();
         Dodge();
 
@@ -330,6 +327,10 @@ public class PlayerControl : MovingObject
                 weaponGun.AttackX(inputArrow);
             }
         }
+        if (inputAttackY)
+        {
+            inputAttackY = false;
+        }
     }
 
     void Move()
@@ -397,7 +398,7 @@ public class PlayerControl : MovingObject
         if (!inputDodge) return;
         inputDodge = false;
 
-        actionState = ActionState.NotMove;
+        actionState = ActionState.IsDodge;
 
         GroundCheck.SetActive(false);
         StartCoroutine(DodgeIgnore(0.5f));
@@ -461,7 +462,7 @@ public class PlayerControl : MovingObject
         {
             actionState = ActionState.NotMove;
 
-            playerStatus.DecreaseHP(attack);
+            CameraManager.instance.CameraShake(playerStatus.DecreaseHP(attack));
             animator.SetTrigger("isHit");
             playerEffect.GetComponent<Animator>().SetTrigger("isHit_Trigger");
             invincible = true;
@@ -544,9 +545,13 @@ public class PlayerControl : MovingObject
     public void InputInit()
     {
         if(weaponType == 0)
+        {
             weaponSpear.InputInit();
+        }
         else
+        {
             weaponGun.InputInit();
+        }
     }
     public void MoveSet()
     {

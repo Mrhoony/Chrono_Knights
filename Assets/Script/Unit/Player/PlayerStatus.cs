@@ -97,7 +97,7 @@ public class PlayerStatus : MonoBehaviour
         playerStatusView.Init();
     }
 
-    public void DecreaseHP(int damage)
+    public int DecreaseHP(int damage)
     {
         damage -= defense_Result;
         if (damage < 0)
@@ -133,6 +133,7 @@ public class PlayerStatus : MonoBehaviour
             Debug.Log("isHit");
             //animator.SetTrigger("isHit");
         }
+        return damage;
     }
     public bool IncreaseHP(int addCurrentHP)
     {

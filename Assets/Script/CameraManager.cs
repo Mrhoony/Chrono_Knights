@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.U2D;
 
 public class CameraManager : MonoBehaviour
@@ -12,6 +13,12 @@ public class CameraManager : MonoBehaviour
     private Vector3 targetPosition;
     private Vector2 minBound;
     private Vector2 maxBound;
+
+    public bool cameraShakeOnOff;
+    public bool cameraShaking;
+    public float cameraZPosition = -50f;
+    public float cameraShackForce;
+    IEnumerator cameraShake;
 
     private int Height;
     private int Width;
@@ -41,8 +48,15 @@ public class CameraManager : MonoBehaviour
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         mainCamera = GetComponent<Camera>();
         perfectCamera = GetComponent<PixelPerfectCamera>();
+        cameraShakeOnOff = true;
+        cameraShaking = false;
 
         GameStartScreenSet();
+    }
+
+    public void CameraSetting(bool _cameraSetting)
+    {
+        cameraShakeOnOff = _cameraSetting;
     }
 
     void Start()
@@ -60,13 +74,38 @@ public class CameraManager : MonoBehaviour
     {
         if (target != null)
         {
-            targetPosition.Set(target.transform.position.x, target.transform.position.y, transform.position.z);
-            
-            transform.position = Vector3.Lerp(transform.position, targetPosition, target.GetComponent<SubCamera>().moveSpeed * 2f * Time.deltaTime);
-            float clampedX = Mathf.Clamp(transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
-            float clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y + halfHeight);
-            transform.position = new Vector3(clampedX, clampedY, transform.position.z);
+            if (cameraShaking)
+            {
+                transform.position += Random.insideUnitSphere * cameraShackForce;
+            }
+            else
+            {
+                targetPosition.Set(target.transform.position.x, target.transform.position.y, cameraZPosition);
+
+                transform.position = Vector3.Lerp(transform.position, targetPosition, target.GetComponent<SubCamera>().moveSpeed * 2f * Time.deltaTime);
+                float clampedX = Mathf.Clamp(transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
+                float clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y + halfHeight);
+                transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
+            }
         }
+    }
+
+    public void CameraShake(int _cameraShackForce)
+    {
+        if (cameraShakeOnOff)
+        {
+            if (_cameraShackForce > 3) _cameraShackForce = 3;
+            cameraShackForce = _cameraShackForce * 0.03f;
+            StopCoroutine("CameraShackTime");
+            cameraShake = CameraShackTime(_cameraShackForce * 0.1f);
+            StartCoroutine(cameraShake);
+        }
+    }
+    public IEnumerator CameraShackTime(float _time)
+    {
+        cameraShaking = true;
+        yield return new WaitForSeconds(_time);
+        cameraShaking = false;
     }
 
     public void SetHeiWid(int hei, int wid)

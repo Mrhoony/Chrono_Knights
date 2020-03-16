@@ -39,6 +39,8 @@ public class PlayerWeaponType : MonoBehaviour
         animator.SetBool("is_xFx_Atk", false);
         animator.SetBool("is_xxx_Atk", false);
         animator.SetBool("is_xFxFx_Atk", false);
+        animator.SetBool("is_y_Atk", false);
+        animator.SetBool("is_y_up_Atk", false);
         commandCount = 1;
         attackState = 1;
     }

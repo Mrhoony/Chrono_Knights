@@ -10,6 +10,7 @@ public enum ActionState
     IsJumpAttack,
     IsAtk,
     IsParrying,
+    IsDodge,
     IsMove,
     Idle
 }
