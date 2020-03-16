@@ -252,6 +252,7 @@ public class DungeonManager : MonoBehaviour
     private bool isTraingPossible;
     public bool isDead;
     public bool freePassFloor;
+    public bool freePassThisFloor;
     public int bossClear;
     public bool inDungeon;
     public bool[] eventFlag;
@@ -425,13 +426,13 @@ public class DungeonManager : MonoBehaviour
             case ItemType.ReturnTown:
                 // 마을로 돌아간다. 클리어 정보창 표시
                 isSceneLoading = true;
-                menu.FadeOutStart(true);
+                menu.CircleFadeOutStart(true);
                 break;
             case ItemType.FreePassNextFloor:
                 freePassFloor = true;
                 break;
             case ItemType.FreePassThisFloor:
-                FloorSetting();
+                freePassThisFloor = true;
                 break;
             case ItemType.BossFloor:
                 bossSetting = true;
@@ -551,6 +552,10 @@ public class DungeonManager : MonoBehaviour
 
             ++currentStage;
             ++bossStageCount;
+        }
+        if (freePassThisFloor)
+        {
+            FloorReset();
         }
 
         // 보스 스테이지 설정

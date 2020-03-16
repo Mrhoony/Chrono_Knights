@@ -12,7 +12,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     public GameObject npc_blacksmith;
     protected PlayerEquipment playerEquipment;
     protected PlayerEquipment.Equipment[] equipment;
-    protected Item selectedkey;
+    public Item selectedkey;
 
     public GameObject[] equipSlots;
     protected Sprite[] equipmentSet;

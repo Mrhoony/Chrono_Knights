@@ -92,7 +92,8 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                             menu.OpenUpgradeStorage(2);
                             break;
                         case 3:
-                            Enchant(selectEquipFocused, selectedkey);
+                            if(selectedkey != null)
+                                Enchant(selectEquipFocused, selectedkey);
                             break;
                     }
                 }
@@ -140,6 +141,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                     break;
             }
             storage.EnchantedKey(keySlotFocus);
+            //selectedkey = null;
         }
 
         // accept 창 초기화

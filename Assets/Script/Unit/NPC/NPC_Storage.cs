@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPC_Storage : MonoBehaviour
+public class NPC_Storage : NPC_Control
 {
-    public bool inPlayer;
     public bool onStorage;
-    public CanvasManager menu;
 
-    private void Start()
+    private void Awake()
     {
+        base.Awake();
         onStorage = false;
     }
 
@@ -36,21 +35,6 @@ public class NPC_Storage : MonoBehaviour
             {
                 onStorage = false;
             }
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            inPlayer = true;
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            inPlayer = false;
         }
     }
 }

@@ -8,7 +8,7 @@ public class NPC_Control : MonoBehaviour
     public CanvasManager menu;
     public bool inPlayer;
 
-    public void Start()
+    public void Awake()
     {
         player = GameObject.Find("PlayerCharacter");
         menu = GameObject.Find("UI").GetComponent<CanvasManager>();

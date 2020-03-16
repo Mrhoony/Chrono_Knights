@@ -135,6 +135,7 @@ public class Menu_Upgrade : Menu_EquipmentUpgrade
                     break;
             }
             storage.EnchantedKey(keySlotFocus);
+            //selectedkey = null;
         }
         // accept 창 초기화
         acceptSlot[0].transform.GetChild(1).gameObject.SetActive(false);

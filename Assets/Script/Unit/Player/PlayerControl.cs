@@ -10,6 +10,7 @@ public class PlayerControl : MovingObject
     public GameObject GroundCheck;
     public PlayerStatus playerStatus;
     public SkillManager skillManager;
+    public GameObject playerEffect;
 
     public Weapon_Spear weaponSpear;
     public Weapon_Gun weaponGun;
@@ -35,6 +36,7 @@ public class PlayerControl : MovingObject
     public bool isJumpAttack;
     
     public bool dodgable;
+    public bool isDodge;
     public bool invincible;
     public bool isBlock;
     public int currentJumpCount;
@@ -174,6 +176,7 @@ public class PlayerControl : MovingObject
     {
         yield return new WaitForSeconds(0.5f);
         invincible = false;
+        isDodge = false;
     }
     IEnumerator ParryingCount()
     {
@@ -413,6 +416,7 @@ public class PlayerControl : MovingObject
         
         dodgable = false;
         invincible = true;
+        isDodge = true;
 
         StartCoroutine(DodgeCount());
         StartCoroutine(InvincibleCount());
@@ -438,7 +442,15 @@ public class PlayerControl : MovingObject
 
     public void Hit(int attack)
     {
-        if (invincible) return;
+        if (isDodge)
+        {
+            isDodge = false;
+            playerEffect.GetComponent<Animator>().SetTrigger("isDodge_Trigger");
+        }
+        if (invincible)
+        {
+            return;
+        }
 
         if (actionState == ActionState.IsParrying)
         {
@@ -451,12 +463,14 @@ public class PlayerControl : MovingObject
 
             playerStatus.DecreaseHP(attack);
             animator.SetTrigger("isHit");
+            playerEffect.GetComponent<Animator>().SetTrigger("isHit_Trigger");
             invincible = true;
             StartCoroutine(InvincibleCount());
 
             actionState = ActionState.Idle;
         }
     }
+
     public void Landing()
     {
         isGround = true;
