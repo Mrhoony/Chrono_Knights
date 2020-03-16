@@ -10,9 +10,8 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     public Image HPBar;
     public Image[] HPBarCut;
     public Image buffBar;
-    public GameObject[] buffState;
+    public GameObject buffState;
     public Image bell;
-    public float currentHP;
 
     private static float maxBellRotation = 80;
     //private static float doublemaxBellRotation = 6400;
@@ -29,14 +28,11 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     public float dmgRecovery;
 
     IEnumerator monsterHit;
-
-    private void Awake()
-    {
-        playerStatus = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
-    }
-
+    
     private void Start()
     {
+        playerStatus = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
+
         monsterHit = MonsterHit();
 
         bellRotation = 0;
@@ -54,11 +50,12 @@ public class MainUI_PlayerStatusView : MonoBehaviour
 
     public void Init()
     {
-        SetBuff(0);
-        for (int i = 0; i < HPBarCut.Length; ++i)
+        int count = HPBarCut.Length;
+        for (int i = 0; i < count; ++i)
         {
             HPBarCut[i].enabled = true;
         }
+        DebuffReset();
     }
     
     // Update is called once per frame
@@ -160,12 +157,13 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     {
         HPBarCut[i].enabled = false;
     }
-    public void SetBuff(int value)
+
+    public void SetDebuff()
     {
-        for(int i = 0; i < buffState.Length; ++i)
-        {
-            buffState[i].SetActive(true);
-        }
-        buffState[value].SetActive(false);
+        buffState.GetComponent<Animator>().SetTrigger("FireUpgrade_Trigger");
+    }
+    public void DebuffReset()
+    {
+        buffState.GetComponent<Animator>().SetTrigger("FireReset_Trigger");
     }
 }

@@ -10,24 +10,23 @@ public enum PlayerStat
 public class PlayerStatus : MonoBehaviour
 {
     public MainUI_PlayerStatusView playerStatusView;
-    
     public PlayerData playerData;
     public PlayerEquipment playerEquip;
 
     public float currentHP;     // 현재 체력
-    public bool[] HPCut;
-    public int currentAmmo;   // 현재 버프량
-    public int buffState;
+    private bool[] HPCut;
+    private int currentAmmo;   // 현재 버프량
+    private int buffState;
     
-    public float attack;        // 공격력
-    public float defense;       // 안정성(방어력)
-    public float moveSpeed;     // 이동 속도
-    public float attackSpeed;   // 공격 속도
-    public float dashDistance;  // 대시거리
-    public float recovery;      // 회복력
+    private float attack;        // 공격력
+    private float defense;       // 안정성(방어력)
+    private float moveSpeed;     // 이동 속도
+    private float attackSpeed;   // 공격 속도
+    private float dashDistance;  // 대시거리
+    private float recovery;      // 회복력
 
-    public float jumpCount;
-    public float jumpPower;
+    private float jumpCount;
+    private float jumpPower;
 
     public int attack_Result;
     public int defense_Result;     // 안정성(방어력)
@@ -41,10 +40,11 @@ public class PlayerStatus : MonoBehaviour
     public void SetPlayerData(PlayerData _playerData)
     {
         Debug.Log("player status Init");
-        
+
         playerData = _playerData;
         playerEquip = playerData.GetPlayerEquipment();
         traningStat = playerData.GetTraningStat();
+        HPCut = new bool[4];
 
         ReturnToTown();
     }
@@ -90,13 +90,13 @@ public class PlayerStatus : MonoBehaviour
     {
         currentHP = playerData.GetStatus(7);
 
-        HPCut = new bool[4];
         for (int i = 0; i < 4; ++i)
         {
             HPCut[i] = true;
         }
         playerStatusView.Init();
     }
+
     public void DecreaseHP(int damage)
     {
         damage -= defense_Result;
@@ -162,14 +162,14 @@ public class PlayerStatus : MonoBehaviour
             playerStatusView.SetHPCut(HPCutNum);
         }
     }
-    public void SetAmmo(int AmmoSupllement)
+    public void replenish_Ammo(int _ammoReplenish)
     {
-        currentAmmo += 10 * AmmoSupllement;
+        currentAmmo += 10 * _ammoReplenish;
+
         if (currentAmmo > playerData.GetMaxAmmo())
         {
             currentAmmo = playerData.GetMaxAmmo();
         }
-        playerStatusView.SetBuff(1);
     }
 
     #region get, set

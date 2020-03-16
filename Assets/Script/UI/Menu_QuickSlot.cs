@@ -91,18 +91,20 @@ public class Menu_QuickSlot : MonoBehaviour
         {
             if (inventoryItemlist[i] != null)
             {
+                quickSlot[i - low].SetActive(true);
                 quickSlot[i - low].GetComponent<Image>().sprite = inventoryItemlist[i].sprite;
             }
             else
             {
-                quickSlot[i - low].GetComponent<Image>().sprite = quickSlotImage[1];
+                quickSlot[i - low].SetActive(false);
             }
         }
     }
 
     void FocusedSlot(int AdjustValue)
     {
-        if (focus + AdjustValue < 0 || focus + AdjustValue > inventory.GetAvailableSlot()) { return; }
+        if (focus + AdjustValue < 0 || focus + AdjustValue > inventory.GetAvailableSlot() - 1) return;
+        if (inventoryItemlist[focus + AdjustValue] == null) return;
 
         quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
 
@@ -112,8 +114,10 @@ public class Menu_QuickSlot : MonoBehaviour
             --addQuickInventory;
 
         SetQuickSlot(addQuickInventory, addQuickInventory + 5);
+
         focus += AdjustValue;
         quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(true);
+
         if (inventoryItemlist[focus] != null)
         {
             quickSlotItemInfomation.SetActive(true);
