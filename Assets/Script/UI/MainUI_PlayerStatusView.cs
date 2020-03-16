@@ -157,7 +157,6 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     {
         HPBarCut[i].enabled = false;
     }
-
     public void SetDebuff()
     {
         buffState.GetComponent<Animator>().SetTrigger("FireUpgrade_Trigger");
