@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -80,7 +80,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -97,17 +97,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 12
-        y: 237
-        width: 173
+        y: 78
+        width: 182
         height: 57
-      alignment: 9
-      pivot: {x: 0.50289017, y: 0.49122807}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73f40d4227530aa4e97b8f09c3fe35b3
+      spriteID: e131b52572a64ea47948fc8249af21d9
       vertices: []
       indices: 
       edges: []
@@ -117,17 +117,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 18
-        y: 201
+        y: 42
         width: 26
-        height: 23
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5217391}
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a91d341f278d8424d9bcbe6e4a0d3892
+      spriteID: 645e95e93ceefa4439f50c2a16631313
       vertices: []
       indices: 
       edges: []
@@ -137,17 +137,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 57
-        y: 207
+        y: 48
         width: 4
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 94de2503b05d066499a89286a8634f1a
+      spriteID: 8ed7c9d991978d047af8fdfcda866d13
       vertices: []
       indices: 
       edges: []
@@ -156,18 +156,18 @@ TextureImporter:
       name: ui_hpbell_set_3
       rect:
         serializedVersion: 2
-        x: 77
-        y: 204
-        width: 22
-        height: 22
+        x: 78
+        y: 45
+        width: 20
+        height: 20
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ad78ba282feefb459c2d336c66b7767
+      spriteID: ce339662ff313514eb88ef10d14b0353
       vertices: []
       indices: 
       edges: []
@@ -176,18 +176,18 @@ TextureImporter:
       name: ui_hpbell_set_4
       rect:
         serializedVersion: 2
-        x: 106
-        y: 204
-        width: 22
-        height: 22
+        x: 18
+        y: 27
+        width: 134
+        height: 8
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6c4b280a42b187f468bda88a7eaa05ab
+      spriteID: ec4cf908ff55d734eb1ab415fcefd0ff
       vertices: []
       indices: 
       edges: []
@@ -196,58 +196,18 @@ TextureImporter:
       name: ui_hpbell_set_5
       rect:
         serializedVersion: 2
-        x: 136
-        y: 204
-        width: 22
-        height: 22
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9082707a7d2cae246b8b0f71724cb429
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ui_hpbell_set_6
-      rect:
-        serializedVersion: 2
         x: 18
-        y: 186
-        width: 134
-        height: 8
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 8, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8647ceec5c8842d46b361e214a6bf4cf
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ui_hpbell_set_7
-      rect:
-        serializedVersion: 2
-        x: 18
-        y: 176
+        y: 17
         width: 102
         height: 3
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 020de475dda81f34eb07bace5a6d9d0c
+      spriteID: 2b865a094f0b3c94aa58656848a4c18d
       vertices: []
       indices: 
       edges: []

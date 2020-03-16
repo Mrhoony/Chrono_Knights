@@ -628,7 +628,7 @@ public class DungeonManager : MonoBehaviour
         markerRandom = Random.Range(0, 12);
         marker.thisMarker = (Markers)markerRandom;
         mark = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
-        mark.GetComponent<SpriteRenderer>().sprite = markSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
+        //mark.GetComponent<SpriteRenderer>().sprite = markSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
 
         marker_Variable.markerPreVariable = marker_Variable.markerVariable;
         marker_Variable.Reset();

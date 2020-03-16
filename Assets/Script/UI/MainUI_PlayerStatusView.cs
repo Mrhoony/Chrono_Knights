@@ -10,7 +10,7 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     public Image HPBar;
     public Image[] HPBarCut;
     public Image buffBar;
-    public Image[] buffState;
+    public GameObject[] buffState;
     public Image bell;
     public float currentHP;
 
@@ -164,8 +164,8 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     {
         for(int i = 0; i < buffState.Length; ++i)
         {
-            buffState[i].enabled = false;
+            buffState[i].SetActive(true);
         }
-        buffState[value].enabled = true;
+        buffState[value].SetActive(false);
     }
 }
