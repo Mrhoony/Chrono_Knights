@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class Item_Looting : MonoBehaviour
 {
+
     Menu_Inventory inventory;
     Database_Game itemDatabase;
     int itemListCount;
     float speed;
     Item item;
+    public GameObject eft_itemRoot;
 
     private void OnEnable()
     {
@@ -41,7 +43,11 @@ public class Item_Looting : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-            if (inventory.GetKeyItem(item)) gameObject.SetActive(false);
+            if (inventory.GetKeyItem(item))
+            {
+                Instantiate(eft_itemRoot, collision.transform.position, Quaternion.identity);
+                gameObject.SetActive(false);
+            }
         }
     }
 }

@@ -30,6 +30,7 @@ public class CanvasManager : MonoBehaviour
     public Scrollbar[] sb;
     public GameObject fadeInOut;
     public GameObject circleFadeOut;
+    public GameObject RootBag;
     public bool isFadeInOut;
     #endregion
 
@@ -40,6 +41,7 @@ public class CanvasManager : MonoBehaviour
     public bool isLoadSlotOn;
     private int useContent;
     private int focus;
+    
     
     private void Awake()
     {
@@ -379,5 +381,10 @@ public class CanvasManager : MonoBehaviour
     public void CloseKeySettings()
     {
         KeySettingMenu.SetActive(false);
+    }
+
+    public void RootBagUI() {
+        if (RootBag.activeInHierarchy) return;
+        RootBag.SetActive(true);
     }
 }
