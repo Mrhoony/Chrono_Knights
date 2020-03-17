@@ -59,7 +59,7 @@ public class Menu_Inventory : MonoBehaviour
         {
             if (isDungeonOpen)
             {
-                UseItemInDungeon(focused);
+                UseKeyInDungeon(focused);
             }
             else
             {
@@ -83,13 +83,59 @@ public class Menu_Inventory : MonoBehaviour
             canvasManager.CloseInGameMenu();
         }
     }
-    public void UseItemInDungeon(int focus)              // 던전 포탈 앞에서 퀵슬롯으로 아이템 사용시
+
+    public void UseKeyInDungeon(int focus)              // 던전 포탈 앞에서 퀵슬롯으로 아이템 사용시
     {
-        if (DungeonManager.instance.useKeyInDungeon(inventoryItemList[focus]))
+        if (DungeonManager.instance.UseKeyInDungeon(inventoryItemList[focus]))
         {
             DeleteItem(focus);
             canvasManager.CloseInGameMenu();
         }
+    }
+    public void UseItemInQuickSlot(int focus)             // 퀵슬롯으로 아이템 사용시 ( 마을에서 사용시 창고도비우기 or 마을에서 사용 x )
+    {
+        DungeonManager.instance.UseItemInDungeon(inventoryItemList[focus]);
+        DeleteItem(focus);
+    }
+    public void DeleteItem(int focus)          // 사용된 아이템 인벤토리에서 제거
+    {
+        inventoryItemList[focus] = null;
+        isFull[focus] = false;
+
+        for (int i = focus; i < availableSlot - 1; ++i)
+        {
+            if (inventoryItemList[i] != null) continue;
+
+            for (int j = 1; j < availableSlot - i; ++i)
+            {
+                if (inventoryItemList[i + j] != null)
+                {
+                    inventoryItemList[i] = inventoryItemList[i + j];
+                    isFull[i] = true;
+
+                    inventoryItemList[i + j] = null;
+                    isFull[i + j] = false;
+
+                    if (i + j == availableSlot)
+                    {
+                        i = availableSlot - 1;
+                    }
+                    break;
+                }
+                else
+                {
+                    if (i + j == availableSlot)
+                    {
+                        inventoryItemList[i] = null;
+                        isFull[i] = false;
+                        i = availableSlot - 1;
+                        break;
+                    }
+                }
+            }
+        }
+        --inventoryItemCount;
+        InventorySet();
     }
 
     public void OpenInventory(bool _inDungeon)
@@ -200,50 +246,6 @@ public class Menu_Inventory : MonoBehaviour
         inventoryItemCount = 0;
     }
     
-    public void UseIteminQuickSlot(int focus)             // 퀵슬롯으로 아이템 사용시 ( 마을에서 사용시 창고도비우기 or 마을에서 사용 x )
-    {
-        DeleteItem(focus);
-    }
-    public void DeleteItem(int focus)          // 사용된 아이템 인벤토리에서 제거
-    {
-        inventoryItemList[focus] = null;
-        isFull[focus] = false;
-
-        for (int i = focus; i < availableSlot - 1; ++i)
-        {
-            if (inventoryItemList[i] != null) continue;
-
-            for (int j = 1; j < availableSlot - i; ++i)
-            {
-                if (inventoryItemList[i + j] != null)
-                {
-                    inventoryItemList[i] = inventoryItemList[i + j];
-                    isFull[i] = true;
-
-                    inventoryItemList[i + j] = null;
-                    isFull[i + j] = false;
-
-                    if (i + j == availableSlot)
-                    {
-                        i = availableSlot - 1;
-                    }
-                    break;
-                }
-                else
-                {
-                    if (i + j == availableSlot)
-                    {
-                        inventoryItemList[i] = null;
-                        isFull[i] = false;
-                        i = availableSlot - 1;
-                        break;
-                    }
-                }
-            }
-        }
-        --inventoryItemCount;
-        InventorySet();
-    }
     public void DeleteStorageItem()             // 던전 진입할 때 들고있는 키 창고에서 삭제
     {
         for (int i = 0; i < seletedItemCount; ++i)

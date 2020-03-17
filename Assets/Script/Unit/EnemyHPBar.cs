@@ -5,25 +5,18 @@ public class EnemyHPBar : MonoBehaviour
 {
     public EnemyStatus allocatedMonster;
     public GameObject HPBarGauge;
-    public bool isUsed = false;
     public Text monsterName;
     
-    public bool SetMonster(EnemyStatus monster)
+    public void SetMonster(EnemyStatus monster)
     {
-        if (isUsed) return false;
-        else
-        {
-            isUsed = true;
-            allocatedMonster = monster;
-            monsterName.text = monster.monsterName;
-            return true;
-        }
+        allocatedMonster = monster;
+        monsterName.text = monster.monsterName;
+        SetHPBar();
     }
 
     public void MonsterDie()
     {
         allocatedMonster = null;
-        isUsed = false;
     }
 
     public void SetHPBar()

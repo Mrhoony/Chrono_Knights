@@ -9,7 +9,6 @@ public enum MonsterType
 
 public abstract class Monster_Control : MovingObject
 {
-    public Collider2D[] player;
     public GameObject target;
     public Vector2 playerPos;
     public GameObject eft;
@@ -64,7 +63,7 @@ public abstract class Monster_Control : MovingObject
     // 몬스터 공격 판정
     public virtual void MonsterAttack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
     {
-        player = Physics2D.OverlapBoxAll(
+        Collider2D[] player = Physics2D.OverlapBoxAll(
             new Vector2(transform.position.x + (attackPosX * GetArrowDirection()), transform.position.y), new Vector2(attackRangeX, attackRangeY), 8);
 
         if (player != null)

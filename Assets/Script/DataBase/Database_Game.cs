@@ -9,13 +9,24 @@ public enum ItemType
 }
 public enum ItemUsingType
 {
-    Health, Bullet, Attack, Defense, MoveSpeed
+    Health, Bullet, Attack, Defense, MoveSpeed, ReturnTown
 }
 public enum SkillType
 {
     Active,
     Passive,
     Unlock
+}
+
+public static class SpriteSet
+{
+    public static Sprite[] itemSprite = Resources.LoadAll<Sprite>("Graphic/Item/ui_itemset");
+    public static Sprite[] skillSprite;
+
+    public static Sprite[] GetSprite()
+    {
+        return itemSprite;
+    }
 }
 
 public class Item
@@ -28,7 +39,7 @@ public class Item
     public string itemName;
     public int itemRarity;
     public int itemCode;
-    public int Value;
+    public int value;
     public string Description;
     public int skillCode;
 
@@ -37,29 +48,51 @@ public class Item
         itemName = _itemName;
         itemRarity = _itemRarity;
         itemCode = _itemCode;
-        sprite = Resources.LoadAll<Sprite>("Graphic/Item/ui_itemset")[itemCode];
         Description = _Description;
         itemType = _itemType;
         switch (itemType)
         {
             case ItemType.Number:
                 {
-                    if (itemRarity < 2)
+                    if (itemRarity == 1)
                     {
-                        Value = Random.Range(1, 5);
+                        value = Random.Range(1, 5);
+                        sprite = SpriteSet.itemSprite[value + 6];
                     }
-                    else
+                    else if(itemRarity == 2)
                     {
-                        Value = Random.Range(1, 3) * 5;
+                        value = Random.Range(1, 4) * 2;
+                        sprite = SpriteSet.itemSprite[11];
+                    }
+                    else if (itemRarity == 3)
+                    {
+                        value = Random.Range(1, 4) * 3;
+                        sprite = SpriteSet.itemSprite[13];
                     }
                 }
                 break;
+            case ItemType.FreePassThisFloor:
+                sprite = SpriteSet.itemSprite[15];
+                break;
+            case ItemType.FreePassNextFloor:
+                sprite = SpriteSet.itemSprite[16];
+                break;
+            case ItemType.BossFloor:
+                sprite = SpriteSet.itemSprite[17];
+                break;
+            case ItemType.RepeatThisFloor:
+                sprite = SpriteSet.itemSprite[18];
+                break;
+            default:
+                value = 1;
+                break;
         }
         usingType = _usingType;
+        if(usingType == ItemUsingType.ReturnTown)
+            sprite = SpriteSet.itemSprite[14];
         usingStatus = _usingStatus;
         skillCode = _skillCode;
     }
-
     public void SetSkillNum(int _skillCode)
     {
         skillCode = _skillCode;

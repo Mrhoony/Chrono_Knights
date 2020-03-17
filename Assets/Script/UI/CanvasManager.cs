@@ -84,7 +84,7 @@ public class CanvasManager : MonoBehaviour
             }
             else if (isStorageOn)
             {
-                CloseStorage();
+                storage.GetComponent<Menu_Storage>().CloseStorage();
                 isStorageOn = false;
             }
             else if(isCancelOn)
@@ -262,7 +262,6 @@ public class CanvasManager : MonoBehaviour
             bar.value = 1;
         }
     }
-
     public void CloseInGameMenu()       // I로 인벤토리 닫을 때
     {
         Menus[0].GetComponent<Menu_Inventory>().CloseInventory();

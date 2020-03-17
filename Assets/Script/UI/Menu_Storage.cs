@@ -269,7 +269,6 @@ public class Menu_Storage : MonoBehaviour
             selectedSlot[i] = 99;
         }
     }
-
     public void DeleteStorageSlotItem()     // 던전 입장시 인벤토리 설정한 키 창고에서 제거
     {
         int count = selectedSlot.Length;

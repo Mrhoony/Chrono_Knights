@@ -77,10 +77,10 @@ public class Menu_QuickSlot : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            inventory.UseIteminQuickSlot(focus);
-            onQuickSlot = false;
+            inventory.UseItemInQuickSlot(focus);
             quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
             quickSlotItemInfomation.SetActive(false);
+            onQuickSlot = false;
             slots.SetActive(false);
         }
     }

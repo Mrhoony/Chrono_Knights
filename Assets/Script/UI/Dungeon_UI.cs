@@ -6,19 +6,21 @@ public class Dungeon_UI : MonoBehaviour
 {
     public GameObject dungeonFloorEft;
     public Text dungeonFloorText;
+    public Text dungeonFloorStatText;
     public Text dungeonFloorEftText;
     
-    public void SetDungeonFloor(int stage)
+    public void SetDungeonFloor(int _stage, string _floorStat)
     {
-        dungeonFloorText.text = stage.ToString() + "F";
-        dungeonFloorEftText.text = stage.ToString() + "F";
+        dungeonFloorText.text = _stage.ToString() + "F";
+        dungeonFloorStatText.text = _floorStat;
+        dungeonFloorEftText.text = _stage.ToString() + "F";
         StartCoroutine(DungeonFloorEft());
     }
 
     IEnumerator DungeonFloorEft()
     {
         dungeonFloorEft.SetActive(true);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         dungeonFloorEft.SetActive(false);
     }
 }

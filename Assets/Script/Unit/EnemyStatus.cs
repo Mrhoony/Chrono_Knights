@@ -33,53 +33,19 @@ public class EnemyStatus : MonoBehaviour
         EnemyStatInit(Database_Game.instance.GetMonsterStatus(_monsterCode));
         _currentHP = _HP;
         
-        int hpbarNum = GameObject.Find("DungeonUI/DungeonPoolManager/HealthBarPool").transform.childCount;
-
-        for (int i = 0; i < hpbarNum; ++i)
-        {
-            if (!GameObject.Find("DungeonUI/DungeonPoolManager/HealthBarPool").transform.GetChild(i).GetComponent<EnemyHPBar>().SetMonster(this))
-            {
-                continue;
-            }
-            enemyHPBar = GameObject.Find("DungeonUI/DungeonPoolManager/HealthBarPool").transform.GetChild(i).gameObject;
-            break;
-        }
-
-        if(enemyHPBar == null)
-        {
-            enemyHPBar = Instantiate(Resources.Load("Prefabs/Unit/Mob/HPbar"), Vector3.zero, Quaternion.identity) as GameObject;
-            enemyHPBar.transform.parent = GameObject.Find("DungeonUI/DungeonPoolManager/HealthBarPool").transform;
-            enemyHPBar.GetComponent<EnemyHPBar>().SetMonster(this);
-        }
+        enemyHPBar = DungeonPoolManager.instance.GetMonsterHpBar();
         enemyHPBar.SetActive(true);
-        enemyHPBar.GetComponent<EnemyHPBar>().SetHPBar();
+        enemyHPBar.GetComponent<EnemyHPBar>().SetMonster(this);
         bossMonster = false;
     }
-
     public void BossMonsterInit(int _bossMonsterCode)
     {
         EnemyStatInit(Database_Game.instance.GetMonsterStatus(_bossMonsterCode));
         _currentHP = _HP;
-
-        int hpbarNum = GameObject.Find("DungeonUI/DungeonPoolManager/BossHealthBarPool").transform.childCount;
-        for (int i = 0; i < hpbarNum; ++i)
-        {
-            if (!GameObject.Find("DungeonUI/DungeonPoolManager/BossHealthBarPool").transform.GetChild(i).GetComponent<EnemyHPBar>().SetMonster(this))
-            {
-                continue;
-            }
-            enemyHPBar = GameObject.Find("DungeonUI/DungeonPoolManager/BossHealthBarPool").transform.GetChild(i).gameObject;
-            break;
-        }
-
-        if (enemyHPBar == null)
-        {
-            enemyHPBar = Instantiate(Resources.Load("Prefabs/Unit/Mob/HPbar"), Vector3.zero, Quaternion.identity) as GameObject;
-            enemyHPBar.transform.parent = GameObject.Find("DungeonUI/DungeonPoolManager/BossHealthBarPool").transform;
-            enemyHPBar.GetComponent<EnemyHPBar>().SetMonster(this);
-        }
+        
+        enemyHPBar = DungeonPoolManager.instance.GetBossMonsterHpBar();
         enemyHPBar.SetActive(true);
-        enemyHPBar.GetComponent<EnemyHPBar>().SetHPBar();
+        enemyHPBar.GetComponent<EnemyHPBar>().SetMonster(this);
         bossMonster = true;
     }
 
@@ -93,7 +59,6 @@ public class EnemyStatus : MonoBehaviour
         _attack = _monster.monsterAttack;
         _defense = _monster.monsterDefense;
     }
-
     public void IncreaseHP(int damage)
     {
         _currentHP += damage;
@@ -126,9 +91,21 @@ public class EnemyStatus : MonoBehaviour
         return false;
     }
 
-    public void Set_attack(int value)
+    public void Set_hp(int _value, bool _upgrade)
     {
-        _attack = value;
+        if (_upgrade)
+        {
+            _HP *= _value;
+        }
+        else
+        {
+            _HP /= _value;
+        }
+        _currentHP = _HP;
+    }
+    public void Set_attack(int _value)
+    {
+        _attack += _value;
     }
     public float GetMoveSpeed()
     {

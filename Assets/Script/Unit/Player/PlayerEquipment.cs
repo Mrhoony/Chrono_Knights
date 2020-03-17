@@ -83,7 +83,7 @@ public class PlayerEquipment
             }
             else
             {
-                addStatus[_status] += _addStatus * 0.01f;
+                addStatus[_status] -= _addStatus * 0.01f;
                 if (addStatus[_status] < min[_status]) addStatus[_status] = min[_status];
             }
         }
