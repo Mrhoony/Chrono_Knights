@@ -383,6 +383,7 @@ public class PlayerControl : MovingObject
             if (actionState == ActionState.Idle)
                 actionState = ActionState.IsMove;
             animator.SetBool("isWalk", true);
+            animator.SetBool("isRun", false);
             rb.velocity = new Vector2(inputDirection * playerStatus.GetMoveSpeed_Result(), rb.velocity.y);
         }
         else
