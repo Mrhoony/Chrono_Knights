@@ -20,8 +20,9 @@ public enum SkillType
 
 public static class SpriteSet
 {
-    public static Sprite[] itemSprite = Resources.LoadAll<Sprite>("Graphic/Item/ui_itemset");
-    public static Sprite[] skillSprite;
+    public static readonly Sprite[] itemSprite = Resources.LoadAll<Sprite>("Graphic/Item/ui_itemset");
+    public static readonly Sprite[] skillSprite;
+    public static readonly Sprite[] markerSprite = Resources.LoadAll<Sprite>("Graphic/UI/ui_mark");
 
     public static Sprite[] GetSprite()
     {
@@ -48,28 +49,30 @@ public class Item
         itemName = _itemName;
         itemRarity = _itemRarity;
         itemCode = _itemCode;
-        Description = _Description;
         itemType = _itemType;
+
+        if (itemRarity == 1)
+        {
+            value = Random.Range(1, 5);
+            sprite = SpriteSet.itemSprite[value + 6];
+        }
+        else if (itemRarity == 2)
+        {
+            value = Random.Range(1, 4) * 2;
+            sprite = SpriteSet.itemSprite[11];
+        }
+        else if (itemRarity == 3)
+        {
+            value = Random.Range(1, 4) * 3;
+            sprite = SpriteSet.itemSprite[13];
+        }
+
         switch (itemType)
         {
             case ItemType.Number:
-                {
-                    if (itemRarity == 1)
-                    {
-                        value = Random.Range(1, 5);
-                        sprite = SpriteSet.itemSprite[value + 6];
-                    }
-                    else if(itemRarity == 2)
-                    {
-                        value = Random.Range(1, 4) * 2;
-                        sprite = SpriteSet.itemSprite[11];
-                    }
-                    else if (itemRarity == 3)
-                    {
-                        value = Random.Range(1, 4) * 3;
-                        sprite = SpriteSet.itemSprite[13];
-                    }
-                }
+                break;
+            case ItemType.ReturnPreFloor:
+                sprite = SpriteSet.itemSprite[14];
                 break;
             case ItemType.FreePassThisFloor:
                 sprite = SpriteSet.itemSprite[15];
@@ -88,8 +91,10 @@ public class Item
                 break;
         }
         usingType = _usingType;
-        if(usingType == ItemUsingType.ReturnTown)
+        if (usingType == ItemUsingType.ReturnTown)
             sprite = SpriteSet.itemSprite[14];
+
+        Description = _Description + "\r\n" + value.ToString() + " 표시";
         usingStatus = _usingStatus;
         skillCode = _skillCode;
     }

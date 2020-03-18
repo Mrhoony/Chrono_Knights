@@ -30,7 +30,6 @@ public class Marker
         DungeonManger.cs에서 Marker_Variable 클래스 생성
         Execute() 실행시 DungeonManager.cs 내에 Marker_Variable 클래스에 Execute()의 결과값을 받아서 계산하여 적용
     */
-
     public void ExecuteMarker(int keyValue)
     {
         switch (thisMarker)
@@ -336,7 +335,6 @@ public class DungeonManager : MonoBehaviour
         monsterCount = 0;
         currentMonsterCount = 0;
     }
-
     public void Update()
     {
         if (canvasManager.GameMenuOnCheck()) return;
@@ -411,10 +409,9 @@ public class DungeonManager : MonoBehaviour
                 break;
         }
     }
-
     public bool UseKeyInDungeon(Item _Item)
     {
-        if (usedKey || phaseClear) return false;
+        if (usedKey) return false;
 
         usedKey = true;
         // 키가 가진 것들을 가지고 체크
@@ -433,7 +430,11 @@ public class DungeonManager : MonoBehaviour
                 bossSetting = true;
                 break;
             case ItemType.ReturnPreFloor:
-                marker_Variable.markerVariable = marker_Variable.markerPreVariable;
+                if (currentStage > 1)
+                {
+                    marker_Variable.markerVariable = marker_Variable.markerPreVariable;
+                }
+                else return false;
                 break;
             case ItemType.RepeatThisFloor:
                 floorRepeat = true;
@@ -471,7 +472,8 @@ public class DungeonManager : MonoBehaviour
                         ReturnToTown();
                     }
                     break;
-                case 9:
+                default:
+                    ReturnToTown();
                     break;
             }
         }
@@ -518,16 +520,17 @@ public class DungeonManager : MonoBehaviour
         phaseClear = false;
         dungeonClear = true;    //false 로 변경
         usedKey = false;
-
-        DungeonPoolManager.instance.bossMonsterCountReset();
-
         int dropItemPoolCount = dropItemPool.transform.childCount;
-
-        for(int i = 0; i < dropItemPoolCount; ++i)
+        for (int i = 0; i < dropItemPoolCount; ++i)
         {
             Destroy(dropItemPool.transform.GetChild(i).gameObject);
         }
 
+        if (!floorRepeat)
+            FloorReset();
+
+        DungeonPoolManager.instance.bossMonsterCountReset();
+        
         mapList = GameObject.FindGameObjectsWithTag("BaseMap");
         selectedMapNum = Random.Range(0, mapList.Length);
 
@@ -536,6 +539,11 @@ public class DungeonManager : MonoBehaviour
             if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
                 entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
         }
+
+        markerRandom = Random.Range(0, 12);
+        marker.thisMarker = (Markers)markerRandom;
+        mark = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
+        mark.GetComponent<DungeonMarker>().SetMarker((Markers)markerRandom);
 
         ++currentStage;
         // 다음층이 보스층인걸 미리 알면 순서 변경
@@ -564,8 +572,6 @@ public class DungeonManager : MonoBehaviour
         {
             bossSetting = false;
             bossStageCount = 0;
-
-            FloorReset();
             
             spawner = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().spawner;
             spawnerCount = spawner.Length;
@@ -595,8 +601,6 @@ public class DungeonManager : MonoBehaviour
         }
         else            // 일반 맵일경우
         {
-            FloorReset();
-
             // 초기 맵 랜덤 선택
             spawner = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().spawner;
             spawnerCount = spawner.Length;
@@ -629,18 +633,13 @@ public class DungeonManager : MonoBehaviour
             dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus());
         }
 
-        markerRandom = Random.Range(0, 12);
-        marker.thisMarker = (Markers)markerRandom;
-        mark = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
-        //mark.GetComponent<SpriteRenderer>().sprite = markSprite[Random.Range(3, 5)]; // 텔레포터 마크를 바꿈
-
         marker_Variable.markerPreVariable = marker_Variable.markerVariable;
         marker_Variable.Reset();
 
         player.transform.position = entrance;
         mapList[selectedMapNum].GetComponent<BackgroundScrolling>().SetBackGroundPosition(currentStage);
-        
     }
+
     public void FloorReset()
     {
         for(int i = 0; i < monsterCount; ++i)

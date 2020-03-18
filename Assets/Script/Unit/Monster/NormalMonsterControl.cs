@@ -192,6 +192,6 @@ public abstract class NormalMonsterControl : Monster_Control
 
     public void OnDestroy()
     {
-        //eftPool.Clear();
+        enemyStatus.HPbarReset();
     }
 }

@@ -42,7 +42,6 @@ public class CanvasManager : MonoBehaviour
     private int useContent;
     private int focus;
     
-    
     private void Awake()
     {
         if (instance == null)

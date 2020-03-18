@@ -73,4 +73,8 @@ public abstract class BossMonster_Control : Monster_Control
         }
         //DeadAnimation();
     }
+    public void OnDestroy()
+    {
+        enemyStatus.HPbarReset();
+    }
 }

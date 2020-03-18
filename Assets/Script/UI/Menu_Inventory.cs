@@ -92,7 +92,7 @@ public class Menu_Inventory : MonoBehaviour
             canvasManager.CloseInGameMenu();
         }
     }
-    public void UseItemInQuickSlot(int focus)             // 퀵슬롯으로 아이템 사용시 ( 마을에서 사용시 창고도비우기 or 마을에서 사용 x )
+    public void UseItemInQuickSlot(int focus)             // 퀵슬롯으로 아이템 사용시 ( 마을에서 사용시 창고도 비우기 or 마을에서 사용 x )
     {
         DungeonManager.instance.UseItemInDungeon(inventoryItemList[focus]);
         DeleteItem(focus);

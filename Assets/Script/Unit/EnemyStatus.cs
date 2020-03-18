@@ -83,13 +83,18 @@ public class EnemyStatus : MonoBehaviour
         if (_currentHP <= 0)
         {
             _currentHP = 0;
-            enemyHPBar.GetComponent<EnemyHPBar>().MonsterDie();
-            enemyHPBar.SetActive(false);
-            DungeonPoolManager.instance.MonsterDie(bossMonster, enemyHPBar);
-            enemyHPBar = null;
+            HPbarReset();
             return true;
         }
         return false;
+    }
+
+    public void HPbarReset()
+    {
+        enemyHPBar.GetComponent<EnemyHPBar>().MonsterDie();
+        enemyHPBar.SetActive(false);
+        DungeonPoolManager.instance.MonsterDie(bossMonster, enemyHPBar);
+        enemyHPBar = null;
     }
 
     public void Set_hp(int _value, bool _upgrade)

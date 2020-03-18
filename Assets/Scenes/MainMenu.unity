@@ -184,6 +184,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &281486081 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6683672731776554705, guid: 9a383a931a8c9254fae17696f9cad381,
+    type: 3}
+  m_PrefabInstance: {fileID: 3981682513713531477}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &301090047
 GameObject:
   m_ObjectHideFlags: 0
@@ -2873,7 +2879,7 @@ PrefabInstance:
         type: 3}
       propertyPath: playerEffect
       value: 
-      objectReference: {fileID: 3981682513713531478}
+      objectReference: {fileID: 281486081}
     - target: {fileID: 3981682513319129742, guid: 9a383a931a8c9254fae17696f9cad381,
         type: 3}
       propertyPath: rayGroundLayerMask.m_Bits
