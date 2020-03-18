@@ -39,7 +39,7 @@ public class DungeonPoolManager : MonoBehaviour
         }
         GameObject hpBar = BossMonsterHpBarQueue.Dequeue();
         ++bossMonsterCount;
-        hpBar.transform.position = transform.position + Vector3.down * (180 + (70 * bossMonsterCount));
+        hpBar.transform.position = transform.position + Vector3.down * (420 - (70 * bossMonsterCount));
         return hpBar;
     }
     public void bossMonsterCountReset()
