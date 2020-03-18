@@ -65,6 +65,8 @@ public class PlayerData
         equipmentStatus[(int)PlayerStat.dashDistance] = 0;
         equipmentStatus[(int)PlayerStat.recovery] = 0;
 
+
+
         maxAmmo = 10;
         
         playerEquipment.PlayerEquipmentInit();
