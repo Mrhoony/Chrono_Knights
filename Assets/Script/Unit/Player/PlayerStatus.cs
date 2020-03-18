@@ -65,10 +65,10 @@ public class PlayerStatus : MonoBehaviour
         Debug.Log("Player status update");
         playerData.renew(_playerEquipment);
 
-        attack = playerData.GetStatus(0) + playerData.GetEquipmentStatus(0) + traningStat[0];
+        attack = playerData.GetStatus(0) + traningStat[0] + playerData.GetEquipmentStatus(0);
         defense = playerData.GetStatus(1) + playerData.GetEquipmentStatus(1) + traningStat[1];
-        moveSpeed = playerData.GetStatus(2) + playerData.GetEquipmentStatus(2) + traningStat[2];
-        attackSpeed = playerData.GetStatus(3) + playerData.GetEquipmentStatus(3) + traningStat[3];
+        moveSpeed = playerData.GetStatus(2) + (playerData.GetEquipmentStatus(2) * 0.1f) + traningStat[2];
+        attackSpeed = playerData.GetStatus(3) + (playerData.GetEquipmentStatus(3) * 0.1f) + traningStat[3];
         dashDistance = playerData.GetStatus(4) + playerData.GetEquipmentStatus(4) + traningStat[4];
         recovery = playerData.GetStatus(5) + playerData.GetEquipmentStatus(5) + traningStat[5];
         jumpCount = playerData.GetStatus(6) + playerData.GetEquipmentStatus(6);
@@ -76,10 +76,11 @@ public class PlayerStatus : MonoBehaviour
         jumpPower = playerData.GetStatus(8);
         currentAmmo = playerData.GetMaxAmmo();
 
+        SetAttackAdd_Result(0, true);
         SetAttackMulty_Result(1, true);
         SetDefenceAdd_Result(0, true);
         SetMoveSpeed_Result(1, true);
-        SetAttackSpeedAdd_Result(0, true);
+        SetAttackSpeed_Result(1, true);
         SetDashDistance_Result(1, true);
         SetRecoveryAdd_Result(0, true);
 
@@ -239,14 +240,19 @@ public class PlayerStatus : MonoBehaviour
             }
         }
     }
-    public void SetAttackSpeedAdd_Result(int addAttackSpeed, bool add)
+    public void SetAttackSpeed_Result(int multyAttackSpeed, bool multy)
     {
-        if (add)
-            attackSpeed_Result = attackSpeed + addAttackSpeed;
+        if (multy)
+        {
+            attackSpeed_Result = attackSpeed * multyAttackSpeed;
+        }
         else
         {
-            attackSpeed_Result = attackSpeed - addAttackSpeed;
-            if (attackSpeed_Result < 1) attackSpeed_Result = 1;
+            attackSpeed_Result = attackSpeed / multyAttackSpeed;
+            if (attackSpeed_Result < 1)
+            {
+                attackSpeed_Result = 1;
+            }
         }
     }
     public void SetDashDistance_Result(int multyDashDIstance, bool multy)

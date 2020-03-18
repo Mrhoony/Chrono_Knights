@@ -77,6 +77,7 @@ public class PlayerControl : MovingObject
     void Update()
     {
         if (CanvasManager.instance.GameMenuOnCheck()) return;
+        if (actionState == ActionState.IsDodge) return;
         // x 공격 입력
         if (weaponType == 0)
         {
@@ -397,6 +398,7 @@ public class PlayerControl : MovingObject
     {
         if (!inputDodge) return;
         inputDodge = false;
+        inputAttackY = false;
 
         if (actionState == ActionState.IsDodge) return;
         actionState = ActionState.IsDodge;
@@ -500,37 +502,6 @@ public class PlayerControl : MovingObject
         Debug.Log("Dead!!");
     }
 
-    public void AttackDistance(float DistanceMulty)
-    {
-        RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection
-            , transform.position.y + 0.1f), new Vector2(arrowDirection, 0), DistanceMulty, rayDashLayerMask);
-        
-        if (playerDashBotDistance)
-        {
-            float botDistance = playerDashBotDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
-            if (DistanceMulty > Mathf.Abs(botDistance) - playerCharacterCollider.size.x * 0.5f)
-                DistanceMulty = Mathf.Abs(botDistance) - playerCharacterCollider.size.x * 0.5f;
-            transform.position = new Vector2(transform.position.x + DistanceMulty * arrowDirection, transform.position.y);
-        }
-        else
-            transform.position = new Vector2(transform.position.x + DistanceMulty * arrowDirection * 0.1f, transform.position.y);
-    }
-    public void DashAttackDistance(float dashDistanceMulty)
-    {
-        RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection
-            , transform.position.y), new Vector2(arrowDirection, 0), dashDistanceMulty, rayDashLayerMask);
-        
-        if (playerDashBotDistance)
-        {
-            float botDistance = playerDashBotDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
-            if (dashDistanceMulty > Mathf.Abs(botDistance) - playerCharacterCollider.size.x * 0.5f)
-                dashDistanceMulty = Mathf.Abs(botDistance) - playerCharacterCollider.size.x * 0.5f;
-            transform.position = new Vector2(transform.position.x + dashDistanceMulty * arrowDirection, transform.position.y);
-        }
-        else
-            transform.position = new Vector2(transform.position.x + dashDistanceMulty * playerStatus.GetDashDistance_Result() * arrowDirection * 0.5f, transform.position.y);
-    }
-    
     public void PlayerJumpAttackEnd()
     {
         actionState = ActionState.IsJump;
@@ -564,44 +535,70 @@ public class PlayerControl : MovingObject
         animator.SetFloat("AttackSpeed", _attackSpeed);
     }
     
-    public bool Attack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
+    public float Attack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
     {
-        Collider2D[] monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackPosX * GetArrowDirection())
-            , transform.position.y + attackPosY), new Vector2(attackRangeX, attackRangeY), 0);
-
-        if (monster != null)
-        {
-            overlap = monster.Length;
-            for (int i = 0; i < overlap; ++i)
-            {
-                if (monster[i].CompareTag("Monster"))
-                {
-                    monster[i].gameObject.GetComponent<IsDamageable>().Hit(playerStatus.GetAttack_Result());
-                }
-                else if (monster[i].CompareTag("BossMonster"))
-                {
-                    monster[i].gameObject.GetComponent<IsDamageable>().Hit(playerStatus.GetAttack_Result());
-                }
-            }
-        }
-
-        ++multyHitCount;
-
+        Collider2D[] monster;
+        float attackDistance = 0f;
         int attackState;
         if (weaponType == 0)
             attackState = weaponSpear.GetAttackState();
         else
             attackState = weaponGun.GetAttackState();
 
-        Debug.Log("attack");
-
-        if (multyHitCount < weaponMultyHit[attackState - 1])
+        for (int i = 0; i < weaponMultyHit[attackState - 1]; ++i)
         {
-            return false;
+            switch (attackState)
+            {
+                case 2:
+                    attackDistance = playerStatus.GetDashDistance_Result() * 0.5f;
+                    monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + attackDistance * arrowDirection * 0.5f
+                        , transform.position.y + attackPosY), new Vector2(attackDistance, attackRangeY), 0);
+                    break;
+                case 3:
+                    attackDistance = playerStatus.GetDashDistance_Result() * 1.5f;
+                    monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + attackDistance * arrowDirection * 0.5f
+                        , transform.position.y + attackPosY), new Vector2(attackDistance, attackRangeY), 0);
+                    break;
+                default:
+                    monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackPosX * arrowDirection)
+                        , transform.position.y + attackPosY), new Vector2(attackRangeX, attackRangeY), 0);
+                    break;
+            }
+
+            if (monster != null)
+            {
+                overlap = monster.Length;
+                for (int j = 0; j < overlap; ++j)
+                {
+                    if (monster[j].CompareTag("Monster"))
+                    {
+                        monster[j].gameObject.GetComponent<IsDamageable>().Hit(playerStatus.GetAttack_Result());
+                    }
+                    else if (monster[j].CompareTag("BossMonster"))
+                    {
+                        monster[j].gameObject.GetComponent<IsDamageable>().Hit(playerStatus.GetAttack_Result());
+                    }
+                }
+            }
+        }
+        return attackDistance;
+    }
+    public void AttackDistance(float _distanceMulty, float _multyple)
+    {
+        RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection
+            , transform.position.y + 0.1f), new Vector2(arrowDirection, 0), _distanceMulty, rayDashLayerMask);
+
+        if (playerDashBotDistance)
+        {
+            float botDistance = playerDashBotDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
+            if (_distanceMulty > Mathf.Abs(botDistance) - playerCharacterCollider.size.x * 0.5f)
+                _distanceMulty = Mathf.Abs(botDistance) - playerCharacterCollider.size.x * 0.5f;
+            transform.position = new Vector2(transform.position.x + _distanceMulty * arrowDirection, transform.position.y);
         }
         else
         {
-            return true;
+            transform.position = new Vector2(transform.position.x + _distanceMulty * arrowDirection * _multyple, transform.position.y);
         }
     }
+
 }

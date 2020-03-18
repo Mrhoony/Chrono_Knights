@@ -39,7 +39,7 @@ public class DungeonPoolManager : MonoBehaviour
         }
         GameObject hpBar = BossMonsterHpBarQueue.Dequeue();
         ++bossMonsterCount;
-        hpBar.transform.position = transform.position + Vector3.down * (470 + (70 * bossMonsterCount));
+        hpBar.transform.position = transform.position + Vector3.down * (180 + (70 * bossMonsterCount));
         return hpBar;
     }
     public void bossMonsterCountReset()
@@ -69,6 +69,17 @@ public class DungeonPoolManager : MonoBehaviour
             hpBar.SetActive(false);
             BossMonsterHpBarQueue.Enqueue(hpBar);
             Debug.Log("bosshpbar 생성");
+        }
+    }
+    public void MonsterDie(bool _bossMonster, GameObject _hpBar)
+    {
+        if (_bossMonster)
+        {
+            BossMonsterHpBarQueue.Enqueue(_hpBar);
+        }
+        else
+        {
+            monsterHpBarQueue.Enqueue(_hpBar);
         }
     }
 }
