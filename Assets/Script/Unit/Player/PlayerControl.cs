@@ -76,12 +76,17 @@ public class PlayerControl : MovingObject
     // Update is called once per frame
     void Update()
     {
-        if (CanvasManager.instance.GameMenuOnCheck()) return;
-        if (actionState == ActionState.IsDodge) return;
+        if (CanvasManager.instance.GameMenuOnCheck()) return;       // UI 켜져 있을 때 입력 제한
+        if (actionState == ActionState.IsDodge) return;             // 회피중일 때 입력 제한
         // x 공격 입력
-        if (weaponType == 0)
+        if (weaponType == 0)        // 현재 무기가 창이면
         {
             if (Input.GetButtonDown("Fire1") && !animator.GetBool("is_y_Atk")) inputAttackX = true;
+            if (Input.GetButton("Fire2"))
+            {
+                if (actionState == ActionState.Idle)
+                    inputAttackY = true;
+            }
             if (Input.GetButtonUp("Fire2"))
             {
                 inputAttackY = false;
@@ -94,10 +99,12 @@ public class PlayerControl : MovingObject
                     finalAttackY = true;
                 }
             }
+            SpearAttack();
         }
-        else if(weaponType == 1)
+        else if(weaponType == 1)    // 현재 무기가 총이면
         {
             if (Input.GetButtonDown("Fire1")) inputAttackX = true;
+            GunAttack();
         }
 
         inputDirection = Input.GetAxisRaw("Horizontal");
@@ -144,16 +151,13 @@ public class PlayerControl : MovingObject
         else                                        inputArrow = 0;
 
         // 회피
-        if (Input.GetButtonDown("Fire3") && dodgable) inputDodge = true;
+        if (Input.GetButtonDown("Fire3") && dodgable) Dodge();
 
-        if (actionState == ActionState.IsAtk) return;
+        if (actionState != ActionState.Idle) return;
 
         InputSkillButton();
-
-        if (Input.GetButton("Fire2")) inputAttackY = true;
-        if (Input.GetButtonDown("Jump")) inputJump = true;
-
-        // 장착 무기 변경
+        if (Input.GetButtonDown("Jump")) Jump();
+        
         if (Input.GetKeyDown(KeyCode.S))
         {
             if(weaponType == 0) // 스피어 -> 건
@@ -168,7 +172,7 @@ public class PlayerControl : MovingObject
                 weaponSpear.Init(animator, rb);
                 weaponMultyHit = weaponSpear.GetWeaponMultyHit();
             }
-        }
+        }       // 장착 무기 변경
     }
 
     IEnumerator InvincibleCount()
@@ -246,16 +250,10 @@ public class PlayerControl : MovingObject
 
     private void FixedUpdate()
     {
-        if (actionState == ActionState.NotMove || actionState == ActionState.IsDead || actionState == ActionState.IsDodge) return;     // 피격 시 입력무시
-
-        if (weaponType == 0) SpearAttack();
-        if (weaponType == 1) GunAttack();
-        Jump();
-        Dodge();
-
-        if (actionState == ActionState.IsAtk) return;       // 공격 중 입력무시
-        if (actionState == ActionState.IsJumpAttack) return;       // 공격 중 입력무시
-
+        if (actionState != ActionState.Idle && actionState != ActionState.IsMove) return;     // 피격 시 입력무시
+        
+        Move();
+        Run();
         // 캐릭터 뒤집기
         if (inputDirection > 0 && isFaceRight)
         {
@@ -265,9 +263,6 @@ public class PlayerControl : MovingObject
         {
             Flip();
         }
-
-        Move();
-        Run();
     }
 
     void SpearAttack()
@@ -296,6 +291,7 @@ public class PlayerControl : MovingObject
         {
             if (actionState == ActionState.IsJump) return;
             if (actionState == ActionState.IsJumpAttack) return;       // 공격 중 입력무시
+            
             actionState = ActionState.IsAtk;
             weaponSpear.AttackY(inputArrow);
         }
@@ -334,13 +330,57 @@ public class PlayerControl : MovingObject
         }
     }
 
-    void Move()
+    void Jump()
+    {
+        if (currentJumpCount < 1 && actionState == ActionState.IsJump) return;
+
+        actionState = ActionState.IsJump;
+        isGround = false;
+        GroundCheck.SetActive(false);
+        
+        --currentJumpCount;
+
+        animator.SetBool("isLand", false);
+        animator.SetTrigger("isJumpTrigger");
+        animator.SetBool("isJump", true);
+
+        rb.velocity = Vector2.zero;
+        rb.AddForce(new Vector2(0f, playerStatus.GetJumpPower()), ForceMode2D.Impulse);
+    }
+    void Dodge()
     {
         if (!dodgable) return;
+        dodgable = false;
+        actionState = ActionState.IsDodge;
+        inputAttackY = false;
+        
+        GroundCheck.SetActive(false);
+        StartCoroutine(DodgeIgnore(0.5f));
 
+        animator.SetBool("isLand", false);
+        animator.SetTrigger("isDodge");
+        
+        if (inputDirection == arrowDirection)
+        {
+            rb.velocity = new Vector2(arrowDirection * playerStatus.GetDashDistance_Result() * 0.5f, 5f);
+        }
+        else
+        {
+            rb.velocity = new Vector2(-arrowDirection * playerStatus.GetDashDistance_Result() * 0.5f, 5f);
+        }
+        
+        invincible = true;
+        isDodge = true;
+
+        StartCoroutine(DodgeCount());
+        StartCoroutine(InvincibleCount());
+    }
+
+    void Move()
+    {
         if (inputDirection != 0)
         {
-            if(actionState == ActionState.Idle)
+            if (actionState == ActionState.Idle)
                 actionState = ActionState.IsMove;
             animator.SetBool("isWalk", true);
             rb.velocity = new Vector2(inputDirection * playerStatus.GetMoveSpeed_Result(), rb.velocity.y);
@@ -361,7 +401,7 @@ public class PlayerControl : MovingObject
             if (actionState == ActionState.Idle)
                 actionState = ActionState.IsMove;
             animator.SetBool("isRun", true);
-            rb.velocity = new Vector2(inputDirection * (playerStatus.GetMoveSpeed_Result() + 3f), rb.velocity.y);
+            rb.velocity = new Vector2(inputDirection * (playerStatus.GetMoveSpeed_Result() * 2f), rb.velocity.y);
         }
 
         if (inputDirection < 0 && isLrun > 1)
@@ -369,74 +409,10 @@ public class PlayerControl : MovingObject
             if (actionState == ActionState.Idle)
                 actionState = ActionState.IsMove;
             animator.SetBool("isRun", true);
-            rb.velocity = new Vector2(inputDirection * (playerStatus.GetMoveSpeed_Result() + 3f), rb.velocity.y);
+            rb.velocity = new Vector2(inputDirection * (playerStatus.GetMoveSpeed_Result() + 2f), rb.velocity.y);
         }
     }
-    void Jump()
-    {
-        if (!inputJump) return;
-        inputJump = false;
-
-        if (inputDodge) return;
-        if (actionState == ActionState.IsAtk) return;       // 공격 중 입력무시
-        if (currentJumpCount < 1 && actionState == ActionState.IsJump) return;
-
-        isGround = false;
-        GroundCheck.SetActive(false);
-        actionState = ActionState.IsJump;
-        
-        --currentJumpCount;
-
-        animator.SetBool("isLand", false);
-        animator.SetTrigger("isJumpTrigger");
-        animator.SetBool("isJump", true);
-
-        rb.velocity = Vector2.zero;
-        rb.AddForce(new Vector2(0f, playerStatus.GetJumpPower()), ForceMode2D.Impulse);
-    }
-    void Dodge()
-    {
-        if (!inputDodge) return;
-        inputDodge = false;
-        inputAttackY = false;
-
-        actionState = ActionState.IsDodge;
-
-        GroundCheck.SetActive(false);
-        StartCoroutine(DodgeIgnore(0.5f));
-
-        animator.SetBool("isLand", false);
-        animator.SetTrigger("isDodge");
-        
-        if (inputDirection == arrowDirection)
-        {
-            rb.velocity = new Vector2(arrowDirection * 4f, 5f);
-        }
-        else
-        {
-            rb.velocity = new Vector2(-arrowDirection * 4f, 5f);
-        }
-        
-        dodgable = false;
-        invincible = true;
-        isDodge = true;
-
-        StartCoroutine(DodgeCount());
-        StartCoroutine(InvincibleCount());
-    }
-
-    public void StopPlayer()
-    {
-        actionState = ActionState.NotMove;
-        rb.velocity = Vector2.zero;
-        StartCoroutine(InputIgnore());
-        Debug.Log("input ignore");
-        animator.SetTrigger("PlayerStop");
-        animator.SetBool("isWalk", false);
-        animator.SetBool("isRun", false);
-        InputInit();
-    }
-
+    
     IEnumerator InputIgnore()
     {
         yield return new WaitForSeconds(0.5f);
@@ -504,6 +480,18 @@ public class PlayerControl : MovingObject
     public void PlayerJumpAttackEnd()
     {
         actionState = ActionState.IsJump;
+    }
+
+    public void StopPlayer()
+    {
+        actionState = ActionState.NotMove;
+        rb.velocity = Vector2.zero;
+        StartCoroutine(InputIgnore());
+        Debug.Log("input ignore");
+        animator.SetTrigger("PlayerStop");
+        animator.SetBool("isWalk", false);
+        animator.SetBool("isRun", false);
+        InputInit();
     }
 
     public void SetAttackState(int _attackState)

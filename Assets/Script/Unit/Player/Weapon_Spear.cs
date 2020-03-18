@@ -26,8 +26,6 @@ public class Weapon_Spear : PlayerWeaponType
     }
     public void AttackY(int inputArrow)
     {
-        animator.SetBool("isWalk", false);
-        
         inputAttackList = inputArrow + 5;
         if (!attackLock)
             StartCoroutine(AttackList());
