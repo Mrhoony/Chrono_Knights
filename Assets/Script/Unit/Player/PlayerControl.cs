@@ -392,7 +392,6 @@ public class PlayerControl : MovingObject
                 actionState = ActionState.Idle;
             animator.SetBool("isWalk", false);
             animator.SetBool("isRun", false);
-            rb.velocity = new Vector2(0f, rb.velocity.y);
         }
     }
     void Run()
@@ -402,7 +401,8 @@ public class PlayerControl : MovingObject
             if (actionState == ActionState.Idle)
                 actionState = ActionState.IsMove;
             animator.SetBool("isRun", true);
-            rb.velocity = new Vector2(inputDirection * (playerStatus.GetMoveSpeed_Result() * 2f), rb.velocity.y);
+            animator.SetBool("isWalk", false);
+            rb.velocity = new Vector2(inputDirection * playerStatus.GetMoveSpeed_Result() * 2f, rb.velocity.y);
         }
 
         if (inputDirection < 0 && isLrun > 1)
@@ -410,7 +410,8 @@ public class PlayerControl : MovingObject
             if (actionState == ActionState.Idle)
                 actionState = ActionState.IsMove;
             animator.SetBool("isRun", true);
-            rb.velocity = new Vector2(inputDirection * (playerStatus.GetMoveSpeed_Result() + 2f), rb.velocity.y);
+            animator.SetBool("isWalk", false);
+            rb.velocity = new Vector2(inputDirection * playerStatus.GetMoveSpeed_Result() * 2f, rb.velocity.y);
         }
     }
     

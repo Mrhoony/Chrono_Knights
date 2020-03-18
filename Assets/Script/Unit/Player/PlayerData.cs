@@ -25,7 +25,7 @@ public class PlayerData
         status = new float[9];
         status[(int)PlayerStat.attack] = 1f;
         status[(int)PlayerStat.defense] = 1f;
-        status[(int)PlayerStat.moveSpeed] = 3f;
+        status[(int)PlayerStat.moveSpeed] = 1f;
         status[(int)PlayerStat.attackSpeed] = 1f;
         status[(int)PlayerStat.dashDistance] = 1f;
         status[(int)PlayerStat.recovery] = 1f;
