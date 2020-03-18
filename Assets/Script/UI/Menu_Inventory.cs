@@ -84,7 +84,7 @@ public class Menu_Inventory : MonoBehaviour
         }
     }
 
-    public void UseKeyInDungeon(int focus)              // 던전 포탈 앞에서 퀵슬롯으로 아이템 사용시
+    public void UseKeyInDungeon(int focus)              // 던전 포탈 앞에서 아이템 사용시
     {
         if (DungeonManager.instance.UseKeyInDungeon(inventoryItemList[focus]))
         {

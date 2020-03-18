@@ -16,10 +16,9 @@ public enum Markers
     SetNegHPOnMonster_NF,
     SetPosDashSpeedOnPlayer_NF,
     SetNegDashSpeedOnPlayer_NF,
-    SetPosAttackSpeedOnPlayer_NF,
-    SetNegAttackSpeedOnPlayer_NF
+    SetPosAttackMulty_NF,
+    SetNegAttackMulty_NF,
 }
-
 public class Marker
 {
     public Markers thisMarker = Markers.SetMonster_NF;
@@ -71,16 +70,6 @@ public class Marker
                     SetNegHPOnMonster_NF(keyValue);
                 }
                 break;
-            case Markers.SetPosAttackSpeedOnPlayer_NF:
-                {
-                    SetNegDamageOnPlayer_NF(keyValue);
-                }
-                break;
-            case Markers.SetNegAttackSpeedOnPlayer_NF:
-                {
-                    SetPosDamageOnPlayer_NF(keyValue);
-                }
-                break;
             case Markers.SetPosDashSpeedOnPlayer_NF:
                 {
                     SetPosDashSpeedOnPlayer_NF(keyValue);
@@ -89,6 +78,16 @@ public class Marker
             case Markers.SetNegDashSpeedOnPlayer_NF:
                 {
                     SetNegDashSpeedOnPlayer_NF(keyValue);
+                }
+                break;
+            case Markers.SetPosAttackMulty_NF:
+                {
+                    SetPosAttackMulty_NF(keyValue);
+                }
+                break;
+            case Markers.SetNegAttackMulty_NF:
+                {
+                    SetNegAttackMulty_NF(keyValue);
                 }
                 break;
             case Markers.SetSpecialMonster_NF:
@@ -138,11 +137,11 @@ public class Marker
     {
         DungeonManager.instance.marker_Variable.markerVariable[9] = keyValue;
     }
-    private void SetPosDamageOnPlayer_NF(int keyValue)
+    private void SetPosAttackMulty_NF(int keyValue)
     {
         DungeonManager.instance.marker_Variable.markerVariable[10] = keyValue;
     }
-    private void SetNegDamageOnPlayer_NF(int keyValue)
+    private void SetNegAttackMulty_NF(int keyValue)
     {
         DungeonManager.instance.marker_Variable.markerVariable[11] = keyValue;
     }
@@ -160,13 +159,12 @@ public class MarkerVariable
         markerVariable[(int)Markers.SetDamageBuffOnFloor_NF] = 1;
         markerVariable[(int)Markers.SetDamageBuffOnMonster_NF] = 1;
         markerVariable[(int)Markers.SetDamageBuffOnPlayer_NF] = 1;
-
         markerVariable[(int)Markers.SetPosHPOnMonster_NF] = 1;
         markerVariable[(int)Markers.SetNegHPOnMonster_NF] = 1;
         markerVariable[(int)Markers.SetPosDashSpeedOnPlayer_NF] = 0;
         markerVariable[(int)Markers.SetNegDashSpeedOnPlayer_NF] = 0;
-        markerVariable[(int)Markers.SetPosAttackSpeedOnPlayer_NF] = 1;
-        markerVariable[(int)Markers.SetNegAttackSpeedOnPlayer_NF] = 1;
+        markerVariable[(int)Markers.SetPosAttackMulty_NF] = 1;
+        markerVariable[(int)Markers.SetNegAttackMulty_NF] = 1;
     }
 }
 /*
@@ -293,6 +291,11 @@ public class DungeonManager : MonoBehaviour
         marker_Variable = new MarkerVariable();
         marker_Variable.Reset();
 
+        /*
+         *  플로어 데이터에 몬스터 리스트 전달.
+         *  플로어 클래스에서 
+         * 
+         */
         FloorDatas = new FloorData[70];
         FloorDangerousSetting(0);
     }
@@ -515,8 +518,8 @@ public class DungeonManager : MonoBehaviour
         phaseClear = false;
         dungeonClear = true;    //false 로 변경
         usedKey = false;
-        freePassFloor = false;
-        spawnerCount = 0;
+
+        DungeonPoolManager.instance.bossMonsterCountReset();
 
         int dropItemPoolCount = dropItemPool.transform.childCount;
 
@@ -541,14 +544,9 @@ public class DungeonManager : MonoBehaviour
         // 다음 층 스킵
         if (freePassFloor)
         {
-            FloorReset();
-
+            freePassFloor = false;
             ++currentStage;
             ++bossStageCount;
-        }
-        if (freePassThisFloor)
-        {
-            FloorReset();
         }
 
         // 보스 스테이지 설정
@@ -669,39 +667,39 @@ public class DungeonManager : MonoBehaviour
             case Markers.SetDamageBuffOnFloor_NF:
                 playerStatus.SetAttackMulty_Result(marker_Variable.markerVariable[markerNumber], true);
                 MonsterAttackSetting(monsterListCount, marker_Variable.markerVariable[markerNumber]);
-                stageStatText = "전체 공격력 증가";
+                stageStatText = "전체 공격력 " + marker_Variable.markerVariable[markerNumber] + " 증가";
                 break;
             case Markers.SetDamageBuffOnMonster_NF:
                 MonsterAttackSetting(monsterListCount, marker_Variable.markerVariable[markerNumber]);
-                stageStatText = "몬스터 공격력 증가";
+                stageStatText = "몬스터 공격력 " + marker_Variable.markerVariable[markerNumber] + " 증가";
                 break;
             case Markers.SetDamageBuffOnPlayer_NF:
                 playerStatus.SetAttackAdd_Result(marker_Variable.markerVariable[markerNumber], true);
-                stageStatText = "자신의 공격력 증가";
+                stageStatText = "자신의 공격력 " + marker_Variable.markerVariable[markerNumber] + " 증가";
                 break;
             case Markers.SetPosHPOnMonster_NF:
                 MonsterHPSetting(monsterListCount, marker_Variable.markerVariable[markerNumber], true);
-                stageStatText = "몬스터 체력 증가";
+                stageStatText = "몬스터 체력 " + marker_Variable.markerVariable[markerNumber] + " 증가";
                 break;
             case Markers.SetNegHPOnMonster_NF:
                 MonsterHPSetting(monsterListCount, marker_Variable.markerVariable[markerNumber], false);
-                stageStatText = "몬스터 체력 감소";
+                stageStatText = "몬스터 체력 " + marker_Variable.markerVariable[markerNumber] + " 감소";
                 break;
             case Markers.SetPosDashSpeedOnPlayer_NF:
                 playerStatus.SetDashDistance_Result(marker_Variable.markerVariable[markerNumber], true);
-                stageStatText = "대시 거리 증가";
+                stageStatText = "대시 거리 " + marker_Variable.markerVariable[markerNumber] + " 증가";
                 break;
             case Markers.SetNegDashSpeedOnPlayer_NF:
                 playerStatus.SetDashDistance_Result(marker_Variable.markerVariable[markerNumber], false);
-                stageStatText = "대시 거리 감소";
+                stageStatText = "대시 거리 " + marker_Variable.markerVariable[markerNumber] + " 감소";
                 break;
-            case Markers.SetPosAttackSpeedOnPlayer_NF:
-                playerStatus.SetAttackSpeedAdd_Result(marker_Variable.markerVariable[markerNumber], true);
-                stageStatText = "공격 속도 증가";
+            case Markers.SetPosAttackMulty_NF:
+                playerStatus.SetAttackMulty_Result(marker_Variable.markerVariable[markerNumber], true);
+                stageStatText = "공격력 " + marker_Variable.markerVariable[markerNumber] + "배 증가";
                 break;
-            case Markers.SetNegAttackSpeedOnPlayer_NF:
-                playerStatus.SetAttackSpeedAdd_Result(marker_Variable.markerVariable[markerNumber], false);
-                stageStatText = "공격 속도 감소";
+            case Markers.SetNegAttackMulty_NF:
+                playerStatus.SetAttackMulty_Result(marker_Variable.markerVariable[markerNumber], false);
+                stageStatText = "공격력 " + marker_Variable.markerVariable[markerNumber] + "배 감소";
                 break;
             case Markers.SetMonster_NF:
                 stageStatText = "몬스터 " + marker_Variable.markerVariable[markerNumber] + " 마리 추가";

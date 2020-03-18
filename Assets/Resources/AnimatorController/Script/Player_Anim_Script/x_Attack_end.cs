@@ -18,7 +18,8 @@ public class x_Attack_end : AnimatorManager
         {
             if (!move)
             {
-                move = playerControl.Attack(0.5f, 0f, 1f, 0.5f);
+                move = true;
+                playerControl.Attack(0.5f, 0f, 1f, 0.5f);
             }
         }
         if(stateInfo.normalizedTime > 0.4f)

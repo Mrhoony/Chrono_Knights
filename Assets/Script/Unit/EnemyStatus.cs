@@ -85,6 +85,7 @@ public class EnemyStatus : MonoBehaviour
             _currentHP = 0;
             enemyHPBar.GetComponent<EnemyHPBar>().MonsterDie();
             enemyHPBar.SetActive(false);
+            DungeonPoolManager.instance.MonsterDie(bossMonster, enemyHPBar);
             enemyHPBar = null;
             return true;
         }
