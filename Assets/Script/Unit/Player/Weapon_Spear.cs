@@ -3,11 +3,10 @@ using UnityEngine;
 
 public class Weapon_Spear : PlayerWeaponType
 {
-    public void AttackX(int inputArrow)
+    public override void AttackX(int inputArrow)
     {
         if (commandCount <= attackState)
         {
-            animator.SetBool("isWalk", false);
             inputAttackList = inputArrow + commandCount;
             ++commandCount;
 
@@ -18,13 +17,13 @@ public class Weapon_Spear : PlayerWeaponType
                 commandCount = 1;
         }
     }
-    public void JumpAttackX(int inputArrow)
+    public override void JumpAttackX(int inputArrow)
     {
         inputAttackList = inputArrow + 6;
         if (!attackLock)
             StartCoroutine(AttackList());
     }
-    public void AttackY(int inputArrow)
+    public override void AttackY(int inputArrow)
     {
         inputAttackList = inputArrow + 5;
         if (!attackLock)
@@ -34,7 +33,7 @@ public class Weapon_Spear : PlayerWeaponType
     {
         if (animator.GetBool("is_y_Atk"))
         {
-            inputAttackList = 0;
+            animator.SetBool("is_y_up_Atk", true);
             if (!attackLock)
                 StartCoroutine(AttackList());
         }
@@ -120,13 +119,12 @@ public class Weapon_Spear : PlayerWeaponType
                 case 46:
                     animator.SetBool("isJump_x_Atk", true);
                     break;
-                case 9:
+                default:
                     InputInit();
                     break;
             }
             yield return null;
         } while (PlayerControl.instance.actionState == ActionState.IsAtk);
-        InputInit();
         attackLock = !attackLock;
     }
 }

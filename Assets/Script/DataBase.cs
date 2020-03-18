@@ -44,7 +44,6 @@ public class DataBase
     {
         return storageItemSkillCodeList;
     }
-    #region 저장 영역
     public int GetAvailableStorageSlot()
     {
         return availableStorageSlot;
@@ -53,7 +52,6 @@ public class DataBase
     {
         return takeKeySlot;
     }
-
     public int GetAvailableInventorySlot()
     {
         return availableInventorySlot;
@@ -92,5 +90,4 @@ public class DataBase
         takeKeySlot = _takeKeySlot;
         availableInventorySlot = _availableInventorySlot;
     }
-    #endregion
 }

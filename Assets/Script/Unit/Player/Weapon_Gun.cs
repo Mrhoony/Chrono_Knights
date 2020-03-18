@@ -3,12 +3,10 @@ using UnityEngine;
 
 public class Weapon_Gun : PlayerWeaponType
 {
-    public void AttackX(int inputArrow)
+    public override void AttackX(int inputArrow)
     {
         if (commandCount <= attackState)
         {
-            Debug.Log("input");
-            animator.SetBool("isWalk", false);
             inputAttackList = inputArrow + commandCount;
             ++commandCount;
 
@@ -19,16 +17,14 @@ public class Weapon_Gun : PlayerWeaponType
                 commandCount = 1;
         }
     }
-    public void JumpAttackX(int inputArrow)
+    public override void JumpAttackX(int inputArrow)
     {
         inputAttackList = inputArrow + 6;
         if (!attackLock)
             StartCoroutine(AttackList());
     }
-    public void AttackY(int inputArrow)
+    public override void AttackY(int inputArrow)
     {
-        animator.SetBool("isWalk", false);
-
         inputAttackList = inputArrow + 5;
         if (!attackLock)
             StartCoroutine(AttackList());
@@ -58,11 +54,9 @@ public class Weapon_Gun : PlayerWeaponType
                 case 1:
                 case 11:
                     attackPattern = 0;
-                    Debug.Log("x");
                     animator.SetBool("is_x_Atk", true);
                     break;
                 case 31:
-                    Debug.Log("x");
                     animator.SetBool("is_x_Atk", true);
                     break;
                 case 41:
@@ -70,17 +64,14 @@ public class Weapon_Gun : PlayerWeaponType
                     animator.SetBool("is_x_Atk", true);
                     break;
                 case 2:
-                    Debug.Log("xx");
                     animator.SetBool("is_xx_Atk", true);
                     break;
                 case 12:
                     attackPattern = 1;
-                    Debug.Log("xFx");
                     animator.SetBool("is_xFx_Atk", true);
                     break;
                 case 32:
                     attackPattern = 2;
-                    Debug.Log("xx");
                     animator.SetBool("is_xx_Atk", true);
                     break;
                 case 3:
@@ -98,23 +89,19 @@ public class Weapon_Gun : PlayerWeaponType
                 case 13:
                     if (attackPattern == 0)
                     {
-                        Debug.Log("xxx");
                         animator.SetBool("is_xxx_Atk", true);
                     }
                     else if (attackPattern == 1)
                     {
-                        Debug.Log("xFxFx");
                         animator.SetBool("is_xFxFx_Atk", true);
                     }
                     break;
                 case 33:
                     if (attackPattern == 1)
                     {
-                        Debug.Log("xxx");
                         animator.SetBool("is_xxx_Atk", true);
                     }
                     else
-                        Debug.Log("xxx");
                     animator.SetBool("is_xxx_Atk", true);
                     break;
                 case 5:
@@ -132,7 +119,6 @@ public class Weapon_Gun : PlayerWeaponType
                 case 16:
                 case 36:
                 case 46:
-                    Debug.Log("jx");
                     animator.SetBool("isJump_x_Atk", true);
                     break;
                 case 9:
@@ -141,7 +127,6 @@ public class Weapon_Gun : PlayerWeaponType
             }
             yield return null;
         } while (PlayerControl.instance.actionState == ActionState.IsAtk);
-        InputInit();
         attackLock = !attackLock;
     }
 }

@@ -74,12 +74,9 @@ public class Monster_Ogre : NormalMonsterControl
 
         if (enemyStatus.IsDeadCheck())
         {
-            StopCoroutine("moveDelayCoroutine");
-            StopCoroutine("AttackDelayCount");
-            StopCoroutine("AttackDelayCountBool");
-            Dead();
             actionState = ActionState.IsDead;
             gameObject.tag = "DeadBody";
+            Dead();
         }
         else
         {

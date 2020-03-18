@@ -60,25 +60,3 @@ public class GroundCheck : MonoBehaviour
         }
     }
 }
-    
-    /*
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision != null)
-        {
-            if (collision.gameObject.CompareTag("Ground"))
-            {
-                if (parentObject.CompareTag("Player"))
-                {
-                    parentObject.GetComponent<PlayerControl>().jumping = false;
-                    parentObject.GetComponent<PlayerControl>().currentJumpCount = parentObject.GetComponent<PlayerControl>().currentJumpCount;
-                }
-                else if (parentObject.CompareTag("Monster"))
-                {
-                    monsterControl = parentObject.GetComponent<Monster_Control>();
-                    monsterControl.animator.SetBool("isJumping", false);
-                }
-            }
-        }
-    }
-    */

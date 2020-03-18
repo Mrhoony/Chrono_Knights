@@ -1590,7 +1590,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1251882805}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 79013c62315faf141a0ff076767f9730, type: 2}
+  m_Material: {fileID: 6200000, guid: d75e9e7e1b1be14458e788b37b8f3b9a, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -3001,6 +3001,11 @@ PrefabInstance:
       propertyPath: playerEffect
       value: 
       objectReference: {fileID: 3981682513713531478}
+    - target: {fileID: 3981682513319129742, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: rayGroundLayerMask.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 3981682513319129780, guid: 9a383a931a8c9254fae17696f9cad381,
         type: 3}
       propertyPath: m_Controller

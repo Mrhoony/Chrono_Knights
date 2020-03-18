@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerWeaponType : MonoBehaviour
+public abstract class PlayerWeaponType : MonoBehaviour
 {
     public Animator animator;
     public RuntimeAnimatorController animatorController;
@@ -30,6 +30,10 @@ public class PlayerWeaponType : MonoBehaviour
             weaponMultyHit[i] = 1;
         }
     }
+
+    public abstract void AttackX(int attackArrow);
+    public abstract void AttackY(int attackArrow);
+    public abstract void JumpAttackX(int attackArrow);
 
     public void InputInit()
     {

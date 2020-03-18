@@ -67,12 +67,12 @@ public class PlayerStatus : MonoBehaviour
 
         attack = playerData.GetStatus(0) + traningStat[0] + playerData.GetEquipmentStatus(0);
         defense = playerData.GetStatus(1) + playerData.GetEquipmentStatus(1) + traningStat[1];
-        moveSpeed = playerData.GetStatus(2) + (playerData.GetEquipmentStatus(2) * 0.1f) + traningStat[2];
-        attackSpeed = playerData.GetStatus(3) + (playerData.GetEquipmentStatus(3) * 0.1f) + traningStat[3];
+        moveSpeed = playerData.GetStatus(2) * 2.2f + playerData.GetEquipmentStatus(2) + traningStat[2];
+        attackSpeed = playerData.GetStatus(3) + playerData.GetEquipmentStatus(3) + traningStat[3];
         dashDistance = playerData.GetStatus(4) + playerData.GetEquipmentStatus(4) + traningStat[4];
         recovery = playerData.GetStatus(5) + playerData.GetEquipmentStatus(5) + traningStat[5];
-        jumpCount = playerData.GetStatus(6) + playerData.GetEquipmentStatus(6);
-
+        
+        jumpCount = playerData.GetStatus(6);
         jumpPower = playerData.GetStatus(8);
         currentAmmo = playerData.GetMaxAmmo();
 

@@ -267,7 +267,6 @@ public class Database_Game : MonoBehaviour
         Debug.Log("몬스터가 존재하지 않음");
         return null;
     }
-
     public int[] GetSkillRarityList(int minRarity)
     {
         int skillListCount = skillList.Count;
@@ -290,7 +289,6 @@ public class Database_Game : MonoBehaviour
         }
         return enableSkillList;
     }
-
     public Item GetItem(int _itemCode)
     {
         int count = Item.Count;
@@ -301,10 +299,8 @@ public class Database_Game : MonoBehaviour
                 return Item[i];
             }
         }
-        Debug.Log("아이템이 존재하지 않음");
         return null;
     }
-
     public Skill CheckSkill(int _skillCode)
     {
         for (int i = 0; i < skillList.Count; i++)
@@ -314,7 +310,6 @@ public class Database_Game : MonoBehaviour
                 return skillList[i];
             }
         }
-        Debug.Log("스킬이 존재하지 않음");
         return null;
     }
 }

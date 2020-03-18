@@ -145,9 +145,6 @@ public abstract class NormalMonsterControl : Monster_Control
 
         if (enemyStatus.IsDeadCheck())
         {
-            StopCoroutine("moveDelayCoroutine");
-            StopCoroutine("AttackDelayCount");
-            StopCoroutine("AttackDelayCountBool");
             actionState = ActionState.IsDead;
             gameObject.tag = "DeadBody";
             Dead();
@@ -166,12 +163,13 @@ public abstract class NormalMonsterControl : Monster_Control
     }
     public IEnumerator MonsterHitEffect()
     {
-        if (hitDelay) yield break;
-        hitDelay = true;
-        spriteRenderer.material = whiteFlashMaterial;
-        yield return new WaitForSeconds(0.2f);
-        spriteRenderer.material = defaultMaterial;
-        hitDelay = false;
+        for(int i = 0; i < 2; ++i)
+        {
+            spriteRenderer.material = whiteFlashMaterial;
+            yield return new WaitForSeconds(0.05f);
+            spriteRenderer.material = defaultMaterial;
+            yield return new WaitForSeconds(0.05f);
+        }
     }
 
     public void Landing()
@@ -182,6 +180,8 @@ public abstract class NormalMonsterControl : Monster_Control
     {
         animator.SetBool("isDead", true);
         animator.SetTrigger("isDead_Trigger");
+        spriteRenderer.material = defaultMaterial;
+        StopAllCoroutines();
         //duneonManager.MonsterDie();
         if (dropItemList != null)
         {

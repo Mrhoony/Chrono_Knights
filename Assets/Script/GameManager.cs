@@ -76,10 +76,9 @@ public class GameManager : MonoBehaviour
 
     private void Init()
     {
-        dataBase.Init();
-
         player.GetComponent<PlayerControl>().enabled = false;
 
+        dataBase.Init();
         storage.Init();
         inventory.Init();
 
@@ -92,7 +91,7 @@ public class GameManager : MonoBehaviour
         canvasManager.FadeInStart();
         OpenStartButton();
 
-        Debug.Log("gameManager Start");
+        Debug.Log("gameManager Init");
     }
 
     public void Update()
@@ -197,10 +196,10 @@ public class GameManager : MonoBehaviour
         
         bf.Serialize(ms, dataBase);
         data = Convert.ToBase64String(ms.GetBuffer());
-        
-        storage.SaveStorageClear();
-
         PlayerPrefs.SetString("SaveSlot" + saveSlotFocus.ToString(), data);
+
+        storage.SaveStorageClear();
+        dataBase.Init();
         player.GetComponent<PlayerControl>().enabled = false;
         bedBlind = GameObject.Find("BackGroundSet/Base/bg_mainScene_blind");
         canvasManager.inGameMenu.SetActive(false);
@@ -237,7 +236,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("NoData");
+            dataBase.Init();
+
             playerStat.SetPlayerData(dataBase.playerData);
             dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag());
             storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetStorageItemSkillCodeList(), dataBase.GetAvailableStorageSlot());
