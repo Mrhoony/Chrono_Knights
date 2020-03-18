@@ -179,20 +179,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 228690751400717995, guid: 7b0ac08eeaf940e4d987a3d968e8a248,
-        type: 3}
-      propertyPath: ParalaxSpeedX.Array.data[1]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 228690751400717995, guid: 7b0ac08eeaf940e4d987a3d968e8a248,
-        type: 3}
-      propertyPath: ParalaxSpeedX.Array.data[0]
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8905953135977979172, guid: 7b0ac08eeaf940e4d987a3d968e8a248, type: 3}
-    - {fileID: 5887347895734951975, guid: 7b0ac08eeaf940e4d987a3d968e8a248, type: 3}
-    - {fileID: 648091706379852212, guid: 7b0ac08eeaf940e4d987a3d968e8a248, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b0ac08eeaf940e4d987a3d968e8a248, type: 3}
 --- !u!1 &1711539025
 GameObject:
@@ -446,6 +433,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_FontData.m_FontSize
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874897364581639847, guid: 0fe724732235b8c479b4f03cc29ee266,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fe724732235b8c479b4f03cc29ee266, type: 3}

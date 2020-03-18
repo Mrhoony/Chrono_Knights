@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 965b9a7bf85e96941b0aed415e040310, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -170,21 +170,26 @@ MonoBehaviour:
   overlap: 0
   isFaceRight: 0
   arrowDirection: 0
-  player: []
   target: {fileID: 0}
   playerPos: {x: 0, y: 0}
   eft: {fileID: 0}
+  eftPool: []
   enemyStatus: {fileID: 0}
   dropItemList: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  defaultMaterial: {fileID: 0}
+  whiteFlashMaterial: {fileID: 0}
   monsterName: 
   monsterCode: 0
+  coroutine: 0
+  moveDelay: 0
+  hitDelay: 0
   distanceX: 0
   distanceY: 0
   moveSpeed: 0
   rotateDelayTime: 0
   attackCoolTime: 0
   maxAttackDelayTime: 0
-  curAttackDelayTime: 0
   isTrace: 0
   randomMove: 0
   randomMoveCount: 0
