@@ -427,5 +427,25 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2874897363792607796, guid: 0fe724732235b8c479b4f03cc29ee266,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874897363792607796, guid: 0fe724732235b8c479b4f03cc29ee266,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874897363792607796, guid: 0fe724732235b8c479b4f03cc29ee266,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2491830535739299731, guid: 0fe724732235b8c479b4f03cc29ee266,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fe724732235b8c479b4f03cc29ee266, type: 3}

@@ -398,6 +398,7 @@ public class PlayerControl : MovingObject
         if (!inputDodge) return;
         inputDodge = false;
 
+        if (actionState == ActionState.IsDodge) return;
         actionState = ActionState.IsDodge;
 
         GroundCheck.SetActive(false);

@@ -47,16 +47,13 @@ public class PlayerData
         status = new float[9];
         equipmentStatus = new float[7];
 
-        status[7] = 100f;
-        status[8] = 7f;
-
         status[0] = 1f;
         equipmentStatus[0] = 0;
 
         status[1] = 1f;
         equipmentStatus[1] = 0;
 
-        status[2] = 4f;
+        status[2] = 1f;
         equipmentStatus[2] = 0;
 
         status[3] = 1f;
@@ -68,8 +65,11 @@ public class PlayerData
         status[5] = 1f;
         equipmentStatus[5] = 0;
 
-        status[6] = 2f;
+        status[6] = 1f;
         equipmentStatus[6] = 0;
+
+        status[7] = 100f;
+        status[8] = 7f;
 
         maxAmmo = 10;
         
