@@ -298,6 +298,7 @@ public class DungeonManager : MonoBehaviour
         FloorDatas = new FloorData[70];
         FloorDangerousSetting(0);
     }
+
     private void FloorDangerousSetting(int plusDangerous)
     {
         for (int floor = 1; floor < 71; ++floor)
@@ -412,8 +413,8 @@ public class DungeonManager : MonoBehaviour
     public bool UseKeyInDungeon(Item _Item)
     {
         if (usedKey) return false;
-
         usedKey = true;
+
         // 키가 가진 것들을 가지고 체크
         switch (_Item.itemType)
         {
@@ -438,6 +439,9 @@ public class DungeonManager : MonoBehaviour
                 break;
             case ItemType.RepeatThisFloor:
                 floorRepeat = true;
+                break;
+            default:
+                marker.ExecuteMarker(0);
                 break;
         }
         return true;
@@ -498,6 +502,7 @@ public class DungeonManager : MonoBehaviour
         /*
          *  정상적으로 복귀 시 게임 오버 창 표시
          */
+        FloorReset();
         DungeonInit();
         playerStatus.ReturnToTown();
         canvasManager.Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);
@@ -539,11 +544,6 @@ public class DungeonManager : MonoBehaviour
             if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
                 entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
         }
-
-        markerRandom = Random.Range(0, 12);
-        marker.thisMarker = (Markers)markerRandom;
-        mark = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
-        mark.GetComponent<DungeonMarker>().SetMarker((Markers)markerRandom);
 
         ++currentStage;
         // 다음층이 보스층인걸 미리 알면 순서 변경
@@ -632,6 +632,10 @@ public class DungeonManager : MonoBehaviour
         {
             dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus());
         }
+        markerRandom = Random.Range(0, 12);
+        marker.thisMarker = (Markers)markerRandom;
+        mark = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
+        mark.GetComponent<DungeonMarker>().SetMarker((Markers)markerRandom);
 
         marker_Variable.markerPreVariable = marker_Variable.markerVariable;
         marker_Variable.Reset();
