@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControl : MovingObject
@@ -34,6 +33,7 @@ public class PlayerControl : MovingObject
     public bool invincible;         // 무적 시간
     public bool isBlock;
 
+    public bool debugOn;
     public int currentJumpCount;
     
     private void Awake()
@@ -552,6 +552,18 @@ public class PlayerControl : MovingObject
         else
         {
             transform.position = new Vector2(transform.position.x + _distanceMulty * arrowDirection, transform.position.y);
+        }
+    }
+
+    public void OnDrawGizmosSelected()
+    {
+        if (actionState == ActionState.IsAtk)
+        {
+            Gizmos.color = new Color(1, 1, 1, 0.5f);
+            Gizmos.DrawCube(
+                new Vector3(transform.position.x + (3f + 0.2f) * arrowDirection * 0.5f, transform.position.y + 0.2f, 0) // 중심지점
+                , new Vector3(3f + 0.4f, 0.4f, 0)   // 전체 범위
+                );
         }
     }
 }
