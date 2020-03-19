@@ -55,6 +55,7 @@ public class Menu_Inventory : Menu_InGameMenu
                 else
                 {
                     DeleteItem(focused);
+                    slotInstance.SetActiveItemConfirm(false);
                 }
                 isItemSelect = false;
             }
