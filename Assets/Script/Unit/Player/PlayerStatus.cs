@@ -48,13 +48,11 @@ public class PlayerStatus : MonoBehaviour
 
         ReturnToTown();
     }
-
     public void ReturnToTown()
     {
         HPInit();
         PlayerStatusUpdate(playerEquip);
     }
-
     public void PlayerStatusInit()
     {
         PlayerStatusUpdate(playerEquip);
@@ -65,24 +63,23 @@ public class PlayerStatus : MonoBehaviour
         Debug.Log("Player status update");
         playerData.renew(_playerEquipment);
 
-        attack = playerData.GetStatus(0) + traningStat[0] + playerData.GetEquipmentStatus(0);
-        defense = playerData.GetStatus(1) + playerData.GetEquipmentStatus(1) + traningStat[1];
-        moveSpeed = playerData.GetStatus(2) * 2.2f + playerData.GetEquipmentStatus(2) + traningStat[2];
-        attackSpeed = playerData.GetStatus(3) + playerData.GetEquipmentStatus(3) + traningStat[3];
-        dashDistance = playerData.GetStatus(4) + playerData.GetEquipmentStatus(4) + traningStat[4];
-        recovery = playerData.GetStatus(5) + playerData.GetEquipmentStatus(5) + traningStat[5];
+        attack = playerData.GetStatus(0);
+        defense = playerData.GetStatus(1);
+        moveSpeed = playerData.GetStatus(2);
+        attackSpeed = playerData.GetStatus(3);
+        dashDistance = playerData.GetStatus(4);
+        recovery = playerData.GetStatus(5);
         
         jumpCount = playerData.GetStatus(6);
         jumpPower = playerData.GetStatus(8);
         currentAmmo = playerData.GetMaxAmmo();
 
-        SetAttackAdd_Result(0, true);
-        SetAttackMulty_Result(1, true);
-        SetDefenceAdd_Result(0, true);
-        SetMoveSpeed_Result(1, true);
-        SetAttackSpeed_Result(1, true);
-        SetDashDistance_Result(1, true);
-        SetRecoveryAdd_Result(0, true);
+        attack_Result = (int)(attack + playerData.GetEquipmentStatus(0) + traningStat[0]);
+        defense_Result = (int)(defense + playerData.GetEquipmentStatus(1) + traningStat[1]);
+        moveSpeed_Result = moveSpeed * 2.2f + playerData.GetEquipmentStatus(2) + traningStat[2];
+        attackSpeed_Result = attackSpeed + playerData.GetEquipmentStatus(3) + traningStat[3];
+        dashDistance_Result = dashDistance + playerData.GetEquipmentStatus(4) + traningStat[4];
+        recovery_Result = recovery + playerData.GetEquipmentStatus(5) + traningStat[5];
 
         PlayerControl.instance.SetAnimationAttackSpeed(attackSpeed_Result);
     }

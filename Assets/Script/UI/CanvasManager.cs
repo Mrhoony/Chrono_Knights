@@ -228,7 +228,7 @@ public class CanvasManager : MonoBehaviour
         }
 
         // 게임오버 결과창
-        
+
         circleFadeOut.SetActive(false);
         fadeOutScale.x = 100f;
         fadeOutScale.y = 100f;

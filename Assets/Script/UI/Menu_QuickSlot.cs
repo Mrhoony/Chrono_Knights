@@ -50,7 +50,7 @@ public class Menu_QuickSlot : MonoBehaviour
                 focus = 0;
                 addQuickInventory = 0;
                 slots.SetActive(true);
-                inventoryItemlist = inventory.GetInventoryItemList();
+                inventoryItemlist = inventory.GetItemList();
                 SetQuickSlot(0, 5);
                 quickSlot[focus].transform.GetChild(0).gameObject.SetActive(true);
                 if(inventoryItemlist[focus] != null)

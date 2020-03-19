@@ -88,9 +88,9 @@ public class EnemyStatus : MonoBehaviour
         }
         return false;
     }
-
     public void HPbarReset()
     {
+        if (enemyHPBar == null) return;
         enemyHPBar.GetComponent<EnemyHPBar>().MonsterDie();
         enemyHPBar.SetActive(false);
         DungeonPoolManager.instance.MonsterDie(bossMonster, enemyHPBar);
