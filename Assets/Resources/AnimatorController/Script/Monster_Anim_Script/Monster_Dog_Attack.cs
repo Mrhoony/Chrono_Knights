@@ -13,7 +13,7 @@ public class Monster_Dog_Attack : AnimatorManager
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!move && stateInfo.normalizedTime > 0.6f)
+        if (!move && stateInfo.normalizedTime > 0.7f)
         {
             move = true;
             animator.GetComponent<Monster_Dog>().MonsterAttack(0.5f, 0f, 0.8f, 0.2f);

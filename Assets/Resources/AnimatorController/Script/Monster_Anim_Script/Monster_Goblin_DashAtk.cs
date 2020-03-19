@@ -16,7 +16,7 @@ public class Monster_Goblin_DashAtk : AnimatorManager
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!move && stateInfo.normalizedTime > 0.5f)
+        if (!move && stateInfo.normalizedTime > 0.7f)
         {
             move = true;
             monster_Goblin.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(3f * monster_Goblin.GetArrowDirection(), monster_Goblin.gameObject.GetComponent<Rigidbody2D>().velocity.y);
