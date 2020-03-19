@@ -544,9 +544,10 @@ public class DungeonManager : MonoBehaviour
             if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
                 entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
         }
+        player.transform.position = entrance;
+        mapList[selectedMapNum].GetComponent<BackgroundScrolling>().SetBackGroundPosition(currentStage);
 
         ++currentStage;
-        // 다음층이 보스층인걸 미리 알면 순서 변경
         ++bossStageCount;
         
         // 다음 층 스킵
@@ -601,7 +602,6 @@ public class DungeonManager : MonoBehaviour
         }
         else            // 일반 맵일경우
         {
-            // 초기 맵 랜덤 선택
             spawner = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().spawner;
             spawnerCount = spawner.Length;
 
@@ -624,14 +624,9 @@ public class DungeonManager : MonoBehaviour
             }
         }
 
-        if(currentStage < 2)
-        {
-            dungeonUI.SetDungeonFloor(currentStage, "");
-        }
-        else
-        {
-            dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus());
-        }
+        if(currentStage < 2)            dungeonUI.SetDungeonFloor(currentStage, "");
+        else                            dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus());
+
         markerRandom = Random.Range(0, 12);
         marker.thisMarker = (Markers)markerRandom;
         mark = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
@@ -639,11 +634,13 @@ public class DungeonManager : MonoBehaviour
 
         marker_Variable.markerPreVariable = marker_Variable.markerVariable;
         marker_Variable.Reset();
-
-        player.transform.position = entrance;
-        mapList[selectedMapNum].GetComponent<BackgroundScrolling>().SetBackGroundPosition(currentStage);
     }
 
+    public void FloorBossKill()
+    {
+        ++bossClear;
+        phaseClear = true;
+    }
     public void FloorReset()
     {
         for(int i = 0; i < monsterCount; ++i)
@@ -734,13 +731,7 @@ public class DungeonManager : MonoBehaviour
             currentStageMonsterList[i].GetComponent<EnemyStatus>().Set_hp(_value, upgrade);
         }
     }
-
-    public void FloorBossKill()
-    {
-        ++bossClear;
-        phaseClear = true;
-    }
-
+    
     // 씬 이동 후 초기화
     public void OnEnable()
     {
