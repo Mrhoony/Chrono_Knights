@@ -477,7 +477,7 @@ public class PlayerControl : MovingObject
         animator.SetFloat("AttackSpeed", _attackSpeed);
     }
     
-    public float Attack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
+    public float Attack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY, AtkType _dashDisType)
     {
         Collider2D[] monster;
         float attackDistance = 0f;
@@ -489,17 +489,29 @@ public class PlayerControl : MovingObject
 
         for (int i = 0; i < weaponMultyHit[attackState - 1]; ++i)
         {
-            switch (attackState)
+            switch (_dashDisType)
             {
-                case 2:
+                //xx, xFx, xxx 등 한걸음 이동
+                case AtkType.oneStep:
+                    attackDistance = playerStatus.GetDashDistance_Result() * 0.25f;
+                    monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackDistance + 0.2f) * arrowDirection * 0.5f
+                        , transform.position.y + attackPosY), new Vector2(attackDistance + 0.4f, attackRangeY), 0);
+                    break;
+                //xFxFx 등 
+                case AtkType.fowardDash:
                     attackDistance = playerStatus.GetDashDistance_Result() * 0.5f;
                     monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackDistance + 0.2f) * arrowDirection * 0.5f
                         , transform.position.y + attackPosY), new Vector2(attackDistance + 0.4f, attackRangeY), 0);
                     break;
-                case 3:
-                    attackDistance = playerStatus.GetDashDistance_Result();
+                //움직임 없는 공격
+                case AtkType.notMove:
                     monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackDistance + 0.2f) * arrowDirection * 0.5f
                         , transform.position.y + attackPosY), new Vector2(attackDistance + 0.4f, attackRangeY), 0);
+                    break;
+                //앞뒤 동시 공격
+                case AtkType.fowardBack:
+                    monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x
+                        , transform.position.y + attackPosY), new Vector2(attackDistance + 0.6f, attackRangeY), 0);
                     break;
                 default:
                     monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackPosX * arrowDirection)

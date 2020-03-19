@@ -19,7 +19,7 @@ public class x_Attack_end : AnimatorManager
             if (!move)
             {
                 move = true;
-                playerControl.Attack(0.5f, 0f, 1f, 0.5f);
+                playerControl.Attack(0.5f, 0f, 1f, 0.5f, AtkType.notMove);
             }
         }
         if(stateInfo.normalizedTime > 0.4f)
