@@ -7,7 +7,7 @@ public abstract class Slot : MonoBehaviour
     public Image itemImage;
     public Image itemBorderImage;
     public GameObject itemConfirm;
-    
+
     public int focus = 0;
 
     public void SetActiveFocus(bool _OnOff)
@@ -41,7 +41,7 @@ public abstract class Slot : MonoBehaviour
         return focus;
     }
 
-    public abstract void SetItemSprite(Sprite _itemSprite, Sprite _itemBorderSprite, bool _OnOff);
+    public abstract void SetItemSprite(Item _item, bool _OnOff);
     public abstract bool SetItemConfirm(bool _isSelected);
     public abstract void SetOverSlot(Sprite _slotSprite);
 }

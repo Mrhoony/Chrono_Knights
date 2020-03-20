@@ -527,6 +527,7 @@ public class DungeonManager : MonoBehaviour
         mainCamera.SetHeiWid(640, 360);
         SceneManager.LoadScene(0);
     }
+
     public void SetShopItemList(Item[] _itemList)
     {
         shopItemList = _itemList;

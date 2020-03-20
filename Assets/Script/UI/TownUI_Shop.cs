@@ -11,9 +11,25 @@ public class TownUI_Shop : MonoBehaviour
     public Slot slotInstance;
     public bool isTownMenuOn = false;
     public Item[] shopItemList = new Item[8];
+    
+    public int focused;
 
     public int slotCount;
-    public bool[] isSell;
+
+    public void Update()
+    {
+        if (!isTownMenuOn) return;
+
+        if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
+        if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(4); }
+        if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-4); }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+
+        }
+    }
 
     public void OpenTownUIMenu(Menu_Inventory _inventory)
     {
@@ -29,16 +45,13 @@ public class TownUI_Shop : MonoBehaviour
         for (int i = 1; i < slotCount + 1; ++i)
         {
             slot[i - 1] = transforms[i].gameObject;
-            isSell[i - 1] = false;
+            if(shopItemList[i - 1] != null)
+                slot[i - 1].GetComponent<TownUI_ShopSlot>().SetItemSprite(shopItemList[i], true);
+            else
+                slot[i - 1].GetComponent<TownUI_ShopSlot>().SetItemSprite(null, false);
         }
+        slotInstance = slot[0].GetComponent<TownUI_ShopSlot>();
     }
-    public void CloseTownUIMenu()
-    {
-        DungeonManager.instance.SetShopItemList(shopItemList);
-        isTownMenuOn = false;
-        townUI.CloseShopMenu();
-    }
-
     public void ShopItemListSet()
     {
         if (!DungeonManager.instance.NewDayCheckShop()) return;
@@ -49,7 +62,7 @@ public class TownUI_Shop : MonoBehaviour
         List<Item> itemRarity2List = new List<Item>();
         List<Item> itemRarity3List = new List<Item>();
 
-        for(int i = 0; i < itemListCount; ++i)
+        for (int i = 0; i < itemListCount; ++i)
         {
             switch (Database_Game.instance.Item[i].itemRarity)
             {
@@ -67,11 +80,11 @@ public class TownUI_Shop : MonoBehaviour
         for (int i = 0; i < 8; ++i)
         {
             randomItemRarity = Random.Range(0, 10);
-            if(randomItemRarity <= 7)
+            if (randomItemRarity <= 7)
             {
                 shopItemList[i] = itemRarity1List[Random.Range(0, itemRarity1List.Count)];
             }
-            else if(randomItemRarity > 7 && randomItemRarity <= 8)
+            else if (randomItemRarity > 7 && randomItemRarity <= 8)
             {
                 shopItemList[i] = itemRarity2List[Random.Range(0, itemRarity2List.Count)];
             }
@@ -82,5 +95,22 @@ public class TownUI_Shop : MonoBehaviour
         }
 
         DungeonManager.instance.SetShopItemList(shopItemList);
+    }
+    public void CloseTownUIMenu()
+    {
+        DungeonManager.instance.SetShopItemList(shopItemList);
+        isTownMenuOn = false;
+        townUI.CloseShopMenu();
+    }
+
+    public void FocusedSlot(int AdjustValue)
+    {
+        if (focused + AdjustValue < 0 || focused + AdjustValue > 8) { return; }
+        slotInstance.SetActiveFocus(false);
+
+        focused += AdjustValue;
+        
+        slotInstance = slot[focused].GetComponent<Slot>();
+        slotInstance.SetActiveFocus(true);
     }
 }

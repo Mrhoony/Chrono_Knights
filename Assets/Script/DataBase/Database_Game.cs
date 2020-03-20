@@ -24,6 +24,7 @@ public static class SpriteSet
     public static readonly Sprite[] skillSprite;
     public static readonly Sprite[] markerSprite = Resources.LoadAll<Sprite>("Graphic/UI/ui_mark");
     public static readonly Sprite[] keyItemBorderSprite = Resources.LoadAll<Sprite>("Graphic/UI/Inventory_Set");
+    public static readonly Sprite[] shopItemBorderSprite = Resources.LoadAll<Sprite>("Graphic/UI/ui_shop_set");
 }
 
 public class Item

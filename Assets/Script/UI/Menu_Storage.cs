@@ -144,12 +144,12 @@ public class Menu_Storage : Menu_InGameMenu
             if (itemList[i] != null)
             {
                 isFull[i] = true;
-                slot[i - (boxNum * 24)].GetComponent<Slot>().SetItemSprite(itemList[i].sprite, keyItemBorderSprite[itemList[i].itemRarity], isSelected[i]);
+                slot[i - (boxNum * 24)].GetComponent<Slot>().SetItemSprite(itemList[i], isSelected[i]);
             }
             else
             {
                 isFull[i] = false;
-                slot[i - (boxNum * 24)].GetComponent<Slot>().SetItemSprite(null, keyItemBorderSprite[4], isSelected[i]);
+                slot[i - (boxNum * 24)].GetComponent<Slot>().SetItemSprite(null, isSelected[i]);
             }
         }
         for(int i = boxFull; i < 24; ++i)

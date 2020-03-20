@@ -31,7 +31,6 @@ public class Menu_Inventory : Menu_InGameMenu
     {
         if (canvasManager.isCancelOn) return;
         if (!isUIOn) return;
-        if (!isThisWindowFocus) return;
 
         if (isItemSelect)
         {
@@ -161,12 +160,12 @@ public class Menu_Inventory : Menu_InGameMenu
         {
             if (itemList[i] != null)
             {
-                slot[i].GetComponent<Slot>().SetItemSprite(itemList[i].sprite, keyItemBorderSprite[itemList[i].itemRarity], true);
+                slot[i].GetComponent<Slot>().SetItemSprite(itemList[i], true);
                 isFull[i] = true;
             }
             else
             {
-                slot[i].GetComponent<Slot>().SetItemSprite(null, keyItemBorderSprite[4], false);
+                slot[i].GetComponent<Slot>().SetItemSprite(null, false);
                 isFull[i] = false;
             }
         }
@@ -186,16 +185,13 @@ public class Menu_Inventory : Menu_InGameMenu
     public void SetSelectedItem(int _value, int[] _selectedSlot)
     {
         seletedItemCount = _value;
-        int count = 0;
 
         for (int i = 0; i < availableSlot; ++i)
         {
-            itemList[i] = storage.GetSelectStorageItem(_selectedSlot[count]);
+            itemList[i] = storage.GetSelectStorageItem(_selectedSlot[i]);
             isFull[i] = true;
-            ++count;
-
-            if (_selectedSlot[count] == 99) break;
-            if (count > seletedItemCount) break;
+            
+            if (_selectedSlot[i] == 99) break;
         }
         for (int i = seletedItemCount; i < availableSlot; ++i)
         {

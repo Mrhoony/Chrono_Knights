@@ -3606,12 +3606,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   townUI: {fileID: 3898516258782012729}
   canvasManager: {fileID: 0}
-  slots: {fileID: 8142600363077475180}
+  inventory: {fileID: 0}
   slot: []
   slotInstance: {fileID: 0}
   isTownMenuOn: 0
   slotCount: 0
-  isSell: 
 --- !u!1 &8142600363158233941
 GameObject:
   m_ObjectHideFlags: 0

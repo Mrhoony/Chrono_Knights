@@ -13,8 +13,6 @@ public class Dungeon_UI : MonoBehaviour
     
     public void SetDungeonFloor(int _stage, string _floorStat)
     {
-        dungeonFloor.SetActive(true);
-        dungeonPoolManager.SetActive(true);
         dungeonFloorText.text = _stage.ToString() + "F";
         dungeonFloorStatText.text = _floorStat;
         dungeonFloorEftText.text = _stage.ToString() + "F";

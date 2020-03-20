@@ -2,18 +2,19 @@
 
 public class TownUI_ShopSlot : Slot
 {
-    public override void SetItemSprite(Sprite _itemSprite, Sprite _itemBorderSprite, bool _OnOff)
+    public override void SetItemSprite(Item _item, bool _OnOff)
     {
-        if (_itemSprite == null)
+        Sprite[] keyItemBorderSprite = SpriteSet.shopItemBorderSprite;
+        if (_item == null)
         {
             itemImage.gameObject.SetActive(false);
             itemBorderImage.gameObject.SetActive(false);
         }
         else
         {
-            itemImage.sprite = _itemSprite;
+            itemImage.sprite = _item.sprite;
             itemImage.gameObject.SetActive(true);
-            itemBorderImage.sprite = _itemBorderSprite;
+            itemBorderImage.sprite = keyItemBorderSprite[_item.itemRarity + 1];
             itemBorderImage.gameObject.SetActive(true);
         }
     }
