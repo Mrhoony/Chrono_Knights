@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum AtkType {
-    notMove, oneStep, fowardDash, backOneStep, backDash, fowardBack
+    notMove, oneStep, fowardDash, backOneStep, backDash, fowardBack, backJump
 }
 
 public class AnimatorManager : StateMachineBehaviour

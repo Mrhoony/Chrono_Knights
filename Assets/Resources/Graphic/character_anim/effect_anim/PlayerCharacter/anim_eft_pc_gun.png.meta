@@ -1,7 +1,19 @@
 fileFormatVersion: 2
 guid: ebbd6d7860ef70d4d844bc7768ab203a
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: anim_eft_pc_gun_0
+    21300002: anim_eft_pc_gun_1
+    21300004: anim_eft_pc_gun_2
+    21300006: anim_eft_pc_gun_3
+    21300008: anim_eft_pc_gun_4
+    21300010: anim_eft_pc_gun_5
+    21300012: anim_eft_pc_gun_6
+    21300014: anim_eft_pc_gun_7
+    21300016: anim_eft_pc_gun_8
+    21300018: anim_eft_pc_gun_9
+    21300020: anim_eft_pc_gun_10
+    21300022: anim_eft_pc_gun_11
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -31,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -40,7 +52,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -60,10 +72,21 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -71,7 +94,247 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: anim_eft_pc_gun_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 200
+        width: 140
+        height: 100
+      alignment: 9
+      pivot: {x: 0, y: 0.35999998}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bd44afb4a6d09a47942ea0502cf5089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_eft_pc_gun_1
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 200
+        width: 140
+        height: 100
+      alignment: 9
+      pivot: {x: 0, y: 0.36}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a745a05f10e7cc409810f08f0e7a8fd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_eft_pc_gun_2
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 200
+        width: 140
+        height: 100
+      alignment: 9
+      pivot: {x: 0, y: 0.42999998}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7930eec5023060844929329ee8039a49
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_eft_pc_gun_3
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 200
+        width: 140
+        height: 100
+      alignment: 9
+      pivot: {x: 0, y: 0.42999998}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4740dc97bb6a4c04c819d0a3d5e56199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_eft_pc_gun_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 100
+        width: 140
+        height: 100
+      alignment: 9
+      pivot: {x: 0, y: 0.42}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9180ac2acdbe254c82250bf28741cb2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_eft_pc_gun_5
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 100
+        width: 140
+        height: 100
+      alignment: 9
+      pivot: {x: 0, y: 0.41}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 371c757a6ea9a62418ea69293ed9b378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_eft_pc_gun_6
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 100
+        width: 140
+        height: 100
+      alignment: 9
+      pivot: {x: 0, y: 0.42}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67ac8c07f121db9409dcf598d0d17ee8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_eft_pc_gun_7
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 100
+        width: 140
+        height: 100
+      alignment: 9
+      pivot: {x: 0, y: 0.42}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e5e7e73d4bdca648855db404ae46a35
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_eft_pc_gun_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 140
+        height: 100
+      alignment: 9
+      pivot: {x: 0, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0d98b0be4628b549b2c9a9e0d799b69
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_eft_pc_gun_9
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 0
+        width: 140
+        height: 100
+      alignment: 9
+      pivot: {x: 0, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5e203b31ba5687408f735efbd7b998d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_eft_pc_gun_10
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 0
+        width: 140
+        height: 100
+      alignment: 9
+      pivot: {x: 0, y: 0.7}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e77e059d41b445046821eee377eec18f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_eft_pc_gun_11
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 0
+        width: 140
+        height: 100
+      alignment: 9
+      pivot: {x: 0, y: 0.7}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7ca72c549aebfa45a9d75d3635d8d27
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

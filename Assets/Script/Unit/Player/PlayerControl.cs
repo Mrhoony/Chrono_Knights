@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+public enum GunEft {
+    shot1, shot2, downshot
+}
+
 public class PlayerControl : MovingObject
 {
     public static PlayerControl instance;
@@ -11,6 +15,9 @@ public class PlayerControl : MovingObject
     public PlayerStatus playerStatus;
     public SkillManager skillManager;
     public GameObject playerEffect;
+
+    public GameObject[] gunEffect;
+    public GameObject[] shotPoint;
 
     public Weapon_Spear weaponSpear;
     public Weapon_Gun weaponGun;
@@ -476,6 +483,22 @@ public class PlayerControl : MovingObject
     {
         animator.SetFloat("AttackSpeed", _attackSpeed);
     }
+
+    public void InstantiateGunEft(GunEft ge) {
+        switch (ge) {
+            case GunEft.shot1:
+                Instantiate(gunEffect[0], shotPoint[0].transform);
+                break;
+            case GunEft.shot2:
+                Instantiate(gunEffect[1], shotPoint[1].transform);
+                break;
+            case GunEft.downshot:
+                Instantiate(gunEffect[2], shotPoint[2].transform);
+                break;
+            default:
+                break;
+        }
+    }
     
     public float Attack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY, AtkType _dashDisType)
     {
@@ -513,6 +536,11 @@ public class PlayerControl : MovingObject
                     monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x
                         , transform.position.y + attackPosY), new Vector2(attackDistance + 0.6f, attackRangeY), 0);
                     break;
+                case AtkType.backJump:
+                    attackDistance = playerStatus.GetDashDistance_Result() * 0.5f;
+                    monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackDistance + 0.5f) * arrowDirection * 0.5f
+                        , transform.position.y + attackPosY), new Vector2(attackDistance + 1f, attackRangeY), 0);
+                    break;
                 default:
                     monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackPosX * arrowDirection)
                         , transform.position.y + attackPosY), new Vector2(attackRangeX, attackRangeY), 0);
@@ -537,6 +565,7 @@ public class PlayerControl : MovingObject
         }
         return attackDistance;
     }
+
     public void AttackDistance(float _distanceMulty)
     {
         RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection
@@ -553,6 +582,18 @@ public class PlayerControl : MovingObject
         {
             transform.position = new Vector2(transform.position.x + _distanceMulty * arrowDirection, transform.position.y);
         }
+    }
+
+    public void AttackDistanceForce(float _distanceMulty)
+    {
+        isGround = false;
+        GroundCheck.SetActive(false);
+
+        --currentJumpCount;
+
+        animator.SetBool("isLand", false);
+
+        rb.velocity = new Vector2(arrowDirection * -1 * (_distanceMulty * 2f + 5f), _distanceMulty * 2f + 5f);
     }
 
     public void OnDrawGizmosSelected()
