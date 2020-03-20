@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c8125fd6d4e6054d9111d32d8594ce9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fast: 0
-  destroyRange: 0
-  randX: 0
-  randY: 0
+  fast: 1
+  destroyRange: 0.1
+  randX: 2
+  randY: 2

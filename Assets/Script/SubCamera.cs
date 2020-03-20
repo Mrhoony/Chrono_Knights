@@ -49,7 +49,7 @@ public class SubCamera : MonoBehaviour
                 || target.transform.position.x < transform.position.x - boxCollider2D.size.x / 4
                 || target.transform.position.y > transform.position.y + boxCollider2D.size.y / 4
                 || target.transform.position.y < transform.position.y - boxCollider2D.size.y / 4)
-                transform.position = Vector3.Lerp(transform.position, targetPosition, (tempX * 2 + tempY) * Time.deltaTime);
+                transform.position = Vector3.Lerp(transform.position, targetPosition, (tempX * 2 + tempY) * Time.fixedDeltaTime);
         }
     }
 }

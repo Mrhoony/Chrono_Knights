@@ -82,7 +82,7 @@ public class eft_root : MonoBehaviour
         if ((power_x * power_x <= destroyRange * destroyRange) && (power_y * power_y <= destroyRange * destroyRange))
         {
             CM.RootBagUI();
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         transform.Translate((power_x * Time.deltaTime * fast), (power_y * Time.deltaTime * fast), 0);        
     }
