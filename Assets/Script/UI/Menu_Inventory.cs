@@ -271,6 +271,10 @@ public class Menu_Inventory : Menu_InGameMenu
     {
         return itemList;
     }             // 인벤토리 아이템 리스트 반환
+    public Item GetItem(int _focus)
+    {
+        return itemList[_focus];
+    }
 
     public void LoadInventoryData(int _availableSlot)
     {

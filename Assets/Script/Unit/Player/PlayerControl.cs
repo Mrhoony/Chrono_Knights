@@ -166,17 +166,17 @@ public class PlayerControl : MovingObject
         yield return new WaitForSeconds(0.5f);
         invincible = false;
     }
-    IEnumerator ParryingCount()
-    {
-        yield return new WaitForSeconds(0.2f);
-        actionState = ActionState.Idle;
-    }
     IEnumerator DodgeCount()
     {
         yield return new WaitForSeconds(0.3f);
         dodgable = true;
     }
-    
+    IEnumerator ParryingCount()
+    {
+        yield return new WaitForSeconds(0.2f);
+        actionState = ActionState.Idle;
+    }
+
     void RunCheck()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -327,10 +327,11 @@ public class PlayerControl : MovingObject
     {
         if (!dodgable) return;
         dodgable = false;
+        invincible = true;
         actionState = ActionState.IsDodge;
         
         GroundCheck.SetActive(false);
-        StartCoroutine(DodgeIgnore(0.5f));
+        StartCoroutine(DodgeIgnore(0.3f));
 
         animator.SetBool("isLand", false);
         animator.SetTrigger("isDodge");
@@ -344,8 +345,6 @@ public class PlayerControl : MovingObject
             rb.velocity = new Vector2(-arrowDirection * playerStatus.GetDashDistance_Result() * 0.5f, 5f);
         }
         
-        invincible = true;
-
         StartCoroutine(DodgeCount());
         StartCoroutine(InvincibleCount());
     }
@@ -403,7 +402,7 @@ public class PlayerControl : MovingObject
     
     public void Hit(int _attack)
     {
-        if (invincible)
+        if (invincible && actionState == ActionState.IsDodge)
         {
             playerEffect.GetComponent<Animator>().SetTrigger("isDodge_Trigger");
             return;
@@ -416,7 +415,6 @@ public class PlayerControl : MovingObject
         else
         {
             StopPlayer();
-
             CameraManager.instance.CameraShake(playerStatus.DecreaseHP(_attack) / 2);
             animator.SetTrigger("isHit");
             playerEffect.GetComponent<Animator>().SetTrigger("isHit_Trigger");
@@ -427,6 +425,11 @@ public class PlayerControl : MovingObject
             StartCoroutine(InvincibleCount());
         }
     }
+    public void Dead()
+    {
+        DungeonManager.instance.PlayerIsDead();
+    }
+
     public void Landing()
     {
         isGround = true;
@@ -441,12 +444,7 @@ public class PlayerControl : MovingObject
         animator.SetBool("is_x_Atk", true);
         Debug.Log("parrying");
     }
-
-    public void Dead()
-    {
-        DungeonManager.instance.PlayerIsDead();
-    }
-
+    
     public void PlayerJumpAttackEnd()
     {
         actionState = ActionState.IsJump;
@@ -456,11 +454,11 @@ public class PlayerControl : MovingObject
     {
         actionState = ActionState.NotMove;
         rb.velocity = Vector2.zero;
+        InputInit();
         StartCoroutine(InputIgnore());
-        animator.SetTrigger("PlayerStop");
         animator.SetBool("isWalk", false);
         animator.SetBool("isRun", false);
-        InputInit();
+        animator.SetTrigger("PlayerStop");
     }
 
     public void SetAttackState(int _attackState)

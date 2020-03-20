@@ -112,6 +112,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &320896631 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2113143361479461930, guid: 0fe724732235b8c479b4f03cc29ee266,
+    type: 3}
+  m_PrefabInstance: {fileID: 2874897363994262161}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &603206298
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -444,6 +450,11 @@ PrefabInstance:
       propertyPath: dungeonFloorEft
       value: 
       objectReference: {fileID: 2874897363994262162}
+    - target: {fileID: 2874897364581639842, guid: 0fe724732235b8c479b4f03cc29ee266,
+        type: 3}
+      propertyPath: dungeonFloor
+      value: 
+      objectReference: {fileID: 320896631}
     - target: {fileID: 2113143361479461930, guid: 0fe724732235b8c479b4f03cc29ee266,
         type: 3}
       propertyPath: m_IsActive
