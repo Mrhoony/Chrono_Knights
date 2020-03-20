@@ -59,13 +59,15 @@ public class CanvasManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
     }
     private void Start()
     {
         isInventoryOn = false;
         isStorageOn = false;
         isCancelOn = false;
+        isTownUIOn = false;
+        isDungeonUIOn = false;
+        isDungeonCancelOn = false;
         for (int i = 0; i < Menus.Length; ++i)
         {
             Menus[i].SetActive(false);
@@ -115,8 +117,11 @@ public class CanvasManager : MonoBehaviour
                 //OpenDungeonMenu();
                 DungeonManager.instance.PlayerIsDead();     // 임시로 플레이어 킬 - 집으로 복귀
             }
+            else if (isDungeonUIOn && DungeonManager.instance.inDungeon)
+            {
+                DungeonManager.instance.SceneLoad();
+            }
         }
-        if (isLoadSlotOn || isCancelOn || isDungeonCancelOn) return;
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -126,7 +131,7 @@ public class CanvasManager : MonoBehaviour
             }
         }
 
-        if (isTownUIOn || isDungeonUIOn) return;
+        if (isTownUIOn || isDungeonUIOn || isDungeonCancelOn) return;
 
         // 인벤토리, 업적창, 스토리 관련
         if (!isStorageOn)
