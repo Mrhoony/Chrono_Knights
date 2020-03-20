@@ -185,8 +185,10 @@ public class PlayerStatus : MonoBehaviour
         }
         else
         {
-            attack_Result = (int)attack / multyAttack;
-            if(attack_Result < 1)
+            if (0 != multyAttack) attack_Result = (int)attack / multyAttack;
+            else attack_Result = (int)attack;
+
+            if (attack_Result < 1)
             {
                 attack_Result = 1;
             }
