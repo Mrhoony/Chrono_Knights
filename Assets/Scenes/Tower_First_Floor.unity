@@ -459,7 +459,7 @@ PrefabInstance:
     - target: {fileID: 2874897364581639847, guid: 0fe724732235b8c479b4f03cc29ee266,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 105
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2874897364581639842, guid: 0fe724732235b8c479b4f03cc29ee266,
         type: 3}
@@ -471,6 +471,16 @@ PrefabInstance:
       propertyPath: dungeonFloor
       value: 
       objectReference: {fileID: 320896631}
+    - target: {fileID: 2874897364581639842, guid: 0fe724732235b8c479b4f03cc29ee266,
+        type: 3}
+      propertyPath: dungeonPoolManager
+      value: 
+      objectReference: {fileID: 2874897363994262163}
+    - target: {fileID: 2113143361479461930, guid: 0fe724732235b8c479b4f03cc29ee266,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2874897364125279248, guid: 0fe724732235b8c479b4f03cc29ee266,
         type: 3}
       propertyPath: m_IsActive
@@ -481,6 +491,12 @@ PrefabInstance:
 --- !u!1 &2874897363994262162 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2874897364125279248, guid: 0fe724732235b8c479b4f03cc29ee266,
+    type: 3}
+  m_PrefabInstance: {fileID: 2874897363994262161}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2874897363994262163 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 610455877, guid: 0fe724732235b8c479b4f03cc29ee266,
     type: 3}
   m_PrefabInstance: {fileID: 2874897363994262161}
   m_PrefabAsset: {fileID: 0}

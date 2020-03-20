@@ -3,10 +3,12 @@
 public class Menu_Inventory : Menu_InGameMenu
 {
     public Menu_Storage storage;
+    public TownUI_Shop shop;
     public int seletedItemCount;         // 창고에서 선택된 아이템 수
     public int[] storageSelectedItem;
     public bool isDungeonOpen;
     public bool isShopOpen;
+    public bool isThisWindowFocus;
 
     public override void Init()
     {
@@ -29,6 +31,7 @@ public class Menu_Inventory : Menu_InGameMenu
     {
         if (canvasManager.isCancelOn) return;
         if (!isUIOn) return;
+        if (!isThisWindowFocus) return;
 
         if (isItemSelect)
         {
@@ -79,6 +82,10 @@ public class Menu_Inventory : Menu_InGameMenu
                 }
                 canvasManager.CloseInGameMenu();
             }
+            if (Input.GetKeyDown(KeyCode.C))    // 아이템 선택 취소
+            {
+
+            }
         }
     }
 
@@ -96,14 +103,24 @@ public class Menu_Inventory : Menu_InGameMenu
         DeleteItem(_focused);
     }
 
-    public void OpenInventory()                     // 상점에서 인벤토리 열 때
+    public void FocusOn()
     {
-        isUIOn = true;
-        isShopOpen = true;
+        isThisWindowFocus = true;
         focused = 0;
         slotInstance = slot[focused].GetComponent<Slot>();
         slotInstance.SetActiveFocus(true);
+    }
+    public void FocusOff()
+    {
+        isThisWindowFocus = false;
+    }
 
+    public void OpenInventory(TownUI_Shop _shop)                     // 상점에서 인벤토리 열 때
+    {
+        isUIOn = true;
+        isShopOpen = true;
+
+        shop = _shop;
         InventorySet();
 
         if (itemList[focused] != null)

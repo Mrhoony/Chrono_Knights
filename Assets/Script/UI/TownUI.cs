@@ -20,14 +20,14 @@ public class TownUI : MonoBehaviour
         }
     }
 
-    public void OpenShopMenu()
+    public void OpenShopMenu(Menu_Inventory _inventory)
     {
         PlayerControl.instance.StopPlayer();
         PlayerControl.instance.enabled = false;
         isTownUIOn[0] = true;
         playerCharacter.enabled = false;
         townMenus[0].SetActive(true);
-        townMenus[0].GetComponent<TownUI_Shop>().OpenTownUIMenu();
+        townMenus[0].GetComponent<TownUI_Shop>().OpenTownUIMenu(_inventory);
     }
     public void CloseShopMenu()
     {

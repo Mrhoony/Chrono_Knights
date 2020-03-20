@@ -9,10 +9,12 @@ public class Dungeon_UI : MonoBehaviour
     public Text dungeonFloorText;
     public Text dungeonFloorStatText;
     public Text dungeonFloorEftText;
-    public GameObject gameOverWindow;
+    public GameObject dungeonPoolManager;
     
     public void SetDungeonFloor(int _stage, string _floorStat)
     {
+        dungeonFloor.SetActive(true);
+        dungeonPoolManager.SetActive(true);
         dungeonFloorText.text = _stage.ToString() + "F";
         dungeonFloorStatText.text = _floorStat;
         dungeonFloorEftText.text = _stage.ToString() + "F";
@@ -21,15 +23,8 @@ public class Dungeon_UI : MonoBehaviour
 
     IEnumerator DungeonFloorEft()
     {
-        dungeonFloor.SetActive(true);
         dungeonFloorEft.SetActive(true);
         yield return new WaitForSeconds(2f);
         dungeonFloorEft.SetActive(false);
-    }
-
-    public void OnGameOverWindow(bool _OnOff)
-    {
-        dungeonFloor.SetActive(false);
-        gameOverWindow.SetActive(_OnOff);
     }
 }

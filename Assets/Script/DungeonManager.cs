@@ -228,6 +228,7 @@ public class DungeonManager : MonoBehaviour
     public int currentDate;
 
     private bool isTraingPossible;
+    private bool isShopRefill;
     public bool isDead;
     public bool freePassFloor;
     public bool freePassThisFloor;
@@ -308,6 +309,11 @@ public class DungeonManager : MonoBehaviour
     }
     private void Init()
     {
+        shopItemList = new Item[8];
+        for (int i = 0; i < 8; ++i)
+        {
+            shopItemList[i] = null;
+        }
         currentStage = 0;
         monsterCount = 0;
         currentMonsterCount = 0;
@@ -318,18 +324,24 @@ public class DungeonManager : MonoBehaviour
         isSceneLoading = false;
         bossSetting = false;
         isTraingPossible = true;
+        isShopRefill = true;
         dungeonClear = false;
         floorRepeat = false;
         phaseClear = false;
         freePassFloor = false;
+        freePassThisFloor = false;
     }
     public void DungeonInit()
     {
         isDead = false;
         isTraingPossible = true;
+        isShopRefill = true;
         bossSetting = false;
         dungeonClear = false;
         floorRepeat = false;
+        phaseClear = false;
+        freePassFloor = false;
+        freePassThisFloor = false;
 
         ++currentDate;
         currentStage = 0;
@@ -488,7 +500,6 @@ public class DungeonManager : MonoBehaviour
             ReturnToTown();
         }
     }
-
     public void PlayerIsDead()
     {
         Time.timeScale = 0.5f;
@@ -505,8 +516,10 @@ public class DungeonManager : MonoBehaviour
 
     public void ReturnToTown()
     {
-        //dungeonUI.OnGameOverWindow(true);
-
+        for(int i = 0; i < 8; ++i)
+        {
+            shopItemList[i] = null;
+        }
         playerStatus.ReturnToTown();
         canvasManager.Menus[0].GetComponent<Menu_Inventory>().PutInBox(isDead);
         FloorReset();
@@ -514,7 +527,15 @@ public class DungeonManager : MonoBehaviour
         mainCamera.SetHeiWid(640, 360);
         SceneManager.LoadScene(0);
     }
-
+    public void SetShopItemList(Item[] _itemList)
+    {
+        shopItemList = _itemList;
+    }
+    public Item[] GetShopItemList()
+    {
+        return shopItemList;
+    }
+    
     // 층 이동 시 나타날 층 세팅
     public void FloorSetting()
     {
@@ -806,11 +827,20 @@ public class DungeonManager : MonoBehaviour
     {
         return eventFlag;
     }
-    public bool NewDayCheck()
+    public bool NewDayCheckTrainig()
     {
         if (isTraingPossible)
         {
             isTraingPossible = false;
+            return true;
+        }
+        return false;
+    }
+    public bool NewDayCheckShop()
+    {
+        if (isShopRefill)
+        {
+            isShopRefill = false;
             return true;
         }
         return false;
