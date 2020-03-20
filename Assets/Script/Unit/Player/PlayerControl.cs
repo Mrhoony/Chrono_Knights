@@ -418,6 +418,9 @@ public class PlayerControl : MovingObject
             CameraManager.instance.CameraShake(playerStatus.DecreaseHP(attack));
             animator.SetTrigger("isHit");
             playerEffect.GetComponent<Animator>().SetTrigger("isHit_Trigger");
+
+            rb.velocity = new Vector2(-arrowDirection * 3f, 2.5f);
+
             invincible = true;
             StartCoroutine(InvincibleCount());
         }
