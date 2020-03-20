@@ -5,8 +5,16 @@ public enum GunEft {
     shot1, shot2, downshot
 }
 
+public enum AtkType
+{
+    notMove, oneStep, fowardDash, fowardBack, down,
+    g_notMove, g_oneStep, g_backJump, g_down
+}
+
 public class PlayerControl : MovingObject
 {
+    public static TestDrawBox TDB = new TestDrawBox();
+
     public static PlayerControl instance;
     public BoxCollider2D playerCharacterCollider;
     public LayerMask rayDashLayerMask;
@@ -514,6 +522,11 @@ public class PlayerControl : MovingObject
         {
             switch (_dashDisType)
             {
+                //움직임 없는 공격
+                case AtkType.notMove:
+                    monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + attackPosX
+                        , transform.position.y + attackPosY), new Vector2(attackRangeX, attackRangeY), 0);
+                    break;
                 //xx, xFx, xxx 등 한걸음 이동
                 case AtkType.oneStep:
                     attackDistance = playerStatus.GetDashDistance_Result() * 0.25f;
@@ -526,17 +539,13 @@ public class PlayerControl : MovingObject
                     monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackDistance + 0.2f) * arrowDirection * 0.5f
                         , transform.position.y + attackPosY), new Vector2(attackDistance + 0.4f, attackRangeY), 0);
                     break;
-                //움직임 없는 공격
-                case AtkType.notMove:
-                    monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackDistance + 0.2f) * arrowDirection * 0.5f
-                        , transform.position.y + attackPosY), new Vector2(attackDistance + 0.4f, attackRangeY), 0);
-                    break;
                 //앞뒤 동시 공격
                 case AtkType.fowardBack:
                     monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x
                         , transform.position.y + attackPosY), new Vector2(attackDistance + 0.6f, attackRangeY), 0);
+                    TDB.DrawBox(transform.position, new Vector2(attackDistance + 0.6f, attackRangeY));
                     break;
-                case AtkType.backJump:
+                case AtkType.g_backJump:
                     attackDistance = playerStatus.GetDashDistance_Result() * 0.5f;
                     monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackDistance + 0.5f) * arrowDirection * 0.5f
                         , transform.position.y + attackPosY), new Vector2(attackDistance + 1f, attackRangeY), 0);
@@ -606,5 +615,25 @@ public class PlayerControl : MovingObject
                 , new Vector3(3f + 0.4f, 0.4f, 0)   // 전체 범위
                 );
         }
+    }
+}
+
+public class TestDrawBox : MonoBehaviour
+{
+    public Color color = Color.green;
+    public Vector2 v2TopLeft;
+    public Vector2 v2BottomRight;
+
+    public void DrawBox(GameObject target, Vector2 dis, Vector2 size)
+    {
+        v2TopLeft = (Vector2)target.transform.position + dis + new Vector2(size.x * -0.5f, size.y * 0.5f);
+        v2BottomRight = (Vector2)target.transform.position + dis + new Vector2(size.x * 0.5f, size.y * -0.5f);
+        Debug.DrawLine(v2TopLeft, v2BottomRight, color);
+    }
+    public void DrawBox(Vector2 target, Vector2 size)
+    {
+        v2TopLeft = target + new Vector2(size.x * -0.5f, size.y * 0.5f);
+        v2BottomRight = target + new Vector2(size.x * 0.5f, size.y * -0.5f);
+        Debug.DrawLine(v2TopLeft, v2BottomRight, color);
     }
 }
