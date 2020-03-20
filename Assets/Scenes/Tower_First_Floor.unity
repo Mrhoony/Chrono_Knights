@@ -185,6 +185,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3402036039251822286, guid: 7b0ac08eeaf940e4d987a3d968e8a248,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 1671779005783746977, guid: 7b0ac08eeaf940e4d987a3d968e8a248,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f372b78f86d522040ab26604c4c6b587,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b0ac08eeaf940e4d987a3d968e8a248, type: 3}
 --- !u!1 &1711539025
@@ -228,6 +239,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DungeonUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113143361479461930, guid: 0fe724732235b8c479b4f03cc29ee266,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2874897364581639846, guid: 0fe724732235b8c479b4f03cc29ee266,
         type: 3}
@@ -455,11 +471,6 @@ PrefabInstance:
       propertyPath: dungeonFloor
       value: 
       objectReference: {fileID: 320896631}
-    - target: {fileID: 2113143361479461930, guid: 0fe724732235b8c479b4f03cc29ee266,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2874897364125279248, guid: 0fe724732235b8c479b4f03cc29ee266,
         type: 3}
       propertyPath: m_IsActive

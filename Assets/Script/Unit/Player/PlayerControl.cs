@@ -547,6 +547,15 @@ public class PlayerControl : MovingObject
                     monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackDistance + 0.5f) * arrowDirection * 0.5f
                         , transform.position.y + attackPosY), new Vector2(attackDistance + 1f, attackRangeY), 0);
                     break;
+                case AtkType.g_notMove:
+                    monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + 1.2f * arrowDirection
+                        , transform.position.y + attackPosY), new Vector2(2.4f, 1f), 0);
+                    break;
+                case AtkType.g_oneStep:
+                    attackDistance = playerStatus.GetDashDistance_Result() * 0.5f;
+                    monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackDistance + 0.5f) * arrowDirection * 0.5f
+                        , transform.position.y + attackPosY), new Vector2(attackDistance + 1f, attackRangeY), 0);
+                    break;
                 default:
                     monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackPosX * arrowDirection)
                         , transform.position.y + attackPosY), new Vector2(attackRangeX, attackRangeY), 0);
