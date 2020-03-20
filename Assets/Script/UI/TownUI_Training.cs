@@ -46,7 +46,7 @@ public class TownUI_Training : MonoBehaviour
         isTownMenuOn = true;
         Init();
 
-        isTraningPossible = DungeonManager.instance.NewDayCheck();
+        isTraningPossible = DungeonManager.instance.NewDayCheckTrainig();
 
         if (isTraningPossible)
         {

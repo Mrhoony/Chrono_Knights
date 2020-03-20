@@ -11,7 +11,7 @@ public class NPC_Merchant : NPC_Control
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            townUI.OpenShopMenu();
+            canvasManager.OpenShopInventory();
         }
     }
 }

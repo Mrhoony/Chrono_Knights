@@ -27,6 +27,7 @@ public class CanvasManager : MonoBehaviour
     public GameObject fadeInOut;
     public GameObject circleFadeOut;
     public GameObject RootBag;
+    public GameObject gameOverWindow;
     public Scrollbar[] sb;
     
     public TownUI townUI;       // 마을 UI
@@ -127,6 +128,7 @@ public class CanvasManager : MonoBehaviour
         {
             if (isDungeonUIOn)
             {
+                CloseDungeonGameOver();
                 DungeonManager.instance.SceneLoad();
             }
         }
@@ -247,23 +249,24 @@ public class CanvasManager : MonoBehaviour
 
             yield return null;
         }
-
         circleFadeOut.SetActive(false);
         fadeOutScale.x = 100f;
         fadeOutScale.y = 100f;
         circleFadeOut.transform.localScale = fadeOutScale;
-        
+
+        DungeonManager.instance.FloorReset();
+        Time.timeScale = 1f;
         OpenDungeonGameOver();
     }
 
     public void OpenDungeonGameOver()
     {
         isDungeonUIOn = true;
-        dungeonUI.OnGameOverWindow(true);
+        gameOverWindow.SetActive(true);
     }
     public void CloseDungeonGameOver()
     {
-        dungeonUI.OnGameOverWindow(false);
+        gameOverWindow.SetActive(false);
         isDungeonUIOn = false;
     }
 
@@ -298,11 +301,17 @@ public class CanvasManager : MonoBehaviour
 
     public void OpenShopInventory()
     {
-        isInventoryOn = true;
-        focus = 0;
-
+        isTownUIOn = true;
         Menus[0].SetActive(true);
-        Menus[0].GetComponent<Menu_Inventory>().OpenInventory();
+        townUI.OpenShopMenu(Menus[0].GetComponent<Menu_Inventory>());
+        Menus[0].GetComponent<Menu_Inventory>().OpenInventory(townUI.townMenus[0].GetComponent<TownUI_Shop>());
+    }
+    public void CloseShopInventory()
+    {
+        townUI.CloseShopMenu();
+        Menus[0].GetComponent<Menu_Inventory>().CloseInventory();
+        Menus[0].SetActive(false);
+        isTownUIOn = false;
     }
     
     // 강화 창에서 창고 열 경우
