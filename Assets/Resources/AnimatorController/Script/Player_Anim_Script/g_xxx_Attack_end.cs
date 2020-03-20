@@ -19,7 +19,7 @@ public class g_xxx_Attack_end : AnimatorManager
             {
                 move = true;
                 playerControl.InstantiateGunEft(GunEft.downshot);
-                playerControl.AttackDistanceForce(playerControl.Attack(0.5f, 0f, 1f, 1f, AtkType.g_backJump));
+                playerControl.AttackDistanceForce(playerControl.Attack(AtkType.g_backJump));
             }
         }
     }
