@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AtkType {
-    notMove, oneStep, fowardDash, backOneStep, backDash, fowardBack
-}
-
 public class AnimatorManager : StateMachineBehaviour
 {
     public PlayerControl playerControl;

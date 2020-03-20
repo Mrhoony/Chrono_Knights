@@ -11,7 +11,7 @@ public class Monster_Ogre_AtkV : AnimatorManager
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!move && stateInfo.normalizedTime > 0.7f)
+        if (!move && stateInfo.normalizedTime > 0.6f)
         {
             move = true;
             animator.GetComponent<Monster_Ogre>().MonsterAttack(1f, 0f, 3f, 0.5f);

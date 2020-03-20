@@ -1,5 +1,128 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &12128961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 12128962}
+  m_Layer: 8
+  m_Name: X
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &12128962
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12128961}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.7, y: 0.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1406846824}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &847803192
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 847803193}
+  m_Layer: 8
+  m_Name: XX/XFXFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &847803193
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847803192}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.7, y: 0.06, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1406846824}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1122596972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1122596973}
+  m_Layer: 8
+  m_Name: XXX/JX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1122596973
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122596972}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.6, y: -0.15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1406846824}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1406846823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1406846824}
+  m_Layer: 8
+  m_Name: ShotPointSet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1406846824
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406846823}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 12128962}
+  - {fileID: 847803193}
+  - {fileID: 1122596973}
+  m_Father: {fileID: 3981682513319129783}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1718774176
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,6 +311,7 @@ Transform:
   - {fileID: 3981682513018439650}
   - {fileID: 1718774177}
   - {fileID: 7800715214129874997}
+  - {fileID: 1406846824}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -201,10 +325,10 @@ Animator:
   m_GameObject: {fileID: 3981682513319129743}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7604eb04a8c37cf4b8f2014d499daf36, type: 2}
+  m_Controller: {fileID: 9100000, guid: f840dad22774fbf4fb5579cd035ec4ff, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -438,10 +562,21 @@ MonoBehaviour:
   rayDashLayerMask:
     serializedVersion: 2
     m_Bits: 33280
+  rayGroundLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
   GroundCheck: {fileID: 3981682513018439649}
   playerStatus: {fileID: 0}
   skillManager: {fileID: 0}
   playerEffect: {fileID: 6683672731776554705}
+  gunEffect:
+  - {fileID: 9015076233196846170, guid: ae7dcfda2df360d4d867ff0543b1a7df, type: 3}
+  - {fileID: 5366748907940831454, guid: 3aa868533fc68d342b0faedbef7159ce, type: 3}
+  - {fileID: 2467388433802929184, guid: 28aea3dccd4ae28459ce926e1ca75655, type: 3}
+  shotPoint:
+  - {fileID: 12128961}
+  - {fileID: 847803192}
+  - {fileID: 1122596972}
   weaponSpear: {fileID: 0}
   weaponGun: {fileID: 0}
   weaponType: 0
@@ -449,20 +584,14 @@ MonoBehaviour:
   multyHitCount: 0
   inputDirection: 0
   inputArrow: 0
-  inputAttackX: 0
-  inputAttackY: 0
-  finalAttackY: 0
-  inputJump: 0
-  inputDodge: 0
   runDelay: 0
   isRrun: 0
   isLrun: 0
   isGround: 0
-  isJumpAttack: 0
   dodgable: 0
-  isDodge: 0
   invincible: 0
   isBlock: 0
+  debugOn: 0
   currentJumpCount: 0
 --- !u!114 &3006957613609201759
 MonoBehaviour:

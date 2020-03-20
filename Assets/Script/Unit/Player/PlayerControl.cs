@@ -1,8 +1,20 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+public enum GunEft {
+    shot1, shot2, downshot
+}
+
+public enum AtkType
+{
+    notMove, oneStep, fowardDash, fowardBack, down,
+    g_notMove, g_oneStep, g_backJump, g_down
+}
+
 public class PlayerControl : MovingObject
 {
+    public static TestDrawBox TDB = new TestDrawBox();
+
     public static PlayerControl instance;
     public BoxCollider2D playerCharacterCollider;
     public LayerMask rayDashLayerMask;
@@ -11,6 +23,9 @@ public class PlayerControl : MovingObject
     public PlayerStatus playerStatus;
     public SkillManager skillManager;
     public GameObject playerEffect;
+
+    public GameObject[] gunEffect;
+    public GameObject[] shotPoint;
 
     public Weapon_Spear weaponSpear;
     public Weapon_Gun weaponGun;
@@ -476,6 +491,22 @@ public class PlayerControl : MovingObject
     {
         animator.SetFloat("AttackSpeed", _attackSpeed);
     }
+
+    public void InstantiateGunEft(GunEft ge) {
+        switch (ge) {
+            case GunEft.shot1:
+                Instantiate(gunEffect[0], shotPoint[0].transform);
+                break;
+            case GunEft.shot2:
+                Instantiate(gunEffect[1], shotPoint[1].transform);
+                break;
+            case GunEft.downshot:
+                Instantiate(gunEffect[2], shotPoint[2].transform);
+                break;
+            default:
+                break;
+        }
+    }
     
     public float Attack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY, AtkType _dashDisType)
     {
@@ -491,6 +522,11 @@ public class PlayerControl : MovingObject
         {
             switch (_dashDisType)
             {
+                //움직임 없는 공격
+                case AtkType.notMove:
+                    monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + attackPosX
+                        , transform.position.y + attackPosY), new Vector2(attackRangeX, attackRangeY), 0);
+                    break;
                 //xx, xFx, xxx 등 한걸음 이동
                 case AtkType.oneStep:
                     attackDistance = playerStatus.GetDashDistance_Result() * 0.25f;
@@ -503,15 +539,16 @@ public class PlayerControl : MovingObject
                     monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackDistance + 0.2f) * arrowDirection * 0.5f
                         , transform.position.y + attackPosY), new Vector2(attackDistance + 0.4f, attackRangeY), 0);
                     break;
-                //움직임 없는 공격
-                case AtkType.notMove:
-                    monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackDistance + 0.2f) * arrowDirection * 0.5f
-                        , transform.position.y + attackPosY), new Vector2(attackDistance + 0.4f, attackRangeY), 0);
-                    break;
                 //앞뒤 동시 공격
                 case AtkType.fowardBack:
                     monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x
                         , transform.position.y + attackPosY), new Vector2(attackDistance + 0.6f, attackRangeY), 0);
+                    TDB.DrawBox(transform.position, new Vector2(attackDistance + 0.6f, attackRangeY));
+                    break;
+                case AtkType.g_backJump:
+                    attackDistance = playerStatus.GetDashDistance_Result() * 0.5f;
+                    monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackDistance + 0.5f) * arrowDirection * 0.5f
+                        , transform.position.y + attackPosY), new Vector2(attackDistance + 1f, attackRangeY), 0);
                     break;
                 default:
                     monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (attackPosX * arrowDirection)
@@ -537,6 +574,7 @@ public class PlayerControl : MovingObject
         }
         return attackDistance;
     }
+
     public void AttackDistance(float _distanceMulty)
     {
         RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection
@@ -555,6 +593,18 @@ public class PlayerControl : MovingObject
         }
     }
 
+    public void AttackDistanceForce(float _distanceMulty)
+    {
+        isGround = false;
+        GroundCheck.SetActive(false);
+
+        --currentJumpCount;
+
+        animator.SetBool("isLand", false);
+
+        rb.velocity = new Vector2(arrowDirection * -1 * (_distanceMulty * 2f + 5f), _distanceMulty * 2f + 5f);
+    }
+
     public void OnDrawGizmosSelected()
     {
         if (actionState == ActionState.IsAtk)
@@ -565,5 +615,25 @@ public class PlayerControl : MovingObject
                 , new Vector3(3f + 0.4f, 0.4f, 0)   // 전체 범위
                 );
         }
+    }
+}
+
+public class TestDrawBox : MonoBehaviour
+{
+    public Color color = Color.green;
+    public Vector2 v2TopLeft;
+    public Vector2 v2BottomRight;
+
+    public void DrawBox(GameObject target, Vector2 dis, Vector2 size)
+    {
+        v2TopLeft = (Vector2)target.transform.position + dis + new Vector2(size.x * -0.5f, size.y * 0.5f);
+        v2BottomRight = (Vector2)target.transform.position + dis + new Vector2(size.x * 0.5f, size.y * -0.5f);
+        Debug.DrawLine(v2TopLeft, v2BottomRight, color);
+    }
+    public void DrawBox(Vector2 target, Vector2 size)
+    {
+        v2TopLeft = target + new Vector2(size.x * -0.5f, size.y * 0.5f);
+        v2BottomRight = target + new Vector2(size.x * 0.5f, size.y * -0.5f);
+        Debug.DrawLine(v2TopLeft, v2BottomRight, color);
     }
 }
