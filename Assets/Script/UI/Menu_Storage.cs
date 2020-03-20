@@ -223,7 +223,8 @@ public class Menu_Storage : Menu_InGameMenu
     public void CloseStorage()      
     {
         SetSelectedItemSlotNum();
-        inventory.SetSelectedItem(selectedItemCount, selectedSlot);
+        if(selectedItemCount > 0)
+            inventory.SetSelectedItem(selectedItemCount, selectedSlot);
         slotInstance.SetActiveFocus(true);
         focused = 0;
         itemInformation.SetActive(false);
@@ -247,11 +248,6 @@ public class Menu_Storage : Menu_InGameMenu
             selectedSlot[i] = 99;
         }
     }
-    public bool CheckOverlapItem()
-    {
-        return false;
-    }
-
 
     public void DeleteItem()
     {
@@ -290,26 +286,7 @@ public class Menu_Storage : Menu_InGameMenu
     public void EnchantedKey(int _focus)        // 인챈트, 업그레이드 성공시 아이템 창고에서 제거
     {
         itemList[_focus] = null;
-        int count = selectedSlot.Length;
-
-        if (isSelected[_focus])      // 인벤토리 선택 취소
-        {
-            for (int i = 0; i < count; ++i)
-            {
-                if (selectedSlot[i] != _focus) continue;
-
-                if (i == count - 1)
-                {
-                    selectedSlot[i] = 99;
-                }
-                else
-                {
-                    selectedSlot[i] = selectedSlot[i + 1] - 1;
-                }
-            }
-            --selectedItemCount;
-            inventory.SetSelectedItem(selectedItemCount, selectedSlot);
-        }
+        isFull[_focus] = false;
         StorageSlotSort(_focus);
     }
     public void StorageSlotSort(int _focus)
@@ -366,7 +343,7 @@ public class Menu_Storage : Menu_InGameMenu
 
     public Item GetSelectStorageItem(int _focus)
     {
-        return itemList[selectedSlot[_focus]];
+        return itemList[_focus];
     }
     public Item GetStorageItem(int _focus)
     {

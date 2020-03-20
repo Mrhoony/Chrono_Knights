@@ -173,12 +173,12 @@ public class Menu_Inventory : Menu_InGameMenu
 
         for (int i = 0; i < availableSlot; ++i)
         {
-            if (itemList[i] != null)
-            {
-                continue;
-            }
             itemList[i] = storage.GetSelectStorageItem(_selectedSlot[count]);
             isFull[i] = true;
+            ++count;
+
+            if (_selectedSlot[count] == 99) break;
+            if (count > seletedItemCount) break;
         }
         for (int i = seletedItemCount; i < availableSlot; ++i)
         {

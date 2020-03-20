@@ -22,6 +22,8 @@ public class TownUI : MonoBehaviour
 
     public void OpenShopMenu()
     {
+        PlayerControl.instance.StopPlayer();
+        PlayerControl.instance.enabled = false;
         isTownUIOn[0] = true;
         playerCharacter.enabled = false;
         townMenus[0].SetActive(true);
@@ -29,12 +31,15 @@ public class TownUI : MonoBehaviour
     }
     public void CloseShopMenu()
     {
-        townMenus[0].SetActive(true);
+        townMenus[0].SetActive(false);
         playerCharacter.enabled = true;
         isTownUIOn[0] = false;
+        PlayerControl.instance.enabled = true;
     }
     public void OpenTrainingMenu()
     {
+        PlayerControl.instance.StopPlayer();
+        PlayerControl.instance.enabled = false;
         isTownUIOn[1] = true;
         playerCharacter.enabled = false;
         townMenus[1].SetActive(true);
@@ -42,12 +47,15 @@ public class TownUI : MonoBehaviour
     }
     public void CloseTrainingMenu()
     {
-        townMenus[1].SetActive(true);
+        townMenus[1].SetActive(false);
         playerCharacter.enabled = true;
         isTownUIOn[1] = false;
+        PlayerControl.instance.enabled = true;
     }
     public void OpenEnchantMenu()
     {
+        PlayerControl.instance.StopPlayer();
+        PlayerControl.instance.enabled = false;
         isTownUIOn[2] = true;
         playerCharacter.enabled = false;
         townMenus[2].SetActive(true);
@@ -55,12 +63,15 @@ public class TownUI : MonoBehaviour
     }
     public void CloseEnchantMenu()
     {
-        townMenus[2].SetActive(true);
+        townMenus[2].SetActive(false);
         playerCharacter.enabled = true;
         isTownUIOn[2] = false;
+        PlayerControl.instance.enabled = true;
     }
     public void OpenUpgradeMenu()
     {
+        PlayerControl.instance.StopPlayer();
+        PlayerControl.instance.enabled = false;
         isTownUIOn[3] = true;
         playerCharacter.enabled = false;
         townMenus[3].SetActive(true);
@@ -68,9 +79,10 @@ public class TownUI : MonoBehaviour
     }
     public void CloseUpgradeMenu()
     {
-        townMenus[3].SetActive(true);
+        townMenus[3].SetActive(false);
         playerCharacter.enabled = true;
         isTownUIOn[3] = false;
+        PlayerControl.instance.enabled = true;
     }
 
     public bool GetTownUIOnCheck()

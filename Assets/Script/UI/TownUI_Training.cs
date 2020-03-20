@@ -64,14 +64,14 @@ public class TownUI_Training : MonoBehaviour
                     traningButton[i].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
                 }
             }
-            traningButton[0].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
             focus = 0;
+            traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
         }
         else
         {
             button.SetActive(false);
-            traningButton[6].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
             focus = 6;
+            traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
         }
 
         Debug.Log("open traning");
@@ -121,16 +121,21 @@ public class TownUI_Training : MonoBehaviour
 
             playerStat.PlayerStatusInit();
             isTraningPossible = true;
-            FocusedSlot(6);
+
+            traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+            focus = 6;
+            traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
+
             button.SetActive(false);
         }
     }
 
     void FocusedSlot(int AdjustValue)
     {
-        if (focus < 0 || focus > 6) { return; }
+        if (focus < 0 || focus > 6) return;
+        if (!isTraningPossible) return;
 
-        traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+            traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
 
         focus += AdjustValue;
         if (focus < 0) focus = 0;

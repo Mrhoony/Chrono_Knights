@@ -6,7 +6,6 @@ public class TownUI_Shop : MonoBehaviour
 {
     public TownUI townUI;
     public CanvasManager canvasManager;
-    public GameObject slots;
     public GameObject[] slot;
     public Slot slotInstance;
     public bool isTownMenuOn = false;
@@ -17,7 +16,7 @@ public class TownUI_Shop : MonoBehaviour
     public void OpenTownUIMenu()
     {
         isTownMenuOn = true;
-        Transform[] transforms = slots.transform.GetComponentsInChildren<Transform>();
+        Transform[] transforms = transform.GetComponentsInChildren<Transform>();
         slotCount = transforms.Length - 1;
 
         slot = new GameObject[8];

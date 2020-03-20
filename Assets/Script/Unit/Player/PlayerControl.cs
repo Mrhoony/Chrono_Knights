@@ -618,7 +618,7 @@ public class PlayerControl : MovingObject
     }
 }
 
-public class TestDrawBox : MonoBehaviour
+public class TestDrawBox
 {
     public Color color = Color.green;
     public Vector2 v2TopLeft;

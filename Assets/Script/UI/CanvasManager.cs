@@ -126,14 +126,11 @@ public class CanvasManager : MonoBehaviour
                 if (!isInventoryOn)
                 {
                     isInventoryOn = true;
-                    PlayerControl.instance.StopPlayer();
-                    PlayerControl.instance.enabled = false;
                     OpenInGameMenu(false);
                 }
                 else
                 {
                     CloseInGameMenu();
-                    PlayerControl.instance.enabled = true;
                     isInventoryOn = false;
                 }
             }
@@ -258,9 +255,12 @@ public class CanvasManager : MonoBehaviour
 
     public void OpenInGameMenu(bool _isInDungeon)        // I로 인벤토리 열 때
     {
+        PlayerControl.instance.StopPlayer();
+        PlayerControl.instance.enabled = false;
+
         isInventoryOn = true;
         focus = 0;
-        
+
         Menus[0].SetActive(true);
         Menus[0].GetComponent<Menu_Inventory>().OpenInventory(_isInDungeon);
         playerStatusInfo.SetActive(true);
@@ -278,6 +278,8 @@ public class CanvasManager : MonoBehaviour
         Menus[focus].SetActive(false);
         playerStatusInfo.SetActive(false);
         isInventoryOn = false;
+
+        PlayerControl.instance.enabled = true;
     }
 
     public void OpenShopInventory()
