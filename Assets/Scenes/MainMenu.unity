@@ -381,7 +381,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  menu: {fileID: 0}
+  canvasManager: {fileID: 0}
+  townUI: {fileID: 0}
   inPlayer: 0
 --- !u!1 &395633106
 GameObject:
@@ -3196,7 +3197,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 7604eb04a8c37cf4b8f2014d499daf36, type: 2}
+      objectReference: {fileID: 9100000, guid: f840dad22774fbf4fb5579cd035ec4ff, type: 2}
+    - target: {fileID: 3981682513319129780, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3981682513319129780, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
 --- !u!1001 &7500526060979330915

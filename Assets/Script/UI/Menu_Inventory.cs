@@ -138,7 +138,7 @@ public class Menu_Inventory : Menu_InGameMenu
     }
     public void InventorySet()           // 인벤토리 활성화시 아이템 세팅
     {
-        Sprite[] keyItemBorderSprite = canvasManager.keyItemBorderSprite;
+        Sprite[] keyItemBorderSprite = SpriteSet.keyItemBorderSprite;
 
         for (int i = 0; i < availableSlot; ++i)
         {

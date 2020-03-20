@@ -134,7 +134,7 @@ public class Menu_Storage : Menu_InGameMenu
 
     public void StorageSet()           // 창고 활성화시 UI 초기화
     {
-        Sprite[] keyItemBorderSprite = canvasManager.keyItemBorderSprite;
+        Sprite[] keyItemBorderSprite = SpriteSet.keyItemBorderSprite;
 
         if (availableSlot - (boxNum * 24) > 24) boxFull = 24;
         else                                    boxFull = availableSlot - (boxNum * 24);

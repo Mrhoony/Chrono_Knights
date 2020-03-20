@@ -4,7 +4,6 @@ using UnityEngine;
 public enum GunEft {
     shot1, shot2, downshot
 }
-
 public enum AtkType
 {
     notMove, oneStep, fowardDash, fowardBack, down,
@@ -16,7 +15,6 @@ public class PlayerControl : MovingObject
     public static TestDrawBox TDB = new TestDrawBox();
 
     public static PlayerControl instance;
-    public BoxCollider2D playerCharacterCollider;
     public LayerMask rayDashLayerMask;
     public LayerMask rayGroundLayerMask;
     public GameObject GroundCheck;
@@ -66,7 +64,6 @@ public class PlayerControl : MovingObject
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-        playerCharacterCollider = GetComponent<BoxCollider2D>();
         playerStatus = GetComponent<PlayerStatus>();
         weaponSpear = GetComponent<Weapon_Spear>();
         weaponSpear.Init(animator, rb);
@@ -398,8 +395,13 @@ public class PlayerControl : MovingObject
         yield return new WaitForSeconds(0.5f);
         actionState = ActionState.Idle;
     }
-
-    public void Hit(int attack)
+    IEnumerator DodgeIgnore(float time)
+    {
+        yield return new WaitForSeconds(time);
+        GroundCheck.SetActive(true);
+    }
+    
+    public void Hit(int _attack)
     {
         if (invincible)
         {
@@ -415,7 +417,7 @@ public class PlayerControl : MovingObject
         {
             StopPlayer();
 
-            CameraManager.instance.CameraShake(playerStatus.DecreaseHP(attack));
+            CameraManager.instance.CameraShake(playerStatus.DecreaseHP(_attack) / 2);
             animator.SetTrigger("isHit");
             playerEffect.GetComponent<Animator>().SetTrigger("isHit_Trigger");
             invincible = true;
@@ -437,15 +439,9 @@ public class PlayerControl : MovingObject
         Debug.Log("parrying");
     }
 
-    IEnumerator DodgeIgnore(float time)
+    public void Dead()
     {
-        yield return new WaitForSeconds(time);
-        GroundCheck.SetActive(true);
-    }
-    
-    void Dead()
-    {
-        Debug.Log("Dead!!");
+        DungeonManager.instance.PlayerIsDead();
     }
 
     public void PlayerJumpAttackEnd()
@@ -577,14 +573,14 @@ public class PlayerControl : MovingObject
 
     public void AttackDistance(float _distanceMulty)
     {
-        RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection
+        RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + GetComponent<BoxCollider2D>().size.x * 0.5f * arrowDirection
             , transform.position.y + 0.1f), new Vector2(arrowDirection, 0), _distanceMulty, rayDashLayerMask);
 
         if (playerDashBotDistance)
         {
-            float botDistance = playerDashBotDistance.point.x - (transform.position.x + playerCharacterCollider.size.x * 0.5f * arrowDirection);
-            if (_distanceMulty > Mathf.Abs(botDistance) - playerCharacterCollider.size.x * 0.5f)
-                _distanceMulty = Mathf.Abs(botDistance) - playerCharacterCollider.size.x * 0.5f;
+            float botDistance = playerDashBotDistance.point.x - (transform.position.x + GetComponent<BoxCollider2D>().size.x * 0.5f * arrowDirection);
+            if (_distanceMulty > Mathf.Abs(botDistance) - GetComponent<BoxCollider2D>().size.x * 0.5f)
+                _distanceMulty = Mathf.Abs(botDistance) - GetComponent<BoxCollider2D>().size.x * 0.5f;
             transform.position = new Vector2(transform.position.x + _distanceMulty * arrowDirection, transform.position.y);
         }
         else

@@ -16,30 +16,34 @@ public class CanvasManager : MonoBehaviour
     public static CanvasManager instance;
     public GameManager gm;
 
-    public Sprite[] keyItemBorderSprite;    // 키 레어도 테두리
-
     public GameObject[] Menus;      // UI 메뉴들
     public GameObject storage;
-    public GameObject townUI;       // 마을 UI
 
     public GameObject inGameMenu;
     public GameObject playerStatusInfo;
     public GameObject CancelMenu;
     public GameObject SettingsMenu;
     public GameObject KeySettingMenu;
-    public Scrollbar[] sb;
     public GameObject fadeInOut;
     public GameObject circleFadeOut;
     public GameObject RootBag;
-    public bool isFadeInOut;
+    public Scrollbar[] sb;
+    
+    public TownUI townUI;       // 마을 UI
+    public Dungeon_UI dungeonUI;
     #endregion
+
+    public bool isLoadSlotOn;
 
     public bool isInventoryOn;
     public bool isStorageOn;
     public bool isCancelOn;
-    public bool isDungeonCancelOn;
-    public bool isLoadSlotOn;
+
     public bool isTownUIOn;
+
+    public bool isDungeonUIOn;
+    public bool isDungeonCancelOn;
+
     private int useContent;
     private int focus;
     
@@ -56,7 +60,6 @@ public class CanvasManager : MonoBehaviour
             return;
         }
 
-        keyItemBorderSprite = Resources.LoadAll<Sprite>("Graphic/UI/Inventory_Set");
     }
     private void Start()
     {
@@ -68,7 +71,6 @@ public class CanvasManager : MonoBehaviour
             Menus[i].SetActive(false);
             storage.SetActive(false);
         }
-        isFadeInOut = false;
     }
     private void Update()
     {
@@ -114,9 +116,17 @@ public class CanvasManager : MonoBehaviour
                 DungeonManager.instance.PlayerIsDead();     // 임시로 플레이어 킬 - 집으로 복귀
             }
         }
+        if (isLoadSlotOn || isCancelOn || isDungeonCancelOn) return;
 
-        if (isLoadSlotOn || isCancelOn) return;
-        if (isTownUIOn) return;
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if (isDungeonUIOn)
+            {
+                DungeonManager.instance.SceneLoad();
+            }
+        }
+
+        if (isTownUIOn || isDungeonUIOn) return;
 
         // 인벤토리, 업적창, 스토리 관련
         if (!isStorageOn)
@@ -148,10 +158,6 @@ public class CanvasManager : MonoBehaviour
         }
     }
 
-    public void SetTownUI()
-    {
-        townUI = GameObject.Find("TownUI");
-    }
     public bool GameMenuOnCheck()
     {
         if (isCancelOn || isInventoryOn || isStorageOn) return true;
@@ -208,11 +214,11 @@ public class CanvasManager : MonoBehaviour
             FadeInStart();
         }
     }
-    public void CircleFadeOutStart(bool sceneLoad)
+    public void CircleFadeOutStart()
     {
-        StartCoroutine(CircleFadeOut(sceneLoad));
+        StartCoroutine(CircleFadeOut());
     }
-    IEnumerator CircleFadeOut(bool sceneLoad)
+    IEnumerator CircleFadeOut()
     {
         PlayerControl.instance.enabled = false;
         circleFadeOut.SetActive(true);
@@ -228,7 +234,7 @@ public class CanvasManager : MonoBehaviour
         fadeInOut.GetComponent<Image>().color = fadeColor;
         
         Vector3 fadeOutScale = circleFadeOut.transform.localScale;
-        while (fadeOutScale.x > 0f)
+        while (fadeOutScale.x > 1f)
         {
             fadeOutScale.x -= 1f;
             fadeOutScale.y -= 1f;
@@ -237,20 +243,23 @@ public class CanvasManager : MonoBehaviour
             yield return null;
         }
 
-        // 게임오버 결과창
-
         circleFadeOut.SetActive(false);
         fadeOutScale.x = 100f;
         fadeOutScale.y = 100f;
         circleFadeOut.transform.localScale = fadeOutScale;
+        
+        OpenDungeonGameOver();
+    }
 
-        if (sceneLoad)
-            DungeonManager.instance.SceneLoad();
-        else
-        {
-            DungeonManager.instance.FloorSetting();
-            FadeInStart();
-        }
+    public void OpenDungeonGameOver()
+    {
+        isDungeonUIOn = true;
+        dungeonUI.OnGameOverWindow(true);
+    }
+    public void CloseDungeonGameOver()
+    {
+        dungeonUI.OnGameOverWindow(false);
+        isDungeonUIOn = false;
     }
 
     public void OpenInGameMenu(bool _isInDungeon)        // I로 인벤토리 열 때
@@ -400,5 +409,14 @@ public class CanvasManager : MonoBehaviour
     public void RootBagUI() {
         if (RootBag.activeInHierarchy) return;
         RootBag.SetActive(true);
+    }
+
+    public void SetTownUI()
+    {
+        townUI = GameObject.Find("TownUI").GetComponent<TownUI>();
+    }
+    public void SetDungeonUI()
+    {
+        dungeonUI = GameObject.Find("DungeonUI").GetComponent<Dungeon_UI>();
     }
 }

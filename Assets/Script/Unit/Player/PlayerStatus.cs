@@ -95,44 +95,40 @@ public class PlayerStatus : MonoBehaviour
         playerStatusView.Init();
     }
 
-    public int DecreaseHP(int damage)
+    public int DecreaseHP(int _damage)
     {
-        damage -= defense_Result;
-        if (damage < 0)
-            damage = 0;
+        _damage -= defense_Result;
+        if (_damage < 0)
+            _damage = 0;
 
         if (currentHP / playerData.GetStatus(7) >= 0.8)
         {
-            HPCutCheck(0.8f, 0, damage);
+            HPCutCheck(0.8f, 0, _damage);
         }
         else if (currentHP / playerData.GetStatus(7) >= 0.6)
         {
-            HPCutCheck(0.6f, 1, damage);
+            HPCutCheck(0.6f, 1, _damage);
         }
         else if (currentHP / playerData.GetStatus(7) >= 0.4)
         {
-            HPCutCheck(0.4f, 2, damage);
+            HPCutCheck(0.4f, 2, _damage);
         }
         else if (currentHP / playerData.GetStatus(7) >= 0.2)
         {
-            HPCutCheck(0.2f, 3, damage);
+            HPCutCheck(0.2f, 3, _damage);
         }
         else
-            currentHP -= damage;
+            currentHP -= _damage;
 
-        playerStatusView.Hit(damage);
+        playerStatusView.Hit(_damage);
 
         if (currentHP <= 0) // 죽었을 때 결과창 보여주고 마을로
         {
-            Debug.Log("isDead");
+            PlayerControl.instance.Dead();
         }
-        else
-        {
-            Debug.Log("isHit");
-            //animator.SetTrigger("isHit");
-        }
-        return damage;
+        return _damage;
     }
+
     public bool IncreaseHP(int addCurrentHP)
     {
         if (currentHP < playerData.GetStatus(7))

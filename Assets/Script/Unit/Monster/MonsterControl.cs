@@ -48,6 +48,13 @@ public abstract class Monster_Control : MovingObject
         target = GameObject.Find("PlayerCharacter");
     }
 
+    public void MonsterStop()
+    {
+        StopAllCoroutines();
+        actionState = ActionState.Idle;
+        spriteRenderer.material = defaultMaterial;
+    }
+
     // 몬스터 행동시 딜레이
     public IEnumerator MoveDelayTime(float time)
     {
