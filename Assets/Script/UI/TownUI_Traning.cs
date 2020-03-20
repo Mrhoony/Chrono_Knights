@@ -1,26 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class Menu_Traning : MonoBehaviour
+public class TownUI_Training : MonoBehaviour
 {
+    public TownUI townUI;
     public PlayerStatus playerStat;
     public GameObject button;
     public GameObject[] traningButton;
     public Image[] gauge;
-    public NPC_Trainer npc_Trainer;
 
     public float[] limit_traning;
     public float[] traningStat;
     public int[] traning_count;
     public int focus;
-    public bool isTraningOn = false;
     public bool isTraningPossible;
+    public bool isTownMenuOn = false;
 
     public void Update()
     {
-        if (!isTraningOn) return;
+        if (!isTownMenuOn) return;
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -31,18 +29,21 @@ public class Menu_Traning : MonoBehaviour
             }
             else
             {
-                npc_Trainer.CloseTraningMenu();
+                CloseTownUIMenu();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            CloseTownUIMenu();
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-1); }
         if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(1); }
     }
-    
-    public void OpenTraningMenu(NPC_Trainer _trainer)
+
+    public void OpenTownUIMenu()
     {
-        isTraningOn = true;
-        npc_Trainer = _trainer;
+        isTownMenuOn = true;
         Init();
 
         isTraningPossible = DungeonManager.instance.NewDayCheck();
@@ -83,11 +84,11 @@ public class Menu_Traning : MonoBehaviour
         traning_count = playerStat.playerData.GetTraningCount();
     }
 
-    public void CloseTraningMenu()
+    public void CloseTownUIMenu()
     {
-        focus = 0;
+        townUI.CloseTrainingMenu();
         button.SetActive(false);
-        isTraningOn = false;
+        isTownMenuOn = false;
     }
 
     public void Traning(int stat)

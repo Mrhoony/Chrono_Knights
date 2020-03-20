@@ -7,7 +7,7 @@ public abstract class Menu_InGameMenu : MonoBehaviour
     public CanvasManager canvasManager;
     public GameObject slots;
     public GameObject[] slot;
-    public Menu_Slot slotInstance;
+    public Slot slotInstance;
     public GameObject itemInformation;
 
     public Item[] itemList;

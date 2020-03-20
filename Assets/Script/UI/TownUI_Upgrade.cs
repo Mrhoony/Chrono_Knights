@@ -1,20 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class Menu_Enchant : Menu_EquipmentUpgrade
+public class TownUI_Upgrade : TownUI_EquipmentUpgrade
 {
-    public GameObject selectEnchantItem;
+    public GameObject selectUpgradeItem;
     Sprite[] slotImage;
 
     public override void OnEnable()
     {
         base.OnEnable();
-        slotImage = Resources.LoadAll<Sprite>("Graphic/UI/ui_enchant_set");
+        slotImage = Resources.LoadAll<Sprite>("Graphic/UI/ui_upgrade_set");
     }
 
     public void Update()
     {
-        if (menu.GameMenuOnCheck()) return;
+        if (canvasManager.GameMenuOnCheck()) return;
         if (!open_BlackSmithUI) return;
 
         if (!open_SelectItemUI)
@@ -27,24 +27,26 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
             {
                 if (selectEquipFocused == 7)
                 {
-                    if (open_ReSelectEquipment)    // 장비 재선택 취소
+                    if (open_ReSelectEquipment)
                     {
                         open_ReSelectEquipment = false;
                         open_SelectItemUI = true;
                         selectItemUIFocused = 0;
-                        selectEnchantItem.SetActive(true);
+                        selectUpgradeItem.SetActive(true);
                     }
-                    else                 // 마법 부여 취소
+                    else
                     {
                         equipSlots[selectEquipFocused].transform.GetChild(0).gameObject.SetActive(false);
                         selectEquipFocused = 0;
-                        npc_blacksmith.GetComponent<NPC_Blacksmith>().CloseEnchantMenu();
+                        CloseTownUIMenu();
                     }
                 }
                 else
                 {
+                    if (!equipment[selectEquipFocused].enchant) return;
+
                     open_SelectItemUI = true;
-                    selectEnchantItem.SetActive(true);
+                    selectUpgradeItem.SetActive(true);
                     OpenSelectedItemMenu();
                 }
             }
@@ -54,13 +56,13 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                 {
                     open_ReSelectEquipment = false;
                     open_SelectItemUI = true;
-                    selectEnchantItem.SetActive(true);
+                    selectUpgradeItem.SetActive(true);
                 }
                 else                 // 마법 부여 취소
                 {
                     equipSlots[selectEquipFocused].transform.GetChild(0).gameObject.SetActive(false);
                     selectEquipFocused = 0;
-                    npc_blacksmith.GetComponent<NPC_Blacksmith>().CloseEnchantMenu();
+                    CloseTownUIMenu();
                 }
             }
         }
@@ -77,7 +79,7 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                     open_SelectItemUI = false;
                     acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(false);
                     selectItemUIFocused = 0;
-                    selectEnchantItem.SetActive(false);
+                    selectUpgradeItem.SetActive(false);
                 }
                 else
                 {
@@ -86,14 +88,13 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                         case 0:
                             open_SelectItemUI = false;
                             open_ReSelectEquipment = true;
-                            selectEnchantItem.SetActive(false);
+                            selectUpgradeItem.SetActive(false);
                             break;
                         case 1:
-                            menu.OpenUpgradeStorage(2);
+                            canvasManager.OpenUpgradeStorage(3);
                             break;
                         case 3:
-                            if(selectedkey != null)
-                                Enchant(selectEquipFocused, selectedkey);
+                            Upgrade(selectEquipFocused, selectedkey);
                             break;
                     }
                 }
@@ -103,50 +104,49 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
                 open_SelectItemUI = false;
                 acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(false);
                 selectItemUIFocused = 0;
-                selectEnchantItem.SetActive(false);
+                selectUpgradeItem.SetActive(false);
             }
         }
     }
-    
-    public void Enchant(int num, Item item)
+    public void CloseTownUIMenu()
+    {
+        townUI.CloseUpgradeMenu();
+    }
+
+    public void Upgrade(int num, Item item)
     {
         if (num < 0 || num > 7) return;
 
+        Debug.Log("upgrade");
+
         if (itemDatabase.GetItem(item.itemCode) != null)
         {
-            playerEquipment.Init(num);
-            upgradeCount = Random.Range(0, 6);
+            int upgradePercent;
+            int downgradePercent;
 
             switch (item.itemRarity)
             {
                 case 1:
-                    upgradePercent = Random.Range(5, 20);
-                    PercentSet(num, upgradeCount, upgradePercent, item);
+                    upgradePercent = Random.Range(5, 10);
+                    PercentSet(num, upgradePercent, item);
                     break;
                 case 2:
-                    upgradePercent = Random.Range(20, 40);
-                    PercentSet(num, upgradeCount, upgradePercent, item);
+                    upgradePercent = Random.Range(10, 20);
+                    PercentSet(num,  upgradePercent, item);
                     break;
                 case 3:
-                    do
-                    {
-                        downgradeCount = Random.Range(0, 6);
-                    }
-                    while (upgradeCount == downgradeCount);
+                    upgradePercent = Random.Range(20, 40);
+                    downgradePercent = Random.Range(5, 20);
+                    PercentSet(num,  upgradePercent, downgradePercent, item);
 
-                    upgradePercent = Random.Range(40, 60);
-                    downgradePercent = Random.Range(10, 20);
-
-                    PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, item);
                     break;
             }
             storage.EnchantedKey(keySlotFocus);
             //selectedkey = null;
         }
-
         // accept 창 초기화
         acceptSlot[0].transform.GetChild(1).gameObject.SetActive(false);
-        ClearSlot(acceptSlot[0] , 2);
+        ClearSlot(acceptSlot[0], 2);
         acceptSlot[1].transform.GetChild(1).gameObject.SetActive(false);
         acceptSlot[1].transform.GetChild(2).gameObject.SetActive(false);
 
@@ -168,28 +168,24 @@ public class Menu_Enchant : Menu_EquipmentUpgrade
 
         upgradeButton.GetComponent<Image>().color = new Color(upgradeButton.GetComponent<Image>().color.r,
             upgradeButton.GetComponent<Image>().color.g, upgradeButton.GetComponent<Image>().color.b, 120);
-        
+
         acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(false);
         selectItemUIFocused = 4;
         acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(true);
         
         playerStat.PlayerStatusUpdate(playerEquipment);
     }
-    public void PercentSet(int num, int upCount, float upPercent, Item item)
+    public void PercentSet(int num, float upPercent, Item item)
     {
-        equipment[num].EquipmentItemSetting(item);
-        equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
+        equipment[num].EquipmentStatusUpgrade(equipment[num].upStatus, upPercent, true);
+    }
+    public void PercentSet(int num, float upPercent, float downPercent, Item item)
+    {
+        equipment[num].EquipmentStatusUpgrade(equipment[num].upStatus, upPercent, true);
 
         if (equipment[num].downStatus != 8)
         {
-            equipment[num].addStatus[equipment[num].downStatus] = 0;
-            equipment[num].downStatus = 8;
+            equipment[num].EquipmentStatusUpgrade(equipment[num].downStatus, downPercent, false);
         }
-    }
-    public void PercentSet(int num, int upCount, float upPercent, int downCount, float downPercent, Item item)
-    {
-        equipment[num].EquipmentItemSetting(item);
-        equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
-        equipment[num].EquipmentStatusEnchant(downCount, downPercent, false);
     }
 }

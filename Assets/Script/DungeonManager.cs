@@ -235,6 +235,8 @@ public class DungeonManager : MonoBehaviour
     public int bossClear;
     public bool inDungeon;
     public bool[] eventFlag;
+
+    public Item[] shopItemList;
     
     #region 던전 생성 관련
     private GameObject[] mapList;
@@ -455,14 +457,15 @@ public class DungeonManager : MonoBehaviour
             {
                 case 0:     // 집 현관 문
                     mainCamera.SetHeiWid(640, 360);
+                    canvasManager.Menus[0].GetComponent<Menu_Inventory>().PutInBox(false);          // 집으로 돌아갈 때 창고에 키 넣기
                     SceneManager.LoadScene(useTeleportSystem);
                     break;
                 case 1:     // 마을로 향하는 문
                     mainCamera.SetHeiWid(1280, 720);
+                    canvasManager.Menus[0].GetComponent<Menu_Inventory>().DeleteStorageItem();      // 집에서 나올 때 창고에 선택된 키 삭제
                     SceneManager.LoadScene(useTeleportSystem);
                     break;
                 case 2:     // 탑으로 향하는 길
-                    canvasManager.Menus[0].GetComponent<Menu_Inventory>().DeleteStorageItem();
                     SceneManager.LoadScene("Tower_First_Floor");
                     break;
                 case 8:

@@ -10,7 +10,6 @@ public class DataBase
     public int[] storageItemCodeList;
     public int[] storageItemSkillCodeList;
     public int availableStorageSlot;
-    public int takeKeySlot;
     public int availableInventorySlot;
     public int currentDate;
     public bool isTrainigPossible;
@@ -23,7 +22,6 @@ public class DataBase
         storageItemCodeList = new int[72];
         storageItemSkillCodeList = new int[72];
         availableStorageSlot = 36;
-        takeKeySlot = 3;
         availableInventorySlot = 6;
         currentDate = 0;
         isTrainigPossible = false;
@@ -47,10 +45,6 @@ public class DataBase
     public int GetAvailableStorageSlot()
     {
         return availableStorageSlot;
-    }
-    public int GetTakeKeySlot()
-    {
-        return takeKeySlot;
     }
     public int GetAvailableInventorySlot()
     {
@@ -85,9 +79,8 @@ public class DataBase
         storageItemSkillCodeList = _storageItemSkillList;
         availableStorageSlot = _availableStorageSLot;
     }
-    public void SaveInventoryData(int _takeKeySlot, int _availableInventorySlot)
+    public void SaveInventoryData(int _availableInventorySlot)
     {
-        takeKeySlot = _takeKeySlot;
         availableInventorySlot = _availableInventorySlot;
     }
 }

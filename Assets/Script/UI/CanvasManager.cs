@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 public enum content
 {
-    DungeonKey = 1,
+    Shop = 0,
+    Training = 1,
     Enchant = 2,
     Upgrade = 3,
-    Buff = 4
 }
 
 public class CanvasManager : MonoBehaviour
@@ -39,6 +39,7 @@ public class CanvasManager : MonoBehaviour
     public bool isCancelOn;
     public bool isDungeonCancelOn;
     public bool isLoadSlotOn;
+    public bool isTownUIOn;
     private int useContent;
     private int focus;
     
@@ -74,43 +75,48 @@ public class CanvasManager : MonoBehaviour
         if (!gm.GetGameStart()) return;
 
         //인게임 세팅 관련 ( 사운드, 화면 크기 등)
-        if (Input.GetButtonDown("Cancel"))
+        if (Input.GetButtonDown("Cancel"))              // esc 를 눌렀을 때
         {
-            if (isInventoryOn)
+            if (isInventoryOn)                          // 인벤토리가 켜져있으면 인벤토리를 오프
             {
                 CloseInGameMenu();
                 isInventoryOn = false;
             }
-            else if (isStorageOn)
+            else if (isStorageOn)                       // 창고가 켜져있으면 창고를 오프
             {
                 storage.GetComponent<Menu_Storage>().CloseStorage();
                 isStorageOn = false;
             }
-            else if(isCancelOn)
+            else if(isCancelOn)                         // 메뉴가 켜져있으면 메뉴를 오프
             {
                 CloseCancelMenu();
                 isCancelOn = false;
             }
-            else if(!isCancelOn && !DungeonManager.instance.inDungeon)
+            else if(!isCancelOn && !DungeonManager.instance.inDungeon)  // 메뉴창이 꺼져있고 던전안이 아니라면 메뉴를 온
             {
+                if(townUI != null)
+                {
+                    if (townUI.GetComponent<TownUI>().GetTownUIOnCheck()) return;      // TownUI 가 켜져있을 경우 취소
+                }
                 PlayerControl.instance.StopPlayer();
                 isCancelOn = true;
                 OpenCancelMenu();
             }
-            else if (isDungeonCancelOn)
+            else if (isDungeonCancelOn)         // 던전 메뉴가 켜져있을 경우 던전 메뉴 오프
             {
                 //CloseDungeonMenu();
                 isDungeonCancelOn = false;
             }
-            else if(!isDungeonCancelOn && DungeonManager.instance.inDungeon)
+            else if(!isDungeonCancelOn && DungeonManager.instance.inDungeon)        // 던전 메뉴가 꺼져있고 던전 내부일 경우 던전 메뉴 온
             {
                 isDungeonCancelOn = true;
                 //OpenDungeonMenu();
-                DungeonManager.instance.PlayerIsDead();
+                DungeonManager.instance.PlayerIsDead();     // 임시로 플레이어 킬 - 집으로 복귀
             }
         }
 
         if (isLoadSlotOn || isCancelOn) return;
+        if (isTownUIOn) return;
 
         // 인벤토리, 업적창, 스토리 관련
         if (!isStorageOn)
@@ -120,11 +126,14 @@ public class CanvasManager : MonoBehaviour
                 if (!isInventoryOn)
                 {
                     isInventoryOn = true;
+                    PlayerControl.instance.StopPlayer();
+                    PlayerControl.instance.enabled = false;
                     OpenInGameMenu(false);
                 }
                 else
                 {
                     CloseInGameMenu();
+                    PlayerControl.instance.enabled = true;
                     isInventoryOn = false;
                 }
             }
@@ -142,6 +151,10 @@ public class CanvasManager : MonoBehaviour
         }
     }
 
+    public void SetTownUI()
+    {
+        townUI = GameObject.Find("TownUI");
+    }
     public bool GameMenuOnCheck()
     {
         if (isCancelOn || isInventoryOn || isStorageOn) return true;
@@ -243,16 +256,14 @@ public class CanvasManager : MonoBehaviour
         }
     }
 
-    public void OpenInGameMenu(bool _useItemInDungeon)        // I로 인벤토리 열 때
+    public void OpenInGameMenu(bool _isInDungeon)        // I로 인벤토리 열 때
     {
-        PlayerControl.instance.StopPlayer();
-        PlayerControl.instance.enabled = false;
         isInventoryOn = true;
         focus = 0;
-
-        playerStatusInfo.SetActive(true);
+        
         Menus[0].SetActive(true);
-        Menus[0].GetComponent<Menu_Inventory>().OpenInventory(_useItemInDungeon);
+        Menus[0].GetComponent<Menu_Inventory>().OpenInventory(_isInDungeon);
+        playerStatusInfo.SetActive(true);
         playerStatusInfo.GetComponent<MainUI_PlayerStatusInfo>().OnStatusMenu();
 
         foreach (Scrollbar bar in sb)
@@ -267,14 +278,17 @@ public class CanvasManager : MonoBehaviour
         Menus[focus].SetActive(false);
         playerStatusInfo.SetActive(false);
         isInventoryOn = false;
-        PlayerControl.instance.enabled = true;
     }
 
-    public void SetTownUI()
+    public void OpenShopInventory()
     {
-        townUI = GameObject.Find("TownUI");
-    }
+        isInventoryOn = true;
+        focus = 0;
 
+        Menus[0].SetActive(true);
+        Menus[0].GetComponent<Menu_Inventory>().OpenInventory();
+    }
+    
     // 강화 창에서 창고 열 경우
     public void OpenUpgradeStorage(int used)
     {
@@ -288,10 +302,10 @@ public class CanvasManager : MonoBehaviour
         switch (useContent)
         {
             case (int)content.Enchant:
-                townUI.GetComponent<Menu_TownUI>().townMenus[2].GetComponent<Menu_Enchant>().SetKey(focused);
+                townUI.GetComponent<TownUI>().townMenus[2].GetComponent<TownUI_Enchant>().SetKey(focused);
                 break;
             case (int)content.Upgrade:
-                townUI.GetComponent<Menu_TownUI>().townMenus[3].GetComponent<Menu_Upgrade>().SetKey(focused);
+                townUI.GetComponent<TownUI>().townMenus[3].GetComponent<TownUI_Upgrade>().SetKey(focused);
                 break;
         }
         isStorageOn = false;

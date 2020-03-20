@@ -4,24 +4,17 @@ using UnityEngine;
 
 public class NPC_Blacksmith : NPC_Control
 {
-    public GameObject enchantUI;
-    public GameObject upgradeUI;
     public GameObject selectUI;
     public GameObject[] button;
 
     private bool openSelectUI;
-    private bool openEnchantUI;
-    private bool openUpgradeUI;
-
     public int focus;
 
     // Update is called once per frame
     void Update()
     {
-        if (!inPlayer) return;
-        if (menu.GameMenuOnCheck()) return;
-        if (openEnchantUI || openUpgradeUI) return;
-        
+        if (OpenedUICheck()) return;
+
         if (Input.GetKeyDown(KeyCode.Z))
         {
             if (!openSelectUI)
@@ -34,10 +27,10 @@ public class NPC_Blacksmith : NPC_Control
                 switch (focus)
                 {
                     case 0:
-                        OpenEnchantMenu();
+                        townUI.OpenEnchantMenu();
                         break;
                     case 1:
-                        OpenUpgradeMenu();
+                        townUI.OpenUpgradeMenu();
                         break;
                     case 2:
                         CloseSelectMenu();
@@ -56,7 +49,6 @@ public class NPC_Blacksmith : NPC_Control
                 CloseSelectMenu();
             }
         }
-
     }
 
     public int FocusedSlot(GameObject[] slots, int AdjustValue, int focused)
@@ -73,30 +65,6 @@ public class NPC_Blacksmith : NPC_Control
         slots[focused].transform.GetChild(0).gameObject.SetActive(true);
 
         return focused;
-    }
-
-    public void OpenEnchantMenu()
-    {
-        openEnchantUI = true;
-        enchantUI.SetActive(true);
-        enchantUI.GetComponent<Menu_Enchant>().OpenBlackSmithUI();
-    }
-    public void CloseEnchantMenu()
-    {
-        enchantUI.SetActive(false);
-        openEnchantUI = false;
-    }
-
-    public void OpenUpgradeMenu()
-    {
-        openUpgradeUI = true;
-        upgradeUI.SetActive(true);
-        upgradeUI.GetComponent<Menu_Upgrade>().OpenBlackSmithUI();
-    }
-    public void CloseUpgradeMenu()
-    {
-        upgradeUI.SetActive(false);
-        openUpgradeUI = false;
     }
 
     public void OpenSelectMenu()

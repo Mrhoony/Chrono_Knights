@@ -5921,7 +5921,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &82245446187993113
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5993,25 +5993,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasManager: {fileID: 82245445457459811}
-  inventory: {fileID: 82245446886466468}
   slots: {fileID: 1818763031507814095}
   slot: []
+  slotInstance: {fileID: 0}
   itemInformation: {fileID: 3127152276634610167}
-  transforms: []
+  isFull: 
   slotCount: 0
-  onStorage: 0
-  upgradeItem: 0
   availableSlot: 0
+  isUIOn: 0
+  focused: 0
+  isItemSelect: 0
+  inventory: {fileID: 82245446886466468}
+  upgradeItem: 0
   boxFull: 0
   boxNum: 0
-  focus: 0
   storageItemCodeList: 
   storageItemSkillCodeList: 
-  isFull: 
   isSelected: 
   selectSlotNum: 0
   selectedSlot: 
-  isItemSelect: 0
   selectedItemCount: 0
   takeItemCount: 0
 --- !u!1 &82245446190342785
@@ -9450,17 +9450,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasManager: {fileID: 0}
   slots: {fileID: 82245445934220065}
-  storage: {fileID: 82245446187993114}
+  slot: []
+  slotInstance: {fileID: 0}
   itemInformation: {fileID: 8574386335677779026}
+  isFull: 
   slotCount: 0
   availableSlot: 0
+  isUIOn: 0
+  focused: 0
+  isItemSelect: 0
+  storage: {fileID: 82245446187993114}
   inventoryItemCount: 0
   seletedItemCount: 0
   takeItemSlot: 0
-  isFull: 
-  isInventoryOn: 0
   isDungeonOpen: 0
-  focused: 0
 --- !u!1 &82245446892198815
 GameObject:
   m_ObjectHideFlags: 0
@@ -14298,17 +14301,17 @@ PrefabInstance:
     - target: {fileID: 3146985128976767150, guid: cf8f88acd4819924f8bf7649f2124bee,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.027777791
       objectReference: {fileID: 0}
     - target: {fileID: 3146985128976767150, guid: cf8f88acd4819924f8bf7649f2124bee,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3146985128976767150, guid: cf8f88acd4819924f8bf7649f2124bee,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7419359403590306140, guid: cf8f88acd4819924f8bf7649f2124bee,
         type: 3}

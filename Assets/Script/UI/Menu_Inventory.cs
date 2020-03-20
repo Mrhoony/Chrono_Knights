@@ -3,13 +3,10 @@
 public class Menu_Inventory : Menu_InGameMenu
 {
     public Menu_Storage storage;
-
-    public int inventoryItemCount;
-
     public int seletedItemCount;         // 창고에서 선택된 아이템 수
-    public int takeItemSlot;             // 가져갈 수 있는 슬롯 수
-
+    public int[] storageSelectedItem;
     public bool isDungeonOpen;
+    public bool isShopOpen;
 
     public override void Init()
     {
@@ -17,22 +14,17 @@ public class Menu_Inventory : Menu_InGameMenu
         slotCount = transforms.Length - 1;
 
         slot = new GameObject[24];
+        itemList = new Item[24];
+        isFull = new bool[24];
         for (int i = 1; i < slotCount + 1; ++i)
         {
             slot[i - 1] = transforms[i].gameObject;
-        }
-        itemList = new Item[24];
-        isFull = new bool[24];
-        for (int i = 0; i < slotCount; ++i)
-        {
-            itemList[i] = null;
-            isFull[i] = false;
+            itemList[i - 1] = null;
+            isFull[i - 1] = false;
         }
         isUIOn = false;
         isItemSelect = false;
-        inventoryItemCount = 0;
     }
-
     private void Update()
     {
         if (canvasManager.isCancelOn) return;
@@ -104,13 +96,32 @@ public class Menu_Inventory : Menu_InGameMenu
         DeleteItem(_focused);
     }
 
-    public void OpenInventory(bool _inDungeon)
+    public void OpenInventory()                     // 상점에서 인벤토리 열 때
     {
         isUIOn = true;
-        isDungeonOpen = _inDungeon;
-
+        isShopOpen = true;
         focused = 0;
-        slotInstance = slot[focused].GetComponent<Menu_Slot>();
+        slotInstance = slot[focused].GetComponent<Slot>();
+        slotInstance.SetActiveFocus(true);
+
+        InventorySet();
+
+        if (itemList[focused] != null)
+        {
+            itemInformation.SetActive(true);
+            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(itemList[0]);
+        }
+        else
+        {
+            itemInformation.SetActive(false);
+        }
+    }
+    public void OpenInventory(bool _isDungeon)       // I 키로 인벤토리 열 때
+    {
+        isUIOn = true;
+        isDungeonOpen = _isDungeon;
+        focused = 0;
+        slotInstance = slot[focused].GetComponent<Slot>();
         slotInstance.SetActiveFocus(true);
 
         InventorySet();
@@ -133,62 +144,55 @@ public class Menu_Inventory : Menu_InGameMenu
         {
             if (itemList[i] != null)
             {
-                slot[i].GetComponent<Menu_Slot>().SetItemSprite(itemList[i].sprite, keyItemBorderSprite[itemList[i].itemRarity], true);
+                slot[i].GetComponent<Slot>().SetItemSprite(itemList[i].sprite, keyItemBorderSprite[itemList[i].itemRarity], true);
                 isFull[i] = true;
             }
             else
             {
-                slot[i].GetComponent<Menu_Slot>().SetItemSprite(null, keyItemBorderSprite[4], false);
+                slot[i].GetComponent<Slot>().SetItemSprite(null, keyItemBorderSprite[4], false);
                 isFull[i] = false;
             }
         }
         for(int i = availableSlot; i < 24; ++i)
         {
-            slot[i].GetComponent<Menu_Slot>().SetOverSlot(keyItemBorderSprite[0]);
+            slot[i].GetComponent<Slot>().SetOverSlot(keyItemBorderSprite[0]);
         }
     }
     public void CloseInventory()
     {
         slotInstance.SetActiveFocus(false);
         itemInformation.SetActive(false);
+        isShopOpen = false;
         isUIOn = false;
     }
 
-    public void SetSelectedItemCount(int value)
+    public void SetSelectedItem(int _value, int[] _selectedSlot)
     {
-        seletedItemCount = value;
-    }
-    public void SetItemList()
-    {
-        for(int i = 0; i < seletedItemCount; ++i)
+        seletedItemCount = _value;
+        int count = 0;
+
+        for (int i = 0; i < availableSlot; ++i)
         {
-            itemList[i] = storage.GetSelectStorageItem(i);
+            if (itemList[i] != null)
+            {
+                continue;
+            }
+            itemList[i] = storage.GetSelectStorageItem(_selectedSlot[count]);
             isFull[i] = true;
         }
-        for(int i = seletedItemCount; i < availableSlot; ++i)
+        for (int i = seletedItemCount; i < availableSlot; ++i)
         {
             itemList[i] = null;
             isFull[i] = false;
         }
     }
-    public void takeItemSlotUpgrade(int upgrade)
-    {
-        takeItemSlot += upgrade;
-    }
-    public void AvailableKeySlotUpgrade(int upgrade)
-    {
-        availableSlot += upgrade;
-        for (int i = availableSlot; i < slotCount; ++i)
-        {
-            isFull[i] = true;
-        }
-    }
 
+    // 키 삭제 관련
     public void PutInBox(bool isDead)           // 던전에서 복귀할 때 창고에 키 넣기
     {
         if (isDead)
         {
-            for(int i = takeItemSlot; i < availableSlot; ++i)
+            for(int i = availableSlot / 2; i < availableSlot; ++i)
             {
                 itemList[i] = null;
             }
@@ -208,9 +212,8 @@ public class Menu_Inventory : Menu_InGameMenu
             isFull[i] = false;
         }
         isUIOn = false;
-        inventoryItemCount = 0;
-    }
-    public void DeleteItem(int _focused)          // 사용된 아이템 인벤토리에서 제거
+    }             // 창고에 아이템 넣을시 정리
+    public void DeleteItem(int _focused)        // 사용된 아이템 인벤토리에서 제거
     {
         itemList[_focused] = null;
         isFull[_focused] = false;
@@ -247,21 +250,10 @@ public class Menu_Inventory : Menu_InGameMenu
                 }
             }
         }
-        --inventoryItemCount;
         InventorySet();
     }
     public void DeleteStorageItem()             // 던전 진입할 때 들고있는 키 창고에서 삭제
     {
-        for (int i = 0; i < seletedItemCount; ++i)
-        {
-            itemList[i] = storage.GetSelectStorageItem(i);
-            isFull[i] = true;
-        }
-        for (int i = seletedItemCount; i < availableSlot; ++i)    // 창고에서 꺼낸 키 외에는 빈슬롯
-        {
-            itemList[i] = null;
-            isFull[i] = false;
-        }
         storage.DeleteStorageSlotItem();
         seletedItemCount = 0;
     }
@@ -270,27 +262,30 @@ public class Menu_Inventory : Menu_InGameMenu
     public int GetSelectedItemCount()
     {
         return seletedItemCount;
-    }
+    }       // 선택된 아이템 수 반환
     public int GetAvailableSlot()
     {
         return availableSlot;
-    }
-    public int GetTakeItemSlot()
-    {
-        return takeItemSlot;
-    }
+    }           // 사용 가능한 슬롯 수 반환
     public Item[] GetItemList()
     {
         return itemList;
-    }
+    }             // 인벤토리 아이템 리스트 반환
 
-    public void LoadInventoryData(int _takeItemSlot, int _availableSlot)
+    public void LoadInventoryData(int _availableSlot)
     {
-        takeItemSlot = _takeItemSlot;
         availableSlot = _availableSlot;
     }
     #endregion
-
+    
+    public void AvailableKeySlotUpgrade(int upgrade)
+    {
+        availableSlot += upgrade;
+        for (int i = availableSlot; i < slotCount; ++i)
+        {
+            isFull[i] = true;
+        }
+    }       // 창고 크기 확장
     public bool GetKeyItem(Item _Item)        // 아이템 획득시 인벤토리 등록
     {
         for (int i = 0; i < availableSlot; i++)
@@ -299,7 +294,6 @@ public class Menu_Inventory : Menu_InGameMenu
             {
                 itemList[i] = _Item;
                 isFull[i] = true;
-                ++inventoryItemCount;
                 return true;
             }
         }
@@ -322,7 +316,7 @@ public class Menu_Inventory : Menu_InGameMenu
         {
             itemInformation.SetActive(false);
         }
-        slotInstance = slot[focused].GetComponent<Menu_Slot>();
+        slotInstance = slot[focused].GetComponent<Slot>();
         slotInstance.SetActiveFocus(true);
     }
 }

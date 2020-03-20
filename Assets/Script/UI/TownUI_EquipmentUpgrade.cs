@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class Menu_EquipmentUpgrade : MonoBehaviour
+public class TownUI_EquipmentUpgrade : MonoBehaviour
 {
+    public TownUI townUI;
     protected PlayerStatus playerStat;
-    protected CanvasManager menu;
+    protected CanvasManager canvasManager;
     protected Menu_Storage storage;
     protected Database_Game itemDatabase;
     public GameObject[] acceptSlot;
@@ -24,26 +25,22 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
     public int selectEquipFocused;
     public int selectItemUIFocused;
 
-    public int upgradeCount;
-    public int upgradePercent;
-    public int downgradeCount;
-    public int downgradePercent;
-
+    public bool isTownMenuOn = false;
     public int keySlotFocus;
 
     // Start is called before the first frame update
     public virtual void OnEnable()
     {
-        menu = transform.parent.GetComponent<Menu_TownUI>().menu;
+        canvasManager = transform.parent.GetComponent<TownUI>().menu;
         itemDatabase = Database_Game.instance;
-        storage = menu.storage.GetComponent<Menu_Storage>();
+        storage = canvasManager.storage.GetComponent<Menu_Storage>();
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         playerEquipment = playerStat.playerEquip;
         keyItemBorderSprite = Resources.LoadAll<Sprite>("Graphic/UI/Inventory_Set");
         equipmentSet = Resources.LoadAll<Sprite>("Graphic/Item/ui_itemset");
     }
-    
-    public void OpenBlackSmithUI()
+
+    public void OpenTownUIMenu()
     {
         open_BlackSmithUI = true;
         open_SelectItemUI = false;
@@ -66,6 +63,7 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
             }
         }
     }
+
     public void OpenSelectedItemMenu()
     {
         selectItemUIFocused = 0;
@@ -165,5 +163,4 @@ public class Menu_EquipmentUpgrade : MonoBehaviour
 
         return focused;
     }
-
 }

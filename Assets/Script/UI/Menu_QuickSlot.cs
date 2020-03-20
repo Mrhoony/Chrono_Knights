@@ -68,8 +68,7 @@ public class Menu_QuickSlot : MonoBehaviour
                 slots.SetActive(false);
             }
         }
-
-
+        
         if (!onQuickSlot) return;
         
         if (Input.GetKeyDown(KeyCode.W)) { FocusedSlot(-1); }
@@ -84,7 +83,7 @@ public class Menu_QuickSlot : MonoBehaviour
             slots.SetActive(false);
         }
     }
-
+    
     public void SetQuickSlot(int low, int high)
     {
         for(int i = low; i < high; ++i)
