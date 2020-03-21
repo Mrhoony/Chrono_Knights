@@ -520,7 +520,6 @@ public class DungeonManager : MonoBehaviour
         }
         canvasManager.CircleFadeOutStart();
     }
-
     public void ReturnToTown()
     {
         for(int i = 0; i < 8; ++i)
@@ -684,6 +683,14 @@ public class DungeonManager : MonoBehaviour
     {
         ++bossClear;
         phaseClear = true;
+    }
+    public void FloorMonsterKill()
+    {
+        --currentMonsterCount;
+        if(currentMonsterCount < 1)
+        {
+            dungeonClear = true;
+        }
     }
 
     // 아이템이 사용된 층에 효과를 적용
