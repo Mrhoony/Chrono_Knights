@@ -47,7 +47,7 @@ public class Item
         else if (itemRarity == 2)
         {
             value = Random.Range(1, 4) * 2;
-            sprite = SpriteSet.itemSprite[11];
+            sprite = SpriteSet.itemSprite[12];
         }
         else if (itemRarity == 3)
         {
@@ -58,31 +58,33 @@ public class Item
         switch (itemType)
         {
             case ItemType.Number:
+                Description = _Description + "\r\n" + value.ToString() + " - 탑의 기운";
                 break;
-            case ItemType.ReturnPreFloor:
+            case ItemType.ReturnTown:
+                Description = _Description + "\r\n" + value.ToString() + "\r\n돌아가고 싶어진다.";
                 sprite = SpriteSet.itemSprite[14];
                 break;
+            case ItemType.RepeatThisFloor:
+                Description = _Description + "\r\n" + value.ToString() + "\r\n알 수 없는 힘이 느껴진다.";
+                sprite = SpriteSet.itemSprite[11];
+                break;
             case ItemType.FreePassThisFloor:
+                Description = _Description + "\r\n" + value.ToString() + "\r\n알 수 없는 힘이 느껴진다.";
                 sprite = SpriteSet.itemSprite[15];
                 break;
             case ItemType.FreePassNextFloor:
+                Description = _Description + "\r\n" + value.ToString() + "\r\n알 수 없는 힘이 느껴진다.";
                 sprite = SpriteSet.itemSprite[16];
                 break;
             case ItemType.SetBossFloor:
+                Description = _Description + "\r\n" + value.ToString() + "\r\n알 수 없는 힘이 느껴진다.";
                 sprite = SpriteSet.itemSprite[17];
                 break;
-            case ItemType.RepeatThisFloor:
+            case ItemType.ReturnPreFloor:
+                Description = _Description + "\r\n" + value.ToString() + "\r\n알 수 없는 힘이 느껴진다.";
                 sprite = SpriteSet.itemSprite[18];
                 break;
-            default:
-                value = 1;
-                break;
         }
-        usingType = _usingType;
-        if (usingType == ItemUsingType.ReturnTown)
-            sprite = SpriteSet.itemSprite[14];
-
-        Description = _Description + "\r\n" + value.ToString() + " 표시";
         usingStatus = _usingStatus;
         skillCode = _skillCode;
     }

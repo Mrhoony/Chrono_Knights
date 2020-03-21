@@ -227,6 +227,7 @@ public class CanvasManager : MonoBehaviour
             DungeonManager.instance.FloorSetting();
             FadeInStart();
         }
+        DungeonManager.instance.isSceneLoading = false;
     }
     public void CircleFadeOutStart()
     {
@@ -262,6 +263,7 @@ public class CanvasManager : MonoBehaviour
         circleFadeOut.transform.localScale = fadeOutScale;
         
         Time.timeScale = 1f;
+        DungeonManager.instance.isSceneLoading = false;
         OpenGameOverMenu();
     }
     

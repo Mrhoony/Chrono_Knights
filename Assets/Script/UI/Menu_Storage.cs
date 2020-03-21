@@ -187,6 +187,7 @@ public class Menu_Storage : Menu_InGameMenu
         isUIOn = true;
         upgradeItem = true;
         boxNum = 0;
+        boxFull = 0;
         focused = 0;
         StorageSet();
         ItemInformationSetting(focused);
@@ -214,6 +215,7 @@ public class Menu_Storage : Menu_InGameMenu
     {
         isUIOn = true;
         boxNum = 0;
+        boxFull = 0;
         focused = 0;
         selectedItemCount = inventory.GetSelectedItemCount();
         takeItemCount = inventory.GetAvailableSlot();
