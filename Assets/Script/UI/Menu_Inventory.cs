@@ -96,6 +96,10 @@ public class Menu_Inventory : Menu_InGameMenu
                     slotInstance.SetActiveItemConfirm("판매", "취소");
                     isItemSelect = true;
                 }
+                if (Input.GetKeyDown(KeyCode.X))
+                {
+                    canvasManager.CloseShopInventory();
+                }
                 if (Input.GetKeyDown(KeyCode.C))    // 포커스 상점으로 변경
                 {
                     isThisWindowFocus = false;
@@ -163,7 +167,7 @@ public class Menu_Inventory : Menu_InGameMenu
         if (DungeonManager.instance.UseKeyInDungeon(itemList[_focused]))
         {
             DeleteItem(_focused);
-            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(itemList[_focused]);
+            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(itemList[_focused + 1]);
             canvasManager.CloseInGameMenu();
         }
     }

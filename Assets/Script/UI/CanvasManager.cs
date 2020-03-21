@@ -82,6 +82,7 @@ public class CanvasManager : MonoBehaviour
     private void Update()
     {
         if (!gm.GetGameStart()) return;
+        if (DungeonManager.instance.isSceneLoading) return;
 
         //인게임 세팅 관련 ( 사운드, 화면 크기 등)
         if (Input.GetButtonDown("Cancel"))              // esc 를 눌렀을 때
@@ -267,11 +268,33 @@ public class CanvasManager : MonoBehaviour
     public void OpenDungeonMenu()
     {
         isDungeonUIOn = true;
+        fadeInOut.SetActive(true);
+
+        Time.timeScale = 0f;
+        Color fadeColor = fadeInOut.GetComponent<Image>().color;
+        fadeColor.a = 0.5f;
+        fadeInOut.GetComponent<Image>().color = fadeColor;
+
         dungeonCancleMenu.SetActive(true);
+        dungeonCancleMenu.GetComponent<DungeonUI_SettingMenu>().SetActiveSettingMenu();
     }
     public void CloseDungeonMenu()
     {
         isDungeonUIOn = false;
+
+        Color fadeColor = fadeInOut.GetComponent<Image>().color;
+        fadeColor.a = 0f;
+        fadeInOut.GetComponent<Image>().color = fadeColor;
+        Time.timeScale = 1f;
+        fadeInOut.SetActive(false);
+
+        dungeonCancleMenu.GetComponent<DungeonUI_SettingMenu>().SetDisActiveSettingMenu();
+        dungeonCancleMenu.SetActive(false);
+    }
+    public void CloseResume()
+    {
+        isDungeonUIOn = false;
+        dungeonCancleMenu.GetComponent<DungeonUI_SettingMenu>().SetDisActiveSettingMenu();
         dungeonCancleMenu.SetActive(false);
     }
 

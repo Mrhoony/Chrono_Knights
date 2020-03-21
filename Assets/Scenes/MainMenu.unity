@@ -1817,6 +1817,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 82245447478733252}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1803749883 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4795240446872538259, guid: 187d72a635af2f04a891caed4b95c247,
+    type: 3}
+  m_PrefabInstance: {fileID: 82245447478733252}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1828697181 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2570057879940410565, guid: 187d72a635af2f04a891caed4b95c247,
+    type: 3}
+  m_PrefabInstance: {fileID: 82245447478733252}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1832344267 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 82245447495027111, guid: 187d72a635af2f04a891caed4b95c247,
@@ -2615,6 +2627,21 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 8056050079609497608, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: SettingMenuSlot.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056050079609497608, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: SettingMenuSlot.Array.data[0]
+      value: 
+      objectReference: {fileID: 1828697181}
+    - target: {fileID: 8056050079609497608, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: SettingMenuSlot.Array.data[1]
+      value: 
+      objectReference: {fileID: 1803749883}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
 --- !u!1001 &347987306046757590

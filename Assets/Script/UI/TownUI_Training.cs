@@ -83,14 +83,12 @@ public class TownUI_Training : MonoBehaviour
         traningStat = playerStat.playerData.GetTraningStat();
         traning_count = playerStat.playerData.GetTraningCount();
     }
-
     public void CloseTownUIMenu()
     {
         townUI.CloseTrainingMenu();
         button.SetActive(false);
         isTownMenuOn = false;
     }
-
     public void Traning(int stat)
     {
         if (traningStat[stat] >= limit_traning[stat]) return;
@@ -129,7 +127,6 @@ public class TownUI_Training : MonoBehaviour
             button.SetActive(false);
         }
     }
-
     void FocusedSlot(int AdjustValue)
     {
         if (focus < 0 || focus > 6) return;
