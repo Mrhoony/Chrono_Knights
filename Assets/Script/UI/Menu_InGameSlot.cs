@@ -6,6 +6,24 @@ public class Menu_InGameSlot : Slot
     public Image spriteRenderer;
     public GameObject itemSelect;
 
+    public void SetItemSprite(Item _item)
+    {
+        Sprite[] keyItemBorderSprite = SpriteSet.keyItemBorderSprite;
+
+        if (_item == null)
+        {
+            itemImage.gameObject.SetActive(false);
+            itemBorderImage.gameObject.SetActive(false);
+        }
+        else
+        {
+            itemImage.sprite = _item.sprite;
+            itemImage.gameObject.SetActive(true);
+            itemBorderImage.sprite = keyItemBorderSprite[_item.itemRarity];
+            itemBorderImage.gameObject.SetActive(true);
+        }
+    }
+
     public void SetItemSprite(Item _item, bool _OnOff)
     {
         Sprite[] keyItemBorderSprite = SpriteSet.keyItemBorderSprite;
@@ -24,7 +42,7 @@ public class Menu_InGameSlot : Slot
         }
         itemSelect.SetActive(_OnOff);
     }
-
+    
     public override bool SetItemConfirm(bool _isSelected)
     {
         if (_isSelected)

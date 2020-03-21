@@ -834,7 +834,7 @@ public class DungeonManager : MonoBehaviour
     }
     public IEnumerator MapMoveDelay()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.7f);
         canvasManager.FadeInStart();        // 씬 로드 종료 후 페이드 인
     }
 
@@ -847,9 +847,17 @@ public class DungeonManager : MonoBehaviour
     {
         return isTraingPossible;
     }
+    public void setTrainigPossible(bool _isTraining)
+    {
+        isTraingPossible = _isTraining;
+    }
     public bool GetShopRefill()
     {
         return isShopRefill;
+    }
+    public void setShopRefill(bool _isShop)
+    {
+        isShopRefill = _isShop;
     }
     public bool[] GetEventFlag()
     {

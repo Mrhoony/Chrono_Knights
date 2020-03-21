@@ -14,18 +14,32 @@ public class ItemInfomation : MonoBehaviour
 
     public void SetItemInventoryInformation(Item item)
     {
-        itemName.text = item.itemName;
-        itemRarity.text = "Rarity : " + item.itemRarity.ToString();
-        itemEffect.text = item.usingType.ToString();
-        itemEquipEffect.text = item.itemType.ToString();
-        itemDescription.text = item.Description;
+        if(item != null)
+        {
+            itemName.text = item.itemName;
+            itemRarity.text = "Rarity : " + item.itemRarity.ToString();
+            itemEffect.text = item.usingType.ToString();
+            itemEquipEffect.text = item.itemType.ToString();
+            itemDescription.text = item.Description;
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void SetItemInformationQuickSlot(Item item)
     {
-        itemSprite.GetComponent<Image>().sprite = item.sprite;
-        itemName.text = item.itemName;
-        itemRarity.text = "Rarity : " + item.itemRarity.ToString();
-        itemEffect.text = item.usingType.ToString();
+        if (item != null)
+        {
+            itemSprite.GetComponent<Image>().sprite = item.sprite;
+            itemName.text = item.itemName;
+            itemRarity.text = "Rarity : " + item.itemRarity.ToString();
+            itemEffect.text = item.usingType.ToString();
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

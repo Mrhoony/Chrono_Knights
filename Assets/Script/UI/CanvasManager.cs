@@ -449,7 +449,7 @@ public class CanvasManager : MonoBehaviour
         if (RootBag.activeInHierarchy) return;
         RootBag.SetActive(true);
     }
-
+    
     public IEnumerator PlayerMoveEnable()
     {
         yield return new WaitForSeconds(0.2f);

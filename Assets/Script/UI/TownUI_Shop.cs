@@ -89,6 +89,8 @@ public class TownUI_Shop : MonoBehaviour
                 }
                 if (Input.GetKeyDown(KeyCode.X))
                 {
+                    isThisWindowFocus = false;
+                    slotInstance.SetActiveFocus(false);
                     canvasManager.CloseShopInventory();
                 }
                 if (Input.GetKeyDown(KeyCode.C))
@@ -127,7 +129,8 @@ public class TownUI_Shop : MonoBehaviour
         isThisWindowFocus = true;
         isItemSelect = false;
         inventory = _inventory;
-        
+        focused = 0;
+
         ShopItemListSet();
         shopItemList = DungeonManager.instance.GetShopItemList();
         itemCost = DungeonManager.instance.GetShopitemCostList();
@@ -151,6 +154,7 @@ public class TownUI_Shop : MonoBehaviour
     public void ShopItemListSet()
     {
         if (!DungeonManager.instance.GetShopRefill()) return;
+        DungeonManager.instance.setShopRefill(false);
 
         int randomItemRarity;
         int itemListCount = Database_Game.instance.Item.Count;
@@ -200,6 +204,7 @@ public class TownUI_Shop : MonoBehaviour
     {
         DungeonManager.instance.SetShopItemList(shopItemList, itemCost);
         isTownMenuOn = false;
+        slotInstance.SetActiveFocus(false);
         townUI.CloseShopMenu();
     }
 

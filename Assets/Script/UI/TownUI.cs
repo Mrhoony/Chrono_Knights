@@ -32,7 +32,6 @@ public class TownUI : MonoBehaviour
     public void CloseShopMenu()
     {
         townMenus[0].SetActive(false);
-        playerCharacter.enabled = true;
         isTownUIOn[0] = false;
         StartCoroutine(canvasManager.PlayerMoveEnable());
     }
@@ -48,7 +47,6 @@ public class TownUI : MonoBehaviour
     public void CloseTrainingMenu()
     {
         townMenus[1].SetActive(false);
-        playerCharacter.enabled = true;
         isTownUIOn[1] = false;
         StartCoroutine(canvasManager.PlayerMoveEnable());
     }
@@ -64,7 +62,6 @@ public class TownUI : MonoBehaviour
     public void CloseEnchantMenu()
     {
         townMenus[2].SetActive(false);
-        playerCharacter.enabled = true;
         isTownUIOn[2] = false;
     }
     public void OpenUpgradeMenu()
@@ -79,7 +76,6 @@ public class TownUI : MonoBehaviour
     public void CloseUpgradeMenu()
     {
         townMenus[3].SetActive(false);
-        playerCharacter.enabled = true;
         isTownUIOn[3] = false;
     }
 

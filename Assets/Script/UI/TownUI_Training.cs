@@ -47,7 +47,6 @@ public class TownUI_Training : MonoBehaviour
         Init();
 
         isTraningPossible = DungeonManager.instance.GetTrainigPossible();
-
         if (isTraningPossible)
         {
             button.SetActive(true);
@@ -118,7 +117,7 @@ public class TownUI_Training : MonoBehaviour
             gauge[stat].fillAmount = traningStat[stat] / limit_traning[stat];
 
             playerStat.PlayerStatusInit();
-            isTraningPossible = true;
+            DungeonManager.instance.setTrainigPossible(false);
 
             traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
             focus = 6;
@@ -132,7 +131,7 @@ public class TownUI_Training : MonoBehaviour
         if (focus < 0 || focus > 6) return;
         if (!isTraningPossible) return;
 
-            traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+        traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
 
         focus += AdjustValue;
         if (focus < 0) focus = 0;
