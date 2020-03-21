@@ -210,61 +210,57 @@ public class DungeonManager : MonoBehaviour
     #region 오브젝트 등록
     public static DungeonManager instance;
     public CameraManager mainCamera;
-    private CanvasManager canvasManager;
-    public GameObject playerStatView;
     public GameObject player;
+    public CanvasManager canvasManager;
     private PlayerStatus playerStatus;
-    private GameObject mark;
     private GameObject[] teleportPoint;
     #endregion
-    
+    #region dungeon
     public Marker marker;
     public MarkerVariable marker_Variable;   // Marker로부터 전달받는 값 저장공간
     public FloorData[] FloorDatas;
-    public int markerRandom;
-    private Sprite[] markSprite;
 
-    private Vector2 entrance;            // 텔레포트 위치
-    public int useTeleportSystem;       // 텔레포트 사용 방법 0~4 입구, 10 사용 안함
-    public int currentDate;
-
-    private bool isTraingPossible;
-    private bool isShopRefill;
-    public bool isDead;
-    public bool freePassFloor;
-    public bool freePassThisFloor;
-    public int bossClear;
-    public bool inDungeon;
-    public bool[] eventFlag;
-
-    public Item[] shopItemList;
-    public int[] itemCostList;
+    private Vector2 entrance;               // 텔레포트 위치
+    public int useTeleportSystem;           // 텔레포트 사용 방법 0~4 입구, 10 사용 안함
+    public int currentDate;                 // 현재 날짜
+    public bool isDead;                     // 플레이어 죽었는지
+    public bool usedKey;                    // 키를 사용했는지
+    public bool inDungeon;                  // 플레이어가 던전 입장 시 true 나갈 시 false
+    public bool isReturn;                   // 죽던 클리어 하던 나갈 시 true 입장 시 false
+    #endregion
     
+    private bool isTraingPossible;          // 트레이닝 가능 여부
+    private bool isShopRefill;              // 샵 리필 여부
+
+    private Item[] shopItemList;
+    private int[] itemCostList;
+    private bool[] eventFlag;
+
     #region 던전 생성 관련
     private GameObject[] mapList;
-    public GameObject[] monsterPreFabsList;
-    public GameObject[] bossMonsterPreFabsList;
-    public GameObject[] currentStageMonsterList;
-    public GameObject[] spawner;
-    public GameObject dropItemPool;
+    private GameObject[] monsterPreFabsList;
+    private GameObject[] bossMonsterPreFabsList;
+    private GameObject[] currentStageMonsterList;
+    private GameObject[] spawner;
+    private GameObject dropItemPool;
 
     private int selectedMapNum = 0;
     private int spawnerCount;
     private int spawn;
 
-    public bool usedKey;
-    public bool bossSetting;
     public int currentStage;
     public int bossStageCount;
-    public bool floorRepeat;
+    public bool freePassNextFloor;          // 다음층 스킵 체크
+    public bool bossSetting;                // 보스층 등장 체크
+    public bool floorRepeat;                // 층 반복 체크
+    public int bossClearCount;
+    public bool dungeonClear;           // 던전 클리어시
+    public bool phaseClear;             // 페이즈 클리어시
+    public bool isSceneLoading;         // 페이드 아웃 중 입력 제한
 
-    public bool isSceneLoading;
-    public bool dungeonClear;   // 던전 클리어시
-    public bool phaseClear;   // 페이즈 클리어시
-
-    public int monsterCount;        // 최대 몬스터 수
-    public int currentMonsterCount;
-    public int allKillCount;    // 총 몬스터 킬 수
+    private int monsterCount;           // 최대 몬스터 수
+    private int currentMonsterCount;    // 현재 몬스터 수
+    private int allKillCount;           // 총 몬스터 킬 수
     #endregion
 
     // Start is called before the first frame update
@@ -281,10 +277,8 @@ public class DungeonManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         playerStatus = player.GetComponent<PlayerStatus>();
         canvasManager = GameObject.Find("UI").GetComponent<CanvasManager>();
-        markSprite = Resources.LoadAll<Sprite>("UI/ui_hpbell_set");
 
         monsterPreFabsList = Resources.LoadAll<GameObject>("Prefabs/Unit/Mob/Monster");
         bossMonsterPreFabsList = Resources.LoadAll<GameObject>("Prefabs/Unit/Mob/BossMonster");
@@ -292,21 +286,15 @@ public class DungeonManager : MonoBehaviour
         marker = new Marker();
         marker_Variable = new MarkerVariable();
         marker_Variable.Reset();
-
-        /*
-         *  플로어 데이터에 몬스터 리스트 전달.
-         *  플로어 클래스에서 
-         * 
-         */
+        
         FloorDatas = new FloorData[70];
         FloorDangerousSetting(0);
     }
-
     private void FloorDangerousSetting(int plusDangerous)
     {
         for (int floor = 1; floor < 71; ++floor)
         {
-            FloorDatas[floor - 1] = new FloorData(floor, bossClear, floor * 2);
+            FloorDatas[floor - 1] = new FloorData(floor, bossClearCount, floor * 2);
         }
     }
     private void Init()
@@ -316,47 +304,50 @@ public class DungeonManager : MonoBehaviour
         {
             shopItemList[i] = null;
         }
+        useTeleportSystem = 10;
+
         currentStage = 0;
+        bossStageCount = 0;
+        bossClearCount = 0;
         monsterCount = 0;
         currentMonsterCount = 0;
-        bossStageCount = 0;
-        useTeleportSystem = 10;
-        bossClear = 0;
-        inDungeon = false;
-        isSceneLoading = false;
-        bossSetting = false;
-        isTraingPossible = true;
-        isShopRefill = true;
-        dungeonClear = false;
-        floorRepeat = false;
-        phaseClear = false;
-        freePassFloor = false;
-        freePassThisFloor = false;
-    }
-    public void DungeonInit()
-    {
-        isTraingPossible = true;
-        isShopRefill = true;
 
+        isSceneLoading = false;
+        inDungeon = false;
+        dungeonClear = false;
+        bossSetting = false;
+        floorRepeat = false;
+        freePassNextFloor = false;
+        phaseClear = false;
+
+        isTraingPossible = true;
+        isShopRefill = true;
+    }
+    private void DungeonInit()
+    {
         isDead = false;
         bossSetting = false;
         dungeonClear = false;
         floorRepeat = false;
         phaseClear = false;
-        freePassFloor = false;
-        freePassThisFloor = false;
+        freePassNextFloor = false;
 
-        ++currentDate;
         currentStage = 0;
         bossStageCount = 0;
+        bossClearCount = 0;
         monsterCount = 0;
         currentMonsterCount = 0;
+
+        ++currentDate;
+        isTraingPossible = true;
+        isShopRefill = true;
     }
+
     public void Update()
     {
+        if (isSceneLoading) return;
         if (canvasManager.GameMenuOnCheck()) return;
         if (useTeleportSystem == 10) return;
-        if (isSceneLoading) return;
 
         if (Input.GetButtonDown("Fire1"))           // 공격키를 눌렀을 때
         {
@@ -425,7 +416,7 @@ public class DungeonManager : MonoBehaviour
                 canvasManager.CircleFadeOutStart();
                 break;
         }
-    }
+    }       // 아이템 사용시 아이템이 가지고있는 버프 적용
     public bool UseKeyInDungeon(Item _Item)
     {
         if (usedKey) return false;
@@ -434,30 +425,32 @@ public class DungeonManager : MonoBehaviour
         // 키가 가진 것들을 가지고 체크
         switch (_Item.itemType)
         {
-            case ItemType.Number:
+            case ItemType.Number:                           // 사용된 키가 숫자키일 때
                 marker.ExecuteMarker(_Item.value);
                 break;
-            case ItemType.FreePassNextFloor:
-                freePassFloor = true;
+            case ItemType.FreePassNextFloor:                // 사용된 키가 다음 층 스킵일 때
+                freePassNextFloor = true;
                 break;
-            case ItemType.FreePassThisFloor:
-                freePassThisFloor = true;
+            case ItemType.FreePassThisFloor:                // 사용된 키가 이번 층 스킵일 때
+                FloorSetting();
                 break;
-            case ItemType.SetBossFloor:
+            case ItemType.SetBossFloor:                     // 사용된 키가 보스 소환일 때
                 bossSetting = true;
                 break;
-            case ItemType.ReturnPreFloor:
+            case ItemType.ReturnPreFloor:                   // 사용된 키가 이전 층 효과일 때
                 if (currentStage > 1)
                 {
                     marker_Variable.markerVariable = marker_Variable.markerPreVariable;
-                }
-                else return false;
+                }                    // 2층 이상일때만
+                else
+                {
+                    marker_Variable.Reset();
+                }                                     // 1층일 땐 초기화
                 break;
-            case ItemType.RepeatThisFloor:
+            case ItemType.RepeatThisFloor:                   // 사용된 키가 층 반복일 때
                 floorRepeat = true;
                 break;
-            case ItemType.ReturnTown:
-                // 마을로 돌아간다. 클리어 정보창 표시
+            case ItemType.ReturnTown:                        // 사용된 키가 귀환일 때
                 isSceneLoading = true;
                 canvasManager.CircleFadeOutStart();
                 break;
@@ -493,10 +486,6 @@ public class DungeonManager : MonoBehaviour
                         phaseClear = false;
                         SceneManager.LoadScene("Tower_First_Floor");
                     }
-                    else
-                    {
-                        ReturnToTown();
-                    }
                     break;
                 default:
                     ReturnToTown();
@@ -510,10 +499,10 @@ public class DungeonManager : MonoBehaviour
     }
     public void PlayerIsDead()
     {
+        isDead = true;
         Time.timeScale = 0.5f;
         mainCamera.SetHeiWid(640, 360);
         mainCamera.target.transform.position = player.transform.position;
-        isDead = true;
         isSceneLoading = true;
         for (int i = 0; i < monsterCount; ++i)
         {
@@ -527,9 +516,9 @@ public class DungeonManager : MonoBehaviour
         {
             shopItemList[i] = null;
         }
-        playerStatus.ReturnToTown();
-        canvasManager.Menus[0].GetComponent<Menu_Inventory>().PutInBox(isDead);
         FloorReset();
+        canvasManager.Menus[0].GetComponent<Menu_Inventory>().PutInBox(isDead);
+        playerStatus.ReturnToTown();
         DungeonInit();
         mainCamera.SetHeiWid(640, 360);
         SceneManager.LoadScene(0);
@@ -584,25 +573,21 @@ public class DungeonManager : MonoBehaviour
         ++bossStageCount;
         
         // 다음 층 스킵
-        if (freePassFloor)
+        if (freePassNextFloor)
         {
-            freePassFloor = false;
+            freePassNextFloor = false;
             ++currentStage;
             ++bossStageCount;
         }
-
-        // 보스 스테이지 설정
         if (!bossSetting)
         {
-            // 이벤트 플래그로 구간별 보스 등장
-            if ((bossStageCount - (5 * bossClear) - 2) > 0)  // 보스스테이지 설정
+            if ((bossStageCount - (5 * bossClearCount) - 2) > 0)  // 보스스테이지 설정
             {
                 if (bossStageCount * 20 > Random.Range(50, 90))
                     bossSetting = true;
-            }
-        }
-
-        if (bossSetting)    // 보스 층 일때
+            }            // 이벤트 플래그로 구간별 보스 등장
+        }           // 보스 스테이지 설정
+        if (bossSetting)
         {
             bossSetting = false;
             bossStageCount = 0;
@@ -617,8 +602,8 @@ public class DungeonManager : MonoBehaviour
             currentStageMonsterList = new GameObject[currentMonsterCount];
             currentStageMonsterList[0] = Instantiate(bossMonsterPreFabsList[randomBoss], new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y), Quaternion.identity);
-        }
-        else if (floorRepeat)    // 맵 반복시
+        }            // 보스 층 일때
+        else if (floorRepeat)
         {
             Debug.Log("WHERE ::: " + monsterCount + " ABS : " + currentStageMonsterList.Length);
             floorRepeat = false;
@@ -634,8 +619,8 @@ public class DungeonManager : MonoBehaviour
                                                              , spawner[Random.Range(0, spawnerCount)].transform.position.y);
                 }
             }
-        }
-        else            // 일반 맵일경우
+        }       // 맵 반복시
+        else
         {
             spawner = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().spawner;
             spawnerCount = spawner.Length;
@@ -657,18 +642,10 @@ public class DungeonManager : MonoBehaviour
                         , spawner[randomSpawner].transform.position.y)
                         , Quaternion.identity);
             }
-        }
+        }                        // 일반 맵일경우
 
-        if(currentStage < 2)            canvasManager.dungeonUI.SetDungeonFloor(currentStage, "");
-        else                            canvasManager.dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus());
-
-        markerRandom = Random.Range(0, 12);
-        marker.thisMarker = (Markers)markerRandom;
-        mark = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
-        mark.GetComponent<DungeonMarker>().SetMarker((Markers)markerRandom);
-
-        marker_Variable.markerPreVariable = marker_Variable.markerVariable;
-        marker_Variable.Reset();
+        if (currentStage < 2)            canvasManager.dungeonUI.SetDungeonFloor(currentStage, "");
+        else                             canvasManager.dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus());
     }
     public void FloorReset()
     {
@@ -688,7 +665,7 @@ public class DungeonManager : MonoBehaviour
         {
             dungeonClear = true;
             phaseClear = true;
-            ++bossClear;
+            ++bossClearCount;
         }
     }
     public void FloorMonsterKill()
@@ -699,7 +676,17 @@ public class DungeonManager : MonoBehaviour
             dungeonClear = true;
         }
     }
+    
+    public void MarkerSetting()
+    {
+        int markerRandom = Random.Range(0, 12);
+        marker.thisMarker = (Markers)markerRandom;
+        GameObject mark = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
+        mark.GetComponent<DungeonMarker>().SetMarker((Markers)markerRandom);
 
+        marker_Variable.markerPreVariable = marker_Variable.markerVariable;
+        marker_Variable.Reset();
+    }
     // 아이템이 사용된 층에 효과를 적용
     public string SetFloorStatus()
     {
@@ -791,63 +778,65 @@ public class DungeonManager : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)                  // 씬 로드시 초기화
     {
-        mainCamera = CameraManager.instance;
         useTeleportSystem = 10;
-        
+
         teleportPoint = GameObject.FindGameObjectsWithTag("Portal");
         int teleportCount = teleportPoint.Length;
 
-        if (SceneManager.GetActiveScene().buildIndex == 0)                      // 메인 메뉴 씬 일 때
+        switch (SceneManager.GetActiveScene().buildIndex)
         {
-            if (!GameManager.instance.gameStart)
-            {
-                Init();
-                for (int i = 0; i < teleportCount; ++i)
+            case 0:
+                if (GameManager.instance.gameStart || isReturn)
                 {
-                    if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
-                        entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
+                    isReturn = false;
+                    for (int i = 0; i < teleportCount; ++i)
+                    {
+                        if (teleportPoint[i].GetComponent<Teleport>().useSystem == 1)
+                            entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
+                    }
                 }
-            }
-            else
-            {
-                for (int i = 0; i < teleportCount; ++i)
+                else
                 {
-                    if (teleportPoint[i].GetComponent<Teleport>().useSystem == 1)
-                        entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
+                    Init();
+                    for (int i = 0; i < teleportCount; ++i)
+                    {
+                        if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
+                            entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
+                    }
                 }
-            }
-            player.transform.position = entrance;
-        }
-        else if(SceneManager.GetActiveScene().buildIndex == 1)                  // 마을 화면 일 때
-        {
-            mapList = GameObject.FindGameObjectsWithTag("BaseMap");
-            canvasManager.SetTownUI();
+                player.transform.position = entrance;
+                break;
+            case 1:
+                mapList = GameObject.FindGameObjectsWithTag("BaseMap");
+                canvasManager.SetTownUI();
 
-            for (int i = 0; i < teleportCount; ++i)
-            {
-                if (teleportPoint[i].GetComponent<Teleport>().useSystem == 0)
-                    entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
-            }
-            mapList[0].GetComponent<BackgroundScrolling>().SetBackGroundPosition(0);
-            player.transform.position = entrance;
-        }
-        else if (SceneManager.GetActiveScene().buildIndex == 2)                  // 던전 화면 일 때
-        {
-            inDungeon = true;
-            canvasManager.SetDungeonUI();
-            dropItemPool = GameObject.Find("DropItemPool");
-            FloorSetting();
+                for (int i = 0; i < teleportCount; ++i)
+                {
+                    if (teleportPoint[i].GetComponent<Teleport>().useSystem == 0)
+                        entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
+                }
+                mapList[0].GetComponent<BackgroundScrolling>().SetBackGroundPosition(0);
+                player.transform.position = entrance;
+                break;
+            case 2:
+                inDungeon = true;
+                canvasManager.SetDungeonUI();
+                dropItemPool = GameObject.Find("DropItemPool");
+                FloorSetting();
+                break;
+            case 3:
+                break;
         }
         mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
         StartCoroutine(MapMoveDelay());
     }
-
     public IEnumerator MapMoveDelay()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.4f);
         canvasManager.FadeInStart();        // 씬 로드 종료 후 페이드 인
     }
 
+    #region save, load
     public int GetCurrentDate()
     {
         return currentDate;
@@ -856,33 +845,19 @@ public class DungeonManager : MonoBehaviour
     {
         return isTraingPossible;
     }
+    public bool GetShopRefill()
+    {
+        return isShopRefill;
+    }
     public bool[] GetEventFlag()
     {
         return eventFlag;
     }
-    public bool NewDayCheckTrainig()
-    {
-        if (isTraingPossible)
-        {
-            isTraingPossible = false;
-            return true;
-        }
-        return false;
-    }
-    public bool NewDayCheckShop()
-    {
-        if (isShopRefill)
-        {
-            isShopRefill = false;
-            return true;
-        }
-        return false;
-    }
-
     public void LoadGamePlayDate(int _currentDate, bool _isTrainingPossible, bool[] _eventFlag)
     {
         currentDate = _currentDate;
         isTraingPossible = _isTrainingPossible;
         eventFlag = _eventFlag;
     }
+    #endregion
 }

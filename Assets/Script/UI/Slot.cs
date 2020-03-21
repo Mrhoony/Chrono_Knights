@@ -9,8 +9,6 @@ public abstract class Slot : MonoBehaviour
     public GameObject itemConfirm;
     public GameObject leftText;
     public GameObject rightText;
-
-
     public int focus = 0;
 
     public void SetActiveFocus(bool _OnOff)
@@ -27,6 +25,8 @@ public abstract class Slot : MonoBehaviour
         focus = 0;
         itemConfirm.SetActive(true);
         itemConfirm.transform.GetChild(focus).gameObject.SetActive(true);
+        leftText.SetActive(true);
+        rightText.SetActive(true);
         leftText.GetComponent<Text>().text = _leftText;
         rightText.GetComponent<Text>().text = _rightText;
     }

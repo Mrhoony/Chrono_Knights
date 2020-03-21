@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NPC_Blacksmith : NPC_Control
 {
@@ -81,6 +79,6 @@ public class NPC_Blacksmith : NPC_Control
         button[focus].transform.GetChild(0).gameObject.SetActive(false);
         openSelectUI = false;
         selectUI.SetActive(false);
-        player.GetComponent<PlayerControl>().enabled = true;
+        StartCoroutine(canvasManager.PlayerMoveEnable());
     }
 }

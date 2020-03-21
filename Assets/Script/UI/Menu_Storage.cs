@@ -89,7 +89,6 @@ public class Menu_Storage : Menu_InGameMenu
                 else
                 {
                     slotInstance.SetDisActiveItemConfirm();
-                    DeleteItem();
                 }
                 isItemSelect = false;
             }

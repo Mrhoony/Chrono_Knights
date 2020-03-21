@@ -15,7 +15,7 @@ public class ItemInfomation : MonoBehaviour
     public void SetItemInventoryInformation(Item item)
     {
         itemName.text = item.itemName;
-        itemRarity.text = item.itemRarity.ToString();
+        itemRarity.text = "Rarity : " + item.itemRarity.ToString();
         itemEffect.text = item.usingType.ToString();
         itemEquipEffect.text = item.itemType.ToString();
         itemDescription.text = item.Description;
@@ -25,7 +25,7 @@ public class ItemInfomation : MonoBehaviour
     {
         itemSprite.GetComponent<Image>().sprite = item.sprite;
         itemName.text = item.itemName;
-        itemRarity.text = item.itemRarity.ToString();
+        itemRarity.text = "Rarity : " + item.itemRarity.ToString();
         itemEffect.text = item.usingType.ToString();
     }
 }
