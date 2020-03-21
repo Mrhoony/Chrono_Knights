@@ -27,9 +27,9 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
     public int keySlotFocus;
 
     // Start is called before the first frame update
-    public virtual void OnEnable()
+    public void Awake()
     {
-        canvasManager = transform.parent.GetComponent<TownUI>().menu;
+        canvasManager = transform.parent.GetComponent<TownUI>().canvasManager;
         itemDatabase = Database_Game.instance;
         storage = canvasManager.storage.GetComponent<Menu_Storage>();
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();

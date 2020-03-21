@@ -60,6 +60,11 @@ public class TownUI_Shop : MonoBehaviour
                             break;
                     }
                 }
+                else
+                {
+                    slotInstance.SetDisActiveItemConfirm();
+                    isItemSelect = false;
+                }
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
@@ -145,7 +150,7 @@ public class TownUI_Shop : MonoBehaviour
     }
     public void ShopItemListSet()
     {
-        if (!DungeonManager.instance.NewDayCheckShop()) return;
+        if (!DungeonManager.instance.GetShopRefill()) return;
 
         int randomItemRarity;
         int itemListCount = Database_Game.instance.Item.Count;

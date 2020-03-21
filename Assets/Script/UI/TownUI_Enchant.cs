@@ -37,8 +37,8 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
                 else
                 {
                     open_SelectItemUI = true;
-                    selectEnchantItem.SetActive(true);
                     OpenSelectedItemMenu();
+                    selectEnchantItem.SetActive(true);
                 }
             }
             if (Input.GetKeyDown(KeyCode.X))

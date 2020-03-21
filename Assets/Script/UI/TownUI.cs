@@ -6,12 +6,12 @@ public class TownUI : MonoBehaviour
 {
     public GameObject[] townMenus;
     public PlayerControl playerCharacter;
-    public CanvasManager menu;
+    public CanvasManager canvasManager;
     public bool[] isTownUIOn;
 
     private void Awake()
     {
-        menu = GameObject.Find("UI").GetComponent<CanvasManager>();
+        canvasManager = GameObject.Find("UI").GetComponent<CanvasManager>();
         playerCharacter = PlayerControl.instance;
         isTownUIOn = new bool[4];
         for(int i = 0; i < 4; ++i)
@@ -34,7 +34,7 @@ public class TownUI : MonoBehaviour
         townMenus[0].SetActive(false);
         playerCharacter.enabled = true;
         isTownUIOn[0] = false;
-        PlayerControl.instance.enabled = true;
+        StartCoroutine(canvasManager.PlayerMoveEnable());
     }
     public void OpenTrainingMenu()
     {
@@ -50,7 +50,7 @@ public class TownUI : MonoBehaviour
         townMenus[1].SetActive(false);
         playerCharacter.enabled = true;
         isTownUIOn[1] = false;
-        PlayerControl.instance.enabled = true;
+        StartCoroutine(canvasManager.PlayerMoveEnable());
     }
     public void OpenEnchantMenu()
     {
@@ -66,7 +66,6 @@ public class TownUI : MonoBehaviour
         townMenus[2].SetActive(false);
         playerCharacter.enabled = true;
         isTownUIOn[2] = false;
-        PlayerControl.instance.enabled = true;
     }
     public void OpenUpgradeMenu()
     {
@@ -82,7 +81,6 @@ public class TownUI : MonoBehaviour
         townMenus[3].SetActive(false);
         playerCharacter.enabled = true;
         isTownUIOn[3] = false;
-        PlayerControl.instance.enabled = true;
     }
 
     public bool GetTownUIOnCheck()
