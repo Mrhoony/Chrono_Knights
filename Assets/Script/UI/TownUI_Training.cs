@@ -107,7 +107,7 @@ public class TownUI_Training : MonoBehaviour
                 case 2:
                 case 3:
                 case 4:
-                    traningStat[stat] += (0.1f - traning_count[stat] * 0.1f);
+                    traningStat[stat] += (0.1f - traning_count[stat] * 0.01f);
                     break;
             }
             if (traningStat[stat] > limit_traning[stat])

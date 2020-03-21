@@ -17,7 +17,7 @@ public class Merchant_Attack2 : AnimatorManager
         {
             move = true;
             animator.GetComponent<Boss_Merchant>().MonsterAttack(MonsterAttackNumber.atk1);
-            animator.GetComponent<Boss_Merchant>().AttackMove(0.2f);
+            animator.GetComponent<Boss_Merchant>().AttackMove(0.4f);
         }
     }
 
