@@ -832,7 +832,7 @@ public class DungeonManager : MonoBehaviour
                     if (teleportPoint[i].GetComponent<Teleport>().useSystem == 0)
                         entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
                 }
-                mapList[0].GetComponent<BackgroundScrolling>().SetBackGroundPosition(0);
+                mapList[0].GetComponent<BackgroundScrolling>().SetBackGroundPosition(-1);
                 player.transform.position = entrance;
                 break;
             case 2:

@@ -42,8 +42,9 @@ public class BackgroundScrolling : MonoBehaviour
 
     public void SetBackGroundPosition(int currentStage)
     {
-        Debug.Log("stage : " + currentStage);
+        if (-1 == currentStage) return;
         layers[0].transform.position = new Vector2(cameraTrasform.position.x, cameraTrasform.position.y + Random.Range(-2.5f, 2.5f));
+       
         if(currentStage < 1)
         {
             for (int i = 1; i < layerCount; ++i)
