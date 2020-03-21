@@ -10,6 +10,7 @@ public class Monster_Dog : NormalMonsterControl
         arrowDirection = -1;
         isFaceRight = false;
         actionState = ActionState.Idle;
+
         MonsterInit();
 
         Debug.Log("MonsterOnEnable");
@@ -55,7 +56,6 @@ public class Monster_Dog : NormalMonsterControl
             }
         }
     }
-
     public override void Attack()
     {
         if (actionState != ActionState.Idle) return;

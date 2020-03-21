@@ -5,7 +5,7 @@ using System.Xml;
 
 public enum ItemType
 {
-    Number, ReturnTown, ReturnPreFloor, FreePassNextFloor, FreePassThisFloor, BossFloor, RepeatThisFloor
+    Number, ReturnTown, ReturnPreFloor, FreePassNextFloor, FreePassThisFloor, SetBossFloor, RepeatThisFloor
 }
 public enum ItemUsingType
 {
@@ -16,15 +16,6 @@ public enum SkillType
     Active,
     Passive,
     Unlock
-}
-
-public static class SpriteSet
-{
-    public static readonly Sprite[] itemSprite = Resources.LoadAll<Sprite>("Graphic/Item/ui_itemset");
-    public static readonly Sprite[] skillSprite;
-    public static readonly Sprite[] markerSprite = Resources.LoadAll<Sprite>("Graphic/UI/ui_mark");
-    public static readonly Sprite[] keyItemBorderSprite = Resources.LoadAll<Sprite>("Graphic/UI/Inventory_Set");
-    public static readonly Sprite[] shopItemBorderSprite = Resources.LoadAll<Sprite>("Graphic/UI/ui_shop_set");
 }
 
 public class Item
@@ -77,7 +68,7 @@ public class Item
             case ItemType.FreePassNextFloor:
                 sprite = SpriteSet.itemSprite[16];
                 break;
-            case ItemType.BossFloor:
+            case ItemType.SetBossFloor:
                 sprite = SpriteSet.itemSprite[17];
                 break;
             case ItemType.RepeatThisFloor:

@@ -237,6 +237,7 @@ public class DungeonManager : MonoBehaviour
     public bool[] eventFlag;
 
     public Item[] shopItemList;
+    public int[] itemCostList;
     
     #region 던전 생성 관련
     private GameObject[] mapList;
@@ -333,9 +334,10 @@ public class DungeonManager : MonoBehaviour
     }
     public void DungeonInit()
     {
-        isDead = false;
         isTraingPossible = true;
         isShopRefill = true;
+
+        isDead = false;
         bossSetting = false;
         dungeonClear = false;
         floorRepeat = false;
@@ -440,7 +442,7 @@ public class DungeonManager : MonoBehaviour
             case ItemType.FreePassThisFloor:
                 freePassThisFloor = true;
                 break;
-            case ItemType.BossFloor:
+            case ItemType.SetBossFloor:
                 bossSetting = true;
                 break;
             case ItemType.ReturnPreFloor:
@@ -452,6 +454,11 @@ public class DungeonManager : MonoBehaviour
                 break;
             case ItemType.RepeatThisFloor:
                 floorRepeat = true;
+                break;
+            case ItemType.ReturnTown:
+                // 마을로 돌아간다. 클리어 정보창 표시
+                isSceneLoading = true;
+                canvasManager.CircleFadeOutStart();
                 break;
             default:
                 marker.ExecuteMarker(0);
@@ -528,22 +535,26 @@ public class DungeonManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void SetShopItemList(Item[] _itemList)
+    public void SetShopItemList(Item[] _itemList, int[] _itemCost)
     {
         shopItemList = _itemList;
+        itemCostList = _itemCost;
     }
     public Item[] GetShopItemList()
     {
         return shopItemList;
     }
-    
+    public int[] GetShopitemCostList()
+    {
+        return itemCostList;
+    }
+
     // 층 이동 시 나타날 층 세팅
     public void FloorSetting()
     {
         float randomX;
 
-        phaseClear = false;
-        dungeonClear = true;    //false 로 변경
+        dungeonClear = false;
         usedKey = false;
 
         int dropItemPoolCount = dropItemPool.transform.childCount;
