@@ -44,7 +44,7 @@ public class CameraManager : MonoBehaviour
         Height = 640;
         Width = 360;
 
-        Screen.SetResolution(Screen.width, (Screen.width * 16) / 9, true);
+        Screen.SetResolution(Screen.width, (Screen.width * 9) / 16, false);
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         mainCamera = GetComponent<Camera>();
         perfectCamera = GetComponent<PixelPerfectCamera>();

@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        
+
         Physics2D.IgnoreLayerCollision(5, 10);
         Physics2D.IgnoreLayerCollision(8, 10);
         Physics2D.IgnoreLayerCollision(8, 14);
@@ -277,7 +279,7 @@ public class GameManager : MonoBehaviour
                 canvasManager.OpenSettings();
                 break;
             case 2:
-                Debug.Log("game over");
+                ExitGame();
                 break;
         }
     }
@@ -384,8 +386,8 @@ public class GameManager : MonoBehaviour
     }
     public void ExitGame()
     {
-        Debug.Log("Quit"); // Application.Quit()은 에디터 상에서 작동x로 Debug.log로 동작 확인, 빌드시 삭제
-        //Application.Quit();
+        //Debug.Log("Quit"); // Application.Quit()은 에디터 상에서 작동x로 Debug.log로 동작 확인, 빌드시 삭제
+        Application.Quit();
     }
     public bool GetGameStart()
     {
