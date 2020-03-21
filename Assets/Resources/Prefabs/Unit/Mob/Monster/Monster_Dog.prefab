@@ -190,6 +190,11 @@ MonoBehaviour:
   rotateDelayTime: 0
   attackCoolTime: 0
   maxAttackDelayTime: 0
+  attackRange:
+  - posX: 0
+    posY: 0
+    atkRangeX: 0.8
+    atkRangeY: 0.4
   isTrace: 0
   randomMove: 0
   randomMoveCount: 0

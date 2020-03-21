@@ -11,6 +11,7 @@ public enum MonsterAttackNumber {
     atk1, atk2, atk3,
 }
 
+[System.Serializable]
 public class AttackRange {
     public float posX;
     public float posY;
@@ -47,6 +48,7 @@ public abstract class Monster_Control : MovingObject
     public float maxAttackDelayTime;
 
     //posx, posy, rangex, rangey
+    
     public AttackRange[] attackRange;
 
     public void Awake()
