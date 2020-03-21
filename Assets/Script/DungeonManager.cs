@@ -646,8 +646,14 @@ public class DungeonManager : MonoBehaviour
             }
         }                        // 일반 맵일경우
 
-        if (currentStage < 2)            canvasManager.dungeonUI.SetDungeonFloor(currentStage, "");
-        else                             canvasManager.dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus());
+        if (currentStage < 2) canvasManager.dungeonUI.SetDungeonFloor(currentStage, "");
+        else
+        {
+            canvasManager.dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus());
+            //보스 층 클리어 한 양만큼 방어력 / 공격력 증가
+            MonsterAttackSetting(currentMonsterCount, bossClearCount * 1);
+            MonsterDefSetting(currentMonsterCount, bossClearCount * 1);
+        }
     }
     public void FloorReset()
     {
@@ -755,6 +761,7 @@ public class DungeonManager : MonoBehaviour
 
     public void MonsterAttackSetting(int _monsterListCount, int _value)
     {
+        if (_value == 0) return;
         for (int i = 0; i < _monsterListCount; ++i)
         {
             currentStageMonsterList[i].GetComponent<EnemyStatus>().Set_attack(_value);
@@ -762,9 +769,17 @@ public class DungeonManager : MonoBehaviour
     }
     public void MonsterHPSetting(int _monsterListCount, int _value, bool upgrade)
     {
+        if (_value == 0) return;
         for (int i = 0; i < _monsterListCount; ++i)
         {
             currentStageMonsterList[i].GetComponent<EnemyStatus>().Set_hp(_value, upgrade);
+        }
+    }
+    public void MonsterDefSetting(int _monsterListCount, int _value)
+    {
+        if (_value == 0) return;
+        for (int i = 0; i < _monsterListCount; ++i) {
+            currentStageMonsterList[i].GetComponent<EnemyStatus>().Set_def(_value);
         }
     }
     #endregion

@@ -99,6 +99,10 @@ public class EnemyStatus : MonoBehaviour
         enemyHPBar = null;
     }
 
+    public void Set_def(int _value) {
+        _defense += _value;
+    }
+
     public void Set_hp(int _value, bool _upgrade)
     {
         if (_upgrade)
