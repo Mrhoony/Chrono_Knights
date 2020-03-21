@@ -56,23 +56,31 @@ public class Menu_Storage : Menu_InGameMenu
             {
                 if(slotInstance.GetFocus() == 0)
                 {
-                    if (!isSelected[focused])
+                    if (upgradeItem)
                     {
+                        slotInstance.SetActiveFocus(false);
+                        upgradeItem = false;
+                        CloseStorageWithUpgrade(true);
+                    }
 
+                    if (!isSelected[focused])                   // 선택되지 않은 상태면
+                    {
                         ++selectedItemCount;
                         if (selectedItemCount > takeItemCount)
                         {
                             selectedItemCount = takeItemCount;
+                            Debug.Log("아이템이 꽉 찼습니다.");
                             return;
                         }
                         isSelected[focused] = slotInstance.SetItemConfirm(isSelected[focused]);
                     }
-                    else
+                    else                                        // 선택된 상태면
                     {
                         --selectedItemCount;
                         if (selectedItemCount < 0)
                         {
                             selectedItemCount = 0;
+                            Debug.Log("-1 개를 선택할 수 없습니다.");
                             return;
                         }
                         isSelected[focused] = slotInstance.SetItemConfirm(isSelected[focused]);
@@ -80,7 +88,7 @@ public class Menu_Storage : Menu_InGameMenu
                 }
                 else
                 {
-                    slotInstance.SetActiveItemConfirm(false);
+                    slotInstance.SetDisActiveItemConfirm();
                     DeleteItem();
                 }
                 isItemSelect = false;
@@ -88,7 +96,7 @@ public class Menu_Storage : Menu_InGameMenu
 
             if (Input.GetKeyDown(KeyCode.X))    // 아이템 선택 취소
             {
-                slotInstance.SetActiveItemConfirm(false);
+                slotInstance.SetDisActiveItemConfirm();
                 isItemSelect = false;
             }
         }
@@ -103,16 +111,14 @@ public class Menu_Storage : Menu_InGameMenu
             {
                 if (itemList[focused] == null) return;
 
+                isItemSelect = true;
                 if (upgradeItem)
                 {
-                    slotInstance.SetActiveFocus(false);
-                    upgradeItem = false;
-                    CloseStorageWithUpgrade(true);
+                    slotInstance.SetActiveItemConfirm("사용", "취소");
                 }
                 else
                 {
-                    isItemSelect = true;
-                    slotInstance.SetActiveItemConfirm(true);
+                    slotInstance.SetActiveItemConfirm("꺼내기", "취소");
                 }
             }
 
@@ -144,17 +150,17 @@ public class Menu_Storage : Menu_InGameMenu
             if (itemList[i] != null)
             {
                 isFull[i] = true;
-                slot[i - (boxNum * 24)].GetComponent<Slot>().SetItemSprite(itemList[i], isSelected[i]);
+                slot[i - (boxNum * 24)].GetComponent<Menu_InGameSlot>().SetItemSprite(itemList[i], isSelected[i]);
             }
             else
             {
                 isFull[i] = false;
-                slot[i - (boxNum * 24)].GetComponent<Slot>().SetItemSprite(null, isSelected[i]);
+                slot[i - (boxNum * 24)].GetComponent<Menu_InGameSlot>().SetItemSprite(null, isSelected[i]);
             }
         }
         for(int i = boxFull; i < 24; ++i)
         {
-            slot[i].GetComponent<Slot>().SetOverSlot(keyItemBorderSprite[0]);
+            slot[i].GetComponent<Menu_InGameSlot>().SetOverSlot(keyItemBorderSprite[0]);
         }
     }
     public void PutInBox(Item[] item)

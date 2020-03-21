@@ -16,8 +16,6 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
     public Item selectedkey;
 
     public GameObject[] equipSlots;
-    protected Sprite[] equipmentSet;
-    protected Sprite[] keyItemBorderSprite;
     
     public bool open_BlackSmithUI;
     public bool open_SelectItemUI;
@@ -36,8 +34,6 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
         storage = canvasManager.storage.GetComponent<Menu_Storage>();
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         playerEquipment = playerStat.playerEquip;
-        keyItemBorderSprite = Resources.LoadAll<Sprite>("Graphic/UI/Inventory_Set");
-        equipmentSet = Resources.LoadAll<Sprite>("Graphic/Item/ui_itemset");
     }
 
     public void OpenTownUIMenu()
@@ -51,7 +47,7 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
 
         for (int i = 0; i < 7; ++i)
         {
-            equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = equipmentSet[i];       // 키 아이템
+            equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = SpriteSet.itemSprite[i];       // 키 아이템
             equipSlots[i].transform.GetChild(1).gameObject.SetActive(true);
             if (equipment[i].itemCode != 0)
             {
@@ -72,7 +68,7 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
 
         acceptSlot[0].transform.GetChild(0).gameObject.SetActive(true);
         acceptSlot[0].transform.GetChild(1).gameObject.SetActive(true);
-        acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = equipmentSet[selectEquipFocused];
+        acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = SpriteSet.itemSprite[selectEquipFocused];
 
         if (equipment[selectEquipFocused].itemCode != 0)
         {
@@ -96,16 +92,16 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
 
         acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);
         acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = selectedkey.sprite;
-        acceptSlot[1].transform.GetChild(2).GetComponent<Image>().sprite = keyItemBorderSprite[selectedkey.itemRarity];
+        acceptSlot[1].transform.GetChild(2).GetComponent<Image>().sprite = SpriteSet.keyItemBorderSprite[selectedkey.itemRarity];
 
         acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
         acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = selectedkey.sprite;
-        acceptSlot[2].transform.GetChild(1).GetComponent<Image>().sprite = keyItemBorderSprite[selectedkey.itemRarity];
+        acceptSlot[2].transform.GetChild(1).GetComponent<Image>().sprite = SpriteSet.keyItemBorderSprite[selectedkey.itemRarity];
     }
 
     public void SetSlot(GameObject _slot, int _slotNum, int _startNum)
     {
-        _slot.transform.GetChild(_startNum).GetComponent<Image>().sprite = keyItemBorderSprite[equipment[_slotNum].itemRarity]; // 레어도
+        _slot.transform.GetChild(_startNum).GetComponent<Image>().sprite = SpriteSet.keyItemBorderSprite[equipment[_slotNum].itemRarity]; // 레어도
         _slot.transform.GetChild(_startNum + 1).GetComponent<Text>().text = playerEquipment.GetStatusName(_slotNum, true);
         _slot.transform.GetChild(_startNum + 2).GetComponent<Text>().text = playerEquipment.GetUpStatus(_slotNum) + " %";
 

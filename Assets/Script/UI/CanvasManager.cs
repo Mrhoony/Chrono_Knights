@@ -40,7 +40,10 @@ public class CanvasManager : MonoBehaviour
     public bool isStorageOn;
     public bool isCancelOn;
 
-    public bool isTownUIOn;
+    public bool isShopOn;
+    public bool isTrinigOn;
+    public bool isEnchantOn;
+    public bool isUpgradeOn;
 
     public bool isDungeonUIOn;
     public bool isDungeonCancelOn;
@@ -66,7 +69,7 @@ public class CanvasManager : MonoBehaviour
         isInventoryOn = false;
         isStorageOn = false;
         isCancelOn = false;
-        isTownUIOn = false;
+        isShopOn = false;
         isDungeonUIOn = false;
         isDungeonCancelOn = false;
         for (int i = 0; i < Menus.Length; ++i)
@@ -122,6 +125,10 @@ public class CanvasManager : MonoBehaviour
             {
                 DungeonManager.instance.SceneLoad();
             }
+            else if (isShopOn)
+            {
+                CloseShopInventory();
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
@@ -133,34 +140,32 @@ public class CanvasManager : MonoBehaviour
             }
         }
 
-        if (isTownUIOn || isDungeonUIOn || isDungeonCancelOn) return;
-
+        if (TownUIOnCheck() || isDungeonUIOn || isDungeonCancelOn) return;
+        if (isStorageOn) return;
+        
         // 인벤토리, 업적창, 스토리 관련
-        if (!isStorageOn)
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            if (Input.GetKeyDown(KeyCode.I))
+            if (!isInventoryOn)
             {
-                if (!isInventoryOn)
-                {
-                    isInventoryOn = true;
-                    OpenInGameMenu(false);
-                }
-                else
-                {
-                    CloseInGameMenu();
-                    isInventoryOn = false;
-                }
+                isInventoryOn = true;
+                OpenInGameMenu(false);
             }
-            if (isInventoryOn)
+            else
             {
-                if (Input.GetKeyDown(KeyCode.U))
-                {
-                    ChangeMenu(-1);
-                }
-                if (Input.GetKeyDown(KeyCode.O))
-                {
-                    ChangeMenu(1);
-                }
+                CloseInGameMenu();
+                isInventoryOn = false;
+            }
+        }
+        if (isInventoryOn)
+        {
+            if (Input.GetKeyDown(KeyCode.U))
+            {
+                ChangeMenu(-1);
+            }
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                ChangeMenu(1);
             }
         }
     }
@@ -168,6 +173,11 @@ public class CanvasManager : MonoBehaviour
     public bool GameMenuOnCheck()
     {
         if (isCancelOn || isInventoryOn || isStorageOn) return true;
+        else return false;
+    }
+    public bool TownUIOnCheck()
+    {
+        if (isShopOn || isTrinigOn || isEnchantOn || isUpgradeOn) return true;
         else return false;
     }
     
@@ -301,7 +311,7 @@ public class CanvasManager : MonoBehaviour
 
     public void OpenShopInventory()
     {
-        isTownUIOn = true;
+        isShopOn = true;
         Menus[0].SetActive(true);
         townUI.OpenShopMenu(Menus[0].GetComponent<Menu_Inventory>());
         Menus[0].GetComponent<Menu_Inventory>().OpenInventory(townUI.townMenus[0].GetComponent<TownUI_Shop>());
@@ -311,7 +321,7 @@ public class CanvasManager : MonoBehaviour
         townUI.CloseShopMenu();
         Menus[0].GetComponent<Menu_Inventory>().CloseInventory();
         Menus[0].SetActive(false);
-        isTownUIOn = false;
+        isShopOn = false;
     }
     
     // 강화 창에서 창고 열 경우

@@ -231,7 +231,7 @@ public class GameManager : MonoBehaviour
                 playerStat.SetPlayerData(dataBase.playerData);
                 dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag());
                 storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetStorageItemSkillCodeList(), dataBase.GetAvailableStorageSlot());
-                inventory.LoadInventoryData(dataBase.GetAvailableInventorySlot());
+                inventory.LoadInventoryData(dataBase.GetAvailableInventorySlot(), dataBase.GetCurrentMoney());
             }
         }
         else
@@ -241,7 +241,7 @@ public class GameManager : MonoBehaviour
             playerStat.SetPlayerData(dataBase.playerData);
             dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag());
             storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetStorageItemSkillCodeList(), dataBase.GetAvailableStorageSlot());
-            inventory.LoadInventoryData(dataBase.GetAvailableInventorySlot());
+            inventory.LoadInventoryData(dataBase.GetAvailableInventorySlot(), dataBase.GetCurrentMoney());
         }
         CloseLoad();
 

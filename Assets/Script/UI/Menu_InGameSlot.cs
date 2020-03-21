@@ -6,7 +6,7 @@ public class Menu_InGameSlot : Slot
     public Image spriteRenderer;
     public GameObject itemSelect;
 
-    public override void SetItemSprite(Item _item, bool _OnOff)
+    public void SetItemSprite(Item _item, bool _OnOff)
     {
         Sprite[] keyItemBorderSprite = SpriteSet.keyItemBorderSprite;
 
@@ -37,12 +37,12 @@ public class Menu_InGameSlot : Slot
             _isSelected = true;
             itemSelect.SetActive(true);
         }
-        itemConfirm.transform.GetChild(focus).gameObject.SetActive(false);
-        itemConfirm.SetActive(false);
+        SetDisActiveItemConfirm();
 
         return _isSelected;
     }
-    public override void SetOverSlot(Sprite _slotSprite)
+
+    public void SetOverSlot(Sprite _slotSprite)
     {
         spriteRenderer.sprite = _slotSprite;
         slotFocus.SetActive(false);

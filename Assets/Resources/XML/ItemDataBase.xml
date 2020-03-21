@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ItemDataBase>
-	<Field itemName="커먼" itemRarity="1" itemCode="1" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Health" itemValue="20"/>
-	<Field itemName="커먼" itemRarity="1" itemCode="2" itemDescription="마을로 돌아갈 수 있는 탑의 조각" itemType="ReturnTown" itemUsingType="ReturnTown" itemValue="1"/>
-	<Field itemName="매직" itemRarity="2" itemCode="3" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="MoveSpeed" itemValue="1"/>
-	<Field itemName="매직" itemRarity="2" itemCode="4" itemDescription="화살표가 그려진 탑의 조각" itemType="ReturnPreFloor" itemUsingType="Bullet" itemValue="5"/>
-	<Field itemName="유니크" itemRarity="3" itemCode="5" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Attack" itemValue="5"/>
-	<Field itemName="유니크" itemRarity="3" itemCode="6" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Attack" itemValue="5"/>
-	<Field itemName="유니크" itemRarity="3" itemCode="7" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Attack" itemValue="5"/>
-	<Field itemName="유니크" itemRarity="3" itemCode="8" itemDescription="반복하는 탑의 조각" itemType="RepeatThisFloor" itemUsingType="Defense" itemValue="1"/>
-	<Field itemName="유니크" itemRarity="3" itemCode="9" itemDescription="다음층을 넘어가는 탑의 조각" itemType="FreePassNextFloor" itemUsingType="Health" itemValue="50"/>
-	<Field itemName="유니크" itemRarity="3" itemCode="10" itemDescription="이번층을 넘어가는 탑의 조각" itemType="FreePassThisFloor" itemUsingType="Bullet" itemValue="10"/>
+	<Field itemName="돌멩이" itemRarity="1" itemCode="1" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Health" itemValue="10"/>
+	<Field itemName="돌멩이" itemRarity="1" itemCode="2" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Health" itemValue="12"/>
+	<Field itemName="돌멩이" itemRarity="1" itemCode="3" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Health" itemValue="14"/>
+	<Field itemName="돌멩이" itemRarity="1" itemCode="4" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Health" itemValue="16"/>
+	<Field itemName="돌멩이" itemRarity="1" itemCode="5" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Health" itemValue="18"/>
+	<Field itemName="돌멩이" itemRarity="1" itemCode="6" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Health" itemValue="20"/>
+	<Field itemName="돌멩이" itemRarity="1" itemCode="7" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Health" itemValue="25"/>
+	<Field itemName="돌멩이" itemRarity="1" itemCode="8" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Health" itemValue="30"/>
+	<Field itemName="귀환석" itemRarity="1" itemCode="12" itemDescription="마을로 돌아갈 수 있는 탑의 조각" itemType="ReturnTown" itemUsingType="Attack" itemValue="1"/>
+	<Field itemName="귀환석" itemRarity="1" itemCode="13" itemDescription="마을로 돌아갈 수 있는 탑의 조각" itemType="ReturnTown" itemUsingType="Attack" itemValue="2"/>
+	<Field itemName="귀환석" itemRarity="1" itemCode="14" itemDescription="마을로 돌아갈 수 있는 탑의 조각" itemType="ReturnTown" itemUsingType="Defense" itemValue="1"/>
+	<Field itemName="귀환석" itemRarity="1" itemCode="15" itemDescription="마을로 돌아갈 수 있는 탑의 조각" itemType="ReturnTown" itemUsingType="Defense" itemValue="2"/>
+	<Field itemName="귀환석" itemRarity="1" itemCode="16" itemDescription="마을로 돌아갈 수 있는 탑의 조각" itemType="ReturnTown" itemUsingType="Bullet" itemValue="5"/>
+	<Field itemName="빛나는 돌멩이" itemRarity="2" itemCode="17" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Health" itemValue="20"/>
+	<Field itemName="빛나는 돌멩이" itemRarity="2" itemCode="18" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Health" itemValue="24"/>
+	<Field itemName="빛나는 돌멩이" itemRarity="2" itemCode="19" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Attack" itemValue="1"/>
+	<Field itemName="빛나는 돌멩이" itemRarity="2" itemCode="20" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Attack" itemValue="5"/>
+	<Field itemName="빛나는 돌멩이" itemRarity="2" itemCode="21" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Defense" itemValue="1"/>
+	<Field itemName="빛나는 돌멩이" itemRarity="2" itemCode="22" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Defense" itemValue="5"/>
+	<Field itemName="빛나는 돌멩이" itemRarity="2" itemCode="23" itemDescription="화살표가 그려진 탑의 조각" itemType="Number" itemUsingType="Bullet" itemValue="1"/>
+	<Field itemName="빛나는 돌멩이" itemRarity="2" itemCode="24" itemDescription="화살표가 그려진 탑의 조각" itemType="ReturnPreFloor" itemUsingType="Bullet" itemValue="5"/>
+	<Field itemName="빛나는 돌멩이" itemRarity="2" itemCode="25" itemDescription="화살표가 그려진 탑의 조각" itemType="Number" itemUsingType="Health" itemValue="28"/>
+	<Field itemName="빛나는 돌멩이" itemRarity="2" itemCode="26" itemDescription="화살표가 그려진 탑의 조각" itemType="ReturnPreFloor" itemUsingType="Health" itemValue="30"/>
+	<Field itemName="보석" itemRarity="3" itemCode="27" itemDescription="반복하는 탑의 조각" itemType="RepeatThisFloor" itemUsingType="Attack" itemValue="3"/>
+	<Field itemName="보석" itemRarity="3" itemCode="28" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Attack" itemValue="5"/>
+	<Field itemName="보석" itemRarity="3" itemCode="29" itemDescription="보스를 소환하는 보석" itemType="SetBossFloor" itemUsingType="Defense" itemValue="3"/>
+	<Field itemName="보석" itemRarity="3" itemCode="30" itemDescription="숫자가 적힌 탑의 조각" itemType="Number" itemUsingType="Defense" itemValue="5"/>
+	<Field itemName="보석" itemRarity="3" itemCode="31" itemDescription="다음층을 넘어가는 탑의 조각" itemType="FreePassNextFloor" itemUsingType="Health" itemValue="40"/>
+	<Field itemName="보석" itemRarity="3" itemCode="32" itemDescription="이번층을 넘어가는 탑의 조각" itemType="FreePassThisFloor" itemUsingType="Health" itemValue="45"/>
+	<Field itemName="보석" itemRarity="3" itemCode="33" itemDescription="이번층을 넘어가는 탑의 조각" itemType="FreePassThisFloor" itemUsingType="Health" itemValue="50"/>
 </ItemDataBase>

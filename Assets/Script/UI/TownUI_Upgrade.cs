@@ -4,13 +4,6 @@ using UnityEngine.UI;
 public class TownUI_Upgrade : TownUI_EquipmentUpgrade
 {
     public GameObject selectUpgradeItem;
-    Sprite[] slotImage;
-
-    public override void OnEnable()
-    {
-        base.OnEnable();
-        slotImage = Resources.LoadAll<Sprite>("Graphic/UI/ui_upgrade_set");
-    }
 
     public void Update()
     {
@@ -142,7 +135,7 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
                     break;
             }
             storage.EnchantedKey(keySlotFocus);
-            //selectedkey = null;
+            selectedkey = null;
         }
         // accept 창 초기화
         acceptSlot[0].transform.GetChild(1).gameObject.SetActive(false);
@@ -151,7 +144,7 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
         acceptSlot[1].transform.GetChild(2).gameObject.SetActive(false);
 
         acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
-        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = equipmentSet[num];
+        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = SpriteSet.itemSprite[num];
         SetSlot(acceptSlot[2], num, 1);
 
         for (int i = 0; i < 7; ++i)

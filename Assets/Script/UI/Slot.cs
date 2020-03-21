@@ -7,6 +7,9 @@ public abstract class Slot : MonoBehaviour
     public Image itemImage;
     public Image itemBorderImage;
     public GameObject itemConfirm;
+    public GameObject leftText;
+    public GameObject rightText;
+
 
     public int focus = 0;
 
@@ -19,11 +22,20 @@ public abstract class Slot : MonoBehaviour
         slotFocus.SetActive(_OnOff);
     }
 
-    public void SetActiveItemConfirm(bool _OnOff)
+    public void SetActiveItemConfirm(string _leftText, string _rightText)
     {
-        itemConfirm.transform.GetChild(focus).gameObject.SetActive(_OnOff);
-        if (!_OnOff) focus = 0;
-        itemConfirm.SetActive(_OnOff);
+        focus = 0;
+        itemConfirm.SetActive(true);
+        itemConfirm.transform.GetChild(focus).gameObject.SetActive(true);
+        leftText.GetComponent<Text>().text = _leftText;
+        rightText.GetComponent<Text>().text = _rightText;
+    }
+
+    public void SetDisActiveItemConfirm()
+    {
+        itemConfirm.transform.GetChild(focus).gameObject.SetActive(false);
+        focus = 0;
+        itemConfirm.SetActive(false);
     }
 
     public void ItemConfirmFocus(int _adjustValue)
@@ -41,7 +53,5 @@ public abstract class Slot : MonoBehaviour
         return focus;
     }
 
-    public abstract void SetItemSprite(Item _item, bool _OnOff);
     public abstract bool SetItemConfirm(bool _isSelected);
-    public abstract void SetOverSlot(Sprite _slotSprite);
 }

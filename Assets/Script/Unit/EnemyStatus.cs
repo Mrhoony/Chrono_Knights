@@ -29,6 +29,8 @@ public class EnemyStatus : MonoBehaviour
     public void MonsterInit(int _monsterCode)
     {
         boxCollider2D = GetComponent<BoxCollider2D>();
+
+        Debug.Log(_monsterCode);
         
         EnemyStatInit(Database_Game.instance.GetMonsterStatus(_monsterCode));
         _currentHP = _HP;

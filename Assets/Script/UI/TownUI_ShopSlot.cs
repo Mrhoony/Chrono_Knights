@@ -1,21 +1,26 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class TownUI_ShopSlot : Slot
 {
-    public override void SetItemSprite(Item _item, bool _OnOff)
+    public GameObject itemCost;
+
+    public void SetItemSprite(Item _item, int gold)
     {
-        Sprite[] keyItemBorderSprite = SpriteSet.shopItemBorderSprite;
         if (_item == null)
         {
             itemImage.gameObject.SetActive(false);
             itemBorderImage.gameObject.SetActive(false);
+            itemCost.SetActive(false);
         }
         else
         {
             itemImage.sprite = _item.sprite;
             itemImage.gameObject.SetActive(true);
-            itemBorderImage.sprite = keyItemBorderSprite[_item.itemRarity + 1];
+            itemBorderImage.sprite = SpriteSet.shopItemBorderSprite[_item.itemRarity + 1];
             itemBorderImage.gameObject.SetActive(true);
+            itemCost.SetActive(true);
+            itemCost.GetComponent<Text>().text = gold.ToString() + " gold";
         }
     }
     public override bool SetItemConfirm(bool _isSelected)
@@ -24,13 +29,5 @@ public class TownUI_ShopSlot : Slot
         itemConfirm.SetActive(false);
 
         return _isSelected;
-    }
-
-    public override void SetOverSlot(Sprite _slotSprite)
-    {
-        slotFocus.SetActive(false);
-        itemImage.gameObject.SetActive(false);
-        itemBorderImage.gameObject.SetActive(false);
-        itemConfirm.SetActive(false);
     }
 }
