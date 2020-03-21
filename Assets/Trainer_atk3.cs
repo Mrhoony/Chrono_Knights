@@ -16,8 +16,8 @@ public class Trainer_atk3 : AnimatorManager
         if (!move && stateInfo.normalizedTime > 0.2f)
         {
             move = true;
-            animator.GetComponent<Boss_Merchant>().MonsterAttack(MonsterAttackNumber.atk2);
-            animator.GetComponent<Boss_Merchant>().AttackMove(0.8f);
+            animator.GetComponent<Boss_Trainer>().MonsterAttack(MonsterAttackNumber.atk2);
+            animator.GetComponent<Boss_Trainer>().AttackMove(0.8f);
         }
     }
 }
