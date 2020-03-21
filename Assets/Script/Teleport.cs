@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class Teleport : MonoBehaviour
 {
+    public GameObject player;
     public int useSystem;   // 이동 할 씬 번호
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            collision.transform.GetChild(1).gameObject.SetActive(true);
             DungeonManager.instance.useTeleportSystem = useSystem;
+            player = collision.gameObject;
+            player.GetComponent<PlayerControl>().playerInputKey.SetActive(true);
         }
     }
 
@@ -19,8 +21,9 @@ public class Teleport : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.transform.GetChild(1).gameObject.SetActive(false);
             DungeonManager.instance.useTeleportSystem = 10;
+            player = collision.gameObject;
+            player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NPC_Control : MonoBehaviour
 {
@@ -14,12 +15,11 @@ public class NPC_Control : MonoBehaviour
         canvasManager = GameObject.Find("UI").GetComponent<CanvasManager>();
         inPlayer = false;
     }
-
-
+    
     public bool OpenUICheck()
     {
         if (!inPlayer) return true;
-        if (PlayerControl.instance.GetActionState() != ActionState.Idle) return true;
+        if (player.GetComponent<PlayerControl>().GetActionState() != ActionState.Idle) return true;
         if (canvasManager.GameMenuOnCheck()) return true;
         if (townUI.GetTownUIOnCheck()) return true;
         return false;
@@ -30,7 +30,7 @@ public class NPC_Control : MonoBehaviour
         {
             inPlayer = true;
             player = collision.gameObject;
-            collision.transform.GetChild(1).gameObject.SetActive(true);
+            player.GetComponent<PlayerControl>().playerInputKey.SetActive(true);
         }
     }
     public void OnTriggerExit2D(Collider2D collision)
@@ -39,7 +39,7 @@ public class NPC_Control : MonoBehaviour
         {
             inPlayer = false;
             player = collision.gameObject;
-            collision.transform.GetChild(1).gameObject.SetActive(false);
+            player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
         }
     }
 }

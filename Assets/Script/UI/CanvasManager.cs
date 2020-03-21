@@ -263,7 +263,7 @@ public class CanvasManager : MonoBehaviour
         Time.timeScale = 1f;
         OpenGameOverMenu();
     }
-
+    
     public void OpenDungeonMenu()
     {
         isDungeonUIOn = true;

@@ -14,5 +14,4 @@ public class NPC_Trainer : NPC_Control
             townUI.OpenTrainingMenu();
         }
     }
-
 }

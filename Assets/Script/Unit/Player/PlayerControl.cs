@@ -21,6 +21,7 @@ public class PlayerControl : MovingObject
     public PlayerStatus playerStatus;
     public SkillManager skillManager;
     public GameObject playerEffect;
+    public GameObject playerInputKey;
 
     public GameObject[] gunEffect;
     public GameObject[] shotPoint;
@@ -243,11 +244,20 @@ public class PlayerControl : MovingObject
         if (inputDirection > 0 && isFaceRight)
         {
             Flip();
+            PlayerInputKeyFlip();
         }
         else if (inputDirection < 0 && !isFaceRight)
         {
             Flip();
+            PlayerInputKeyFlip();
         }
+    }
+
+    public void PlayerInputKeyFlip()
+    {
+        Vector2 scale = playerInputKey.transform.localScale;
+        scale.x *= -1;
+        playerInputKey.transform.localScale = scale;
     }
 
     void SpearAttack()
