@@ -20,7 +20,7 @@ public class g_x_Attack_end : AnimatorManager
             {
                 move = true;
                 playerControl.InstantiateGunEft(GunEft.shot1);
-                playerControl.Attack(0.5f, 0f, 1f, 0.5f, AtkType.notMove);
+                playerControl.Attack(AtkType.g_notMove);
             }
         }
         if (stateInfo.normalizedTime > 0.4f)

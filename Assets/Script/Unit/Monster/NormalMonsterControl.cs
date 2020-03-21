@@ -182,6 +182,8 @@ public abstract class NormalMonsterControl : Monster_Control
         animator.SetTrigger("isDead_Trigger");
         spriteRenderer.material = defaultMaterial;
         StopAllCoroutines();
+        //die => sort layer
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
         //duneonManager.MonsterDie();
         if (dropItemList != null)
         {
@@ -189,7 +191,7 @@ public abstract class NormalMonsterControl : Monster_Control
         }
         //DeadAnimation();
     }
-
+    
     public void OnDestroy()
     {
         enemyStatus.HPbarReset();

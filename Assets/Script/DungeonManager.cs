@@ -619,8 +619,10 @@ public class DungeonManager : MonoBehaviour
         }
         else if (floorRepeat && !phaseClear)    // 맵 반복시
         {
+            Debug.Log("WHERE ::: " + monsterCount + " ABS : " + currentStageMonsterList.Length);
             floorRepeat = false;
             currentMonsterCount = monsterCount;
+            
             if(monsterCount > 0)
             {
                 for (int i = 0; i < monsterCount; ++i)
