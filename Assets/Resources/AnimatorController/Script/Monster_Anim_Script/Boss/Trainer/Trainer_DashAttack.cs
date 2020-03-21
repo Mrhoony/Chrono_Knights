@@ -16,7 +16,7 @@ public class Trainer_DashAttack : AnimatorManager
         if (!move && stateInfo.normalizedTime > 0.3f)
         {
             move = true;
-            animator.GetComponent<Boss_Trainer>().MonsterAttack(0.5f, 0f, 0.8f, 0.2f);
+            animator.GetComponent<Boss_Trainer>().MonsterAttack(MonsterAttackNumber.atk3);
             animator.GetComponent<Boss_Trainer>().AttackMove(0.5f);
         }
     }

@@ -7,6 +7,17 @@ public enum MonsterType
     monster, bossMonster
 }
 
+public enum MonsterAttackNumber {
+    atk1, atk2, atk3,
+}
+
+public class AttackRange {
+    public float posX;
+    public float posY;
+    public float atkRangeX;
+    public float atkRangeY;
+}
+
 public abstract class Monster_Control : MovingObject
 {
     public GameObject target;
@@ -34,6 +45,9 @@ public abstract class Monster_Control : MovingObject
     public float rotateDelayTime;
     public float attackCoolTime;
     public float maxAttackDelayTime;
+
+    //posx, posy, rangex, rangey
+    public AttackRange[] attackRange;
 
     public void Awake()
     {
@@ -68,10 +82,11 @@ public abstract class Monster_Control : MovingObject
     }
 
     // 몬스터 공격 판정
-    public virtual void MonsterAttack(float attackPosX, float attackPosY, float attackRangeX, float attackRangeY)
+    public virtual void MonsterAttack(MonsterAttackNumber mat)
     {
         Collider2D[] player = Physics2D.OverlapBoxAll(
-            new Vector2(transform.position.x + (attackPosX * GetArrowDirection()), transform.position.y), new Vector2(attackRangeX, attackRangeY), 8);
+            new Vector2(transform.position.x + (attackRange[(int)mat].posX + attackRange[(int)mat].atkRangeX * 0.5f ) * GetArrowDirection()
+            , transform.position.y + (attackRange[(int)mat].atkRangeY * 0.5f)), new Vector2(attackRange[(int)mat].atkRangeX, attackRange[(int)mat].atkRangeY), 8);
 
         if (player != null)
         {

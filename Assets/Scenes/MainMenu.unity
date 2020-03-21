@@ -2109,6 +2109,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 82245446886466468, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: canvasManager
+      value: 
+      objectReference: {fileID: 1116762776}
+    - target: {fileID: 82245445457459811, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: gm
+      value: 
+      objectReference: {fileID: 1146401371}
     - target: {fileID: 82245445457459823, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2214,11 +2224,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 82245445457459811, guid: 187d72a635af2f04a891caed4b95c247,
-        type: 3}
-      propertyPath: gm
-      value: 
-      objectReference: {fileID: 1146401371}
     - target: {fileID: 82245446886466458, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_IsActive
@@ -2229,11 +2234,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 82245446886466468, guid: 187d72a635af2f04a891caed4b95c247,
-        type: 3}
-      propertyPath: canvasManager
-      value: 
-      objectReference: {fileID: 1116762776}
     - target: {fileID: 8432644858398226406, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -3243,6 +3243,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Avatar
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718774178, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
+      propertyPath: m_FlipX
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}

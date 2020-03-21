@@ -20,7 +20,7 @@ public class Monster_Goblin_DashAtk : AnimatorManager
         {
             move = true;
             monster_Goblin.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(3f * monster_Goblin.GetArrowDirection(), monster_Goblin.gameObject.GetComponent<Rigidbody2D>().velocity.y);
-            monster_Goblin.MonsterAttack(0.5f, 0f, 0.8f, 0.2f);
+            monster_Goblin.MonsterAttack(MonsterAttackNumber.atk1);
         }
     }
 

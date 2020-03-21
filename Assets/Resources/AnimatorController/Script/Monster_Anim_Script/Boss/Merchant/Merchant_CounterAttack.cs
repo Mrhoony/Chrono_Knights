@@ -16,7 +16,7 @@ public class Merchant_CounterAttack : AnimatorManager
         if (!move && stateInfo.normalizedTime > 0.3f)
         {
             move = true;
-            animator.GetComponent<Boss_Merchant>().MonsterAttack(0.5f, 0f, 0.8f, 0.2f);
+            animator.GetComponent<Boss_Merchant>().MonsterAttack(MonsterAttackNumber.atk3);
             animator.GetComponent<Boss_Merchant>().AttackMove(-0.2f);
         }
     }

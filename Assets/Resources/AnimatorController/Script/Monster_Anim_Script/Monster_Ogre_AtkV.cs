@@ -14,7 +14,7 @@ public class Monster_Ogre_AtkV : AnimatorManager
         if (!move && stateInfo.normalizedTime > 0.6f)
         {
             move = true;
-            animator.GetComponent<Monster_Ogre>().MonsterAttack(1f, 0f, 3f, 0.5f);
+            animator.GetComponent<Monster_Ogre>().MonsterAttack(MonsterAttackNumber.atk2);
         }
     }
 

@@ -18,7 +18,7 @@ public class Monster_Frog_Attack : AnimatorManager
             move = true;
 
             animator.GetComponent<Monster_Frog>().AttackStart(4f, 1f);
-            animator.GetComponent<Monster_Frog>().MonsterAttack(0f, 0f, 0.2f, 0.2f);
+            animator.GetComponent<Monster_Frog>().MonsterAttack(MonsterAttackNumber.atk1);
         }
     }
 
