@@ -86,6 +86,7 @@ public abstract class Monster_Control : MovingObject
         }
     }
 
+    public abstract void MonsterInit();
     public abstract void MonsterFlip();
     public abstract void MonsterHit(int damage);
     public abstract void Dead();

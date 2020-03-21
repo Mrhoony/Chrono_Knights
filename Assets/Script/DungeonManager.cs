@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public enum Markers
@@ -250,9 +251,9 @@ public class DungeonManager : MonoBehaviour
     private int selectedMapNum = 0;
     private int spawnerCount;
     private int spawn;
-    
-    private bool usedKey;
-    private bool bossSetting;
+
+    public bool usedKey;
+    public bool bossSetting;
     public int currentStage;
     public int bossStageCount;
     public bool floorRepeat;
@@ -548,6 +549,7 @@ public class DungeonManager : MonoBehaviour
         return itemCostList;
     }
 
+    #region dungeon 관련
     // 층 이동 시 나타날 층 세팅
     public void FloorSetting()
     {
@@ -616,7 +618,7 @@ public class DungeonManager : MonoBehaviour
             currentStageMonsterList[0] = Instantiate(bossMonsterPreFabsList[randomBoss], new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y), Quaternion.identity);
         }
-        else if (floorRepeat && !phaseClear)    // 맵 반복시
+        else if (floorRepeat)    // 맵 반복시
         {
             Debug.Log("WHERE ::: " + monsterCount + " ABS : " + currentStageMonsterList.Length);
             floorRepeat = false;
@@ -627,7 +629,7 @@ public class DungeonManager : MonoBehaviour
                 for (int i = 0; i < monsterCount; ++i)
                 {
                     randomX = Random.Range(-1, 2);
-                    currentStageMonsterList[i].GetComponent<NormalMonsterControl>().MonsterInit();
+                    currentStageMonsterList[i].GetComponent<Monster_Control>().MonsterInit();
                     currentStageMonsterList[i].transform.position = new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
                                                              , spawner[Random.Range(0, spawnerCount)].transform.position.y);
                 }
@@ -681,8 +683,13 @@ public class DungeonManager : MonoBehaviour
     }
     public void FloorBossKill()
     {
-        ++bossClear;
-        phaseClear = true;
+        --currentMonsterCount;
+        if (currentMonsterCount < 1)
+        {
+            dungeonClear = true;
+            phaseClear = true;
+            ++bossClear;
+        }
     }
     public void FloorMonsterKill()
     {
@@ -771,7 +778,8 @@ public class DungeonManager : MonoBehaviour
             currentStageMonsterList[i].GetComponent<EnemyStatus>().Set_hp(_value, upgrade);
         }
     }
-    
+    #endregion
+
     // 씬 이동 후 초기화
     public void OnEnable()
     {
@@ -820,9 +828,8 @@ public class DungeonManager : MonoBehaviour
                 if (teleportPoint[i].GetComponent<Teleport>().useSystem == 0)
                     entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
             }
-
-            player.transform.position = entrance;
             mapList[0].GetComponent<BackgroundScrolling>().SetBackGroundPosition(0);
+            player.transform.position = entrance;
         }
         else if (SceneManager.GetActiveScene().buildIndex == 2)                  // 던전 화면 일 때
         {
@@ -832,8 +839,13 @@ public class DungeonManager : MonoBehaviour
             FloorSetting();
         }
         mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
+        StartCoroutine(MapMoveDelay());
+    }
 
-        canvasManager.FadeInStart();                                            // 씬 로드 종료 후 페이드 인
+    public IEnumerator MapMoveDelay()
+    {
+        yield return new WaitForSeconds(0.2f);
+        canvasManager.FadeInStart();        // 씬 로드 종료 후 페이드 인
     }
 
     public int GetCurrentDate()

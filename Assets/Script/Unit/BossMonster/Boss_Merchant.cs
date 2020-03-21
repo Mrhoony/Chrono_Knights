@@ -15,7 +15,7 @@ public class Boss_Merchant : BossMonster_Control
         isFaceRight = true;
         Invincible = false;
         monsterCode = 1001;
-        BossMonsterInit(monsterCode);
+        MonsterInit();
 
         actionState = ActionState.NotMove;
         StartCoroutine(MoveDelayTime(2f));

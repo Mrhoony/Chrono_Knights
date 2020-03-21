@@ -12,7 +12,7 @@ public abstract class NormalMonsterControl : Monster_Control
     public float randomAttack;
     public bool isDamagable;
 
-    public void MonsterInit()
+    public override void MonsterInit()
     {
         animator.SetBool("isDead", false);
         tag = "Monster";
@@ -184,7 +184,7 @@ public abstract class NormalMonsterControl : Monster_Control
         StopAllCoroutines();
         //die => sort layer
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
-        //duneonManager.MonsterDie();
+        DungeonManager.instance.FloorMonsterKill();
         if (dropItemList != null)
         {
             dropItemList.ItemDropChance();

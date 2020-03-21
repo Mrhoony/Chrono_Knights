@@ -18,7 +18,7 @@ public class Boss_Trainer : BossMonster_Control
         Invincible = false;
         isGuard = false;
         monsterCode = 1002;
-        BossMonsterInit(monsterCode);
+        MonsterInit();
     }
 
     private void FixedUpdate()

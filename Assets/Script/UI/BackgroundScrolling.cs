@@ -44,10 +44,20 @@ public class BackgroundScrolling : MonoBehaviour
     {
         Debug.Log("stage : " + currentStage);
         layers[0].transform.position = new Vector2(cameraTrasform.position.x, cameraTrasform.position.y + Random.Range(-2.5f, 2.5f));
-        for (int i = 1; i < layerCount; ++i)
+        if(currentStage < 1)
         {
-            layers[i].transform.position = new Vector2(cameraTrasform.position.x + Random.Range(-0.5f, 0.5f)
-                , layers[i].transform.position.y + Random.Range(-1f, 1f));
+            for (int i = 1; i < layerCount; ++i)
+            {
+                layers[i].transform.position = new Vector2(cameraTrasform.position.x, layers[i].transform.position.y + 2f);
+            }
+        }
+        else
+        {
+            for (int i = 1; i < layerCount; ++i)
+            {
+                layers[i].transform.position = new Vector2(cameraTrasform.position.x + Random.Range(-0.5f, 0.5f)
+                    , layers[i].transform.position.y + Random.Range(-1f, 1f));
+            }
         }
     }
 

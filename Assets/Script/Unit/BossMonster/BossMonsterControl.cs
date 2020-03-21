@@ -11,7 +11,7 @@ public abstract class BossMonster_Control : Monster_Control
     public int counter;
     public bool Invincible;
     
-    public void BossMonsterInit(int _monsterCode)
+    public override void MonsterInit()
     {
         gameObject.tag = "BossMonster";
 
@@ -66,7 +66,7 @@ public abstract class BossMonster_Control : Monster_Control
     public override void Dead()
     {
         animator.SetTrigger("isDead_Trigger");
-        //duneonManager.MonsterDie();
+        DungeonManager.instance.FloorBossKill();
         if (dropItemList != null)
         {
             dropItemList.ItemDropChance();
