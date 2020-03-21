@@ -7,7 +7,7 @@ public class NPC_Merchant : NPC_Control
     // Update is called once per frame
     void Update()
     {
-        if (OpenedUICheck()) return;
+        if (OpenUICheck()) return;
 
         if (Input.GetKeyDown(KeyCode.Z))
         {

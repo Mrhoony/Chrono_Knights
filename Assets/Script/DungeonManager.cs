@@ -412,6 +412,7 @@ public class DungeonManager : MonoBehaviour
         {
             case ItemUsingType.ReturnTown:
                 // 마을로 돌아간다. 클리어 정보창 표시
+                isReturn = true;
                 isSceneLoading = true;
                 canvasManager.CircleFadeOutStart();
                 break;
@@ -451,6 +452,7 @@ public class DungeonManager : MonoBehaviour
                 floorRepeat = true;
                 break;
             case ItemType.ReturnTown:                        // 사용된 키가 귀환일 때
+                isReturn = true;
                 isSceneLoading = true;
                 canvasManager.CircleFadeOutStart();
                 break;
@@ -460,7 +462,33 @@ public class DungeonManager : MonoBehaviour
         }
         return true;
     }
+    public void PlayerIsDead()
+    {
+        isDead = true;
+        Time.timeScale = 0.5f;
+        mainCamera.SetHeiWid(640, 360);
+        mainCamera.target.transform.position = player.transform.position;
+        isSceneLoading = true;
+        for (int i = 0; i < monsterCount; ++i)
+        {
+            currentStageMonsterList[i].GetComponent<Monster_Control>().MonsterStop();
+        }
+        canvasManager.CircleFadeOutStart();
+    }
+    public void ReturnToTown()
+    {
+        for(int i = 0; i < 8; ++i)
+        {
+            shopItemList[i] = null;
+        }
 
+        FloorReset();
+        canvasManager.Menus[0].GetComponent<Menu_Inventory>().PutInBox(isDead);
+        playerStatus.ReturnToTown();
+        DungeonInit();
+        mainCamera.SetHeiWid(640, 360);
+        SceneManager.LoadScene(0);
+    }
     public void SceneLoad()
     {
         if (!isDead)
@@ -496,32 +524,6 @@ public class DungeonManager : MonoBehaviour
         {
             ReturnToTown();
         }
-    }
-    public void PlayerIsDead()
-    {
-        isDead = true;
-        Time.timeScale = 0.5f;
-        mainCamera.SetHeiWid(640, 360);
-        mainCamera.target.transform.position = player.transform.position;
-        isSceneLoading = true;
-        for (int i = 0; i < monsterCount; ++i)
-        {
-            currentStageMonsterList[i].GetComponent<Monster_Control>().MonsterStop();
-        }
-        canvasManager.CircleFadeOutStart();
-    }
-    public void ReturnToTown()
-    {
-        for(int i = 0; i < 8; ++i)
-        {
-            shopItemList[i] = null;
-        }
-        FloorReset();
-        canvasManager.Menus[0].GetComponent<Menu_Inventory>().PutInBox(isDead);
-        playerStatus.ReturnToTown();
-        DungeonInit();
-        mainCamera.SetHeiWid(640, 360);
-        SceneManager.LoadScene(0);
     }
 
     public void SetShopItemList(Item[] _itemList, int[] _itemCost)

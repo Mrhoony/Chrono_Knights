@@ -28,6 +28,7 @@ public class CanvasManager : MonoBehaviour
     public GameObject fadeInOut;
     public GameObject circleFadeOut;
 
+    public GameObject dungeonCancleMenu;
     public GameObject gameOverWindow;
     #endregion
 
@@ -45,6 +46,7 @@ public class CanvasManager : MonoBehaviour
     public bool isUpgradeOn;
 
     public bool isDungeonUIOn;
+    public bool isGameOverUIOn;
     #endregion
 
     private int useContent;
@@ -89,7 +91,6 @@ public class CanvasManager : MonoBehaviour
                 if (!isDungeonUIOn)        // 던전 메뉴가 꺼져있고 던전 내부일 경우 던전 메뉴 온
                 {
                     OpenDungeonMenu();
-                    //DungeonManager.instance.PlayerIsDead();     // 임시로 플레이어 킬 - 집으로 복귀
                 }
                 else
                 {
@@ -129,9 +130,9 @@ public class CanvasManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            if (isDungeonUIOn)
+            if (isGameOverUIOn)
             {
-                CloseDungeonMenu();
+                CloseGameOverMenu();
             }
         }
 
@@ -258,24 +259,34 @@ public class CanvasManager : MonoBehaviour
         fadeOutScale.x = 100f;
         fadeOutScale.y = 100f;
         circleFadeOut.transform.localScale = fadeOutScale;
-
-        DungeonManager.instance.FloorReset();
+        
         Time.timeScale = 1f;
-        OpenDungeonMenu();
+        OpenGameOverMenu();
     }
 
     public void OpenDungeonMenu()
     {
         isDungeonUIOn = true;
-        gameOverWindow.SetActive(true);
+        dungeonCancleMenu.SetActive(true);
     }
     public void CloseDungeonMenu()
     {
         isDungeonUIOn = false;
+        dungeonCancleMenu.SetActive(false);
+    }
+
+    public void OpenGameOverMenu()
+    {
+        isGameOverUIOn = true;
+        gameOverWindow.SetActive(true);
+    }
+    public void CloseGameOverMenu()
+    {
+        isGameOverUIOn = false;
         gameOverWindow.SetActive(false);
         if (DungeonManager.instance.isReturn)
         {
-            DungeonManager.instance.SceneLoad();
+            DungeonManager.instance.ReturnToTown();
         }
     }
 
@@ -351,20 +362,20 @@ public class CanvasManager : MonoBehaviour
     {
         if (isCancelOn) return;
         isStorageOn = true;
-
         PlayerControl.instance.StopPlayer();
         PlayerControl.instance.enabled = false;
         storage.SetActive(true);
         storage.GetComponent<Menu_Storage>().OpenStorage();
+        Debug.Log("open storage");
     }
     public void CloseStorage()
     {
+        Debug.Log("close storage");
         storage.SetActive(false);
         isStorageOn = false;
         StartCoroutine(PlayerMoveEnable());
     }
     
-
     public void OpenCancelMenu()
     {
         PlayerControl.instance.StopPlayer();

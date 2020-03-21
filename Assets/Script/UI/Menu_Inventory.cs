@@ -163,6 +163,7 @@ public class Menu_Inventory : Menu_InGameMenu
         if (DungeonManager.instance.UseKeyInDungeon(itemList[_focused]))
         {
             DeleteItem(_focused);
+            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(itemList[_focused]);
             canvasManager.CloseInGameMenu();
         }
     }
@@ -258,15 +259,12 @@ public class Menu_Inventory : Menu_InGameMenu
         isShopOpen = false;
         isUIOn = false;
     }
-
     public void SetSelectedItem(int _value, int[] _selectedSlot)
     {
         seletedItemCount = _value;
 
-        for (int i = 0; i < availableSlot; ++i)
+        for (int i = 0; i < seletedItemCount; ++i)
         {
-            if (_selectedSlot[i] == 99) break;
-
             itemList[i] = storage.GetSelectStorageItem(_selectedSlot[i]);
             isFull[i] = true;
         }

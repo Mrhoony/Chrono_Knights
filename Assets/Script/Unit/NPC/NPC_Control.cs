@@ -9,14 +9,14 @@ public class NPC_Control : MonoBehaviour
     public TownUI townUI;
     public bool inPlayer;
 
-    public void Awake()
+    public void OnEnable()
     {
-        player = GameObject.Find("PlayerCharacter");
         canvasManager = GameObject.Find("UI").GetComponent<CanvasManager>();
         inPlayer = false;
     }
 
-    public bool OpenedUICheck()
+
+    public bool OpenUICheck()
     {
         if (!inPlayer) return true;
         if (PlayerControl.instance.GetActionState() != ActionState.Idle) return true;
@@ -29,6 +29,7 @@ public class NPC_Control : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inPlayer = true;
+            player = collision.gameObject;
             collision.transform.GetChild(1).gameObject.SetActive(true);
         }
     }
@@ -37,6 +38,7 @@ public class NPC_Control : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inPlayer = false;
+            player = collision.gameObject;
             collision.transform.GetChild(1).gameObject.SetActive(false);
         }
     }
