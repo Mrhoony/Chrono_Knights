@@ -22,6 +22,7 @@ public class PlayerControl : MovingObject
     public SkillManager skillManager;
     public GameObject playerEffect;
     public GameObject playerInputKey;
+    public GameObject quickSlot;
 
     public GameObject[] gunEffect;
     public GameObject[] shotPoint;
@@ -255,7 +256,11 @@ public class PlayerControl : MovingObject
 
     public void PlayerInputKeyFlip()
     {
-        Vector2 scale = playerInputKey.transform.localScale;
+        Vector2 scale;
+        scale = quickSlot.transform.localScale;
+        scale.x *= -1;
+        quickSlot.transform.localScale = scale;
+        scale = playerInputKey.transform.localScale;
         scale.x *= -1;
         playerInputKey.transform.localScale = scale;
     }

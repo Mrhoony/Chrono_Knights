@@ -5,43 +5,23 @@ using UnityEngine.UI;
 
 public class Menu_QuickSlot : MonoBehaviour
 {
-    public static Menu_QuickSlot instance;
-
     public GameObject player;
     public CanvasManager menu;
     public Menu_Inventory inventory;
     public GameObject slots;
     public GameObject[] quickSlot;
     public Item[] inventoryItemlist;
-    public bool onQuickSlot;
+    public bool onQuickSlot = false;
     public int addQuickInventory;
-
-    public Sprite[] quickSlotImage;
+    
     public GameObject quickSlotItemInfomation;
 
     public int focus;
 
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-            Destroy(gameObject);
-        
-        quickSlotImage = Resources.LoadAll<Sprite>("Graphic/UI/ui_quickSlot");
-        onQuickSlot = false;
-    }
-
     public void Update()
     {
         if (menu.GameMenuOnCheck()) return;
-
-        slots.transform.position = new Vector3(Camera.main.WorldToScreenPoint(player.transform.position).x, Camera.main.WorldToScreenPoint(player.transform.position).y + 75f, 0f);
-        quickSlotItemInfomation.transform.position = quickSlot[focus - addQuickInventory].transform.position;
-
+        
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (!onQuickSlot)

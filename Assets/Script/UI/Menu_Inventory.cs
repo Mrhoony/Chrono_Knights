@@ -52,7 +52,6 @@ public class Menu_Inventory : Menu_InGameMenu
                     }
                     if (isShopOpen)
                     {
-                        // 아이템 판매 함수 추가
                         money = money + itemList[focused].itemRarity;
                         DeleteItem(focused);
                         SetMoneyGameObject();
@@ -239,24 +238,22 @@ public class Menu_Inventory : Menu_InGameMenu
     }
     public void InventorySet()           // 인벤토리 활성화시 아이템 세팅
     {
-        Sprite[] keyItemBorderSprite = SpriteSet.keyItemBorderSprite;
-
         for (int i = 0; i < availableSlot; ++i)
         {
             if (itemList[i] != null)
             {
-                slot[i].GetComponent<Menu_InGameSlot>().SetItemSprite(itemList[i]);
+                slot[i].GetComponent<Menu_InGameSlot>().SetItemSprite(SpriteSet.keyItemBorderSprite[4], itemList[i]);
                 isFull[i] = true;
             }
             else
             {
-                slot[i].GetComponent<Menu_InGameSlot>().SetItemSprite(null);
+                slot[i].GetComponent<Menu_InGameSlot>().SetItemSprite(SpriteSet.keyItemBorderSprite[4], null);
                 isFull[i] = false;
             }
         }
         for(int i = availableSlot; i < 24; ++i)
         {
-            slot[i].GetComponent<Menu_InGameSlot>().SetOverSlot(keyItemBorderSprite[0]);
+            slot[i].GetComponent<Menu_InGameSlot>().SetOverSlot(SpriteSet.keyItemBorderSprite[0]);
         }
     }
     public void CloseInventory()

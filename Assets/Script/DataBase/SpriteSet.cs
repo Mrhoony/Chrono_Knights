@@ -9,4 +9,5 @@ public static class SpriteSet
     public static readonly Sprite[] shopItemBorderSprite = Resources.LoadAll<Sprite>("Graphic/UI/ui_shop_set");
     public static readonly Sprite[] enchantSlotImage = Resources.LoadAll<Sprite>("Graphic/UI/ui_enchant_set");
     public static readonly Sprite[] upgradeSlotImage = Resources.LoadAll<Sprite>("Graphic/UI/ui_upgrade_set");
+    public static readonly Sprite[] quickSlotImage = Resources.LoadAll<Sprite>("Graphic/UI/ui_quickSlot");
 }

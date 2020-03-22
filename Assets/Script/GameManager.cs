@@ -194,7 +194,7 @@ public class GameManager : MonoBehaviour
         dataBase.playerData = playerStat.playerData;
         dataBase.SaveGameData(dungeonManager.GetCurrentDate(), dungeonManager.GetTrainigPossible(), dungeonManager.GetEventFlag());
         dataBase.SaveStorageData(storage.GetStorageItemCodeList(), storage.GetStorageItemSkillCodeList(), storage.GetStorageAvailableSlot());
-        dataBase.SaveInventoryData(inventory.GetAvailableSlot());
+        dataBase.SaveInventoryData(inventory.GetAvailableSlot(), inventory.GetCurrentMoney());
         
         bf.Serialize(ms, dataBase);
         data = Convert.ToBase64String(ms.GetBuffer());

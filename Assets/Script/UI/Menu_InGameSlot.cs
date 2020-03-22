@@ -3,13 +3,12 @@ using UnityEngine.UI;
 
 public class Menu_InGameSlot : Slot
 {
-    public Image spriteRenderer;
+    public Image slotImage;
     public GameObject itemSelect;
 
-    public void SetItemSprite(Item _item)
+    public void SetItemSprite(Sprite _slotSprite, Item _item)
     {
-        Sprite[] keyItemBorderSprite = SpriteSet.keyItemBorderSprite;
-
+        slotImage.sprite = _slotSprite;
         if (_item == null)
         {
             itemImage.gameObject.SetActive(false);
@@ -19,15 +18,14 @@ public class Menu_InGameSlot : Slot
         {
             itemImage.sprite = _item.sprite;
             itemImage.gameObject.SetActive(true);
-            itemBorderImage.sprite = keyItemBorderSprite[_item.itemRarity];
+            itemBorderImage.sprite = SpriteSet.keyItemBorderSprite[_item.itemRarity];
             itemBorderImage.gameObject.SetActive(true);
         }
     }
 
-    public void SetItemSprite(Item _item, bool _OnOff)
+    public void SetItemSprite(Sprite _slotSprite, Item _item, bool _OnOff)
     {
-        Sprite[] keyItemBorderSprite = SpriteSet.keyItemBorderSprite;
-
+        slotImage.sprite = _slotSprite;
         if (_item == null)
         {
             itemImage.gameObject.SetActive(false);
@@ -37,7 +35,7 @@ public class Menu_InGameSlot : Slot
         {
             itemImage.sprite = _item.sprite;
             itemImage.gameObject.SetActive(true);
-            itemBorderImage.sprite = keyItemBorderSprite[_item.itemRarity];
+            itemBorderImage.sprite = SpriteSet.keyItemBorderSprite[_item.itemRarity];
             itemBorderImage.gameObject.SetActive(true);
         }
         itemSelect.SetActive(_OnOff);
@@ -62,7 +60,7 @@ public class Menu_InGameSlot : Slot
 
     public void SetOverSlot(Sprite _slotSprite)
     {
-        spriteRenderer.sprite = _slotSprite;
+        slotImage.sprite = _slotSprite;
         slotFocus.SetActive(false);
         itemImage.gameObject.SetActive(false);
         itemBorderImage.gameObject.SetActive(false);

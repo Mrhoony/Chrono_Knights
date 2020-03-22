@@ -59,7 +59,6 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
             }
         }
     }
-
     public void OpenSelectedItemMenu()
     {
         selectItemUIFocused = 0;
@@ -93,10 +92,6 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
         acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);
         acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = selectedkey.sprite;
         acceptSlot[1].transform.GetChild(2).GetComponent<Image>().sprite = SpriteSet.keyItemBorderSprite[selectedkey.itemRarity];
-
-        acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
-        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = selectedkey.sprite;
-        acceptSlot[2].transform.GetChild(1).GetComponent<Image>().sprite = SpriteSet.keyItemBorderSprite[selectedkey.itemRarity];
     }
 
     public void SetSlot(GameObject _slot, int _slotNum, int _startNum)

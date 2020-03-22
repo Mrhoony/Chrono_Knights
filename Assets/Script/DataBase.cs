@@ -11,7 +11,7 @@ public class DataBase
     public int[] storageItemSkillCodeList;
     public int availableStorageSlot;
     public int availableInventorySlot;
-    public int currentMoney = 0;
+    public int currentMoney;
     public int currentDate;
     public bool isTrainigPossible;
     public bool[] eventFlag;
@@ -48,6 +48,7 @@ public class DataBase
     {
         return availableStorageSlot;
     }
+
     public int GetAvailableInventorySlot()
     {
         return availableInventorySlot;
@@ -56,6 +57,7 @@ public class DataBase
     {
         return currentMoney;
     }
+
     public int GetCurrentDate()
     {
         return currentDate;
@@ -85,8 +87,9 @@ public class DataBase
         storageItemSkillCodeList = _storageItemSkillList;
         availableStorageSlot = _availableStorageSLot;
     }
-    public void SaveInventoryData(int _availableInventorySlot)
+    public void SaveInventoryData(int _availableInventorySlot, int _currentMoney)
     {
         availableInventorySlot = _availableInventorySlot;
+        currentMoney = _currentMoney;
     }
 }
