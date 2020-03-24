@@ -8,7 +8,11 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    
+
+    public GameObject mainUICursor;
+    public GameObject saveUICursor;
+    public float cursorSpd;
+
     public GameObject startButton;
     public GameObject[] startButtons;
 
@@ -149,43 +153,38 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.RightArrow)) { SaveFocusedSlot(1); }
             if (Input.GetKeyDown(KeyCode.LeftArrow)) { SaveFocusedSlot(-1); }
+            SaveCursorMove();
         }
-        if (!gameStart && !openSaveSlot)
+        else if (!gameStart && !openSaveSlot)
         {
             if (Input.GetKeyDown(KeyCode.UpArrow)) { GameStartFocusedSlot(-1); }
             if (Input.GetKeyDown(KeyCode.DownArrow)) { GameStartFocusedSlot(1); }
+            MainCursorMove();
         }
+    }
+
+    void MainCursorMove() {
+        mainUICursor.transform.position = Vector2.Lerp(mainUICursor.transform.position,
+           new Vector2(mainUICursor.transform.position.x, startButtons[gameSlotFocus].transform.position.y), Time.deltaTime * cursorSpd);
+    }
+    void SaveCursorMove() {
+        saveUICursor.transform.position = Vector2.Lerp(saveUICursor.transform.position,
+            new Vector2(saveSlots[saveSlotFocus].transform.position.x, saveUICursor.transform.position.y), Time.deltaTime * cursorSpd);
     }
 
     void SaveFocusedSlot(int AdjustValue)
     {
-        saveSlots[saveSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 1);
-        saveSlots[saveSlotFocus].transform.position = new Vector3(saveSlots[saveSlotFocus].transform.position.x
-            , saveSlots[saveSlotFocus].transform.position.y - 5f, saveSlots[saveSlotFocus].transform.position.z);
-
         if (saveSlotFocus + AdjustValue < 0) saveSlotFocus = 2;
         else if (saveSlotFocus + AdjustValue > 2) saveSlotFocus = 0;
         else saveSlotFocus += AdjustValue;
 
         data = PlayerPrefs.GetString("SaveSlot" + saveSlotFocus.ToString(), null);
-
-        saveSlots[saveSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
-        saveSlots[saveSlotFocus].transform.position = new Vector3(saveSlots[saveSlotFocus].transform.position.x
-            , saveSlots[saveSlotFocus].transform.position.y + 5f, saveSlots[saveSlotFocus].transform.position.z);
     }
     void GameStartFocusedSlot(int AdjustValue)
     {
-        startButtons[gameSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 1);
-        startButtons[gameSlotFocus].transform.position = new Vector3(startButtons[gameSlotFocus].transform.position.x
-            , startButtons[gameSlotFocus].transform.position.y - 5f, startButtons[gameSlotFocus].transform.position.z);
-
         if (gameSlotFocus + AdjustValue < 0) gameSlotFocus = 2;
         else if (gameSlotFocus + AdjustValue > 2) gameSlotFocus = 0;
         else gameSlotFocus += AdjustValue;
-
-        startButtons[gameSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
-        startButtons[gameSlotFocus].transform.position = new Vector3(startButtons[gameSlotFocus].transform.position.x
-            , startButtons[gameSlotFocus].transform.position.y + 5f, startButtons[gameSlotFocus].transform.position.z);
     }
 
     public void SaveGame()
@@ -217,10 +216,6 @@ public class GameManager : MonoBehaviour
     }
     public void LoadGame()
     {
-        startButtons[gameSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 1);
-        startButtons[gameSlotFocus].transform.position = new Vector3(startButtons[gameSlotFocus].transform.position.x
-            , startButtons[gameSlotFocus].transform.position.y - 5f, startButtons[gameSlotFocus].transform.position.z);
-
         if (PlayerPrefs.HasKey("SaveSlot" + saveSlotFocus.ToString()))
         {
             data = PlayerPrefs.GetString("SaveSlot" + saveSlotFocus.ToString(), null);
@@ -289,10 +284,6 @@ public class GameManager : MonoBehaviour
     public void OpenStartButton()
     {
         startButton.SetActive(true);
-
-        startButtons[0].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
-        startButtons[0].transform.position = new Vector3(startButtons[0].transform.position.x
-            , startButtons[0].transform.position.y + 5f, startButtons[0].transform.position.z);
     }
     public void OpenLoad()
     {
@@ -301,8 +292,6 @@ public class GameManager : MonoBehaviour
 
         openSaveSlot = true;
         saveSlotFocus = 0;
-        saveSlots[0].GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
-        saveSlots[0].transform.position = new Vector3(saveSlots[0].transform.position.x, saveSlots[0].transform.position.y + 5f, saveSlots[0].transform.position.z);
         
         for(int i = 0; i < 3; ++i)
         {
@@ -334,9 +323,6 @@ public class GameManager : MonoBehaviour
     }
     public void CloseLoad()
     {
-        saveSlots[saveSlotFocus].GetComponent<Image>().color = new Color(1, 1, 1, 1);
-        saveSlots[saveSlotFocus].transform.position = new Vector3(saveSlots[saveSlotFocus].transform.position.x
-            , saveSlots[saveSlotFocus].transform.position.y + 5f, saveSlots[saveSlotFocus].transform.position.z);
         openSaveSlot = false;
         saveSlot.SetActive(false);
         startButton.SetActive(true);
