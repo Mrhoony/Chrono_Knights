@@ -6,6 +6,10 @@ public class Menu_Inventory : Menu_InGameMenu
     public Menu_Storage storage;
     public TownUI_Shop shop;
     public GameObject moneyText;
+
+    public GameObject cursorInvenSelect;
+    public float cursorSpd;
+
     public int seletedItemCount;         // 창고에서 선택된 아이템 수
     public int[] storageSelectedItem;
     public bool isDungeonOpen;
@@ -36,6 +40,7 @@ public class Menu_Inventory : Menu_InGameMenu
     {
         if (canvasManager.isCancelOn) return;
         if (!isUIOn) return;
+
 
         if (isItemSelect)
         {
@@ -99,13 +104,11 @@ public class Menu_Inventory : Menu_InGameMenu
                 if (Input.GetKeyDown(KeyCode.X))
                 {
                     isThisWindowFocus = false;
-                    slotInstance.SetActiveFocus(false);
                     canvasManager.CloseShopInventory();
                 }
                 if (Input.GetKeyDown(KeyCode.C))    // 포커스 상점으로 변경
                 {
                     isThisWindowFocus = false;
-                    slotInstance.SetActiveFocus(false);
                     StartCoroutine(FocusChange());
                 }
             }
@@ -133,6 +136,8 @@ public class Menu_Inventory : Menu_InGameMenu
                 }
             }
         }
+
+        FocusMove();
     }
     #region shop 관련
     public int BuyItem(Item _Item, int _price)
@@ -148,7 +153,6 @@ public class Menu_Inventory : Menu_InGameMenu
     {
         focused = 0;
         slotInstance = slot[focused].GetComponent<Slot>();
-        slotInstance.SetActiveFocus(true);
         isThisWindowFocus = true;
     }
     IEnumerator FocusChange()
@@ -222,7 +226,6 @@ public class Menu_Inventory : Menu_InGameMenu
         isDungeonOpen = _isDungeon;
         focused = 0;
         slotInstance = slot[focused].GetComponent<Slot>();
-        slotInstance.SetActiveFocus(true);
 
         InventorySet();
 
@@ -258,7 +261,6 @@ public class Menu_Inventory : Menu_InGameMenu
     }
     public void CloseInventory()
     {
-        slotInstance.SetActiveFocus(false);
         itemInformation.SetActive(false);
         isShopOpen = false;
         isUIOn = false;
@@ -385,11 +387,15 @@ public class Menu_Inventory : Menu_InGameMenu
         return false;
     }
 
+    public void FocusMove() {
+        cursorInvenSelect.transform.position = Vector2.Lerp(cursorInvenSelect.transform.position, slot[focused].transform.position, Time.deltaTime * cursorSpd);
+    }
+    
+
     public override void FocusedSlot(int AdjustValue)
     {
         if (focused + AdjustValue < 0 || focused + AdjustValue > availableSlot-1) { return; }
-
-        slotInstance.SetActiveFocus(false);
+        
         focused += AdjustValue;
 
         if (itemList[focused] != null)
@@ -402,6 +408,5 @@ public class Menu_Inventory : Menu_InGameMenu
             itemInformation.SetActive(false);
         }
         slotInstance = slot[focused].GetComponent<Slot>();
-        slotInstance.SetActiveFocus(true);
     }
 }
