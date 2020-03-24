@@ -96,7 +96,7 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
         keySlotFocus = focus;
         selectedkey = storage.GetStorageItem(focus);
         
-        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = SpriteSet.keyItemBorderSprite[selectedkey.itemRarity];
+        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = SpriteSet.storageSprite[7 - selectedkey.itemRarity];
         acceptSlot[1].transform.GetChild(2).GetComponent<Image>().sprite = selectedkey.sprite;
 
         acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);       // 장비 아이템
@@ -106,7 +106,7 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
     public void SetSlot(GameObject _slot, int _slotNum, int _startNum)
     {
         _slot.transform.GetChild(_startNum + 1).gameObject.SetActive(true);
-        _slot.transform.GetChild(_startNum + 1).GetComponent<Image>().sprite = SpriteSet.keyItemBorderSprite[equipment[_slotNum].itemRarity]; // 레어도
+        _slot.transform.GetChild(_startNum + 1).GetComponent<Image>().sprite = SpriteSet.storageSprite[7 - equipment[_slotNum].itemRarity]; // 레어도
         _slot.transform.GetChild(_startNum + 2).GetComponent<Text>().text = playerEquipment.GetStatusName(_slotNum, true) + "+" + playerEquipment.GetUpStatus(_slotNum) + " %";
 
         if(playerEquipment.GetStatusName(_slotNum, false) != "")

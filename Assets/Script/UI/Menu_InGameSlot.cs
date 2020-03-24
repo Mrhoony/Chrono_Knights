@@ -6,9 +6,9 @@ public class Menu_InGameSlot : Slot
     public Image slotImage;
     public GameObject itemSelect;
 
-    public void SetItemSprite(Sprite _slotSprite, Item _item)
+    public void SetItemSprite(Item _item)
     {
-        slotImage.sprite = _slotSprite;
+        slotImage.sprite = SpriteSet.inventorySprite[1];
         if (_item == null)
         {
             itemImage.gameObject.SetActive(false);
@@ -18,14 +18,13 @@ public class Menu_InGameSlot : Slot
         {
             itemImage.sprite = _item.sprite;
             itemImage.gameObject.SetActive(true);
-            itemBorderImage.sprite = SpriteSet.keyItemBorderSprite[_item.itemRarity];
+            itemBorderImage.sprite = SpriteSet.inventorySprite[6 - _item.itemRarity];
             itemBorderImage.gameObject.SetActive(true);
         }
     }
-
-    public void SetItemSprite(Sprite _slotSprite, Item _item, bool _OnOff)
+    public void SetItemSprite(Item _item, bool _OnOff)
     {
-        slotImage.sprite = _slotSprite;
+        slotImage.sprite = SpriteSet.inventorySprite[1];
         if (_item == null)
         {
             itemImage.gameObject.SetActive(false);
@@ -35,7 +34,7 @@ public class Menu_InGameSlot : Slot
         {
             itemImage.sprite = _item.sprite;
             itemImage.gameObject.SetActive(true);
-            itemBorderImage.sprite = SpriteSet.keyItemBorderSprite[_item.itemRarity];
+            itemBorderImage.sprite = SpriteSet.inventorySprite[6 - _item.itemRarity];
             itemBorderImage.gameObject.SetActive(true);
         }
         itemSelect.SetActive(_OnOff);
@@ -58,10 +57,9 @@ public class Menu_InGameSlot : Slot
         return _isSelected;
     }
 
-    public void SetOverSlot(Sprite _slotSprite)
+    public void SetOverSlot()
     {
-        slotImage.sprite = _slotSprite;
-        slotFocus.SetActive(false);
+        slotImage.sprite = SpriteSet.inventorySprite[2];
         itemImage.gameObject.SetActive(false);
         itemBorderImage.gameObject.SetActive(false);
         itemSelect.SetActive(false);

@@ -3,7 +3,10 @@
 public class Menu_Storage : Menu_InGameMenu
 {
     public Menu_Inventory inventory;
-    
+
+    public GameObject cursorInvenSelect;
+    public float cursorSpd;
+
     public bool upgradeItem;               // 아이템 강화 사용할 때
 
     // 창고 슬롯
@@ -141,6 +144,8 @@ public class Menu_Storage : Menu_InGameMenu
                 }
             }
         }
+
+        FocusMove();
     }
 
     public void StorageSet()           // 창고 활성화시 UI 초기화
@@ -153,17 +158,17 @@ public class Menu_Storage : Menu_InGameMenu
             if (itemList[i] != null)
             {
                 isFull[i] = true;
-                slot[i - (boxNum * 24)].GetComponent<Menu_InGameSlot>().SetItemSprite(SpriteSet.keyItemBorderSprite[4], itemList[i], isSelected[i]);
+                slot[i - (boxNum * 24)].GetComponent<Menu_InGameSlot>().SetItemSprite(itemList[i], isSelected[i]);
             }
             else
             {
                 isFull[i] = false;
-                slot[i - (boxNum * 24)].GetComponent<Menu_InGameSlot>().SetItemSprite(SpriteSet.keyItemBorderSprite[4], null, isSelected[i]);
+                slot[i - (boxNum * 24)].GetComponent<Menu_InGameSlot>().SetItemSprite(null, isSelected[i]);
             }
         }
         for(int i = boxFull; i < 24; ++i)
         {
-            slot[i].GetComponent<Menu_InGameSlot>().SetOverSlot(SpriteSet.keyItemBorderSprite[0]);
+            slot[i].GetComponent<Menu_InGameSlot>().SetOverSlot();
         }
     }
     public void PutInBox(Item[] item)
@@ -423,6 +428,10 @@ public class Menu_Storage : Menu_InGameMenu
         }
     }
 
+    public void FocusMove()
+    {
+        cursorInvenSelect.transform.position = Vector2.Lerp(cursorInvenSelect.transform.position, slot[focused - (boxNum * 24)].transform.position, Time.deltaTime * cursorSpd);
+    }
     public override void FocusedSlot(int AdjustValue)
     {
         if (focused + AdjustValue > availableSlot - 1 || focused + AdjustValue < 0) return;

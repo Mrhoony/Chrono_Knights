@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public abstract class Slot : MonoBehaviour
 {
-    public GameObject slotFocus;
     public Image itemImage;
     public Image itemBorderImage;
     public GameObject itemConfirm;
@@ -17,7 +16,6 @@ public abstract class Slot : MonoBehaviour
         {
             itemConfirm.SetActive(_OnOff);
         }
-        slotFocus.SetActive(_OnOff);
     }
 
     public void SetActiveItemConfirm(string _leftText, string _rightText)

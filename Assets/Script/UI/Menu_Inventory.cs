@@ -245,18 +245,18 @@ public class Menu_Inventory : Menu_InGameMenu
         {
             if (itemList[i] != null)
             {
-                slot[i].GetComponent<Menu_InGameSlot>().SetItemSprite(SpriteSet.keyItemBorderSprite[4], itemList[i]);
+                slot[i].GetComponent<Menu_InGameSlot>().SetItemSprite(itemList[i]);
                 isFull[i] = true;
             }
             else
             {
-                slot[i].GetComponent<Menu_InGameSlot>().SetItemSprite(SpriteSet.keyItemBorderSprite[4], null);
+                slot[i].GetComponent<Menu_InGameSlot>().SetItemSprite(null);
                 isFull[i] = false;
             }
         }
         for(int i = availableSlot; i < 24; ++i)
         {
-            slot[i].GetComponent<Menu_InGameSlot>().SetOverSlot(SpriteSet.keyItemBorderSprite[0]);
+            slot[i].GetComponent<Menu_InGameSlot>().SetOverSlot();
         }
     }
     public void CloseInventory()
@@ -387,11 +387,10 @@ public class Menu_Inventory : Menu_InGameMenu
         return false;
     }
 
-    public void FocusMove() {
+    public void FocusMove()
+    {
         cursorInvenSelect.transform.position = Vector2.Lerp(cursorInvenSelect.transform.position, slot[focused].transform.position, Time.deltaTime * cursorSpd);
     }
-    
-
     public override void FocusedSlot(int AdjustValue)
     {
         if (focused + AdjustValue < 0 || focused + AdjustValue > availableSlot-1) { return; }
