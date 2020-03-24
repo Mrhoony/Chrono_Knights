@@ -13,7 +13,8 @@ public abstract class BossMonster_Control : Monster_Control
     
     public override void MonsterInit()
     {
-        gameObject.tag = "BossMonster";
+        animator.SetBool("isDead", false);
+        tag = "BossMonster";
 
         actionState = ActionState.Idle;
         enemyStatus.BossMonsterInit(monsterCode);
@@ -56,7 +57,7 @@ public abstract class BossMonster_Control : Monster_Control
             yield return null;
         }
     }
-    public abstract override void MonsterHit(int damage);
+    public abstract override void MonsterHit(int _damage, int _knockBack);
 
     public void AttackMove(float moveDistance)
     {
@@ -65,16 +66,13 @@ public abstract class BossMonster_Control : Monster_Control
 
     public override void Dead()
     {
+        animator.SetBool("isDead", true);
         animator.SetTrigger("isDead_Trigger");
         DungeonManager.instance.FloorBossKill();
         if (dropItemList != null)
         {
             dropItemList.ItemDropChance();
         }
-        //DeadAnimation();
-    }
-    public void OnDestroy()
-    {
-        enemyStatus.HPbarReset();
+        enabled = false;
     }
 }

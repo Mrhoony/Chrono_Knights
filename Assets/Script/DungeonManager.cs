@@ -167,11 +167,6 @@ public class MarkerVariable
         markerVariable[(int)Markers.SetNegAttackMulty_NF] = 1;
     }
 }
-/*
- * 층, 소환몹갯수로 구성된 클래스
- * FloorDatas.Floor, FloorDatas.SpawnAmount로 접근
- * 선언은 Awake 함수 내부, 값설정은 선언시 1회 설정, 이후변경불가
- */
 public class FloorData
 {
     int floor;
@@ -326,6 +321,7 @@ public class DungeonManager : MonoBehaviour
     private void DungeonInit()
     {
         isDead = false;
+        isReturn = false;
         bossSetting = false;
         dungeonClear = false;
         floorRepeat = false;
@@ -464,7 +460,9 @@ public class DungeonManager : MonoBehaviour
     }
     public void PlayerIsDead()
     {
+        if (isDead) return;
         isDead = true;
+        isReturn = true;
         Time.timeScale = 0.5f;
         mainCamera.SetHeiWid(640, 360);
         mainCamera.target.transform.position = player.transform.position;
@@ -482,6 +480,7 @@ public class DungeonManager : MonoBehaviour
             shopItemList[i] = null;
         }
 
+        inDungeon = false;
         FloorReset();
         canvasManager.Menus[0].GetComponent<Menu_Inventory>().PutInBox(isDead);
         playerStatus.ReturnToTown();
@@ -489,6 +488,7 @@ public class DungeonManager : MonoBehaviour
         mainCamera.SetHeiWid(640, 360);
         SceneManager.LoadScene(0);
     }
+
     public void SceneLoad()
     {
         if (!isDead)
@@ -549,24 +549,17 @@ public class DungeonManager : MonoBehaviour
         dungeonClear = false;
         usedKey = false;
 
-        int dropItemPoolCount = dropItemPool.transform.childCount;
-        for (int i = 0; i < dropItemPoolCount; ++i)
-        {
-            Destroy(dropItemPool.transform.GetChild(i).gameObject);
-        }
-
-        if (!floorRepeat)
-            FloorReset();
-
+        FloorReset();
+        
         DungeonPoolManager.instance.bossMonsterCountReset();
         
-        mapList = GameObject.FindGameObjectsWithTag("BaseMap");
+        mapList = GameObject.FindGameObjectsWithTag("BaseMap");         // 씬의 맵 중 랜덤하게 선택
         selectedMapNum = Random.Range(0, mapList.Length);
 
         for (int i = 0; i < 2; ++i)
         {
             if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
-                entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
+                entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;        // 플레이어 시작 위치
         }
         player.transform.position = entrance;
         mapList[selectedMapNum].GetComponent<BackgroundScrolling>().SetBackGroundPosition(currentStage);
@@ -645,7 +638,7 @@ public class DungeonManager : MonoBehaviour
                         , Quaternion.identity);
             }
         }                        // 일반 맵일경우
-
+        
         if (currentStage < 2) canvasManager.dungeonUI.SetDungeonFloor(currentStage, "");
         else
         {
@@ -654,15 +647,25 @@ public class DungeonManager : MonoBehaviour
             MonsterAttackSetting(currentMonsterCount, bossClearCount * 1);
             MonsterDefSetting(currentMonsterCount, bossClearCount * 1);
         }
+
+        MarkerSetting();
     }
     public void FloorReset()
     {
-        for(int i = 0; i < monsterCount; ++i)
+        if (floorRepeat) return;
+
+        for (int i = 0; i < monsterCount; ++i)
         {
             if(currentStageMonsterList[i] != null)
             {
                 Destroy(currentStageMonsterList[i].gameObject);
             }
+        }
+
+        int dropItemPoolCount = dropItemPool.transform.childCount;
+        for (int i = 0; i < dropItemPoolCount; ++i)
+        {
+            Destroy(dropItemPool.transform.GetChild(i).gameObject);
         }
         // 구조물 위치 초기화
     }

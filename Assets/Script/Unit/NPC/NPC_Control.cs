@@ -19,7 +19,12 @@ public class NPC_Control : MonoBehaviour
     public bool OpenUICheck()
     {
         if (!inPlayer) return true;
-        if (player.GetComponent<PlayerControl>().GetActionState() != ActionState.Idle) return true;
+        if (player.GetComponent<PlayerControl>().GetActionState() != ActionState.Idle)
+        {
+            player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
+            return true;
+        }
+        player.GetComponent<PlayerControl>().playerInputKey.SetActive(true);
         if (canvasManager.GameMenuOnCheck()) return true;
         if (townUI.GetTownUIOnCheck()) return true;
         return false;
@@ -30,7 +35,6 @@ public class NPC_Control : MonoBehaviour
         {
             inPlayer = true;
             player = collision.gameObject;
-            player.GetComponent<PlayerControl>().playerInputKey.SetActive(true);
         }
     }
     public void OnTriggerExit2D(Collider2D collision)
@@ -39,7 +43,6 @@ public class NPC_Control : MonoBehaviour
         {
             inPlayer = false;
             player = collision.gameObject;
-            player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
         }
     }
 }

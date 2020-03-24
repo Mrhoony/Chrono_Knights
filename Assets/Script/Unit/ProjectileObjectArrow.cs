@@ -39,7 +39,7 @@ public class ProjectileObjectArrow : MonoBehaviour
             if (collision.CompareTag("Player"))
             {
                 isHit = true;
-                collision.gameObject.GetComponent<IsDamageable>().Hit(damage);
+                collision.gameObject.GetComponent<IsDamageable>().Hit(damage, 0);
                 gameObject.SetActive(false);
             }
             else if (collision.CompareTag("Ground"))

@@ -21,6 +21,7 @@ public abstract class NormalMonsterControl : Monster_Control
         actionState = ActionState.Idle;
         enemyStatus.MonsterInit(monsterCode);
         moveSpeed = enemyStatus.GetMoveSpeed();
+        monsterWeight = enemyStatus.monsterWeight;
 
         StartCoroutine(SearchPlayer());
         
@@ -136,11 +137,11 @@ public abstract class NormalMonsterControl : Monster_Control
         Debug.Log("monster attack");
     }
 
-    public override void MonsterHit(int damage)
+    public override void MonsterHit(int _damage, int _knockBack)
     {
         if (actionState == ActionState.IsDead) return;
         
-        enemyStatus.DecreaseHP(damage);
+        enemyStatus.DecreaseHP(_damage);
         StartCoroutine(MonsterHitEffect());
 
         if (enemyStatus.IsDeadCheck())
@@ -152,13 +153,18 @@ public abstract class NormalMonsterControl : Monster_Control
         else
         {
             animator.SetTrigger("isHit");
-            StopCoroutine("moveDelayCoroutine");
             actionState = ActionState.NotMove;
-            moveDelayCoroutine = MoveDelayTime(1f);
+            StopCoroutine("moveDelayCoroutine");
+            moveDelayCoroutine = MoveDelayTime(1.5f);
             StartCoroutine(moveDelayCoroutine);
             random = Random.Range(-0.2f, 0.2f);
-            rb.velocity = Vector2.zero;
-            rb.AddForce(new Vector2(PlayerControl.instance.GetArrowDirection() + random, 0.2f), ForceMode2D.Impulse);
+
+            int knockBack = _knockBack - monsterWeight;
+            if(knockBack > 0)
+            {
+                rb.velocity = Vector2.zero;
+                rb.AddForce(new Vector2((PlayerControl.instance.GetArrowDirection() + random) * knockBack * 0.5f, 1f), ForceMode2D.Impulse);
+            }
         }
     }
     public IEnumerator MonsterHitEffect()
@@ -189,11 +195,6 @@ public abstract class NormalMonsterControl : Monster_Control
         {
             dropItemList.ItemDropChance();
         }
-        //DeadAnimation();
-    }
-    
-    public void OnDestroy()
-    {
-        enemyStatus.HPbarReset();
+        enabled = false;
     }
 }

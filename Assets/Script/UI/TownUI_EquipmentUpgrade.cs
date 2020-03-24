@@ -41,83 +41,88 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
         open_BlackSmithUI = true;
         open_SelectItemUI = false;
         open_ReSelectEquipment = false;
-        selectEquipFocused = 0;
         equipment = playerEquipment.equipment;
-        equipSlots[selectEquipFocused].transform.GetChild(0).gameObject.SetActive(true);
-
+        selectEquipFocused = 0;
+        equipSlots[selectEquipFocused].transform.GetChild(0).gameObject.SetActive(true);           // 1번 슬롯 포커스 온
+        SelectEquipmentSet();
+    }
+    public void SelectEquipmentSet()
+    {
         for (int i = 0; i < 7; ++i)
         {
-            equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = SpriteSet.itemSprite[i];       // 키 아이템
             equipSlots[i].transform.GetChild(1).gameObject.SetActive(true);
+            equipSlots[i].transform.GetChild(1).GetComponent<Image>().sprite = SpriteSet.itemSprite[i];       // 장비 아이템
             if (equipment[i].itemCode != 0)
             {
-                SetSlot(equipSlots[i], i, 2);
+                equipSlots[i].transform.GetChild(2).gameObject.SetActive(true);
+                SetSlot(equipSlots[i], i, 1);
             }
             else
             {
+                equipSlots[i].transform.GetChild(2).gameObject.SetActive(false);
                 ClearSlot(equipSlots[i], 2);
             }
         }
     }
+
     public void OpenSelectedItemMenu()
     {
-        selectItemUIFocused = 0;
         upgradeButton.GetComponent<Image>().color = new Color(upgradeButton.GetComponent<Image>().color.r,
             upgradeButton.GetComponent<Image>().color.g, upgradeButton.GetComponent<Image>().color.b, 255);
 
-        acceptSlot[0].transform.GetChild(0).gameObject.SetActive(true);
-        acceptSlot[0].transform.GetChild(1).gameObject.SetActive(true);
-        acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = SpriteSet.itemSprite[selectEquipFocused];
+        acceptSlot[0].SetActive(true);
+        acceptSlot[1].SetActive(true);
+        acceptSlot[1].transform.GetChild(1).gameObject.SetActive(false);       // 장비 아이템
+        acceptSlot[1].transform.GetChild(2).gameObject.SetActive(false);       // 장비 아이템
+
+        selectItemUIFocused = 0;
+        acceptSlot[0].transform.GetChild(selectItemUIFocused).gameObject.SetActive(true);           // 1번 슬롯 포커스 온
+        acceptSlot[0].transform.GetChild(1).gameObject.SetActive(true);       // 장비 아이템
+        acceptSlot[0].transform.GetChild(1).GetComponent<Image>().sprite = SpriteSet.itemSprite[selectEquipFocused];       // 장비 아이템
 
         if (equipment[selectEquipFocused].itemCode != 0)
         {
-            SetSlot(acceptSlot[0], selectEquipFocused, 2);
+            SetSlot(acceptSlot[0], selectEquipFocused, 1);
         }
         else
         {
             ClearSlot(acceptSlot[0], 2);
         }
-
-        acceptSlot[1].transform.GetChild(1).gameObject.SetActive(false);
-        acceptSlot[1].transform.GetChild(2).gameObject.SetActive(false);
-        acceptSlot[2].transform.GetChild(0).gameObject.SetActive(false);
-        ClearSlot(acceptSlot[2], 1);
+        acceptSlot[2].SetActive(false);
     }
 
     public void SetKey(int focus)
     {
         keySlotFocus = focus;
         selectedkey = storage.GetStorageItem(focus);
+        
+        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = SpriteSet.keyItemBorderSprite[selectedkey.itemRarity];
+        acceptSlot[1].transform.GetChild(2).GetComponent<Image>().sprite = selectedkey.sprite;
 
-        acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);
-        acceptSlot[1].transform.GetChild(1).GetComponent<Image>().sprite = selectedkey.sprite;
-        acceptSlot[1].transform.GetChild(2).GetComponent<Image>().sprite = SpriteSet.keyItemBorderSprite[selectedkey.itemRarity];
+        acceptSlot[1].transform.GetChild(1).gameObject.SetActive(true);       // 장비 아이템
+        acceptSlot[1].transform.GetChild(2).gameObject.SetActive(true);       // 장비 아이템
     }
 
     public void SetSlot(GameObject _slot, int _slotNum, int _startNum)
     {
-        _slot.transform.GetChild(_startNum).GetComponent<Image>().sprite = SpriteSet.keyItemBorderSprite[equipment[_slotNum].itemRarity]; // 레어도
-        _slot.transform.GetChild(_startNum + 1).GetComponent<Text>().text = playerEquipment.GetStatusName(_slotNum, true);
-        _slot.transform.GetChild(_startNum + 2).GetComponent<Text>().text = playerEquipment.GetUpStatus(_slotNum) + " %";
+        _slot.transform.GetChild(_startNum + 1).gameObject.SetActive(true);
+        _slot.transform.GetChild(_startNum + 1).GetComponent<Image>().sprite = SpriteSet.keyItemBorderSprite[equipment[_slotNum].itemRarity]; // 레어도
+        _slot.transform.GetChild(_startNum + 2).GetComponent<Text>().text = playerEquipment.GetStatusName(_slotNum, true) + "+" + playerEquipment.GetUpStatus(_slotNum) + " %";
 
         if(playerEquipment.GetStatusName(_slotNum, false) != "")
         {
-            _slot.transform.GetChild(_startNum + 3).GetComponent<Text>().text = playerEquipment.GetStatusName(_slotNum, false);
-            _slot.transform.GetChild(_startNum + 4).GetComponent<Text>().text = playerEquipment.GetDownStatus(_slotNum) + " %";
+            _slot.transform.GetChild(_startNum + 3).GetComponent<Text>().text = playerEquipment.GetStatusName(_slotNum, false) + "-" + playerEquipment.GetDownStatus(_slotNum) + " %";
         }
         else
         {
             _slot.transform.GetChild(_startNum + 3).GetComponent<Text>().text = "";
-            _slot.transform.GetChild(_startNum + 4).GetComponent<Text>().text = "";
         }
     }
-    public void ClearSlot(GameObject _slotNum, int _startNum)
+    public void ClearSlot(GameObject _slot, int _startNum)
     {
-        _slotNum.transform.GetChild(_startNum).gameObject.SetActive(false);
-        _slotNum.transform.GetChild(_startNum + 1).GetComponent<Text>().text = "";
-        _slotNum.transform.GetChild(_startNum + 2).GetComponent<Text>().text = "";
-        _slotNum.transform.GetChild(_startNum + 3).GetComponent<Text>().text = "";
-        _slotNum.transform.GetChild(_startNum + 4).GetComponent<Text>().text = "";
+        _slot.transform.GetChild(_startNum).gameObject.SetActive(false);
+        _slot.transform.GetChild(_startNum + 1).GetComponent<Text>().text = "인챈트 없음";
+        _slot.transform.GetChild(_startNum + 2).GetComponent<Text>().text = "";
     }
 
     public int FocusSlotEquipmentSelect(GameObject[] slots, int AdjustValue, int focused)

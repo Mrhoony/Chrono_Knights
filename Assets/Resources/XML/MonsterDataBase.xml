@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <MonsterDataBase>
-	<Field monsterCode="1" monsterName="Frog" monsterHP="5" monsterMoveSpeed="1" monsterAttackSpeed="1" monsterAttackRange="2" monsterAttack="1" monsterDefense="0" monsterPopChance="1"/>
-	<Field monsterCode="2" monsterName="Wolf" monsterHP="10" monsterMoveSpeed="2" monsterAttackSpeed="1" monsterAttackRange="1" monsterAttack="2" monsterDefense="0" monsterPopChance="1"/>
-	<Field monsterCode="3" monsterName="Goblin" monsterHP="10" monsterMoveSpeed="1" monsterAttackSpeed="1" monsterAttackRange="1" monsterAttack="2" monsterDefense="0" monsterPopChance="2"/>
-	<Field monsterCode="4" monsterName="Goblin Acher" monsterHP="8" monsterMoveSpeed="0.5" monsterAttackSpeed="2" monsterAttackRange="4" monsterAttack="1" monsterDefense="0" monsterPopChance="3"/>
-	<Field monsterCode="5" monsterName="Ogre" monsterHP="70" monsterMoveSpeed="0.5" monsterAttackSpeed="2" monsterAttackRange="3" monsterAttack="10" monsterDefense="1" monsterPopChance="7"/>
-	<Field monsterCode="6" monsterName="Golem" monsterHP="100" monsterMoveSpeed="0.2" monsterAttackSpeed="2" monsterAttackRange="2" monsterAttack="5" monsterDefense="2" monsterPopChance="5"/>
-	<Field monsterCode="7" monsterName="Bear" monsterHP="50" monsterMoveSpeed="1.5" monsterAttackSpeed="1" monsterAttackRange="1.5" monsterAttack="4" monsterDefense="1" monsterPopChance="4"/>
-	<Field monsterCode="8" monsterName="Dokkaebi" monsterHP="150" monsterMoveSpeed="1" monsterAttackSpeed="2" monsterAttackRange="2" monsterAttack="8" monsterDefense="1" monsterPopChance="5"/>
-	<Field monsterCode="1001" monsterName="Merchant" monsterHP="200" monsterMoveSpeed="1" monsterAttackSpeed="2" monsterAttackRange="1" monsterAttack="5" monsterDefense="1" monsterPopChance="0"/>
-	<Field monsterCode="1002" monsterName="Trainer" monsterHP="300" monsterMoveSpeed="3" monsterAttackSpeed="1" monsterAttackRange="2" monsterAttack="3" monsterDefense="2" monsterPopChance="0"/>
+	<Field monsterCode="1" monsterName="Frog" monsterHP="5" monsterMoveSpeed="1" monsterAttackSpeed="1" monsterAttackRange="2" monsterAttack="1" monsterDefense="0" monsterPopChance="1" monsterWeight="1"/>
+	<Field monsterCode="2" monsterName="Wolf" monsterHP="10" monsterMoveSpeed="2" monsterAttackSpeed="1" monsterAttackRange="1" monsterAttack="2" monsterDefense="0" monsterPopChance="1" monsterWeight="1"/>
+	<Field monsterCode="3" monsterName="Goblin" monsterHP="10" monsterMoveSpeed="1" monsterAttackSpeed="1" monsterAttackRange="1" monsterAttack="2" monsterDefense="0" monsterPopChance="2" monsterWeight="1"/>
+	<Field monsterCode="4" monsterName="Goblin Acher" monsterHP="8" monsterMoveSpeed="0.5" monsterAttackSpeed="2" monsterAttackRange="4" monsterAttack="1" monsterDefense="0" monsterPopChance="3" monsterWeight="1"/>
+	<Field monsterCode="5" monsterName="Ogre" monsterHP="70" monsterMoveSpeed="0.5" monsterAttackSpeed="2" monsterAttackRange="3" monsterAttack="10" monsterDefense="1" monsterPopChance="7" monsterWeight="8"/>
+	<Field monsterCode="6" monsterName="Golem" monsterHP="100" monsterMoveSpeed="0.2" monsterAttackSpeed="2" monsterAttackRange="2" monsterAttack="5" monsterDefense="2" monsterPopChance="5" monsterWeight="10"/>
+	<Field monsterCode="7" monsterName="Bear" monsterHP="50" monsterMoveSpeed="1.5" monsterAttackSpeed="1" monsterAttackRange="1.5" monsterAttack="4" monsterDefense="1" monsterPopChance="4" monsterWeight="7"/>
+	<Field monsterCode="8" monsterName="Dokkaebi" monsterHP="150" monsterMoveSpeed="1" monsterAttackSpeed="2" monsterAttackRange="2" monsterAttack="8" monsterDefense="1" monsterPopChance="5" monsterWeight="8"/>
+	<Field monsterCode="1001" monsterName="Merchant" monsterHP="200" monsterMoveSpeed="1" monsterAttackSpeed="2" monsterAttackRange="1" monsterAttack="5" monsterDefense="1" monsterPopChance="0" monsterWeight="1"/>
+	<Field monsterCode="1002" monsterName="Trainer" monsterHP="300" monsterMoveSpeed="3" monsterAttackSpeed="1" monsterAttackRange="2" monsterAttack="3" monsterDefense="2" monsterPopChance="0" monsterWeight="1"/>
 </MonsterDataBase>

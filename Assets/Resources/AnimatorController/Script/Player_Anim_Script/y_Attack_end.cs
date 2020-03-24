@@ -20,7 +20,7 @@ public class y_Attack_end : AnimatorManager
             atkTime += Time.deltaTime;
             if(atkTime > 0.2f)
             {
-                playerControl.Attack(AtkType.fowardBack);
+                playerControl.Attack(AtkType.spear_Y_Attack);
                 atkTime = 0;
             }
         }

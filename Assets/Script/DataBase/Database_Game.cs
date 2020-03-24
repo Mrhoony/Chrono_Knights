@@ -125,8 +125,9 @@ public class Monster
     public int monsterAttack;
     public int monsterDefense;
     public int monsterPopChance;
+    public int monsterWeight;
 
-    public Monster(int _monsterCode, string _monsterName, int _monsterHP, float _monstermoveSpeed, float _monsterAttackSpeed, float _monsterAttackRange, int _monsterAttack, int _monsterDefense, int _monsterPopChance)
+    public Monster(int _monsterCode, string _monsterName, int _monsterHP, float _monstermoveSpeed, float _monsterAttackSpeed, float _monsterAttackRange, int _monsterAttack, int _monsterDefense, int _monsterPopChance, int _monsterWeight)
     {
         monsterCode = _monsterCode;
         monsterName = _monsterName;
@@ -137,6 +138,30 @@ public class Monster
         monsterAttack = _monsterAttack;
         monsterDefense = _monsterDefense;
         monsterPopChance = _monsterPopChance;
+        monsterWeight = _monsterWeight;
+    }
+}
+public class PlayerAttack
+{
+    public AtkType attackType;
+    public float attackXPoint;
+    public float attackYPoint;
+    public float attackXRange;
+    public float attackYRange;
+    public float attackMultiply;
+    public float distanceMultiply;
+    public int knockBack;
+
+    public PlayerAttack(AtkType _attackType, float _attackXPoint, float _attackYPoint, float _attackXRange, float _attackYRange, float _attackMultiply, float _distanceMultiply, int _knockBack)
+    {
+        attackType = _attackType;
+        attackXPoint = _attackXPoint;
+        attackYPoint = _attackYPoint;
+        attackXRange = _attackXRange;
+        attackYRange = _attackYRange;
+        attackMultiply = _attackMultiply;
+        distanceMultiply = _distanceMultiply;
+        knockBack = _knockBack;
     }
 }
 
@@ -147,10 +172,12 @@ public class Database_Game : MonoBehaviour
     public List<Item> Item = new List<Item>();
     public List<Skill> skillList = new List<Skill>();
     public List<Monster> monsterList = new List<Monster>();
+    public List<PlayerAttack> playerAttack = new List<PlayerAttack>();
 
     readonly string itemXMLFileName = "ItemDataBase";
     readonly string skillXMLFileName = "SkillDataBase";
     readonly string MonsterXMLFileName = "MonsterDataBase";
+    readonly string playerAttackXMLFileName = "PlayerAttackDataBase";
 
     private void Awake()
     {
@@ -167,6 +194,7 @@ public class Database_Game : MonoBehaviour
         InputItemData(itemXMLFileName);
         InputSkillData(skillXMLFileName);
         InputMonsterData(MonsterXMLFileName);
+        InputPlayerAttack(playerAttackXMLFileName);
     }
 
     XmlNodeList XmlNodeReturn(string filePass)
@@ -243,7 +271,33 @@ public class Database_Game : MonoBehaviour
                         float.Parse(data.Attributes.GetNamedItem("monsterAttackRange").Value),
                         int.Parse(data.Attributes.GetNamedItem("monsterAttack").Value),
                         int.Parse(data.Attributes.GetNamedItem("monsterDefense").Value),
-                        int.Parse(data.Attributes.GetNamedItem("monsterPopChance").Value)
+                        int.Parse(data.Attributes.GetNamedItem("monsterPopChance").Value),
+                        int.Parse(data.Attributes.GetNamedItem("monsterWeight").Value)
+                        ));
+                }
+            }
+        }
+        Debug.Log("Input MonsterData");
+    }
+    void InputPlayerAttack(string _playerAttackFileName)
+    {
+        XmlNodeList nodelist = XmlNodeReturn(_playerAttackFileName);
+
+        foreach (XmlNode node in nodelist)
+        {
+            if (node.Name.Equals(_playerAttackFileName) && node.HasChildNodes)
+            {
+                foreach (XmlNode data in node)
+                {
+                    playerAttack.Add(new PlayerAttack(
+                        (AtkType)System.Enum.Parse(typeof(AtkType), data.Attributes.GetNamedItem("attackType").Value),
+                        float.Parse(data.Attributes.GetNamedItem("attackXPoint").Value),
+                        float.Parse(data.Attributes.GetNamedItem("attackYPoint").Value),
+                        float.Parse(data.Attributes.GetNamedItem("attackXRange").Value),
+                        float.Parse(data.Attributes.GetNamedItem("attackYRange").Value),
+                        float.Parse(data.Attributes.GetNamedItem("attackMultiply").Value),
+                        float.Parse(data.Attributes.GetNamedItem("distanceMultiply").Value),
+                        int.Parse(data.Attributes.GetNamedItem("knockBack").Value)
                         ));
                 }
             }
@@ -303,6 +357,19 @@ public class Database_Game : MonoBehaviour
             if (skillList[i].skillCode == _skillCode)
             {
                 return skillList[i];
+            }
+        }
+        return null;
+    }
+    public PlayerAttack GetPlayerAttackInformation(AtkType _atkType)
+    {
+        int count = playerAttack.Count;
+        Debug.Log(count);
+        for (int i = 0; i < count; ++i)
+        {
+            if(playerAttack[i].attackType == _atkType)
+            {
+                return playerAttack[i];
             }
         }
         return null;

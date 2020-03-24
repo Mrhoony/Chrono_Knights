@@ -22,7 +22,7 @@ public class g_Jump_x_Atk : AnimatorManager
             {
                 move = true;
                 playerControl.InstantiateGunEft(GunEft.downshot);
-                playerControl.AttackDistance(playerControl.Attack(AtkType.notMove));
+                playerControl.AttackDistance(playerControl.Attack(AtkType.gun_JumpX_Attack));
             }
             animator.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0.4f);
         }

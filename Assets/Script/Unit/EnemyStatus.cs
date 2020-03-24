@@ -16,6 +16,7 @@ public class EnemyStatus : MonoBehaviour
     public float _attackRange;
     public int _attack; // 공격력
     public int _defense;
+    public int monsterWeight;
 
     private bool bossMonster;
     
@@ -23,14 +24,15 @@ public class EnemyStatus : MonoBehaviour
     {
         if(!bossMonster)
             if(enemyHPBar != null)
-                enemyHPBar.transform.position = new Vector3(Camera.main.WorldToScreenPoint(transform.position).x, Camera.main.WorldToScreenPoint(transform.position).y + boxCollider2D.bounds.size.y * 100f + 10f, transform.position.z);
+                enemyHPBar.transform.position = new Vector3(
+                    Camera.main.WorldToScreenPoint(transform.position).x, 
+                    Camera.main.WorldToScreenPoint(transform.position).y + boxCollider2D.bounds.size.y * 100f + 10f, 
+                    transform.position.z);
     }
 
     public void MonsterInit(int _monsterCode)
     {
         boxCollider2D = GetComponent<BoxCollider2D>();
-
-        Debug.Log(_monsterCode);
         
         EnemyStatInit(Database_Game.instance.GetMonsterStatus(_monsterCode));
         _currentHP = _HP;
@@ -60,6 +62,7 @@ public class EnemyStatus : MonoBehaviour
         _attackRange = _monster.monsterAttackRange;
         _attack = _monster.monsterAttack;
         _defense = _monster.monsterDefense;
+        monsterWeight = _monster.monsterWeight;
     }
     public void IncreaseHP(int damage)
     {
@@ -99,7 +102,8 @@ public class EnemyStatus : MonoBehaviour
         enemyHPBar = null;
     }
 
-    public void Set_def(int _value) {
+    public void Set_def(int _value)
+    {
         _defense += _value;
     }
 

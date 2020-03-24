@@ -19,7 +19,7 @@ public class xFxFx_Attack_end : AnimatorManager
             if (!move)
             {
                 move = true;
-                playerControl.AttackDistance(playerControl.Attack(AtkType.fowardDash));
+                playerControl.AttackDistance(playerControl.Attack(AtkType.spear_XFXFX_Attack));
             }
         }
     }

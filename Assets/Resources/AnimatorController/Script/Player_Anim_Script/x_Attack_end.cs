@@ -19,7 +19,7 @@ public class x_Attack_end : AnimatorManager
             if (!move)
             {
                 move = true;
-                playerControl.Attack(AtkType.notMove);
+                playerControl.Attack(AtkType.spear_X_Attack);
             }
         }
         if(stateInfo.normalizedTime > 0.4f)

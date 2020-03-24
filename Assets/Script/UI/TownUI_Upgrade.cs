@@ -20,6 +20,7 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
             {
                 if (selectEquipFocused == 7)
                 {
+                    /*
                     if (open_ReSelectEquipment)
                     {
                         open_ReSelectEquipment = false;
@@ -33,6 +34,10 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
                         selectEquipFocused = 0;
                         CloseTownUIMenu();
                     }
+                    */
+                    equipSlots[selectEquipFocused].transform.GetChild(0).gameObject.SetActive(false);
+                    selectEquipFocused = 0;
+                    CloseTownUIMenu();
                 }
                 else
                 {
@@ -45,6 +50,7 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
+                /*
                 if (open_ReSelectEquipment)    // 장비 재선택 취소
                 {
                     open_ReSelectEquipment = false;
@@ -57,6 +63,10 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
                     selectEquipFocused = 0;
                     CloseTownUIMenu();
                 }
+                */
+                equipSlots[selectEquipFocused].transform.GetChild(0).gameObject.SetActive(false);
+                selectEquipFocused = 0;
+                CloseTownUIMenu();
             }
         }
         else
@@ -137,27 +147,18 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
             storage.EnchantedKey(keySlotFocus);
             selectedkey = null;
         }
+        playerStat.PlayerStatusUpdate(playerEquipment);
+
         // accept 창 초기화
-        acceptSlot[0].transform.GetChild(1).gameObject.SetActive(false);
-        ClearSlot(acceptSlot[0], 2);
-        acceptSlot[1].transform.GetChild(1).gameObject.SetActive(false);
-        acceptSlot[1].transform.GetChild(2).gameObject.SetActive(false);
+        acceptSlot[0].SetActive(false);
+        acceptSlot[1].SetActive(false);
 
+        acceptSlot[2].SetActive(true);
         acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
-        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = SpriteSet.itemSprite[num];
-        SetSlot(acceptSlot[2], num, 1);
+        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = SpriteSet.itemSprite[selectEquipFocused];
+        SetSlot(acceptSlot[2], num, 0);
 
-        for (int i = 0; i < 7; ++i)
-        {
-            if (equipment[i].itemCode != 0)
-            {
-                SetSlot(equipSlots[i], i, 2);
-            }
-            else
-            {
-                ClearSlot(equipSlots[i], 2);
-            }
-        }
+        SelectEquipmentSet();
 
         upgradeButton.GetComponent<Image>().color = new Color(upgradeButton.GetComponent<Image>().color.r,
             upgradeButton.GetComponent<Image>().color.g, upgradeButton.GetComponent<Image>().color.b, 120);
@@ -165,8 +166,6 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
         acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(false);
         selectItemUIFocused = 4;
         acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(true);
-        
-        playerStat.PlayerStatusUpdate(playerEquipment);
     }
     public void PercentSet(int num, float upPercent, Item item)
     {

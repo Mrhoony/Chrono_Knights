@@ -1846,6 +1846,21 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 82245445457459821, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82245445457459821, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1280
+      objectReference: {fileID: 0}
+    - target: {fileID: 82245445457459821, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 720
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
 --- !u!1001 &347987306046757590
@@ -2454,6 +2469,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3981682513319129780, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 7604eb04a8c37cf4b8f2014d499daf36, type: 2}
     m_RemovedComponents:
     - {fileID: 1399170863332526223, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}

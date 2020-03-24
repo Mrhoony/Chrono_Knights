@@ -44,6 +44,7 @@ public class TownUI_Shop : MonoBehaviour
                 if(slotInstance.GetFocus() == 0)
                 {
                     int shopInformation = inventory.BuyItem(shopItemList[focused], itemCost[focused]);
+
                     switch (shopInformation)
                     {
                         case 0:

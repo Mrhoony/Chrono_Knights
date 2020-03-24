@@ -21,9 +21,13 @@ public class DungeonUI_SettingMenu : MonoBehaviour
                 if(focused == 0)
                 {
                     DungeonManager.instance.isReturn = true;
+                    CanvasManager.instance.CloseDungeonMenu();
                     CanvasManager.instance.CircleFadeOutStart();
                 }
-                CanvasManager.instance.CloseResume();
+                else
+                {
+                    Application.Quit();
+                }
             }
         }
     }

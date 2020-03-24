@@ -19,7 +19,7 @@ public class xFx_Attack_end : AnimatorManager
             if (!move)
             {
                 move = true;
-                playerControl.AttackDistance(playerControl.Attack(AtkType.oneStep));
+                playerControl.AttackDistance(playerControl.Attack(AtkType.spear_XFX_Attack));
             }
         }
         if (stateInfo.normalizedTime > 0.4f)

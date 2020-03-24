@@ -19,7 +19,7 @@ public class xx_Attack_end : AnimatorManager
             if (!move)
             {
                 move = true;
-                playerControl.AttackDistance(playerControl.Attack(AtkType.oneStep));
+                playerControl.AttackDistance(playerControl.Attack(AtkType.spear_XX_Attack));
             }
         }
         if (stateInfo.normalizedTime > 0.4f)

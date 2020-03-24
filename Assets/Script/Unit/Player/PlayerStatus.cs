@@ -128,7 +128,6 @@ public class PlayerStatus : MonoBehaviour
         }
         return _damage;
     }
-
     public bool IncreaseHP(int addCurrentHP)
     {
         if (currentHP < playerData.GetStatus(7))
@@ -157,7 +156,7 @@ public class PlayerStatus : MonoBehaviour
             playerStatusView.SetHPCut(HPCutNum);
         }
     }
-    public void replenish_Ammo(int _ammoReplenish)
+    public void Replenish_Ammo(int _ammoReplenish)
     {
         currentAmmo += 10 * _ammoReplenish;
 

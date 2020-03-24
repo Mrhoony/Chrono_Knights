@@ -57,10 +57,10 @@ public class Menu_Storage : Menu_InGameMenu
                 {
                     if (upgradeItem)
                     {
-                        isItemSelect = false;
                         slotInstance.SetActiveFocus(false);
                         upgradeItem = false;
                         CloseStorageWithUpgrade(true);
+                        isItemSelect = false;
                     }
                     else
                     {

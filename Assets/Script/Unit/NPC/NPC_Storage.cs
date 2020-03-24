@@ -17,6 +17,12 @@ public class NPC_Storage : NPC_Control
     public bool OpenStorageCheck()
     {
         if (!inPlayer) return true;
+        if (player.GetComponent<PlayerControl>().GetActionState() != ActionState.Idle)
+        {
+            player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
+            return true;
+        }
+        player.GetComponent<PlayerControl>().playerInputKey.SetActive(true);
         if (canvasManager.GameMenuOnCheck()) return true;
         return false;
     }

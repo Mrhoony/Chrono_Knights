@@ -65,11 +65,11 @@ public class Monster_Ogre : NormalMonsterControl
         }
     }
 
-    public override void MonsterHit(int damage)
+    public override void MonsterHit(int _damage, int _knockBack)
     {
         if (actionState == ActionState.IsDead) return;
 
-        enemyStatus.DecreaseHP(damage);
+        enemyStatus.DecreaseHP(_damage);
         StartCoroutine(MonsterHitEffect());
 
         if (enemyStatus.IsDeadCheck())
@@ -80,8 +80,12 @@ public class Monster_Ogre : NormalMonsterControl
         }
         else
         {
-            rb.velocity = Vector2.zero;
-            rb.AddForce(new Vector2(PlayerControl.instance.GetArrowDirection() + random, 0.2f), ForceMode2D.Impulse);
+            int knockBack = _knockBack - monsterWeight;
+            if (knockBack > 0)
+            {
+                rb.velocity = Vector2.zero;
+                rb.AddForce(new Vector2((PlayerControl.instance.GetArrowDirection() + random) * knockBack * 0.5f, 0.5f), ForceMode2D.Impulse);
+            }
         }
     }
 }

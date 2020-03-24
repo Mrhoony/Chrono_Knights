@@ -6,7 +6,6 @@ public enum MonsterType
 {
     monster, bossMonster
 }
-
 public enum MonsterAttackNumber {
     atk1, atk2, atk3,
 }
@@ -42,6 +41,7 @@ public abstract class Monster_Control : MovingObject
 
     protected float random;
     public float moveSpeed;
+    public int monsterWeight;
     
     public float rotateDelayTime;
     public float attackCoolTime;
@@ -69,6 +69,7 @@ public abstract class Monster_Control : MovingObject
         StopAllCoroutines();
         actionState = ActionState.Idle;
         spriteRenderer.material = defaultMaterial;
+        enabled = false;
     }
 
     // 몬스터 행동시 딜레이
@@ -97,7 +98,7 @@ public abstract class Monster_Control : MovingObject
             {
                 if (player[i].CompareTag("Player"))
                 {
-                    player[i].gameObject.GetComponent<IsDamageable>().Hit(gameObject.GetComponent<EnemyStatus>().GetAttack());
+                    player[i].gameObject.GetComponent<IsDamageable>().Hit(gameObject.GetComponent<EnemyStatus>().GetAttack(), 0);
                 }
             }
         }
@@ -105,6 +106,11 @@ public abstract class Monster_Control : MovingObject
 
     public abstract void MonsterInit();
     public abstract void MonsterFlip();
-    public abstract void MonsterHit(int damage);
+    public abstract void MonsterHit(int _damage, int _knockBack);
     public abstract void Dead();
+
+    public void OnDestroy()
+    {
+        enemyStatus.HPbarReset();
+    }
 }

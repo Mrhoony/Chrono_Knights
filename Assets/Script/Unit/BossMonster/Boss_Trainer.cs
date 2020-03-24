@@ -99,17 +99,22 @@ public class Boss_Trainer : BossMonster_Control
         Debug.Log("DashEnd");
     }
 
-    public override void MonsterHit(int damage)
+    public override void MonsterHit(int _damage, int _knockBack)
     {
         if (actionState == ActionState.IsDead) return;
 
         actionState = ActionState.NotMove;
         StartCoroutine(MoveDelayTime(1f));
         random = Random.Range(-0.2f, 0.2f);
-        rb.velocity = Vector2.zero;
-        rb.AddForce(new Vector2(1f * playerPosition + random, 0.2f), ForceMode2D.Impulse);
 
-        enemyStatus.DecreaseHP(damage);
+        int knockBack = _knockBack - monsterWeight;
+        if (knockBack > 0)
+        {
+            rb.velocity = Vector2.zero;
+            rb.AddForce(new Vector2((PlayerControl.instance.GetArrowDirection() + random) * knockBack * 0.5f, 1f), ForceMode2D.Impulse);
+        }
+
+        enemyStatus.DecreaseHP(_damage);
         if (enemyStatus.IsDeadCheck())
         {
             actionState = ActionState.IsDead;
@@ -119,7 +124,7 @@ public class Boss_Trainer : BossMonster_Control
         }
         else
         {
-            animator.SetTrigger("isHit");
+            animator.SetTrigger("isHit_Trigger");
             eft.SetActive(true);
         }
     }

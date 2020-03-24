@@ -54,8 +54,6 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        
-
         Physics2D.IgnoreLayerCollision(5, 10);
         Physics2D.IgnoreLayerCollision(8, 10);
         Physics2D.IgnoreLayerCollision(8, 14);
@@ -65,6 +63,11 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(13, 13);
         Physics2D.IgnoreLayerCollision(13, 14);
         Physics2D.IgnoreLayerCollision(14, 14);
+
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+        Screen.SetResolution(1280, 720, true);
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         playerStat = player.GetComponent<PlayerStatus>();
         storage = canvasManager.storage.GetComponent<Menu_Storage>();
@@ -291,7 +294,6 @@ public class GameManager : MonoBehaviour
         startButtons[0].transform.position = new Vector3(startButtons[0].transform.position.x
             , startButtons[0].transform.position.y + 5f, startButtons[0].transform.position.z);
     }
-
     public void OpenLoad()
     {
         startButton.SetActive(false);

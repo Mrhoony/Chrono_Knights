@@ -14,14 +14,13 @@ public class Jump_x_Atk : AnimatorManager
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if(stateInfo.normalizedTime < 0.9f)
-            animator.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0.4f);
+            animator.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0.3f);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.SetBool("isJump_x_Atk", false);
-        PlayerControl.instance.PlayerJumpAttackEnd();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

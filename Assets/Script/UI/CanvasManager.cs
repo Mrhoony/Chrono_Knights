@@ -89,6 +89,8 @@ public class CanvasManager : MonoBehaviour
         {
             if (DungeonManager.instance.inDungeon)
             {
+                if (isGameOverUIOn) return;
+
                 if (!isDungeonUIOn)        // 던전 메뉴가 꺼져있고 던전 내부일 경우 던전 메뉴 온
                 {
                     OpenDungeonMenu();
@@ -180,6 +182,7 @@ public class CanvasManager : MonoBehaviour
     
     public void FadeInStart()
     {
+        DungeonManager.instance.isSceneLoading = true;
         System.GC.Collect();
         StartCoroutine(FadeIn());
     }
@@ -203,6 +206,7 @@ public class CanvasManager : MonoBehaviour
     }
     public void FadeOutStart(bool sceneLoad)
     {
+        DungeonManager.instance.isSceneLoading = true;
         StartCoroutine(FadeOut(sceneLoad));
     }
     IEnumerator FadeOut(bool sceneLoad)
@@ -231,6 +235,7 @@ public class CanvasManager : MonoBehaviour
     }
     public void CircleFadeOutStart()
     {
+        DungeonManager.instance.isSceneLoading = true;
         StartCoroutine(CircleFadeOut());
     }
     IEnumerator CircleFadeOut()
@@ -282,22 +287,15 @@ public class CanvasManager : MonoBehaviour
     }
     public void CloseDungeonMenu()
     {
-        isDungeonUIOn = false;
-
         Color fadeColor = fadeInOut.GetComponent<Image>().color;
         fadeColor.a = 0f;
         fadeInOut.GetComponent<Image>().color = fadeColor;
         Time.timeScale = 1f;
-        fadeInOut.SetActive(false);
 
+        fadeInOut.SetActive(false);
         dungeonCancleMenu.GetComponent<DungeonUI_SettingMenu>().SetDisActiveSettingMenu();
         dungeonCancleMenu.SetActive(false);
-    }
-    public void CloseResume()
-    {
         isDungeonUIOn = false;
-        dungeonCancleMenu.GetComponent<DungeonUI_SettingMenu>().SetDisActiveSettingMenu();
-        dungeonCancleMenu.SetActive(false);
     }
 
     public void OpenGameOverMenu()
