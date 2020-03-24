@@ -19,9 +19,17 @@ public class Weapon_Spear : PlayerWeaponType
     }
     public override void JumpAttackX(int inputArrow)
     {
-        inputAttackList = inputArrow + 6;
-        if (!attackLock)
-            StartCoroutine(AttackList());
+        if (commandCount <= attackState)
+        {
+            inputAttackList = 100 + inputArrow + commandCount;
+            ++commandCount;
+
+            if (!attackLock)
+                StartCoroutine(AttackList());
+
+            if (commandCount > 3)
+                commandCount = 1;
+        }
     }
     public override void AttackY(int inputArrow)
     {
@@ -46,8 +54,7 @@ public class Weapon_Spear : PlayerWeaponType
         {
             if (rb.velocity.x * rb.velocity.x > 0)
             {
-                rb.velocity = Vector2.zero;
-                animator.SetBool("isRun", false);
+                rb.velocity = new Vector2(0f, transform.position.y);
             }
             switch (inputAttackList)
             {
@@ -113,11 +120,23 @@ public class Weapon_Spear : PlayerWeaponType
                 case 0:
                     animator.SetBool("is_y_up_Atk", true);
                     break;
-                case 6:
-                case 16:
-                case 36:
-                case 46:
+                case 101:
+                case 111:
+                case 131:
+                case 141:
                     animator.SetBool("isJump_x_Atk", true);
+                    break;
+                case 102:
+                case 122:
+                case 132:
+                case 142:
+                    animator.SetBool("isJump_xx_attack", true);
+                    break;
+                case 103:
+                case 123:
+                case 133:
+                case 143:
+                    animator.SetBool("isJump_xxx_attack", true);
                     break;
                 default:
                     InputInit();

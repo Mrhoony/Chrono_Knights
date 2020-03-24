@@ -41,7 +41,8 @@ public class PlayerControl : MovingObject
     public float runDelay;
     public int isRrun;
     public int isLrun;
-    
+
+    public int jumpAttack;
     public bool isGround;
     
     public bool dodgable;           // 회피 가능 여부
@@ -65,7 +66,8 @@ public class PlayerControl : MovingObject
         }
 
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         playerStatus = GetComponent<PlayerStatus>();
         weaponSpear = GetComponent<Weapon_Spear>();
         weaponSpear.Init(animator, rb);
@@ -76,6 +78,7 @@ public class PlayerControl : MovingObject
         multyHitCount = 0;
         arrowDirection = 1;
         weaponType = 0;
+        jumpAttack = 0;
         dodgable = true;
 
         Debug.Log("control awake");
@@ -87,7 +90,7 @@ public class PlayerControl : MovingObject
         if (CanvasManager.instance.GameMenuOnCheck()) return;       // UI 켜져 있을 때 입력 제한
         if (actionState == ActionState.IsDead) return;              // 죽었을 때 입력 제한
         if (actionState == ActionState.IsDodge) return;             // 회피중일 때 입력 제한
-
+        
         inputDirection = Input.GetAxisRaw("Horizontal");
 
         if (actionState == ActionState.NotMove) return;       // notMove 가 아닐 때
@@ -136,7 +139,7 @@ public class PlayerControl : MovingObject
         else if (Input.GetKey(KeyCode.DownArrow))   inputArrow = 40;
         else if (inputDirection != 0)               inputArrow = 10;
         else                                        inputArrow = 0;
-
+        
         if (Input.GetButtonDown("Fire3") && dodgable) Dodge();      // 회피
 
         if (actionState == ActionState.IsAtk) return;
@@ -251,16 +254,24 @@ public class PlayerControl : MovingObject
     {
         if (Input.GetButtonDown("Fire1") && !animator.GetBool("is_y_Atk"))
         {
-            if (actionState == ActionState.IsJumpAttack) return;       // 공격 중 입력무시
-            if (actionState == ActionState.IsJump)
+            if (actionState == ActionState.IsJumpAttack)
             {
-                actionState = ActionState.IsJumpAttack;
                 weaponSpear.JumpAttackX(inputArrow);
             }
             else
             {
-                actionState = ActionState.IsAtk;
-                weaponSpear.AttackX(inputArrow);
+                if (actionState == ActionState.IsJump)
+                {
+                    if (jumpAttack < 1) return;
+                    --jumpAttack;
+                    actionState = ActionState.IsJumpAttack;
+                    weaponSpear.JumpAttackX(inputArrow);
+                }
+                else
+                {
+                    actionState = ActionState.IsAtk;
+                    weaponSpear.AttackX(inputArrow);
+                }
             }
         }
 
@@ -291,6 +302,8 @@ public class PlayerControl : MovingObject
             if (actionState == ActionState.IsJumpAttack) return;       // 공격 중 입력무시
             if (actionState == ActionState.IsJump)
             {
+                if (jumpAttack < 1) return;
+                --jumpAttack;
                 actionState = ActionState.IsJumpAttack;
                 weaponGun.JumpAttackX(inputArrow);
             }
@@ -307,10 +320,10 @@ public class PlayerControl : MovingObject
         if (actionState == ActionState.IsJumpAttack) return;
         if (currentJumpCount < 1 && actionState == ActionState.IsJump) return;
 
-        actionState = ActionState.IsJump;
         isGround = false;
         GroundCheck.SetActive(false);
-        
+
+        jumpAttack = 1;
         --currentJumpCount;
 
         animator.SetBool("isLand", false);
@@ -319,6 +332,8 @@ public class PlayerControl : MovingObject
 
         rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(0f, playerStatus.GetJumpPower()), ForceMode2D.Impulse);
+        actionState = ActionState.IsJump;
+        Debug.Log("jump");
     }
     void Dodge()
     {
@@ -351,6 +366,7 @@ public class PlayerControl : MovingObject
         
         StartCoroutine(DodgeCount());
         StartCoroutine(InvincibleCount());
+        Debug.Log("dodge");
     }
 
     void Move()
@@ -403,6 +419,7 @@ public class PlayerControl : MovingObject
         yield return new WaitForSeconds(time);
         GroundCheck.SetActive(true);
     }
+
     IEnumerator InvincibleCount()
     {
         yield return new WaitForSeconds(1f);
@@ -421,9 +438,12 @@ public class PlayerControl : MovingObject
 
     public void Hit(int _attack)
     {
-        if (invincible && actionState == ActionState.IsDodge)
+        if (invincible)
         {
-            playerEffect.GetComponent<Animator>().SetTrigger("isDodge_Trigger");
+            if(actionState == ActionState.IsDodge)
+            {
+                playerEffect.GetComponent<Animator>().SetTrigger("isDodge_Trigger");
+            }
             return;
         }
         else if (actionState == ActionState.IsParrying)
@@ -456,12 +476,13 @@ public class PlayerControl : MovingObject
     }
     public void Landing()
     {
+        currentJumpCount = (int)playerStatus.GetJumpCount();
+        actionState = ActionState.Idle;
         isGround = true;
         animator.SetBool("isJump", false);
         animator.SetBool("isJump_x_Atk", false);
         animator.SetBool("isLand", true);
-        currentJumpCount = (int)playerStatus.GetJumpCount();
-        actionState = ActionState.Idle;
+        Debug.Log("land");
     }
     public void ParryingCheck()
     {
@@ -492,7 +513,6 @@ public class PlayerControl : MovingObject
     }
     public void MoveSet()
     {
-        if (!dodgable) return;
         actionState = ActionState.Idle;
     }
 
@@ -508,6 +528,16 @@ public class PlayerControl : MovingObject
         animator.SetFloat("AttackSpeed", _attackSpeed);
     }
 
+    public IEnumerator MonsterHitEffect()
+    {
+        for (int i = 0; i < 3; ++i)
+        {
+            spriteRenderer.material = whiteFlashMaterial;
+            yield return new WaitForSeconds(0.05f);
+            spriteRenderer.material = defaultMaterial;
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
     public void InstantiateGunEft(GunEft ge) {
         switch (ge) {
             case GunEft.shot1:

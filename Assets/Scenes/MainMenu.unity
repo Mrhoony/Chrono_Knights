@@ -1867,6 +1867,16 @@ PrefabInstance:
       propertyPath: quickSlot
       value: 
       objectReference: {fileID: 301090047}
+    - target: {fileID: 3981682513319129742, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: whiteFlashMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: c6aba4ba5c4759d43840c7ce6b8d9f06, type: 2}
+    - target: {fileID: 3981682513319129742, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: defaultMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: b5a1a0fe068b1224e82943c55ace767e, type: 2}
     - target: {fileID: 8186998653713626271, guid: 9a383a931a8c9254fae17696f9cad381,
         type: 3}
       propertyPath: m_SizeDelta.x

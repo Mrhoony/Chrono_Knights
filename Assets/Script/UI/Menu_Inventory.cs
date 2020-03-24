@@ -40,8 +40,7 @@ public class Menu_Inventory : Menu_InGameMenu
     {
         if (canvasManager.isCancelOn) return;
         if (!isUIOn) return;
-
-
+        
         if (isItemSelect)
         {
             if (Input.GetKeyDown(KeyCode.RightArrow)) { slotInstance.ItemConfirmFocus(1); }

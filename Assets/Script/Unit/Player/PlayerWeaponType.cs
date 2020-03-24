@@ -57,7 +57,6 @@ public abstract class PlayerWeaponType : MonoBehaviour
     {
         return attackState;
     }
-
     public int[] GetWeaponMultyHit()
     {
         return weaponMultyHit;

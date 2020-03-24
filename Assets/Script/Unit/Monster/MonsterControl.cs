@@ -26,9 +26,6 @@ public abstract class Monster_Control : MovingObject
     public List<GameObject> eftPool;
     public EnemyStatus enemyStatus;
     public DropItemList dropItemList;
-    public SpriteRenderer spriteRenderer;
-    public Material defaultMaterial;
-    public Material whiteFlashMaterial;
 
     public string monsterName;
     public int monsterCode;
