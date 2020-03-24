@@ -127,13 +127,13 @@ public class Weapon_Spear : PlayerWeaponType
                     animator.SetBool("isJump_x_Atk", true);
                     break;
                 case 102:
-                case 122:
+                case 112:
                 case 132:
                 case 142:
                     animator.SetBool("isJump_xx_attack", true);
                     break;
                 case 103:
-                case 123:
+                case 113:
                 case 133:
                 case 143:
                     animator.SetBool("isJump_xxx_attack", true);
