@@ -6,8 +6,13 @@ public enum GunEft {
 }
 public enum AtkType
 {
-    spear_X_Attack, spear_XX_Attack, spear_XXX_Attack, spear_XFX_Attack, spear_XFXFX_Attack, spear_JumpX_Attack, spear_Y_Attack, spear_YUp_Attack,
-    gun_X_Attack, gun_XX_Attack, gun_XXX_Attack, gun_XFX_Attack, gun_XFXFX_Attack, gun_JumpX_Attack, gun_Y_Attack, gun_YUp_Attack,
+    spear_X_Attack, spear_XX_Attack, spear_XXX_Attack,
+    spear_XFX_Attack, spear_XFXFX_Attack, spear_JumpX_Attack,
+    spear_x_Upper_Attack,
+    spear_Y_Attack, spear_YUp_Attack,
+    gun_X_Attack, gun_XX_Attack, gun_XXX_Attack,
+    gun_XFX_Attack, gun_XFXFX_Attack, gun_JumpX_Attack,
+    gun_Y_Attack, gun_YUp_Attack,
 }
 
 public class PlayerControl : MovingObject
@@ -51,6 +56,7 @@ public class PlayerControl : MovingObject
 
     public bool debugOn;
     public int currentJumpCount;
+
     
     private void Awake()
     {
@@ -220,7 +226,6 @@ public class PlayerControl : MovingObject
             return;
         }
     }
-
     private void FixedUpdate()
     {
         if (actionState != ActionState.Idle && actionState != ActionState.IsMove && actionState != ActionState.IsJump) return;     // 피격 시 입력무시
@@ -264,7 +269,7 @@ public class PlayerControl : MovingObject
                 {
                     if (jumpAttack < 1) return;
                     --jumpAttack;
-                    actionState = ActionState.IsJumpAttack;
+                    actionState |= ActionState.IsJumpAttack;
                     weaponSpear.JumpAttackX(inputArrow);
                 }
                 else
@@ -571,14 +576,14 @@ public class PlayerControl : MovingObject
 
         for (int i = 0; i < weaponMultyHit[attackState - 1]; ++i)
         {
-            if (monster != null)
+            overlap = monster.Length;
+            for (int j = 0; j < overlap; ++j)
             {
-                overlap = monster.Length;
-                for (int j = 0; j < overlap; ++j)
+                if (monster[j].CompareTag("Monster") || monster[j].CompareTag("BossMonster"))
                 {
-                    if (monster[j].CompareTag("Monster") || monster[j].CompareTag("BossMonster"))
+                    if(_atkType == AtkType.spear_x_Upper_Attack)
                     {
-                        monster[j].gameObject.GetComponent<IsDamageable>().Hit(playerStatus.GetAttack_Result(), playerAttack.knockBack);    // 넉백 수치 추가
+                        monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit(playerStatus.GetAttack_Result(), playerAttack.knockBack);
                     }
                 }
             }
