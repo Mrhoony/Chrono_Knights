@@ -162,6 +162,7 @@ public class PlayerControl : MovingObject
             }
         }       // 장착 무기 변경
     }
+
     void RunCheck()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -320,6 +321,7 @@ public class PlayerControl : MovingObject
         rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(0f, playerStatus.GetJumpPower()), ForceMode2D.Impulse);
     }
+
     void Dodge()
     {
         if (!dodgable) return;
@@ -492,7 +494,6 @@ public class PlayerControl : MovingObject
     }
     public void MoveSet()
     {
-        if (!dodgable) return;
         actionState = ActionState.Idle;
     }
 
