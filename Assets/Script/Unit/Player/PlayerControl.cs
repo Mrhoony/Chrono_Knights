@@ -171,6 +171,7 @@ public class PlayerControl : MovingObject
             }
         }       // 장착 무기 변경
     }
+
     void RunCheck()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -340,6 +341,7 @@ public class PlayerControl : MovingObject
         actionState = ActionState.IsJump;
         Debug.Log("jump");
     }
+
     void Dodge()
     {
         if (!dodgable) return;
