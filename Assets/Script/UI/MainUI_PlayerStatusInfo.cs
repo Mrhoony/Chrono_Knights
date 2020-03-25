@@ -7,10 +7,7 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
 {
     public GameObject[] equipmentSlot;
     public GameObject statusinformation;
-
-    Sprite[] equipmentBorder;
-    Sprite[] inventorySet;
-    Sprite[] equipmentSet;
+    
     PlayerStatus playerStatus;
     PlayerData playerData;
     PlayerEquipment playerEquipment;
@@ -18,10 +15,6 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
 
     private void Awake()
     {
-        equipmentBorder = Resources.LoadAll<Sprite>("Graphic/UI/ui_status_set");
-        inventorySet = Resources.LoadAll<Sprite>("Graphic/UI/Inventory_Set");
-        equipmentSet = Resources.LoadAll<Sprite>("Graphic/Item/ui_itemset");
-
         playerStatus = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         playerData = playerStatus.playerData;
     }
@@ -32,11 +25,12 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
 
         for (int i = 0; i < 7; ++i)
         {
-            equipmentSlot[i].GetComponent<Image>().sprite = equipmentSet[i];
+            equipmentSlot[i].transform.GetChild(0).gameObject.SetActive(true);
+            equipmentSlot[i].transform.GetChild(0).GetComponent<Image>().sprite = SpriteSet.itemSprite[i];
             if (equipment[i].itemCode != 0)
             {
-                equipmentSlot[i].transform.GetChild(0).gameObject.SetActive(true);
-                equipmentSlot[i].transform.GetChild(0).GetComponent<Image>().sprite = equipmentBorder[Database_Game.instance.GetItem(equipment[i].itemCode).itemRarity];
+                equipmentSlot[i].transform.GetChild(1).gameObject.SetActive(true);
+                equipmentSlot[i].transform.GetChild(1).GetComponent<Image>().sprite = SpriteSet.enchantSlotImage[equipment[i].itemRarity];
             }
             else
             {

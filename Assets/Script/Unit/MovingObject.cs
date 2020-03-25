@@ -24,6 +24,10 @@ public abstract class MovingObject : MonoBehaviour
     protected Rigidbody2D rb;
     protected Animator animator;
 
+    public SpriteRenderer spriteRenderer;
+    public Material defaultMaterial;
+    public Material whiteFlashMaterial;
+
     public string currentState;
     
     public ActionState actionState;

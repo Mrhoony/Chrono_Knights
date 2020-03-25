@@ -12,10 +12,10 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
 
         if (!open_SelectItemUI)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(equipSlots, 1, selectEquipFocused); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(equipSlots, -1, selectEquipFocused); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(equipSlots, 1, selectEquipFocused); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(equipSlots, -1, selectEquipFocused); }
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(1, selectEquipFocused); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(-1, selectEquipFocused); }
+            if (Input.GetKeyDown(KeyCode.DownArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(1, selectEquipFocused); }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(-1, selectEquipFocused); }
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 if (selectEquipFocused == 7)
@@ -68,20 +68,24 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
                 selectEquipFocused = 0;
                 CloseTownUIMenu();
             }
+            if (selectEquipFocused != 7)
+            {
+                FocusEquipSlotMove(equipSlots[selectEquipFocused]);
+            }
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { selectItemUIFocused = FocusSlotItemSelect(acceptSlot, 1, selectItemUIFocused); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { selectItemUIFocused = FocusSlotItemSelect(acceptSlot, -1, selectItemUIFocused); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { selectItemUIFocused = FocusSlotItemSelect(acceptSlot, 1, selectItemUIFocused); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { selectItemUIFocused = FocusSlotItemSelect(acceptSlot, -1, selectItemUIFocused); }
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { selectItemUIFocused = FocusSlotItemSelect(1, selectItemUIFocused); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { selectItemUIFocused = FocusSlotItemSelect(-1, selectItemUIFocused); }
+            if (Input.GetKeyDown(KeyCode.DownArrow)) { selectItemUIFocused = FocusSlotItemSelect(1, selectItemUIFocused); }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) { selectItemUIFocused = FocusSlotItemSelect(-1, selectItemUIFocused); }
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                if (selectItemUIFocused == 4)
+                if (selectItemUIFocused == 3)
                 {
                     open_SelectItemUI = false;
-                    acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(false);
                     selectItemUIFocused = 0;
+                    cursorItemSelect.SetActive(false);
                     selectUpgradeItem.SetActive(false);
                 }
                 else
@@ -90,13 +94,13 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
                     {
                         case 0:
                             open_SelectItemUI = false;
-                            open_ReSelectEquipment = true;
+                            // open_ReSelectEquipment = true;
                             selectUpgradeItem.SetActive(false);
                             break;
                         case 1:
                             canvasManager.OpenUpgradeStorage(3);
                             break;
-                        case 3:
+                        case 2:
                             Upgrade(selectEquipFocused, selectedkey);
                             break;
                     }
@@ -105,9 +109,14 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
             if (Input.GetKeyDown(KeyCode.X))
             {
                 open_SelectItemUI = false;
-                acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(false);
                 selectItemUIFocused = 0;
+                cursorItemSelect.SetActive(false);
                 selectUpgradeItem.SetActive(false);
+            }
+
+            if (selectEquipFocused >= 0 || selectEquipFocused < 2)
+            {
+                FocusItemSlotMove(acceptSlot[selectItemUIFocused]);
             }
         }
     }
@@ -152,20 +161,19 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
         // accept 창 초기화
         acceptSlot[0].SetActive(false);
         acceptSlot[1].SetActive(false);
+        acceptSlot[2].SetActive(false);
 
-        acceptSlot[2].SetActive(true);
-        acceptSlot[2].transform.GetChild(0).gameObject.SetActive(true);
-        acceptSlot[2].transform.GetChild(0).GetComponent<Image>().sprite = SpriteSet.itemSprite[selectEquipFocused];
-        SetSlot(acceptSlot[2], num, 0);
+        acceptSlot[3].SetActive(true);
+        SetSlot(acceptSlot[3], num, 0);
 
         SelectEquipmentSet();
 
         upgradeButton.GetComponent<Image>().color = new Color(upgradeButton.GetComponent<Image>().color.r,
             upgradeButton.GetComponent<Image>().color.g, upgradeButton.GetComponent<Image>().color.b, 120);
 
-        acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(false);
-        selectItemUIFocused = 4;
-        acceptSlot[selectItemUIFocused].transform.GetChild(0).gameObject.SetActive(true);
+        upgradeButton.SetActive(false);
+        selectItemUIFocused = 3;
+        itemCancel.SetActive(true);
     }
     public void PercentSet(int num, float upPercent, Item item)
     {

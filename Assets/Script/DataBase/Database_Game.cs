@@ -364,7 +364,6 @@ public class Database_Game : MonoBehaviour
     public PlayerAttack GetPlayerAttackInformation(AtkType _atkType)
     {
         int count = playerAttack.Count;
-        Debug.Log(count);
         for (int i = 0; i < count; ++i)
         {
             if(playerAttack[i].attackType == _atkType)

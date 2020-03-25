@@ -8,6 +8,9 @@ public class Player_Esc_Landing : AnimatorManager
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         playerControl = PlayerControl.instance;
+        playerControl.MoveSet();
+        playerControl.InputInit();
+        Debug.Log("land ani");
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -17,11 +20,12 @@ public class Player_Esc_Landing : AnimatorManager
     //}
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        playerControl.MoveSet();
-        playerControl.InputInit();
-    }
+    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    playerControl.MoveSet();
+    //    playerControl.InputInit();
+    //    Debug.Log("land ani");
+    //}
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
