@@ -7521,6 +7521,18 @@ PrefabInstance:
       propertyPath: dropItemPool
       value: 
       objectReference: {fileID: 1711539025}
+    - target: {fileID: 2874897363994262163, guid: 0fe724732235b8c479b4f03cc29ee266,
+        type: 3}
+      propertyPath: monsterHpBar
+      value: 
+      objectReference: {fileID: 4015278209018506806, guid: 35d98edc66a724742bb70a6d61ea0b1d,
+        type: 3}
+    - target: {fileID: 2874897363994262163, guid: 0fe724732235b8c479b4f03cc29ee266,
+        type: 3}
+      propertyPath: eliteMonsterHpBar
+      value: 
+      objectReference: {fileID: 5250052414624715408, guid: 8c2e6862acad80345969536c2b520054,
+        type: 3}
     - target: {fileID: 7340595803377170996, guid: 0fe724732235b8c479b4f03cc29ee266,
         type: 3}
       propertyPath: m_SizeDelta.x

@@ -6,6 +6,7 @@ public class DungeonPoolManager : MonoBehaviour
 {
     public static DungeonPoolManager instance;
     public GameObject monsterHpBar;
+    public GameObject eliteMonsterHpBar;
     public GameObject bossMonsterHpBar;
 
     public GameObject monsterHpBarPool;
@@ -56,7 +57,6 @@ public class DungeonPoolManager : MonoBehaviour
             hpBar.transform.SetParent(transform.GetChild(0).transform);
             hpBar.SetActive(false);
             monsterHpBarQueue.Enqueue(hpBar);
-            Debug.Log("hpbar 생성");
         }
     }
     public void CreateBossHpBar(int _amount)
@@ -68,7 +68,6 @@ public class DungeonPoolManager : MonoBehaviour
             hpBar.transform.SetParent(transform.GetChild(1).transform);
             hpBar.SetActive(false);
             BossMonsterHpBarQueue.Enqueue(hpBar);
-            Debug.Log("bosshpbar 생성");
         }
     }
     public void MonsterDie(bool _bossMonster, GameObject _hpBar)

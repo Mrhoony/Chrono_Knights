@@ -26,7 +26,6 @@ public class BackgroundScrolling : MonoBehaviour
         layers = new Transform[transform.childCount - 1];
         Init();
     }
-
     public void Init()
     {
         cameraTrasform = Camera.main.transform;

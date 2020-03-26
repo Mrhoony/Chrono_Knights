@@ -60,10 +60,8 @@ public class Weapon_Spear : PlayerWeaponType
             {
                 case 1:
                 case 11:
-                    attackPattern = 0;
-                    animator.SetBool("is_x_Atk", true);
-                    break;
                 case 31:
+                    attackPattern = 0;
                     animator.SetBool("is_x_Atk", true);
                     break;
                 case 41:
@@ -79,7 +77,7 @@ public class Weapon_Spear : PlayerWeaponType
                     break;
                 case 32:
                     attackPattern = 2;
-                    animator.SetBool("is_xx_Atk", true);
+                    animator.SetBool("is_x_upper_attack", true);
                     break;
                 case 3:
                     if (attackPattern == 0)

@@ -22,8 +22,6 @@ public class TownUI : MonoBehaviour
 
     public void OpenShopMenu(Menu_Inventory _inventory)
     {
-        PlayerControl.instance.StopPlayer();
-        PlayerControl.instance.enabled = false;
         isTownUIOn[0] = true;
         playerCharacter.enabled = false;
         townMenus[0].SetActive(true);
@@ -33,12 +31,10 @@ public class TownUI : MonoBehaviour
     {
         townMenus[0].SetActive(false);
         isTownUIOn[0] = false;
-        StartCoroutine(canvasManager.PlayerMoveEnable());
     }
+
     public void OpenTrainingMenu()
     {
-        PlayerControl.instance.StopPlayer();
-        PlayerControl.instance.enabled = false;
         isTownUIOn[1] = true;
         playerCharacter.enabled = false;
         townMenus[1].SetActive(true);
@@ -48,12 +44,10 @@ public class TownUI : MonoBehaviour
     {
         townMenus[1].SetActive(false);
         isTownUIOn[1] = false;
-        StartCoroutine(canvasManager.PlayerMoveEnable());
     }
+
     public void OpenEnchantMenu()
     {
-        PlayerControl.instance.StopPlayer();
-        PlayerControl.instance.enabled = false;
         isTownUIOn[2] = true;
         playerCharacter.enabled = false;
         townMenus[2].SetActive(true);
@@ -64,10 +58,9 @@ public class TownUI : MonoBehaviour
         townMenus[2].SetActive(false);
         isTownUIOn[2] = false;
     }
+
     public void OpenUpgradeMenu()
     {
-        PlayerControl.instance.StopPlayer();
-        PlayerControl.instance.enabled = false;
         isTownUIOn[3] = true;
         playerCharacter.enabled = false;
         townMenus[3].SetActive(true);
@@ -86,9 +79,5 @@ public class TownUI : MonoBehaviour
             if (isTownUIOn[i]) return true;
         }
         return false;
-    }
-    public bool GetTownUIOnCheck(int _TownUINumber)
-    {
-        return isTownUIOn[_TownUINumber];
     }
 }

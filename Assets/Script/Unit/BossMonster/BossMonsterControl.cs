@@ -74,5 +74,7 @@ public abstract class BossMonster_Control : Monster_Control
             dropItemList.ItemDropChance();
         }
         enabled = false;
+        monsterDeadCount();
+        monsterDeadCount = null;
     }
 }

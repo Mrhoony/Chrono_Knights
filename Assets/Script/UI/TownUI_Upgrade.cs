@@ -3,8 +3,6 @@ using UnityEngine.UI;
 
 public class TownUI_Upgrade : TownUI_EquipmentUpgrade
 {
-    public GameObject selectUpgradeItem;
-
     public void Update()
     {
         if (canvasManager.GameMenuOnCheck()) return;
@@ -20,22 +18,7 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
             {
                 if (selectEquipFocused == 7)
                 {
-                    /*
-                    if (open_ReSelectEquipment)
-                    {
-                        open_ReSelectEquipment = false;
-                        open_SelectItemUI = true;
-                        selectItemUIFocused = 0;
-                        selectUpgradeItem.SetActive(true);
-                    }
-                    else
-                    {
-                        equipSlots[selectEquipFocused].transform.GetChild(0).gameObject.SetActive(false);
-                        selectEquipFocused = 0;
-                        CloseTownUIMenu();
-                    }
-                    */
-                    equipSlots[selectEquipFocused].transform.GetChild(0).gameObject.SetActive(false);
+                    cursorEquipSelect.SetActive(false);
                     selectEquipFocused = 0;
                     CloseTownUIMenu();
                 }
@@ -44,27 +27,19 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
                     if (!equipment[selectEquipFocused].enchant) return;
 
                     open_SelectItemUI = true;
-                    selectUpgradeItem.SetActive(true);
+                    selectUseItem.SetActive(true);
                     OpenSelectedItemMenu();
                 }
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
-                /*
-                if (open_ReSelectEquipment)    // 장비 재선택 취소
-                {
-                    open_ReSelectEquipment = false;
-                    open_SelectItemUI = true;
-                    selectUpgradeItem.SetActive(true);
-                }
-                else                 // 마법 부여 취소
-                {
-                    equipSlots[selectEquipFocused].transform.GetChild(0).gameObject.SetActive(false);
-                    selectEquipFocused = 0;
-                    CloseTownUIMenu();
-                }
-                */
-                equipSlots[selectEquipFocused].transform.GetChild(0).gameObject.SetActive(false);
+                cursorEquipSelect.SetActive(false);
+                selectEquipFocused = 0;
+                CloseTownUIMenu();
+            }
+            if (Input.GetButtonDown("Cancel"))              // esc 를 눌렀을 때
+            {
+                cursorEquipSelect.SetActive(false);
                 selectEquipFocused = 0;
                 CloseTownUIMenu();
             }
@@ -83,37 +58,38 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
             {
                 if (selectItemUIFocused == 3)
                 {
-                    open_SelectItemUI = false;
-                    selectItemUIFocused = 0;
-                    cursorItemSelect.SetActive(false);
-                    selectUpgradeItem.SetActive(false);
+                    CloseSelectedItemMenu();
+                    selectUseItem.SetActive(false);
                 }
                 else
                 {
                     switch (selectItemUIFocused)
                     {
                         case 0:
-                            open_SelectItemUI = false;
-                            // open_ReSelectEquipment = true;
-                            selectUpgradeItem.SetActive(false);
+                            CloseSelectedItemMenu();
+                            selectUseItem.SetActive(false);
                             break;
                         case 1:
                             canvasManager.OpenUpgradeStorage(3);
                             break;
                         case 2:
-                            Upgrade(selectEquipFocused, selectedkey);
+                            cursorItemSelect.SetActive(false);
+                            if (selectedkey != null)
+                                Upgrade(selectEquipFocused, selectedkey);
                             break;
                     }
                 }
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
-                open_SelectItemUI = false;
-                selectItemUIFocused = 0;
-                cursorItemSelect.SetActive(false);
-                selectUpgradeItem.SetActive(false);
+                CloseSelectedItemMenu();
+                selectUseItem.SetActive(false);
             }
-
+            if (Input.GetButtonDown("Cancel"))              // esc 를 눌렀을 때
+            {
+                CloseSelectedItemMenu();
+                selectUseItem.SetActive(false);
+            }
             if (selectEquipFocused >= 0 || selectEquipFocused < 2)
             {
                 FocusItemSlotMove(acceptSlot[selectItemUIFocused]);

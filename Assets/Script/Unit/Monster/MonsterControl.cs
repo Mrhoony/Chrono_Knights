@@ -44,8 +44,10 @@ public abstract class Monster_Control : MovingObject
     public float attackCoolTime;
     public float maxAttackDelayTime;
 
+    public delegate void MonsterDeadCount();
+    public MonsterDeadCount monsterDeadCount;
     //posx, posy, rangex, rangey
-    
+
     public AttackRange[] attackRange;
 
     public void Awake()
@@ -95,7 +97,7 @@ public abstract class Monster_Control : MovingObject
             {
                 if (player[i].CompareTag("Player"))
                 {
-                    player[i].gameObject.GetComponent<IsDamageable>().Hit(gameObject.GetComponent<EnemyStatus>().GetAttack(), 0);
+                    player[i].gameObject.GetComponent<PlayerControl>().Hit(gameObject.GetComponent<EnemyStatus>().GetAttack());
                 }
             }
         }
