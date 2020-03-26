@@ -1,0 +1,288 @@
+fileFormatVersion: 2
+guid: be6bf7518d0b507408ddf2c0a9bfae7b
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: anim_pc_jump_xxx_0
+    21300002: anim_pc_jump_xxx_1
+    21300004: anim_pc_jump_xxx_2
+    21300006: anim_pc_jump_xxx_3
+    21300008: anim_pc_jump_xxx_4
+    21300010: anim_pc_jump_xxx_5
+    21300012: anim_pc_jump_xxx_6
+    21300014: anim_pc_jump_xxx_7
+    21300016: anim_pc_jump_xxx_8
+  externalObjects: {}
+  serializedVersion: 9
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: anim_pc_jump_xxx_0
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 198
+        width: 117
+        height: 100
+      alignment: 9
+      pivot: {x: 0.48717952, y: 0.59}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f353743e6f821284fb199a994bbc44f6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_xxx_1
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 203
+        width: 150
+        height: 87
+      alignment: 9
+      pivot: {x: 0.4466667, y: 0.52873564}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f1e1fb97bdcc2d4f928955e1a6e26bb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_xxx_2
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 217
+        width: 157
+        height: 69
+      alignment: 9
+      pivot: {x: 0.43312103, y: 0.40579712}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 739b4bf5d77c60940ad90dec1ff3de24
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_xxx_3
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 69
+        width: 93
+        height: 75
+      alignment: 9
+      pivot: {x: 0.40860215, y: 0.50666666}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8820f2476a64b564eb9e5800416d6442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_xxx_4
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 38
+        width: 54
+        height: 107
+      alignment: 9
+      pivot: {x: 0.44444445, y: 0.635514}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54f60c7c2d842e74a9a1ee56243a7e3e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_xxx_5
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 69
+        width: 113
+        height: 100
+      alignment: 9
+      pivot: {x: 0.6106195, y: 0.48}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97b7fd8a2b5ff084f9af5a12efef2746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_xxx_6
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 107
+        width: 19
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4aa72314617e8c4e8c034a5651707ef
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_xxx_7
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 94
+        width: 112
+        height: 74
+      alignment: 9
+      pivot: {x: 0.7053572, y: 0.4864865}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2edaf193251d13445a9a492db2995aa2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_xxx_8
+      rect:
+        serializedVersion: 2
+        x: 625
+        y: 45
+        width: 195
+        height: 119
+      alignment: 9
+      pivot: {x: 0.45641026, y: 0.37815127}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3e8d1f3b4927fa428dc2b5459ea763c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 81c1976b36f8e764f88572c4c956e569
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
