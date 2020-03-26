@@ -2096,11 +2096,21 @@ PrefabInstance:
       propertyPath: npc_blacksmith
       value: 
       objectReference: {fileID: 1367602047}
+    - target: {fileID: 8142600363562598994, guid: f68ae6bc76b324d46861b049c78611c1,
+        type: 3}
+      propertyPath: selectUseItem
+      value: 
+      objectReference: {fileID: 1854475266}
     - target: {fileID: 8142600364361054067, guid: f68ae6bc76b324d46861b049c78611c1,
         type: 3}
       propertyPath: npc_blacksmith
       value: 
       objectReference: {fileID: 1367602047}
+    - target: {fileID: 8142600364361054067, guid: f68ae6bc76b324d46861b049c78611c1,
+        type: 3}
+      propertyPath: selectUseItem
+      value: 
+      objectReference: {fileID: 1854475267}
     - target: {fileID: 3976437368823513564, guid: f68ae6bc76b324d46861b049c78611c1,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2172,6 +2182,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8587c7f0f5c78a469406206573c89f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1854475266 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8142600363415957182, guid: f68ae6bc76b324d46861b049c78611c1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1854475257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1854475267 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4555930296537646151, guid: f68ae6bc76b324d46861b049c78611c1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1854475257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1863944864
 GameObject:
   m_ObjectHideFlags: 0

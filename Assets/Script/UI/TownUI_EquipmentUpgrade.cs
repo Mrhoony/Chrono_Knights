@@ -21,6 +21,8 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
     public GameObject[] equipSlots;
     public GameObject equipCancel;
 
+    public GameObject selectUseItem;
+
     public GameObject cursorEquipSelect;
     public GameObject cursorItemSelect;
     public float cursorSpd;
@@ -30,8 +32,7 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
     // public bool open_ReSelectEquipment;
     public int selectEquipFocused;
     public int selectItemUIFocused;
-
-    public bool isTownMenuOn = false;
+    
     public int keySlotFocus;
 
     // Start is called before the first frame update
@@ -72,7 +73,6 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
     }
     public void OpenSelectedItemMenu()
     {
-
         upgradeButton.GetComponent<Image>().color = new Color(upgradeButton.GetComponent<Image>().color.r,
             upgradeButton.GetComponent<Image>().color.g, upgradeButton.GetComponent<Image>().color.b, 255);
         
@@ -99,6 +99,12 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
         }
 
         acceptSlot[3].SetActive(false);
+    }
+    public void CloseSelectedItemMenu()
+    {
+        open_SelectItemUI = false;
+        selectItemUIFocused = 0;
+        cursorItemSelect.SetActive(false);
     }
 
     public void SetKey(int focus)

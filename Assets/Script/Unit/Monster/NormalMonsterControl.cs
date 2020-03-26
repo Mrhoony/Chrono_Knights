@@ -11,7 +11,7 @@ public abstract class NormalMonsterControl : Monster_Control
     public float randomMoveCount;
     public float randomAttack;
     public bool isDamagable;
-
+    
     public override void MonsterInit()
     {
         animator.SetBool("isDead", false);
@@ -27,7 +27,9 @@ public abstract class NormalMonsterControl : Monster_Control
         
         randomMoving = RandomMove();
         StartCoroutine(randomMoving);
+        monsterDeadCount = null;
     }
+
     public override void MonsterFlip()
     {
         if (actionState != ActionState.Idle) return;
@@ -196,5 +198,7 @@ public abstract class NormalMonsterControl : Monster_Control
             dropItemList.ItemDropChance();
         }
         enabled = false;
+        monsterDeadCount();
+        monsterDeadCount = null;
     }
 }

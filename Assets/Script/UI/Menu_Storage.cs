@@ -190,39 +190,11 @@ public class Menu_Storage : Menu_InGameMenu
             else break;
         }
     }
-
-    public void OpenStorageWithUpgrade()                 // 강화에서 창고를 열었을 때
+    
+    public void OpenStorage(bool _UpgradeEquipment)       // 일반적으로 창고를 열었을 때
     {
         isUIOn = true;
-        upgradeItem = true;
-        boxNum = 0;
-        boxFull = 0;
-        focused = 0;
-        StorageSet();
-        ItemInformationSetting(focused);
-
-        slotInstance = slot[focused].GetComponent<Slot>();
-        slotInstance.SetActiveFocus(true);
-    }
-    public void CloseStorageWithUpgrade(bool isSelect)
-    {
-        itemInformation.SetActive(false);
-        slotInstance.SetActiveFocus(false);
-        isUIOn = false;
-
-        if (isSelect)
-        {
-            canvasManager.CloseUpgradeStorage(focused);
-        }
-        else
-        {
-            canvasManager.CloseUpgradeStorage();
-        }
-    }
-
-    public void OpenStorage()       // 일반적으로 창고를 열었을 때
-    {
-        isUIOn = true;
+        upgradeItem = _UpgradeEquipment;
         boxNum = 0;
         boxFull = 0;
         focused = 0;
@@ -236,6 +208,21 @@ public class Menu_Storage : Menu_InGameMenu
         slotInstance = slot[focused].GetComponent<Slot>();
         slotInstance.SetActiveFocus(true);
     }
+    public void CloseStorageWithUpgrade(bool _SelectedItem)
+    {
+        itemInformation.SetActive(false);
+        slotInstance.SetActiveFocus(false);
+        isUIOn = false;
+
+        if (_SelectedItem)
+        {
+            canvasManager.CloseUpgradeStorage(focused);
+        }
+        else
+        {
+            canvasManager.CloseUpgradeStorage();
+        }
+    }
     public void CloseStorage()      
     {
         SetSelectedItemSlotNum();
@@ -247,6 +234,7 @@ public class Menu_Storage : Menu_InGameMenu
 
         canvasManager.CloseStorage();
     }
+
     public void SetSelectedItemSlotNum()    // 선택된 아이템 슬롯 번호를 저장
     {
         selectSlotNum = 0;

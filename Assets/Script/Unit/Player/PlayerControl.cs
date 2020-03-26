@@ -585,6 +585,10 @@ public class PlayerControl : MovingObject
                 {
                     if(_atkType == AtkType.spear_x_Upper_Attack)
                     {
+
+                    }
+                    else
+                    {
                         monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit(playerStatus.GetAttack_Result(), playerAttack.knockBack);
                     }
                 }

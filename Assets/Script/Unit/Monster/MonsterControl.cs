@@ -44,8 +44,10 @@ public abstract class Monster_Control : MovingObject
     public float attackCoolTime;
     public float maxAttackDelayTime;
 
+    public delegate void MonsterDeadCount();
+    public MonsterDeadCount monsterDeadCount;
     //posx, posy, rangex, rangey
-    
+
     public AttackRange[] attackRange;
 
     public void Awake()

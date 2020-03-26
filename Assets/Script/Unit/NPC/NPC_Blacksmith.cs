@@ -25,10 +25,10 @@ public class NPC_Blacksmith : NPC_Control
                 switch (focus)
                 {
                     case 0:
-                        townUI.OpenEnchantMenu();
+                        canvasManager.OpenEnchantMenu();
                         break;
                     case 1:
-                        townUI.OpenUpgradeMenu();
+                        canvasManager.OpenUpgradeMenu();
                         break;
                     case 2:
                         CloseSelectMenu();
@@ -37,15 +37,17 @@ public class NPC_Blacksmith : NPC_Control
             }
         }
 
-        if (openSelectUI)
-        {
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { focus = FocusedSlot(button, 1, focus); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { focus = FocusedSlot(button, -1, focus); }
+        if (!openSelectUI) return;
 
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                CloseSelectMenu();
-            }
+        if (Input.GetKeyDown(KeyCode.DownArrow)) { focus = FocusedSlot(button, 1, focus); }
+        if (Input.GetKeyDown(KeyCode.UpArrow)) { focus = FocusedSlot(button, -1, focus); }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            CloseSelectMenu();
+        }
+        if (Input.GetButtonDown("Cancel"))
+        {
+            CloseSelectMenu();
         }
     }
 
