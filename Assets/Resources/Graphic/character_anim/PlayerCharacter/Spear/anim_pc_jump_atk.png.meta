@@ -1,0 +1,352 @@
+fileFormatVersion: 2
+guid: d446801fd04033445a611e1cf3ba7d91
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: anim_pc_jump_atk_0
+    21300002: anim_pc_jump_atk_1
+    21300004: anim_pc_jump_atk_3
+    21300006: anim_pc_jump_atk_5
+    21300008: anim_pc_jump_atk_7
+    21300010: anim_pc_jump_atk_8
+    21300012: anim_pc_jump_atk_9
+    21300014: anim_pc_jump_atk_11
+    21300016: anim_pc_jump_atk_12
+    21300018: anim_pc_jump_atk_13
+    21300020: anim_pc_jump_atk_14
+    21300022: anim_pc_jump_atk_16
+    21300024: anim_pc_jump_atk_17
+  externalObjects: {}
+  serializedVersion: 9
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_0
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 388
+        width: 93
+        height: 75
+      alignment: 9
+      pivot: {x: 0.40860215, y: 0.49333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3cb937594ecbce458dadfaa30b74f3e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_1
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 358
+        width: 115
+        height: 111
+      alignment: 9
+      pivot: {x: 0.33043477, y: 0.3963964}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f427c6ff7c3991468b07498a32614c9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_3
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 358
+        width: 113
+        height: 109
+      alignment: 9
+      pivot: {x: 0.33628318, y: 0.38532108}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc78a1d69c0322949b41918a87dca37d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_5
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 357
+        width: 94
+        height: 110
+      alignment: 9
+      pivot: {x: 0.4042553, y: 0.39090908}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 967a33e05a6c08b409c148fa7b8a6579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_8
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 211
+        width: 54
+        height: 107
+      alignment: 9
+      pivot: {x: 0.4814815, y: 0.635514}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed06fd336ac0669459d6c39a60a826b5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_9
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 217
+        width: 113
+        height: 100
+      alignment: 9
+      pivot: {x: 0.57522124, y: 0.48999998}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c106d277ed892864784a71da9f8b4849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_11
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 233
+        width: 112
+        height: 74
+      alignment: 9
+      pivot: {x: 0.68750006, y: 0.43243244}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 420bf412c2f5c134987ccfeba8fe6ed5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_12
+      rect:
+        serializedVersion: 2
+        x: 427
+        y: 191
+        width: 170
+        height: 136
+      alignment: 9
+      pivot: {x: 0.44117647, y: 0.3897059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dd785381cb2ebe44a5d560406137b13
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_13
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 87
+        width: 93
+        height: 75
+      alignment: 9
+      pivot: {x: 0.40860215, y: 0.50666666}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 649ae546ca5fdfa4d8730f2dc285d350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_14
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 46
+        width: 194
+        height: 149
+      alignment: 9
+      pivot: {x: 0.7061855, y: 0.24832214}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90c24583e77eab74f8e882ced1c53eab
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_16
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 64
+        width: 94
+        height: 90
+      alignment: 9
+      pivot: {x: 0.4042553, y: 0.37777779}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35003af9b0d421b48a335848e4ef183f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_17
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 70
+        width: 112
+        height: 84
+      alignment: 9
+      pivot: {x: 0.43750003, y: 0.39285716}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a5698d4f73974840b82e092c763658d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 78c90e64c1da4014386b73f5971e1aa9
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
