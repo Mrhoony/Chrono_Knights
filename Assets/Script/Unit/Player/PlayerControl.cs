@@ -288,6 +288,11 @@ public class PlayerControl : MovingObject
                 actionState = ActionState.IsAtk;
                 weaponSpear.AttackY(inputArrow);
             }
+            if (actionState == ActionState.IsJump || actionState == ActionState.IsJumpAttack)
+            {
+                actionState = ActionState.IsJumpAttack;
+                weaponSpear.JumpAttackY();
+            }
         }
         if (Input.GetButtonUp("Fire2"))
         {
@@ -622,6 +627,24 @@ public class PlayerControl : MovingObject
 
         rb.velocity = new Vector2(arrowDirection * -1 * (_distanceMulty * 2f + 20f), _distanceMulty * 2f + 20f);
     }
+    
+    public bool AttackDistanceDown(float _distanceMulty)
+    {
+        GroundCheck.SetActive(true);
+        RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y)
+            , new Vector2(arrowDirection, -1), 20f, rayDashLayerMask);
+
+        if (playerDashBotDistance)
+        {
+            transform.position = new Vector2(playerDashBotDistance.point.x - (arrowDirection * 0.1f), playerDashBotDistance.point.y + 0.25f);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
     public void OnDrawGizmosSelected()
     {

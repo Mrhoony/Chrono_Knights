@@ -46,7 +46,14 @@ public class Weapon_Spear : PlayerWeaponType
                 StartCoroutine(AttackList());
         }
     }
-    
+
+    public void JumpAttackY()
+    {
+        inputAttackList = 105;
+        if (!attackLock)
+            StartCoroutine(AttackList());
+    }
+
     IEnumerator AttackList()
     {
         attackLock = !attackLock;
@@ -120,21 +127,45 @@ public class Weapon_Spear : PlayerWeaponType
                     break;
                 case 101:
                 case 111:
-                case 131:
-                case 141:
+                    attackPattern = 0;
                     animator.SetBool("isJump_x_Atk", true);
+                    break;
+                case 131:
+                    attackPattern = 2;
+                    animator.SetBool("isJump_up_x_Atk", true);
+                    break;
+                case 141:
+                    attackPattern = 3;
+                    animator.SetBool("isJump_down_x_Atk", true);
                     break;
                 case 102:
                 case 112:
-                case 132:
-                case 142:
+                    if (0 != attackPattern) break;
                     animator.SetBool("isJump_xx_attack", true);
+                    break;
+                case 132:
+                    attackPattern = 2;
+                    animator.SetBool("isJump_up_x_Atk", true);
+                    break;
+                case 142:
+                    attackPattern = 3;
+                    animator.SetBool("isJump_down_x_Atk", true);
                     break;
                 case 103:
                 case 113:
-                case 133:
-                case 143:
+                    if (0 != attackPattern) break;
                     animator.SetBool("isJump_xxx_attack", true);
+                    break;
+                case 133:
+                    attackPattern = 2;
+                    animator.SetBool("isJump_up_x_Atk", true);
+                    break;
+                case 143:
+                    attackPattern = 3;
+                    animator.SetBool("isJump_down_x_Atk", true);
+                    break;
+                case 105:
+                    animator.SetBool("isJump_y_Atk", true);
                     break;
                 default:
                     InputInit();
