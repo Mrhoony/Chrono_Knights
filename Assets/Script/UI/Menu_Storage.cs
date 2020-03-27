@@ -17,10 +17,9 @@ public class Menu_Storage : Menu_InGameMenu
     public int[] storageItemCodeList;
     public int[] storageItemSkillCodeList;
     public bool[] isSelected;       // 슬롯이 선택 되었는지
-    public int selectSlotNum;         // 선택된 슬롯 번호
+    public int selectedItemCount;       // 선택된 슬롯 갯수
     public int[] selectedSlot;      // 선택된 슬롯 번호 목록
     
-    public int selectedItemCount;
     public int takeItemCount;
 
     public override void Init()
@@ -37,7 +36,6 @@ public class Menu_Storage : Menu_InGameMenu
         itemList = new Item[72];
         storageItemCodeList = new int[72];
         storageItemSkillCodeList = new int[72];
-        isFull = new bool[72];
         isSelected = new bool[72];
         SaveStorageClear();
 
@@ -86,7 +84,7 @@ public class Menu_Storage : Menu_InGameMenu
                             if (selectedItemCount < 0)
                             {
                                 selectedItemCount = 0;
-                                Debug.Log("-1 개를 선택할 수 없습니다.");
+                                Debug.Log("꺼낸 아이템이 없습니다.");
                                 return;
                             }
                             slotInstance.SetDisActiveItemConfirm();
@@ -134,8 +132,8 @@ public class Menu_Storage : Menu_InGameMenu
             {
                 if (upgradeItem)
                 {
-                    slotInstance.SetActiveFocus(false);
                     upgradeItem = false;
+                    slotInstance.SetActiveFocus(false);
                     CloseStorageWithUpgrade(false);
                 }
                 else
@@ -157,12 +155,10 @@ public class Menu_Storage : Menu_InGameMenu
         {
             if (itemList[i] != null)
             {
-                isFull[i] = true;
                 slot[i - (boxNum * 24)].GetComponent<Menu_InGameSlot>().SetItemSprite(itemList[i], isSelected[i]);
             }
             else
             {
-                isFull[i] = false;
                 slot[i - (boxNum * 24)].GetComponent<Menu_InGameSlot>().SetItemSprite(null, isSelected[i]);
             }
         }
@@ -171,26 +167,18 @@ public class Menu_Storage : Menu_InGameMenu
             slot[i].GetComponent<Menu_InGameSlot>().SetOverSlot();
         }
     }
-    public void PutInBox(Item[] item)
+    public void PutInBox(Item _item)        // 창고에 아이템 넣기
     {
-        int i , count = item.Length;
-        for (i = 0; i < availableSlot; ++i)
+        for (int i = 0; i < availableSlot; ++i)
         {
-            if (itemList[i] == null) break;
-        }
-        for (int j = 0; j < count; ++j)
-        {
-            if (item[j] == null) continue;
-
-            if (i < availableSlot)
+            if (itemList[i] == null)
             {
-                itemList[i] = item[j];
-                ++i;
+                itemList[i] = _item;
+                isSelected[i] = false;
+                break;
             }
-            else break;
         }
     }
-    
     public void OpenStorage(bool _UpgradeEquipment)       // 일반적으로 창고를 열었을 때
     {
         isUIOn = true;
@@ -226,7 +214,7 @@ public class Menu_Storage : Menu_InGameMenu
     public void CloseStorage()      
     {
         SetSelectedItemSlotNum();
-        inventory.SetSelectedItem(selectSlotNum, selectedSlot);
+        inventory.SetSelectedItem(selectedItemCount, selectedSlot);
         slotInstance.SetActiveFocus(true);
         focused = 0;
         itemInformation.SetActive(false);
@@ -237,16 +225,16 @@ public class Menu_Storage : Menu_InGameMenu
 
     public void SetSelectedItemSlotNum()    // 선택된 아이템 슬롯 번호를 저장
     {
-        selectSlotNum = 0;
+        selectedItemCount = 0;
         for (int i = 0; i < availableSlot; ++i)
         {
             if (isSelected[i])
             {
-                selectedSlot[selectSlotNum] = i;
-                ++selectSlotNum;
+                selectedSlot[selectedItemCount] = i;
+                ++selectedItemCount;
             }
         }
-        for(int i = selectSlotNum; i < selectedSlot.Length; ++i)
+        for(int i = selectedItemCount; i < selectedSlot.Length; ++i)
         {
             selectedSlot[i] = 99;
         }
@@ -265,7 +253,6 @@ public class Menu_Storage : Menu_InGameMenu
             isSelected[focused] = slotInstance.SetItemConfirm(isSelected[focused]);
         }
         itemList[focused] = null;
-        isFull[focused] = false;
 
         slotInstance.SetActiveFocus(false);
         
@@ -280,7 +267,6 @@ public class Menu_Storage : Menu_InGameMenu
             if (selectedSlot[i] > availableSlot) break;
 
             itemList[selectedSlot[i]] = null;
-            isFull[selectedSlot[i]] = false;
             isSelected[selectedSlot[i]] = false;
             selectedSlot[i] = 99;
         }
@@ -289,7 +275,6 @@ public class Menu_Storage : Menu_InGameMenu
     public void EnchantedKey(int _focus)        // 인챈트, 업그레이드 성공시 아이템 창고에서 제거
     {
         itemList[_focus] = null;
-        isFull[_focus] = false;
         StorageSlotSort(_focus);
     }
     public void StorageSlotSort(int _focus)
@@ -303,13 +288,11 @@ public class Menu_Storage : Menu_InGameMenu
                 if (itemList[i + j] != null)
                 {
                     itemList[i] = itemList[i + j];
-                    isFull[i] = isFull[i + j];
                     isSelected[i] = isSelected[i + j];
 
                     if (i + j != availableSlot)
                     {
                         itemList[i + j] = null;
-                        isFull[i + j] = false;
                         isSelected[i + j] = false;
                     }
                     break;
@@ -334,14 +317,6 @@ public class Menu_Storage : Menu_InGameMenu
     public void AvailableKeySlotUpgrade(int upgrade)
     {
         availableSlot += upgrade;
-        AvailableKeySlotSetting(availableSlot);
-    }
-    public void AvailableKeySlotSetting(int slotNum)
-    {
-        for (int i = slotNum - 1; i < 72; ++i)
-        {
-            isFull[i] = true;
-        }
     }
 
     public Item GetSelectStorageItem(int _focus)
@@ -360,7 +335,6 @@ public class Menu_Storage : Menu_InGameMenu
             itemList[i] = null;
             storageItemCodeList[i] = 0;
             storageItemSkillCodeList[i] = 0;
-            isFull[i] = false;
             isSelected[i] = false;
         }
 
@@ -411,9 +385,9 @@ public class Menu_Storage : Menu_InGameMenu
             itemList[i] = null;
             storageItemCodeList[i] = 0;
             storageItemSkillCodeList[i] = 0;
-            isFull[i] = false;
             isSelected[i] = false;
         }
+        selectedItemCount = 0;
     }
 
     public void FocusMove()

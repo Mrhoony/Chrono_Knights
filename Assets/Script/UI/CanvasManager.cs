@@ -93,6 +93,8 @@ public class CanvasManager : MonoBehaviour
         //인게임 세팅 관련 ( 사운드, 화면 크기 등)
         if (Input.GetButtonDown("Cancel"))              // esc 를 눌렀을 때
         {
+            if (isGameOverUIOn) return;
+
             if (DungeonManager.instance.inDungeon)          // 던전 안에 있을 때
             {
                 if (isGameOverUIOn) return;
