@@ -20,7 +20,7 @@ public class Jump_y_Atk : AnimatorManager
             if (!move)
             {
                 move = true;
-                isgroundCheck = playerControl.AttackDistanceDown(playerControl.Attack(AtkType.spear_JumpX_Attack));
+                isgroundCheck = playerControl.AttackDistanceDown(playerControl.Attack(AtkType.spear_Jump_Y_Attack));
                 animator.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             }
         }
