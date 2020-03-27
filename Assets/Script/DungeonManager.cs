@@ -307,12 +307,14 @@ public class DungeonManager : MonoBehaviour
     private void DungeonInit()
     {
         isDead = false;
-        isReturn = false;
+        inDungeon = false;
+
         bossSetting = false;
-        dungeonClear = false;
         floorRepeat = false;
-        phaseClear = false;
         freePassNextFloor = false;
+
+        dungeonClear = false;
+        phaseClear = false;
 
         currentStage = 0;
         bossStageCount = 0;
@@ -464,7 +466,6 @@ public class DungeonManager : MonoBehaviour
     public void OutDungeon()
     {
         isReturn = true;
-        inDungeon = false;
         isSceneLoading = true;
         canvasManager.CircleFadeOutStart();
     }
@@ -483,8 +484,7 @@ public class DungeonManager : MonoBehaviour
                     break;
                 case 1:     // 마을로 향하는 문
                     mainCamera.SetHeiWid(1280, 720);
-                    canvasManager.Menus[0].GetComponent<Menu_Inventory>().DeleteStorageItem();      // 집에서 나올 때 창고에 선택된 키 삭제
-                    SceneManager.LoadScene(useTeleportSystem);
+                    SceneManager.LoadScene(1);
                     break;
                 case 2:     // 탑으로 향하는 길
                     SceneManager.LoadScene(2);
@@ -494,6 +494,10 @@ public class DungeonManager : MonoBehaviour
                     {
                         phaseClear = false;
                         SceneManager.LoadScene(2);
+                    }
+                    else if (isReturn)
+                    {
+                        ReturnToTown();
                     }
                     break;
                 default:
@@ -508,6 +512,7 @@ public class DungeonManager : MonoBehaviour
     }
     public void ReturnToTown()
     {
+        canvasManager.Menus[0].GetComponent<Menu_Inventory>().PutInBox(isDead);          // 집으로 돌아갈 때 창고에 키 넣기
         DungeonInit();
         FloorReset();
         playerStatus.ReturnToTown();
@@ -516,7 +521,6 @@ public class DungeonManager : MonoBehaviour
     public void ReturnHome()
     {
         mainCamera.SetHeiWid(640, 360);
-        canvasManager.Menus[0].GetComponent<Menu_Inventory>().PutInBox(isDead);          // 집으로 돌아갈 때 창고에 키 넣기
         SceneManager.LoadScene(0);
     }
 
@@ -691,7 +695,6 @@ public class DungeonManager : MonoBehaviour
         {
             dungeonClear = true;
         }
-        Debug.Log("monster kill");
     }
     public void FloorEliteMonsterKill()
     {

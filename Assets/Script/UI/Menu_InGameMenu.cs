@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Menu_InGameMenu : MonoBehaviour
 {
@@ -11,7 +9,6 @@ public abstract class Menu_InGameMenu : MonoBehaviour
     public GameObject itemInformation;
 
     public Item[] itemList;
-    public bool[] isFull;               // 슬롯이 비었는지 아닌지
 
     public int slotCount;
     public int availableSlot;
