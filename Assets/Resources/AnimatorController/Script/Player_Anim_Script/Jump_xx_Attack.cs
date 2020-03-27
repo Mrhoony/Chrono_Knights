@@ -36,6 +36,7 @@ public class Jump_xx_Attack : AnimatorManager
         {
             animator.SetBool("isJump_x_Atk", false);
             animator.SetBool("isJump_xx_attack", false);
+            playerControl.PlayerJumpAttackEnd();
             playerControl.InputInit();
             animator.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1f;
         }

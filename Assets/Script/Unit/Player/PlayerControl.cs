@@ -57,6 +57,7 @@ public class PlayerControl : MovingObject
 
     public int jumpAttack;
     public bool isGround;
+    public bool isJump;
     
     public bool dodgable;           // 회피 가능 여부
     public bool invincible;         // 무적 시간
@@ -94,6 +95,7 @@ public class PlayerControl : MovingObject
         weaponType = 0;
         jumpAttack = 0;
         dodgable = true;
+        isJump = false;
 
         Debug.Log("control awake");
     }
@@ -135,8 +137,9 @@ public class PlayerControl : MovingObject
         // 낙하 체크
         if (rb.velocity.y <= -0.5f)
         {
-            if (actionState != ActionState.IsJump && !isGround)
+            if (actionState != ActionState.IsJump && !isGround && !isJump)
             {
+                isJump = true;
                 actionState = ActionState.IsJump;
                 --currentJumpCount;
             }
@@ -288,7 +291,6 @@ public class PlayerControl : MovingObject
                 }
             }
         }
-
         if (Input.GetButton("Fire2"))
         {
             if (actionState == ActionState.Idle || actionState == ActionState.IsMove)
@@ -340,6 +342,7 @@ public class PlayerControl : MovingObject
         if (currentJumpCount < 1 && actionState == ActionState.IsJump) return;
 
         isGround = false;
+        isJump = true;
         GroundCheck.SetActive(false);
 
         jumpAttack = 1;
@@ -354,7 +357,6 @@ public class PlayerControl : MovingObject
         actionState = ActionState.IsJump;
         Debug.Log("jump");
     }
-
     void Dodge()
     {
         if (!dodgable) return;
@@ -596,11 +598,7 @@ public class PlayerControl : MovingObject
             {
                 if (monster[j].CompareTag("Monster") || monster[j].CompareTag("BossMonster"))
                 {
-                    if(_atkType == AtkType.spear_x_Upper_Attack)
-                    {
-
-                    }
-                    else
+                    if(_atkType != AtkType.spear_x_Upper_Attack)
                     {
                         monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit(playerStatus.GetAttack_Result(), playerAttack.knockBack);
                     }
@@ -610,7 +608,6 @@ public class PlayerControl : MovingObject
 
         return attackDistance;
     }
-
     public void AttackDistance(float _distanceMulty)
     {
         RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + GetComponent<BoxCollider2D>().size.x * 0.5f * arrowDirection
@@ -651,8 +648,7 @@ public class PlayerControl : MovingObject
             return false;
         }
     }
-
-
+    
     public void OnDrawGizmosSelected()
     {
         if (actionState == ActionState.IsAtk)

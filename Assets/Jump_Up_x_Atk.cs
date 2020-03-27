@@ -29,6 +29,7 @@ public class Jump_Up_x_Atk : AnimatorManager
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.SetBool("isJump_up_x_Atk", false);
+        playerControl.PlayerJumpAttackEnd();
         playerControl.InputInit();
         animator.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1f;
         move = false;

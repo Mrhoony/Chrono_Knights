@@ -28,7 +28,7 @@ public class g_Jump_x_Atk : AnimatorManager
         }
         if (stateInfo.normalizedTime > 0.9f) {
             animator.SetBool("isJump_x_Atk", false);
-            PlayerControl.instance.PlayerJumpAttackEnd();
+            playerControl.PlayerJumpAttackEnd();
         }
     }
 

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Jump_y_Atk : AnimatorManager
 {
-    bool isgroundCheck;
+    bool isGroundCheck;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        isgroundCheck = false;
+        isGroundCheck = false;
         Init();
     }
 
@@ -20,7 +20,7 @@ public class Jump_y_Atk : AnimatorManager
             if (!move)
             {
                 move = true;
-                isgroundCheck = playerControl.AttackDistanceDown(playerControl.Attack(AtkType.spear_Jump_Y_Attack));
+                isGroundCheck = playerControl.AttackDistanceDown(playerControl.Attack(AtkType.spear_Jump_Y_Attack));
                 animator.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             }
         }
@@ -29,10 +29,12 @@ public class Jump_y_Atk : AnimatorManager
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (true == isgroundCheck) {
+        if (true == isGroundCheck)
+        {
             animator.SetBool("isJump", false);
         }
         animator.SetBool("isJump_y_Atk", false);
+        playerControl.PlayerJumpAttackEnd();
         playerControl.InputInit();
         move = false;
 
