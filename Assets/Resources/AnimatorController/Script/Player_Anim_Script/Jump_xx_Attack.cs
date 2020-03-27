@@ -20,7 +20,7 @@ public class Jump_xx_Attack : AnimatorManager
             if (!move)
             {
                 move = true;
-                playerControl.AttackDistance(playerControl.Attack(AtkType.spear_JumpX_Attack));
+                playerControl.AttackDistance(playerControl.Attack(AtkType.spear_Jump_XX_Attack));
             }
         }
         if (stateInfo.normalizedTime > 0.4f)

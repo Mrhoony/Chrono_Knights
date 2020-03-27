@@ -7,12 +7,20 @@ public enum GunEft {
 public enum AtkType
 {
     spear_X_Attack, spear_XX_Attack, spear_XXX_Attack,
-    spear_XFX_Attack, spear_XFXFX_Attack, spear_JumpX_Attack,
+    spear_XFX_Attack, spear_XFXFX_Attack, 
     spear_x_Upper_Attack,
     spear_Y_Attack, spear_YUp_Attack,
+    spear_Up_X_Attack,
+
+    //spear jump
+    spear_Jump_X_Attack, spear_Jump_XX_Attack, spear_Jump_XXX_Attack,
+    spear_Jump_Y_Attack, spear_Jump_Down_X_Attack, spear_Jump_Up_X_Attack,
+
     gun_X_Attack, gun_XX_Attack, gun_XXX_Attack,
     gun_XFX_Attack, gun_XFXFX_Attack, gun_JumpX_Attack,
     gun_Y_Attack, gun_YUp_Attack,
+
+    //gun jump
 }
 
 public class PlayerControl : MovingObject
@@ -627,7 +635,6 @@ public class PlayerControl : MovingObject
 
         rb.velocity = new Vector2(arrowDirection * -1 * (_distanceMulty * 2f + 20f), _distanceMulty * 2f + 20f);
     }
-    
     public bool AttackDistanceDown(float _distanceMulty)
     {
         GroundCheck.SetActive(true);
