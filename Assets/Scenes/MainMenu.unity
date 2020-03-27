@@ -1190,6 +1190,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 82245446187993114, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: cursorStorageSelect
+      value: 
+      objectReference: {fileID: 82245447478733253}
+    - target: {fileID: 82245446187993114, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: cursorSpd
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 82245445457459811, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: gm
@@ -1482,6 +1492,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
+--- !u!1 &82245447478733253 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1696662721, guid: 187d72a635af2f04a891caed4b95c247,
+    type: 3}
+  m_PrefabInstance: {fileID: 82245447478733252}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &347987306046757590
 PrefabInstance:
   m_ObjectHideFlags: 0

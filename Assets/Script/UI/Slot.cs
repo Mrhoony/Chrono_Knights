@@ -10,14 +10,6 @@ public abstract class Slot : MonoBehaviour
     public GameObject rightText;
     public int focus = 0;
 
-    public void SetActiveFocus(bool _OnOff)
-    {
-        if (!_OnOff)
-        {
-            itemConfirm.SetActive(_OnOff);
-        }
-    }
-
     public void SetActiveItemConfirm(string _leftText, string _rightText)
     {
         focus = 0;

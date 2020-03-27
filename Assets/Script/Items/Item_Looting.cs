@@ -40,7 +40,7 @@ public class Item_Looting : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-            if (inventory.PutInInventory(item))
+            if (inventory.PutInInventory(item, false))
             {
                 Instantiate(eft_itemRoot, collision.transform.position, Quaternion.identity);
                 gameObject.SetActive(false);

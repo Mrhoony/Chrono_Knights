@@ -56,8 +56,8 @@ public class Menu_Inventory : Menu_InGameMenu
                     }
                     if (isShopOpen)
                     {
-                        money = money + itemList[focused].itemRarity;
-                        DeleteItem(focused);
+                        money += itemList[focused].itemRarity;
+                        DeleteUseItem(focused);
                         SetMoneyGameObject();
                         slotInstance.SetDisActiveItemConfirm();
                     }
@@ -103,11 +103,13 @@ public class Menu_Inventory : Menu_InGameMenu
                 if (Input.GetKeyDown(KeyCode.X))
                 {
                     isThisWindowFocus = false;
+                    cursorInvenSelect.SetActive(false);
                     canvasManager.CloseShopInventory();
                 }
                 if (Input.GetKeyDown(KeyCode.C))    // 포커스 상점으로 변경
                 {
                     isThisWindowFocus = false;
+                    cursorInvenSelect.SetActive(false);
                     StartCoroutine(FocusChange());
                 }
             }
@@ -138,11 +140,33 @@ public class Menu_Inventory : Menu_InGameMenu
 
         FocusMove();
     }
+
     #region shop 관련
+
+    public void OpenInventory(TownUI_Shop _shop)   // 상점에서 인벤토리 열 때
+    {
+        isUIOn = true;
+        isShopOpen = true;
+        focused = 0;
+        slotInstance = slot[focused].GetComponent<Slot>();
+
+        shop = _shop;
+        InventorySet();
+
+        if (itemList[focused] != null)
+        {
+            itemInformation.SetActive(true);
+            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(itemList[0]);
+        }
+        else
+        {
+            itemInformation.SetActive(false);
+        }
+    }
     public int BuyItem(Item _Item, int _price)
     {
         if (money < _price) return 1;
-        if (!PutInInventory(_Item)) return 2;
+        if (!PutInInventory(_Item, true)) return 2;
         money -= _price;
         SetMoneyGameObject();
         InventorySet();
@@ -150,8 +174,8 @@ public class Menu_Inventory : Menu_InGameMenu
     }
     public void FocusOn()
     {
-        focused = 0;
         slotInstance = slot[focused].GetComponent<Slot>();
+        cursorInvenSelect.SetActive(true);
         isThisWindowFocus = true;
     }
     IEnumerator FocusChange()
@@ -164,9 +188,11 @@ public class Menu_Inventory : Menu_InGameMenu
     {
         moneyText.GetComponent<UnityEngine.UI.Text>().text = money.ToString();
     }
+
     #endregion
 
     #region Dungeon 관련
+
     public void UseKeyInDungeon(int _focused)      // 던전 포탈 앞에서 아이템 사용시
     {
         if (DungeonManager.instance.UseKeyInDungeon(itemList[_focused]))
@@ -193,7 +219,7 @@ public class Menu_Inventory : Menu_InGameMenu
                 {
                     if (storageSelectedItem[i] == 99)
                     {
-                        storage.PutInBox(itemList[i]);
+                        storage.PutInBox(itemList[i], false);
                     }
                 }
             }
@@ -201,41 +227,23 @@ public class Menu_Inventory : Menu_InGameMenu
             {
                 if (storageSelectedItem[i] == 99)
                 {
-                    storage.PutInBox(itemList[i]);
+                    storage.PutInBox(itemList[i], false);
                 }
             }
             DeleteItem(i);
         }
         isUIOn = false;
     }
+
     #endregion
 
-    public void OpenInventory(TownUI_Shop _shop)   // 상점에서 인벤토리 열 때
-    {
-        isUIOn = true;
-        isShopOpen = true;
-        focused = 0;
-        slotInstance = slot[focused].GetComponent<Slot>();
-
-        shop = _shop;
-        InventorySet();
-
-        if (itemList[focused] != null)
-        {
-            itemInformation.SetActive(true);
-            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(itemList[0]);
-        }
-        else
-        {
-            itemInformation.SetActive(false);
-        }
-    }
     public void OpenInventory(bool _isDungeon)     // I 키로 인벤토리 열 때
     {
         isUIOn = true;
         isDungeonOpen = _isDungeon;
         focused = 0;
         slotInstance = slot[focused].GetComponent<Slot>();
+        cursorInvenSelect.SetActive(true);
 
         InventorySet();
 
@@ -255,7 +263,6 @@ public class Menu_Inventory : Menu_InGameMenu
         isShopOpen = false;
         isUIOn = false;
     }
-
     public void InventorySet()                     // 인벤토리 활성화시 아이템 세팅
     {
         for (int i = 0; i < availableSlot; ++i)
@@ -297,7 +304,7 @@ public class Menu_Inventory : Menu_InGameMenu
 
         for (int i = _focused; i < availableSlot - 1; ++i)
         {
-            if (itemList[i] != null) continue;
+            if (itemList[i] != null) break;
 
             for (int j = 1; j < availableSlot - i; ++i)
             {
@@ -320,9 +327,13 @@ public class Menu_Inventory : Menu_InGameMenu
         }
         InventorySet();
     }
-    public void DeleteItem(int _focused)
+    public void DeleteItem(int _focused)          // 아이템 한개 인벤토리에서 제거
     {
         itemList[_focused] = null;
+        if(storageSelectedItem[_focused] != 99)
+        {
+            storage.DeleteItem(storageSelectedItem[_focused]);
+        }
         storageSelectedItem[_focused] = 99;
     }
 
@@ -347,14 +358,15 @@ public class Menu_Inventory : Menu_InGameMenu
     {
         return itemList[_focus];
     }
-    public bool PutInInventory(Item _Item)        // 아이템 획득시 인벤토리
+    public bool PutInInventory(Item _Item, bool _IsBuy)        // 아이템 획득시 인벤토리
     {
         for (int i = 0; i < availableSlot; i++)
         {
             if (itemList[i] == null)
             {
                 itemList[i] = _Item;
-                storageSelectedItem[i] = 99;
+                storageSelectedItem[i] = storage.PutInBox(_Item, _IsBuy);
+
                 return true;
             }
         }
