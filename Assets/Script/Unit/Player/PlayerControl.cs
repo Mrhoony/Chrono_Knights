@@ -498,6 +498,7 @@ public class PlayerControl : MovingObject
     }
     public void Landing()
     {
+        if (actionState == ActionState.IsJumpAttack) return;
         currentJumpCount = (int)playerStatus.GetJumpCount();
         actionState = ActionState.Idle;
         isGround = true;

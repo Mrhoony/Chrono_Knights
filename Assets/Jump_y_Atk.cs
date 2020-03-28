@@ -35,9 +35,8 @@ public class Jump_y_Atk : AnimatorManager
         }
         animator.SetBool("isJump_y_Atk", false);
         playerControl.PlayerJumpAttackEnd();
+        playerControl.Landing();
         playerControl.InputInit();
         move = false;
-
-
     }
 }
