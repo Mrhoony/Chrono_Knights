@@ -235,7 +235,7 @@ public class Menu_Storage : Menu_InGameMenu
         canvasManager.CloseStorage();
     }
 
-    public void SetSelectedItemSlotNum()    // 선택된 아이템 슬롯 번호를 저장
+    public void SetSelectedItemSlotNum()                // 선택된 아이템 슬롯 번호를 저장
     {
         selectedItemCount = 0;
         for (int i = 0; i < availableSlot; ++i)
@@ -252,7 +252,7 @@ public class Menu_Storage : Menu_InGameMenu
         }
     }
 
-    public void DeleteItem(int _focused)
+    public void DeleteItem(int _focused)                // 아이템 사용으로 삭제될 시
     {
         if (isSelected[_focused])
         {
@@ -268,12 +268,24 @@ public class Menu_Storage : Menu_InGameMenu
         }
         StorageSlotSort(_focused);
     }
-    public void EnchantedKey(int _focus)        // 인챈트, 업그레이드 성공시 아이템 창고에서 제거
+    public void InventorySelectCancel(int _focused)       // 인벤토리에서 아이템 선택 취소시
+    {
+        --selectedItemCount;
+        if (selectedItemCount < 0)
+        {
+            selectedItemCount = 0;
+            return;
+        }
+        isSelected[_focused] = false;
+        selectedSlot[_focused] = 99;
+        StorageSlotSort(_focused);
+    }
+    public void EnchantedKey(int _focus)                 // 인챈트, 업그레이드 성공시 아이템 창고에서 제거
     {
         itemList[_focus] = null;
         StorageSlotSort(_focus);
     }
-    public void StorageSlotSort(int _focus)
+    public void StorageSlotSort(int _focus)             // 창고 정렬
     {
         for (int i = _focus; i < availableSlot - 1; ++i)
         {
@@ -303,18 +315,7 @@ public class Menu_Storage : Menu_InGameMenu
         }
         StorageSet();
     }
-    public void ItemInformationSetting(int _focus)
-    {
-        if (itemList[focused] != null)
-        {
-            itemInformation.SetActive(true);
-            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(itemList[focused]);
-        }
-        else
-        {
-            itemInformation.SetActive(false);
-        }
-    }
+
 
     public void AvailableKeySlotUpgrade(int upgrade)
     {
@@ -390,6 +391,19 @@ public class Menu_Storage : Menu_InGameMenu
             isSelected[i] = false;
         }
         selectedItemCount = 0;
+    }
+
+    public void ItemInformationSetting(int _focus)
+    {
+        if (itemList[focused] != null)
+        {
+            itemInformation.SetActive(true);
+            itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(itemList[focused]);
+        }
+        else
+        {
+            itemInformation.SetActive(false);
+        }
     }
 
     public void FocusMove()

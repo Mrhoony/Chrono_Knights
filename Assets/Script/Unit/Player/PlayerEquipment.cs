@@ -1,7 +1,16 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+public enum EquipmentType
+{
+    spear,
+    gun,
+    bullet,
+    bell,
+    gloves,
+    shoes,
+    bag
+}
 
 [Serializable]
 public class PlayerEquipment
@@ -21,8 +30,9 @@ public class PlayerEquipment
         public int skillRarity;
         public bool isUsed;
         public bool enchant;
+        public EquipmentType equipmentType;
 
-        public void Init(string _name, float[] _addStatus)
+        public void Init(string _name, float[] _addStatus, EquipmentType _equipmentType)
         {
             name = _name;
             addStatus = _addStatus;
@@ -33,7 +43,9 @@ public class PlayerEquipment
             isUsed = false;
             enchant = false;
             itemCode = 0;
+            itemRarity = 0;
             skillCode = 0;
+            equipmentType = _equipmentType;
         }
         public void EquipmentItemSetting(Item _item)
         {
@@ -70,7 +82,7 @@ public class PlayerEquipment
             else
             {
                 downStatus = _status;
-                addStatus[downStatus] = _addStatus * 0.01f;
+                addStatus[downStatus] = _addStatus * -0.01f;
                 if (addStatus[downStatus] < min[downStatus]) addStatus[downStatus] = min[downStatus];
             }
         }
@@ -83,7 +95,7 @@ public class PlayerEquipment
             }
             else
             {
-                addStatus[_status] -= _addStatus * 0.01f;
+                addStatus[_status] += _addStatus * 0.01f;
                 if (addStatus[_status] < min[_status]) addStatus[_status] = min[_status];
             }
         }
@@ -112,41 +124,41 @@ public class PlayerEquipment
         float[] addStatus = {0,0,0,0,0,0};
         equipment = new Equipment[7];
 
-        equipment[0].Init("종", addStatus);
-        equipment[1].Init("창", addStatus);
-        equipment[2].Init("총", addStatus);
-        equipment[3].Init("흰 옷", addStatus);
-        equipment[4].Init("가죽 신발", addStatus);
-        equipment[5].Init("맨 손", addStatus);
-        equipment[6].Init("액티브", addStatus);
+        equipment[0].Init("창", addStatus, EquipmentType.spear);
+        equipment[1].Init("총", addStatus, EquipmentType.gun);
+        equipment[2].Init("총알", addStatus, EquipmentType.bullet);
+        equipment[3].Init("종 보호대", addStatus, EquipmentType.bell);
+        equipment[4].Init("가죽 신발", addStatus, EquipmentType.shoes);
+        equipment[5].Init("맨 손", addStatus, EquipmentType.gloves);
+        equipment[6].Init("가방", addStatus, EquipmentType.bag);
 
         Debug.Log("equipment Init");
     }
     public void Init(int num)
     {
-        float[] addStatus = { 0, 0, 0, 0, 0, 0, 0 };
+        float[] addStatus = { 0, 0, 0, 0, 0, 0 };
         switch (num)
         {
             case 0:
-                equipment[0].Init("종", addStatus);
+                equipment[0].Init("창", addStatus, EquipmentType.spear);
                 break;
             case 1:
-                equipment[1].Init("창", addStatus);
+                equipment[1].Init("총", addStatus, EquipmentType.gun);
                 break;
             case 2:
-                equipment[2].Init("총", addStatus);
+                equipment[2].Init("총알", addStatus, EquipmentType.bullet);
                 break;
             case 3:
-                equipment[3].Init("흰 옷", addStatus);
+                equipment[3].Init("종 보호대", addStatus, EquipmentType.bell);
                 break;
             case 4:
-                equipment[4].Init("가죽 신발", addStatus);
+                equipment[4].Init("가죽 신발", addStatus, EquipmentType.shoes);
                 break;
             case 5:
-                equipment[5].Init("맨 손", addStatus);
+                equipment[5].Init("맨 손", addStatus, EquipmentType.gloves);
                 break;
             case 6:
-                equipment[6].Init("", addStatus);
+                equipment[6].Init("가방", addStatus, EquipmentType.bag);
                 break;
         }
     }

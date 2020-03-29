@@ -107,28 +107,32 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
 
         Debug.Log("upgrade");
 
+        int upgradePercent;
+        int downgradePercent;
+
         if (itemDatabase.GetItem(item.itemCode) != null)
         {
-            int upgradePercent;
-            int downgradePercent;
-
             switch (item.itemRarity)
             {
                 case 1:
-                    upgradePercent = Random.Range(5, 10);
-                    PercentSet(num, upgradePercent, item);
+                    upgradePercent = Random.Range(5, 11);
+                    downgradePercent = Random.Range(1, 6);
                     break;
                 case 2:
-                    upgradePercent = Random.Range(10, 20);
-                    PercentSet(num,  upgradePercent, item);
-                    break;
-                case 3:
-                    upgradePercent = Random.Range(20, 40);
-                    downgradePercent = Random.Range(5, 20);
-                    PercentSet(num,  upgradePercent, downgradePercent, item);
+                    upgradePercent = Random.Range(10, 21);
+                    downgradePercent = Random.Range(5, 11);
 
                     break;
+                default:
+                    upgradePercent = Random.Range(20, 41);
+                    downgradePercent = Random.Range(5, 21);
+                    break;
             }
+            if(equipment[num].itemRarity != 3)
+                PercentSet(num, upgradePercent, item);
+            else
+                PercentSet(num, upgradePercent, downgradePercent, item);
+             
             storage.EnchantedKey(keySlotFocus);
             selectedkey = null;
         }

@@ -68,9 +68,9 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(13, 14);
         Physics2D.IgnoreLayerCollision(14, 14);
 
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 60;
-        Screen.SetResolution(1280, 720, true);
+        QualitySettings.vSyncCount = 0;                 // 동기화 수치 고정
+        Application.targetFrameRate = 60;               // 최대 프레임 조절
+        Screen.SetResolution(1280, 720, true);          // 화면 해상도 1280 x 720 설정
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         playerStat = player.GetComponent<PlayerStatus>();
@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
         playerStatView.SetActive(false);
         canvasManager.inGameMenu.SetActive(false);
         canvasManager.FadeInStart();
-        OpenStartButton();
+        startButton.SetActive(true);
 
         Debug.Log("gameManager Init");
     }
@@ -122,7 +122,18 @@ public class GameManager : MonoBehaviour
                 {
                     if (!openSaveSlot)      // 세이브창이 켜져있지 않으면
                     {
-                        GameStartMenuSelect();
+                        switch (gameSlotFocus)
+                        {
+                            case 0:
+                                OpenLoad();
+                                break;
+                            case 1:
+                                canvasManager.OpenSettings();
+                                break;
+                            case 2:
+                                ExitGame();
+                                break;
+                        }
                     }
                     else
                     {
@@ -131,7 +142,6 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
         if (Input.GetKeyDown(KeyCode.X))
         {
             if (openSaveSlot)
@@ -140,7 +150,6 @@ public class GameManager : MonoBehaviour
                 canvasManager.inGameMenu.SetActive(true);
             }
         }
-
         if (Input.GetKeyDown(KeyCode.C))
         {
             if (openSaveSlot)
@@ -210,7 +219,7 @@ public class GameManager : MonoBehaviour
         bedBlind.SetActive(true);
         playerStatView.SetActive(false);
 
-        OpenStartButton();
+        startButton.SetActive(true);
 
         Debug.Log("Save");
     }
@@ -224,25 +233,20 @@ public class GameManager : MonoBehaviour
             {
                 bf = new BinaryFormatter();
                 ms = new MemoryStream(Convert.FromBase64String(data));
-
-                // 유저 정보
-                dataBase = (DataBase)bf.Deserialize(ms);
                 
-                playerStat.SetPlayerData(dataBase.playerData);
-                dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag());
-                storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetStorageItemSkillCodeList(), dataBase.GetAvailableStorageSlot());
-                inventory.LoadInventoryData(dataBase.GetAvailableInventorySlot(), dataBase.GetCurrentMoney());
+                dataBase = (DataBase)bf.Deserialize(ms);         // 유저 정보
             }
         }
         else
         {
             dataBase.Init();
-
-            playerStat.SetPlayerData(dataBase.playerData);
-            dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag());
-            storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetStorageItemSkillCodeList(), dataBase.GetAvailableStorageSlot());
-            inventory.LoadInventoryData(dataBase.GetAvailableInventorySlot(), dataBase.GetCurrentMoney());
         }
+
+        playerStat.SetPlayerData(dataBase.playerData);
+        dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag());
+        storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetStorageItemSkillCodeList(), dataBase.GetAvailableStorageSlot());
+        inventory.LoadInventoryData(dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.bag].itemRarity, dataBase.GetCurrentMoney());
+
         CloseLoad();
 
         canvasManager.inGameMenu.SetActive(true);
@@ -265,26 +269,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("saveDelete");
         }
     }
-
-    public void GameStartMenuSelect()
-    {
-        switch (gameSlotFocus)
-        {
-            case 0:
-                OpenLoad();
-                break;
-            case 1:
-                canvasManager.OpenSettings();
-                break;
-            case 2:
-                ExitGame();
-                break;
-        }
-    }
-    public void OpenStartButton()
-    {
-        startButton.SetActive(true);
-    }
+    
     public void OpenLoad()
     {
         startButton.SetActive(false);
@@ -374,7 +359,6 @@ public class GameManager : MonoBehaviour
     }
     public void ExitGame()
     {
-        //Debug.Log("Quit"); // Application.Quit()은 에디터 상에서 작동x로 Debug.log로 동작 확인, 빌드시 삭제
         Application.Quit();
     }
     public bool GetGameStart()

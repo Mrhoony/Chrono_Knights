@@ -34,6 +34,7 @@ public class Menu_Inventory : Menu_InGameMenu
         }
         isUIOn = false;
         isItemSelect = false;
+        SetAvailableSlot(0);
         SetMoneyGameObject();
     }
     private void Update()
@@ -373,12 +374,33 @@ public class Menu_Inventory : Menu_InGameMenu
         return false;
     }
 
-    public void LoadInventoryData(int _availableSlot, int _money)
+    public void LoadInventoryData(int _BagRarity, int _money)
     {
-        availableSlot = _availableSlot;
+        SetAvailableSlot(_BagRarity);
         money = _money;
         SetMoneyGameObject();
     }
+    public void SetAvailableSlot(int _BagRarity)
+    {
+        int _availableSlot = 6 * (1 + _BagRarity);
+        
+        for(int i = _availableSlot; _availableSlot < 24; ++i)
+        {
+            if(itemList[i] != null)
+            {
+                itemList[i] = null;
+                if(storageSelectedItem[i] != 99)
+                {
+                    storage.InventorySelectCancel(storageSelectedItem[i]);
+                    storageSelectedItem[i] = 99;
+                    --seletedItemCount;
+                } 
+            }
+        }
+
+        availableSlot = _availableSlot;
+    }
+
     public void FocusMove()
     {
         cursorInvenSelect.transform.position = Vector2.Lerp(cursorInvenSelect.transform.position, slot[focused].transform.position, Time.deltaTime * cursorSpd);

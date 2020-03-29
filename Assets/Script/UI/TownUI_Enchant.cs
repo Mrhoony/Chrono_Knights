@@ -132,7 +132,7 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
                     while (upgradeCount == downgradeCount);
 
                     upgradePercent = Random.Range(40, 60);
-                    downgradePercent = Random.Range(10, 20);
+                    downgradePercent = Random.Range(60, 80);
 
                     PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, item);
                     break;
@@ -141,6 +141,8 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
             selectedkey = null;
         }
         playerStat.PlayerStatusUpdate(playerEquipment);
+
+        canvasManager.Menus[0].GetComponent<Menu_Inventory>().SetAvailableSlot(playerEquipment.equipment[num].itemRarity);
 
         // accept 창 초기화
         acceptSlot[0].SetActive(false);
