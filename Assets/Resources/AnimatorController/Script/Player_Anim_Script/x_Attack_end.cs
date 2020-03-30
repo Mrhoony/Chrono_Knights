@@ -6,7 +6,6 @@ public class x_Attack_end : AnimatorManager
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Init();
-        playerControl.multyHitCount = 0;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -35,7 +34,6 @@ public class x_Attack_end : AnimatorManager
             playerControl.MoveSet();
         }
         Init();
-        playerControl.multyHitCount = 0;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

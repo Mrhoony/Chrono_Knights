@@ -12,7 +12,6 @@ public abstract class PlayerWeaponType : MonoBehaviour
     public int commandCount;
     public int attackState;
     public int attackPattern;
-    public int[] weaponMultyHit;
 
     public int inputAttackList;
 
@@ -24,11 +23,6 @@ public abstract class PlayerWeaponType : MonoBehaviour
         commandCount = 1;
         attackState = 1;
         inputAttackList = 9;
-        weaponMultyHit = new int[3];
-        for(int i = 0; i < weaponMultyHit.Length; ++i)
-        {
-            weaponMultyHit[i] = 1;
-        }
     }
 
     public abstract void AttackX(int attackArrow);
@@ -57,9 +51,5 @@ public abstract class PlayerWeaponType : MonoBehaviour
     public int GetAttackState()
     {
         return attackState;
-    }
-    public int[] GetWeaponMultyHit()
-    {
-        return weaponMultyHit;
     }
 }

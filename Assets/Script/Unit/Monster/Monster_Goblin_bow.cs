@@ -19,7 +19,6 @@ public class Monster_Goblin_bow : NormalMonsterControl
         actionState = ActionState.Idle;
         MonsterInit();
     }
-    
     public override void Move()
     {
         if (actionState == ActionState.NotMove)
@@ -54,7 +53,6 @@ public class Monster_Goblin_bow : NormalMonsterControl
             }
         }
     }
-
     public override void Attack()
     {
         if (actionState != ActionState.Idle) return;

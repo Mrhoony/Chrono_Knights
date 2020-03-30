@@ -128,4 +128,33 @@ public class Boss_Trainer : BossMonster_Control
             eft.SetActive(true);
         }
     }
+    public override void MonsterHitRigidbodyEffect(int _damage, int _knockBack)
+    {
+        if (actionState == ActionState.IsDead) return;
+
+        actionState = ActionState.NotMove;
+        StartCoroutine(MoveDelayTime(1f));
+        random = Random.Range(-0.2f, 0.2f);
+
+        int knockBack = _knockBack - monsterWeight;
+        if (knockBack > 0)
+        {
+            rb.velocity = Vector2.zero;
+            rb.AddForce(new Vector2((PlayerControl.instance.GetArrowDirection() + random) * 0.5f, knockBack), ForceMode2D.Impulse);
+        }
+
+        enemyStatus.DecreaseHP(_damage);
+        if (enemyStatus.IsDeadCheck())
+        {
+            actionState = ActionState.IsDead;
+            gameObject.tag = "DeadBody";
+            Dead();
+            DungeonManager.instance.FloorBossKill();
+        }
+        else
+        {
+            animator.SetTrigger("isHit_Trigger");
+            eft.SetActive(true);
+        }
+    }
 }

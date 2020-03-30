@@ -8,7 +8,7 @@ public enum AtkType
 {
     spear_X_Attack, spear_XX_Attack, spear_XXX_Attack,
     spear_XFX_Attack, spear_XFXFX_Attack, 
-    spear_x_Upper_Attack,
+    spear_X_Upper_Attack,
     spear_Y_Attack, spear_YUp_Attack,
     spear_Up_X_Attack,
 
@@ -43,10 +43,7 @@ public class PlayerControl : MovingObject
 
     public Weapon_Spear weaponSpear;
     public Weapon_Gun weaponGun;
-
     public int weaponType;
-    public int[] weaponMultyHit;
-    public int multyHitCount;
 
     public float inputDirection;
     public int inputArrow;
@@ -65,7 +62,6 @@ public class PlayerControl : MovingObject
 
     public bool debugOn;
     public int currentJumpCount;
-
     
     private void Awake()
     {
@@ -86,11 +82,9 @@ public class PlayerControl : MovingObject
         playerStatus = GetComponent<PlayerStatus>();
         weaponSpear = GetComponent<Weapon_Spear>();
         weaponSpear.Init(animator, rb);
-        weaponMultyHit = weaponSpear.GetWeaponMultyHit();
         weaponGun = GetComponent<Weapon_Gun>();
         skillManager.Init();
-
-        multyHitCount = 0;
+        
         arrowDirection = 1;
         weaponType = 0;
         jumpAttack = 0;
@@ -172,13 +166,11 @@ public class PlayerControl : MovingObject
             {
                 weaponType = 1;
                 weaponGun.Init(animator, rb);
-                weaponMultyHit = weaponGun.GetWeaponMultyHit();
             }
             else if (weaponType == 1)
             {
                 weaponType = 0;
                 weaponSpear.Init(animator, rb);
-                weaponMultyHit = weaponSpear.GetWeaponMultyHit();
             }
         }       // 장착 무기 변경
     }
@@ -592,21 +584,24 @@ public class PlayerControl : MovingObject
         if (weaponType == 0) attackState = weaponSpear.GetAttackState();
         else attackState = weaponGun.GetAttackState();
 
-        for (int i = 0; i < weaponMultyHit[attackState - 1]; ++i)
+        overlap = monster.Length;
+        for (int j = 0; j < overlap; ++j)
         {
-            overlap = monster.Length;
-            for (int j = 0; j < overlap; ++j)
+            if (monster[j].CompareTag("Monster") || monster[j].CompareTag("BossMonster"))
             {
-                if (monster[j].CompareTag("Monster") || monster[j].CompareTag("BossMonster"))
+                switch (_atkType)
                 {
-                    if(_atkType != AtkType.spear_x_Upper_Attack)
-                    {
+                    case AtkType.spear_X_Upper_Attack:
+                    case AtkType.spear_Jump_Up_X_Attack:
+                    case AtkType.spear_Jump_Down_X_Attack:
+                        monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffect(playerStatus.GetAttack_Result(), playerAttack.knockBack);
+                        break;
+                    default:
                         monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit(playerStatus.GetAttack_Result(), playerAttack.knockBack);
-                    }
+                        break;
                 }
             }
         }
-
         return attackDistance;
     }
     public void AttackDistance(float _distanceMulty)

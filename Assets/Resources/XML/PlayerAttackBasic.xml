@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<PlayerAttackDataBase>
-	<Field attackType = "" attackXPoint ="" attackYPoint = "" attackXRange = "" attackYRange = "" attackMultiply = "" distanceMultiply = "" knockBack = ""/>
-	<Field attackType = "" attackXPoint ="" attackYPoint = "" attackXRange = "" attackYRange = "" attackMultiply = "" distanceMultiply = "" knockBack = ""/>
-</PlayerAttackDataBase>

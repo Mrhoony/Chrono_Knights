@@ -25,7 +25,7 @@ public class ProjectileObjectArrow : MonoBehaviour
         scale.x *= _arrowDirection;
         transform.localScale = scale;
 
-        rb.gravityScale = _distance / 5f;
+        rb.gravityScale = _distance * 0.5f;
 
         rb.AddForce(new Vector2(_arrowDirection * 3f, 2f), ForceMode2D.Impulse);
     }

@@ -9,7 +9,6 @@ public class g_Jump_x_Atk : AnimatorManager
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Init();
-        playerControl.multyHitCount = 0;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -38,7 +37,6 @@ public class g_Jump_x_Atk : AnimatorManager
         playerControl.InputInit();
         playerControl.MoveSet();
         Init();
-        playerControl.multyHitCount = 0;
     }
     
 }

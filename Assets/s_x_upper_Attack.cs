@@ -8,7 +8,7 @@ public class s_x_upper_Attack : AnimatorManager
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Init();
-        playerControl.multyHitCount = 0;
+
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -19,7 +19,7 @@ public class s_x_upper_Attack : AnimatorManager
             if (!move)
             {
                 move = true;
-                playerControl.Attack(AtkType.spear_x_Upper_Attack);
+                playerControl.Attack(AtkType.spear_X_Upper_Attack);
             }
         }
     }
@@ -27,13 +27,10 @@ public class s_x_upper_Attack : AnimatorManager
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!animator.GetBool("is_xx_Atk") && !animator.GetBool("is_xFx_Atk"))
-        {
-            playerControl.InputInit();
-            playerControl.MoveSet();
-        }
+        playerControl.InputInit();
+        playerControl.MoveSet();
         Init();
-        playerControl.multyHitCount = 0;
+
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

@@ -113,6 +113,45 @@ public class Boss_Merchant : BossMonster_Control
             }
         }
     }
+    public override void MonsterHitRigidbodyEffect(int _damage, int _knockBack)
+    {
+        if (actionState == ActionState.IsDead) return;
+
+        if (isGuard)
+        {
+            StopCoroutine("GuardCount");
+            StopCoroutine("MoveDelayTime");
+            animator.SetBool("isCounterAttack", true);
+        }
+        else
+        {
+            actionState = ActionState.NotMove;
+            StartCoroutine(MoveDelayTime(1f));
+            random = Random.Range(-2f, 2f);
+
+            int knockBack = _knockBack - monsterWeight;
+            if (knockBack > 0)
+            {
+                rb.velocity = Vector2.zero;
+                rb.AddForce(new Vector2((PlayerControl.instance.GetArrowDirection() + random) * 0.5f, knockBack), ForceMode2D.Impulse);
+            }
+
+            enemyStatus.DecreaseHP(_damage);
+
+            if (enemyStatus.IsDeadCheck())
+            {
+                actionState = ActionState.IsDead;
+                gameObject.tag = "DeadBody";
+                Dead();
+                DungeonManager.instance.FloorBossKill();
+            }
+            else
+            {
+                animator.SetTrigger("isHit");
+                eft.SetActive(true);
+            }
+        }
+    }
 
     void Guard()
     {

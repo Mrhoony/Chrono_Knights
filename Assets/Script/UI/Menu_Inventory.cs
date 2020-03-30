@@ -384,7 +384,7 @@ public class Menu_Inventory : Menu_InGameMenu
     {
         int _availableSlot = 6 * (1 + _BagRarity);
         
-        for(int i = _availableSlot; _availableSlot < 24; ++i)
+        for(int i = _availableSlot; i < 24; ++i)
         {
             if(itemList[i] != null)
             {

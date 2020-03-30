@@ -29,7 +29,7 @@ public class xxx_Attack_end : AnimatorManager
         playerControl.InputInit();
         playerControl.MoveSet();
         Init();
-        playerControl.multyHitCount = 0;
+
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

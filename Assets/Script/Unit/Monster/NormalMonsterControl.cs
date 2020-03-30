@@ -169,6 +169,36 @@ public abstract class NormalMonsterControl : Monster_Control
             }
         }
     }
+    public override void MonsterHitRigidbodyEffect(int _damage, int _knockBack)
+    {
+        if (actionState == ActionState.IsDead) return;
+
+        enemyStatus.DecreaseHP(_damage);
+        StartCoroutine(MonsterHitEffect());
+
+        if (enemyStatus.IsDeadCheck())
+        {
+            actionState = ActionState.IsDead;
+            gameObject.tag = "DeadBody";
+            Dead();
+        }
+        else
+        {
+            animator.SetTrigger("isHit");
+            actionState = ActionState.NotMove;
+            StopCoroutine("moveDelayCoroutine");
+            moveDelayCoroutine = MoveDelayTime(1.5f);
+            StartCoroutine(moveDelayCoroutine);
+            random = Random.Range(-0.2f, 0.2f);
+
+            int knockBack = _knockBack - monsterWeight;
+            if (knockBack > 0)
+            {
+                rb.velocity = Vector2.zero;
+                rb.AddForce(new Vector2((PlayerControl.instance.GetArrowDirection() + random) * 0.5f, knockBack), ForceMode2D.Impulse);
+            }
+        }
+    }
     public IEnumerator MonsterHitEffect()
     {
         for(int i = 0; i < 2; ++i)

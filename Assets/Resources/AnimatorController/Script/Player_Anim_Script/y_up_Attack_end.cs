@@ -26,7 +26,7 @@ public class y_up_Attack_end : AnimatorManager
         playerControl.InputInit();
         playerControl.MoveSet();
         Init();
-        playerControl.multyHitCount = 0;
+
         Debug.Log("yupend");
     }
 

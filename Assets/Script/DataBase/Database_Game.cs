@@ -368,9 +368,11 @@ public class Database_Game : MonoBehaviour
         {
             if(playerAttack[i].attackType == _atkType)
             {
+                Debug.Log("찾았다");
                 return playerAttack[i];
             }
         }
+        Debug.Log("못찾았다");
         return null;
     }
 }

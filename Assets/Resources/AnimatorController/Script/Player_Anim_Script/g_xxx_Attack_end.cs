@@ -30,6 +30,6 @@ public class g_xxx_Attack_end : AnimatorManager
         playerControl.InputInit();
         playerControl.MoveSet();
         Init();
-        playerControl.multyHitCount = 0;
+
     }
 }
