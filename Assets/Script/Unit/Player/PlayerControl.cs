@@ -585,19 +585,23 @@ public class PlayerControl : MovingObject
         else attackState = weaponGun.GetAttackState();
 
         overlap = monster.Length;
+        bool _hit;
         for (int j = 0; j < overlap; ++j)
         {
             if (monster[j].CompareTag("Monster") || monster[j].CompareTag("BossMonster"))
             {
+                _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit(playerStatus.GetAttack_Result());
                 switch (_atkType)
                 {
                     case AtkType.spear_X_Upper_Attack:
                     case AtkType.spear_Jump_Up_X_Attack:
                     case AtkType.spear_Jump_Down_X_Attack:
-                        monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffect(playerStatus.GetAttack_Result(), playerAttack.knockBack);
+                        if(_hit)
+                            monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectUpper(playerAttack.knockBack);
                         break;
                     default:
-                        monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit(playerStatus.GetAttack_Result(), playerAttack.knockBack);
+                        if(_hit)
+                            monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
                         break;
                 }
             }

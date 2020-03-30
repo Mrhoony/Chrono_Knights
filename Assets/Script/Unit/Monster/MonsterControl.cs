@@ -105,8 +105,9 @@ public abstract class Monster_Control : MovingObject
 
     public abstract void MonsterInit();
     public abstract void MonsterFlip();
-    public abstract void MonsterHit(int _damage, int _knockBack);
-    public abstract void MonsterHitRigidbodyEffect(int _damage, int _knockBack);
+    public abstract bool MonsterHit(int _damage);
+    public abstract void MonsterHitRigidbodyEffectKnockBack(int _knockBack);
+    public abstract void MonsterHitRigidbodyEffectUpper(int _knockBack);
     public abstract void Dead();
 
     public void OnDestroy()

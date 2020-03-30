@@ -113,7 +113,6 @@ GameObject:
   - component: {fileID: 3671656616202476071}
   - component: {fileID: 8147519210445272187}
   - component: {fileID: 7198845257701222119}
-  - component: {fileID: 1534499895871700088}
   - component: {fileID: 2994179415527805912}
   - component: {fileID: 4897632547927375715}
   m_Layer: 10
@@ -245,6 +244,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bc3f082dea3d8e4d9cc89bcb5a55b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
+  defaultMaterial: {fileID: 0}
+  whiteFlashMaterial: {fileID: 0}
   currentState: 
   actionState: 5
   overlap: 0
@@ -256,9 +258,6 @@ MonoBehaviour:
   eftPool: []
   enemyStatus: {fileID: 0}
   dropItemList: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  defaultMaterial: {fileID: 0}
-  whiteFlashMaterial: {fileID: 0}
   monsterName: 
   monsterCode: 0
   coroutine: 0
@@ -267,6 +266,7 @@ MonoBehaviour:
   distanceX: 0
   distanceY: 0
   moveSpeed: 0
+  monsterWeight: 0
   rotateDelayTime: 0
   attackCoolTime: 0
   maxAttackDelayTime: 0
@@ -306,18 +306,7 @@ MonoBehaviour:
   _attackRange: 0
   _attack: 0
   _defense: 0
---- !u!114 &1534499895871700088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8315407001163370714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd8bca6e2af9b3b4981467d0e5a9f4b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  monsterWeight: 0
 --- !u!114 &2994179415527805912
 MonoBehaviour:
   m_ObjectHideFlags: 0

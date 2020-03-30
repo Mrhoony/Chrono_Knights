@@ -139,64 +139,50 @@ public abstract class NormalMonsterControl : Monster_Control
         Debug.Log("monster attack");
     }
 
-    public override void MonsterHit(int _damage, int _knockBack)
+    public override bool MonsterHit(int _damage)
     {
-        if (actionState == ActionState.IsDead) return;
+        if (actionState == ActionState.IsDead) return false;
         
         enemyStatus.DecreaseHP(_damage);
-        StartCoroutine(MonsterHitEffect());
 
         if (enemyStatus.IsDeadCheck())
         {
             actionState = ActionState.IsDead;
             gameObject.tag = "DeadBody";
             Dead();
+            return false;
         }
         else
         {
+            StartCoroutine(MonsterHitEffect());
             animator.SetTrigger("isHit");
             actionState = ActionState.NotMove;
             StopCoroutine("moveDelayCoroutine");
             moveDelayCoroutine = MoveDelayTime(1.5f);
             StartCoroutine(moveDelayCoroutine);
-            random = Random.Range(-0.2f, 0.2f);
-
-            int knockBack = _knockBack - monsterWeight;
-            if(knockBack > 0)
-            {
-                rb.velocity = Vector2.zero;
-                rb.AddForce(new Vector2((PlayerControl.instance.GetArrowDirection() + random) * knockBack * 0.5f, 1f), ForceMode2D.Impulse);
-            }
+            return true;
         }
     }
-    public override void MonsterHitRigidbodyEffect(int _damage, int _knockBack)
+    public override void MonsterHitRigidbodyEffectUpper(int _knockBack)
     {
-        if (actionState == ActionState.IsDead) return;
+        random = Random.Range(-0.2f, 0.2f);
 
-        enemyStatus.DecreaseHP(_damage);
-        StartCoroutine(MonsterHitEffect());
-
-        if (enemyStatus.IsDeadCheck())
+        int knockBack = _knockBack - monsterWeight;
+        if (knockBack > 0)
         {
-            actionState = ActionState.IsDead;
-            gameObject.tag = "DeadBody";
-            Dead();
+            rb.velocity = Vector2.zero;
+            rb.AddForce(new Vector2((PlayerControl.instance.GetArrowDirection() + random) * 0.5f, knockBack), ForceMode2D.Impulse);
         }
-        else
-        {
-            animator.SetTrigger("isHit");
-            actionState = ActionState.NotMove;
-            StopCoroutine("moveDelayCoroutine");
-            moveDelayCoroutine = MoveDelayTime(1.5f);
-            StartCoroutine(moveDelayCoroutine);
-            random = Random.Range(-0.2f, 0.2f);
+    }
+    public override void MonsterHitRigidbodyEffectKnockBack(int _knockBack)
+    {
+        random = Random.Range(-0.2f, 0.2f);
 
-            int knockBack = _knockBack - monsterWeight;
-            if (knockBack > 0)
-            {
-                rb.velocity = Vector2.zero;
-                rb.AddForce(new Vector2((PlayerControl.instance.GetArrowDirection() + random) * 0.5f, knockBack), ForceMode2D.Impulse);
-            }
+        int knockBack = _knockBack - monsterWeight;
+        if (knockBack > 0)
+        {
+            rb.velocity = Vector2.zero;
+            rb.AddForce(new Vector2((PlayerControl.instance.GetArrowDirection() + random) * knockBack * 0.5f, 1f), ForceMode2D.Impulse);
         }
     }
     public IEnumerator MonsterHitEffect()

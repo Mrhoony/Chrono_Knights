@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 3085250315534159879}
   - component: {fileID: 3085250315534159877}
   - component: {fileID: 3085250315534159876}
-  - component: {fileID: 529492908435898383}
   - component: {fileID: 3746605638667919153}
   m_Layer: 10
   m_Name: Monster_Goblin
@@ -165,6 +164,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85646b6505334a4ba164a9eb9d4864d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
+  defaultMaterial: {fileID: 0}
+  whiteFlashMaterial: {fileID: 0}
   currentState: 
   actionState: 5
   overlap: 0
@@ -176,9 +178,6 @@ MonoBehaviour:
   eftPool: []
   enemyStatus: {fileID: 0}
   dropItemList: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  defaultMaterial: {fileID: 0}
-  whiteFlashMaterial: {fileID: 0}
   monsterName: 
   monsterCode: 0
   coroutine: 0
@@ -187,6 +186,7 @@ MonoBehaviour:
   distanceX: 0
   distanceY: 0
   moveSpeed: 0
+  monsterWeight: 0
   rotateDelayTime: 0
   attackCoolTime: 0
   maxAttackDelayTime: 0
@@ -222,18 +222,7 @@ MonoBehaviour:
   _attackRange: 0
   _attack: 0
   _defense: 0
---- !u!114 &529492908435898383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3085250315534159875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd8bca6e2af9b3b4981467d0e5a9f4b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  monsterWeight: 0
 --- !u!114 &3746605638667919153
 MonoBehaviour:
   m_ObjectHideFlags: 0

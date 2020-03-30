@@ -57,7 +57,7 @@ public abstract class BossMonster_Control : Monster_Control
             yield return null;
         }
     }
-    public abstract override void MonsterHit(int _damage, int _knockBack);
+    public abstract override bool MonsterHit(int _damage);
 
     public void AttackMove(float moveDistance)
     {

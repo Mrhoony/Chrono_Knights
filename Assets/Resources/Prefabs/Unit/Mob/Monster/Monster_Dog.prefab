@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 7845834264576266644}
   - component: {fileID: 7624656898120753998}
   - component: {fileID: 1944741885496642936}
-  - component: {fileID: 4251355547282199435}
   m_Layer: 10
   m_Name: Monster_Dog
   m_TagString: Monster
@@ -165,6 +164,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30d55e6843ee37147b896ebfed599f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
+  defaultMaterial: {fileID: 0}
+  whiteFlashMaterial: {fileID: 0}
   currentState: 
   actionState: 5
   overlap: 0
@@ -176,9 +178,6 @@ MonoBehaviour:
   eftPool: []
   enemyStatus: {fileID: 0}
   dropItemList: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  defaultMaterial: {fileID: 0}
-  whiteFlashMaterial: {fileID: 0}
   monsterName: 
   monsterCode: 0
   coroutine: 0
@@ -187,6 +186,7 @@ MonoBehaviour:
   distanceX: 0
   distanceY: 0
   moveSpeed: 0
+  monsterWeight: 0
   rotateDelayTime: 0
   attackCoolTime: 0
   maxAttackDelayTime: 0
@@ -222,6 +222,7 @@ MonoBehaviour:
   _attackRange: 0
   _attack: 0
   _defense: 0
+  monsterWeight: 0
 --- !u!114 &1944741885496642936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,18 +238,6 @@ MonoBehaviour:
   dropItems:
   - {fileID: 5119745057963221366, guid: 7dba5f0408d7ff5499fe43ff66af0b77, type: 3}
   dropChances: 28000000
---- !u!114 &4251355547282199435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7845834264576266651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd8bca6e2af9b3b4981467d0e5a9f4b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3509607922485102267
 PrefabInstance:
   m_ObjectHideFlags: 0

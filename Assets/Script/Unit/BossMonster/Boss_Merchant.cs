@@ -74,30 +74,22 @@ public class Boss_Merchant : BossMonster_Control
         animator.SetTrigger("isAttack2Trigger");
         StartCoroutine(MoveDelayTime(backAttackCoolTime));
     }
-    public override void MonsterHit(int _damage, int _knockBack)
+    public override bool MonsterHit(int _damage)
     {
-        if (actionState == ActionState.IsDead) return;
+        if (actionState == ActionState.IsDead) return false;
 
         if (isGuard)
         {
             StopCoroutine("GuardCount");
             StopCoroutine("MoveDelayTime");
             animator.SetBool("isCounterAttack", true);
+            return false;
         }
         else
         {
             actionState = ActionState.NotMove;
-            StartCoroutine(MoveDelayTime(1f));
-            random = Random.Range(-2f, 2f);
-
-            int knockBack = _knockBack - monsterWeight;
-            if (knockBack > 0)
-            {
-                rb.velocity = Vector2.zero;
-                rb.AddForce(new Vector2((PlayerControl.instance.GetArrowDirection() + random) * knockBack * 0.5f, 1f), ForceMode2D.Impulse);
-            }
-
             enemyStatus.DecreaseHP(_damage);
+            StartCoroutine(MoveDelayTime(1f));
 
             if (enemyStatus.IsDeadCheck())
             {
@@ -105,51 +97,32 @@ public class Boss_Merchant : BossMonster_Control
                 gameObject.tag = "DeadBody";
                 Dead();
                 DungeonManager.instance.FloorBossKill();
+                return false;
             }
             else
             {
                 animator.SetTrigger("isHit");
                 eft.SetActive(true);
+                return true;
             }
         }
     }
-    public override void MonsterHitRigidbodyEffect(int _damage, int _knockBack)
+    public override void MonsterHitRigidbodyEffectKnockBack(int _knockBack)
     {
-        if (actionState == ActionState.IsDead) return;
-
-        if (isGuard)
+        int knockBack = _knockBack - monsterWeight;
+        if (knockBack > 0)
         {
-            StopCoroutine("GuardCount");
-            StopCoroutine("MoveDelayTime");
-            animator.SetBool("isCounterAttack", true);
+            rb.velocity = Vector2.zero;
+            rb.AddForce(new Vector2((PlayerControl.instance.GetArrowDirection() + random) * knockBack * 0.5f, 1f), ForceMode2D.Impulse);
         }
-        else
+    }
+    public override void MonsterHitRigidbodyEffectUpper(int _knockBack)
+    {
+        int knockBack = _knockBack - monsterWeight;
+        if (knockBack > 0)
         {
-            actionState = ActionState.NotMove;
-            StartCoroutine(MoveDelayTime(1f));
-            random = Random.Range(-2f, 2f);
-
-            int knockBack = _knockBack - monsterWeight;
-            if (knockBack > 0)
-            {
-                rb.velocity = Vector2.zero;
-                rb.AddForce(new Vector2((PlayerControl.instance.GetArrowDirection() + random) * 0.5f, knockBack), ForceMode2D.Impulse);
-            }
-
-            enemyStatus.DecreaseHP(_damage);
-
-            if (enemyStatus.IsDeadCheck())
-            {
-                actionState = ActionState.IsDead;
-                gameObject.tag = "DeadBody";
-                Dead();
-                DungeonManager.instance.FloorBossKill();
-            }
-            else
-            {
-                animator.SetTrigger("isHit");
-                eft.SetActive(true);
-            }
+            rb.velocity = Vector2.zero;
+            rb.AddForce(new Vector2((PlayerControl.instance.GetArrowDirection() + random) * 0.5f, knockBack), ForceMode2D.Impulse);
         }
     }
 

@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 5306742918675703073}
   - component: {fileID: 1163954453749329569}
   - component: {fileID: 3538096716990868496}
-  - component: {fileID: 2279771157099936315}
   m_Layer: 10
   m_Name: Monster_Frog
   m_TagString: Monster
@@ -166,6 +165,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87b7392ea2a37c14a88e823bd991a188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
+  defaultMaterial: {fileID: 0}
+  whiteFlashMaterial: {fileID: 0}
   currentState: 
   actionState: 5
   overlap: 0
@@ -177,9 +179,6 @@ MonoBehaviour:
   eftPool: []
   enemyStatus: {fileID: 0}
   dropItemList: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  defaultMaterial: {fileID: 0}
-  whiteFlashMaterial: {fileID: 0}
   monsterName: 
   monsterCode: 0
   coroutine: 0
@@ -188,6 +187,7 @@ MonoBehaviour:
   distanceX: 0
   distanceY: 0
   moveSpeed: 0
+  monsterWeight: 0
   rotateDelayTime: 0
   attackCoolTime: 0
   maxAttackDelayTime: 0
@@ -228,6 +228,7 @@ MonoBehaviour:
   _attackRange: 0
   _attack: 0
   _defense: 0
+  monsterWeight: 0
 --- !u!114 &3538096716990868496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,18 +245,6 @@ MonoBehaviour:
   - {fileID: 5119745057963221366, guid: 7dba5f0408d7ff5499fe43ff66af0b77, type: 3}
   - {fileID: 5776145730567348363, guid: 9a5e0868a99a6b04fa4ec9bfdf2ad3ce, type: 3}
   dropChances: 3200000014000000
---- !u!114 &2279771157099936315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1431083087236160219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd8bca6e2af9b3b4981467d0e5a9f4b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4973299038930949516
 GameObject:
   m_ObjectHideFlags: 0
