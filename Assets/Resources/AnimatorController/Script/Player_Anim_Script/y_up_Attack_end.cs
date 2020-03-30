@@ -16,7 +16,7 @@ public class y_up_Attack_end : AnimatorManager
         if (stateInfo.normalizedTime > 0.5f)
         {
             if(!move)
-                playerControl.Attack(AtkType.spear_YUp_Attack);
+                playerControl.Attack(AtkType.spear_Y_Up_Attack);
         }
     }
 

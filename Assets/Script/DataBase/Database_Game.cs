@@ -151,8 +151,9 @@ public class PlayerAttack
     public float attackMultiply;
     public float distanceMultiply;
     public int knockBack;
+    public int attackMultiHit;
 
-    public PlayerAttack(AtkType _attackType, float _attackXPoint, float _attackYPoint, float _attackXRange, float _attackYRange, float _attackMultiply, float _distanceMultiply, int _knockBack)
+    public PlayerAttack(AtkType _attackType, float _attackXPoint, float _attackYPoint, float _attackXRange, float _attackYRange, float _attackMultiply, float _distanceMultiply, int _knockBack, int _attackMultiHit)
     {
         attackType = _attackType;
         attackXPoint = _attackXPoint;
@@ -162,6 +163,7 @@ public class PlayerAttack
         attackMultiply = _attackMultiply;
         distanceMultiply = _distanceMultiply;
         knockBack = _knockBack;
+        attackMultiHit = _attackMultiHit;
     }
 }
 
@@ -297,7 +299,8 @@ public class Database_Game : MonoBehaviour
                         float.Parse(data.Attributes.GetNamedItem("attackYRange").Value),
                         float.Parse(data.Attributes.GetNamedItem("attackMultiply").Value),
                         float.Parse(data.Attributes.GetNamedItem("distanceMultiply").Value),
-                        int.Parse(data.Attributes.GetNamedItem("knockBack").Value)
+                        int.Parse(data.Attributes.GetNamedItem("knockBack").Value),
+                        int.Parse(data.Attributes.GetNamedItem("multiHit").Value)
                         ));
                 }
             }

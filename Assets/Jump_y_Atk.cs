@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Jump_y_Atk : AnimatorManager
 {
-    bool isGroundCheck;
+    float isGroundCheck;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        isGroundCheck = false;
+        isGroundCheck = 0f;
         Init();
     }
 
@@ -29,8 +29,10 @@ public class Jump_y_Atk : AnimatorManager
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (true == isGroundCheck)
+        if (20f >= isGroundCheck)
         {
+            if(isGroundCheck > 2f)  // 일정높이 이상일 때 애니매이션이 끝나면서 효과 적용 또는 일정 시간에 효과 적용
+                playerControl.AttackDistance(playerControl.Attack(AtkType.spear_Y_Attack));
             animator.SetBool("isJump", false);
         }
         animator.SetBool("isJump_y_Atk", false);

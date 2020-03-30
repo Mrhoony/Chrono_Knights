@@ -9,7 +9,7 @@ public enum AtkType
     spear_X_Attack, spear_XX_Attack, spear_XXX_Attack,
     spear_XFX_Attack, spear_XFXFX_Attack, 
     spear_X_Upper_Attack,
-    spear_Y_Attack, spear_YUp_Attack,
+    spear_Y_Attack, spear_Y_Up_Attack,
     spear_Up_X_Attack,
 
     //spear jump
@@ -585,23 +585,28 @@ public class PlayerControl : MovingObject
         else attackState = weaponGun.GetAttackState();
 
         overlap = monster.Length;
-        bool _hit;
+        bool _hit = false;
         for (int j = 0; j < overlap; ++j)
         {
             if (monster[j].CompareTag("Monster") || monster[j].CompareTag("BossMonster"))
             {
-                _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit(playerStatus.GetAttack_Result());
                 switch (_atkType)
                 {
                     case AtkType.spear_X_Upper_Attack:
                     case AtkType.spear_Jump_Up_X_Attack:
                     case AtkType.spear_Jump_Down_X_Attack:
-                        if(_hit)
+                        for(int i = 0; i < playerAttack.attackMultiHit; ++i)
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit(playerStatus.GetAttack_Result());
+                        if (_hit)
                             monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectUpper(playerAttack.knockBack);
                         break;
                     default:
-                        if(_hit)
-                            monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        {
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit(playerStatus.GetAttack_Result());
+                            if (_hit)
+                                monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                        }
                         break;
                 }
             }
@@ -632,7 +637,7 @@ public class PlayerControl : MovingObject
 
         rb.velocity = new Vector2(arrowDirection * -1 * (_distanceMulty * 2f + 20f), _distanceMulty * 2f + 20f);
     }
-    public bool AttackDistanceDown(float _distanceMulty)
+    public float AttackDistanceDown(float _distanceMulty)
     {
         GroundCheck.SetActive(true);
         RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y)
@@ -641,11 +646,11 @@ public class PlayerControl : MovingObject
         if (playerDashBotDistance)
         {
             transform.position = new Vector2(playerDashBotDistance.point.x - (arrowDirection * 0.1f), playerDashBotDistance.point.y + 0.25f);
-            return true;
+            return playerDashBotDistance.distance * 0.87f;
         }
         else
         {
-            return false;
+            return 20f;
         }
     }
     

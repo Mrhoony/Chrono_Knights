@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PlayerAttackDataBase>
-	<Field attackType="spear_YUp_Attack" attackXPoint="0.8" attackYPoint="0" attackXRange="1" attackYRange="1.5" attackMultiply="1.5" distanceMultiply="0" knockBack="3"/>
-	<Field attackType="spear_Y_Attack" attackXPoint="0" attackYPoint="0" attackXRange="1" attackYRange="1.2" attackMultiply="0.4" distanceMultiply="0" knockBack="1"/>
-	<Field attackType="spear_XXX_Attack" attackXPoint="0.8" attackYPoint="0" attackXRange="1" attackYRange="1" attackMultiply="2" distanceMultiply="1.5" knockBack="5"/>
-	<Field attackType="spear_XX_Attack" attackXPoint="0.8" attackYPoint="0" attackXRange="1" attackYRange="0.8" attackMultiply="1.2" distanceMultiply="1.25" knockBack="3"/>
-	<Field attackType="spear_XFXFX_Attack" attackXPoint="1" attackYPoint="0" attackXRange="1.2" attackYRange="1" attackMultiply="2" distanceMultiply="1.5" knockBack="5"/>
-	<Field attackType="spear_XFX_Attack" attackXPoint="0.8" attackYPoint="0" attackXRange="1" attackYRange="1" attackMultiply="1.2" distanceMultiply="1.25" knockBack="3"/>
-	<Field attackType="spear_X_Attack" attackXPoint="0.8" attackYPoint="0" attackXRange="0.8" attackYRange="0.6" attackMultiply="1" distanceMultiply="0" knockBack="2"/>
-	<Field attackType="spear_Jump_Y_Attack" attackXPoint="-0.25" attackYPoint="-0.15" attackXRange="1" attackYRange="1" attackMultiply="2.5" distanceMultiply="0" knockBack="5"/>
-	<Field attackType="spear_Jump_XXX_Attack" attackXPoint="-0.5" attackYPoint="0" attackXRange="1.5" attackYRange="2" attackMultiply="2" distanceMultiply="1" knockBack="5"/>
-	<Field attackType="spear_Jump_XX_Attack" attackXPoint="-0.25" attackYPoint="0" attackXRange="1" attackYRange="1.5" attackMultiply="1.5" distanceMultiply="1" knockBack="3"/>
-	<Field attackType="spear_Jump_X_Attack" attackXPoint="0" attackYPoint="-0.6" attackXRange="1" attackYRange="1" attackMultiply="1" distanceMultiply="0" knockBack="1"/>
-	<Field attackType="spear_Jump_Up_X_Attack" attackXPoint="0.8" attackYPoint="0" attackXRange="1" attackYRange="1.5" attackMultiply="1" distanceMultiply="0" knockBack="4"/>
-	<Field attackType="spear_Jump_Down_X_Attack" attackXPoint="0.8" attackYPoint="-0.4" attackXRange="1" attackYRange="1.5" attackMultiply="1.5" distanceMultiply="0" knockBack="-5"/>
-	<Field attackType="gun_YUp_Attack" attackXPoint="2" attackYPoint="0" attackXRange="2" attackYRange="1" attackMultiply="5" distanceMultiply="0" knockBack="5"/>
-	<Field attackType="gun_Y_Attack" attackXPoint="2" attackYPoint="0" attackXRange="2" attackYRange="1" attackMultiply="0" distanceMultiply="0" knockBack="5"/>
-	<Field attackType="gun_XXX_Attack" attackXPoint="1.2" attackYPoint="0" attackXRange="1.2" attackYRange="1.2" attackMultiply="4" distanceMultiply="-1.25" knockBack="2"/>
-	<Field attackType="gun_XX_Attack" attackXPoint="1.2" attackYPoint="0" attackXRange="1.2" attackYRange="1.2" attackMultiply="2" distanceMultiply="0" knockBack="2"/>
-	<Field attackType="gun_XFXFX_Attack" attackXPoint="1.2" attackYPoint="-0.6" attackXRange="1.2" attackYRange="1.2" attackMultiply="4" distanceMultiply="0" knockBack="3"/>
-	<Field attackType="gun_XFX_Attack" attackXPoint="1.2" attackYPoint="-0.1" attackXRange="1.2" attackYRange="0.8" attackMultiply="2" distanceMultiply="1.25" knockBack="5"/>
-	<Field attackType="gun_X_Attack" attackXPoint="1.2" attackYPoint="0" attackXRange="1.2" attackYRange="1.2" attackMultiply="2" distanceMultiply="0" knockBack="2"/>
-	<Field attackType="gun_JumpX_Attack" attackXPoint="1.2" attackYPoint="-0.6" attackXRange="1.2" attackYRange="1.2" attackMultiply="2" distanceMultiply="0" knockBack="2"/>
-	<Field attackType="spear_X_Upper_Attack" attackXPoint="0.8" attackYPoint="0" attackXRange="0.8" attackYRange="0.6" attackMultiply="1" distanceMultiply="0" knockBack="5"/>
+	<Field attackType="spear_Y_Up_Attack" attackXPoint="0.8" attackYPoint="0" attackXRange="1" attackYRange="1.5" attackMultiply="1.5" distanceMultiply="0" knockBack="3" multiHit="1"/>
+	<Field attackType="spear_Y_Attack" attackXPoint="0" attackYPoint="0" attackXRange="1" attackYRange="1.2" attackMultiply="0.4" distanceMultiply="0" knockBack="1" multiHit="1"/>
+	<Field attackType="spear_XXX_Attack" attackXPoint="0.8" attackYPoint="0" attackXRange="1" attackYRange="1" attackMultiply="2" distanceMultiply="1.5" knockBack="5" multiHit="1"/>
+	<Field attackType="spear_XX_Attack" attackXPoint="0.8" attackYPoint="0" attackXRange="1" attackYRange="0.8" attackMultiply="1.2" distanceMultiply="1.25" knockBack="3" multiHit="1"/>
+	<Field attackType="spear_XFXFX_Attack" attackXPoint="1" attackYPoint="0" attackXRange="1.2" attackYRange="1" attackMultiply="2" distanceMultiply="1.5" knockBack="5" multiHit="1"/>
+	<Field attackType="spear_XFX_Attack" attackXPoint="0.8" attackYPoint="0" attackXRange="1" attackYRange="1" attackMultiply="1.2" distanceMultiply="1.25" knockBack="3" multiHit="1"/>
+	<Field attackType="spear_X_Attack" attackXPoint="0.8" attackYPoint="0" attackXRange="0.8" attackYRange="0.6" attackMultiply="1" distanceMultiply="0" knockBack="2" multiHit="1"/>
+	<Field attackType="spear_Jump_Y_Attack" attackXPoint="-0.25" attackYPoint="-0.15" attackXRange="1" attackYRange="1" attackMultiply="2.5" distanceMultiply="0" knockBack="5" multiHit="4"/>
+	<Field attackType="spear_Jump_XXX_Attack" attackXPoint="-0.5" attackYPoint="0" attackXRange="1.5" attackYRange="2" attackMultiply="2" distanceMultiply="1" knockBack="5" multiHit="1"/>
+	<Field attackType="spear_Jump_XX_Attack" attackXPoint="-0.25" attackYPoint="0" attackXRange="1" attackYRange="1.5" attackMultiply="1.5" distanceMultiply="1" knockBack="3" multiHit="1"/>
+	<Field attackType="spear_Jump_X_Attack" attackXPoint="0" attackYPoint="-0.6" attackXRange="1" attackYRange="1" attackMultiply="1" distanceMultiply="0" knockBack="1" multiHit="1"/>
+	<Field attackType="spear_Jump_Up_X_Attack" attackXPoint="0.8" attackYPoint="0" attackXRange="1" attackYRange="1.5" attackMultiply="1" distanceMultiply="0" knockBack="4" multiHit="1"/>
+	<Field attackType="spear_Jump_Down_X_Attack" attackXPoint="0.8" attackYPoint="-0.4" attackXRange="1" attackYRange="1.5" attackMultiply="1.5" distanceMultiply="0" knockBack="-5" multiHit="1"/>
+	<Field attackType="gun_YUp_Attack" attackXPoint="2" attackYPoint="0" attackXRange="2" attackYRange="1" attackMultiply="5" distanceMultiply="0" knockBack="5" multiHit="1"/>
+	<Field attackType="gun_Y_Attack" attackXPoint="2" attackYPoint="0" attackXRange="2" attackYRange="1" attackMultiply="0" distanceMultiply="0" knockBack="5" multiHit="1"/>
+	<Field attackType="gun_XXX_Attack" attackXPoint="1.2" attackYPoint="0" attackXRange="1.2" attackYRange="1.2" attackMultiply="4" distanceMultiply="-1.25" knockBack="2" multiHit="1"/>
+	<Field attackType="gun_XX_Attack" attackXPoint="1.2" attackYPoint="0" attackXRange="1.2" attackYRange="1.2" attackMultiply="2" distanceMultiply="0" knockBack="2" multiHit="1"/>
+	<Field attackType="gun_XFXFX_Attack" attackXPoint="1.2" attackYPoint="-0.6" attackXRange="1.2" attackYRange="1.2" attackMultiply="4" distanceMultiply="0" knockBack="3" multiHit="1"/>
+	<Field attackType="gun_XFX_Attack" attackXPoint="1.2" attackYPoint="-0.1" attackXRange="1.2" attackYRange="0.8" attackMultiply="2" distanceMultiply="1.25" knockBack="5" multiHit="1"/>
+	<Field attackType="gun_X_Attack" attackXPoint="1.2" attackYPoint="0" attackXRange="1.2" attackYRange="1.2" attackMultiply="2" distanceMultiply="0" knockBack="2" multiHit="1"/>
+	<Field attackType="gun_JumpX_Attack" attackXPoint="1.2" attackYPoint="-0.6" attackXRange="1.2" attackYRange="1.2" attackMultiply="2" distanceMultiply="0" knockBack="2" multiHit="1"/>
+	<Field attackType="spear_X_Upper_Attack" attackXPoint="0.8" attackYPoint="0" attackXRange="0.8" attackYRange="0.6" attackMultiply="1" distanceMultiply="0" knockBack="5" multiHit="1"/>
 </PlayerAttackDataBase>

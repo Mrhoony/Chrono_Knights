@@ -54,6 +54,7 @@ public class Menu_Inventory : Menu_InGameMenu
                     if (isDungeonOpen)
                     {
                         UseKeyInDungeon(focused);
+                        slotInstance.SetDisActiveItemConfirm();
                     }
                     if (isShopOpen)
                     {
