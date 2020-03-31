@@ -15,6 +15,11 @@ TextureImporter:
     21300020: anim_pc_jump_atk_14
     21300022: anim_pc_jump_atk_16
     21300024: anim_pc_jump_atk_17
+    21300026: anim_pc_jump_atk_2
+    21300028: anim_pc_jump_atk_4
+    21300030: anim_pc_jump_atk_6
+    21300032: anim_pc_jump_atk_10
+    21300034: anim_pc_jump_atk_15
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -100,18 +105,18 @@ TextureImporter:
       name: anim_pc_jump_atk_0
       rect:
         serializedVersion: 2
-        x: 19
-        y: 388
+        x: 7
+        y: 328
         width: 93
-        height: 75
+        height: 72
       alignment: 9
-      pivot: {x: 0.40860215, y: 0.49333334}
+      pivot: {x: 0.38709676, y: 0.4861111}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f3cb937594ecbce458dadfaa30b74f3e
+      spriteID: 2881ac4b69712794f85083297d3e1525
       vertices: []
       indices: 
       edges: []
@@ -120,18 +125,38 @@ TextureImporter:
       name: anim_pc_jump_atk_1
       rect:
         serializedVersion: 2
-        x: 125
-        y: 358
-        width: 115
-        height: 111
+        x: 103
+        y: 300
+        width: 94
+        height: 100
       alignment: 9
-      pivot: {x: 0.33043477, y: 0.3963964}
+      pivot: {x: 0.5531915, y: 0.24}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9f427c6ff7c3991468b07498a32614c9
+      spriteID: 1d693fbeefffddf498c1fb1bf585f1fa
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_2
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 294
+        width: 86
+        height: 87
+      alignment: 9
+      pivot: {x: 0.53488374, y: 0.3448276}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54afc05cb5a719c469694903c1ccd77b
       vertices: []
       indices: 
       edges: []
@@ -140,18 +165,38 @@ TextureImporter:
       name: anim_pc_jump_atk_3
       rect:
         serializedVersion: 2
-        x: 263
-        y: 358
-        width: 113
-        height: 109
+        x: 289
+        y: 294
+        width: 75
+        height: 76
       alignment: 9
-      pivot: {x: 0.33628318, y: 0.38532108}
+      pivot: {x: 0.46666667, y: 0.39473686}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc78a1d69c0322949b41918a87dca37d
+      spriteID: fbf4825ae9fdd3b408ba3ec1d7ea87e0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_4
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 173
+        width: 93
+        height: 72
+      alignment: 9
+      pivot: {x: 0.41935483, y: 0.4861111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f84a6f989e920e04eaed004059e5e8f6
       vertices: []
       indices: 
       edges: []
@@ -160,18 +205,58 @@ TextureImporter:
       name: anim_pc_jump_atk_5
       rect:
         serializedVersion: 2
-        x: 405
-        y: 357
-        width: 94
-        height: 110
+        x: 139
+        y: 141
+        width: 83
+        height: 107
       alignment: 9
-      pivot: {x: 0.4042553, y: 0.39090908}
+      pivot: {x: 0.38554215, y: 0.6168224}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 967a33e05a6c08b409c148fa7b8a6579
+      spriteID: f196336f7df349845830e4a1f67c9e73
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_6
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 134
+        width: 102
+        height: 114
+      alignment: 9
+      pivot: {x: 0.5882353, y: 0.5263158}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e818c4b7aedbe0946bd59989f1099fe1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_7
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 141
+        width: 127
+        height: 98
+      alignment: 9
+      pivot: {x: 0.61417323, y: 0.5714286}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab0f0d0db5e62ec4282a4d8bc6e3c953
       vertices: []
       indices: 
       edges: []
@@ -180,18 +265,18 @@ TextureImporter:
       name: anim_pc_jump_atk_8
       rect:
         serializedVersion: 2
-        x: 45
-        y: 211
-        width: 54
-        height: 107
+        x: 466
+        y: 161
+        width: 192
+        height: 130
       alignment: 9
-      pivot: {x: 0.4814815, y: 0.635514}
+      pivot: {x: 0.42708334, y: 0.18461539}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ed06fd336ac0669459d6c39a60a826b5
+      spriteID: 957aa3fcd7f55b64cbef5d984ede254b
       vertices: []
       indices: 
       edges: []
@@ -200,18 +285,38 @@ TextureImporter:
       name: anim_pc_jump_atk_9
       rect:
         serializedVersion: 2
-        x: 131
-        y: 217
-        width: 113
-        height: 100
+        x: 663
+        y: 161
+        width: 140
+        height: 84
       alignment: 9
-      pivot: {x: 0.57522124, y: 0.48999998}
+      pivot: {x: 0.23571429, y: 0.2857143}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c106d277ed892864784a71da9f8b4849
+      spriteID: fd3025eb00b55324db5b6522e4abcedc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_jump_atk_10
+      rect:
+        serializedVersion: 2
+        x: 806
+        y: 161
+        width: 138
+        height: 61
+      alignment: 9
+      pivot: {x: 0.2536232, y: 0.39344263}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7a1d7644c8b7ea4fa7d752808e3cb69
       vertices: []
       indices: 
       edges: []
@@ -220,38 +325,18 @@ TextureImporter:
       name: anim_pc_jump_atk_11
       rect:
         serializedVersion: 2
-        x: 281
-        y: 233
-        width: 112
-        height: 74
+        x: 102
+        y: 13
+        width: 119
+        height: 118
       alignment: 9
-      pivot: {x: 0.68750006, y: 0.43243244}
+      pivot: {x: 0.33613446, y: 0.31355932}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 420bf412c2f5c134987ccfeba8fe6ed5
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: anim_pc_jump_atk_12
-      rect:
-        serializedVersion: 2
-        x: 427
-        y: 191
-        width: 170
-        height: 136
-      alignment: 9
-      pivot: {x: 0.44117647, y: 0.3897059}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3dd785381cb2ebe44a5d560406137b13
+      spriteID: 4b7122d852c46ce44b3c9bfcd1b44f71
       vertices: []
       indices: 
       edges: []
@@ -260,38 +345,38 @@ TextureImporter:
       name: anim_pc_jump_atk_13
       rect:
         serializedVersion: 2
-        x: 26
-        y: 87
-        width: 93
-        height: 75
+        x: 226
+        y: 17
+        width: 106
+        height: 114
       alignment: 9
-      pivot: {x: 0.40860215, y: 0.50666666}
+      pivot: {x: 0.35849056, y: 0.28947368}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 649ae546ca5fdfa4d8730f2dc285d350
+      spriteID: cb3c0ee594978ef438597428ca9d07ac
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_pc_jump_atk_14
+      name: anim_pc_jump_atk_15
       rect:
         serializedVersion: 2
-        x: 127
-        y: 46
-        width: 194
-        height: 149
+        x: 335
+        y: 17
+        width: 65
+        height: 107
       alignment: 9
-      pivot: {x: 0.7061855, y: 0.24832214}
+      pivot: {x: 0.6, y: 0.3084112}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 90c24583e77eab74f8e882ced1c53eab
+      spriteID: a272e2a8e0fd6cd498e40874b64dbb37
       vertices: []
       indices: 
       edges: []
@@ -300,38 +385,18 @@ TextureImporter:
       name: anim_pc_jump_atk_16
       rect:
         serializedVersion: 2
-        x: 357
-        y: 64
-        width: 94
-        height: 90
+        x: 7
+        y: 16
+        width: 93
+        height: 72
       alignment: 9
-      pivot: {x: 0.4042553, y: 0.37777779}
+      pivot: {x: 0.43010753, y: 0.45833334}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 35003af9b0d421b48a335848e4ef183f
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: anim_pc_jump_atk_17
-      rect:
-        serializedVersion: 2
-        x: 488
-        y: 70
-        width: 112
-        height: 84
-      alignment: 9
-      pivot: {x: 0.43750003, y: 0.39285716}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0a5698d4f73974840b82e092c763658d
+      spriteID: 3194df004e2673b438434e4bf683d438
       vertices: []
       indices: 
       edges: []
