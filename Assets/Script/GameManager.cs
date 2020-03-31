@@ -204,8 +204,8 @@ public class GameManager : MonoBehaviour
         // 유저 정보
         dataBase.playerData = playerStat.playerData;
         dataBase.SaveGameData(dungeonManager.GetCurrentDate(), dungeonManager.GetTrainigPossible(), dungeonManager.GetEventFlag());
-        dataBase.SaveStorageData(storage.GetStorageItemCodeList(), storage.GetStorageItemSkillCodeList(), storage.GetStorageAvailableSlot());
-        dataBase.SaveInventoryData(inventory.GetAvailableSlot(), inventory.GetCurrentMoney());
+        dataBase.SaveStorageData(storage.GetStorageItemCodeList(), storage.GetStorageItemSkillCodeList());
+        dataBase.SaveInventoryData(inventory.GetCurrentMoney());
         
         bf.Serialize(ms, dataBase);
         data = Convert.ToBase64String(ms.GetBuffer());
@@ -244,7 +244,7 @@ public class GameManager : MonoBehaviour
 
         playerStat.SetPlayerData(dataBase.playerData);
         dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag());
-        storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetStorageItemSkillCodeList(), dataBase.GetAvailableStorageSlot());
+        storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.GetStorageItemSkillCodeList(), dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.bag].itemRarity);
         inventory.LoadInventoryData(dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.bag].itemRarity, dataBase.GetCurrentMoney());
 
         CloseLoad();

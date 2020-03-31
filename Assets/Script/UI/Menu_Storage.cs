@@ -331,7 +331,7 @@ public class Menu_Storage : Menu_InGameMenu
         return itemList[_focus];
     }
     
-    public void LoadStorageData(int[] _itemCode, int[] _itemSkillCodeList, int _availableSlot)
+    public void LoadStorageData(int[] _itemCode, int[] _itemSkillCodeList, int _BagRarity)
     {
         for (int i = 0; i < 72; ++i)
         {
@@ -343,7 +343,7 @@ public class Menu_Storage : Menu_InGameMenu
 
         storageItemCodeList = _itemCode;
         storageItemSkillCodeList = _itemSkillCodeList;
-        availableSlot = _availableSlot;
+        SetAvailableSlot(_BagRarity);
 
         for (int i = 0; i < availableSlot; ++i)
         {
@@ -377,10 +377,6 @@ public class Menu_Storage : Menu_InGameMenu
         }
         return storageItemSkillCodeList;
     }
-    public int GetStorageAvailableSlot()
-    {
-        return availableSlot;
-    }
     public void SaveStorageClear()
     {
         for (int i = 0; i < 72; ++i)
@@ -391,6 +387,22 @@ public class Menu_Storage : Menu_InGameMenu
             isSelected[i] = false;
         }
         selectedItemCount = 0;
+    }
+    public void SetAvailableSlot(int _BagRarity)
+    {
+        int _availableSlot = 12 * (3 + _BagRarity);
+
+        for (int i = _availableSlot; i < 72; ++i)
+        {
+            if (itemList[i] != null)
+            {
+                itemList[i] = null;
+                storageItemCodeList[i] = 0;
+                isSelected[i] = false;
+            }
+        }
+
+        availableSlot = _availableSlot;
     }
 
     public void ItemInformationSetting(int _focus)

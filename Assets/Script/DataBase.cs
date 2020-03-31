@@ -9,10 +9,10 @@ public class DataBase
     public PlayerData playerData;
     public int[] storageItemCodeList;
     public int[] storageItemSkillCodeList;
-    public int availableStorageSlot;
-    public int availableInventorySlot;
+
     public int currentMoney;
     public int currentDate;
+
     public bool isTrainigPossible;
     public bool[] eventFlag;
 
@@ -22,8 +22,6 @@ public class DataBase
         playerData.Init();
         storageItemCodeList = new int[72];
         storageItemSkillCodeList = new int[72];
-        availableStorageSlot = 36;
-        availableInventorySlot = 6;
         currentMoney = 0;
         currentDate = 0;
         isTrainigPossible = false;
@@ -44,15 +42,7 @@ public class DataBase
     {
         return storageItemSkillCodeList;
     }
-    public int GetAvailableStorageSlot()
-    {
-        return availableStorageSlot;
-    }
-
-    public int GetAvailableInventorySlot()
-    {
-        return availableInventorySlot;
-    }
+    
     public int GetCurrentMoney()
     {
         return currentMoney;
@@ -81,15 +71,13 @@ public class DataBase
         isTrainigPossible = _isTrainigPossible;
         eventFlag = _eventFlag;
     }
-    public void SaveStorageData(int[] _storageItemList, int[] _storageItemSkillList, int _availableStorageSLot)
+    public void SaveStorageData(int[] _storageItemList, int[] _storageItemSkillList)
     {
         storageItemCodeList = _storageItemList;
         storageItemSkillCodeList = _storageItemSkillList;
-        availableStorageSlot = _availableStorageSLot;
     }
-    public void SaveInventoryData(int _availableInventorySlot, int _currentMoney)
+    public void SaveInventoryData(int _currentMoney)
     {
-        availableInventorySlot = _availableInventorySlot;
         currentMoney = _currentMoney;
     }
 }

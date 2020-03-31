@@ -47,6 +47,7 @@ public class CanvasManager : MonoBehaviour
 
     public bool isDungeonUIOn;
     public bool isGameOverUIOn;
+    public bool isTrialCardSelectOn;
     #endregion
 
     private int useContent;
@@ -166,7 +167,8 @@ public class CanvasManager : MonoBehaviour
         }
 
         if (TownUIOnCheck() || isDungeonUIOn || isStorageOn) return;
-        
+        if (isGameOverUIOn) return;
+
         // 인벤토리, 업적창, 스토리 관련
         if (Input.GetKeyDown(KeyCode.I))
         {
@@ -328,6 +330,7 @@ public class CanvasManager : MonoBehaviour
 
     public void OpenGameOverMenu(float playTime)
     {
+        isDungeonUIOn = true;
         isGameOverUIOn = true;
 
         int hour = (int)(playTime / 3600f);
@@ -345,12 +348,17 @@ public class CanvasManager : MonoBehaviour
     }
     public void CloseGameOverMenu()
     {
+        isDungeonUIOn = false;
         isGameOverUIOn = false;
         gameOverWindow.SetActive(false);
         if (DungeonManager.instance.isReturn)
         {
             DungeonManager.instance.ReturnToTown();
         }
+    }
+
+    public void OpenTrialCardSelectMenu()
+    {
     }
     #endregion
 
