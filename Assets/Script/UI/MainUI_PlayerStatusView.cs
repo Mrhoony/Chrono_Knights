@@ -76,7 +76,7 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     void Update()
     {
         // 체력바 갱신
-        HPBar.fillAmount = playerStatus.currentHP / playerStatus.playerData.GetStatus((int)PlayerStat.HP);
+        HPBar.fillAmount = playerStatus.currentHP / playerStatus.playerData.GetStatus((int)Status.HP);
         //buffBar.fillAmount = playerStatus.currentAmmo / playerStatus.playerData.GetMaxAmmo();
         Ring();
     }

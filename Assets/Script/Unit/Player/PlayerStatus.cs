@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlayerStat
+public enum Status
 {
     attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount, HP, jumpPower
 }
@@ -39,8 +39,6 @@ public class PlayerStatus : MonoBehaviour
     
     public void SetPlayerData(PlayerData _playerData)
     {
-        Debug.Log("player status Init");
-
         playerData = _playerData;
         playerEquip = playerData.GetPlayerEquipment();
         traningStat = playerData.GetTraningStat();

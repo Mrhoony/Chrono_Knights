@@ -23,32 +23,32 @@ public class PlayerData
         playerEquipment = new PlayerEquipment();
 
         status = new float[9];
-        status[(int)PlayerStat.attack] = 1f;
-        status[(int)PlayerStat.defense] = 1f;
-        status[(int)PlayerStat.moveSpeed] = 1f;
-        status[(int)PlayerStat.attackSpeed] = 1f;
-        status[(int)PlayerStat.dashDistance] = 1f;
-        status[(int)PlayerStat.recovery] = 1f;
+        status[(int)Status.attack] = 1f;
+        status[(int)Status.defense] = 1f;
+        status[(int)Status.moveSpeed] = 1f;
+        status[(int)Status.attackSpeed] = 1f;
+        status[(int)Status.dashDistance] = 1f;
+        status[(int)Status.recovery] = 1f;
 
-        status[(int)PlayerStat.jumpCount] = 2f;
-        status[(int)PlayerStat.HP] = 100f;
-        status[(int)PlayerStat.jumpPower] = 7f;
+        status[(int)Status.jumpCount] = 2f;
+        status[(int)Status.HP] = 100f;
+        status[(int)Status.jumpPower] = 7f;
 
         traningStat = new float[statusAmount];
-        traningStat[(int)PlayerStat.attack] = 0;
-        traningStat[(int)PlayerStat.defense] = 0;
-        traningStat[(int)PlayerStat.moveSpeed] = 0;
-        traningStat[(int)PlayerStat.attackSpeed] = 0;
-        traningStat[(int)PlayerStat.dashDistance] = 0;
-        traningStat[(int)PlayerStat.recovery] = 0;
+        traningStat[(int)Status.attack] = 0;
+        traningStat[(int)Status.defense] = 0;
+        traningStat[(int)Status.moveSpeed] = 0;
+        traningStat[(int)Status.attackSpeed] = 0;
+        traningStat[(int)Status.dashDistance] = 0;
+        traningStat[(int)Status.recovery] = 0;
 
         limitTraning = new float[statusAmount];
-        limitTraning[(int)PlayerStat.attack] = 10f;
-        limitTraning[(int)PlayerStat.defense] = 10f;
-        limitTraning[(int)PlayerStat.moveSpeed] = 1f;
-        limitTraning[(int)PlayerStat.attackSpeed] = 1f;
-        limitTraning[(int)PlayerStat.dashDistance] = 1f;
-        limitTraning[(int)PlayerStat.recovery] = 10f;
+        limitTraning[(int)Status.attack] = 10f;
+        limitTraning[(int)Status.defense] = 10f;
+        limitTraning[(int)Status.moveSpeed] = 1f;
+        limitTraning[(int)Status.attackSpeed] = 1f;
+        limitTraning[(int)Status.dashDistance] = 1f;
+        limitTraning[(int)Status.recovery] = 10f;
 
         traning_count = new int[statusAmount];
         for (int i = 0; i < statusAmount; ++i)
@@ -58,12 +58,12 @@ public class PlayerData
 
         equipmentStatus = new float[statusAmount];
         
-        equipmentStatus[(int)PlayerStat.attack] = 0;
-        equipmentStatus[(int)PlayerStat.defense] = 0;
-        equipmentStatus[(int)PlayerStat.moveSpeed] = 0;
-        equipmentStatus[(int)PlayerStat.attackSpeed] = 0;
-        equipmentStatus[(int)PlayerStat.dashDistance] = 0;
-        equipmentStatus[(int)PlayerStat.recovery] = 0;
+        equipmentStatus[(int)Status.attack] = 0;
+        equipmentStatus[(int)Status.defense] = 0;
+        equipmentStatus[(int)Status.moveSpeed] = 0;
+        equipmentStatus[(int)Status.attackSpeed] = 0;
+        equipmentStatus[(int)Status.dashDistance] = 0;
+        equipmentStatus[(int)Status.recovery] = 0;
         
         maxAmmo = 10;
         

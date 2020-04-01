@@ -2,171 +2,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum Markers
-{
-    // NF = Next Floor, TF = This Floor
-    // Pos = Positive, Neg = Negative
-    SetMonster_NF = 0,
-    SetDrop_NF,
-    SetSpecialMonster_NF,
-    SetDamageBuffOnFloor_NF,
-    SetDamageBuffOnMonster_NF,
-    SetDamageBuffOnPlayer_NF,
-
-    SetPosHPOnMonster_NF,
-    SetNegHPOnMonster_NF,
-    SetPosDashSpeedOnPlayer_NF,
-    SetNegDashSpeedOnPlayer_NF,
-    SetPosAttackMulty_NF,
-    SetNegAttackMulty_NF,
-}
-public class Marker
-{
-    public Markers thisMarker = Markers.SetMonster_NF;
-
-    // Marker 생성방법 필요
-
-    /*
-        아래 모든 함수는 인수로 키값이 필요
-        DungeonManger.cs에서 Marker_Variable 클래스 생성
-        Execute() 실행시 DungeonManager.cs 내에 Marker_Variable 클래스에 Execute()의 결과값을 받아서 계산하여 적용
-    */
-    public void ExecuteMarker(int keyValue)
-    {
-        switch (thisMarker)
-        {
-            case Markers.SetMonster_NF:
-                {
-                    SetMonster_NF(keyValue);
-                }
-                break;
-            case Markers.SetDrop_NF:
-                {
-                    SetDrop_NF(keyValue);
-                }
-                break;
-            case Markers.SetDamageBuffOnFloor_NF:
-                {
-                    SetDamageBuffOnFloor_NF(keyValue);
-                }
-                break;
-            case Markers.SetDamageBuffOnMonster_NF:
-                {
-                    SetDamageBuffOnMonster_NF(keyValue);
-                }
-                break;
-            case Markers.SetDamageBuffOnPlayer_NF:
-                {
-                    SetDamageBuffOnPlayer_NF(keyValue);
-                }
-                break;
-            case Markers.SetPosHPOnMonster_NF:
-                {
-                    SetPosHPOnMonster_NF(keyValue);
-                }
-                break;
-            case Markers.SetNegHPOnMonster_NF:
-                {
-                    SetNegHPOnMonster_NF(keyValue);
-                }
-                break;
-            case Markers.SetPosDashSpeedOnPlayer_NF:
-                {
-                    SetPosDashSpeedOnPlayer_NF(keyValue);
-                }
-                break;
-            case Markers.SetNegDashSpeedOnPlayer_NF:
-                {
-                    SetNegDashSpeedOnPlayer_NF(keyValue);
-                }
-                break;
-            case Markers.SetPosAttackMulty_NF:
-                {
-                    SetPosAttackMulty_NF(keyValue);
-                }
-                break;
-            case Markers.SetNegAttackMulty_NF:
-                {
-                    SetNegAttackMulty_NF(keyValue);
-                }
-                break;
-            case Markers.SetSpecialMonster_NF:
-                {
-                    SetSpecialMonster_NF(keyValue);
-                }
-                break;
-        }
-    }
-    private void SetMonster_NF(int keyValue)
-    {
-        DungeonManager.instance.marker_Variable.markerVariable[0] = keyValue;
-    }
-    private void SetDrop_NF(int keyValue)
-    {
-        DungeonManager.instance.marker_Variable.markerVariable[1] = keyValue;
-    }
-    private void SetSpecialMonster_NF(int keyValue)
-    {
-        DungeonManager.instance.marker_Variable.markerVariable[2] = keyValue;
-    }
-    private void SetDamageBuffOnFloor_NF(int keyValue)
-    {
-        DungeonManager.instance.marker_Variable.markerVariable[3] = keyValue;
-    }
-    private void SetDamageBuffOnMonster_NF(int keyValue)
-    {
-        DungeonManager.instance.marker_Variable.markerVariable[4] = keyValue;
-    }
-    private void SetDamageBuffOnPlayer_NF(int keyValue)
-    {
-        DungeonManager.instance.marker_Variable.markerVariable[5] = keyValue;
-    }
-    private void SetPosHPOnMonster_NF(int keyValue)
-    {
-        DungeonManager.instance.marker_Variable.markerVariable[6] = keyValue;
-    }
-    private void SetNegHPOnMonster_NF(int keyValue)
-    {
-        DungeonManager.instance.marker_Variable.markerVariable[7] = keyValue;
-    }
-    private void SetPosDashSpeedOnPlayer_NF(int keyValue)
-    {
-        DungeonManager.instance.marker_Variable.markerVariable[8] = keyValue;
-    }
-    private void SetNegDashSpeedOnPlayer_NF(int keyValue)
-    {
-        DungeonManager.instance.marker_Variable.markerVariable[9] = keyValue;
-    }
-    private void SetPosAttackMulty_NF(int keyValue)
-    {
-        DungeonManager.instance.marker_Variable.markerVariable[10] = keyValue;
-    }
-    private void SetNegAttackMulty_NF(int keyValue)
-    {
-        DungeonManager.instance.marker_Variable.markerVariable[11] = keyValue;
-    }
-}
-public class MarkerVariable
-{
-    public int[] markerVariable = new int[12];
-    public int[] markerPreVariable = new int[12];
-    
-    public void Reset() // 던전 초기화 시 실행필수
-    {
-        markerVariable[(int)Markers.SetMonster_NF] = 0;
-        markerVariable[(int)Markers.SetDrop_NF] = 0;
-        markerVariable[(int)Markers.SetSpecialMonster_NF] = 0;
-        markerVariable[(int)Markers.SetDamageBuffOnFloor_NF] = 1;
-        markerVariable[(int)Markers.SetDamageBuffOnMonster_NF] = 1;
-        markerVariable[(int)Markers.SetDamageBuffOnPlayer_NF] = 1;
-        markerVariable[(int)Markers.SetPosHPOnMonster_NF] = 1;
-        markerVariable[(int)Markers.SetNegHPOnMonster_NF] = 1;
-        markerVariable[(int)Markers.SetPosDashSpeedOnPlayer_NF] = 0;
-        markerVariable[(int)Markers.SetNegDashSpeedOnPlayer_NF] = 0;
-        markerVariable[(int)Markers.SetPosAttackMulty_NF] = 1;
-        markerVariable[(int)Markers.SetNegAttackMulty_NF] = 1;
-    }
-}
 public class FloorData
 {
     int floor;
@@ -215,6 +50,7 @@ public class DungeonManager : MonoBehaviour
     public Marker marker;
     public MarkerVariable marker_Variable;   // Marker로부터 전달받는 값 저장공간
     public FloorData[] FloorDatas;
+    public DungeonTrialStack dungeonTrialStack;
 
     private Vector2 entrance;               // 텔레포트 위치
     public int useTeleportSystem;           // 텔레포트 사용 방법 0~4 입구, 10 사용 안함
@@ -286,6 +122,7 @@ public class DungeonManager : MonoBehaviour
 
         marker = new Marker();
         marker_Variable = new MarkerVariable();
+        dungeonTrialStack = new DungeonTrialStack();
 
         FloorDatas = new FloorData[70];
         shopItemList = new Item[8];
@@ -641,10 +478,13 @@ public class DungeonManager : MonoBehaviour
         if (currentStage < 2) canvasManager.dungeonUI.SetDungeonFloor(currentStage, "");
         else
         {
-            canvasManager.dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus());
+            // 선택된 시련 만큼 몬스터 스테이터스 증가
+            SetTrialStatus();
             //보스 층 클리어 한 양만큼 방어력 / 공격력 증가
-            MonsterAttackSetting(currentMonsterCount, bossClearCount * 1);
-            MonsterDefSetting(currentMonsterCount, bossClearCount * 1);
+            MonsterAttackSetting(bossClearCount * 1);
+            MonsterDefSetting(bossClearCount * 1);
+
+            canvasManager.dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus());
         }
 
         MarkerSetting();
@@ -723,18 +563,17 @@ public class DungeonManager : MonoBehaviour
         playerStatus.PlayerStatusInit();
 
         string stageStatText = "";
-        int monsterListCount = currentStageMonsterList.Length;
         int markerNumber = (int)marker.thisMarker;
 
         switch (marker.thisMarker)
         {
             case Markers.SetDamageBuffOnFloor_NF:
                 playerStatus.SetAttackMulty_Result(marker_Variable.markerVariable[markerNumber], true);
-                MonsterAttackSetting(monsterListCount, marker_Variable.markerVariable[markerNumber]);
+                MonsterAttackSetting(marker_Variable.markerVariable[markerNumber]);
                 stageStatText = "전체 공격력 " + marker_Variable.markerVariable[markerNumber] + " 증가";
                 break;
             case Markers.SetDamageBuffOnMonster_NF:
-                MonsterAttackSetting(monsterListCount, marker_Variable.markerVariable[markerNumber]);
+                MonsterAttackSetting(marker_Variable.markerVariable[markerNumber]);
                 stageStatText = "몬스터 공격력 " + marker_Variable.markerVariable[markerNumber] + " 증가";
                 break;
             case Markers.SetDamageBuffOnPlayer_NF:
@@ -742,11 +581,11 @@ public class DungeonManager : MonoBehaviour
                 stageStatText = "자신의 공격력 " + marker_Variable.markerVariable[markerNumber] + " 증가";
                 break;
             case Markers.SetPosHPOnMonster_NF:
-                MonsterHPSetting(monsterListCount, marker_Variable.markerVariable[markerNumber], true);
+                MonsterHPSetting(marker_Variable.markerVariable[markerNumber], true);
                 stageStatText = "몬스터 체력 " + marker_Variable.markerVariable[markerNumber] + " 증가";
                 break;
             case Markers.SetNegHPOnMonster_NF:
-                MonsterHPSetting(monsterListCount, marker_Variable.markerVariable[markerNumber], false);
+                MonsterHPSetting(marker_Variable.markerVariable[markerNumber], false);
                 stageStatText = "몬스터 체력 " + marker_Variable.markerVariable[markerNumber] + " 감소";
                 break;
             case Markers.SetPosDashSpeedOnPlayer_NF:
@@ -781,27 +620,42 @@ public class DungeonManager : MonoBehaviour
         return stageStatText;
     }
 
-    public void MonsterAttackSetting(int _monsterListCount, int _value)
+    public void SetTrialStack(int _DungeonStatusNum, int _StatusValue)
+    {
+        dungeonTrialStack.SetTrialStatus(_DungeonStatusNum, _StatusValue);
+    }
+    public void SetTrialStatus()
+    {
+        //보스 층 클리어 한 양만큼 방어력 / 공격력 증가
+        MonsterAttackSetting(dungeonTrialStack.currentDungeonStatus[0]);
+        MonsterDefSetting(dungeonTrialStack.currentDungeonStatus[1]);
+        MonsterHPSetting(dungeonTrialStack.currentDungeonStatus[2], true);
+    }
+
+    public void MonsterAttackSetting(int _value)
     {
         if (_value == 0) return;
+        int _monsterListCount = currentStageMonsterList.Length;
         for (int i = 0; i < _monsterListCount; ++i)
         {
-            currentStageMonsterList[i].GetComponent<EnemyStatus>().Set_attack(_value);
+            currentStageMonsterList[i].GetComponent<EnemyStatus>().Set_Attack(_value);
         }
     }
-    public void MonsterHPSetting(int _monsterListCount, int _value, bool upgrade)
+    public void MonsterHPSetting(int _value, bool upgrade)
     {
         if (_value == 0) return;
+        int _monsterListCount = currentStageMonsterList.Length;
         for (int i = 0; i < _monsterListCount; ++i)
         {
-            currentStageMonsterList[i].GetComponent<EnemyStatus>().Set_hp(_value, upgrade);
+            currentStageMonsterList[i].GetComponent<EnemyStatus>().Set_Hp(_value, upgrade);
         }
     }
-    public void MonsterDefSetting(int _monsterListCount, int _value)
+    public void MonsterDefSetting(int _value)
     {
         if (_value == 0) return;
+        int _monsterListCount = currentStageMonsterList.Length;
         for (int i = 0; i < _monsterListCount; ++i) {
-            currentStageMonsterList[i].GetComponent<EnemyStatus>().Set_def(_value);
+            currentStageMonsterList[i].GetComponent<EnemyStatus>().Set_Defense(_value);
         }
     }
     #endregion
@@ -821,6 +675,8 @@ public class DungeonManager : MonoBehaviour
 
         teleportPoint = GameObject.FindGameObjectsWithTag("Portal");
         int teleportCount = teleportPoint.Length;
+
+        mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
 
         switch (SceneManager.GetActiveScene().buildIndex)
         {
@@ -850,16 +706,16 @@ public class DungeonManager : MonoBehaviour
                 mapList[0].GetComponent<BackgroundScrolling>().SetBackGroundPosition(-1);
                 break;
             case 2:
+            case 3:
                 inDungeon = true;
-                canvasManager.SetDungeonUI();
                 dungeonPlayTimer = 0;
+                canvasManager.SetDungeonUI();
+                dungeonTrialStack.Init();
                 dropItemPool = GameObject.Find("DropItemPool");
                 FloorSetting();
                 break;
-            case 3:
-                break;
         }
-        mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
+
         StartCoroutine(MapMoveDelay());
     }
 
@@ -880,6 +736,8 @@ public class DungeonManager : MonoBehaviour
         canvasManager.FadeInStart();        // 씬 로드 종료 후 페이드 인
     }
 
+    #region save, load
+
     public void SetShopItemList(Item[] _itemList, int[] _itemCost)
     {
         shopItemList = _itemList;
@@ -894,7 +752,6 @@ public class DungeonManager : MonoBehaviour
         return itemCostList;
     }
 
-    #region save, load
     public int GetCurrentDate()
     {
         return currentDate;
@@ -925,5 +782,6 @@ public class DungeonManager : MonoBehaviour
         isTraingPossible = _isTrainingPossible;
         eventFlag = _eventFlag;
     }
+
     #endregion
 }

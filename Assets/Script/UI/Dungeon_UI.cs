@@ -13,7 +13,7 @@ public class Dungeon_UI : MonoBehaviour
 
     public bool isTrialCardSelectOn;
 
-    public GameObject bossClearTrialWindow;
+    public GameObject bossClearTrialMenu;
     public GameObject[] trialCard;
     public GameObject trialCursor;
     public float cursorSpd;
@@ -25,7 +25,8 @@ public class Dungeon_UI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-
+            trialCard[focused].GetComponent<DungeonTrialSlot>().SelectThisCard();
+            CloseTrialCardSelectMenu();
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
@@ -36,24 +37,21 @@ public class Dungeon_UI : MonoBehaviour
     public void OpenTrialCardSelectMenu()
     {
         focused = -1;
-        bossClearTrialWindow.SetActive(true);
+        bossClearTrialMenu.SetActive(true);
+        SetTrialOption();
         isTrialCardSelectOn = true;
     }
     public void CloseTrialCardSelectMenu()
     {
         isTrialCardSelectOn = false;
-        bossClearTrialWindow.SetActive(false);
+        bossClearTrialMenu.SetActive(false);
         trialCursor.SetActive(false);
     }
     public void SetTrialOption()
     {
-        int statusRandom = 0;
-        int valueRandom = 0;
         for(int i = 0; i < 3; ++i)
         {
-            statusRandom = Random.Range(0, 3);
-            valueRandom = Random.Range(0, 3);
-            if(statusRandom == 2) valueRandom *= 10;
+            trialCard[i].GetComponent<DungeonTrialSlot>().SetTrialCard();
         }
     }
     

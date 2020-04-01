@@ -43,26 +43,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0062dd86f0c41458394a46dd04a25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
   player: {fileID: 0}
-  playerStatView: {fileID: 0}
-  pStat: {fileID: 0}
-  mainUI_Menu: {fileID: 0}
-  camera: {fileID: 0}
+  canvasManager: {fileID: 0}
+  playerStatus: {fileID: 0}
+  teleportPoint: []
+  dungeonTrialStack: {fileID: 0}
+  useTeleportSystem: 0
   currentDate: 0
-  newDay: 0
-  possible_Traning: 0
-  mapList: []
-  selectedMapNum: 0
-  teleport: {fileID: 0}
-  monsterList:
-  - {fileID: 7845834264576266651, guid: 68ae1d17d6f954842ad37d73c4200a9b, type: 3}
-  - {fileID: 1431083087236160219, guid: d7979273105785a4a98f3410e0e411ea, type: 3}
-  - {fileID: 3311774891260424372, guid: 76250e4161b27f84c916c8bf07944d45, type: 3}
-  currentStageMonsterList: []
-  spawner: []
+  isDead: 0
+  usedKey: 0
+  inDungeon: 0
+  isReturn: 0
+  dungeonPlayTimer: 0
   currentStage: 0
+  bossStageCount: 0
+  freePassNextFloor: 0
+  bossSetting: 0
+  floorRepeat: 0
+  bossClearCount: 0
   dungeonClear: 0
-  sectionClear: 0
-  monsterCount: 0
-  currentMonsterCount: 0
-  allKillCount: 0
+  phaseClear: 0
+  isSceneLoading: 0

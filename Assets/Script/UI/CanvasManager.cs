@@ -85,7 +85,6 @@ public class CanvasManager : MonoBehaviour
         }
         storage.SetActive(false);
     }
-
     private void Update()
     {
         if (!gm.GetGameStart()) return;

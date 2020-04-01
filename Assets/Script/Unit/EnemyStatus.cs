@@ -102,12 +102,15 @@ public class EnemyStatus : MonoBehaviour
         enemyHPBar = null;
     }
 
-    public void Set_def(int _value)
+    public void Set_Attack(int _value)
+    {
+        _attack += _value;
+    }
+    public void Set_Defense(int _value)
     {
         _defense += _value;
     }
-
-    public void Set_hp(int _value, bool _upgrade)
+    public void Set_Hp(int _value, bool _upgrade)
     {
         if (_upgrade)
         {
@@ -118,10 +121,6 @@ public class EnemyStatus : MonoBehaviour
             _HP /= _value;
         }
         _currentHP = _HP;
-    }
-    public void Set_attack(int _value)
-    {
-        _attack += _value;
     }
     public float GetMoveSpeed()
     {
