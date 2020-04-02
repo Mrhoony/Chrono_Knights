@@ -223,19 +223,16 @@ public class Menu_Storage : Menu_InGameMenu
             canvasManager.CloseUpgradeStorage();
         }
     }
-    public void CloseStorage()      
+    public void CloseStorage()
     {
+        SetSelectedItemSlotNum();
+        inventory.SetSelectedItem(selectedItemCount, selectedSlot);
+
         itemInformation.SetActive(false);
         cursorStorageSelect.SetActive(false);
         isUIOn = false;
 
         canvasManager.CloseStorage();
-    }
-
-    public void SetInventoryItemList()
-    {
-        SetSelectedItemSlotNum();
-        inventory.SetSelectedItem(selectedItemCount, selectedSlot);
     }
     public void SetSelectedItemSlotNum()                // 선택된 아이템 슬롯 번호를 저장
     {
@@ -248,17 +245,23 @@ public class Menu_Storage : Menu_InGameMenu
                 ++selectedItemCount;
             }
         }
-        for(int i = selectedItemCount; i < selectedSlot.Length; ++i)
+        for (int i = selectedItemCount; i < selectedSlot.Length; ++i)
         {
             selectedSlot[i] = 99;
         }
     }
-
+    
     public void DeleteItem(int _focused)                // 아이템 사용으로 삭제될 시
     {
         itemList[_focused] = null;
         if (isSelected[_focused])
         {
+            int count = selectedSlot.Length;
+            for(int i = 0; i < count; ++i)
+            {
+                if (selectedSlot[i] == _focused)
+                    inventory.DeleteItem(i);
+            }
             --selectedItemCount;
             if (selectedItemCount < 0)
             {

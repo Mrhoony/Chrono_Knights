@@ -26,9 +26,10 @@ public class NPC_Control : MonoBehaviour
         }       // 플레이어가 대기상태가 아니면
         player.GetComponent<PlayerControl>().playerInputKey.SetActive(true);
         if (canvasManager.GameMenuOnCheck()) return true;       // 다른 UI가 켜져있으면
-        if (townUI.GetTownUIOnCheck()) return true;         // 타운 UI가 켜져있으면
+        if (canvasManager.TownUIOnCheck()) return true;         // 타운 UI가 켜져있으면
         return false;
     }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))

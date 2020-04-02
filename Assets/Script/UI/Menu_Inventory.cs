@@ -59,7 +59,7 @@ public class Menu_Inventory : Menu_InGameMenu
                     if (isShopOpen)
                     {
                         money += itemList[focused].itemRarity;
-                        DeleteUseItem(focused);
+                        DeleteItem(focused);
                         SetMoneyGameObject();
                         slotInstance.SetDisActiveItemConfirm();
                     }
@@ -247,7 +247,6 @@ public class Menu_Inventory : Menu_InGameMenu
         slotInstance = slot[focused].GetComponent<Slot>();
         cursorInvenSelect.SetActive(true);
 
-        storage.SetInventoryItemList();
         InventorySet();
 
         if (itemList[focused] != null)
@@ -285,7 +284,6 @@ public class Menu_Inventory : Menu_InGameMenu
             slot[i].GetComponent<Menu_InGameSlot>().SetOverSlot();
         }
     }
-
     public void SetSelectedItem(int _value, int[] _selectedSlot)    // 창고에서 선택된 아이템 가져오기
     {
         seletedItemCount = _value;
@@ -301,36 +299,7 @@ public class Menu_Inventory : Menu_InGameMenu
             storageSelectedItem[i] = 99;
         }
     }
-
-    public void DeleteUseItem(int _focused)        // 사용된 아이템 인벤토리에서 제거
-    {
-        DeleteItem(_focused);
-
-        for (int i = _focused; i < availableSlot - 1; ++i)
-        {
-            if (itemList[i] != null) break;
-
-            for (int j = 1; j < availableSlot - i; ++i)
-            {
-                if (i + j == availableSlot)
-                {
-                    i = availableSlot - 1;
-                    break;
-                }
-
-                if (itemList[i + j] != null)
-                {
-                    itemList[i] = itemList[i + j];
-                    storageSelectedItem[i] = storageSelectedItem[i + j];
-
-                    itemList[i + j] = null;
-                    storageSelectedItem[i + j] = 99;
-                    break;
-                }
-            }
-        }
-        InventorySet();
-    }
+    
     public void DeleteItem(int _focused)          // 아이템 한개 인벤토리에서 제거
     {
         itemList[_focused] = null;
