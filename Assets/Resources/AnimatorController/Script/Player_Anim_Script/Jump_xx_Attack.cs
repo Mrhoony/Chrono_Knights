@@ -9,7 +9,7 @@ public class Jump_xx_Attack : AnimatorManager
     {
         Init();
         animator.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        animator.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.1f;
+        animator.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0f;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

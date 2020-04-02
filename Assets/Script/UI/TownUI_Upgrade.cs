@@ -133,7 +133,7 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
             else
                 PercentSet(num, upgradePercent, downgradePercent, item);
              
-            storage.EnchantedKey(keySlotFocus);
+            storage.DeleteItem(keySlotFocus);
             selectedkey = null;
         }
         playerStat.PlayerStatusUpdate(playerEquipment);

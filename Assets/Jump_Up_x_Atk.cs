@@ -8,8 +8,7 @@ public class Jump_Up_x_Atk : AnimatorManager
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Init();
-        animator.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.up * 1f;
-        animator.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.1f;
+        animator.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0f;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -20,6 +19,7 @@ public class Jump_Up_x_Atk : AnimatorManager
             if (!move)
             {
                 move = true;
+                animator.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.up * 1f;
                 playerControl.AttackDistance(playerControl.Attack(AtkType.spear_Jump_Up_X_Attack));
             }
         }

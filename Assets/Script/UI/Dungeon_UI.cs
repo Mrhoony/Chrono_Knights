@@ -29,7 +29,6 @@ public class Dungeon_UI : MonoBehaviour
             CloseTrialCardSelectMenu();
         }
 
-        if (focused < 0 || focused > 2) return;
         if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
         if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
         FocusMove();
@@ -74,13 +73,15 @@ public class Dungeon_UI : MonoBehaviour
 
     public void FocusMove()
     {
+        if (focused < 0 || focused > 2) return;
         trialCursor.transform.position = Vector2.Lerp(trialCursor.transform.position, trialCard[focused].transform.position, Time.deltaTime * cursorSpd);
     }
     public void FocusedSlot(int AdjustValue)
     {
-        trialCursor.SetActive(true);
         if (focused + AdjustValue > 2) focused = 0;
         else if (focused + AdjustValue < 0) focused = 2;
         else focused += AdjustValue;
+
+        trialCursor.SetActive(true);
     }
 }

@@ -12,14 +12,8 @@ public class DungeonTrialSlot : MonoBehaviour
     public void SetTrialCard()
     {
         statusRandom = Random.Range(0, 3);
-        if(statusRandom == 2)
-        {
-            valueRandom = Random.Range(1, 3);
-        }
-        else
-        {
-            valueRandom = Random.Range(0, 2);
-        }
+        valueRandom = Random.Range(1, 3);
+
         switch (statusRandom)
         {
             case 0:

@@ -247,6 +247,7 @@ public class Menu_Inventory : Menu_InGameMenu
         slotInstance = slot[focused].GetComponent<Slot>();
         cursorInvenSelect.SetActive(true);
 
+        storage.SetInventoryItemList();
         InventorySet();
 
         if (itemList[focused] != null)

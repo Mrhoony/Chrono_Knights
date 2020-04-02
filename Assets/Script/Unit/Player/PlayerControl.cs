@@ -469,6 +469,7 @@ public class PlayerControl : MovingObject
         else
         {
             StopPlayer();
+            rb.gravityScale = 1f;
             CameraManager.instance.CameraShake(playerStatus.DecreaseHP(_attack) / 2);
             animator.SetTrigger("isHit");
             playerEffect.GetComponent<Animator>().SetTrigger("isHit_Trigger");

@@ -225,9 +225,6 @@ public class Menu_Storage : Menu_InGameMenu
     }
     public void CloseStorage()      
     {
-        SetSelectedItemSlotNum();
-        inventory.SetSelectedItem(selectedItemCount, selectedSlot);
-
         itemInformation.SetActive(false);
         cursorStorageSelect.SetActive(false);
         isUIOn = false;
@@ -235,6 +232,11 @@ public class Menu_Storage : Menu_InGameMenu
         canvasManager.CloseStorage();
     }
 
+    public void SetInventoryItemList()
+    {
+        SetSelectedItemSlotNum();
+        inventory.SetSelectedItem(selectedItemCount, selectedSlot);
+    }
     public void SetSelectedItemSlotNum()                // 선택된 아이템 슬롯 번호를 저장
     {
         selectedItemCount = 0;
@@ -254,6 +256,7 @@ public class Menu_Storage : Menu_InGameMenu
 
     public void DeleteItem(int _focused)                // 아이템 사용으로 삭제될 시
     {
+        itemList[_focused] = null;
         if (isSelected[_focused])
         {
             --selectedItemCount;
@@ -262,9 +265,7 @@ public class Menu_Storage : Menu_InGameMenu
                 selectedItemCount = 0;
                 return;
             }
-            itemList[_focused] = null;
             isSelected[_focused] = false;
-            selectedSlot[_focused] = 99;
         }
         StorageSlotSort(_focused);
     }
@@ -278,11 +279,6 @@ public class Menu_Storage : Menu_InGameMenu
         }
         isSelected[_focused] = false;
         StorageSlotSort(_focused);
-    }
-    public void EnchantedKey(int _focus)                 // 인챈트, 업그레이드 성공시 아이템 창고에서 제거
-    {
-        itemList[_focus] = null;
-        StorageSlotSort(_focus);
     }
     public void StorageSlotSort(int _focus)             // 창고 정렬
     {

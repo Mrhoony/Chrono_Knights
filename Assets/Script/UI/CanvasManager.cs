@@ -108,7 +108,7 @@ public class CanvasManager : MonoBehaviour
             }
             else                                            // 던전 밖에 있을 때
             {
-                if (townUI.GetTownUIOnCheck())
+                if (TownUIOnCheck())
                 {
                     if (isShopOn)
                     {
@@ -145,7 +145,7 @@ public class CanvasManager : MonoBehaviour
                     {
                         if (townUI != null)
                         {
-                            if (townUI.GetComponent<TownUI>().GetTownUIOnCheck()) return;      // TownUI 가 켜져있을 경우 취소
+                            if (TownUIOnCheck()) return;      // TownUI 가 켜져있을 경우 취소
                         }
                         PlayerControl.instance.StopPlayer();
                         isCancelOn = true;
@@ -414,7 +414,6 @@ public class CanvasManager : MonoBehaviour
     }
     public void CloseUpgradeMenu()
     {
-
         isUpgradeOn = false;
         StartCoroutine(PlayerMoveEnable());
     }

@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9275241
 RectTransform:
   m_ObjectHideFlags: 0
@@ -669,13 +669,13 @@ MonoBehaviour:
   dungeonFloorEftText: {fileID: 2874897365140890426}
   dungeonPoolManager: {fileID: 610455877}
   isTrialCardSelectOn: 0
-  bossClearTrialMenu: {fileID: 0}
+  bossClearTrialMenu: {fileID: 9275240}
   trialCard:
   - {fileID: 1702179895}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 4133325654763866768}
+  - {fileID: 257199795450472022}
   trialCursor: {fileID: 1837189337}
-  cursorSpd: 0
+  cursorSpd: 10
   focused: 0
 --- !u!222 &2582293356532302919
 CanvasRenderer:
@@ -1037,6 +1037,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8768e70b35acd6d419c572e2ab80dac0, type: 3}
+--- !u!1 &4133325654763866768 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3410930782080650241, guid: 8768e70b35acd6d419c572e2ab80dac0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1588234314945480337}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4133325654763866783 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3410930782080650254, guid: 8768e70b35acd6d419c572e2ab80dac0,
@@ -1162,6 +1168,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8768e70b35acd6d419c572e2ab80dac0, type: 3}
+--- !u!1 &257199795450472022 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3410930782080650241, guid: 8768e70b35acd6d419c572e2ab80dac0,
+    type: 3}
+  m_PrefabInstance: {fileID: 3226774847300053591}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &257199795450472025 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3410930782080650254, guid: 8768e70b35acd6d419c572e2ab80dac0,

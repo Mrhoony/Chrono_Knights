@@ -16,6 +16,13 @@ public class TownUI_Training : MonoBehaviour
     public bool isTraningPossible;
     public bool isTownMenuOn = false;
 
+    public void Init()
+    {
+        playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
+        limit_traning = playerStat.playerData.GetLimitTraning();
+        traningStat = playerStat.playerData.GetTraningStat();
+        traning_count = playerStat.playerData.GetTraningCount();
+    }
     public void Update()
     {
         if (!isTownMenuOn) return;
@@ -74,13 +81,6 @@ public class TownUI_Training : MonoBehaviour
         }
 
         Debug.Log("open traning");
-    }
-    public void Init()
-    {
-        playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
-        limit_traning = playerStat.playerData.GetLimitTraning();
-        traningStat = playerStat.playerData.GetTraningStat();
-        traning_count = playerStat.playerData.GetTraningCount();
     }
     public void CloseTownUIMenu()
     {
