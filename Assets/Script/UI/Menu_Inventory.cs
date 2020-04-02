@@ -264,6 +264,7 @@ public class Menu_Inventory : Menu_InGameMenu
         itemInformation.SetActive(false);
         isShopOpen = false;
         isUIOn = false;
+        slotInstance.SetDisActiveItemConfirm();
     }
     public void InventorySet()                     // 인벤토리 활성화시 아이템 세팅
     {
@@ -337,6 +338,7 @@ public class Menu_Inventory : Menu_InGameMenu
             storage.DeleteItem(storageSelectedItem[_focused]);
         }
         storageSelectedItem[_focused] = 99;
+        InventorySet();
     }
 
     public int GetSelectedItemCount()

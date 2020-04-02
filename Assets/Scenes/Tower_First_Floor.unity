@@ -7503,5 +7503,38 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2874897364581639842, guid: 0fe724732235b8c479b4f03cc29ee266,
+        type: 3}
+      propertyPath: bossClearTrialMenu
+      value: 
+      objectReference: {fileID: 2874897363994262162}
+    - target: {fileID: 2874897364581639842, guid: 0fe724732235b8c479b4f03cc29ee266,
+        type: 3}
+      propertyPath: trialCard.Array.data[1]
+      value: 
+      objectReference: {fileID: 2874897363994262164}
+    - target: {fileID: 2874897364581639842, guid: 0fe724732235b8c479b4f03cc29ee266,
+        type: 3}
+      propertyPath: trialCard.Array.data[2]
+      value: 
+      objectReference: {fileID: 2874897363994262163}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fe724732235b8c479b4f03cc29ee266, type: 3}
+--- !u!1 &2874897363994262162 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9275240, guid: 0fe724732235b8c479b4f03cc29ee266,
+    type: 3}
+  m_PrefabInstance: {fileID: 2874897363994262161}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2874897363994262163 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 257199795450472022, guid: 0fe724732235b8c479b4f03cc29ee266,
+    type: 3}
+  m_PrefabInstance: {fileID: 2874897363994262161}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2874897363994262164 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4133325654763866768, guid: 0fe724732235b8c479b4f03cc29ee266,
+    type: 3}
+  m_PrefabInstance: {fileID: 2874897363994262161}
+  m_PrefabAsset: {fileID: 0}

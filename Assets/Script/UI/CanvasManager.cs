@@ -97,8 +97,6 @@ public class CanvasManager : MonoBehaviour
 
             if (DungeonManager.instance.inDungeon)          // 던전 안에 있을 때
             {
-                if (isGameOverUIOn) return;
-
                 if (!isDungeonUIOn)        // 던전 메뉴가 꺼져있고 던전 내부일 경우 던전 메뉴 온
                 {
                     OpenDungeonMenu();
@@ -178,8 +176,8 @@ public class CanvasManager : MonoBehaviour
             }
             else
             {
-                CloseInGameMenu();
                 isInventoryOn = false;
+                CloseInGameMenu();
             }
         }
         if (isInventoryOn)
@@ -358,6 +356,12 @@ public class CanvasManager : MonoBehaviour
 
     public void OpenTrialCardSelectMenu()
     {
+        PlayerMoveStop();
+        dungeonUI.OpenTrialCardSelectMenu();
+    }
+    public void CloseTrialCardSelectMenu()
+    {
+        StartCoroutine(PlayerMoveEnable());
     }
     #endregion
 
@@ -365,6 +369,7 @@ public class CanvasManager : MonoBehaviour
     public void OpenShopInventory()
     {
         isShopOn = true;
+        PlayerMoveStop();
         townUI.OpenShopMenu(Menus[0].GetComponent<Menu_Inventory>());
         Menus[0].SetActive(true);
         Menus[0].GetComponent<Menu_Inventory>().OpenInventory(townUI.townMenus[0].GetComponent<TownUI_Shop>());

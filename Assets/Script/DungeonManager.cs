@@ -525,6 +525,7 @@ public class DungeonManager : MonoBehaviour
             phaseClear = true;
             ++bossClearCount;
         }
+        StartCoroutine(BossKillSlowMotion());
     }
     public void FloorMonsterKill()
     {
@@ -545,6 +546,19 @@ public class DungeonManager : MonoBehaviour
         {
             dungeonClear = true;
         }
+    }
+
+    IEnumerator BossKillSlowMotion()
+    {
+        Time.timeScale = 0.5f;
+
+        yield return new WaitForSeconds(2f);
+
+        Time.timeScale = 1f;
+
+        yield return new WaitForSeconds(1f);
+
+        canvasManager.OpenTrialCardSelectMenu();
     }
     
     public void MarkerSetting()

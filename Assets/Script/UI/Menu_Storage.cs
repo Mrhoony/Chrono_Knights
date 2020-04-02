@@ -277,7 +277,6 @@ public class Menu_Storage : Menu_InGameMenu
             return;
         }
         isSelected[_focused] = false;
-        selectedSlot[_focused] = 99;
         StorageSlotSort(_focused);
     }
     public void EnchantedKey(int _focus)                 // 인챈트, 업그레이드 성공시 아이템 창고에서 제거
@@ -303,11 +302,9 @@ public class Menu_Storage : Menu_InGameMenu
                 {
                     itemList[i] = itemList[i + j];
                     isSelected[i] = isSelected[i + j];
-                    selectedSlot[i] = selectedSlot[i + j];
 
                     itemList[i + j] = null;
                     isSelected[i + j] = false;
-                    selectedSlot[i + j] = 99;
 
                     break;
                 }
@@ -315,8 +312,7 @@ public class Menu_Storage : Menu_InGameMenu
         }
         StorageSet();
     }
-
-
+    
     public void AvailableKeySlotUpgrade(int upgrade)
     {
         availableSlot += upgrade;

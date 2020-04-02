@@ -29,6 +29,7 @@ public class Dungeon_UI : MonoBehaviour
             CloseTrialCardSelectMenu();
         }
 
+        if (focused < 0 || focused > 2) return;
         if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
         if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
         FocusMove();
@@ -46,6 +47,7 @@ public class Dungeon_UI : MonoBehaviour
         isTrialCardSelectOn = false;
         bossClearTrialMenu.SetActive(false);
         trialCursor.SetActive(false);
+        CanvasManager.instance.CloseTrialCardSelectMenu();
     }
     public void SetTrialOption()
     {
