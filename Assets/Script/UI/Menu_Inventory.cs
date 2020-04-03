@@ -6,13 +6,14 @@ public class Menu_Inventory : Menu_InGameMenu
     public Menu_Storage storage;
     public TownUI_Shop shop;
     public GameObject moneyText;
-
     public GameObject cursorInvenSelect;
     public float cursorSpd;
     
     public int seletedItemCount;         // 창고에서 선택된 아이템 수
     public int[] storageSelectedItem;
+
     public bool isDungeonOpen;
+
     public bool isShopOpen;
     public bool isThisWindowFocus;
     public int money;
@@ -59,7 +60,7 @@ public class Menu_Inventory : Menu_InGameMenu
                     if (isShopOpen)
                     {
                         money += itemList[focused].itemRarity;
-                        DeleteItem(focused);
+                        UseItem(focused);
                         SetMoneyGameObject();
                         slotInstance.SetDisActiveItemConfirm();
                     }
@@ -72,7 +73,7 @@ public class Menu_Inventory : Menu_InGameMenu
                     }
                     else
                     {
-                        DeleteItem(focused);
+                        UseItem(focused);
                         itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(itemList[focused]);
                         slotInstance.SetDisActiveItemConfirm();
                     }
@@ -199,7 +200,7 @@ public class Menu_Inventory : Menu_InGameMenu
     {
         if (DungeonManager.instance.UseKeyInDungeon(itemList[_focused]))
         {
-            DeleteItem(_focused);
+            UseItem(_focused);
             itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(itemList[_focused]);
             canvasManager.CloseInGameMenu();
         }
@@ -207,7 +208,7 @@ public class Menu_Inventory : Menu_InGameMenu
     public void UseItemInQuickSlot(int _focused)   // 퀵슬롯으로 아이템 사용시 ( 마을에서 사용시 창고도 비우기 or 마을에서 사용 x )
     {
         DungeonManager.instance.UseItemInDungeon(itemList[_focused]);
-        DeleteItem(_focused);
+        UseItem(_focused);
     }
     public void PutInBox(bool _isDead)             // 던전에서 복귀할 때 창고에 키 넣기
     {
@@ -232,7 +233,7 @@ public class Menu_Inventory : Menu_InGameMenu
                     storage.PutInBox(itemList[i], false);
                 }
             }
-            DeleteItem(i);
+            UseItem(i);
         }
         isUIOn = false;
     }
@@ -300,15 +301,19 @@ public class Menu_Inventory : Menu_InGameMenu
         }
     }
     
-    public void DeleteItem(int _focused)          // 아이템 한개 인벤토리에서 제거
+    public void UseItem(int _focused)          // 아이템 한개 인벤토리에서 제거
     {
-        itemList[_focused] = null;
         if(storageSelectedItem[_focused] != 99)
         {
             storage.DeleteItem(storageSelectedItem[_focused]);
         }
-        storageSelectedItem[_focused] = 99;
+        DeleteItem(_focused);
         InventorySet();
+    }
+    public void DeleteItem(int _focused)
+    {
+        itemList[_focused] = null;
+        storageSelectedItem[_focused] = 99;
     }
 
     public int GetSelectedItemCount()

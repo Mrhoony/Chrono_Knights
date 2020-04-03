@@ -100,11 +100,15 @@ public class PlayerControl : MovingObject
         if (CanvasManager.instance.GameMenuOnCheck()) return;       // UI 켜져 있을 때 입력 제한
         if (actionState == ActionState.IsDead) return;              // 죽었을 때 입력 제한
         if (actionState == ActionState.IsDodge) return;             // 회피중일 때 입력 제한
+
+        // 커맨드용 입력
+        if (Input.GetKey(KeyCode.UpArrow)) inputArrow = 30;
+        else if (Input.GetKey(KeyCode.DownArrow)) inputArrow = 40;
+        else if (inputDirection != 0) inputArrow = 10;
+        else inputArrow = 0;
         
-        inputDirection = Input.GetAxisRaw("Horizontal");
-
         if (actionState == ActionState.NotMove) return;       // notMove 가 아닐 때
-
+        
         // x 공격 입력
         if (weaponType == 0)        // 현재 무기가 창이면
         {
@@ -129,7 +133,7 @@ public class PlayerControl : MovingObject
         }              // shift 키 입력시 대쉬
 
         // 낙하 체크
-        if (rb.velocity.y <= -0.5f)
+        if (rb.velocity.y <= -1f)
         {
             if (actionState != ActionState.IsJump && !isGround && !isJump)
             {
@@ -145,15 +149,12 @@ public class PlayerControl : MovingObject
         
         if (actionState == ActionState.IsParrying) StartCoroutine(ParryingCount());     // 패링시 패링 쿨타임
 
-        // 커맨드용 입력
-        if (Input.GetKey(KeyCode.UpArrow))          inputArrow = 30;
-        else if (Input.GetKey(KeyCode.DownArrow))   inputArrow = 40;
-        else if (inputDirection != 0)               inputArrow = 10;
-        else                                        inputArrow = 0;
-        
         if (Input.GetButtonDown("Fire3") && dodgable) Dodge();      // 회피
 
         if (actionState == ActionState.IsAtk) return;
+        if (actionState == ActionState.IsJumpAttack) return;
+
+        inputDirection = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetButtonDown("Jump")) Jump();                    // 점프
 
@@ -212,7 +213,6 @@ public class PlayerControl : MovingObject
             }
         }
     }
-
     public void InputSkillButton()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -230,9 +230,20 @@ public class PlayerControl : MovingObject
             return;
         }
     }
+    public void PlayerInputKeyFlip()
+    {
+        Vector2 scale;
+        scale = quickSlot.transform.localScale;
+        scale.x *= -1;
+        quickSlot.transform.localScale = scale;
+        scale = playerInputKey.transform.localScale;
+        scale.x *= -1;
+        playerInputKey.transform.localScale = scale;
+    }
+
     private void FixedUpdate()
     {
-        if (actionState != ActionState.Idle && actionState != ActionState.IsMove && actionState != ActionState.IsJump) return;     // 피격 시 입력무시
+        if (actionState != ActionState.Idle && actionState != ActionState.IsJump) return;     // 피격 시 입력무시
         
         Move();
         Run();
@@ -247,16 +258,6 @@ public class PlayerControl : MovingObject
             Flip();
             PlayerInputKeyFlip();
         }
-    }
-    public void PlayerInputKeyFlip()
-    {
-        Vector2 scale;
-        scale = quickSlot.transform.localScale;
-        scale.x *= -1;
-        quickSlot.transform.localScale = scale;
-        scale = playerInputKey.transform.localScale;
-        scale.x *= -1;
-        playerInputKey.transform.localScale = scale;
     }
 
     void SpearAttack()
@@ -285,26 +286,32 @@ public class PlayerControl : MovingObject
         }
         if (Input.GetButton("Fire2"))
         {
-            if (actionState == ActionState.Idle || actionState == ActionState.IsMove)
+            if (actionState == ActionState.Idle)
             {
                 actionState = ActionState.IsAtk;
                 weaponSpear.AttackY(inputArrow);
             }
-            if (actionState == ActionState.IsJump || actionState == ActionState.IsJumpAttack)
+            if (actionState == ActionState.IsJump)
             {
-                actionState = ActionState.IsJumpAttack;
-                weaponSpear.JumpAttackY();
+                if(actionState != ActionState.IsJumpAttack)
+                {
+                    actionState = ActionState.IsJumpAttack;
+                    weaponSpear.JumpAttackY();
+                }
             }
         }
         if (Input.GetButtonUp("Fire2"))
         {
-            if (actionState == ActionState.IsDodge)
+            if (actionState != ActionState.IsJump && actionState != ActionState.IsJumpAttack)
             {
-                weaponSpear.InputInit();
-            }
-            else
-            {
-                weaponSpear.AttackYFinal();
+                if (actionState == ActionState.IsDodge)
+                {
+                    weaponSpear.InputInit();
+                }
+                else
+                {
+                    weaponSpear.AttackYFinal();
+                }
             }
         }
     }
@@ -387,16 +394,12 @@ public class PlayerControl : MovingObject
     {
         if (inputDirection != 0)
         {
-            if (actionState == ActionState.Idle)
-                actionState = ActionState.IsMove;
             animator.SetBool("isWalk", true);
             animator.SetBool("isRun", false);
             rb.velocity = new Vector2(inputDirection * playerStatus.GetMoveSpeed_Result(), rb.velocity.y);
         }
         else
         {
-            if (actionState == ActionState.IsMove)
-                actionState = ActionState.Idle;
             animator.SetBool("isWalk", false);
             animator.SetBool("isRun", false);
             rb.velocity = new Vector2(0f, rb.velocity.y);
@@ -406,8 +409,6 @@ public class PlayerControl : MovingObject
     {
         if (inputDirection > 0 && isRrun > 1)
         {
-            if (actionState == ActionState.Idle)
-                actionState = ActionState.IsMove;
             animator.SetBool("isRun", true);
             animator.SetBool("isWalk", false);
             rb.velocity = new Vector2(inputDirection * playerStatus.GetMoveSpeed_Result() * 2f, rb.velocity.y);
@@ -415,8 +416,6 @@ public class PlayerControl : MovingObject
 
         if (inputDirection < 0 && isLrun > 1)
         {
-            if (actionState == ActionState.Idle)
-                actionState = ActionState.IsMove;
             animator.SetBool("isRun", true);
             animator.SetBool("isWalk", false);
             rb.velocity = new Vector2(inputDirection * playerStatus.GetMoveSpeed_Result() * 2f, rb.velocity.y);
@@ -491,7 +490,6 @@ public class PlayerControl : MovingObject
     }
     public void Landing()
     {
-        if (actionState == ActionState.IsJumpAttack) return;
         currentJumpCount = (int)playerStatus.GetJumpCount();
         actionState = ActionState.Idle;
         isGround = true;
@@ -640,13 +638,12 @@ public class PlayerControl : MovingObject
     }
     public float AttackDistanceDown(float _distanceMulty)
     {
-        GroundCheck.SetActive(true);
         RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y)
             , new Vector2(arrowDirection, -1), 20f, rayDashLayerMask);
 
         if (playerDashBotDistance)
         {
-            transform.position = new Vector2(playerDashBotDistance.point.x - (arrowDirection * 0.1f), playerDashBotDistance.point.y + 0.25f);
+            transform.position = new Vector2(playerDashBotDistance.point.x - (arrowDirection * 0.5f), playerDashBotDistance.point.y + 0.25f);
             return playerDashBotDistance.distance * 0.87f;
         }
         else

@@ -88,6 +88,15 @@ public class CanvasManager : MonoBehaviour
     private void Update()
     {
         if (!gm.GetGameStart()) return;
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if (isGameOverUIOn)
+            {
+                CloseGameOverMenu();
+            }
+        }
+
         if (DungeonManager.instance.isSceneLoading) return;
 
         //인게임 세팅 관련 ( 사운드, 화면 크기 등)
@@ -154,15 +163,7 @@ public class CanvasManager : MonoBehaviour
                 }
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            if (isGameOverUIOn)
-            {
-                CloseGameOverMenu();
-            }
-        }
-
+        
         if (TownUIOnCheck() || isDungeonUIOn || isStorageOn) return;
         if (isGameOverUIOn) return;
 
@@ -293,7 +294,6 @@ public class CanvasManager : MonoBehaviour
         circleFadeOut.transform.localScale = fadeOutScale;
         
         Time.timeScale = 1f;
-        DungeonManager.instance.isSceneLoading = false;
         DungeonManager.instance.OpenGameOverResult();
     }
     #endregion

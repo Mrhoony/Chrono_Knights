@@ -10,6 +10,7 @@ public class Jump_y_Atk : AnimatorManager
     {
         isGroundCheck = 0f;
         Init();
+        playerControl.GroundCheck.SetActive(false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -22,6 +23,12 @@ public class Jump_y_Atk : AnimatorManager
                 move = true;
                 animator.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 isGroundCheck = playerControl.AttackDistanceDown(playerControl.Attack(AtkType.spear_Jump_Y_Attack));
+
+                if (isGroundCheck > 2f)
+                {
+                    playerControl.AttackDistance(playerControl.Attack(AtkType.spear_Y_Attack));
+                    CameraManager.instance.CameraShake(1);
+                }
             }
         }
     }
@@ -31,14 +38,15 @@ public class Jump_y_Atk : AnimatorManager
     {
         if (20f >= isGroundCheck)
         {
-            if(isGroundCheck > 2f)  // 일정높이 이상일 때 애니매이션이 끝나면서 효과 적용 또는 일정 시간에 효과 적용
-                playerControl.AttackDistance(playerControl.Attack(AtkType.spear_Y_Attack));
             animator.SetBool("isJump", false);
+            playerControl.PlayerJumpAttackEnd();
         }
         animator.SetBool("isJump_y_Atk", false);
-        playerControl.PlayerJumpAttackEnd();
-        playerControl.Landing();
+        animator.SetBool("isJump_up_x_Atk", false);
+        animator.SetBool("isJump_down_x_Atk", false);
+        playerControl.GroundCheck.SetActive(true);
         playerControl.InputInit();
+        animator.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1f;
         move = false;
     }
 }

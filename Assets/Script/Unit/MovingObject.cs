@@ -11,7 +11,6 @@ public enum ActionState
     IsAtk,
     IsParrying,
     IsDodge,
-    IsMove,
     Idle
 }
 public enum State

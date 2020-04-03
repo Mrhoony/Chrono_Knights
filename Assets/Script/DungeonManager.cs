@@ -197,7 +197,7 @@ public class DungeonManager : MonoBehaviour
                 case 3:
                     if (useTeleportSystem == 8)         // 던전 포탈 앞에 서있을 경우 다음던전 또는 집으로 이동한다.
                     {
-                        if (!dungeonClear) return;
+                        if (!dungeonClear || isReturn) return;
 
                         if (!phaseClear)
                         {

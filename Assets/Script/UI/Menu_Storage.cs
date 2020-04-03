@@ -251,7 +251,7 @@ public class Menu_Storage : Menu_InGameMenu
         }
     }
     
-    public void DeleteItem(int _focused)                // 아이템 사용으로 삭제될 시
+    public void DeleteItem(int _focused)                // 아이템 삭제될 시
     {
         itemList[_focused] = null;
         if (isSelected[_focused])
@@ -272,6 +272,7 @@ public class Menu_Storage : Menu_InGameMenu
         }
         StorageSlotSort(_focused);
     }
+
     public void InventorySelectCancel(int _focused)       // 인벤토리에서 아이템 선택 취소시
     {
         --selectedItemCount;
