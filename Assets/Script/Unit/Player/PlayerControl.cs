@@ -98,16 +98,14 @@ public class PlayerControl : MovingObject
     void Update()
     {
         if (CanvasManager.instance.GameMenuOnCheck()) return;       // UI 켜져 있을 때 입력 제한
-        if (actionState == ActionState.IsDead) return;              // 죽었을 때 입력 제한
-        if (actionState == ActionState.IsDodge) return;             // 회피중일 때 입력 제한
+        if (actionState == ActionState.IsDead || actionState == ActionState.IsDodge || 
+            actionState == ActionState.NotMove || actionState == ActionState.IsParrying) return;
 
-        // 커맨드용 입력
+        inputDirection = Input.GetAxisRaw("Horizontal");
         if (Input.GetKey(KeyCode.UpArrow)) inputArrow = 30;
         else if (Input.GetKey(KeyCode.DownArrow)) inputArrow = 40;
         else if (inputDirection != 0) inputArrow = 10;
         else inputArrow = 0;
-        
-        if (actionState == ActionState.NotMove) return;       // notMove 가 아닐 때
         
         // x 공격 입력
         if (weaponType == 0)        // 현재 무기가 창이면
@@ -118,6 +116,26 @@ public class PlayerControl : MovingObject
         {
             GunAttack();
         }
+
+        // 낙하 체크
+        if (rb.velocity.y <= -1f)
+        {
+            if (actionState != ActionState.IsJump && !isGround && !isJump)
+            {
+                isJump = true;
+                actionState = ActionState.IsJump;
+                --currentJumpCount;
+            }
+            GroundCheck.SetActive(true);
+        }
+        if (actionState == ActionState.IsParrying) StartCoroutine(ParryingCount());     // 패링시 패링 쿨타임
+
+        if (Input.GetButtonDown("Fire3") && dodgable) Dodge();      // 회피
+
+        if (actionState == ActionState.IsAtk) return;
+        if (actionState == ActionState.IsJumpAttack) return;
+
+        RunCheck();        // 대쉬 딜레이
         if (Input.GetKey(KeyCode.LeftShift))
         {
             if (arrowDirection > 0)
@@ -131,31 +149,6 @@ public class PlayerControl : MovingObject
                 isLrun = 2;
             }
         }              // shift 키 입력시 대쉬
-
-        // 낙하 체크
-        if (rb.velocity.y <= -1f)
-        {
-            if (actionState != ActionState.IsJump && !isGround && !isJump)
-            {
-                isJump = true;
-                actionState = ActionState.IsJump;
-                --currentJumpCount;
-            }
-            GroundCheck.SetActive(true);
-        }
-
-        // 대쉬 딜레이
-        RunCheck();
-        
-        if (actionState == ActionState.IsParrying) StartCoroutine(ParryingCount());     // 패링시 패링 쿨타임
-
-        if (Input.GetButtonDown("Fire3") && dodgable) Dodge();      // 회피
-
-        if (actionState == ActionState.IsAtk) return;
-        if (actionState == ActionState.IsJumpAttack) return;
-
-        inputDirection = Input.GetAxisRaw("Horizontal");
-
         if (Input.GetButtonDown("Jump")) Jump();                    // 점프
 
         if (actionState != ActionState.Idle) return;
@@ -286,11 +279,6 @@ public class PlayerControl : MovingObject
         }
         if (Input.GetButton("Fire2"))
         {
-            if (actionState == ActionState.Idle)
-            {
-                actionState = ActionState.IsAtk;
-                weaponSpear.AttackY(inputArrow);
-            }
             if (actionState == ActionState.IsJump)
             {
                 if(actionState != ActionState.IsJumpAttack)
@@ -298,6 +286,11 @@ public class PlayerControl : MovingObject
                     actionState = ActionState.IsJumpAttack;
                     weaponSpear.JumpAttackY();
                 }
+            }
+            else
+            {
+                actionState = ActionState.IsAtk;
+                weaponSpear.AttackY(inputArrow);
             }
         }
         if (Input.GetButtonUp("Fire2"))
@@ -445,7 +438,7 @@ public class PlayerControl : MovingObject
     }
     IEnumerator ParryingCount()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         actionState = ActionState.Idle;
     }
 
@@ -498,6 +491,7 @@ public class PlayerControl : MovingObject
         animator.SetBool("isLand", true);
         Debug.Log("land");
     }
+
     public void ParryingCheck()
     {
         animator.SetBool("is_x_Atk", true);

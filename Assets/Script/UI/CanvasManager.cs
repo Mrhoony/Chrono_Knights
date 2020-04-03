@@ -196,7 +196,7 @@ public class CanvasManager : MonoBehaviour
 
     public bool GameMenuOnCheck()
     {
-        if (isCancelOn || isInventoryOn || isStorageOn) return true;
+        if (isCancelOn || isInventoryOn || isStorageOn || TownUIOnCheck()) return true;
         else return false;
     }
     public bool TownUIOnCheck()

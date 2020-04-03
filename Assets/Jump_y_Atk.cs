@@ -10,6 +10,7 @@ public class Jump_y_Atk : AnimatorManager
     {
         isGroundCheck = 0f;
         Init();
+        animator.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         playerControl.GroundCheck.SetActive(false);
     }
 
@@ -21,7 +22,6 @@ public class Jump_y_Atk : AnimatorManager
             if (!move)
             {
                 move = true;
-                animator.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 isGroundCheck = playerControl.AttackDistanceDown(playerControl.Attack(AtkType.spear_Jump_Y_Attack));
 
                 if (isGroundCheck > 2f)

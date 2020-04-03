@@ -46,7 +46,6 @@ public class Weapon_Spear : PlayerWeaponType
                 StartCoroutine(AttackList());
         }
     }
-
     public void JumpAttackY()
     {
         inputAttackList = 105;
