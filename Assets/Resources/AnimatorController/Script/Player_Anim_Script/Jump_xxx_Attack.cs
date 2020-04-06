@@ -30,7 +30,7 @@ public class Jump_xxx_Attack : AnimatorManager
     {
         animator.SetBool("isJump_xxx_attack", false);
 
-        if (!animator.GetBool("isJump_y_Atk"))
+        if (!animator.GetBool("isJump_y_attack"))
         {
             playerControl.PlayerJumpAttackEnd();
             playerControl.InputInit();

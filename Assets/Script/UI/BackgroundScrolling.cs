@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BackgroundScrolling : MonoBehaviour
 {
@@ -8,18 +6,11 @@ public class BackgroundScrolling : MonoBehaviour
     public float[] ParalaxSpeedX;
     public float[] ParalaxSpeedY;
     
-    public GameObject mapBase;
-    public GameObject spawnerSet;
-    public GameObject[] spawner;
-    public GameObject teleporter;
-
     private Transform[] layers;
     private int layerCount;
 
     private float lastCameraX;
     private float lastCameraY;
-    float deltaX;
-    float deltaY;
 
     private void Awake()
     {
@@ -64,8 +55,8 @@ public class BackgroundScrolling : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        deltaX = cameraTrasform.position.x - lastCameraX;
-        deltaY = cameraTrasform.position.y - lastCameraY;
+        float deltaX = cameraTrasform.position.x - lastCameraX;
+        float deltaY = cameraTrasform.position.y - lastCameraY;
         
         for(int i = 0; i < layerCount; ++i)
         {

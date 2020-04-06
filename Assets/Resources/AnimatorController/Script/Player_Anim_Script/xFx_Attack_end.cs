@@ -22,16 +22,13 @@ public class xFx_Attack_end : AnimatorManager
                 playerControl.AttackDistance(playerControl.Attack(AtkType.spear_XFX_Attack));
             }
         }
-        if (stateInfo.normalizedTime > 0.4f)
-        {
-            playerControl.SetAttackState(3);
-        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!animator.GetBool("is_xFxFx_Atk"))
+        animator.SetBool("is_xFx_attack", false);
+        if (!animator.GetBool("is_xFxFx_attack"))
         {
             playerControl.InputInit();
             playerControl.MoveSet();

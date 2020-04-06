@@ -478,6 +478,7 @@ GameObject:
   - component: {fileID: 820749052}
   - component: {fileID: 820749051}
   - component: {fileID: 820749050}
+  - component: {fileID: 820749053}
   m_Layer: 0
   m_Name: BackGroundSet
   m_TagString: BaseMap
@@ -562,6 +563,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 640, y: 360}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &820749053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820749049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8d1519b39eb4eafe05b5be6256b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawner: []
+  teleporter: {fileID: 0}
+  entrance: {fileID: 0}
 --- !u!114 &833182825 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8598324638961123333, guid: bb52788c74313754aaac85eedbfab2b6,
@@ -2315,6 +2331,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Exit
       objectReference: {fileID: 0}
+    - target: {fileID: 7500526061826135593, guid: fba431d297086194e957f55253a14a62,
+        type: 3}
+      propertyPath: useSystem
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7500526061826135595, guid: fba431d297086194e957f55253a14a62,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2369,11 +2390,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7500526061826135593, guid: fba431d297086194e957f55253a14a62,
-        type: 3}
-      propertyPath: useSystem
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fba431d297086194e957f55253a14a62, type: 3}

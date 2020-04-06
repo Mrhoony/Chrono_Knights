@@ -8,7 +8,6 @@ public class xx_Attack_end : AnimatorManager
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Init();
-
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -22,22 +21,18 @@ public class xx_Attack_end : AnimatorManager
                 playerControl.AttackDistance(playerControl.Attack(AtkType.spear_XX_Attack));
             }
         }
-        if (stateInfo.normalizedTime > 0.4f)
-        {
-            playerControl.SetAttackState(3);
-        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!animator.GetBool("is_xxx_Atk"))
+        animator.SetBool("is_xx_attack", false);
+        if (!animator.GetBool("is_xxx_attack"))
         {
             playerControl.InputInit();
             playerControl.MoveSet();
         }
         Init();
-
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

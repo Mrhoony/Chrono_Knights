@@ -41,9 +41,9 @@ public class Jump_y_Atk : AnimatorManager
             animator.SetBool("isJump", false);
             playerControl.PlayerJumpAttackEnd();
         }
-        animator.SetBool("isJump_y_Atk", false);
-        animator.SetBool("isJump_up_x_Atk", false);
-        animator.SetBool("isJump_down_x_Atk", false);
+        animator.SetBool("isJump_y_attack", false);
+        animator.SetBool("isJump_up_x_attack", false);
+        animator.SetBool("isJump_down_x_attack", false);
         playerControl.GroundCheck.SetActive(true);
         playerControl.InputInit();
         animator.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1f;

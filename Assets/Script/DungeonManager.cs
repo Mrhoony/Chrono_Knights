@@ -127,20 +127,17 @@ public class DungeonManager : MonoBehaviour
         FloorDatas = new FloorData[70];
         shopItemList = new Item[8];
 
-        Init();
-    }
-    private void Init()
-    {
         marker_Variable.Reset();
         FloorDangerousSetting(0);
 
         useTeleportSystem = 10;
-        
+
         isSceneLoading = false;
         inDungeon = false;
 
         DungeonInit();
     }
+
     private void DungeonInit()
     {
         isDead = false;
@@ -372,8 +369,6 @@ public class DungeonManager : MonoBehaviour
     }
     public void FloorSetting()
     {
-        float randomX;
-
         FloorReset();
 
         ++currentStage;
@@ -392,6 +387,7 @@ public class DungeonManager : MonoBehaviour
         MapEntranceFind(teleportCount, 9);
 
         selectedMapNum = Random.Range(0, mapList.Length);
+        mainCamera.SetCameraBound(mapList[selectedMapNum].GetComponent<BoxCollider2D>());
         mapList[selectedMapNum].GetComponent<BackgroundScrolling>().SetBackGroundPosition(currentStage);
         
         if (!bossSetting)
@@ -403,12 +399,13 @@ public class DungeonManager : MonoBehaviour
             }            // 이벤트 플래그로 구간별 보스 등장
         }           // 보스 스테이지 설정
 
-        if (bossSetting)        // 보스층 일 때
+        float randomX;
+        if (bossSetting)                       // 보스층 일 때
         {
             bossSetting = false;
             bossStageCount = 0;
             
-            spawner = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().spawner;
+            spawner = mapList[selectedMapNum].GetComponent<Map_ObjectSetting>().spawner;
             spawnerCount = spawner.Length;
 
             int randomBoss = Random.Range(0, bossMonsterPreFabsList.Length);
@@ -419,8 +416,8 @@ public class DungeonManager : MonoBehaviour
             currentStageMonsterList[0] = Instantiate(bossMonsterPreFabsList[randomBoss], new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y), Quaternion.identity);
             currentStageMonsterList[0].GetComponent<BossMonster_Control>().monsterDeadCount = FloorBossKill;
-        }                       // 보스층 일 때
-        else if (floorRepeat)                     // 반복 키 썼을 때
+        }
+        else if (floorRepeat)                    // 맵 반복시
         {
             Debug.Log("WHERE ::: " + monsterCount + " ABS : " + currentStageMonsterList.Length);
             floorRepeat = false;
@@ -436,10 +433,10 @@ public class DungeonManager : MonoBehaviour
                                                              , spawner[Random.Range(0, spawnerCount)].transform.position.y);
                 }
             }
-        }                  // 맵 반복시
-        else
+        }
+        else                                   // 일반 맵일경우
         {
-            spawner = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().spawner;
+            spawner = mapList[selectedMapNum].GetComponent<Map_ObjectSetting>().spawner;
             spawnerCount = spawner.Length;
 
             eliteMonsterCount = marker_Variable.markerVariable[(int)Markers.SetSpecialMonster_NF];
@@ -473,7 +470,7 @@ public class DungeonManager : MonoBehaviour
                 // 엘리트 몬스터 강화
                 currentStageMonsterList[j].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorEliteMonsterKill;
             }
-        }                                   // 일반 맵일경우
+        }
         
         if (currentStage < 2) canvasManager.dungeonUI.SetDungeonFloor(currentStage, "");
         else
@@ -513,6 +510,15 @@ public class DungeonManager : MonoBehaviour
         }
         // 구조물 위치 초기화 함수 추가
     }
+    public void MapEntranceFind(int _teleportCount, int _useSystem)
+    {
+        for (int i = 0; i < _teleportCount; ++i)
+        {
+            if (teleportPoint[i].GetComponent<Teleport>().useSystem == _useSystem)
+                entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
+        }
+        player.transform.position = entrance;
+    }
 
     public void FloorBossKill()
     {
@@ -547,7 +553,6 @@ public class DungeonManager : MonoBehaviour
             dungeonClear = true;
         }
     }
-
     IEnumerator BossKillSlowMotion()
     {
         Time.timeScale = 0.5f;
@@ -565,13 +570,12 @@ public class DungeonManager : MonoBehaviour
     {
         int markerRandom = Random.Range(0, 12);
         marker.thisMarker = (Markers)markerRandom;
-        GameObject mark = mapList[selectedMapNum].GetComponent<BackgroundScrolling>().teleporter.transform.GetChild(0).gameObject;
+        GameObject mark = mapList[selectedMapNum].GetComponent<Map_ObjectSetting>().teleporter.transform.GetChild(0).gameObject;
         mark.GetComponent<DungeonMarker>().SetMarker((Markers)markerRandom);
 
         marker_Variable.markerPreVariable = marker_Variable.markerVariable;
         marker_Variable.Reset();
     }
-    // 아이템이 사용된 층에 효과를 적용
     public string SetFloorStatus()
     {
         playerStatus.PlayerStatusInit();
@@ -632,7 +636,7 @@ public class DungeonManager : MonoBehaviour
                 break;
         }
         return stageStatText;
-    }
+    }    // 아이템이 사용된 층에 효과를 적용
 
     public void SetTrialStack(int _DungeonStatusNum, int _StatusValue)
     {
@@ -686,35 +690,29 @@ public class DungeonManager : MonoBehaviour
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)                  // 씬 로드시 초기화
     {
         useTeleportSystem = 10;
+        mapList = GameObject.FindGameObjectsWithTag("BaseMap");
 
         teleportPoint = GameObject.FindGameObjectsWithTag("Portal");
         int teleportCount = teleportPoint.Length;
 
-        mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
 
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0:
+                mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
                 if (GameManager.instance.gameStart || isReturn)
                 {
                     isReturn = false;
-                    for (int i = 0; i < teleportCount; ++i)
-                    {
-                        if (teleportPoint[i].GetComponent<Teleport>().useSystem == 1)
-                            entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
-                    }
+                    MapEntranceFind(teleportCount, 1);
                 }
                 else
                 {
-                    for (int i = 0; i < teleportCount; ++i)
-                    {
-                        if (teleportPoint[i].GetComponent<Teleport>().useSystem == 9)
-                            entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
-                    }
+                    MapEntranceFind(teleportCount, 9);
                 }
                 player.transform.position = entrance;
                 break;
             case 1:
+                mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
                 canvasManager.SetTownUI();
                 MapEntranceFind(teleportCount, 0);
                 mapList[0].GetComponent<BackgroundScrolling>().SetBackGroundPosition(-1);
@@ -722,7 +720,7 @@ public class DungeonManager : MonoBehaviour
             case 2:
             case 3:
                 inDungeon = true;
-                dungeonPlayTimer = 0;
+                dungeonPlayTimer = 0f;
                 canvasManager.SetDungeonUI();
                 dungeonTrialStack.Init();
                 dropItemPool = GameObject.Find("DropItemPool");
@@ -732,18 +730,6 @@ public class DungeonManager : MonoBehaviour
 
         StartCoroutine(MapMoveDelay());
     }
-
-    public void MapEntranceFind(int _teleportCount, int _useSystem)
-    {
-        mapList = GameObject.FindGameObjectsWithTag("BaseMap");
-        for (int i = 0; i < _teleportCount; ++i)
-        {
-            if (teleportPoint[i].GetComponent<Teleport>().useSystem == _useSystem)
-                entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
-        }
-        player.transform.position = entrance;
-    }
-
     public IEnumerator MapMoveDelay()
     {
         yield return new WaitForSeconds(0.7f);

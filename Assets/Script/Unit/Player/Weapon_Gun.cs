@@ -12,9 +12,6 @@ public class Weapon_Gun : PlayerWeaponType
 
             if (!attackLock)
                 StartCoroutine(AttackList());
-
-            if (commandCount > 3)
-                commandCount = 1;
         }
     }
     public override void JumpAttackX(int inputArrow)

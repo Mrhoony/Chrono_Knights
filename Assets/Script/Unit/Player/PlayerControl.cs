@@ -255,7 +255,7 @@ public class PlayerControl : MovingObject
 
     void SpearAttack()
     {
-        if (Input.GetButtonDown("Fire1") && !animator.GetBool("is_y_Atk"))
+        if (Input.GetButtonDown("Fire1") && !animator.GetBool("is_y_attack"))
         {
             if (actionState == ActionState.IsJumpAttack)
             {
@@ -279,7 +279,7 @@ public class PlayerControl : MovingObject
         }
         if (Input.GetButton("Fire2"))
         {
-            if (actionState == ActionState.IsJump)
+            if (actionState == ActionState.IsJump || actionState == ActionState.IsJumpAttack)
             {
                 if(actionState != ActionState.IsJumpAttack)
                 {
@@ -487,14 +487,13 @@ public class PlayerControl : MovingObject
         actionState = ActionState.Idle;
         isGround = true;
         animator.SetBool("isJump", false);
-        animator.SetBool("isJump_x_Atk", false);
         animator.SetBool("isLand", true);
         Debug.Log("land");
     }
 
     public void ParryingCheck()
     {
-        animator.SetBool("is_x_Atk", true);
+        animator.SetBool("is_x_attack", true);
         Debug.Log("parrying");
     }
     
@@ -566,17 +565,13 @@ public class PlayerControl : MovingObject
     {
         Collider2D[] monster;
         float attackDistance = 0f;
-        int attackState;
 
         playerAttack = Database_Game.instance.GetPlayerAttackInformation(_atkType);
 
         attackDistance = playerStatus.GetDashDistance_Result() * playerAttack.distanceMultiply * 0.5f;
         monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (playerAttack.attackXPoint + attackDistance) * arrowDirection * 0.5f
             , transform.position.y + playerAttack.attackYPoint), new Vector2(attackDistance + playerAttack.attackXPoint, playerAttack.attackYPoint), 0);
-
-        if (weaponType == 0) attackState = weaponSpear.GetAttackState();
-        else attackState = weaponGun.GetAttackState();
-
+        
         overlap = monster.Length;
         bool _hit = false;
         for (int j = 0; j < overlap; ++j)
