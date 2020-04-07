@@ -52,9 +52,9 @@ public class Weapon_Spear : PlayerWeaponType
         attackLock = !attackLock;
         do
         {
-            if (rb.velocity.x * rb.velocity.x > 0)
+            if (rb.velocity.x * rb.velocity.x > 0 && PlayerControl.instance.actionState != ActionState.IsDodge)
             {
-                rb.velocity = new Vector2(0f, transform.position.y);
+                rb.velocity = new Vector2(0f, rb.velocity.y);
             }
             switch (inputAttackList)
             {

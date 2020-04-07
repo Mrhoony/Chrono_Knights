@@ -98,6 +98,7 @@ public abstract class Monster_Control : MovingObject
                 if (player[i].CompareTag("Player"))
                 {
                     player[i].gameObject.GetComponent<PlayerControl>().Hit(gameObject.GetComponent<EnemyStatus>().GetAttack());
+                    break;
                 }
             }
         }

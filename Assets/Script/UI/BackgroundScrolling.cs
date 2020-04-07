@@ -5,13 +5,13 @@ public class BackgroundScrolling : MonoBehaviour
     private Transform cameraTrasform;
     public float[] ParalaxSpeedX;
     public float[] ParalaxSpeedY;
+
+    public Transform[] layers;
+    public int layerCount;
+
+    public float lastCameraX;
+    public float lastCameraY;
     
-    private Transform[] layers;
-    private int layerCount;
-
-    private float lastCameraX;
-    private float lastCameraY;
-
     private void Awake()
     {
         layers = new Transform[transform.childCount - 1];
@@ -30,25 +30,14 @@ public class BackgroundScrolling : MonoBehaviour
         layerCount = layers.Length;
     }
 
-    public void SetBackGroundPosition(int currentStage)
+    public void SetBackGroundPosition(Vector2 _entrance, int currentStage)
     {
         if (-1 == currentStage) return;
-        layers[0].transform.position = new Vector2(cameraTrasform.position.x, cameraTrasform.position.y + Random.Range(-2.5f, 2.5f));
-       
-        if(currentStage < 1)
+        lastCameraX = _entrance.x;
+        lastCameraY = _entrance.y;
+        for (int i = 0; i < layerCount; ++i)
         {
-            for (int i = 1; i < layerCount; ++i)
-            {
-                layers[i].transform.position = new Vector2(cameraTrasform.position.x, layers[i].transform.position.y + 2f);
-            }
-        }
-        else
-        {
-            for (int i = 1; i < layerCount; ++i)
-            {
-                layers[i].transform.position = new Vector2(cameraTrasform.position.x + Random.Range(-0.5f, 0.5f)
-                    , layers[i].transform.position.y + Random.Range(-1f, 1f));
-            }
+            layers[i].transform.position = new Vector2(_entrance.x + Random.Range(-0.5f, 0.5f), _entrance.y + Random.Range(-1f, 1f));
         }
     }
 

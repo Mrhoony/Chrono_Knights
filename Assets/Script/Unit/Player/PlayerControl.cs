@@ -277,17 +277,20 @@ public class PlayerControl : MovingObject
                 }
             }
         }
-        if (Input.GetButton("Fire2"))
+        if (Input.GetButtonDown("Fire2"))
         {
             if (actionState == ActionState.IsJump || actionState == ActionState.IsJumpAttack)
             {
-                if(actionState != ActionState.IsJumpAttack)
+                if (actionState != ActionState.IsJumpAttack)
                 {
                     actionState = ActionState.IsJumpAttack;
                     weaponSpear.JumpAttackY();
                 }
             }
-            else
+        }
+        if (Input.GetButton("Fire2"))
+        {
+            if (actionState != ActionState.IsJump && actionState != ActionState.IsJumpAttack)
             {
                 actionState = ActionState.IsAtk;
                 weaponSpear.AttackY(inputArrow);
@@ -354,13 +357,12 @@ public class PlayerControl : MovingObject
         if (!dodgable) return;
         dodgable = false;
         invincible = true;
-        actionState = ActionState.IsDodge;
         
-        GroundCheck.SetActive(false);
         StartCoroutine(DodgeIgnore(0.2f));
 
         animator.SetBool("isLand", false);
         animator.SetTrigger("isDodge");
+        actionState = ActionState.IsDodge;
 
         if (weaponType == 0)
         {
@@ -377,7 +379,7 @@ public class PlayerControl : MovingObject
         {
             rb.velocity = new Vector2(-arrowDirection * playerStatus.GetDashDistance_Result() * 2f, 1f);
         }
-        
+
         StartCoroutine(DodgeCount());
         StartCoroutine(InvincibleCount());
         Debug.Log("dodge");
@@ -422,6 +424,7 @@ public class PlayerControl : MovingObject
     }
     IEnumerator DodgeIgnore(float time)
     {
+        GroundCheck.SetActive(false);
         yield return new WaitForSeconds(time);
         GroundCheck.SetActive(true);
     }
@@ -484,10 +487,10 @@ public class PlayerControl : MovingObject
     public void Landing()
     {
         currentJumpCount = (int)playerStatus.GetJumpCount();
-        actionState = ActionState.Idle;
         isGround = true;
         animator.SetBool("isJump", false);
         animator.SetBool("isLand", true);
+        actionState = ActionState.Idle;
         Debug.Log("land");
     }
 

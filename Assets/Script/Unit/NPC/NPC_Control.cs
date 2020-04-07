@@ -19,12 +19,14 @@ public class NPC_Control : MonoBehaviour
     public bool OpenUICheck()
     {
         if (!inPlayer) return true; // 플레이어가 근처에 없으면 리턴
-        if (player.GetComponent<PlayerControl>().GetActionState() != ActionState.Idle)
+        if (player.GetComponent<PlayerControl>().inputDirection != 0)
         {
             player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
-            return true;
-        }       // 플레이어가 대기상태가 아니면
-        player.GetComponent<PlayerControl>().playerInputKey.SetActive(true);
+        }
+        else
+        {
+            player.GetComponent<PlayerControl>().playerInputKey.SetActive(true);
+        }
         if (canvasManager.GameMenuOnCheck()) return true;       // 다른 UI가 켜져있으면
         if (canvasManager.TownUIOnCheck()) return true;         // 타운 UI가 켜져있으면
         return false;

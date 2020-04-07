@@ -11,12 +11,14 @@ public class Teleport : MonoBehaviour
     private void Update()
     {
         if (!inPlayer) return; // 플레이어가 근처에 없으면 리턴
-        if (player.GetComponent<PlayerControl>().GetActionState() != ActionState.Idle)
+        if (player.GetComponent<PlayerControl>().inputDirection != 0)
         {
             player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
-            return;
         }       // 플레이어가 대기상태가 아니면
-        player.GetComponent<PlayerControl>().playerInputKey.SetActive(true);
+        else
+        {
+            player.GetComponent<PlayerControl>().playerInputKey.SetActive(true);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
