@@ -126,6 +126,7 @@ public class PlayerControl : MovingObject
                 actionState = ActionState.IsJump;
                 --currentJumpCount;
             }
+            animator.SetBool("isFall", true);
             GroundCheck.SetActive(true);
         }
         if (actionState == ActionState.IsParrying) StartCoroutine(ParryingCount());     // 패링시 패링 쿨타임
@@ -344,6 +345,7 @@ public class PlayerControl : MovingObject
         --currentJumpCount;
 
         animator.SetBool("isLand", false);
+        animator.SetBool("isFall", false);
         animator.SetTrigger("isJumpTrigger");
         animator.SetBool("isJump", true);
 
@@ -488,10 +490,10 @@ public class PlayerControl : MovingObject
     {
         currentJumpCount = (int)playerStatus.GetJumpCount();
         isGround = true;
+        animator.SetBool("isFall", false);
         animator.SetBool("isJump", false);
         animator.SetBool("isLand", true);
         actionState = ActionState.Idle;
-        Debug.Log("land");
     }
 
     public void ParryingCheck()
@@ -626,7 +628,7 @@ public class PlayerControl : MovingObject
 
         animator.SetBool("isLand", false);
 
-        rb.velocity = new Vector2(arrowDirection * -1 * (_distanceMulty * 2f + 20f), _distanceMulty * 2f + 20f);
+        rb.velocity = new Vector2(arrowDirection * -1 * (_distanceMulty * 2f + 5f), _distanceMulty * 2f + 10f);
     }
     public float AttackDistanceDown(float _distanceMulty)
     {

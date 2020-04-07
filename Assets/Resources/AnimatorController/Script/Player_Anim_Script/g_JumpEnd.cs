@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class g_JumpEnd : StateMachineBehaviour
+public class g_JumpEnd : AnimatorManager
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetBool("isFall", false);
+        animator.SetBool("isLand", false);
+        playerControl = PlayerControl.instance;
+        playerControl.MoveSet();
+        playerControl.InputInit();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

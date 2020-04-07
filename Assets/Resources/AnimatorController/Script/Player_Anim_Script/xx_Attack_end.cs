@@ -26,13 +26,12 @@ public class xx_Attack_end : AnimatorManager
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetBool("is_xx_attack", false);
         if (!animator.GetBool("is_xxx_attack"))
         {
             playerControl.InputInit();
             playerControl.MoveSet();
         }
-        Init();
+        move = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

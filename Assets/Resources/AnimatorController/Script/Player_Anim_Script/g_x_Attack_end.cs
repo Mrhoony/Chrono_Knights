@@ -22,20 +22,16 @@ public class g_x_Attack_end : AnimatorManager
                 playerControl.Attack(AtkType.gun_X_Attack);
             }
         }
-        if (stateInfo.normalizedTime > 0.4f)
-        {
-            playerControl.SetAttackState(2);
-        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!animator.GetBool("is_xx_Atk") && !animator.GetBool("is_xFx_Atk"))
+        if (!animator.GetBool("is_xx_attack") && !animator.GetBool("is_xFx_attack"))
         {
             playerControl.InputInit();
             playerControl.MoveSet();
         }
-        Init();
+        move = false;
     }
 }

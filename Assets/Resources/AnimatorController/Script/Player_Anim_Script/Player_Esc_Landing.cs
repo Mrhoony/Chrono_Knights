@@ -10,7 +10,6 @@ public class Player_Esc_Landing : AnimatorManager
         playerControl = PlayerControl.instance;
         playerControl.MoveSet();
         playerControl.InputInit();
-        Debug.Log("land ani");
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

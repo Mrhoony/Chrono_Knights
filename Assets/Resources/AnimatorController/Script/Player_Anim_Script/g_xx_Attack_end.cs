@@ -23,21 +23,16 @@ public class g_xx_Attack_end : AnimatorManager
                 playerControl.AttackDistance(playerControl.Attack(AtkType.gun_XX_Attack));
             }
         }
-        if (stateInfo.normalizedTime > 0.4f)
-        {
-            playerControl.SetAttackState(3);
-        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!animator.GetBool("is_xxx_Atk"))
+        if (!animator.GetBool("is_xxx_attack"))
         {
             playerControl.InputInit();
             playerControl.MoveSet();
         }
-        Init();
-
+        move = false;
     }
 }

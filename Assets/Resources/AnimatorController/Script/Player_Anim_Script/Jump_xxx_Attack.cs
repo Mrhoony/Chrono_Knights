@@ -28,8 +28,6 @@ public class Jump_xxx_Attack : AnimatorManager
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetBool("isJump_xxx_attack", false);
-
         if (!animator.GetBool("isJump_y_attack"))
         {
             playerControl.PlayerJumpAttackEnd();

@@ -29,7 +29,6 @@ public class g_xxx_Attack_end : AnimatorManager
     {
         playerControl.InputInit();
         playerControl.MoveSet();
-        Init();
-
+        move = false;
     }
 }

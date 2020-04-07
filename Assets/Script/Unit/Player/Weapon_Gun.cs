@@ -36,87 +36,101 @@ public class Weapon_Gun : PlayerWeaponType
         }
     }
 
+    public override void InputInit()
+    {
+        animator.SetBool("isJump_x_attack", false);
+        animator.SetBool("is_x_attack", false);
+        animator.SetBool("is_xFx_attack", false);
+        animator.SetBool("is_xFxFx_attack", false);
+        animator.SetBool("is_xx_attack", false);
+        animator.SetBool("is_xxx_attack", false);
+        animator.SetBool("is_y_attack", false);
+        animator.SetBool("is_y_up_attack", false);
+
+        inputAttackList = 9;
+        commandCount = 1;
+        attackState = 1;
+    }
+
     IEnumerator AttackList()
     {
         attackLock = !attackLock;
+        if (rb.velocity.x * rb.velocity.x > 0)
+        {
+            rb.velocity = Vector2.zero;
+            animator.SetBool("isRun", false);
+        }
         do
         {
-            if (rb.velocity.x * rb.velocity.x > 0)
-            {
-                rb.velocity = Vector2.zero;
-                animator.SetBool("isRun", false);
-            }
             switch (inputAttackList)
             {
                 case 1:
                 case 11:
                     attackPattern = 0;
-                    animator.SetBool("is_x_Atk", true);
+                    animator.SetBool("is_x_attack", true);
                     break;
                 case 31:
-                    animator.SetBool("is_x_Atk", true);
+                    animator.SetBool("is_x_attack", true);
                     break;
                 case 41:
                     PlayerControl.instance.actionState = ActionState.IsParrying;
-                    animator.SetBool("is_x_Atk", true);
+                    animator.SetBool("is_x_attack", true);
                     break;
                 case 2:
-                    animator.SetBool("is_xx_Atk", true);
+                    animator.SetBool("is_xx_attack", true);
                     break;
                 case 12:
                     attackPattern = 1;
-                    animator.SetBool("is_xFx_Atk", true);
+                    animator.SetBool("is_xFx_attack", true);
                     break;
                 case 32:
                     attackPattern = 2;
-                    animator.SetBool("is_xx_Atk", true);
+                    animator.SetBool("is_xx_attack", true);
                     break;
                 case 3:
                     if (attackPattern == 0)
                     {
-                        Debug.Log("xxx");
-                        animator.SetBool("is_xxx_Atk", true);
+                        animator.SetBool("is_xxx_attack", true);
                     }
                     else if (attackPattern == 1)
                     {
-                        Debug.Log("xFxFx");
-                        animator.SetBool("is_xFxFx_Atk", true);
+                        animator.SetBool("is_xFxFx_attack", true);
                     }
                     break;
                 case 13:
                     if (attackPattern == 0)
                     {
-                        animator.SetBool("is_xxx_Atk", true);
+                        animator.SetBool("is_xxx_attack", true);
                     }
                     else if (attackPattern == 1)
                     {
-                        animator.SetBool("is_xFxFx_Atk", true);
+                        animator.SetBool("is_xFxFx_attack", true);
                     }
                     break;
                 case 33:
                     if (attackPattern == 1)
                     {
-                        animator.SetBool("is_xxx_Atk", true);
+                        animator.SetBool("is_xxx_attack", true);
                     }
                     else
-                    animator.SetBool("is_xxx_Atk", true);
+                    animator.SetBool("is_xxx_attack", true);
                     break;
                 case 5:
-                    animator.SetBool("is_y_Atk", true);
+                    animator.SetBool("is_y_attack", true);
                     break;
                 case 15:
                 case 35:
                 case 45:
-                    animator.SetBool("is_y_Atk", true);
+                    animator.SetBool("is_y_attack", true);
                     break;
                 case 0:
-                    animator.SetBool("is_y_Atk", true);
+                    animator.SetBool("is_y_attack", true);
                     break;
                 case 6:
                 case 16:
                 case 36:
                 case 46:
-                    animator.SetBool("isJump_x_Atk", true);
+                    animator.SetBool("isJump_x_attack", true);
                     break;
                 case 9:
                     InputInit();

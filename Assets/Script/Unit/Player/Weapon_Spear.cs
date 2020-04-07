@@ -47,6 +47,24 @@ public class Weapon_Spear : PlayerWeaponType
             StartCoroutine(AttackList());
     }
 
+    public override void InputInit()
+    {
+        animator.SetBool("isJump_x_attack", false);
+        animator.SetBool("isJump_xx_attack", false);
+        animator.SetBool("isJump_xxx_attack", false);
+        animator.SetBool("is_x_attack", false);
+        animator.SetBool("is_xFx_attack", false);
+        animator.SetBool("is_xFxFx_attack", false);
+        animator.SetBool("is_xx_attack", false);
+        animator.SetBool("is_xxx_attack", false);
+        animator.SetBool("is_y_attack", false);
+        animator.SetBool("is_y_up_attack", false);
+
+        inputAttackList = 9;
+        commandCount = 1;
+        attackState = 1;
+    }
+
     IEnumerator AttackList()
     {
         attackLock = !attackLock;

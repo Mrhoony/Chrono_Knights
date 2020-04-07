@@ -39,7 +39,7 @@ public abstract class MovingObject : MonoBehaviour
     public void Flip()
     {
         isFaceRight = !isFaceRight;
-        Vector2 scale = transform.localScale;
+        Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
         arrowDirection *= -1;

@@ -29,12 +29,7 @@ public abstract class PlayerWeaponType : MonoBehaviour
     public abstract void AttackY(int attackArrow);
     public abstract void JumpAttackX(int attackArrow);
 
-    public void InputInit()
-    {
-        inputAttackList = 9;
-        commandCount = 1;
-        attackState = 1;
-    }
+    public abstract void InputInit();
 
     public void SetAttackState(int _attackState)
     {
