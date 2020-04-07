@@ -25,6 +25,7 @@ public class Weapon_Spear : PlayerWeaponType
                 StartCoroutine(AttackList());
         }
     }
+
     public override void AttackY(int inputArrow)
     {
         inputAttackList = inputArrow + 5;
@@ -168,15 +169,19 @@ public class Weapon_Spear : PlayerWeaponType
                     animator.SetBool("isJump_xxx_attack", true);
                     break;
                 case 133:
-                    attackPattern = 2;
                     animator.SetBool("isJump_up_x_attack", true);
                     break;
                 case 143:
-                    attackPattern = 3;
                     animator.SetBool("isJump_down_x_attack", true);
                     break;
                 case 105:
                     animator.SetBool("isJump_y_attack", true);
+                    break;
+                case 134:
+                    animator.SetBool("isJump_up_x_attack", true);
+                    break;
+                case 144:
+                    animator.SetBool("isJump_down_x_attack", true);
                     break;
                 default:
                     InputInit();
