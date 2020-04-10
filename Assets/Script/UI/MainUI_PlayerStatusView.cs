@@ -37,15 +37,7 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     {
         UIStateGauge.fillAmount = 0f;
 
-        bellRotation = 0;
-        beforeRotation = 0;
-        targetRotation = 0;
-        bellPower = 0;
-        bellPower2 = 0;
-        bellspd = 0;
         ringTime = 4;
-        isright = true;
-
         dmgMulti = 5;
         dmgRecovery = 5;
 
@@ -92,7 +84,8 @@ public class MainUI_PlayerStatusView : MonoBehaviour
             StartCoroutine(monsterHit);
         }
     }
-    public void Ring() {
+    public void Ring()
+    {
         if (0 == beforeRotation && 0 == targetRotation) return;
 
         //로테이션값 오일러값으로 변경
@@ -131,7 +124,6 @@ public class MainUI_PlayerStatusView : MonoBehaviour
                 bellPower2 = ((bellRotation + targetRotation) * (bellRotation + targetRotation) / (12 * targetRotation * ringTime));
 
                 beforeRotation = targetRotation;
-
             }
         }
         else

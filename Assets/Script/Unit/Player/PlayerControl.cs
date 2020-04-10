@@ -496,13 +496,12 @@ public class PlayerControl : MovingObject
         animator.SetBool("isLand", true);
         actionState = ActionState.Idle;
     }
-
     public void ParryingCheck()
     {
         animator.SetBool("is_x_attack", true);
         Debug.Log("parrying");
     }
-    
+
     public void StopPlayer()
     {
         actionState = ActionState.NotMove;

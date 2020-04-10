@@ -4,7 +4,8 @@ using UnityEngine.UI;
 public class TownUI_Training : MonoBehaviour
 {
     public TownUI townUI;
-    public PlayerStatus playerStat;
+    public PlayerStatus playerStatus;
+    public PlayerData playerData;
     public GameObject button;
     public GameObject[] traningButton;
     public Image[] gauge;
@@ -15,14 +16,7 @@ public class TownUI_Training : MonoBehaviour
     public int focus;
     public bool isTraningPossible;
     public bool isTownMenuOn = false;
-
-    public void Init()
-    {
-        playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
-        limit_traning = playerStat.playerData.GetLimitTraning();
-        traningStat = playerStat.playerData.GetTraningStat();
-        traning_count = playerStat.playerData.GetTraningCount();
-    }
+    
     public void Update()
     {
         if (!isTownMenuOn) return;
@@ -44,6 +38,7 @@ public class TownUI_Training : MonoBehaviour
             CloseTownUIMenu();
         }
 
+        if (!isTraningPossible) return;
         if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-1); }
         if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(1); }
     }
@@ -51,7 +46,12 @@ public class TownUI_Training : MonoBehaviour
     public void OpenTownUIMenu()
     {
         isTownMenuOn = true;
-        Init();
+
+        playerStatus = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
+        playerData = playerStatus.playerData;
+        limit_traning = playerData.GetLimitTraning();
+        traningStat = playerData.GetTraningStat();
+        traning_count = playerData.GetTraningCount();
 
         isTraningPossible = DungeonManager.instance.GetTrainigPossible();
         if (isTraningPossible)
@@ -79,14 +79,12 @@ public class TownUI_Training : MonoBehaviour
             focus = 6;
             traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
         }
-
-        Debug.Log("open traning");
     }
     public void CloseTownUIMenu()
     {
-        townUI.CloseTrainingMenu();
         button.SetActive(false);
         isTownMenuOn = false;
+        townUI.CloseTrainingMenu();
     }
     public void Traning(int stat)
     {
@@ -116,27 +114,26 @@ public class TownUI_Training : MonoBehaviour
 
             gauge[stat].fillAmount = traningStat[stat] / limit_traning[stat];
 
-            playerStat.PlayerStatusInit();
-            DungeonManager.instance.setTrainigPossible(false);
-
+            playerData.limitTraning = limit_traning;
+            playerData.traningStat = traningStat;
+            playerData.traning_count = traning_count;
+            playerStatus.PlayerStatusUpdate();
+            
             traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
             focus = 6;
             traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
 
             button.SetActive(false);
+            DungeonManager.instance.setTrainigPossible(false);
         }
     }
     void FocusedSlot(int AdjustValue)
     {
-        if (focus < 0 || focus > 6) return;
-        if (!isTraningPossible) return;
-
         traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
 
-        focus += AdjustValue;
-        if (focus < 0) focus = 0;
-        else if (focus > 6) focus = 6;
-
+        if (focus + AdjustValue < 0) focus = 6;
+        else if (focus + AdjustValue > 6) focus = 0;
+        else focus += AdjustValue;
         traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
     }
 }

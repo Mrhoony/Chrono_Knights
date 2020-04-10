@@ -18,46 +18,52 @@ public class PlayerStatus : MonoBehaviour
     private int currentAmmo;   // 현재 버프량
     private int buffState;
     
-    private float attack;        // 공격력
-    private float defense;       // 안정성(방어력)
-    private float moveSpeed;     // 이동 속도
-    private float attackSpeed;   // 공격 속도
-    private float dashDistance;  // 대시거리
-    private float recovery;      // 회복력
+    private float[] attack = new float[3];        // 공격력
+    private float[] defense = new float[3];       // 안정성(방어력)
+    private float[] moveSpeed = new float[3];     // 이동 속도
+    private float[] attackSpeed = new float[3];   // 공격 속도
+    private float[] dashDistance = new float[3];  // 대시거리
+    private float[] recovery = new float[3];      // 회복력
 
     private float jumpCount;
     private float jumpPower;
-
-    public int attack_Result;
-    public int defense_Result;     // 안정성(방어력)
-    public float moveSpeed_Result;
-    public float attackSpeed_Result;
-    public float dashDistance_Result;
-    public float recovery_Result;      // 회복력
 
     float[] traningStat;
     
     public void SetPlayerData(PlayerData _playerData)
     {
+        StatusInit();
         playerData = _playerData;
-
+        
         playerEquip = playerData.GetPlayerEquipment();
         playerEquip.EquipmentLimitUpgrade();
 
         traningStat = playerData.GetTraningStat();
         HPCut = new bool[4];
 
-        PlayerStatusInit();
+        PlayerStatusLoad();
         ReturnToTown();
     }
-    public void PlayerStatusInit()
+    public void StatusInit()
     {
-        attack = playerData.GetStatus(0);
-        defense = playerData.GetStatus(1);
-        moveSpeed = playerData.GetStatus(2);
-        attackSpeed = playerData.GetStatus(3);
-        dashDistance = playerData.GetStatus(4);
-        recovery = playerData.GetStatus(5);
+        for (int i = 0; i < 3; i++)
+        {
+            attack[i] = 0f;
+            defense[i] = 0f;
+            moveSpeed[i] = 0f;
+            attackSpeed[i] = 0f;
+            dashDistance[i] = 0f;
+            recovery[i] = 0f;
+        }
+    }
+    public void PlayerStatusLoad()
+    {
+        attack[0] = playerData.GetStatus(0);
+        defense[0] = playerData.GetStatus(1);
+        moveSpeed[0] = playerData.GetStatus(2);
+        attackSpeed[0] = playerData.GetStatus(3);
+        dashDistance[0] = playerData.GetStatus(4);
+        recovery[0] = playerData.GetStatus(5);
 
         jumpCount = playerData.GetStatus(6);
         jumpPower = playerData.GetStatus(8);
@@ -70,21 +76,29 @@ public class PlayerStatus : MonoBehaviour
     }
     public void PlayerStatusUpdate()
     {
-        playerData.ReNew();
-        
-        attack_Result = (int)(attack + playerData.GetEquipmentStatus(0) + traningStat[0]);
-        defense_Result = (int)(defense + playerData.GetEquipmentStatus(1) + traningStat[1]);
-        moveSpeed_Result = moveSpeed * 2.2f + playerData.GetEquipmentStatus(2) + traningStat[2];
-        attackSpeed_Result = attackSpeed + playerData.GetEquipmentStatus(3) + traningStat[3];
-        dashDistance_Result = dashDistance + playerData.GetEquipmentStatus(4) + traningStat[4];
-        recovery_Result = recovery + playerData.GetEquipmentStatus(5) + traningStat[5];
+        attack[1] = attack[0] + playerData.GetEquipmentStatus(0) + traningStat[0];
+        defense[1] = defense[0] + playerData.GetEquipmentStatus(1) + traningStat[1];
+        moveSpeed[1] = moveSpeed[0] * 2.2f + playerData.GetEquipmentStatus(2) + traningStat[2];
+        attackSpeed[1] = attackSpeed[0] + playerData.GetEquipmentStatus(3) + traningStat[3];
+        dashDistance[1] = dashDistance[0] + playerData.GetEquipmentStatus(4) + traningStat[4];
+        recovery[1] = recovery[0] + playerData.GetEquipmentStatus(5) + traningStat[5];
 
-        PlayerControl.instance.SetAnimationAttackSpeed(attackSpeed_Result);
+        PlayerStatusResultInit();
+    }
+    public void PlayerStatusResultInit()
+    {
+        attack[2] = attack[1];
+        defense[2] = defense[1];
+        moveSpeed[2] = moveSpeed[1];
+        attackSpeed[2] = attackSpeed[1];
+        dashDistance[2] = dashDistance[1];
+        recovery[2] = recovery[1];
+
+        PlayerControl.instance.SetAnimationAttackSpeed(attackSpeed[2]);
     }
     public void HPInit()
     {
         currentHP = playerData.GetStatus(7);
-
         for (int i = 0; i < 4; ++i)
         {
             HPCut[i] = true;
@@ -94,9 +108,8 @@ public class PlayerStatus : MonoBehaviour
 
     public int DecreaseHP(int _damage)
     {
-        _damage -= defense_Result;
-        if (_damage < 0)
-            _damage = 0;
+        _damage -= (int)defense[2];
+        if (_damage < 1) _damage = 1;
 
         if (currentHP / playerData.GetStatus(7) >= 0.8)
         {
@@ -173,128 +186,129 @@ public class PlayerStatus : MonoBehaviour
         return jumpPower;
     }
     
-    public void SetAttackMulty_Result(int multyAttack, bool multy)
+    public void SetAttackMulty_Result(int multyAttack, bool multy)      // 공격력 배수
     {
         if (multy)
         {
-            attack_Result = (int)attack * multyAttack;
+            attack[2] = attack[1] * multyAttack;
         }
         else
         {
-            if (0 != multyAttack) attack_Result = (int)attack / multyAttack;
-            else attack_Result = (int)attack;
+            if (0 != multyAttack) attack[2] = attack[1] / multyAttack;
+            else attack[2] = attack[1];
 
-            if (attack_Result < 1)
+            if (attack[2] < 1)
             {
-                attack_Result = 1;
+                attack[2] = 1;
             }
         }
     }
-    public void SetAttackAdd_Result(int addAttack, bool add)
+    public void SetAttackAdd_Result(int addAttack, bool add)            // 공격력 계산
     {
         if (add)
         {
-            attack_Result = (int)attack + addAttack;
+            attack[2] = attack[1] + addAttack;
         }
         else
         {
-            attack_Result = (int)attack - addAttack;
-            if (attack_Result < 1)
+            attack[2] = attack[1] - addAttack;
+            if (attack[2] < 1)
             {
-                attack_Result = 1;
+                attack[2] = 1;
             }
         }
     }
-    public void SetDefenceAdd_Result(int addDefense, bool add)
+    public void SetDefenceAdd_Result(int addDefense, bool add)          // 방어력 계산
     {
         if (add)
         {
-            defense_Result = (int)defense + addDefense;
+            defense[2] = defense[1] + addDefense;
         }
         else
         {
-            defense_Result = (int)defense - addDefense;
+            defense[2] = defense[1] - addDefense;
         }
     }
-    public void SetMoveSpeed_Result(int multyMoveSpeed, bool multy)
+    public void SetMoveSpeed_Result(int multyMoveSpeed, bool multy)     // 이동 속도 계산
     {
         if (multy)
         {
-            moveSpeed_Result = moveSpeed * multyMoveSpeed;
+            moveSpeed[2] = moveSpeed[1] * multyMoveSpeed;
         }
         else
         {
-            moveSpeed_Result = moveSpeed / multyMoveSpeed;
-            if (moveSpeed_Result < 1)
+            moveSpeed[2] = moveSpeed[1] / multyMoveSpeed;
+            if (moveSpeed[2] < 1)
             {
-                moveSpeed_Result = 1;
+                moveSpeed[2] = 1;
             }
         }
     }
-    public void SetAttackSpeed_Result(int multyAttackSpeed, bool multy)
+    public void SetAttackSpeed_Result(int multyAttackSpeed, bool multy) // 공격 속도 계산
     {
         if (multy)
         {
-            attackSpeed_Result = attackSpeed * multyAttackSpeed;
+            attackSpeed[2] = attackSpeed[1] * multyAttackSpeed;
         }
         else
         {
-            attackSpeed_Result = attackSpeed / multyAttackSpeed;
-            if (attackSpeed_Result < 1)
+            attackSpeed[2] = attackSpeed[1] / multyAttackSpeed;
+            if (attackSpeed[2] < 1)
             {
-                attackSpeed_Result = 1;
+                attackSpeed[2] = 1;
             }
         }
+        PlayerControl.instance.SetAnimationAttackSpeed(attackSpeed[2]);
     }
     public void SetDashDistance_Result(int multyDashDIstance, bool multy)
     {
         if (multy)
         {
-            dashDistance_Result = dashDistance * multyDashDIstance;
+            dashDistance[2] = dashDistance[1] * multyDashDIstance;
         }
         else
         {
-            dashDistance_Result = dashDistance / multyDashDIstance;
-            if (dashDistance_Result < 1)
+            dashDistance[2] = dashDistance[1] / multyDashDIstance;
+            if (dashDistance[2] < 1)
             {
-                dashDistance_Result = 1;
+                dashDistance[2] = 1;
             }
         }
     }
     public void SetRecoveryAdd_Result(int addRecovery, bool add)
     {
         if (add)
-            recovery_Result = recovery + addRecovery;
+            recovery[2] = recovery[1] + addRecovery;
         else
         {
-            recovery_Result = recovery - addRecovery;
-            if (recovery_Result < 0) recovery_Result = 0;
+            recovery[2] = recovery[1] - addRecovery;
+            if (recovery[2] < 0) recovery[2] = 0;
         }
     }
 
     public int GetAttack_Result()
     {
-        return attack_Result;
+        return (int)attack[2];
     }
     public int GetDefence_Result()
     {
-        return defense_Result;
+        return (int)defense[2];
     }
     public float GetMoveSpeed_Result()
     {
-        return moveSpeed_Result;
+        return moveSpeed[2];
     }
     public float GetAttackSpeed_Result()
     {
-        return attackSpeed_Result;
+        return attackSpeed[2];
     }
     public float GetDashDistance_Result()
     {
-        return dashDistance_Result;
+        return dashDistance[2];
     }
     public float GetRecovery_Result()
     {
-        return recovery_Result;
+        return recovery[2];
     }
     #endregion
 }

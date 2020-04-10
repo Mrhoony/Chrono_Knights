@@ -8,11 +8,10 @@ public class PlayerData
     public readonly int statusAmount = 6;
 
     public float[] status;            // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount, HP, jumpPower
-    public float[] equipmentStatus;   // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount
 
-    private float[] traningStat;
-    private float[] limitTraning;
-    private int[] traning_count;
+    public float[] traningStat;
+    public float[] limitTraning;
+    public int[] traning_count;
 
     public PlayerEquipment playerEquipment;
 
@@ -54,19 +53,8 @@ public class PlayerData
         {
             traning_count[i] = 0;
         }
-
-        equipmentStatus = new float[statusAmount];
-        
-        equipmentStatus[(int)Status.attack] = 0;
-        equipmentStatus[(int)Status.defense] = 0;
-        equipmentStatus[(int)Status.moveSpeed] = 0;
-        equipmentStatus[(int)Status.attackSpeed] = 0;
-        equipmentStatus[(int)Status.dashDistance] = 0;
-        equipmentStatus[(int)Status.recovery] = 0;
         
         maxAmmo = 10;
-        
-        Debug.Log("playerData init");
     }
 
     public int[] GetTraningCount()
@@ -87,20 +75,13 @@ public class PlayerData
     }
     public float GetEquipmentStatus(int equipmentStatusNumber)
     {
-        return equipmentStatus[equipmentStatusNumber];
+        return playerEquipment.GetStatusValue(equipmentStatusNumber);
     }
     public int GetMaxAmmo()
     {
         return maxAmmo;
     }
-
-    public void ReNew()
-    {
-        for(int i = 0; i < 6; ++i)
-        {
-            equipmentStatus[i] = playerEquipment.GetStatusValue(i);
-        }
-    }
+    
     public PlayerEquipment GetPlayerEquipment()
     {
         return playerEquipment;

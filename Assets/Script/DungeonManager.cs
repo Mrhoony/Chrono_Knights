@@ -101,9 +101,7 @@ public class DungeonManager : MonoBehaviour
     private int eliteMonsterKillCount;
     private int bossMonsterKillCount;
     #endregion
-
-    // Start is called before the first frame update
-
+    
     private void Awake()
     {
         if (instance == null)
@@ -138,7 +136,6 @@ public class DungeonManager : MonoBehaviour
 
         DungeonInit();
     }
-
     private void DungeonInit()
     {
         isDead = false;
@@ -566,7 +563,7 @@ public class DungeonManager : MonoBehaviour
     }
     public string SetFloorStatus()
     {
-        playerStatus.PlayerStatusInit();
+        playerStatus.PlayerStatusUpdate();
 
         string stageStatText = "";
         int markerNumber = (int)marker.thisMarker;
