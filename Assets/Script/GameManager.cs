@@ -115,6 +115,7 @@ public class GameManager : MonoBehaviour
                 if (gameStart)          // 게임 실행중이면
                 {
                     if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
+                    canvasManager.PlayerMoveStop();
                     gameStart = false;
                     SaveGame();         // 게임을 세이브
                 }

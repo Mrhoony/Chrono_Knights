@@ -97,7 +97,7 @@ public class PlayerControl : MovingObject
     // Update is called once per frame
     void Update()
     {
-        if (CanvasManager.instance.GameMenuOnCheck()) return;       // UI 켜져 있을 때 입력 제한
+        if (CanvasManager.instance.GameMenuOnCheck() || CanvasManager.instance.TownUIOnCheck()) return;       // UI 켜져 있을 때 입력 제한
         if (actionState == ActionState.IsDead || actionState == ActionState.IsDodge || 
             actionState == ActionState.NotMove || actionState == ActionState.IsParrying) return;
 
@@ -118,7 +118,7 @@ public class PlayerControl : MovingObject
         }
 
         // 낙하 체크
-        if (rb.velocity.y <= -1f)
+        if (rb.velocity.y < -0.5f)
         {
             if (actionState != ActionState.IsJump && !isGround && !isJump)
             {
@@ -419,15 +419,15 @@ public class PlayerControl : MovingObject
         }
     }
     
-    IEnumerator InputIgnore()
+    IEnumerator InputIgnore(float _time)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(_time);
         actionState = ActionState.Idle;
     }
-    IEnumerator DodgeIgnore(float time)
+    IEnumerator DodgeIgnore(float _time)
     {
         GroundCheck.SetActive(false);
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(_time);
         GroundCheck.SetActive(true);
     }
 
@@ -490,6 +490,7 @@ public class PlayerControl : MovingObject
     {
         currentJumpCount = (int)playerStatus.GetJumpCount();
         isGround = true;
+        isJump = false;
         animator.SetBool("isFall", false);
         animator.SetBool("isJump", false);
         animator.SetBool("isLand", true);
@@ -507,7 +508,7 @@ public class PlayerControl : MovingObject
         actionState = ActionState.NotMove;
         rb.velocity = Vector2.zero;
         InputInit();
-        StartCoroutine(InputIgnore());
+        StartCoroutine(InputIgnore(0.5f));
         animator.SetBool("isWalk", false);
         animator.SetBool("isRun", false);
         animator.SetTrigger("PlayerStop");
@@ -609,7 +610,7 @@ public class PlayerControl : MovingObject
     public void AttackDistance(float _distanceMulty)
     {
         RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + GetComponent<BoxCollider2D>().size.x * 0.5f * arrowDirection
-            , transform.position.y + 0.1f), new Vector2(arrowDirection, 0), _distanceMulty, rayDashLayerMask);
+            , transform.position.y - 0.2f), new Vector2(arrowDirection, 0), _distanceMulty, rayDashLayerMask);
 
         if (playerDashBotDistance)
         {

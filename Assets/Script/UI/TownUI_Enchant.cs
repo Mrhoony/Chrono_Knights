@@ -105,7 +105,7 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
 
         if (itemDatabase.GetItem(item.itemCode) != null)
         {
-            playerEquipment.Init(num);
+            playerEquipment.PlayerEquipmentInit(num);
 
             int upgradeCount;
             int upgradePercent;
@@ -140,7 +140,7 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
             storage.DeleteItem(keySlotFocus);
             selectedkey = null;
         }
-        playerStat.PlayerStatusUpdate(playerEquipment);
+        playerStat.PlayerStatusUpdate();
 
         canvasManager.Menus[0].GetComponent<Menu_Inventory>().SetAvailableSlot(playerEquipment.equipment[num].itemRarity);
 

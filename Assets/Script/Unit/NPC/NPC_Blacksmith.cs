@@ -69,7 +69,7 @@ public class NPC_Blacksmith : NPC_Control
 
     public void OpenSelectMenu()
     {
-        player.GetComponent<PlayerControl>().enabled = false;
+        canvasManager.PlayerMoveStop();
         focus = 0;
         openSelectUI = true;
         selectUI.SetActive(true);

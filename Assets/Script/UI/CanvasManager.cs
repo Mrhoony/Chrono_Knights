@@ -196,7 +196,7 @@ public class CanvasManager : MonoBehaviour
 
     public bool GameMenuOnCheck()
     {
-        if (isCancelOn || isInventoryOn || isStorageOn || TownUIOnCheck()) return true;
+        if (isCancelOn || isInventoryOn || isStorageOn) return true;
         else return false;
     }
     public bool TownUIOnCheck()
@@ -404,7 +404,6 @@ public class CanvasManager : MonoBehaviour
     public void CloseEnchantMenu()
     {
         isEnchantOn = false;
-        StartCoroutine(PlayerMoveEnable());
     }
 
     public void OpenUpgradeMenu()
@@ -415,7 +414,6 @@ public class CanvasManager : MonoBehaviour
     public void CloseUpgradeMenu()
     {
         isUpgradeOn = false;
-        StartCoroutine(PlayerMoveEnable());
     }
 
     public void OpenUpgradeStorage(int used)

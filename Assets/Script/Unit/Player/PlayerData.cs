@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -9,8 +7,8 @@ public class PlayerData
     public int maxAmmo;   // 현재 장탄 수
     public readonly int statusAmount = 6;
 
-    public float[] status;      // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount, HP, jumpPower
-    public float[] equipmentStatus;    // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount
+    public float[] status;            // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount, HP, jumpPower
+    public float[] equipmentStatus;   // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount
 
     private float[] traningStat;
     private float[] limitTraning;
@@ -21,6 +19,7 @@ public class PlayerData
     public void Init()
     {
         playerEquipment = new PlayerEquipment();
+        playerEquipment.Init();
 
         status = new float[9];
         status[(int)Status.attack] = 1f;
@@ -67,8 +66,6 @@ public class PlayerData
         
         maxAmmo = 10;
         
-        playerEquipment.PlayerEquipmentInit();
-
         Debug.Log("playerData init");
     }
 
@@ -97,16 +94,13 @@ public class PlayerData
         return maxAmmo;
     }
 
-    public void renew(PlayerEquipment _playerEquipment)
+    public void ReNew()
     {
-        playerEquipment = _playerEquipment;
         for(int i = 0; i < 6; ++i)
         {
             equipmentStatus[i] = playerEquipment.GetStatusValue(i);
         }
-        Debug.Log("player renew");
     }
-
     public PlayerEquipment GetPlayerEquipment()
     {
         return playerEquipment;

@@ -136,7 +136,7 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
             storage.DeleteItem(keySlotFocus);
             selectedkey = null;
         }
-        playerStat.PlayerStatusUpdate(playerEquipment);
+        playerStat.PlayerStatusUpdate();
 
         // accept 창 초기화
         acceptSlot[0].SetActive(false);

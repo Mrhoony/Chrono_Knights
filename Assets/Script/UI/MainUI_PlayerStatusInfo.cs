@@ -34,7 +34,7 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
             }
             else
             {
-                equipmentSlot[i].transform.GetChild(0).gameObject.SetActive(false);
+                equipmentSlot[i].transform.GetChild(1).gameObject.SetActive(false);
             }
         }
         statusinformation.transform.GetChild(0).GetComponent<Text>().text = playerStatus.GetAttack_Result().ToString();

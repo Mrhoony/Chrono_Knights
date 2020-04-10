@@ -46,6 +46,8 @@ public class PlayerEquipment
             itemRarity = 0;
             skillCode = 0;
             equipmentType = _equipmentType;
+
+            LimitUpgradeSet(0);
         }
         public void EquipmentItemSetting(Item _item)
         {
@@ -54,6 +56,11 @@ public class PlayerEquipment
             itemRarity = _item.itemRarity;
             skillCode = _item.skillCode;
             skillRarity = itemRarity;
+            EquipmentUpgradeLimit();
+            enchant = true;
+        }
+        public void EquipmentUpgradeLimit()
+        {
             if (itemRarity != 0)
             {
                 switch (itemRarity)
@@ -65,38 +72,13 @@ public class PlayerEquipment
                         LimitUpgradeSet(1f);
                         break;
                     case 3:
-                        LimitUpgradeSet(1.5f, -1f);
+                        LimitUpgradeSet(1.5f, -0.2f);
                         break;
                 }
             }
-            enchant = true;
-        }
-        public void EquipmentStatusEnchant(int _status, float _addStatus, bool _upgrade)
-        {
-            if (_upgrade)
-            {
-                upStatus = _status;
-                addStatus[upStatus] = _addStatus * 0.01f;
-                if (addStatus[upStatus] > max[upStatus]) addStatus[upStatus] = max[upStatus];
-            }
             else
             {
-                downStatus = _status;
-                addStatus[downStatus] = _addStatus * -0.01f;
-                if (addStatus[downStatus] < min[downStatus]) addStatus[downStatus] = min[downStatus];
-            }
-        }
-        public void EquipmentStatusUpgrade(int _status, float _addStatus, bool _upgrade)
-        {
-            if (_upgrade)
-            {
-                addStatus[_status] += _addStatus * 0.01f;
-                if (addStatus[_status] > max[_status]) addStatus[_status] = max[_status];
-            }
-            else
-            {
-                addStatus[_status] += _addStatus * 0.01f;
-                if (addStatus[_status] < min[_status]) addStatus[_status] = min[_status];
+                LimitUpgradeSet(0);
             }
         }
         public void LimitUpgradeSet(float _max, float _min = 0)
@@ -115,11 +97,38 @@ public class PlayerEquipment
             min[4] = _min;
             min[5] = _min;
         }
+        public void EquipmentStatusEnchant(int _status, float _addStatus, bool _upgrade)
+        {
+            if (_upgrade)
+            {
+                upStatus = _status;
+                addStatus[upStatus] = _addStatus * 0.01f;
+                if (addStatus[upStatus] > max[upStatus]) addStatus[upStatus] = max[upStatus];
+            }
+            else
+            {
+                downStatus = _status;
+                addStatus[downStatus] = _addStatus * -0.01f;
+                if (addStatus[downStatus] > min[downStatus]) addStatus[downStatus] = min[downStatus];
+            }
+        }
+        public void EquipmentStatusUpgrade(int _status, float _addStatus, bool _upgrade)
+        {
+            if (_upgrade)
+            {
+                addStatus[_status] += _addStatus * 0.01f;
+                if (addStatus[_status] > max[_status]) addStatus[_status] = max[_status];
+            }
+            else
+            {
+                addStatus[_status] += _addStatus * 0.01f;
+                if (addStatus[_status] > min[_status]) addStatus[_status] = min[_status];
+            }
+        }
     }
-    
     public Equipment[] equipment;      // 0 gun, 1 activeEquip, 2 spear, 3 tankTop, 4 shoes, 5 gloves, 6 bell
     
-    public void PlayerEquipmentInit()
+    public void Init()
     {
         float[] addStatus = {0,0,0,0,0,0};
         equipment = new Equipment[7];
@@ -134,7 +143,7 @@ public class PlayerEquipment
 
         Debug.Log("equipment Init");
     }
-    public void Init(int num)
+    public void PlayerEquipmentInit(int num)
     {
         float[] addStatus = { 0, 0, 0, 0, 0, 0 };
         switch (num)
@@ -160,6 +169,13 @@ public class PlayerEquipment
             case 6:
                 equipment[6].Init("가방", addStatus, EquipmentType.bag);
                 break;
+        }
+    }
+    public void EquipmentLimitUpgrade()
+    {
+        for(int i = 0; i < 7; ++i)
+        {
+            equipment[i].EquipmentUpgradeLimit();
         }
     }
 

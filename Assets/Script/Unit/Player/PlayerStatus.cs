@@ -40,38 +40,38 @@ public class PlayerStatus : MonoBehaviour
     public void SetPlayerData(PlayerData _playerData)
     {
         playerData = _playerData;
+
         playerEquip = playerData.GetPlayerEquipment();
+        playerEquip.EquipmentLimitUpgrade();
+
         traningStat = playerData.GetTraningStat();
         HPCut = new bool[4];
 
+        PlayerStatusInit();
         ReturnToTown();
-    }
-    public void ReturnToTown()
-    {
-        HPInit();
-        PlayerStatusUpdate(playerEquip);
     }
     public void PlayerStatusInit()
     {
-        PlayerStatusUpdate(playerEquip);
-    }
-
-    public void PlayerStatusUpdate(PlayerEquipment _playerEquipment)
-    {
-        Debug.Log("Player status update");
-        playerData.renew(_playerEquipment);
-
         attack = playerData.GetStatus(0);
         defense = playerData.GetStatus(1);
         moveSpeed = playerData.GetStatus(2);
         attackSpeed = playerData.GetStatus(3);
         dashDistance = playerData.GetStatus(4);
         recovery = playerData.GetStatus(5);
-        
+
         jumpCount = playerData.GetStatus(6);
         jumpPower = playerData.GetStatus(8);
         currentAmmo = playerData.GetMaxAmmo();
-
+    }
+    public void ReturnToTown()
+    {
+        PlayerStatusUpdate();
+        HPInit();
+    }
+    public void PlayerStatusUpdate()
+    {
+        playerData.ReNew();
+        
         attack_Result = (int)(attack + playerData.GetEquipmentStatus(0) + traningStat[0]);
         defense_Result = (int)(defense + playerData.GetEquipmentStatus(1) + traningStat[1]);
         moveSpeed_Result = moveSpeed * 2.2f + playerData.GetEquipmentStatus(2) + traningStat[2];
@@ -81,7 +81,6 @@ public class PlayerStatus : MonoBehaviour
 
         PlayerControl.instance.SetAnimationAttackSpeed(attackSpeed_Result);
     }
-
     public void HPInit()
     {
         currentHP = playerData.GetStatus(7);
@@ -154,7 +153,7 @@ public class PlayerStatus : MonoBehaviour
             playerStatusView.SetHPCut(HPCutNum);
         }
     }
-    public void Replenish_Ammo(int _ammoReplenish)
+    public void Resupply_Ammo(int _ammoReplenish)
     {
         currentAmmo += 10 * _ammoReplenish;
 

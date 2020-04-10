@@ -130,7 +130,7 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
         if(playerEquipment.GetStatusName(_slotNum, false) != "")
         {
             _slot.transform.GetChild(_startNum + 3).gameObject.SetActive(true);
-            _slot.transform.GetChild(_startNum + 3).GetComponent<Text>().text = playerEquipment.GetStatusName(_slotNum, false) + "-" + playerEquipment.GetDownStatus(_slotNum) + " %";
+            _slot.transform.GetChild(_startNum + 3).GetComponent<Text>().text = playerEquipment.GetStatusName(_slotNum, false) + playerEquipment.GetDownStatus(_slotNum) + " %";
         }
         else
         {
