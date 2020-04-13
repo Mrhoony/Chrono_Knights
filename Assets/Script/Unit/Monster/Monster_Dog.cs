@@ -12,8 +12,6 @@ public class Monster_Dog : NormalMonsterControl
         actionState = ActionState.Idle;
 
         MonsterInit();
-
-        Debug.Log("MonsterOnEnable");
     }
     
     public override void Move()

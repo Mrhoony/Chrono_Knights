@@ -10,7 +10,6 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
     
     PlayerStatus playerStatus;
     PlayerData playerData;
-    PlayerEquipment playerEquipment;
     public PlayerEquipment.Equipment[] equipment;
 
     private void Awake()
@@ -43,7 +42,7 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
         statusinformation.transform.GetChild(3).GetComponent<Text>().text = playerStatus.GetAttackSpeed_Result().ToString();
         statusinformation.transform.GetChild(4).GetComponent<Text>().text = playerStatus.GetDashDistance_Result().ToString();
         statusinformation.transform.GetChild(5).GetComponent<Text>().text = playerStatus.GetRecovery_Result().ToString();
-        statusinformation.transform.GetChild(6).GetComponent<Text>().text = playerStatus.GetJumpCount().ToString();
+        statusinformation.transform.GetChild(6).GetComponent<Text>().text = playerStatus.jumpCount.ToString();
         statusinformation.transform.GetChild(7).GetComponent<Text>().text = playerData.GetStatus(7).ToString();
     }
 }

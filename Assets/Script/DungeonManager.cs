@@ -563,7 +563,7 @@ public class DungeonManager : MonoBehaviour
     }
     public string SetFloorStatus()
     {
-        playerStatus.PlayerStatusUpdate();
+        playerStatus.PlayerStatusResultInit();          // 기본 스탯 + 장비 스탯 + 트레이닝 스탯으로 초기화
 
         string stageStatText = "";
         int markerNumber = (int)marker.thisMarker;

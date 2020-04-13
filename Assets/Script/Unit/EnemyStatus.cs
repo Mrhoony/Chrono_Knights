@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyStatus : MonoBehaviour
 {
@@ -17,7 +15,7 @@ public class EnemyStatus : MonoBehaviour
     public int _attack; // 공격력
     public int _defense;
     public int monsterWeight;
-
+    
     private bool bossMonster;
     
     public void Update()

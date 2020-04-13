@@ -13,19 +13,19 @@ public class MainUI_PlayerStatusView : MonoBehaviour
     public Image UIStateGauge;
     public Image bell;
 
-    private static float maxBellRotation = 80;
+    private float maxBellRotation;
     //private static float doublemaxBellRotation = 6400;
     private float beforeRotation;
-    public float targetRotation;
+    private float targetRotation;
     private float bellRotation;
     private float bellPower;
     private float bellPower2;
     private float bellspd;
     private bool isright;
 
-    public float ringTime;
-    public float dmgMulti;
-    public float dmgRecovery;
+    private float ringTime;
+    private float dmgMulti;
+    private float dmgRecovery;
 
     IEnumerator monsterHit;
     
@@ -38,8 +38,8 @@ public class MainUI_PlayerStatusView : MonoBehaviour
         UIStateGauge.fillAmount = 0f;
 
         ringTime = 4;
-        dmgMulti = 5;
-        dmgRecovery = 5;
+        dmgMulti = 1;
+        dmgRecovery = playerStatus.GetRecovery_Result();
 
         int count = HPBarCut.Length;
         for (int i = 0; i < count; ++i)
@@ -52,6 +52,7 @@ public class MainUI_PlayerStatusView : MonoBehaviour
 
     public void BellReset()
     {
+        maxBellRotation = 20;
         bellRotation = 0;
         beforeRotation = 0;
         targetRotation = 0;
@@ -65,26 +66,6 @@ public class MainUI_PlayerStatusView : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        // 체력바 갱신
-        HPBar.fillAmount = playerStatus.currentHP / playerStatus.playerData.GetStatus((int)Status.HP);
-        //buffBar.fillAmount = playerStatus.currentAmmo / playerStatus.playerData.GetMaxAmmo();
-        Ring();
-    }
-
-    // 피격 후 안정화
-    IEnumerator MonsterHit()
-    {
-        yield return new WaitForSeconds(4f - playerStatus.GetRecovery_Result() * 0.1f);
-        
-        targetRotation -= dmgRecovery;
-        if (0 >= targetRotation) targetRotation = 0;
-        else {
-            monsterHit = MonsterHit();
-            StartCoroutine(monsterHit);
-        }
-    }
-    public void Ring()
     {
         if (0 == beforeRotation && 0 == targetRotation) return;
 
@@ -130,8 +111,10 @@ public class MainUI_PlayerStatusView : MonoBehaviour
         {
             if (1 >= bellRotation) BellReset();
         }
+
         bellRotation = bell.transform.rotation.eulerAngles.z;
         if (180 <= bellRotation) bellRotation -= 360;
+
         //속도 계산 4개의 면이 존재함
         if (0 <= bellRotation)
         {
@@ -147,14 +130,44 @@ public class MainUI_PlayerStatusView : MonoBehaviour
         //벨 실제로 움직임
         bell.transform.Rotate(new Vector3(0, 0, bellspd));
     }
+
+    // 피격 후 안정화
+    IEnumerator MonsterHit()
+    {
+        yield return new WaitForSeconds(4f - dmgRecovery * 0.1f);
+        
+        targetRotation -= dmgRecovery;
+        if (0 >= targetRotation) targetRotation = 0;
+        else {
+            monsterHit = MonsterHit();
+            StartCoroutine(monsterHit);
+        }
+    }
+
+    public void DMGMultiRecovery()
+    {
+        dmgMulti -= 2;
+        if (dmgMulti < 1) dmgMulti = 1;
+    }
+    public void DMGMultiDebuff()
+    {
+        dmgMulti += 2;
+        if (dmgMulti > 5) dmgMulti = 5;
+    }
+    public void DMGRecoveryDebuff(float _dmgRecovery)
+    {
+        dmgRecovery = _dmgRecovery;
+    }
     public void Hit(float monsterAtk)
     {
-        Debug.Log("Hit monster atk UI test Damage : "+monsterAtk);
+        Debug.Log("Hit monster atk UI test Damage : " + monsterAtk);
+        HPBar.fillAmount = playerStatus.currentHP / playerStatus.playerData.GetStatus((int)Status.HP);
         targetRotation += monsterAtk * dmgMulti;
-        if (maxBellRotation <= targetRotation) targetRotation = maxBellRotation;
+        if ((maxBellRotation) <= targetRotation) targetRotation = maxBellRotation;
     }
     public void SetHPCut(int i)
     {
+        maxBellRotation = 10f + 20f * (i + 1);
         HPBarCut[i].enabled = false;
         UIStateGauge.fillAmount += i / 4f;
         if (i % 2 == 1)

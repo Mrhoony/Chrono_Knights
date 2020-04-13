@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SkillManager : MonoBehaviour
@@ -13,13 +12,13 @@ public class SkillManager : MonoBehaviour
     public IEnumerator[] skillCoolTimeCheck;
 
     /*
+     * 
      * 스킬의 이름과 타입, 스킬 코드는 클래스로 저장
      * 
      * 스킬 타입별, 번호별로 함수 만들기
      * 
      * 장비에 등록된 아이템 레어리티에 따라 효과 배율 저장
      * 
-     * 1 ~ 7 입력으로 장비에 저장된 스킬 사용
      * */
 
     public void Init()

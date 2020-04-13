@@ -118,7 +118,7 @@ public class PlayerControl : MovingObject
         }
 
         // 낙하 체크
-        if (rb.velocity.y < -0.5f)
+        if (rb.velocity.y < -0.5f && actionState != ActionState.IsJumpAttack)
         {
             if (actionState != ActionState.IsJump && !isGround && !isJump)
             {
@@ -129,7 +129,6 @@ public class PlayerControl : MovingObject
             animator.SetBool("isFall", true);
             GroundCheck.SetActive(true);
         }
-        if (actionState == ActionState.IsParrying) StartCoroutine(ParryingCount());     // 패링시 패링 쿨타임
 
         if (Input.GetButtonDown("Fire3") && dodgable) Dodge();      // 회피
 
@@ -211,12 +210,12 @@ public class PlayerControl : MovingObject
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            if (playerStatus.playerEquip.equipment[0].skillCode == 0 || playerStatus.playerEquip.equipment[0].isUsed) return;
+            if (playerStatus.playerData.playerEquipment.equipment[0].skillCode == 0 || playerStatus.playerData.playerEquipment.equipment[0].isUsed) return;
             Debug.Log("스킬 1 입력");
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            if (playerStatus.playerEquip.equipment[1].skillCode == 0 || playerStatus.playerEquip.equipment[1].isUsed) return;
+            if (playerStatus.playerData.playerEquipment.equipment[1].skillCode == 0 || playerStatus.playerData.playerEquipment.equipment[1].isUsed) return;
             Debug.Log("스킬 2 입력");
         }
         else
@@ -237,6 +236,7 @@ public class PlayerControl : MovingObject
 
     private void FixedUpdate()
     {
+        if (actionState == ActionState.IsDead || actionState == ActionState.NotMove) return;
         if (actionState != ActionState.Idle && actionState != ActionState.IsJump) return;     // 피격 시 입력무시
         
         Move();
@@ -350,7 +350,7 @@ public class PlayerControl : MovingObject
         animator.SetBool("isJump", true);
 
         rb.velocity = Vector2.zero;
-        rb.AddForce(new Vector2(0f, playerStatus.GetJumpPower()), ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(0f, playerStatus.jumpPower), ForceMode2D.Impulse);
         actionState = ActionState.IsJump;
         Debug.Log("jump");
     }
@@ -424,13 +424,13 @@ public class PlayerControl : MovingObject
         yield return new WaitForSeconds(_time);
         actionState = ActionState.Idle;
     }
+
     IEnumerator DodgeIgnore(float _time)
     {
         GroundCheck.SetActive(false);
         yield return new WaitForSeconds(_time);
         GroundCheck.SetActive(true);
     }
-
     IEnumerator InvincibleCount()
     {
         yield return new WaitForSeconds(1f);
@@ -441,15 +441,10 @@ public class PlayerControl : MovingObject
         yield return new WaitForSeconds(2f);
         dodgable = true;
     }
-    IEnumerator ParryingCount()
-    {
-        yield return new WaitForSeconds(1f);
-        actionState = ActionState.Idle;
-    }
 
     public void Hit(int _attack)
     {
-        if (invincible)
+        if (invincible)     // 무적시간일 때
         {
             if(actionState == ActionState.IsDodge)
             {
@@ -463,19 +458,17 @@ public class PlayerControl : MovingObject
             animator.SetBool("is_x_Atk", true);
             return;
         }
-        else
-        {
-            StopPlayer();
-            rb.gravityScale = 1f;
-            CameraManager.instance.CameraShake(playerStatus.DecreaseHP(_attack) / 2);
-            animator.SetTrigger("isHit");
-            playerEffect.GetComponent<Animator>().SetTrigger("isHit_Trigger");
 
-            rb.velocity = new Vector2(-arrowDirection * 3f, 2.5f);
+        StopPlayer();
+        rb.gravityScale = 1f;
+        CameraManager.instance.CameraShake(playerStatus.DecreaseHP(_attack) / 2);
+        animator.SetTrigger("isHit");
+        playerEffect.GetComponent<Animator>().SetTrigger("isHit_Trigger");
 
-            invincible = true;
-            StartCoroutine(InvincibleCount());
-        }
+        rb.velocity = new Vector2(-arrowDirection * 3f, 2.5f);
+
+        invincible = true;
+        StartCoroutine(InvincibleCount());
     }
     public void Dead()
     {
@@ -488,7 +481,7 @@ public class PlayerControl : MovingObject
     }
     public void Landing()
     {
-        currentJumpCount = (int)playerStatus.GetJumpCount();
+        currentJumpCount = (int)playerStatus.jumpCount;
         isGround = true;
         isJump = false;
         animator.SetBool("isFall", false);
@@ -496,11 +489,28 @@ public class PlayerControl : MovingObject
         animator.SetBool("isLand", true);
         actionState = ActionState.Idle;
     }
+
+    #region parrying
+    public void Parrying()
+    {
+        actionState = ActionState.IsParrying;
+        StartCoroutine(ParryingCount());
+    }
     public void ParryingCheck()
     {
+        // 애니매이션에서 체크
+        StopCoroutine("ParryingCount");
         animator.SetBool("is_x_attack", true);
         Debug.Log("parrying");
     }
+    IEnumerator ParryingCount()
+    {
+        yield return new WaitForSeconds(1f);
+        actionState = ActionState.NotMove;
+        yield return new WaitForSeconds(1f);
+        actionState = ActionState.Idle;
+    }
+    #endregion
 
     public void StopPlayer()
     {

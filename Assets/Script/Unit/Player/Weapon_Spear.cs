@@ -84,7 +84,7 @@ public class Weapon_Spear : PlayerWeaponType
                     animator.SetBool("is_x_attack", true);
                     break;
                 case 41:
-                    PlayerControl.instance.actionState = ActionState.IsParrying;
+                    PlayerControl.instance.Parrying();
                     animator.SetBool("is_x_attack", true);
                     break;
                 case 2:

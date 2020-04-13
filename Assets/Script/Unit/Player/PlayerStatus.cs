@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum Status
 {
@@ -11,13 +9,12 @@ public class PlayerStatus : MonoBehaviour
 {
     public MainUI_PlayerStatusView playerStatusView;
     public PlayerData playerData;
-    public PlayerEquipment playerEquip;
 
+    public float HP;
     public float currentHP;     // 현재 체력
     private bool[] HPCut;
     private int currentAmmo;   // 현재 버프량
-    private int buffState;
-    
+
     private float[] attack = new float[3];        // 공격력
     private float[] defense = new float[3];       // 안정성(방어력)
     private float[] moveSpeed = new float[3];     // 이동 속도
@@ -25,8 +22,11 @@ public class PlayerStatus : MonoBehaviour
     private float[] dashDistance = new float[3];  // 대시거리
     private float[] recovery = new float[3];      // 회복력
 
-    private float jumpCount;
-    private float jumpPower;
+    private int[] debuffAttack = new int[2];
+    private int[] debuffDefense = new int[2];
+
+    public float jumpCount { get; set; }
+    public float jumpPower { get; set; }
 
     float[] traningStat;
     
@@ -34,9 +34,7 @@ public class PlayerStatus : MonoBehaviour
     {
         StatusInit();
         playerData = _playerData;
-        
-        playerEquip = playerData.GetPlayerEquipment();
-        playerEquip.EquipmentLimitUpgrade();
+        playerData.GetPlayerEquipment().EquipmentLimitUpgrade();
 
         traningStat = playerData.GetTraningStat();
         HPCut = new bool[4];
@@ -46,6 +44,11 @@ public class PlayerStatus : MonoBehaviour
     }
     public void StatusInit()
     {
+        for (int i = 0; i < 2; i++)
+        {
+            debuffAttack[i] = 0;
+            debuffDefense[i] = 0;
+        }
         for (int i = 0; i < 3; i++)
         {
             attack[i] = 0f;
@@ -56,7 +59,7 @@ public class PlayerStatus : MonoBehaviour
             recovery[i] = 0f;
         }
     }
-    public void PlayerStatusLoad()
+    public void PlayerStatusLoad()      // 기본 스테이터스 로드
     {
         attack[0] = playerData.GetStatus(0);
         defense[0] = playerData.GetStatus(1);
@@ -65,11 +68,12 @@ public class PlayerStatus : MonoBehaviour
         dashDistance[0] = playerData.GetStatus(4);
         recovery[0] = playerData.GetStatus(5);
 
+        HP = playerData.GetStatus(7);
         jumpCount = playerData.GetStatus(6);
         jumpPower = playerData.GetStatus(8);
         currentAmmo = playerData.GetMaxAmmo();
     }
-    public void ReturnToTown()
+    public void ReturnToTown()          // 마을 복귀시 기본 스테이터스, hp 초기화
     {
         PlayerStatusUpdate();
         HPInit();
@@ -98,7 +102,7 @@ public class PlayerStatus : MonoBehaviour
     }
     public void HPInit()
     {
-        currentHP = playerData.GetStatus(7);
+        currentHP = HP;
         for (int i = 0; i < 4; ++i)
         {
             HPCut[i] = true;
@@ -111,24 +115,36 @@ public class PlayerStatus : MonoBehaviour
         _damage -= (int)defense[2];
         if (_damage < 1) _damage = 1;
 
-        if (currentHP / playerData.GetStatus(7) >= 0.8)
+        if (currentHP / HP >= 0.8)
         {
-            HPCutCheck(0.8f, 0, _damage);
+            if(HPCutCheck(0.8f, 0, _damage))
+            {
+                playerStatusView.DMGMultiDebuff();
+            }
         }
-        else if (currentHP / playerData.GetStatus(7) >= 0.6)
+        else if (currentHP / HP >= 0.6)
         {
-            HPCutCheck(0.6f, 1, _damage);
+            if(HPCutCheck(0.6f, 1, _damage))
+            {
+                SetDebuffAttack(0);
+            }
         }
-        else if (currentHP / playerData.GetStatus(7) >= 0.4)
+        else if (currentHP / HP >= 0.4)
         {
-            HPCutCheck(0.4f, 2, _damage);
+            if(HPCutCheck(0.4f, 2, _damage))
+            {
+                playerStatusView.DMGMultiDebuff();
+            }
         }
-        else if (currentHP / playerData.GetStatus(7) >= 0.2)
+        else if (currentHP / HP >= 0.2)
         {
-            HPCutCheck(0.2f, 3, _damage);
+            if(HPCutCheck(0.2f, 3, _damage))
+            {
+                SetDebuffAttack(1);
+                SetDebuffRecovery();
+            }
         }
-        else
-            currentHP -= _damage;
+        else currentHP -= _damage;
 
         playerStatusView.Hit(_damage);
 
@@ -140,31 +156,30 @@ public class PlayerStatus : MonoBehaviour
     }
     public bool IncreaseHP(int addCurrentHP)
     {
-        if (currentHP < playerData.GetStatus(7))
+        if (currentHP < HP)
         {
             currentHP += addCurrentHP;
-            if (currentHP > playerData.GetStatus(7))
-                currentHP = playerData.GetStatus(7);
+            if (currentHP > HP)
+                currentHP = HP;
             return true;
         }
         else return false;
     }
-    public void HPCutCheck(float HPPercent, int HPCutNum, int damage)
+    public bool HPCutCheck(float HPPercent, int HPCutNum, int damage)
     {
+        currentHP -= damage;
+
         if (HPCut[HPCutNum])
         {
-            currentHP -= damage;
-            if (currentHP / playerData.GetStatus(7) <= HPPercent)
+            if (currentHP / HP <= HPPercent)
             {
-                currentHP = playerData.GetStatus(7) * HPPercent;
+                currentHP = HP * HPPercent;
                 HPCut[HPCutNum] = false;
+                playerStatusView.SetHPCut(HPCutNum);
+                return true;
             }
         }
-        else
-        {
-            currentHP = playerData.GetStatus(7) * (HPPercent - 0.01f);
-            playerStatusView.SetHPCut(HPCutNum);
-        }
+        return false;
     }
     public void Resupply_Ammo(int _ammoReplenish)
     {
@@ -176,26 +191,34 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
+    public void SetDebuffAttack(int _num)
+    {
+        debuffAttack[_num] = (int)(attack[2] * 0.8f);
+        attack[2] -= debuffAttack[_num];
+        if (attack[2] < 1) attack[2] = 1;
+    }
+    public void SetRecoveryAttack(int _num)
+    {
+        attack[2] += debuffAttack[_num];
+    }
+    public void SetDebuffRecovery()
+    {
+        recovery[2] *= 0.5f;
+        if (recovery[2] < 0) recovery[2] = 0;
+        playerStatusView.DMGRecoveryDebuff(recovery[2]);
+    }
+
     #region get, set
-    public float GetJumpCount()
-    {
-        return jumpCount;
-    }
-    public float GetJumpPower()
-    {
-        return jumpPower;
-    }
-    
     public void SetAttackMulty_Result(int multyAttack, bool multy)      // 공격력 배수
     {
         if (multy)
         {
-            attack[2] = attack[1] * multyAttack;
+            attack[2] = attack[2] * multyAttack;
         }
         else
         {
-            if (0 != multyAttack) attack[2] = attack[1] / multyAttack;
-            else attack[2] = attack[1];
+            if (0 != multyAttack)
+                attack[2] = attack[2] / multyAttack;
 
             if (attack[2] < 1)
             {
@@ -207,11 +230,11 @@ public class PlayerStatus : MonoBehaviour
     {
         if (add)
         {
-            attack[2] = attack[1] + addAttack;
+            attack[2] = attack[2] + addAttack;
         }
         else
         {
-            attack[2] = attack[1] - addAttack;
+            attack[2] = attack[2] - addAttack;
             if (attack[2] < 1)
             {
                 attack[2] = 1;
@@ -222,22 +245,22 @@ public class PlayerStatus : MonoBehaviour
     {
         if (add)
         {
-            defense[2] = defense[1] + addDefense;
+            defense[2] = defense[2] + addDefense;
         }
         else
         {
-            defense[2] = defense[1] - addDefense;
+            defense[2] = defense[2] - addDefense;
         }
     }
     public void SetMoveSpeed_Result(int multyMoveSpeed, bool multy)     // 이동 속도 계산
     {
         if (multy)
         {
-            moveSpeed[2] = moveSpeed[1] * multyMoveSpeed;
+            moveSpeed[2] = moveSpeed[2] * multyMoveSpeed;
         }
         else
         {
-            moveSpeed[2] = moveSpeed[1] / multyMoveSpeed;
+            moveSpeed[2] = moveSpeed[2] / multyMoveSpeed;
             if (moveSpeed[2] < 1)
             {
                 moveSpeed[2] = 1;
@@ -248,11 +271,11 @@ public class PlayerStatus : MonoBehaviour
     {
         if (multy)
         {
-            attackSpeed[2] = attackSpeed[1] * multyAttackSpeed;
+            attackSpeed[2] = attackSpeed[2] * multyAttackSpeed;
         }
         else
         {
-            attackSpeed[2] = attackSpeed[1] / multyAttackSpeed;
+            attackSpeed[2] = attackSpeed[2] / multyAttackSpeed;
             if (attackSpeed[2] < 1)
             {
                 attackSpeed[2] = 1;
@@ -264,11 +287,11 @@ public class PlayerStatus : MonoBehaviour
     {
         if (multy)
         {
-            dashDistance[2] = dashDistance[1] * multyDashDIstance;
+            dashDistance[2] = dashDistance[2] * multyDashDIstance;
         }
         else
         {
-            dashDistance[2] = dashDistance[1] / multyDashDIstance;
+            dashDistance[2] = dashDistance[2] / multyDashDIstance;
             if (dashDistance[2] < 1)
             {
                 dashDistance[2] = 1;
@@ -278,10 +301,10 @@ public class PlayerStatus : MonoBehaviour
     public void SetRecoveryAdd_Result(int addRecovery, bool add)
     {
         if (add)
-            recovery[2] = recovery[1] + addRecovery;
+            recovery[2] = recovery[2] + addRecovery;
         else
         {
-            recovery[2] = recovery[1] - addRecovery;
+            recovery[2] = recovery[2] - addRecovery;
             if (recovery[2] < 0) recovery[2] = 0;
         }
     }

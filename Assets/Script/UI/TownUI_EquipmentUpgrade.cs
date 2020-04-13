@@ -42,7 +42,7 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
         itemDatabase = Database_Game.instance;
         storage = canvasManager.storage.GetComponent<Menu_Storage>();
         playerStat = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
-        playerEquipment = playerStat.playerEquip;
+        playerEquipment = playerStat.playerData.playerEquipment;
     }
 
     public void OpenTownUIMenu()
