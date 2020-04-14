@@ -46,6 +46,7 @@ public class NPC_Control : MonoBehaviour
         {
             inPlayer = false;
             player = collision.gameObject;
+            player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
         }
     }
 }

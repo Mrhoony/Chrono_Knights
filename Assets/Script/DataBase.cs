@@ -8,7 +8,6 @@ public class DataBase
 {
     public PlayerData playerData;
     public int[] storageItemCodeList;
-    public int[] storageItemSkillCodeList;
 
     public int currentMoney;
     public int currentDate;
@@ -21,7 +20,6 @@ public class DataBase
         playerData = new PlayerData();
         playerData.Init();
         storageItemCodeList = new int[72];
-        storageItemSkillCodeList = new int[72];
         currentMoney = 0;
         currentDate = 0;
         isTrainigPossible = false;
@@ -37,10 +35,6 @@ public class DataBase
     public int[] GetStorageItemCodeList()
     {
         return storageItemCodeList;
-    }
-    public int[] GetStorageItemSkillCodeList()
-    {
-        return storageItemSkillCodeList;
     }
     
     public int GetCurrentMoney()
@@ -71,10 +65,9 @@ public class DataBase
         isTrainigPossible = _isTrainigPossible;
         eventFlag = _eventFlag;
     }
-    public void SaveStorageData(int[] _storageItemList, int[] _storageItemSkillList)
+    public void SaveStorageData(int[] _storageItemList)
     {
         storageItemCodeList = _storageItemList;
-        storageItemSkillCodeList = _storageItemSkillList;
     }
     public void SaveInventoryData(int _currentMoney)
     {

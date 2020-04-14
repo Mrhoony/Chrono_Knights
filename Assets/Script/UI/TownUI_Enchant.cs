@@ -177,5 +177,6 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
         equipment[num].EquipmentItemSetting(item);
         equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
         equipment[num].EquipmentStatusEnchant(downCount, downPercent, false);
+        equipment[num].EquipmentSkillSetting();
     }
 }

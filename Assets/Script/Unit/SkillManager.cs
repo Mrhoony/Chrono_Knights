@@ -6,7 +6,6 @@ public class SkillManager : MonoBehaviour
     public static SkillManager instance;
     public PlayerStatus playerStatus;
     public Skill[] buffSkillList;
-    public int[] buffRarity;
     public Skill skill;
     public IEnumerator[] skillBuffDurationCheck;
     public IEnumerator[] skillCoolTimeCheck;
@@ -25,14 +24,12 @@ public class SkillManager : MonoBehaviour
     {
         playerStatus = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
         buffSkillList = new Skill[7];
-        buffRarity = new int[7];
         
         skillBuffDurationCheck = new IEnumerator[7];
         skillCoolTimeCheck = new IEnumerator[7];
         for (int i = 0; i < 7; ++i)
         {
             buffSkillList[i] = null;
-            buffRarity[i] = 0;
         }
     }
 
@@ -48,38 +45,16 @@ public class SkillManager : MonoBehaviour
             case 103:
             case 104:
             case 105:
-                SetStatBuff(equipment);
+                SetBuffStatus(equipment);
                 break;
         }
     }
 
-    public void SetStatBuff(PlayerEquipment.Equipment equipment)
+    public void SetBuffStatus(PlayerEquipment.Equipment equipment)
     {
-        skill = Database_Game.instance.CheckSkill(equipment.skillCode);
-
-        switch (equipment.skillCode)
-        {
-            case 100:
-            case 101:
-            case 102:
-            case 103:
-            case 104:
-            case 105:
-                SetStatBuff(equipment);
-                break;
-        }
-
         for (int i = 0; i < 7; ++i)
         {
             if (buffSkillList[i] == skill)
-            {
-                if (buffRarity[i] <= buffSkillList[i].skillRarity)
-                {
-                    BuffSkillSetting(i, equipment);
-                    break;
-                }
-            }
-            else if (buffSkillList[i] == null)
             {
                 BuffSkillSetting(i, equipment);
                 break;
@@ -89,7 +64,6 @@ public class SkillManager : MonoBehaviour
     public void BuffSkillSetting(int i, PlayerEquipment.Equipment equipment)
     {
         buffSkillList[i] = skill;
-        buffRarity[i] = buffSkillList[i].skillRarity;
 
         if(skillBuffDurationCheck[i] != null)
         {
@@ -111,7 +85,6 @@ public class SkillManager : MonoBehaviour
         yield return new WaitForSeconds(duraionTime);
         //버프 종료
         buffSkillList[i] = null;
-        buffRarity[i] = 0;
         Debug.Log("BuffSkillEnd");
     }
     public IEnumerator SkillCoolTime(float coolTime, PlayerEquipment.Equipment equipment, int i)

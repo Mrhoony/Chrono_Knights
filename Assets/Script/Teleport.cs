@@ -38,6 +38,7 @@ public class Teleport : MonoBehaviour
             inPlayer = false;
             DungeonManager.instance.useTeleportSystem = 10;
             player = collision.gameObject;
+            player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
         }
     }
 }

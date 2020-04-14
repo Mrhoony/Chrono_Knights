@@ -15,7 +15,6 @@ public class Menu_Storage : Menu_InGameMenu
 
     // 한 슬롯 변수
     public int[] storageItemCodeList;
-    public int[] storageItemSkillCodeList;
     public bool[] isSelected;       // 슬롯이 선택 되었는지
     public int selectedItemCount;       // 선택된 슬롯 갯수
     public int[] selectedSlot;      // 선택된 슬롯 번호 목록
@@ -35,7 +34,6 @@ public class Menu_Storage : Menu_InGameMenu
 
         itemList = new Item[72];
         storageItemCodeList = new int[72];
-        storageItemSkillCodeList = new int[72];
         isSelected = new bool[72];
         SaveStorageClear();
 
@@ -327,18 +325,16 @@ public class Menu_Storage : Menu_InGameMenu
         return itemList[_focus];
     }
     
-    public void LoadStorageData(int[] _itemCode, int[] _itemSkillCodeList, int _BagRarity)
+    public void LoadStorageData(int[] _itemCode, int _BagRarity)
     {
         for (int i = 0; i < 72; ++i)
         {
             itemList[i] = null;
             storageItemCodeList[i] = 0;
-            storageItemSkillCodeList[i] = 0;
             isSelected[i] = false;
         }
 
         storageItemCodeList = _itemCode;
-        storageItemSkillCodeList = _itemSkillCodeList;
         SetAvailableSlot(_BagRarity);
 
         for (int i = 0; i < availableSlot; ++i)
@@ -360,26 +356,12 @@ public class Menu_Storage : Menu_InGameMenu
         }
         return storageItemCodeList;
     }
-    public int[] GetStorageItemSkillCodeList()
-    {
-        for (int i = 0; i < availableSlot; ++i)
-        {
-            if (itemList[i] == null)
-            {
-                storageItemSkillCodeList[i] = 0;
-                continue;
-            }
-            storageItemSkillCodeList[i] = itemList[i].skillCode;
-        }
-        return storageItemSkillCodeList;
-    }
     public void SaveStorageClear()
     {
         for (int i = 0; i < 72; ++i)
         {
             itemList[i] = null;
             storageItemCodeList[i] = 0;
-            storageItemSkillCodeList[i] = 0;
             isSelected[i] = false;
         }
         selectedItemCount = 0;

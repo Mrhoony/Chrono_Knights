@@ -13,9 +13,9 @@ public enum ItemUsingType
 }
 public enum SkillType
 {
-    Active,
-    Passive,
-    Unlock
+    Weapon,
+    Armor,
+    Support
 }
 
 public class Item
@@ -30,7 +30,6 @@ public class Item
     public int itemCode;
     public int value;
     public string Description;
-    public int skillCode;
 
     public Item(string _itemName, int _itemRarity, int _itemCode, string _Description, ItemType _itemType, ItemUsingType _usingType, int _usingStatus = 0, int _skillCode = 0)
     {
@@ -86,29 +85,26 @@ public class Item
                 break;
         }
         usingStatus = _usingStatus;
-        skillCode = _skillCode;
-    }
-    public void SetSkillNum(int _skillCode)
-    {
-        skillCode = _skillCode;
     }
 }
 public class Skill
 {
     public SkillType skillType;
-    public string skillName;
     public int skillCode;
+    public string skillName;
+    public float skillMultiply;
+    public int skillValue;
     public string skillDescription;
-    public int skillRarity;
     public float skillCoolTime;
     public float skillTimeDuration;
 
-    public Skill(SkillType _skillType, string _skillName, int _skillCode, int _skillRarity, string _skillDescription, float _skillCoolTime = 0, float _skillTimeDuration = 0)
+    public Skill(SkillType _skillType, int _skillCode, string _skillName, float _skillMultiply, int _skillValue, string _skillDescription, float _skillCoolTime = 0, float _skillTimeDuration = 0)
     {
         skillType = _skillType;
-        skillName = _skillName;
         skillCode = _skillCode;
-        skillRarity = _skillRarity;
+        skillName = _skillName;
+        skillMultiply = _skillMultiply;
+        skillValue = _skillValue;
         skillDescription = _skillDescription;
         skillCoolTime = _skillCoolTime;
         skillTimeDuration = _skillTimeDuration;
@@ -172,7 +168,9 @@ public class Database_Game : MonoBehaviour
     public static Database_Game instance;
 
     public List<Item> Item = new List<Item>();
-    public List<Skill> skillList = new List<Skill>();
+    public List<Skill> activeSkillList = new List<Skill>();
+    public List<Skill> passiveSkillList = new List<Skill>();
+    public List<Skill> supportSkillList = new List<Skill>();
     public List<Monster> monsterList = new List<Monster>();
     public List<PlayerAttack> playerAttack = new List<PlayerAttack>();
 
@@ -241,14 +239,42 @@ public class Database_Game : MonoBehaviour
             {
                 foreach (XmlNode data in node)
                 {
-                    skillList.Add(new Skill(
-                        (SkillType)System.Enum.Parse(typeof(SkillType), data.Attributes.GetNamedItem("skillType").Value),
-                        data.Attributes.GetNamedItem("skillName").Value,
-                        int.Parse(data.Attributes.GetNamedItem("skillCode").Value),
-                        int.Parse(data.Attributes.GetNamedItem("skillRarity").Value),
-                        data.Attributes.GetNamedItem("skillDescription").Value,
-                        int.Parse(data.Attributes.GetNamedItem("skillOnCount").Value),
-                        float.Parse(data.Attributes.GetNamedItem("skillTimeDuration").Value)));
+                    switch ((SkillType)System.Enum.Parse(typeof(SkillType), data.Attributes.GetNamedItem("skillType").Value))
+                    {
+                        case SkillType.Weapon:
+                            activeSkillList.Add(new Skill(
+                                (SkillType)System.Enum.Parse(typeof(SkillType), data.Attributes.GetNamedItem("skillType").Value),
+                                int.Parse(data.Attributes.GetNamedItem("skillCode").Value),
+                                data.Attributes.GetNamedItem("skillName").Value,
+                                float.Parse(data.Attributes.GetNamedItem("skillMultiply").Value),
+                                int.Parse(data.Attributes.GetNamedItem("skillValue").Value),
+                                data.Attributes.GetNamedItem("skillDescription").Value,
+                                int.Parse(data.Attributes.GetNamedItem("skillOnCount").Value),
+                                float.Parse(data.Attributes.GetNamedItem("skillTimeDuration").Value)));
+                            break;
+                        case SkillType.Armor:
+                            passiveSkillList.Add(new Skill(
+                                (SkillType)System.Enum.Parse(typeof(SkillType), data.Attributes.GetNamedItem("skillType").Value),
+                                int.Parse(data.Attributes.GetNamedItem("skillCode").Value),
+                                data.Attributes.GetNamedItem("skillName").Value,
+                                float.Parse(data.Attributes.GetNamedItem("skillMultiply").Value),
+                                int.Parse(data.Attributes.GetNamedItem("skillValue").Value),
+                                data.Attributes.GetNamedItem("skillDescription").Value,
+                                int.Parse(data.Attributes.GetNamedItem("skillOnCount").Value),
+                                float.Parse(data.Attributes.GetNamedItem("skillTimeDuration").Value)));
+                            break;
+                        case SkillType.Support:
+                            supportSkillList.Add(new Skill(
+                                (SkillType)System.Enum.Parse(typeof(SkillType), data.Attributes.GetNamedItem("skillType").Value),
+                                int.Parse(data.Attributes.GetNamedItem("skillCode").Value),
+                                data.Attributes.GetNamedItem("skillName").Value,
+                                float.Parse(data.Attributes.GetNamedItem("skillMultiply").Value),
+                                int.Parse(data.Attributes.GetNamedItem("skillValue").Value),
+                                data.Attributes.GetNamedItem("skillDescription").Value,
+                                int.Parse(data.Attributes.GetNamedItem("skillOnCount").Value),
+                                float.Parse(data.Attributes.GetNamedItem("skillTimeDuration").Value)));
+                            break;
+                    }
                 }
             }
         }
@@ -308,6 +334,33 @@ public class Database_Game : MonoBehaviour
         Debug.Log("Input attackData");
     }
 
+    public Item ItemSetting()
+    {
+        int count = Item.Count;
+        return Item[Random.Range(0, count)];   
+    }
+    public Skill SkillSetting(SkillType _skillType)
+    {
+        Skill _skill = null;
+        int listCount = 0;
+        switch (_skillType)
+        {
+            case SkillType.Weapon:
+                listCount = activeSkillList.Count;
+                _skill = activeSkillList[Random.Range(0, listCount)];
+                break;
+            case SkillType.Armor:
+                listCount = passiveSkillList.Count;
+                _skill = passiveSkillList[Random.Range(0, listCount)];
+                break;
+            case SkillType.Support:
+                listCount = supportSkillList.Count;
+                _skill = supportSkillList[Random.Range(0, listCount)];
+                break;
+        }
+        return _skill;
+    }
+
     public Monster GetMonsterStatus(int _monsterCode)
     {
         int count = monsterList.Count;
@@ -318,28 +371,6 @@ public class Database_Game : MonoBehaviour
         }
         Debug.Log("몬스터가 존재하지 않음");
         return null;
-    }
-    public int[] GetSkillRarityList(int minRarity)
-    {
-        int skillListCount = skillList.Count;
-        int count = 0;
-        for (int i = 0; i < skillListCount; ++i)
-        {
-            Debug.Log(skillList[i].skillRarity);
-            Debug.Log(minRarity);
-            if (skillList[i].skillRarity <= minRarity) ++count;
-        }
-        int[] enableSkillList = new int[count];
-        count = 0;
-        for (int i = 0; i < skillListCount; ++i)
-        {
-            if (skillList[i].skillRarity <= minRarity)
-            {
-                enableSkillList[count] = skillList[i].skillCode;
-                ++count;
-            }
-        }
-        return enableSkillList;
     }
     public Item GetItem(int _itemCode)
     {
@@ -353,13 +384,13 @@ public class Database_Game : MonoBehaviour
         }
         return null;
     }
-    public Skill CheckSkill(int _skillCode)
+    public Skill CheckActiveSkill(int _skillCode)
     {
-        for (int i = 0; i < skillList.Count; i++)
+        for (int i = 0; i < activeSkillList.Count; i++)
         {
-            if (skillList[i].skillCode == _skillCode)
+            if (activeSkillList[i].skillCode == _skillCode)
             {
-                return skillList[i];
+                return activeSkillList[i];
             }
         }
         return null;

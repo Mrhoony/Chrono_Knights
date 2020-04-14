@@ -153,7 +153,11 @@ public class PlayerControl : MovingObject
 
         if (actionState != ActionState.Idle) return;
 
-        InputSkillButton();
+        if (Input.GetButtonDown("Skill"))
+        {
+            if (playerStatus.playerData.playerEquipment.equipment[0].skillCode == 0 || playerStatus.playerData.playerEquipment.equipment[0].isUsed) return;
+            Debug.Log("스킬 1 입력");
+        }
         if (Input.GetKeyDown(KeyCode.S))
         {
             if(weaponType == 0) // 스피어 -> 건
@@ -206,23 +210,7 @@ public class PlayerControl : MovingObject
             }
         }
     }
-    public void InputSkillButton()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            if (playerStatus.playerData.playerEquipment.equipment[0].skillCode == 0 || playerStatus.playerData.playerEquipment.equipment[0].isUsed) return;
-            Debug.Log("스킬 1 입력");
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            if (playerStatus.playerData.playerEquipment.equipment[1].skillCode == 0 || playerStatus.playerData.playerEquipment.equipment[1].isUsed) return;
-            Debug.Log("스킬 2 입력");
-        }
-        else
-        {
-            return;
-        }
-    }
+
     public void PlayerInputKeyFlip()
     {
         Vector2 scale;
@@ -256,7 +244,7 @@ public class PlayerControl : MovingObject
 
     void SpearAttack()
     {
-        if (Input.GetButtonDown("Fire1") && !animator.GetBool("is_y_attack"))
+        if (Input.GetButtonUp("Fire1") && !animator.GetBool("is_y_attack"))
         {
             if (actionState == ActionState.IsJumpAttack)
             {

@@ -27,7 +27,6 @@ public class PlayerEquipment
         public float[] max;
         public float[] min;
         public int skillCode;
-        public int skillRarity;
         public bool isUsed;
         public bool enchant;
         public EquipmentType equipmentType;
@@ -49,13 +48,27 @@ public class PlayerEquipment
 
             LimitUpgradeSet(0);
         }
+        public void LimitUpgradeSet(float _max, float _min = 0)
+        {
+            max[0] = _max;
+            max[1] = _max;
+            max[2] = _max;
+            max[3] = _max;
+            max[4] = _max;
+            max[5] = _max;
+
+            min[0] = _min;
+            min[1] = _min;
+            min[2] = _min;
+            min[3] = _min;
+            min[4] = _min;
+            min[5] = _min;
+        }
         public void EquipmentItemSetting(Item _item)
         {
             name = _item.itemName;
             itemCode = _item.itemCode;
             itemRarity = _item.itemRarity;
-            skillCode = _item.skillCode;
-            skillRarity = itemRarity;
             EquipmentUpgradeLimit();
             enchant = true;
         }
@@ -80,22 +93,6 @@ public class PlayerEquipment
             {
                 LimitUpgradeSet(0);
             }
-        }
-        public void LimitUpgradeSet(float _max, float _min = 0)
-        {
-            max[0] = _max;
-            max[1] = _max;
-            max[2] = _max;
-            max[3] = _max;
-            max[4] = _max;
-            max[5] = _max;
-
-            min[0] = _min;
-            min[1] = _min;
-            min[2] = _min;
-            min[3] = _min;
-            min[4] = _min;
-            min[5] = _min;
         }
         public void EquipmentStatusEnchant(int _status, float _addStatus, bool _upgrade)
         {
@@ -123,6 +120,25 @@ public class PlayerEquipment
             {
                 addStatus[_status] += _addStatus * 0.01f;
                 if (addStatus[_status] > min[_status]) addStatus[_status] = min[_status];
+            }
+        }
+        public void EquipmentSkillSetting()
+        {
+            switch (equipmentType)
+            {
+                case EquipmentType.bullet:
+                    skillCode = Database_Game.instance.SkillSetting(SkillType.Weapon).skillCode;
+                    break;
+                case EquipmentType.spear:
+                case EquipmentType.gun:
+                case EquipmentType.gloves:
+                case EquipmentType.shoes:
+                    skillCode = Database_Game.instance.SkillSetting(SkillType.Armor).skillCode;
+                    break;
+                case EquipmentType.bag:
+                case EquipmentType.bell:
+                    skillCode = Database_Game.instance.SkillSetting(SkillType.Support).skillCode;
+                    break;
             }
         }
     }

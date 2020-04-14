@@ -22,6 +22,7 @@ public class PlayerStatus : MonoBehaviour
     private float[] dashDistance = new float[3];  // 대시거리
     private float[] recovery = new float[3];      // 회복력
 
+    private int attackDebuffCount;
     private int[] debuffAttack = new int[2];
     private int[] debuffDefense = new int[2];
 
@@ -91,6 +92,8 @@ public class PlayerStatus : MonoBehaviour
     }
     public void PlayerStatusResultInit()
     {
+        attackDebuffCount = 0;
+
         attack[2] = attack[1];
         defense[2] = defense[1];
         moveSpeed[2] = moveSpeed[1];
@@ -193,13 +196,15 @@ public class PlayerStatus : MonoBehaviour
 
     public void SetDebuffAttack(int _num)
     {
-        debuffAttack[_num] = (int)(attack[2] * 0.8f);
-        attack[2] -= debuffAttack[_num];
+        ++attackDebuffCount;
+        debuffAttack[attackDebuffCount] = (int)(attack[2] * 0.8f);
+        attack[2] -= debuffAttack[attackDebuffCount];
         if (attack[2] < 1) attack[2] = 1;
     }
     public void SetRecoveryAttack(int _num)
     {
-        attack[2] += debuffAttack[_num];
+        attack[2] += debuffAttack[attackDebuffCount];
+        --attackDebuffCount;
     }
     public void SetDebuffRecovery()
     {
