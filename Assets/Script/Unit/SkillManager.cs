@@ -10,20 +10,9 @@ public class SkillManager : MonoBehaviour
     public IEnumerator[] skillBuffDurationCheck;
     public IEnumerator[] skillCoolTimeCheck;
 
-    /*
-     * 
-     * 스킬의 이름과 타입, 스킬 코드는 클래스로 저장
-     * 
-     * 스킬 타입별, 번호별로 함수 만들기
-     * 
-     * 장비에 등록된 아이템 레어리티에 따라 효과 배율 저장
-     * 
-     * */
-
     public void Init()
     {
         playerStatus = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
-        buffSkillList = new Skill[7];
         
         skillBuffDurationCheck = new IEnumerator[7];
         skillCoolTimeCheck = new IEnumerator[7];
@@ -33,14 +22,14 @@ public class SkillManager : MonoBehaviour
         }
     }
 
-    public bool UseSkill(int _skillCode)
+    public bool UseActiveSkill(int _skillCode)
     {
         if(_skillCode == 0) return false;
 
         switch (_skillCode)
         {
             case 101:
-                ActiveAuraSpear();
+                ActiveAuraSpearBuff();
                 break;
             case 102:
                 LaserAttack();
@@ -49,16 +38,22 @@ public class SkillManager : MonoBehaviour
                 AreaAttacksquare();
                 break;
             case 104:
+                ChargingAttackBuff();
                 break;
             case 105:
+                ImmortalBuff();
                 break;
             case 106:
+                ActiveShield();
                 break;
             case 107:
+                ResupplyBullet();
                 break;
             case 108:
+                Healling();
                 break;
             case 109:
+                Blink();
                 break;
             case 110:
                 break;
@@ -67,22 +62,39 @@ public class SkillManager : MonoBehaviour
     }
 
     #region 스킬 코드
-    public void ActiveAuraSpear()
+    public void ActiveAuraSpearBuff()
     {
-        for (int i = 0; i < 7; ++i)
-        {
-            if (buffSkillList[i] == skill)
-            {
-                SkillSetting(i);
-                break;
-            }
-        }
+
     }
     public void LaserAttack()
     {
 
     }
     public void AreaAttacksquare()
+    {
+
+    }
+    public void ChargingAttackBuff()
+    {
+
+    }
+    public void ImmortalBuff()
+    {
+
+    }
+    public void ActiveShield()
+    {
+
+    }
+    public void ResupplyBullet()
+    {
+
+    }
+    public void Healling()
+    {
+
+    }
+    public void Blink()
     {
 
     }

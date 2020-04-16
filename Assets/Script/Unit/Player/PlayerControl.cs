@@ -160,7 +160,7 @@ public class PlayerControl : MovingObject
         {
             if (!equipmentSkill.ContainsValue(2) || playerStatus.playerData.playerEquipment.equipment[2].isUsed) return;
             Debug.Log("스킬 1 입력");
-            if (SkillManager.instance.UseSkill(playerStatus.playerData.playerEquipment.equipment[2].skillCode))
+            if (SkillManager.instance.UseActiveSkill(playerStatus.playerData.playerEquipment.equipment[2].skillCode))
                 playerStatus.playerData.playerEquipment.equipment[2].isUsed = true;
         }
         if (Input.GetKeyDown(KeyCode.S))

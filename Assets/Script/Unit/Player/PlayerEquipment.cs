@@ -169,7 +169,7 @@ public class PlayerEquipment
                     break;
             }
             if (skillCode == 0)
-                PlayerControl.instance.equipmentSkill.Remove(PlayerControl.instance.equipmentSkill.FirstOrDefault((int)equipmentType).Key);
+                PlayerControl.instance.equipmentSkill.Remove(PlayerControl.instance.equipmentSkill.FirstOrDefault(x => x.Value == 2).Key);
         }
     }
     public Equipment[] equipment;      // 0 gun, 1 activeEquip, 2 spear, 3 tankTop, 4 shoes, 5 gloves, 6 bell
