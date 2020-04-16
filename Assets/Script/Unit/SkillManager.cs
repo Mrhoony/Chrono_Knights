@@ -33,35 +33,61 @@ public class SkillManager : MonoBehaviour
         }
     }
 
-    public void SkillCheck(PlayerEquipment.Equipment equipment)
+    public bool UseSkill(int _skillCode)
     {
-        if(equipment.isUsed) return;
+        if(_skillCode == 0) return false;
 
-        switch (equipment.skillCode)
+        switch (_skillCode)
         {
-            case 100:
             case 101:
+                ActiveAuraSpear();
+                break;
             case 102:
+                LaserAttack();
+                break;
             case 103:
+                AreaAttacksquare();
+                break;
             case 104:
+                break;
             case 105:
-                SetBuffStatus(equipment);
+                break;
+            case 106:
+                break;
+            case 107:
+                break;
+            case 108:
+                break;
+            case 109:
+                break;
+            case 110:
                 break;
         }
+        return true;
     }
 
-    public void SetBuffStatus(PlayerEquipment.Equipment equipment)
+    #region 스킬 코드
+    public void ActiveAuraSpear()
     {
         for (int i = 0; i < 7; ++i)
         {
             if (buffSkillList[i] == skill)
             {
-                BuffSkillSetting(i, equipment);
+                SkillSetting(i);
                 break;
             }
         }
     }
-    public void BuffSkillSetting(int i, PlayerEquipment.Equipment equipment)
+    public void LaserAttack()
+    {
+
+    }
+    public void AreaAttacksquare()
+    {
+
+    }
+    #endregion
+    public void SkillSetting(int i)
     {
         buffSkillList[i] = skill;
 
@@ -74,9 +100,9 @@ public class SkillManager : MonoBehaviour
 
         skillBuffDurationCheck[i] = BuffDuration(skill.skillTimeDuration, i);
         StartCoroutine(skillBuffDurationCheck[i]);
-        skillCoolTimeCheck[i] = SkillCoolTime(skill.skillCoolTime, equipment, i);
+        skillCoolTimeCheck[i] = SkillCoolTime(skill.skillCoolTime, i);
         StartCoroutine(skillCoolTimeCheck[i]);
-        equipment.isUsed = true;
+        //equipment.isUsed = true;
     }
     public IEnumerator BuffDuration(float duraionTime, int i)
     {
@@ -87,11 +113,11 @@ public class SkillManager : MonoBehaviour
         buffSkillList[i] = null;
         Debug.Log("BuffSkillEnd");
     }
-    public IEnumerator SkillCoolTime(float coolTime, PlayerEquipment.Equipment equipment, int i)
+    public IEnumerator SkillCoolTime(float coolTime, int i)
     {
         yield return new WaitForSeconds(coolTime);
         // 쿨타임 종료
-        equipment.isUsed = false;
+        //equipment.isUsed = false;
         Debug.Log("BuffSkillOn");
     }
 }

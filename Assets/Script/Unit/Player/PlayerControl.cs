@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum GunEft {
@@ -62,7 +63,9 @@ public class PlayerControl : MovingObject
 
     public bool debugOn;
     public int currentJumpCount;
-    
+
+    public Dictionary<int, int> equipmentSkill = new Dictionary<int, int>();
+
     private void Awake()
     {
         if (instance == null)
@@ -136,7 +139,7 @@ public class PlayerControl : MovingObject
         if (actionState == ActionState.IsJumpAttack) return;
 
         RunCheck();        // 대쉬 딜레이
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             if (arrowDirection > 0)
             {
@@ -155,8 +158,10 @@ public class PlayerControl : MovingObject
 
         if (Input.GetButtonDown("Skill"))
         {
-            if (playerStatus.playerData.playerEquipment.equipment[0].skillCode == 0 || playerStatus.playerData.playerEquipment.equipment[0].isUsed) return;
+            if (!equipmentSkill.ContainsValue(2) || playerStatus.playerData.playerEquipment.equipment[2].isUsed) return;
             Debug.Log("스킬 1 입력");
+            if (SkillManager.instance.UseSkill(playerStatus.playerData.playerEquipment.equipment[2].skillCode))
+                playerStatus.playerData.playerEquipment.equipment[2].isUsed = true;
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
@@ -604,6 +609,15 @@ public class PlayerControl : MovingObject
         }
         return attackDistance;
     }
+    public void AddAttackAuraSpear()
+    {
+
+    }
+    public void AddAttackSupport()
+    {
+
+    }
+
     public void AttackDistance(float _distanceMulty)
     {
         RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + GetComponent<BoxCollider2D>().size.x * 0.5f * arrowDirection

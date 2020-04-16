@@ -13,6 +13,7 @@ public enum ItemUsingType
 }
 public enum SkillType
 {
+    Active,
     Weapon,
     Armor,
     Support
@@ -169,7 +170,8 @@ public class Database_Game : MonoBehaviour
 
     public List<Item> Item = new List<Item>();
     public List<Skill> activeSkillList = new List<Skill>();
-    public List<Skill> passiveSkillList = new List<Skill>();
+    public List<Skill> weaponSkillList = new List<Skill>();
+    public List<Skill> armorSkillList = new List<Skill>();
     public List<Skill> supportSkillList = new List<Skill>();
     public List<Monster> monsterList = new List<Monster>();
     public List<PlayerAttack> playerAttack = new List<PlayerAttack>();
@@ -253,7 +255,7 @@ public class Database_Game : MonoBehaviour
                                 float.Parse(data.Attributes.GetNamedItem("skillTimeDuration").Value)));
                             break;
                         case SkillType.Armor:
-                            passiveSkillList.Add(new Skill(
+                            armorSkillList.Add(new Skill(
                                 (SkillType)System.Enum.Parse(typeof(SkillType), data.Attributes.GetNamedItem("skillType").Value),
                                 int.Parse(data.Attributes.GetNamedItem("skillCode").Value),
                                 data.Attributes.GetNamedItem("skillName").Value,
@@ -339,26 +341,30 @@ public class Database_Game : MonoBehaviour
         int count = Item.Count;
         return Item[Random.Range(0, count)];   
     }
-    public Skill SkillSetting(SkillType _skillType)
+    public int SkillSetting(SkillType _skillType)
     {
         Skill _skill = null;
         int listCount = 0;
         switch (_skillType)
         {
-            case SkillType.Weapon:
+            case SkillType.Active:
                 listCount = activeSkillList.Count;
                 _skill = activeSkillList[Random.Range(0, listCount)];
                 break;
+            case SkillType.Weapon:
+                listCount = weaponSkillList.Count;
+                _skill = weaponSkillList[Random.Range(0, listCount)];
+                break;
             case SkillType.Armor:
-                listCount = passiveSkillList.Count;
-                _skill = passiveSkillList[Random.Range(0, listCount)];
+                listCount = armorSkillList.Count;
+                _skill = armorSkillList[Random.Range(0, listCount)];
                 break;
             case SkillType.Support:
                 listCount = supportSkillList.Count;
                 _skill = supportSkillList[Random.Range(0, listCount)];
                 break;
         }
-        return _skill;
+        return _skill.skillCode;
     }
 
     public Monster GetMonsterStatus(int _monsterCode)
@@ -384,16 +390,48 @@ public class Database_Game : MonoBehaviour
         }
         return null;
     }
-    public Skill CheckActiveSkill(int _skillCode)
+    public int SkillCheck(SkillType _skillType, int _skillCode)
     {
-        for (int i = 0; i < activeSkillList.Count; i++)
+        switch (_skillType)
         {
-            if (activeSkillList[i].skillCode == _skillCode)
-            {
-                return activeSkillList[i];
-            }
+            case SkillType.Active:
+                for (int i = 0; i < activeSkillList.Count; i++)
+                {
+                    if (activeSkillList[i].skillCode == _skillCode)
+                    {
+                        return _skillCode;
+                    }
+                }
+                break;
+            case SkillType.Weapon:
+                for (int i = 0; i < weaponSkillList.Count; i++)
+                {
+                    if (weaponSkillList[i].skillCode == _skillCode)
+                    {
+                        return _skillCode;
+                    }
+                }
+                break;
+            case SkillType.Armor:
+                for (int i = 0; i < armorSkillList.Count; i++)
+                {
+                    if (armorSkillList[i].skillCode == _skillCode)
+                    {
+                        return _skillCode;
+                    }
+                }
+                break;
+            case SkillType.Support:
+                for (int i = 0; i < supportSkillList.Count; i++)
+                {
+                    if (supportSkillList[i].skillCode == _skillCode)
+                    {
+                        return _skillCode;
+                    }
+                }
+                break;
         }
-        return null;
+        return 0;
     }
     public PlayerAttack GetPlayerAttackInformation(AtkType _atkType)
     {

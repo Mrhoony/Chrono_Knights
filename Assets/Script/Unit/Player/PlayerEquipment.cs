@@ -1,15 +1,17 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
 public enum EquipmentType
 {
-    spear,
-    gun,
-    bullet,
-    bell,
-    gloves,
-    shoes,
-    bag
+    Spear,
+    Gun,
+    Active,
+    Bell,
+    Gloves,
+    Shoes,
+    Bag
 }
 
 [Serializable]
@@ -18,6 +20,7 @@ public class PlayerEquipment
     [Serializable]
     public struct Equipment
     {
+        public EquipmentType equipmentType;
         public string name;
         public float[] addStatus;    // 0 addAtk 1 addDefense 2 addmoveSpeed 3 addAttackSpeed 4 addDashDistance 5 addRecovery 6 addJumpCount
         public int itemCode;
@@ -26,10 +29,9 @@ public class PlayerEquipment
         public int downStatus;
         public float[] max;
         public float[] min;
-        public int skillCode;
         public bool isUsed;
         public bool enchant;
-        public EquipmentType equipmentType;
+        public int skillCode;
 
         public void Init(string _name, float[] _addStatus, EquipmentType _equipmentType)
         {
@@ -64,6 +66,7 @@ public class PlayerEquipment
             min[4] = _min;
             min[5] = _min;
         }
+
         public void EquipmentItemSetting(Item _item)
         {
             name = _item.itemName;
@@ -122,24 +125,51 @@ public class PlayerEquipment
                 if (addStatus[_status] > min[_status]) addStatus[_status] = min[_status];
             }
         }
-        public void EquipmentSkillSetting()
+        public void EquipmentSkillSetting(Dictionary<int, int> _equipmentSkill)
         {
             switch (equipmentType)
             {
-                case EquipmentType.bullet:
-                    skillCode = Database_Game.instance.SkillSetting(SkillType.Weapon).skillCode;
+                case EquipmentType.Active:
+                    skillCode = Database_Game.instance.SkillSetting(SkillType.Active);
                     break;
-                case EquipmentType.spear:
-                case EquipmentType.gun:
-                case EquipmentType.gloves:
-                case EquipmentType.shoes:
-                    skillCode = Database_Game.instance.SkillSetting(SkillType.Armor).skillCode;
+                case EquipmentType.Spear:
+                case EquipmentType.Gun:
+                    skillCode = Database_Game.instance.SkillSetting(SkillType.Weapon);
                     break;
-                case EquipmentType.bag:
-                case EquipmentType.bell:
-                    skillCode = Database_Game.instance.SkillSetting(SkillType.Support).skillCode;
+                case EquipmentType.Gloves:
+                case EquipmentType.Shoes:
+                    skillCode = Database_Game.instance.SkillSetting(SkillType.Armor);
+                    break;
+                case EquipmentType.Bag:
+                case EquipmentType.Bell:
+                    skillCode = Database_Game.instance.SkillSetting(SkillType.Support);
                     break;
             }
+            PlayerControl.instance.equipmentSkill.Add(skillCode, (int)equipmentType);
+        }
+        public void EquipmentSkillCheck()
+        {
+            if (!enchant) skillCode = 0;
+            switch (equipmentType)
+            {
+                case EquipmentType.Active:
+                    skillCode = Database_Game.instance.SkillCheck(SkillType.Active, skillCode);
+                    break;
+                case EquipmentType.Spear:
+                case EquipmentType.Gun:
+                    skillCode = Database_Game.instance.SkillCheck(SkillType.Weapon, skillCode);
+                    break;
+                case EquipmentType.Gloves:
+                case EquipmentType.Shoes:
+                    skillCode = Database_Game.instance.SkillCheck(SkillType.Armor, skillCode);
+                    break;
+                case EquipmentType.Bag:
+                case EquipmentType.Bell:
+                    skillCode = Database_Game.instance.SkillCheck(SkillType.Support, skillCode);
+                    break;
+            }
+            if (skillCode == 0)
+                PlayerControl.instance.equipmentSkill.Remove(PlayerControl.instance.equipmentSkill.FirstOrDefault((int)equipmentType).Key);
         }
     }
     public Equipment[] equipment;      // 0 gun, 1 activeEquip, 2 spear, 3 tankTop, 4 shoes, 5 gloves, 6 bell
@@ -149,13 +179,13 @@ public class PlayerEquipment
         float[] addStatus = {0,0,0,0,0,0};
         equipment = new Equipment[7];
 
-        equipment[0].Init("창", addStatus, EquipmentType.spear);
-        equipment[1].Init("총", addStatus, EquipmentType.gun);
-        equipment[2].Init("총알", addStatus, EquipmentType.bullet);
-        equipment[3].Init("종 보호대", addStatus, EquipmentType.bell);
-        equipment[4].Init("가죽 신발", addStatus, EquipmentType.shoes);
-        equipment[5].Init("맨 손", addStatus, EquipmentType.gloves);
-        equipment[6].Init("가방", addStatus, EquipmentType.bag);
+        equipment[0].Init("창", addStatus, EquipmentType.Spear);
+        equipment[1].Init("총", addStatus, EquipmentType.Gun);
+        equipment[2].Init("총알", addStatus, EquipmentType.Active);
+        equipment[3].Init("종 보호대", addStatus, EquipmentType.Bell);
+        equipment[4].Init("맨 손", addStatus, EquipmentType.Gloves);
+        equipment[5].Init("가죽 신발", addStatus, EquipmentType.Shoes);
+        equipment[6].Init("가방", addStatus, EquipmentType.Bag);
 
         Debug.Log("equipment Init");
     }
@@ -165,25 +195,25 @@ public class PlayerEquipment
         switch (num)
         {
             case 0:
-                equipment[0].Init("창", addStatus, EquipmentType.spear);
+                equipment[0].Init("창", addStatus, EquipmentType.Spear);
                 break;
             case 1:
-                equipment[1].Init("총", addStatus, EquipmentType.gun);
+                equipment[1].Init("총", addStatus, EquipmentType.Gun);
                 break;
             case 2:
-                equipment[2].Init("총알", addStatus, EquipmentType.bullet);
+                equipment[2].Init("총알", addStatus, EquipmentType.Active);
                 break;
             case 3:
-                equipment[3].Init("종 보호대", addStatus, EquipmentType.bell);
+                equipment[3].Init("종 보호대", addStatus, EquipmentType.Bell);
                 break;
             case 4:
-                equipment[4].Init("가죽 신발", addStatus, EquipmentType.shoes);
+                equipment[4].Init("맨 손", addStatus, EquipmentType.Gloves);
                 break;
             case 5:
-                equipment[5].Init("맨 손", addStatus, EquipmentType.gloves);
+                equipment[5].Init("가죽 신발", addStatus, EquipmentType.Shoes);
                 break;
             case 6:
-                equipment[6].Init("가방", addStatus, EquipmentType.bag);
+                equipment[6].Init("가방", addStatus, EquipmentType.Bag);
                 break;
         }
     }
@@ -192,6 +222,13 @@ public class PlayerEquipment
         for(int i = 0; i < 7; ++i)
         {
             equipment[i].EquipmentUpgradeLimit();
+        }
+    }
+    public void EquipmentSkillCheck()
+    {
+        for (int i = 0; i < 7; ++i)
+        {
+            equipment[i].EquipmentSkillCheck();
         }
     }
 

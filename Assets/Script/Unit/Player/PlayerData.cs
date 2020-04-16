@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 [Serializable]
 public class PlayerData
@@ -81,7 +80,6 @@ public class PlayerData
     {
         return maxAmmo;
     }
-    
     public PlayerEquipment GetPlayerEquipment()
     {
         return playerEquipment;

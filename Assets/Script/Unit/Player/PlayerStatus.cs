@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public enum Status
 {
@@ -25,7 +26,7 @@ public class PlayerStatus : MonoBehaviour
     private int attackDebuffCount;
     private int[] debuffAttack = new int[2];
     private int[] debuffDefense = new int[2];
-
+    
     public float jumpCount { get; set; }
     public float jumpPower { get; set; }
 
@@ -36,6 +37,7 @@ public class PlayerStatus : MonoBehaviour
         StatusInit();
         playerData = _playerData;
         playerData.GetPlayerEquipment().EquipmentLimitUpgrade();
+        playerData.GetPlayerEquipment().EquipmentSkillCheck();
 
         traningStat = playerData.GetTraningStat();
         HPCut = new bool[4];

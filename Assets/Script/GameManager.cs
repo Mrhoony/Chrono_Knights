@@ -245,8 +245,8 @@ public class GameManager : MonoBehaviour
 
         playerStat.SetPlayerData(dataBase.playerData);
         dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag());
-        storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.bag].itemRarity);
-        inventory.LoadInventoryData(dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.bag].itemRarity, dataBase.GetCurrentMoney());
+        storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.Bag].itemRarity);
+        inventory.LoadInventoryData(dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.Bag].itemRarity, dataBase.GetCurrentMoney());
 
         CloseLoad();
 
