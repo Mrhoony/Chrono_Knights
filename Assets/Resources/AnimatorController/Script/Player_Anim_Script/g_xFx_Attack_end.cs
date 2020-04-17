@@ -29,7 +29,7 @@ public class g_xFx_Attack_end : AnimatorManager
         if (!animator.GetBool("is_xFxFx_attack"))
         {
             playerControl.InputInit();
-            playerControl.MoveSet();
+            playerControl.PlayerStateInit();
         }
         move = false;
     }

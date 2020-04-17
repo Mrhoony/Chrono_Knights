@@ -243,8 +243,19 @@ public class Database_Game : MonoBehaviour
                 {
                     switch ((SkillType)System.Enum.Parse(typeof(SkillType), data.Attributes.GetNamedItem("skillType").Value))
                     {
-                        case SkillType.Weapon:
+                        case SkillType.Active:
                             activeSkillList.Add(new Skill(
+                                (SkillType)System.Enum.Parse(typeof(SkillType), data.Attributes.GetNamedItem("skillType").Value),
+                                int.Parse(data.Attributes.GetNamedItem("skillCode").Value),
+                                data.Attributes.GetNamedItem("skillName").Value,
+                                float.Parse(data.Attributes.GetNamedItem("skillMultiply").Value),
+                                int.Parse(data.Attributes.GetNamedItem("skillValue").Value),
+                                data.Attributes.GetNamedItem("skillDescription").Value,
+                                int.Parse(data.Attributes.GetNamedItem("skillOnCount").Value),
+                                float.Parse(data.Attributes.GetNamedItem("skillTimeDuration").Value)));
+                            break;
+                        case SkillType.Weapon:
+                            weaponSkillList.Add(new Skill(
                                 (SkillType)System.Enum.Parse(typeof(SkillType), data.Attributes.GetNamedItem("skillType").Value),
                                 int.Parse(data.Attributes.GetNamedItem("skillCode").Value),
                                 data.Attributes.GetNamedItem("skillName").Value,
@@ -341,30 +352,33 @@ public class Database_Game : MonoBehaviour
         int count = Item.Count;
         return Item[Random.Range(0, count)];   
     }
-    public int SkillSetting(SkillType _skillType)
+    public Skill SkillSetting(EquipmentType _EquipmentType)
     {
         Skill _skill = null;
         int listCount = 0;
-        switch (_skillType)
+        switch (_EquipmentType)
         {
-            case SkillType.Active:
+            case EquipmentType.Active:
                 listCount = activeSkillList.Count;
                 _skill = activeSkillList[Random.Range(0, listCount)];
                 break;
-            case SkillType.Weapon:
+            case EquipmentType.Spear:
+            case EquipmentType.Gun:
                 listCount = weaponSkillList.Count;
                 _skill = weaponSkillList[Random.Range(0, listCount)];
                 break;
-            case SkillType.Armor:
+            case EquipmentType.Gloves:
+            case EquipmentType.Shoes:
                 listCount = armorSkillList.Count;
                 _skill = armorSkillList[Random.Range(0, listCount)];
                 break;
-            case SkillType.Support:
+            case EquipmentType.Bag:
+            case EquipmentType.Bell:
                 listCount = supportSkillList.Count;
                 _skill = supportSkillList[Random.Range(0, listCount)];
                 break;
         }
-        return _skill.skillCode;
+        return _skill;
     }
 
     public Monster GetMonsterStatus(int _monsterCode)
@@ -390,7 +404,7 @@ public class Database_Game : MonoBehaviour
         }
         return null;
     }
-    public int SkillCheck(SkillType _skillType, int _skillCode)
+    public Skill GetSkill(SkillType _skillType, int _skillCode)
     {
         switch (_skillType)
         {
@@ -399,7 +413,7 @@ public class Database_Game : MonoBehaviour
                 {
                     if (activeSkillList[i].skillCode == _skillCode)
                     {
-                        return _skillCode;
+                        return activeSkillList[i];
                     }
                 }
                 break;
@@ -408,7 +422,7 @@ public class Database_Game : MonoBehaviour
                 {
                     if (weaponSkillList[i].skillCode == _skillCode)
                     {
-                        return _skillCode;
+                        return weaponSkillList[i];
                     }
                 }
                 break;
@@ -417,7 +431,7 @@ public class Database_Game : MonoBehaviour
                 {
                     if (armorSkillList[i].skillCode == _skillCode)
                     {
-                        return _skillCode;
+                        return armorSkillList[i];
                     }
                 }
                 break;
@@ -426,12 +440,12 @@ public class Database_Game : MonoBehaviour
                 {
                     if (supportSkillList[i].skillCode == _skillCode)
                     {
-                        return _skillCode;
+                        return supportSkillList[i];
                     }
                 }
                 break;
         }
-        return 0;
+        return null;
     }
     public PlayerAttack GetPlayerAttackInformation(AtkType _atkType)
     {

@@ -31,7 +31,7 @@ public class g_xx_Attack_end : AnimatorManager
         if (!animator.GetBool("is_xxx_attack"))
         {
             playerControl.InputInit();
-            playerControl.MoveSet();
+            playerControl.PlayerStateInit();
         }
         move = false;
     }

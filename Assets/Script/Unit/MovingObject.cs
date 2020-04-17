@@ -39,10 +39,15 @@ public abstract class MovingObject : MonoBehaviour
     public void Flip()
     {
         isFaceRight = !isFaceRight;
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+        ObjectFlip(gameObject);
         arrowDirection *= -1;
+    }
+    public void ObjectFlip(GameObject _Object)
+    {
+        Vector3 scale;
+        scale = _Object.transform.localScale;
+        scale.x *= -1;
+        _Object.transform.localScale = scale;
     }
 
     public string StateInfo

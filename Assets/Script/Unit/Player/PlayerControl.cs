@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum GunEft {
@@ -63,8 +62,6 @@ public class PlayerControl : MovingObject
 
     public bool debugOn;
     public int currentJumpCount;
-
-    public Dictionary<int, int> equipmentSkill = new Dictionary<int, int>();
 
     private void Awake()
     {
@@ -156,12 +153,14 @@ public class PlayerControl : MovingObject
 
         if (actionState != ActionState.Idle) return;
 
-        if (Input.GetButtonDown("Skill"))
+        if (Input.GetKeyDown(KeyCode.D))
         {
+            /*
             if (!equipmentSkill.ContainsValue(2) || playerStatus.playerData.playerEquipment.equipment[2].isUsed) return;
             Debug.Log("스킬 1 입력");
             if (SkillManager.instance.UseActiveSkill(playerStatus.playerData.playerEquipment.equipment[2].skillCode))
                 playerStatus.playerData.playerEquipment.equipment[2].isUsed = true;
+         */
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
@@ -177,61 +176,11 @@ public class PlayerControl : MovingObject
             }
         }       // 장착 무기 변경
     }
-
-    void RunCheck()
-    {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            isLrun = 0;
-            ++isRrun;
-            runDelay = 0.2f;
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            isRrun = 0;
-            ++isLrun;
-            runDelay = 0.2f;
-        }
-
-        if (((Input.GetKeyUp(KeyCode.RightArrow) && isRrun > 1) || (Input.GetKeyUp(KeyCode.LeftArrow) && isLrun > 1)))
-        {
-            isRrun = 0;
-            isLrun = 0;
-            animator.SetBool("isRun", false);
-        }
-
-        if((isLrun > 0 || isRrun > 0) && inputDirection == 0)
-        {
-            animator.SetBool("isRun", false);
-        }
-
-        if (runDelay > 0)
-        {
-            runDelay -= Time.deltaTime;
-            if (runDelay <= 0 && (isRrun < 2 && isLrun < 2))
-            {
-                isRrun = 0;
-                isLrun = 0;
-            }
-        }
-    }
-
-    public void PlayerInputKeyFlip()
-    {
-        Vector2 scale;
-        scale = quickSlot.transform.localScale;
-        scale.x *= -1;
-        quickSlot.transform.localScale = scale;
-        scale = playerInputKey.transform.localScale;
-        scale.x *= -1;
-        playerInputKey.transform.localScale = scale;
-    }
-
     private void FixedUpdate()
     {
         if (actionState == ActionState.IsDead || actionState == ActionState.NotMove) return;
         if (actionState != ActionState.Idle && actionState != ActionState.IsJump) return;     // 피격 시 입력무시
-        
+
         Move();
         Run();
         // 캐릭터 뒤집기
@@ -246,7 +195,7 @@ public class PlayerControl : MovingObject
             PlayerInputKeyFlip();
         }
     }
-
+    
     void SpearAttack()
     {
         if (Input.GetButtonUp("Fire1") && !animator.GetBool("is_y_attack"))
@@ -271,6 +220,7 @@ public class PlayerControl : MovingObject
                 }
             }
         }
+
         if (Input.GetButtonDown("Fire2"))
         {
             if (actionState == ActionState.IsJump || actionState == ActionState.IsJumpAttack)
@@ -325,6 +275,7 @@ public class PlayerControl : MovingObject
         }
     }
 
+    #region 이동 관련 함수
     void Jump()
     {
         if (actionState == ActionState.IsJumpAttack) return;
@@ -345,41 +296,7 @@ public class PlayerControl : MovingObject
         rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(0f, playerStatus.jumpPower), ForceMode2D.Impulse);
         actionState = ActionState.IsJump;
-        Debug.Log("jump");
     }
-    void Dodge()
-    {
-        if (!dodgable) return;
-        dodgable = false;
-        invincible = true;
-        
-        StartCoroutine(DodgeIgnore(0.2f));
-
-        animator.SetBool("isLand", false);
-        animator.SetTrigger("isDodge");
-        actionState = ActionState.IsDodge;
-
-        if (weaponType == 0)
-        {
-            if (inputDirection == arrowDirection)
-            {
-                rb.velocity = new Vector2(arrowDirection * playerStatus.GetDashDistance_Result() * 2f, 4f);
-            }
-            else
-            {
-                rb.velocity = new Vector2(-arrowDirection * playerStatus.GetDashDistance_Result() * 2f, 4f);
-            }
-        }
-        else
-        {
-            rb.velocity = new Vector2(-arrowDirection * playerStatus.GetDashDistance_Result() * 2f, 1f);
-        }
-
-        StartCoroutine(DodgeCount());
-        StartCoroutine(InvincibleCount());
-        Debug.Log("dodge");
-    }
-
     void Move()
     {
         if (inputDirection != 0)
@@ -411,27 +328,86 @@ public class PlayerControl : MovingObject
             rb.velocity = new Vector2(inputDirection * playerStatus.GetMoveSpeed_Result() * 2f, rb.velocity.y);
         }
     }
-    
-    IEnumerator InputIgnore(float _time)
+    void RunCheck()
     {
-        yield return new WaitForSeconds(_time);
-        actionState = ActionState.Idle;
-    }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            isLrun = 0;
+            ++isRrun;
+            runDelay = 0.2f;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            isRrun = 0;
+            ++isLrun;
+            runDelay = 0.2f;
+        }
 
-    IEnumerator DodgeIgnore(float _time)
+        if (((Input.GetKeyUp(KeyCode.RightArrow) && isRrun > 1) || (Input.GetKeyUp(KeyCode.LeftArrow) && isLrun > 1)))
+        {
+            isRrun = 0;
+            isLrun = 0;
+            animator.SetBool("isRun", false);
+        }
+
+        if ((isLrun > 0 || isRrun > 0) && inputDirection == 0)
+        {
+            animator.SetBool("isRun", false);
+        }
+
+        if (runDelay > 0)
+        {
+            runDelay -= Time.deltaTime;
+            if (runDelay <= 0 && (isRrun < 2 && isLrun < 2))
+            {
+                isRrun = 0;
+                isLrun = 0;
+            }
+        }
+    }
+    #endregion
+
+    void Dodge()
+    {
+        if (!dodgable) return;
+        dodgable = false;
+        invincible = true;
+
+        StartCoroutine(DodgeIgnore());
+
+        animator.SetBool("isLand", false);
+        animator.SetTrigger("isDodge");
+        actionState = ActionState.IsDodge;
+
+        if (weaponType == 0)
+        {
+            if (inputDirection == arrowDirection)
+            {
+                rb.velocity = new Vector2(arrowDirection * playerStatus.GetDashDistance_Result() * 2f, 4f);
+            }
+            else
+            {
+                rb.velocity = new Vector2(-arrowDirection * playerStatus.GetDashDistance_Result() * 2f, 4f);
+            }
+        }
+        else
+        {
+            rb.velocity = new Vector2(-arrowDirection * playerStatus.GetDashDistance_Result() * 2f, 1f);
+        }
+
+        StartCoroutine(DodgeCount());
+        StartCoroutine(InvincibleCount());
+        Debug.Log("dodge");
+    }
+    IEnumerator DodgeIgnore()
     {
         GroundCheck.SetActive(false);
-        yield return new WaitForSeconds(_time);
+        yield return new WaitForSeconds(0.2f);
         GroundCheck.SetActive(true);
-    }
-    IEnumerator InvincibleCount()
-    {
-        yield return new WaitForSeconds(1f);
-        invincible = false;
     }
     IEnumerator DodgeCount()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(playerStatus.dodgeCoolTime[1]);
         dodgable = true;
     }
 
@@ -451,6 +427,8 @@ public class PlayerControl : MovingObject
             animator.SetBool("is_x_Atk", true);
             return;
         }
+        
+        // 피격, 회피 스킬 체크
 
         StopPlayer();
         rb.gravityScale = 1f;
@@ -466,6 +444,11 @@ public class PlayerControl : MovingObject
     public void Dead()
     {
         DungeonManager.instance.PlayerIsDead();
+    }
+    IEnumerator InvincibleCount()
+    {
+        yield return new WaitForSeconds(playerStatus.invincibleCoolTime[1]);
+        invincible = false;
     }
 
     public void PlayerJumpAttackEnd()
@@ -505,16 +488,6 @@ public class PlayerControl : MovingObject
     }
     #endregion
 
-    public void StopPlayer()
-    {
-        actionState = ActionState.NotMove;
-        rb.velocity = Vector2.zero;
-        InputInit();
-        StartCoroutine(InputIgnore(0.5f));
-        animator.SetBool("isWalk", false);
-        animator.SetBool("isRun", false);
-        animator.SetTrigger("PlayerStop");
-    }
     public void InputInit()
     {
         if(weaponType == 0)
@@ -525,10 +498,6 @@ public class PlayerControl : MovingObject
         {
             weaponGun.InputInit();
         }
-    }
-    public void MoveSet()
-    {
-        actionState = ActionState.Idle;
     }
 
     public void SetAttackState(int _attackState)
@@ -605,6 +574,8 @@ public class PlayerControl : MovingObject
                         }
                         break;
                 }
+                // 장비 액티브 발동
+                // 장비 패시브 체크 / 발동
             }
         }
         return attackDistance;
@@ -657,7 +628,32 @@ public class PlayerControl : MovingObject
             return 20f;
         }
     }
-    
+
+    public void StopPlayer()
+    {
+        actionState = ActionState.NotMove;
+        rb.velocity = Vector2.zero;
+        InputInit();
+        StartCoroutine(InputIgnore(0.5f));
+        animator.SetBool("isWalk", false);
+        animator.SetBool("isRun", false);
+        animator.SetTrigger("PlayerStop");
+    }
+    IEnumerator InputIgnore(float _time)
+    {
+        yield return new WaitForSeconds(_time);
+        actionState = ActionState.Idle;
+    }
+    public void PlayerStateInit()
+    {
+        actionState = ActionState.Idle;
+    }
+
+    public void PlayerInputKeyFlip()
+    {
+        ObjectFlip(quickSlot);
+        ObjectFlip(playerInputKey);
+    }
     public void OnDrawGizmosSelected()
     {
         if (actionState == ActionState.IsAtk)

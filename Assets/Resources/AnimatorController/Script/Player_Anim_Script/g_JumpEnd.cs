@@ -9,7 +9,7 @@ public class g_JumpEnd : AnimatorManager
     {
         animator.SetBool("isLand", false);
         playerControl = PlayerControl.instance;
-        playerControl.MoveSet();
+        playerControl.PlayerStateInit();
         playerControl.InputInit();
     }
 

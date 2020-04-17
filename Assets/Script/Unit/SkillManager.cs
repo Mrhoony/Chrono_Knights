@@ -6,27 +6,28 @@ public class SkillManager : MonoBehaviour
     public static SkillManager instance;
     public PlayerStatus playerStatus;
     public Skill[] buffSkillList;
-    public Skill skill;
+    public Skill[] equipSkillList;
     public IEnumerator[] skillBuffDurationCheck;
     public IEnumerator[] skillCoolTimeCheck;
 
     public void Init()
     {
         playerStatus = GameObject.Find("PlayerCharacter").GetComponent<PlayerStatus>();
-        
+
+        equipSkillList = new Skill[7];
+        buffSkillList = new Skill[7];
         skillBuffDurationCheck = new IEnumerator[7];
         skillCoolTimeCheck = new IEnumerator[7];
         for (int i = 0; i < 7; ++i)
         {
+            equipSkillList[i] = null;
             buffSkillList[i] = null;
         }
     }
 
-    public bool UseActiveSkill(int _skillCode)
+    public bool UseActiveSkill()
     {
-        if(_skillCode == 0) return false;
-
-        switch (_skillCode)
+        switch (equipSkillList[2].skillCode)
         {
             case 101:
                 ActiveAuraSpearBuff();
@@ -98,22 +99,35 @@ public class SkillManager : MonoBehaviour
     {
 
     }
-    #endregion
-    public void SkillSetting(int i)
-    {
-        buffSkillList[i] = skill;
 
-        if(skillBuffDurationCheck[i] != null)
+    public void EmergencyEscape()
+    {
+
+    }
+    public void AutoDefense()
+    {
+
+    }
+    public void FirstAidKit()
+    {
+
+    }
+    #endregion
+    public void SkillSetting(Skill _skill)
+    {
+        buffSkillList[0] = _skill;
+
+        if(skillBuffDurationCheck[0] != null)
         {
-            StopCoroutine(skillBuffDurationCheck[i]);
-            StopCoroutine(skillCoolTimeCheck[i]);
+            StopCoroutine(skillBuffDurationCheck[0]);
+            StopCoroutine(skillCoolTimeCheck[0]);
             Debug.Log("실행중인 버프 종료");
         }
 
-        skillBuffDurationCheck[i] = BuffDuration(skill.skillTimeDuration, i);
-        StartCoroutine(skillBuffDurationCheck[i]);
-        skillCoolTimeCheck[i] = SkillCoolTime(skill.skillCoolTime, i);
-        StartCoroutine(skillCoolTimeCheck[i]);
+        skillBuffDurationCheck[0] = BuffDuration(_skill.skillTimeDuration, 0);
+        StartCoroutine(skillBuffDurationCheck[0]);
+        skillCoolTimeCheck[0] = SkillCoolTime(_skill.skillCoolTime, 0);
+        StartCoroutine(skillCoolTimeCheck[0]);
         //equipment.isUsed = true;
     }
     public IEnumerator BuffDuration(float duraionTime, int i)

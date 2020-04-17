@@ -1,9 +1,16 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 public enum Status
 {
-    attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount, HP, jumpPower
+    attack = 0,
+    defense,
+    moveSpeed,
+    attackSpeed,
+    dashDistance,
+    recovery,
+    jumpCount,
+    HP,
+    jumpPower
 }
 
 public class PlayerStatus : MonoBehaviour
@@ -26,6 +33,10 @@ public class PlayerStatus : MonoBehaviour
     private int attackDebuffCount;
     private int[] debuffAttack = new int[2];
     private int[] debuffDefense = new int[2];
+
+    public float[] dodgeCoolTime = new float[2];
+    public float[] invincibleCoolTime = new float[2];
+    public float[] dodgeDuringTime = new float[2];
     
     public float jumpCount { get; set; }
     public float jumpPower { get; set; }
@@ -51,6 +62,9 @@ public class PlayerStatus : MonoBehaviour
         {
             debuffAttack[i] = 0;
             debuffDefense[i] = 0;
+            dodgeCoolTime[i] = 0;
+            invincibleCoolTime[i] = 0;
+            dodgeDuringTime[i] = 0;
         }
         for (int i = 0; i < 3; i++)
         {
@@ -70,6 +84,9 @@ public class PlayerStatus : MonoBehaviour
         attackSpeed[0] = playerData.GetStatus(3);
         dashDistance[0] = playerData.GetStatus(4);
         recovery[0] = playerData.GetStatus(5);
+        dodgeCoolTime[0] = playerData.coolTime[0];
+        invincibleCoolTime[0] = playerData.coolTime[1];
+        dodgeDuringTime[0] = playerData.dodgeDuringTime;
 
         HP = playerData.GetStatus(7);
         jumpCount = playerData.GetStatus(6);
@@ -90,6 +107,27 @@ public class PlayerStatus : MonoBehaviour
         dashDistance[1] = dashDistance[0] + playerData.GetEquipmentStatus(4) + traningStat[4];
         recovery[1] = recovery[0] + playerData.GetEquipmentStatus(5) + traningStat[5];
 
+        Skill bagSkill = playerData.playerEquipment.GetEquipmentSkill(EquipmentType.Bag);
+        Skill bellSkill = playerData.playerEquipment.GetEquipmentSkill(EquipmentType.Bell);
+        float dodgeAddTime = 0f;
+        float invincibleAddTime = 0f;
+
+        if(bagSkill != null)
+        {
+            if(bagSkill.skillCode == 401)
+            {
+                dodgeAddTime = bagSkill.skillValue;
+            }
+        }
+        if (bellSkill != null)
+        {
+
+        }
+
+        dodgeCoolTime[1] = dodgeCoolTime[0];
+        invincibleCoolTime[1] = invincibleCoolTime[0] + invincibleAddTime;
+        dodgeDuringTime[1] = dodgeDuringTime[0] + dodgeAddTime;
+
         PlayerStatusResultInit();
     }
     public void PlayerStatusResultInit()
@@ -102,7 +140,7 @@ public class PlayerStatus : MonoBehaviour
         attackSpeed[2] = attackSpeed[1];
         dashDistance[2] = dashDistance[1];
         recovery[2] = recovery[1];
-
+        
         PlayerControl.instance.SetAnimationAttackSpeed(attackSpeed[2]);
     }
     public void HPInit()

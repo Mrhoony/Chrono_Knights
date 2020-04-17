@@ -27,7 +27,7 @@ public class x_Attack_end : AnimatorManager
         if (!animator.GetBool("is_xx_attack") && !animator.GetBool("is_xFx_attack") && !animator.GetBool("is_x_upper_attack"))
         {
             playerControl.InputInit();
-            playerControl.MoveSet();
+            playerControl.PlayerStateInit();
         }
         move = false;
     }

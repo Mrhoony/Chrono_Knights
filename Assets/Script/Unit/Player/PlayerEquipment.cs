@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections.Generic;
 using System.Linq;
 
 public enum EquipmentType
@@ -31,7 +30,7 @@ public class PlayerEquipment
         public float[] min;
         public bool isUsed;
         public bool enchant;
-        public int skillCode;
+        public Skill skill;
 
         public void Init(string _name, float[] _addStatus, EquipmentType _equipmentType)
         {
@@ -45,7 +44,7 @@ public class PlayerEquipment
             enchant = false;
             itemCode = 0;
             itemRarity = 0;
-            skillCode = 0;
+            skill = null;
             equipmentType = _equipmentType;
 
             LimitUpgradeSet(0);
@@ -125,51 +124,31 @@ public class PlayerEquipment
                 if (addStatus[_status] > min[_status]) addStatus[_status] = min[_status];
             }
         }
-        public void EquipmentSkillSetting(Dictionary<int, int> _equipmentSkill)
+        public void EquipmentSkillSetting()
         {
-            switch (equipmentType)
-            {
-                case EquipmentType.Active:
-                    skillCode = Database_Game.instance.SkillSetting(SkillType.Active);
-                    break;
-                case EquipmentType.Spear:
-                case EquipmentType.Gun:
-                    skillCode = Database_Game.instance.SkillSetting(SkillType.Weapon);
-                    break;
-                case EquipmentType.Gloves:
-                case EquipmentType.Shoes:
-                    skillCode = Database_Game.instance.SkillSetting(SkillType.Armor);
-                    break;
-                case EquipmentType.Bag:
-                case EquipmentType.Bell:
-                    skillCode = Database_Game.instance.SkillSetting(SkillType.Support);
-                    break;
-            }
-            PlayerControl.instance.equipmentSkill.Add(skillCode, (int)equipmentType);
+            skill = Database_Game.instance.SkillSetting(equipmentType);
+            SkillManager.instance.equipSkillList[(int)equipmentType] = skill;
         }
         public void EquipmentSkillCheck()
         {
-            if (!enchant) skillCode = 0;
-            switch (equipmentType)
+            if (!enchant)
             {
-                case EquipmentType.Active:
-                    skillCode = Database_Game.instance.SkillCheck(SkillType.Active, skillCode);
-                    break;
-                case EquipmentType.Spear:
-                case EquipmentType.Gun:
-                    skillCode = Database_Game.instance.SkillCheck(SkillType.Weapon, skillCode);
-                    break;
-                case EquipmentType.Gloves:
-                case EquipmentType.Shoes:
-                    skillCode = Database_Game.instance.SkillCheck(SkillType.Armor, skillCode);
-                    break;
-                case EquipmentType.Bag:
-                case EquipmentType.Bell:
-                    skillCode = Database_Game.instance.SkillCheck(SkillType.Support, skillCode);
-                    break;
+                skill = null;
+                SkillManager.instance.equipSkillList[(int)equipmentType] = null;
             }
-            if (skillCode == 0)
-                PlayerControl.instance.equipmentSkill.Remove(PlayerControl.instance.equipmentSkill.FirstOrDefault(x => x.Value == 2).Key);
+            else
+            {
+                if (skill != null)
+                {
+                    if (Database_Game.instance.GetSkill(skill.skillType, skill.skillCode) == null)
+                        SkillManager.instance.equipSkillList[(int)equipmentType] = null;
+                    else
+                    {
+                        skill = Database_Game.instance.GetSkill(skill.skillType, skill.skillCode);
+                        SkillManager.instance.equipSkillList[(int)equipmentType] = skill;
+                    }
+                }
+            }
         }
     }
     public Equipment[] equipment;      // 0 gun, 1 activeEquip, 2 spear, 3 tankTop, 4 shoes, 5 gloves, 6 bell
@@ -232,6 +211,10 @@ public class PlayerEquipment
         }
     }
 
+    public Skill GetEquipmentSkill(EquipmentType _EquipType)
+    {
+        return equipment[(int)_EquipType].skill;
+    }
     public string GetStatusName(int slotNum, bool upDown)
     {
         string statusName = "";

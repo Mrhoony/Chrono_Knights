@@ -24,7 +24,7 @@ public class y_up_Attack_end : AnimatorManager
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         playerControl.InputInit();
-        playerControl.MoveSet();
+        playerControl.PlayerStateInit();
         move = false;
     }
 

@@ -6,11 +6,12 @@ public class PlayerData
     public int maxAmmo;   // 현재 장탄 수
     public readonly int statusAmount = 6;
 
-    public float[] status;            // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount, HP, jumpPower
-
+    public float[] status = new float[9];            // attack, defense, moveSpeed, attackSpeed, dashDistance, recovery, jumpCount, HP, jumpPower
     public float[] traningStat;
     public float[] limitTraning;
     public int[] traning_count;
+    public float[] coolTime;
+    public float dodgeDuringTime;
 
     public PlayerEquipment playerEquipment;
 
@@ -52,7 +53,11 @@ public class PlayerData
         {
             traning_count[i] = 0;
         }
-        
+
+        coolTime[0] = 2f;
+        coolTime[1] = 0.5f;
+        dodgeDuringTime = 0.5f;
+
         maxAmmo = 10;
     }
 

@@ -28,7 +28,7 @@ public class s_x_upper_Attack : AnimatorManager
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         playerControl.InputInit();
-        playerControl.MoveSet();
+        playerControl.PlayerStateInit();
         Init();
 
     }
