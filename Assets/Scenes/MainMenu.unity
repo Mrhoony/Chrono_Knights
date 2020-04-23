@@ -703,7 +703,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStatus: {fileID: 0}
-  buffRarity: 
+  equipment:
+    equipment: []
+  skillLiveTime: []
+  skillCoolTime: []
 --- !u!1 &1058596574
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using System.Linq;
 
 public enum EquipmentType
 {
-    Spear,
+    Spear = 0,
     Gun,
     Active,
     Bell,
@@ -30,7 +30,7 @@ public class PlayerEquipment
         public float[] min;
         public bool isUsed;
         public bool enchant;
-        public Skill skill;
+        public int skillCode;
 
         public void Init(string _name, float[] _addStatus, EquipmentType _equipmentType)
         {
@@ -44,7 +44,7 @@ public class PlayerEquipment
             enchant = false;
             itemCode = 0;
             itemRarity = 0;
-            skill = null;
+            skillCode = 0;
             equipmentType = _equipmentType;
 
             LimitUpgradeSet(0);
@@ -126,26 +126,33 @@ public class PlayerEquipment
         }
         public void EquipmentSkillSetting()
         {
-            skill = Database_Game.instance.SkillSetting(equipmentType);
-            SkillManager.instance.equipSkillList[(int)equipmentType] = skill;
+            skillCode = Database_Game.instance.SkillSetting(equipmentType).skillCode;
+            Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, Database_Game.instance.GetSkill(skillCode));
         }
         public void EquipmentSkillCheck()
         {
             if (!enchant)
             {
-                skill = null;
-                SkillManager.instance.equipSkillList[(int)equipmentType] = null;
+                skillCode = 0;
+                Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, null);
             }
             else
             {
-                if (skill != null)
+                if (skillCode != 0)
                 {
-                    if (Database_Game.instance.GetSkill(skill.skillType, skill.skillCode) == null)
-                        SkillManager.instance.equipSkillList[(int)equipmentType] = null;
+                    if (itemRarity < 3)
+                    {
+                        Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, null);
+                    }
                     else
                     {
-                        skill = Database_Game.instance.GetSkill(skill.skillType, skill.skillCode);
-                        SkillManager.instance.equipSkillList[(int)equipmentType] = skill;
+                        if (Database_Game.instance.GetSkill(skillCode) == null)
+                            Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, null);
+                        else
+                        {
+                            skillCode = Database_Game.instance.GetSkill(skillCode).skillCode;
+                            Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, Database_Game.instance.GetSkill(skillCode));
+                        }
                     }
                 }
             }
@@ -211,9 +218,9 @@ public class PlayerEquipment
         }
     }
 
-    public Skill GetEquipmentSkill(EquipmentType _EquipType)
+    public int GetEquipmentSkill(EquipmentType _EquipType)
     {
-        return equipment[(int)_EquipType].skill;
+        return equipment[(int)_EquipType].skillCode;
     }
     public string GetStatusName(int slotNum, bool upDown)
     {

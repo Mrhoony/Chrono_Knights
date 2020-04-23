@@ -167,6 +167,7 @@ public class PlayerAttack
 public class Database_Game : MonoBehaviour
 {
     public static Database_Game instance;
+    public SkillManager skillManager;
 
     public List<Item> Item = new List<Item>();
     public List<Skill> activeSkillList = new List<Skill>();
@@ -197,6 +198,8 @@ public class Database_Game : MonoBehaviour
         InputSkillData(skillXMLFileName);
         InputMonsterData(MonsterXMLFileName);
         InputPlayerAttack(playerAttackXMLFileName);
+
+        skillManager = GetComponent<SkillManager>();
     }
 
     XmlNodeList XmlNodeReturn(string filePass)
@@ -404,46 +407,35 @@ public class Database_Game : MonoBehaviour
         }
         return null;
     }
-    public Skill GetSkill(SkillType _skillType, int _skillCode)
+    public Skill GetSkill(int _skillCode)
     {
-        switch (_skillType)
+        for (int i = 0; i < activeSkillList.Count; i++)
         {
-            case SkillType.Active:
-                for (int i = 0; i < activeSkillList.Count; i++)
-                {
-                    if (activeSkillList[i].skillCode == _skillCode)
-                    {
-                        return activeSkillList[i];
-                    }
-                }
-                break;
-            case SkillType.Weapon:
-                for (int i = 0; i < weaponSkillList.Count; i++)
-                {
-                    if (weaponSkillList[i].skillCode == _skillCode)
-                    {
-                        return weaponSkillList[i];
-                    }
-                }
-                break;
-            case SkillType.Armor:
-                for (int i = 0; i < armorSkillList.Count; i++)
-                {
-                    if (armorSkillList[i].skillCode == _skillCode)
-                    {
-                        return armorSkillList[i];
-                    }
-                }
-                break;
-            case SkillType.Support:
-                for (int i = 0; i < supportSkillList.Count; i++)
-                {
-                    if (supportSkillList[i].skillCode == _skillCode)
-                    {
-                        return supportSkillList[i];
-                    }
-                }
-                break;
+            if (activeSkillList[i].skillCode == _skillCode)
+            {
+                return activeSkillList[i];
+            }
+        }
+        for (int i = 0; i < weaponSkillList.Count; i++)
+        {
+            if (weaponSkillList[i].skillCode == _skillCode)
+            {
+                return weaponSkillList[i];
+            }
+        }
+        for (int i = 0; i < armorSkillList.Count; i++)
+        {
+            if (armorSkillList[i].skillCode == _skillCode)
+            {
+                return armorSkillList[i];
+            }
+        }
+        for (int i = 0; i < supportSkillList.Count; i++)
+        {
+            if (supportSkillList[i].skillCode == _skillCode)
+            {
+                return supportSkillList[i];
+            }
         }
         return null;
     }

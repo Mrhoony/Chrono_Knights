@@ -52,6 +52,7 @@ public class PlayerControl : MovingObject
     public int isRrun;
     public int isLrun;
 
+    public float chargingAttack;
     public int jumpAttack;
     public bool isGround;
     public bool isJump;
@@ -83,8 +84,9 @@ public class PlayerControl : MovingObject
         weaponSpear = GetComponent<Weapon_Spear>();
         weaponSpear.Init(animator, rb);
         weaponGun = GetComponent<Weapon_Gun>();
-        skillManager.Init();
-        
+        skillManager.Init(playerStatus);
+
+        chargingAttack = 0f;
         arrowDirection = 1;
         weaponType = 0;
         jumpAttack = 0;
@@ -155,12 +157,8 @@ public class PlayerControl : MovingObject
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            /*
-            if (!equipmentSkill.ContainsValue(2) || playerStatus.playerData.playerEquipment.equipment[2].isUsed) return;
             Debug.Log("스킬 1 입력");
-            if (SkillManager.instance.UseActiveSkill(playerStatus.playerData.playerEquipment.equipment[2].skillCode))
-                playerStatus.playerData.playerEquipment.equipment[2].isUsed = true;
-         */
+            skillManager.ActiveSkillUse(gameObject);
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
@@ -198,25 +196,68 @@ public class PlayerControl : MovingObject
     
     void SpearAttack()
     {
-        if (Input.GetButtonUp("Fire1") && !animator.GetBool("is_y_attack"))
+        if (!animator.GetBool("is_y_attack"))
         {
-            if (actionState == ActionState.IsJumpAttack)
+            if (playerStatus.chargingAttackOn)
             {
-                weaponSpear.JumpAttackX(inputArrow);
+                if (Input.GetButton("Fire1"))
+                {
+                    chargingAttack += Time.deltaTime;
+
+                    if (Input.GetButtonUp("Fire1"))
+                    {
+                        if(chargingAttack > 1f)
+                        {
+
+                        }
+                        else
+                        {
+                            if (actionState == ActionState.IsJumpAttack)
+                            {
+                                weaponSpear.JumpAttackX(inputArrow);
+                            }
+                            else
+                            {
+                                if (actionState == ActionState.IsJump)
+                                {
+                                    if (jumpAttack < 1) return;
+                                    --jumpAttack;
+                                    actionState |= ActionState.IsJumpAttack;
+                                    weaponSpear.JumpAttackX(inputArrow);
+                                }
+                                else
+                                {
+                                    actionState = ActionState.IsAtk;
+                                    weaponSpear.AttackX(inputArrow);
+                                }
+                            }
+                        }
+                    }
+                }
             }
             else
             {
-                if (actionState == ActionState.IsJump)
+                if (Input.GetButtonDown("Fire1"))
                 {
-                    if (jumpAttack < 1) return;
-                    --jumpAttack;
-                    actionState |= ActionState.IsJumpAttack;
-                    weaponSpear.JumpAttackX(inputArrow);
-                }
-                else
-                {
-                    actionState = ActionState.IsAtk;
-                    weaponSpear.AttackX(inputArrow);
+                    if (actionState == ActionState.IsJumpAttack)
+                    {
+                        weaponSpear.JumpAttackX(inputArrow);
+                    }
+                    else
+                    {
+                        if (actionState == ActionState.IsJump)
+                        {
+                            if (jumpAttack < 1) return;
+                            --jumpAttack;
+                            actionState |= ActionState.IsJumpAttack;
+                            weaponSpear.JumpAttackX(inputArrow);
+                        }
+                        else
+                        {
+                            actionState = ActionState.IsAtk;
+                            weaponSpear.AttackX(inputArrow);
+                        }
+                    }
                 }
             }
         }
@@ -231,15 +272,13 @@ public class PlayerControl : MovingObject
                     weaponSpear.JumpAttackY();
                 }
             }
-        }
-        if (Input.GetButton("Fire2"))
-        {
-            if (actionState != ActionState.IsJump && actionState != ActionState.IsJumpAttack)
+            else
             {
                 actionState = ActionState.IsAtk;
                 weaponSpear.AttackY(inputArrow);
             }
         }
+
         if (Input.GetButtonUp("Fire2"))
         {
             if (actionState != ActionState.IsJump && actionState != ActionState.IsJumpAttack)
@@ -365,6 +404,10 @@ public class PlayerControl : MovingObject
             }
         }
     }
+    public void Blink()
+    {
+
+    }
     #endregion
 
     void Dodge()
@@ -413,33 +456,51 @@ public class PlayerControl : MovingObject
 
     public void Hit(int _attack)
     {
-        if (invincible)     // 무적시간일 때
+        if (invincible)
         {
-            if(actionState == ActionState.IsDodge)
+            if (actionState == ActionState.IsDodge)
             {
                 playerEffect.GetComponent<Animator>().SetTrigger("isDodge_Trigger");
             }
             return;
-        }
+        }// 무적시간일 때
         else if (actionState == ActionState.IsParrying)
         {
             playerEffect.GetComponent<Animator>().SetTrigger("isDodge_Trigger");
             animator.SetBool("is_x_Atk", true);
             return;
-        }
-        
+        }//패링중일때
+
         // 피격, 회피 스킬 체크
+        if (skillManager.EmergencyEscape())
+        {
+            playerEffect.GetComponent<Animator>().SetTrigger("isDodge_Trigger");
+            return;
+        }// 회피스킬이 있을 때
+        else if (skillManager.AutoDefense())
+        {
+            actionState = ActionState.IsParrying;
+            playerEffect.GetComponent<Animator>().SetTrigger("isDodge_Trigger");
+            animator.SetBool("is_x_Atk", true);
+            return;
+        }// 자동 방어 스킬이 있을 때
+        else
+        {
+            // 쉴드가 있을경우 
+            _attack = playerStatus.ShieldCheck(_attack);
+            if (_attack <= 0) return;
 
-        StopPlayer();
-        rb.gravityScale = 1f;
-        CameraManager.instance.CameraShake(playerStatus.DecreaseHP(_attack) / 2);
-        animator.SetTrigger("isHit");
-        playerEffect.GetComponent<Animator>().SetTrigger("isHit_Trigger");
+            StopPlayer();
+            rb.gravityScale = 1f;
+            CameraManager.instance.CameraShake(playerStatus.DecreaseHP(_attack) / 2);
+            animator.SetTrigger("isHit");
+            playerEffect.GetComponent<Animator>().SetTrigger("isHit_Trigger");
 
-        rb.velocity = new Vector2(-arrowDirection * 3f, 2.5f);
+            rb.velocity = new Vector2(-arrowDirection * 3f, 2.5f);
 
-        invincible = true;
-        StartCoroutine(InvincibleCount());
+            invincible = true;
+            StartCoroutine(InvincibleCount());
+        }
     }
     public void Dead()
     {
@@ -546,9 +607,10 @@ public class PlayerControl : MovingObject
         playerAttack = Database_Game.instance.GetPlayerAttackInformation(_atkType);
 
         attackDistance = playerStatus.GetDashDistance_Result() * playerAttack.distanceMultiply * 0.5f;
-        monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (playerAttack.attackXPoint + attackDistance) * arrowDirection * 0.5f
+        monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (playerAttack.attackXPoint + attackDistance * 0.5f) * arrowDirection
             , transform.position.y + playerAttack.attackYPoint), new Vector2(attackDistance + playerAttack.attackXPoint, playerAttack.attackYPoint), 0);
-        
+
+
         overlap = monster.Length;
         bool _hit = false;
         for (int j = 0; j < overlap; ++j)
@@ -578,11 +640,35 @@ public class PlayerControl : MovingObject
                 // 장비 패시브 체크 / 발동
             }
         }
+
+        if (playerStatus.auraAttackOn)
+        {
+            AddAttackAuraSpear(_atkType, attackDistance);
+        }
+
         return attackDistance;
     }
-    public void AddAttackAuraSpear()
+    public void AddAttackAuraSpear(AtkType _AttackType, float _AttackDistance)
     {
+        int overlap2;
+        Collider2D[] monster_Aura;
+        Skill _auraSkill = Database_Game.instance.GetSkill(101);
 
+        monster_Aura = Physics2D.OverlapBoxAll(
+            new Vector2(transform.position.x + (playerAttack.attackXPoint + _AttackDistance * 0.5f) * arrowDirection,
+            transform.position.y + playerAttack.attackYPoint), 
+            new Vector2(_AttackDistance + playerAttack.attackXPoint + _auraSkill.skillValue, 
+            playerAttack.attackYPoint + _auraSkill.skillValue), 
+            0);
+
+        overlap2 = monster_Aura.Length;
+        for (int j = 0; j < overlap2; ++j)
+        {
+            if (monster_Aura[j].CompareTag("Monster") || monster_Aura[j].CompareTag("BossMonster"))
+            {
+                monster_Aura[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * _auraSkill.skillMultiply));
+            }
+        }
     }
     public void AddAttackSupport()
     {

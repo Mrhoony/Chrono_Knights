@@ -10,7 +10,7 @@ public class PlayerData
     public float[] traningStat;
     public float[] limitTraning;
     public int[] traning_count;
-    public float[] coolTime;
+    public float[] dodgeCoolTime;
     public float dodgeDuringTime;
 
     public PlayerEquipment playerEquipment;
@@ -53,14 +53,26 @@ public class PlayerData
         {
             traning_count[i] = 0;
         }
-
-        coolTime[0] = 2f;
-        coolTime[1] = 0.5f;
+        dodgeCoolTime = new float[2];
+        dodgeCoolTime[0] = 2f;
+        dodgeCoolTime[1] = 0.5f;
         dodgeDuringTime = 0.5f;
 
         maxAmmo = 10;
     }
 
+    public float GetDodgeCoolTime(int _num)
+    {
+        if(dodgeCoolTime == null)
+        {
+            dodgeCoolTime = new float[2];
+            dodgeCoolTime[0] = 2f;
+            dodgeCoolTime[1] = 0.5f;
+            dodgeDuringTime = 0.5f;
+        }
+
+        return dodgeCoolTime[_num];
+    }
     public int[] GetTraningCount()
     {
         return traning_count;

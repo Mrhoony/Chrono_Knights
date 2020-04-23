@@ -29,6 +29,7 @@ public class PlayerStatus : MonoBehaviour
     private float[] attackSpeed = new float[3];   // 공격 속도
     private float[] dashDistance = new float[3];  // 대시거리
     private float[] recovery = new float[3];      // 회복력
+    private int shield;
 
     private int attackDebuffCount;
     private int[] debuffAttack = new int[2];
@@ -37,7 +38,11 @@ public class PlayerStatus : MonoBehaviour
     public float[] dodgeCoolTime = new float[2];
     public float[] invincibleCoolTime = new float[2];
     public float[] dodgeDuringTime = new float[2];
-    
+
+    public bool auraAttackOn;
+    public bool chargingAttackOn;
+    public bool immortalBuffOn;
+
     public float jumpCount { get; set; }
     public float jumpPower { get; set; }
 
@@ -75,6 +80,7 @@ public class PlayerStatus : MonoBehaviour
             dashDistance[i] = 0f;
             recovery[i] = 0f;
         }
+        shield = 0;
     }
     public void PlayerStatusLoad()      // 기본 스테이터스 로드
     {
@@ -84,8 +90,8 @@ public class PlayerStatus : MonoBehaviour
         attackSpeed[0] = playerData.GetStatus(3);
         dashDistance[0] = playerData.GetStatus(4);
         recovery[0] = playerData.GetStatus(5);
-        dodgeCoolTime[0] = playerData.coolTime[0];
-        invincibleCoolTime[0] = playerData.coolTime[1];
+        dodgeCoolTime[0] = playerData.GetDodgeCoolTime(0);
+        invincibleCoolTime[0] = playerData.GetDodgeCoolTime(1);
         dodgeDuringTime[0] = playerData.dodgeDuringTime;
 
         HP = playerData.GetStatus(7);
@@ -95,6 +101,10 @@ public class PlayerStatus : MonoBehaviour
     }
     public void ReturnToTown()          // 마을 복귀시 기본 스테이터스, hp 초기화
     {
+        auraAttackOn = false;
+        chargingAttackOn = false;
+        shield = 0;
+
         PlayerStatusUpdate();
         HPInit();
     }
@@ -106,27 +116,10 @@ public class PlayerStatus : MonoBehaviour
         attackSpeed[1] = attackSpeed[0] + playerData.GetEquipmentStatus(3) + traningStat[3];
         dashDistance[1] = dashDistance[0] + playerData.GetEquipmentStatus(4) + traningStat[4];
         recovery[1] = recovery[0] + playerData.GetEquipmentStatus(5) + traningStat[5];
-
-        Skill bagSkill = playerData.playerEquipment.GetEquipmentSkill(EquipmentType.Bag);
-        Skill bellSkill = playerData.playerEquipment.GetEquipmentSkill(EquipmentType.Bell);
-        float dodgeAddTime = 0f;
-        float invincibleAddTime = 0f;
-
-        if(bagSkill != null)
-        {
-            if(bagSkill.skillCode == 401)
-            {
-                dodgeAddTime = bagSkill.skillValue;
-            }
-        }
-        if (bellSkill != null)
-        {
-
-        }
-
+        
         dodgeCoolTime[1] = dodgeCoolTime[0];
-        invincibleCoolTime[1] = invincibleCoolTime[0] + invincibleAddTime;
-        dodgeDuringTime[1] = dodgeDuringTime[0] + dodgeAddTime;
+        invincibleCoolTime[1] = invincibleCoolTime[0];
+        dodgeDuringTime[1] = dodgeDuringTime[0];
 
         PlayerStatusResultInit();
     }
@@ -153,6 +146,22 @@ public class PlayerStatus : MonoBehaviour
         playerStatusView.Init();
     }
 
+    public int ShieldCheck(int _Damage)
+    {
+        if(shield > 0)
+        {
+            if(shield > _Damage)
+            {
+                shield -= _Damage;
+                _Damage = 0;
+            }
+            else
+            {
+                _Damage -= shield;
+            }
+        }
+        return _Damage;
+    }
     public int DecreaseHP(int _damage)
     {
         _damage -= (int)defense[2];
@@ -183,6 +192,7 @@ public class PlayerStatus : MonoBehaviour
         {
             if(HPCutCheck(0.2f, 3, _damage))
             {
+                Database_Game.instance.skillManager.FirstAidKit();
                 SetDebuffAttack(1);
                 SetDebuffRecovery();
             }
@@ -223,6 +233,16 @@ public class PlayerStatus : MonoBehaviour
             }
         }
         return false;
+    }
+    public void IncreaseShield(int _ShieldValue)
+    {
+        shield += _ShieldValue;
+        // 쉴드 애니매이션 온
+    }
+    public void ShieldReset()
+    {
+        shield = 0;
+        // 쉴드 애니매이션 오프
     }
     public void Resupply_Ammo(int _ammoReplenish)
     {
