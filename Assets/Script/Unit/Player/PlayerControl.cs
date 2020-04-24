@@ -37,6 +37,7 @@ public class PlayerControl : MovingObject
     public GameObject playerEffect;
     public GameObject playerInputKey;
     public GameObject quickSlot;
+    public GameObject Canvas;
 
     public GameObject[] gunEffect;
     public GameObject[] shotPoint;
@@ -454,7 +455,7 @@ public class PlayerControl : MovingObject
         dodgable = true;
     }
 
-    public void Hit(int _attack)
+    public void Hit(int _damage)
     {
         if (invincible)
         {
@@ -472,12 +473,22 @@ public class PlayerControl : MovingObject
         }//패링중일때
 
         // 쉴드가 있을경우 
-        _attack = playerStatus.ShieldCheck(_attack);
-        if (_attack <= 0) return;
+        _damage = playerStatus.ShieldCheck(_damage);
+        if (_damage <= 0) return;
+
+        GameObject DamageText;
+        DamageText = Instantiate(hitTextBox, new Vector3(
+                    Camera.main.WorldToScreenPoint(transform.position).x,
+                    Camera.main.WorldToScreenPoint(transform.position).y + GetComponent<BoxCollider2D>().bounds.size.y * 100f + 10f,
+                    transform.position.z), Quaternion.identity);
+
+        DamageText.transform.SetParent(Canvas.transform);
+        DamageText.GetComponent<DamageText>().SetDamage(_damage);
+        DamageText.SetActive(true);
 
         StopPlayer();
         rb.gravityScale = 1f;
-        CameraManager.instance.CameraShake(playerStatus.DecreaseHP(_attack) / 2);
+        CameraManager.instance.CameraShake(playerStatus.DecreaseHP(_damage) / 2);
         animator.SetTrigger("isHit");
         playerEffect.GetComponent<Animator>().SetTrigger("isHit_Trigger");
 

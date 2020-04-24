@@ -23,6 +23,8 @@ public abstract class MovingObject : MonoBehaviour
     protected Rigidbody2D rb;
     protected Animator animator;
 
+    public GameObject hitTextBox;
+
     public SpriteRenderer spriteRenderer;
     public Material defaultMaterial;
     public Material whiteFlashMaterial;

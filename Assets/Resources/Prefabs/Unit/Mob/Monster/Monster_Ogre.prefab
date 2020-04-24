@@ -164,6 +164,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78abb0b8462ade94ba79a01f6cec3679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitTextBox: {fileID: 3285582221110859941, guid: 1570b86f5d6cd2a47963a2e70bbfa9e5,
+    type: 3}
   spriteRenderer: {fileID: 0}
   defaultMaterial: {fileID: 0}
   whiteFlashMaterial: {fileID: 0}

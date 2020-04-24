@@ -62,30 +62,30 @@ public class EnemyStatus : MonoBehaviour
         _defense = _monster.monsterDefense;
         monsterWeight = _monster.monsterWeight;
     }
-    public void IncreaseHP(int damage)
+    public void IncreaseHP(int _Damage)
     {
-        _currentHP += damage;
+        _currentHP += _Damage;
         if(_currentHP > _HP)
         {
             _currentHP = _HP;
         }
         enemyHPBar.GetComponent<EnemyHPBar>().SetHPBar();
     }
-    public void DecreaseHP(int damage)
+    public int DecreaseHP(int _Damage)
     {
-        _currentHP -= damage;
+        _currentHP -= _Damage;
         if (_currentHP <= 0)
         {
             _currentHP = 0;
         }
         enemyHPBar.GetComponent<EnemyHPBar>().SetHPBar();
+        return _Damage;
     }
 
     public bool IsDeadCheck()
     {
         if (_currentHP <= 0)
         {
-            _currentHP = 0;
             HPbarReset();
             return true;
         }

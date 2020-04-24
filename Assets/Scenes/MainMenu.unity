@@ -676,6 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86157ce9e9485344f9aa1940f9e13254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillManager: {fileID: 0}
 --- !u!4 &1044432035
 Transform:
   m_ObjectHideFlags: 0
@@ -702,11 +703,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff022c91d3207f240b300b3d919fcb79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeSkillName: 
   playerStatus: {fileID: 0}
   equipment:
     equipment: []
-  skillLiveTime: []
-  skillCoolTime: []
 --- !u!1 &1058596574
 GameObject:
   m_ObjectHideFlags: 0
