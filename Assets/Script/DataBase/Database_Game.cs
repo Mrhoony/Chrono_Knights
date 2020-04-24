@@ -14,9 +14,7 @@ public enum ItemUsingType
 public enum SkillType
 {
     Active,
-    Weapon,
-    Armor,
-    Support
+    Passive
 }
 
 public class Item
@@ -171,9 +169,7 @@ public class Database_Game : MonoBehaviour
 
     public List<Item> Item = new List<Item>();
     public List<Skill> activeSkillList = new List<Skill>();
-    public List<Skill> weaponSkillList = new List<Skill>();
-    public List<Skill> armorSkillList = new List<Skill>();
-    public List<Skill> supportSkillList = new List<Skill>();
+    public List<Skill> passiveSkillList = new List<Skill>();
     public List<Monster> monsterList = new List<Monster>();
     public List<PlayerAttack> playerAttack = new List<PlayerAttack>();
 
@@ -257,30 +253,8 @@ public class Database_Game : MonoBehaviour
                                 int.Parse(data.Attributes.GetNamedItem("skillOnCount").Value),
                                 float.Parse(data.Attributes.GetNamedItem("skillTimeDuration").Value)));
                             break;
-                        case SkillType.Weapon:
-                            weaponSkillList.Add(new Skill(
-                                (SkillType)System.Enum.Parse(typeof(SkillType), data.Attributes.GetNamedItem("skillType").Value),
-                                int.Parse(data.Attributes.GetNamedItem("skillCode").Value),
-                                data.Attributes.GetNamedItem("skillName").Value,
-                                float.Parse(data.Attributes.GetNamedItem("skillMultiply").Value),
-                                int.Parse(data.Attributes.GetNamedItem("skillValue").Value),
-                                data.Attributes.GetNamedItem("skillDescription").Value,
-                                int.Parse(data.Attributes.GetNamedItem("skillOnCount").Value),
-                                float.Parse(data.Attributes.GetNamedItem("skillTimeDuration").Value)));
-                            break;
-                        case SkillType.Armor:
-                            armorSkillList.Add(new Skill(
-                                (SkillType)System.Enum.Parse(typeof(SkillType), data.Attributes.GetNamedItem("skillType").Value),
-                                int.Parse(data.Attributes.GetNamedItem("skillCode").Value),
-                                data.Attributes.GetNamedItem("skillName").Value,
-                                float.Parse(data.Attributes.GetNamedItem("skillMultiply").Value),
-                                int.Parse(data.Attributes.GetNamedItem("skillValue").Value),
-                                data.Attributes.GetNamedItem("skillDescription").Value,
-                                int.Parse(data.Attributes.GetNamedItem("skillOnCount").Value),
-                                float.Parse(data.Attributes.GetNamedItem("skillTimeDuration").Value)));
-                            break;
-                        case SkillType.Support:
-                            supportSkillList.Add(new Skill(
+                        case SkillType.Passive:
+                            passiveSkillList.Add(new Skill(
                                 (SkillType)System.Enum.Parse(typeof(SkillType), data.Attributes.GetNamedItem("skillType").Value),
                                 int.Parse(data.Attributes.GetNamedItem("skillCode").Value),
                                 data.Attributes.GetNamedItem("skillName").Value,
@@ -359,28 +333,17 @@ public class Database_Game : MonoBehaviour
     {
         Skill _skill = null;
         int listCount = 0;
-        switch (_EquipmentType)
+        if(_EquipmentType == EquipmentType.Active)
         {
-            case EquipmentType.Active:
-                listCount = activeSkillList.Count;
-                _skill = activeSkillList[Random.Range(0, listCount)];
-                break;
-            case EquipmentType.Spear:
-            case EquipmentType.Gun:
-                listCount = weaponSkillList.Count;
-                _skill = weaponSkillList[Random.Range(0, listCount)];
-                break;
-            case EquipmentType.Gloves:
-            case EquipmentType.Shoes:
-                listCount = armorSkillList.Count;
-                _skill = armorSkillList[Random.Range(0, listCount)];
-                break;
-            case EquipmentType.Bag:
-            case EquipmentType.Bell:
-                listCount = supportSkillList.Count;
-                _skill = supportSkillList[Random.Range(0, listCount)];
-                break;
+            listCount = activeSkillList.Count;
+            _skill = activeSkillList[Random.Range(0, listCount)];
         }
+        else
+        {
+            listCount = passiveSkillList.Count;
+            _skill = passiveSkillList[Random.Range(0, listCount)];
+        }
+
         return _skill;
     }
 
@@ -416,25 +379,11 @@ public class Database_Game : MonoBehaviour
                 return activeSkillList[i];
             }
         }
-        for (int i = 0; i < weaponSkillList.Count; i++)
+        for (int i = 0; i < passiveSkillList.Count; i++)
         {
-            if (weaponSkillList[i].skillCode == _skillCode)
+            if (passiveSkillList[i].skillCode == _skillCode)
             {
-                return weaponSkillList[i];
-            }
-        }
-        for (int i = 0; i < armorSkillList.Count; i++)
-        {
-            if (armorSkillList[i].skillCode == _skillCode)
-            {
-                return armorSkillList[i];
-            }
-        }
-        for (int i = 0; i < supportSkillList.Count; i++)
-        {
-            if (supportSkillList[i].skillCode == _skillCode)
-            {
-                return supportSkillList[i];
+                return passiveSkillList[i];
             }
         }
         return null;

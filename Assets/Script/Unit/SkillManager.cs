@@ -1,22 +1,35 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
 
 public class SkillManager : MonoBehaviour
 {
+    public class SkillList
+    {
+        public Skill skill;
+        public int skillStack;
+        public bool isUsed;
+
+        public SkillList(Skill _Skill, int _SkillStack)
+        {
+            skill = _Skill;
+            skillStack = _SkillStack;
+            isUsed = false;
+        }
+    }
+
+    public Dictionary<string, SkillList> skillList;
+    public string activeSkillName;
+
     public PlayerStatus playerStatus;
     public PlayerEquipment equipment;
-    public Skill[] equipSkillList;
-
-    public Skill[] liveTimeSkillList;
-    public Skill[] coolTimeSkillList;
-    public float[] skillLiveTime;
-    public float[] skillCoolTime;
 
     #region SkillClassList
-
-    FirstAidKit skill_FirstAidKit = new FirstAidKit();
+    
     AuraSpear skill_AuraSpear = new AuraSpear();
     ChargingAttack skill_ChargingAttack = new ChargingAttack();
     ImmortalBuff skill_ImmortalBuff = new ImmortalBuff();
+    ActiveShield skill_ActiveShield = new ActiveShield();
 
     #endregion
 
@@ -24,122 +37,79 @@ public class SkillManager : MonoBehaviour
     {
         playerStatus = _playerStatus;
         equipment = playerStatus.playerData.playerEquipment;
-        equipSkillList = new Skill[7];
-
-        liveTimeSkillList = new Skill[7];
-        coolTimeSkillList = new Skill[7];
-        skillLiveTime = new float[7];
-        skillCoolTime = new float[7];
+        skillList = new Dictionary<string, SkillList>();
 
         SkillListInit();
     }
     public void SkillListInit()
     {
-        for (int i = 0; i < 7; ++i)
-        {
-            liveTimeSkillList[i] = null;
-            coolTimeSkillList[i] = null;
-            skillLiveTime[i] = 0f;
-            skillCoolTime[i] = 0f;
-            equipSkillList[i] = null;
-        }
+        skillList.Clear();
+        activeSkillName = "";
 
         Debug.Log("skill list init");
     }
-    public void EquipmentSkillSetting(int _EquipmentNum, Skill _Skill)
+    public void EquipmentSkillSetting(int _EquipmentType, Skill _Skill)
     {
-        equipSkillList[_EquipmentNum] = _Skill;
+        if (_Skill == null) return;
+
+        if (_EquipmentType == 2)
+            activeSkillName = _Skill.skillName;
+
+        if (skillList.ContainsKey(_Skill.skillName))
+        {
+            ++skillList[_Skill.skillName].skillStack;
+        }
+        else
+        {
+            skillList.Add(_Skill.skillName, new SkillList(_Skill, 1));
+        }
     }
-
-
+    
     public void SkillCoolTimeReset()
     {
-        for (int i = 0; i < 7; ++i)
+        StopCoroutine("LiveTimeCheckCoroutine");
+        StopCoroutine("CoolTimeCheckCoroutine");
+
+        foreach (string key in skillList.Keys)
         {
-            // 버프중인 스킬 제거
-            if (liveTimeSkillList[i] != null)
-            {
-                SkillReset(liveTimeSkillList[i].skillCode);
-                liveTimeSkillList[i] = null;
-            }
-            // 쿨타임 초기화
-            if (coolTimeSkillList[i] != null)
-            {
-                coolTimeSkillList[i] = null;
-                equipment.equipment[i].isUsed = false;
-            }
-            skillLiveTime[i] = 0f;
-            skillCoolTime[i] = 0f;
+            skillList[key].isUsed = false;
         }
     }
-
-    private void Update()
-    {
-        if (DungeonManager.instance.isSceneLoading) return;
-
-        // 쿨타임 관리
-        for(int i = 0; i < 7; ++i)
-        {
-            //
-            if (liveTimeSkillList[i] != null)
-            {
-                skillLiveTime[i] -= Time.deltaTime;
-                if (skillLiveTime[i] < 0)
-                {
-                    skillLiveTime[i] = 0f;
-                    SkillReset(liveTimeSkillList[i].skillCode);
-                    liveTimeSkillList[i] = null;
-                }
-            }
-
-            if (coolTimeSkillList[i] != null)
-            {
-                skillCoolTime[i] -= Time.deltaTime;
-                if (skillCoolTime[i] < 0)
-                {
-                    skillCoolTime[i] = 0f;
-                    coolTimeSkillList[i] = null;
-                    equipment.equipment[i].isUsed = false;
-                }
-            }
-        }
-    }
-
+    
     public void ActiveSkillUse(GameObject _Player)
     {
-        if (equipSkillList[2] == null || equipment.equipment[2].isUsed) return;
-        equipment.equipment[2].isUsed = true;
+        
+        if (!skillList.ContainsKey(activeSkillName)) return;
+        if (skillList[activeSkillName].isUsed) return;
 
-        switch (equipSkillList[2].skillCode)
+        switch (skillList[activeSkillName].skill.skillCode)
         {
             case 101:
-                ActiveAuraSpearBuff();
+                ActiveAuraSpearBuff(skillList[activeSkillName]);
                 break;
             case 102:
-                LaserAttack(_Player);
+                LaserAttack(skillList[activeSkillName], _Player);
                 break;
             case 103:
-                AreaAttackSquare(_Player);
+                AreaAttackSquare(skillList[activeSkillName], _Player);
                 break;
             case 104:
-                ChargingAttackBuff();
+                ChargingAttackBuff(skillList[activeSkillName]);
                 break;
             case 105:
-                ImmortalBuff();
+                ImmortalBuff(skillList[activeSkillName]);
                 break;
             case 106:
-                ActiveShield();
+                ActiveShield(skillList[activeSkillName]);
                 break;
             case 107:
-                ResupplyBullet();
+                ResupplyBullet(skillList[activeSkillName]);
                 break;
             case 108:
-                Healling();
+                Healling(skillList[activeSkillName]);
                 break;
             case 109:
-                Blink(_Player);
-                break;
-            case 110:
+                Blink(skillList[activeSkillName], _Player);
                 break;
         }
     }
@@ -165,108 +135,117 @@ public class SkillManager : MonoBehaviour
     }
 
     #region 즉발 스킬 코드
-    public void LaserAttack(GameObject _Player)
+    public void LaserAttack(SkillList _ActiveSkill, GameObject _Player)
     {
         // laserattack 에서 오브젝트 온
-        ActiveSkillSetting(equipment.equipment[2], equipSkillList[2]);
+        ContinuousSkillSetting(_ActiveSkill);
     }
-    public void AreaAttackSquare(GameObject _Player)
+    public void AreaAttackSquare(SkillList _ActiveSkill, GameObject _Player)
     {
-        ActiveSkillSetting(equipment.equipment[2], equipSkillList[2]);
+        ContinuousSkillSetting(_ActiveSkill);
     }
-    public void ResupplyBullet()
+    public void ResupplyBullet(SkillList _ActiveSkill)
     {
-        ActiveSkillSetting(equipment.equipment[2], equipSkillList[2]);
+        ContinuousSkillSetting(_ActiveSkill);
         playerStatus.Resupply_Ammo(5);
     }
-    public void Healling()
+    public void Healling(SkillList _ActiveSkill)
     {
-        ActiveSkillSetting(equipment.equipment[2], equipSkillList[2]);
+        ContinuousSkillSetting(_ActiveSkill);
         playerStatus.IncreaseHP(10);
     }
-    public void Blink(GameObject _Player)
+    public void Blink(SkillList _ActiveSkill, GameObject _Player)
     {
-        ActiveSkillSetting(equipment.equipment[2], equipSkillList[2]);
+        ContinuousSkillSetting(_ActiveSkill);
     }
     #endregion
     #region 지속 스킬 코드
-    public void ActiveAuraSpearBuff()
+    public void ActiveAuraSpearBuff(SkillList _ActiveSkill)
     {
-        BuffSkillSetting(equipment.equipment[2], equipSkillList[2]);
-        skill_FirstAidKit.OnSkill(playerStatus);
+        ContinuousSkillSetting(_ActiveSkill);
+        skill_AuraSpear.OnSkill(playerStatus);
     }
-    public void ChargingAttackBuff()
+    public void ChargingAttackBuff(SkillList _ActiveSkill)
     {
-        BuffSkillSetting(equipment.equipment[2], equipSkillList[2]);
+        ContinuousSkillSetting(_ActiveSkill);
         skill_ChargingAttack.OnSkill(playerStatus);
     }
-    public void ImmortalBuff()
+    public void ImmortalBuff(SkillList _ActiveSkill)
     {
-        BuffSkillSetting(equipment.equipment[2], equipSkillList[2]);
+        ContinuousSkillSetting(_ActiveSkill);
         skill_ImmortalBuff.OnSkill(playerStatus);
     }
-    public void ActiveShield()
+    public void ActiveShield(SkillList _ActiveSkill)
     {
-        BuffSkillSetting(equipment.equipment[2], equipSkillList[2]);
-        skill_ImmortalBuff.OnSkill(playerStatus);
+        ContinuousSkillSetting(_ActiveSkill);
     }
     #endregion
     #region 패시브 스킬 코드
     public void FirstAidKit()
     {
-        if (equipSkillList[(int)EquipmentType.Gloves].skillName.CompareTo("First aid") == 0 && equipment.equipment[(int)EquipmentType.Gloves].isUsed != true)
-        {
-            skill_FirstAidKit.OnSkill(playerStatus);
-            ActiveSkillSetting(equipment.equipment[(int)EquipmentType.Gloves], equipSkillList[(int)EquipmentType.Gloves]);
-        }
-        else if (equipSkillList[(int)EquipmentType.Shoes].skillName.CompareTo("First aid") == 0 && equipment.equipment[(int)EquipmentType.Shoes].isUsed != true)
-        {
-            skill_FirstAidKit.OnSkill(playerStatus);
-            ActiveSkillSetting(equipment.equipment[(int)EquipmentType.Shoes], equipSkillList[(int)EquipmentType.Shoes]);
-        }
+        playerStatus.IncreaseHP(10 * GetPassiveSkillStack("First aid"));
     }
-    public bool EmergencyEscape()
+    public int EmergencyEscape()
     {
-        if (equipSkillList[(int)EquipmentType.Gloves].skillName.CompareTo("Emergency Escape") == 0 && equipment.equipment[(int)EquipmentType.Gloves].isUsed != true)
-        {
-            ActiveSkillSetting(equipment.equipment[(int)EquipmentType.Gloves], equipSkillList[(int)EquipmentType.Gloves]);
-            return true;
-        }
-        else if (equipSkillList[(int)EquipmentType.Shoes].skillName.CompareTo("Emergency Escape") == 0 && equipment.equipment[(int)EquipmentType.Shoes].isUsed != true)
-        {
-            ActiveSkillSetting(equipment.equipment[(int)EquipmentType.Shoes], equipSkillList[(int)EquipmentType.Shoes]);
-            return true;
-        }
-        return false;
+        return GetPassiveSkillStack("Emergency Escape");
     }
-    public bool AutoDefense()
+    public int AutoDefense()
     {
-        if (equipSkillList[(int)EquipmentType.Gloves].skillName.CompareTo("Auto defense") == 0 && equipment.equipment[(int)EquipmentType.Gloves].isUsed != true)
-        {
-            ActiveSkillSetting(equipment.equipment[(int)EquipmentType.Gloves], equipSkillList[(int)EquipmentType.Gloves]);
-            return true;
-        }
-        else if (equipSkillList[(int)EquipmentType.Shoes].skillName.CompareTo("Auto defense") == 0 && equipment.equipment[(int)EquipmentType.Shoes].isUsed != true)
-        {
-            ActiveSkillSetting(equipment.equipment[(int)EquipmentType.Shoes], equipSkillList[(int)EquipmentType.Shoes]);
-            return true;
-        }
-        return false;
+        return GetPassiveSkillStack("Auto defense");
     }
     #endregion
 
-    public void ActiveSkillSetting(PlayerEquipment.Equipment _equipment, Skill _skill)
+    public void ImmediateActivateSkillSetting(SkillList _skill)
     {
-        coolTimeSkillList[(int)_equipment.equipmentType] = _skill;
-        skillCoolTime[(int)_equipment.equipmentType] = _skill.skillCoolTime;
-        _equipment.isUsed = true;
+        StartCoroutine(CoolTimeCheckCoroutine(_skill));
     }
-    public void BuffSkillSetting(PlayerEquipment.Equipment _equipment, Skill _skill)
+    public void ContinuousSkillSetting(SkillList _skill)
     {
-        liveTimeSkillList[(int)_equipment.equipmentType] = _skill;
-        coolTimeSkillList[(int)_equipment.equipmentType] = _skill;
-        skillLiveTime[(int)_equipment.equipmentType] = _skill.skillTimeDuration;
-        skillCoolTime[(int)_equipment.equipmentType] = _skill.skillCoolTime;
-        _equipment.isUsed = true;
+        StartCoroutine(LiveTimeCheckCoroutine(_skill));
+        StartCoroutine(CoolTimeCheckCoroutine(_skill));
+    }
+
+    public int GetPassiveSkillStack(string _PassiveSkillName)
+    {
+        int passiveSkillStack;
+        if (skillList.ContainsKey(_PassiveSkillName))
+        {
+            passiveSkillStack = skillList[_PassiveSkillName].skillStack;
+            return passiveSkillStack;
+        }
+        return 0;
+    }
+    
+    IEnumerator LiveTimeCheckCoroutine(SkillList _skill)
+    {
+        float currentTime = 0f;
+        while (true)
+        {
+            if (DungeonManager.instance.isSceneLoading) continue;
+
+            currentTime += Time.deltaTime;
+            if(currentTime > _skill.skill.skillTimeDuration)
+            {
+                SkillReset(_skill.skill.skillCode);
+                break;
+            }
+            yield return null;
+        }
+    }
+    IEnumerator CoolTimeCheckCoroutine(SkillList _skill)
+    {
+        float currentTime = 0f;
+        while (true)
+        {
+            if (DungeonManager.instance.isSceneLoading) continue;
+
+            currentTime += Time.deltaTime;
+            if (currentTime > _skill.skill.skillCoolTime)
+            {
+                _skill.isUsed = false;
+                break;
+            }
+            yield return null;
+        }
     }
 }

@@ -450,7 +450,7 @@ public class PlayerControl : MovingObject
     }
     IEnumerator DodgeCount()
     {
-        yield return new WaitForSeconds(playerStatus.dodgeCoolTime[1]);
+        yield return new WaitForSeconds(playerStatus.GetDodgeCoolTime());
         dodgable = true;
     }
 
@@ -471,36 +471,20 @@ public class PlayerControl : MovingObject
             return;
         }//패링중일때
 
-        // 피격, 회피 스킬 체크
-        if (skillManager.EmergencyEscape())
-        {
-            playerEffect.GetComponent<Animator>().SetTrigger("isDodge_Trigger");
-            return;
-        }// 회피스킬이 있을 때
-        else if (skillManager.AutoDefense())
-        {
-            actionState = ActionState.IsParrying;
-            playerEffect.GetComponent<Animator>().SetTrigger("isDodge_Trigger");
-            animator.SetBool("is_x_Atk", true);
-            return;
-        }// 자동 방어 스킬이 있을 때
-        else
-        {
-            // 쉴드가 있을경우 
-            _attack = playerStatus.ShieldCheck(_attack);
-            if (_attack <= 0) return;
+        // 쉴드가 있을경우 
+        _attack = playerStatus.ShieldCheck(_attack);
+        if (_attack <= 0) return;
 
-            StopPlayer();
-            rb.gravityScale = 1f;
-            CameraManager.instance.CameraShake(playerStatus.DecreaseHP(_attack) / 2);
-            animator.SetTrigger("isHit");
-            playerEffect.GetComponent<Animator>().SetTrigger("isHit_Trigger");
+        StopPlayer();
+        rb.gravityScale = 1f;
+        CameraManager.instance.CameraShake(playerStatus.DecreaseHP(_attack) / 2);
+        animator.SetTrigger("isHit");
+        playerEffect.GetComponent<Animator>().SetTrigger("isHit_Trigger");
 
-            rb.velocity = new Vector2(-arrowDirection * 3f, 2.5f);
+        rb.velocity = new Vector2(-arrowDirection * 3f, 2.5f);
 
-            invincible = true;
-            StartCoroutine(InvincibleCount());
-        }
+        invincible = true;
+        StartCoroutine(InvincibleCount());
     }
     public void Dead()
     {
@@ -508,7 +492,7 @@ public class PlayerControl : MovingObject
     }
     IEnumerator InvincibleCount()
     {
-        yield return new WaitForSeconds(playerStatus.invincibleCoolTime[1]);
+        yield return new WaitForSeconds(playerStatus.GetInvincibleDurationTime());
         invincible = false;
     }
 
@@ -607,7 +591,7 @@ public class PlayerControl : MovingObject
         playerAttack = Database_Game.instance.GetPlayerAttackInformation(_atkType);
 
         attackDistance = playerStatus.GetDashDistance_Result() * playerAttack.distanceMultiply * 0.5f;
-        monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (playerAttack.attackXPoint + attackDistance * 0.5f) * arrowDirection
+        monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (playerAttack.attackXPoint + attackDistance) * arrowDirection * 0.5f
             , transform.position.y + playerAttack.attackYPoint), new Vector2(attackDistance + playerAttack.attackXPoint, playerAttack.attackYPoint), 0);
 
 
@@ -646,6 +630,11 @@ public class PlayerControl : MovingObject
             AddAttackAuraSpear(_atkType, attackDistance);
         }
 
+        if (playerStatus.miniAttackOn)
+        {
+            AddAttackSupport(_atkType, attackDistance);
+        }
+
         return attackDistance;
     }
     public void AddAttackAuraSpear(AtkType _AttackType, float _AttackDistance)
@@ -655,7 +644,7 @@ public class PlayerControl : MovingObject
         Skill _auraSkill = Database_Game.instance.GetSkill(101);
 
         monster_Aura = Physics2D.OverlapBoxAll(
-            new Vector2(transform.position.x + (playerAttack.attackXPoint + _AttackDistance * 0.5f) * arrowDirection,
+            new Vector2(transform.position.x + (playerAttack.attackXPoint + _AttackDistance) * arrowDirection * 0.5f,
             transform.position.y + playerAttack.attackYPoint), 
             new Vector2(_AttackDistance + playerAttack.attackXPoint + _auraSkill.skillValue, 
             playerAttack.attackYPoint + _auraSkill.skillValue), 
@@ -669,10 +658,30 @@ public class PlayerControl : MovingObject
                 monster_Aura[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * _auraSkill.skillMultiply));
             }
         }
+        Debug.Log("Aura attack");
     }
-    public void AddAttackSupport()
+    public void AddAttackSupport(AtkType _AttackType, float _AttackDistance)
     {
+        int overlap2;
+        Collider2D[] monster_Aura;
+        Skill _auraSkill = Database_Game.instance.GetSkill(201);
 
+        monster_Aura = Physics2D.OverlapBoxAll(
+            new Vector2(transform.position.x + (playerAttack.attackXPoint + _AttackDistance) * arrowDirection * 0.5f,
+            transform.position.y + playerAttack.attackYPoint),
+            new Vector2(_AttackDistance + playerAttack.attackXPoint + _auraSkill.skillValue,
+            playerAttack.attackYPoint + _auraSkill.skillValue),
+            0);
+
+        overlap2 = monster_Aura.Length;
+        for (int j = 0; j < overlap2; ++j)
+        {
+            if (monster_Aura[j].CompareTag("Monster") || monster_Aura[j].CompareTag("BossMonster"))
+            {
+                monster_Aura[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * _auraSkill.skillMultiply));
+            }
+        }
+        Debug.Log("add attack");
     }
 
     public void AttackDistance(float _distanceMulty)
