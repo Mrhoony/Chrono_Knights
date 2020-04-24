@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using System.Linq;
 
 public enum EquipmentType
 {
@@ -28,7 +27,6 @@ public class PlayerEquipment
         public int downStatus;
         public float[] max;
         public float[] min;
-        public bool isUsed;
         public bool enchant;
         public int skillCode;
 
@@ -40,7 +38,6 @@ public class PlayerEquipment
             downStatus = 8;
             max = new float[6];
             min = new float[6];
-            isUsed = false;
             enchant = false;
             itemCode = 0;
             itemRarity = 0;
@@ -131,29 +128,27 @@ public class PlayerEquipment
         }
         public void EquipmentSkillCheck()
         {
-            if (!enchant)
+            if (!enchant || itemRarity < 3)
             {
                 skillCode = 0;
                 Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, null);
+                return;
             }
-            else
+
+            // 레어리티 3이상일 때
+            if (skillCode == 0) // 스킬이 없으면
             {
-                if (skillCode != 0)
+                skillCode = Database_Game.instance.SkillSetting(equipmentType).skillCode;
+                Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, Database_Game.instance.GetSkill(skillCode));
+            }
+            else                // 스킬이 있을 때
+            {
+                if (Database_Game.instance.GetSkill(skillCode) == null)
+                    Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, null);
+                else
                 {
-                    if (itemRarity < 3)
-                    {
-                        Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, null);
-                    }
-                    else
-                    {
-                        if (Database_Game.instance.GetSkill(skillCode) == null)
-                            Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, null);
-                        else
-                        {
-                            skillCode = Database_Game.instance.GetSkill(skillCode).skillCode;
-                            Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, Database_Game.instance.GetSkill(skillCode));
-                        }
-                    }
+                    skillCode = Database_Game.instance.GetSkill(skillCode).skillCode;
+                    Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, Database_Game.instance.GetSkill(skillCode));
                 }
             }
         }

@@ -23,25 +23,28 @@ public class PlayerStatus : MonoBehaviour
     private bool[] HPCut;
     private int currentAmmo;   // 현재 버프량
 
-    private float[] attack = new float[3];        // 공격력
-    private float[] defense = new float[3];       // 안정성(방어력)
-    private float[] moveSpeed = new float[3];     // 이동 속도
-    private float[] attackSpeed = new float[3];   // 공격 속도
-    private float[] dashDistance = new float[3];  // 대시거리
-    private float[] recovery = new float[3];      // 회복력
+    private readonly float[] attack = new float[3];        // 공격력
+    private readonly float[] defense = new float[3];       // 안정성(방어력)
+    private readonly float[] moveSpeed = new float[3];     // 이동 속도
+    private readonly float[] attackSpeed = new float[3];   // 공격 속도
+    private readonly float[] dashDistance = new float[3];  // 대시거리
+    private readonly float[] recovery = new float[3];      // 회복력
     private int shield;
+    
+    private readonly int[] debuffAttack = new int[2];
+    private readonly int[] debuffDefense = new int[2];
 
-    private int attackDebuffCount;
-    private int[] debuffAttack = new int[2];
-    private int[] debuffDefense = new int[2];
+    private readonly float[] dodgeCoolTime = new float[2];
+    private readonly float[] invincibleCoolTime = new float[2];
+    private readonly float[] dodgeDuringTime = new float[2];
 
-    public float[] dodgeCoolTime = new float[2];
-    public float[] invincibleCoolTime = new float[2];
-    public float[] dodgeDuringTime = new float[2];
-
+    #region 장비 스킬 관련
     public bool auraAttackOn;
     public bool chargingAttackOn;
     public bool immortalBuffOn;
+
+    public bool miniAttackOn;
+    #endregion
 
     public float jumpCount { get; set; }
     public float jumpPower { get; set; }
@@ -67,6 +70,7 @@ public class PlayerStatus : MonoBehaviour
         {
             debuffAttack[i] = 0;
             debuffDefense[i] = 0;
+
             dodgeCoolTime[i] = 0;
             invincibleCoolTime[i] = 0;
             dodgeDuringTime[i] = 0;
@@ -105,6 +109,7 @@ public class PlayerStatus : MonoBehaviour
         chargingAttackOn = false;
         shield = 0;
 
+        Database_Game.instance.skillManager.SkillCoolTimeReset();
         PlayerStatusUpdate();
         HPInit();
     }
@@ -125,8 +130,6 @@ public class PlayerStatus : MonoBehaviour
     }
     public void PlayerStatusResultInit()
     {
-        attackDebuffCount = 0;
-
         attack[2] = attack[1];
         defense[2] = defense[1];
         moveSpeed[2] = moveSpeed[1];
@@ -256,15 +259,13 @@ public class PlayerStatus : MonoBehaviour
 
     public void SetDebuffAttack(int _num)
     {
-        ++attackDebuffCount;
-        debuffAttack[attackDebuffCount] = (int)(attack[2] * 0.8f);
-        attack[2] -= debuffAttack[attackDebuffCount];
+        debuffAttack[_num] = (int)(attack[2] * 0.8f);
+        attack[2] -= debuffAttack[_num];
         if (attack[2] < 1) attack[2] = 1;
     }
     public void SetRecoveryAttack(int _num)
     {
-        attack[2] += debuffAttack[attackDebuffCount];
-        --attackDebuffCount;
+        attack[2] += debuffAttack[_num];
     }
     public void SetDebuffRecovery()
     {
@@ -397,6 +398,15 @@ public class PlayerStatus : MonoBehaviour
     public float GetRecovery_Result()
     {
         return recovery[2];
+    }
+
+    public float GetDodgeCoolTime()
+    {
+        return dodgeCoolTime[1] + Database_Game.instance.skillManager.EmergencyEscape();
+    }
+    public float GetInvincibleDurationTime()
+    {
+        return invincibleCoolTime[1]; // + Database_Game.instance.skillManager.GetPassiveSkill();
     }
     #endregion
 }
