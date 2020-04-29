@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class Menu_Storage : Menu_InGameMenu
 {
     public Menu_Inventory inventory;
+    public Text boxNumber;
 
     public GameObject cursorStorageSelect;
     public float cursorSpd;
@@ -148,6 +150,7 @@ public class Menu_Storage : Menu_InGameMenu
 
     public void StorageSet()           // 창고 활성화시 UI 초기화
     {
+        boxNumber.text = (boxNum + 1).ToString() + " / " + ((availableSlot - 1) / 24 + 1).ToString();
         if (availableSlot - (boxNum * 24) > 24) boxFull = 24;
         else                                    boxFull = availableSlot - (boxNum * 24);
 
