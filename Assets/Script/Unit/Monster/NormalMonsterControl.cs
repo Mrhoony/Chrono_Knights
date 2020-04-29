@@ -144,15 +144,7 @@ public abstract class NormalMonsterControl : Monster_Control
         
         _damage = enemyStatus.DecreaseHP(_damage);
 
-        GameObject DamageText;
-        DamageText = Instantiate(hitTextBox, new Vector3(
-                    Camera.main.WorldToScreenPoint(transform.position).x,
-                    Camera.main.WorldToScreenPoint(transform.position).y + GetComponent<BoxCollider2D>().bounds.size.y * 100f + 10f,
-                    transform.position.z), Quaternion.identity);
-
-        DamageText.transform.SetParent(dungeon_UI.transform);
-        DamageText.GetComponent<DamageText>().SetDamage(_damage);
-        DamageText.SetActive(true);
+        SetDamageText(_damage);
 
         if (enemyStatus.IsDeadCheck())
         {

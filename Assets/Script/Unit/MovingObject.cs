@@ -67,4 +67,19 @@ public abstract class MovingObject : MonoBehaviour
     {
         return actionState;
     }
+
+    public void SetDamageText(int _Damage)
+    {
+        GameObject DamageText;
+        DamageText = Instantiate(hitTextBox);
+        
+        DamageText.transform.position = new Vector3(transform.position.x, 
+            transform.position.y + GetComponent<BoxCollider2D>().bounds.size.y,
+            transform.position.z);
+
+        DamageText.transform.SetParent(GameObject.Find("FloatingText").transform);
+        DamageText.GetComponent<DamageText>().SetDamage(_Damage);
+        DamageText.SetActive(true);
+
+    }
 }

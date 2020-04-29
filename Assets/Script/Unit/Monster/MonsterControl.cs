@@ -26,7 +26,6 @@ public abstract class Monster_Control : MovingObject
     public List<GameObject> eftPool;
     public EnemyStatus enemyStatus;
     public DropItemList dropItemList;
-    public GameObject dungeon_UI;
 
     public string monsterName;
     public int monsterCode;
@@ -62,7 +61,6 @@ public abstract class Monster_Control : MovingObject
         defaultMaterial = Resources.Load<Material>("Material/SpriteDefault");
         whiteFlashMaterial = Resources.Load<Material>("Material/WhiteFlash");
         target = GameObject.Find("PlayerCharacter");
-        dungeon_UI = GameObject.Find("DungeonUI");
     }
 
     public void MonsterStop()

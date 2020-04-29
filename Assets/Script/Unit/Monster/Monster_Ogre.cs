@@ -71,6 +71,8 @@ public class Monster_Ogre : NormalMonsterControl
 
         enemyStatus.DecreaseHP(_damage);
 
+        SetDamageText(_damage);
+
         if (enemyStatus.IsDeadCheck())
         {
             actionState = ActionState.IsDead;

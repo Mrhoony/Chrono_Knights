@@ -24,7 +24,6 @@ public class g_Jump_x_Atk : AnimatorManager
         }
         else
         {
-            animator.SetBool("isFall", true);
             animator.SetBool("isJump_x_attack", false);
         }
     }
@@ -32,7 +31,6 @@ public class g_Jump_x_Atk : AnimatorManager
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetBool("IsFall", false);
         playerControl.InputInit();
         playerControl.PlayerJumpAttackEnd();
         move = false;

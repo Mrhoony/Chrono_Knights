@@ -36,8 +36,7 @@ public class PlayerControl : MovingObject
     public SkillManager skillManager;
     public GameObject playerEffect;
     public GameObject playerInputKey;
-    public GameObject quickSlot;
-    public GameObject Canvas;
+    public GameObject playerFollowObject;
 
     public GameObject[] gunEffect;
     public GameObject[] shotPoint;
@@ -123,14 +122,17 @@ public class PlayerControl : MovingObject
         // 낙하 체크
         if (rb.velocity.y < -0.5f && actionState != ActionState.IsJumpAttack)
         {
-            if (actionState != ActionState.IsJump && !isGround && !isJump)
-            {
-                isJump = true;
-                actionState = ActionState.IsJump;
-                --currentJumpCount;
-            }
-            animator.SetBool("isFall", true);
             GroundCheck.SetActive(true);
+            if (rb.velocity.y < 1f)
+            {
+                if (actionState != ActionState.IsJump && !isGround && !isJump)
+                {
+                    isJump = true;
+                    actionState = ActionState.IsJump;
+                    --currentJumpCount;
+                }
+                animator.SetBool("isFall", true);
+            }
         }
 
         if (Input.GetButtonDown("Fire3") && dodgable) Dodge();      // 회피
@@ -476,15 +478,7 @@ public class PlayerControl : MovingObject
         _damage = playerStatus.ShieldCheck(_damage);
         if (_damage <= 0) return;
 
-        GameObject DamageText;
-        DamageText = Instantiate(hitTextBox, new Vector3(
-                    Camera.main.WorldToScreenPoint(transform.position).x,
-                    Camera.main.WorldToScreenPoint(transform.position).y + GetComponent<BoxCollider2D>().bounds.size.y * 100f + 10f,
-                    transform.position.z), Quaternion.identity);
-
-        DamageText.transform.SetParent(Canvas.transform);
-        DamageText.GetComponent<DamageText>().SetDamage(_damage);
-        DamageText.SetActive(true);
+        SetDamageText(_damage);
 
         StopPlayer();
         rb.gravityScale = 1f;
@@ -516,7 +510,6 @@ public class PlayerControl : MovingObject
         currentJumpCount = (int)playerStatus.jumpCount;
         isGround = true;
         isJump = false;
-        animator.SetBool("isFall", false);
         animator.SetBool("isJump", false);
         animator.SetBool("isLand", true);
         actionState = ActionState.Idle;
@@ -757,8 +750,7 @@ public class PlayerControl : MovingObject
 
     public void PlayerInputKeyFlip()
     {
-        ObjectFlip(quickSlot);
-        ObjectFlip(playerInputKey);
+        ObjectFlip(playerFollowObject);
     }
     public void OnDrawGizmosSelected()
     {
