@@ -130,7 +130,7 @@ public class PlayerStatus : MonoBehaviour
     }
     public void PlayerStatusResultInit()
     {
-        attack[2] = attack[1];
+        attack[2] = attack[1] * (1 + playerData.playerEquipment.equipment[(int)EquipmentType.Gloves].itemRarity * 0.5f);
         defense[2] = defense[1];
         moveSpeed[2] = moveSpeed[1];
         attackSpeed[2] = attackSpeed[1];

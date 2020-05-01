@@ -611,14 +611,14 @@ public class PlayerControl : MovingObject
                     case AtkType.spear_Jump_Up_X_Attack:
                     case AtkType.spear_Jump_Down_X_Attack:
                         for(int i = 0; i < playerAttack.attackMultiHit; ++i)
-                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit(playerStatus.GetAttack_Result());
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
                         if (_hit)
                             monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectUpper(playerAttack.knockBack);
                         break;
                     default:
                         for (int i = 0; i < playerAttack.attackMultiHit; ++i)
                         {
-                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit(playerStatus.GetAttack_Result());
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
                             if (_hit)
                                 monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
                         }

@@ -91,7 +91,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c183160986b41c24fadda06e7965a2ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotFocus: {fileID: 0}
   itemImage: {fileID: 2086042807166326973}
   itemBorderImage: {fileID: 2462216122107642191}
   itemConfirm: {fileID: 3677073115562180179}
@@ -338,7 +337,6 @@ GameObject:
   - component: {fileID: 6435424112174835326}
   - component: {fileID: 6373877394735259493}
   - component: {fileID: 4358781604314207353}
-  - component: {fileID: 5036602216448266449}
   m_Layer: 5
   m_Name: ItemConfirm
   m_TagString: Untagged
@@ -406,18 +404,6 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!114 &5036602216448266449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3677073115562180179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c2a3f40edb185747b93f3c98a423a10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5413590241878817608
 GameObject:
   m_ObjectHideFlags: 0

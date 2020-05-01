@@ -212,11 +212,7 @@ public class PlayerEquipment
             equipment[i].EquipmentSkillCheck();
         }
     }
-
-    public int GetEquipmentSkill(EquipmentType _EquipType)
-    {
-        return equipment[(int)_EquipType].skillCode;
-    }
+    
     public string GetStatusName(int slotNum, bool upDown)
     {
         string statusName = "";

@@ -209,7 +209,7 @@ public abstract class NormalMonsterControl : Monster_Control
         StopAllCoroutines();
         //die => sort layer
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
-        DungeonManager.instance.FloorMonsterKill();
+        DungeonManager.instance.dungeonMaker.FloorMonsterKill();
         if (dropItemList != null)
         {
             dropItemList.ItemDropChance();

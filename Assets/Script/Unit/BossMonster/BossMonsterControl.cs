@@ -68,7 +68,7 @@ public abstract class BossMonster_Control : Monster_Control
     {
         animator.SetBool("isDead", true);
         animator.SetTrigger("isDead_Trigger");
-        DungeonManager.instance.FloorBossKill();
+        DungeonManager.instance.dungeonMaker.FloorBossKill();
         if (dropItemList != null)
         {
             dropItemList.ItemDropChance();

@@ -99,51 +99,51 @@ public class Marker
     }
     private void SetMonster_NF(int keyValue)
     {
-        DungeonManager.instance.marker_Variable.markerVariable[0] = keyValue;
+        DungeonManager.instance.dungeonMaker.marker_Variable.markerVariable[0] = keyValue;
     }
     private void SetDrop_NF(int keyValue)
     {
-        DungeonManager.instance.marker_Variable.markerVariable[1] = keyValue;
+        DungeonManager.instance.dungeonMaker.marker_Variable.markerVariable[1] = keyValue;
     }
     private void SetSpecialMonster_NF(int keyValue)
     {
-        DungeonManager.instance.marker_Variable.markerVariable[2] = keyValue;
+        DungeonManager.instance.dungeonMaker.marker_Variable.markerVariable[2] = keyValue;
     }
     private void SetDamageBuffOnFloor_NF(int keyValue)
     {
-        DungeonManager.instance.marker_Variable.markerVariable[3] = keyValue;
+        DungeonManager.instance.dungeonMaker.marker_Variable.markerVariable[3] = keyValue;
     }
     private void SetDamageBuffOnMonster_NF(int keyValue)
     {
-        DungeonManager.instance.marker_Variable.markerVariable[4] = keyValue;
+        DungeonManager.instance.dungeonMaker.marker_Variable.markerVariable[4] = keyValue;
     }
     private void SetDamageBuffOnPlayer_NF(int keyValue)
     {
-        DungeonManager.instance.marker_Variable.markerVariable[5] = keyValue;
+        DungeonManager.instance.dungeonMaker.marker_Variable.markerVariable[5] = keyValue;
     }
     private void SetPosHPOnMonster_NF(int keyValue)
     {
-        DungeonManager.instance.marker_Variable.markerVariable[6] = keyValue;
+        DungeonManager.instance.dungeonMaker.marker_Variable.markerVariable[6] = keyValue;
     }
     private void SetNegHPOnMonster_NF(int keyValue)
     {
-        DungeonManager.instance.marker_Variable.markerVariable[7] = keyValue;
+        DungeonManager.instance.dungeonMaker.marker_Variable.markerVariable[7] = keyValue;
     }
     private void SetPosDashSpeedOnPlayer_NF(int keyValue)
     {
-        DungeonManager.instance.marker_Variable.markerVariable[8] = keyValue;
+        DungeonManager.instance.dungeonMaker.marker_Variable.markerVariable[8] = keyValue;
     }
     private void SetNegDashSpeedOnPlayer_NF(int keyValue)
     {
-        DungeonManager.instance.marker_Variable.markerVariable[9] = keyValue;
+        DungeonManager.instance.dungeonMaker.marker_Variable.markerVariable[9] = keyValue;
     }
     private void SetPosAttackMulty_NF(int keyValue)
     {
-        DungeonManager.instance.marker_Variable.markerVariable[10] = keyValue;
+        DungeonManager.instance.dungeonMaker.marker_Variable.markerVariable[10] = keyValue;
     }
     private void SetNegAttackMulty_NF(int keyValue)
     {
-        DungeonManager.instance.marker_Variable.markerVariable[11] = keyValue;
+        DungeonManager.instance.dungeonMaker.marker_Variable.markerVariable[11] = keyValue;
     }
 }
 public class MarkerVariable

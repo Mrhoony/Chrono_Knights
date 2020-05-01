@@ -254,7 +254,7 @@ public class CanvasManager : MonoBehaviour
             DungeonManager.instance.SceneLoad();
         else
         {
-            DungeonManager.instance.FloorSetting();
+            DungeonManager.instance.DungeonMakerFloorSetting();
             FadeInStart();
         }
         DungeonManager.instance.isSceneLoading = false;

@@ -30,6 +30,6 @@ public class DungeonTrialSlot : MonoBehaviour
 
     public void SelectThisCard()
     {
-        DungeonManager.instance.SetTrialStack(statusRandom, valueRandom);
+        DungeonManager.instance.dungeonMaker.SetTrialStack(statusRandom, valueRandom);
     }
 }

@@ -113,7 +113,7 @@ public class Boss_Trainer : BossMonster_Control
             actionState = ActionState.IsDead;
             gameObject.tag = "DeadBody";
             Dead();
-            DungeonManager.instance.FloorBossKill();
+            DungeonManager.instance.dungeonMaker.FloorBossKill();
             return false;
         }
         else
