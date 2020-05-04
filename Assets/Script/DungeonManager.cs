@@ -12,7 +12,7 @@ public class DungeonManager : MonoBehaviour
     public CanvasManager canvasManager;
     public GameObject player;
     public PlayerStatus playerStatus;
-    public GameObject[] teleportPoint;
+
     public GameObject backgroundSet;
     private GameObject[] mapList;
     #endregion
@@ -30,8 +30,7 @@ public class DungeonManager : MonoBehaviour
 
     private bool isTraingPossible;          // 트레이닝 가능 여부
     private bool isShopRefill;              // 샵 리필 여부
-
-
+    
     private Item[] shopItemList;
     private int[] itemCostList;
     private bool[] eventFlag;
@@ -283,9 +282,9 @@ public class DungeonManager : MonoBehaviour
     {
         useTeleportSystem = 10;
         mapList = GameObject.FindGameObjectsWithTag("BaseMap");
-
+        
+        GameObject[] teleportPoint;
         teleportPoint = GameObject.FindGameObjectsWithTag("Portal");
-        int teleportCount = teleportPoint.Length;
 
         switch (SceneManager.GetActiveScene().buildIndex)
         {
@@ -294,18 +293,18 @@ public class DungeonManager : MonoBehaviour
                 if (GameManager.instance.gameStart && !isReturn)
                 {
                     isReturn = false;
-                    MapEntranceFind(teleportCount, 1);
+                    MapEntranceFind(teleportPoint, 1);
                 }
                 else
                 {
-                    MapEntranceFind(teleportCount, 9);
+                    MapEntranceFind(teleportPoint, 9);
                 }
                 break;
             case 1:
                 mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
                 canvasManager.SetTownUI();
 
-                MapEntranceFind(teleportCount, 0);
+                MapEntranceFind(teleportPoint, 0);
 
                 mapList[0].GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, -1);
                 break;
@@ -321,12 +320,13 @@ public class DungeonManager : MonoBehaviour
 
         StartCoroutine(MapMoveDelay());
     }
-    public void MapEntranceFind(int _teleportCount, int _useSystem)
+    public void MapEntranceFind(GameObject[] _TeleportPoint, int _useSystem)
     {
-        for (int i = 0; i < _teleportCount; ++i)
+        int _TeleportCount = _TeleportPoint.Length;
+        for (int i = 0; i < _TeleportCount; ++i)
         {
-            if (teleportPoint[i].GetComponent<Teleport>().useSystem == _useSystem)
-                entrance = teleportPoint[i].GetComponent<Teleport>().transform.position;
+            if (_TeleportPoint[i].GetComponent<Teleport>().useSystem == _useSystem)
+                entrance = _TeleportPoint[i].GetComponent<Teleport>().transform.position;
         }
         player.transform.position = entrance;
     }
@@ -334,6 +334,11 @@ public class DungeonManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.7f);
         canvasManager.FadeInStart();        // 씬 로드 종료 후 페이드 인
+    }
+
+    public void TalkNpcCheck(int _NpcCode)
+    {
+
     }
 
     #region save, load

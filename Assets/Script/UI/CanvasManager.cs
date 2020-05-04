@@ -28,6 +28,9 @@ public class CanvasManager : MonoBehaviour
     public GameObject fadeInOut;
     public GameObject circleFadeOut;
 
+    public TalkBox talkBox;
+    public ChatDialog dialogBox;
+
     public GameObject dungeonCancleMenu;
     public GameObject gameOverWindow;
     #endregion
@@ -297,6 +300,17 @@ public class CanvasManager : MonoBehaviour
         DungeonManager.instance.OpenGameOverResult();
     }
     #endregion
+
+    public void SetDialogText(string _Name, string _Text)
+    {
+        dialogBox.gameObject.SetActive(true);
+        dialogBox.SetDialogText(_Name, _Text);
+    }
+    public void SetTalkBoxText(string _Text)
+    {
+        talkBox.gameObject.SetActive(true);
+        talkBox.SetDialogText(_Text);
+    }
 
     #region 던전 UI
     public void OpenDungeonMenu()

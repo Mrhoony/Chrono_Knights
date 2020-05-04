@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NPC_Control : MonoBehaviour
+public class NPC_Control : InteractiveObject
 {
-    public GameObject player;
     public CanvasManager canvasManager;
-    public TownUI townUI;
-    public bool inPlayer;
 
     public void OnEnable()
     {
@@ -30,23 +27,5 @@ public class NPC_Control : MonoBehaviour
         if (canvasManager.GameMenuOnCheck()) return true;       // 다른 UI가 켜져있으면
         if (canvasManager.TownUIOnCheck()) return true;         // 타운 UI가 켜져있으면
         return false;
-    }
-
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            inPlayer = true;
-            player = collision.gameObject;
-        }
-    }
-    public void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            inPlayer = false;
-            player = collision.gameObject;
-            player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
-        }
     }
 }

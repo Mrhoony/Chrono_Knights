@@ -74,8 +74,8 @@ public class NPC_Blacksmith : NPC_Control
         openSelectUI = true;
         selectUI.SetActive(true);
         button[focus].transform.GetChild(0).gameObject.SetActive(true);
-
     }
+
     public void CloseSelectMenu()
     {
         button[focus].transform.GetChild(0).gameObject.SetActive(false);
