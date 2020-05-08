@@ -14,6 +14,7 @@ public class DataBase
 
     public bool isTrainigPossible;
     public bool[] eventFlag;
+    public int storyProgress;
 
     public void Init()
     {
@@ -24,7 +25,8 @@ public class DataBase
         currentDate = 0;
         isTrainigPossible = false;
         eventFlag = new bool[36];
-        for(int i = 0; i < 36; ++i)
+        storyProgress = 0;
+        for (int i = 0; i < 36; ++i)
         {
             eventFlag[i] = false;
         }
@@ -59,7 +61,7 @@ public class DataBase
         return eventFlag[flagNum];
     }
 
-    public void SaveGameData(int _currentDate, bool _isTrainigPossible, bool[] _eventFlag)
+    public void SaveGameData(int _currentDate, bool _isTrainigPossible, bool[] _eventFlag, int _StoryProgress)
     {
         currentDate = _currentDate;
         isTrainigPossible = _isTrainigPossible;

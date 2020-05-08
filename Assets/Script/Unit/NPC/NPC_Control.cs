@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class NPC_Control : InteractiveObject
 {
     public CanvasManager canvasManager;
+    public string NPCName;
 
     public void OnEnable()
     {
@@ -27,5 +28,25 @@ public class NPC_Control : InteractiveObject
         if (canvasManager.GameMenuOnCheck()) return true;       // 다른 UI가 켜져있으면
         if (canvasManager.TownUIOnCheck()) return true;         // 타운 UI가 켜져있으면
         return false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            inPlayer = true;
+            player = collision.gameObject;
+            DungeonManager.instance.ActiveTalkBox(objectNumber);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            inPlayer = false;
+            player = collision.gameObject;
+            player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
+        }
     }
 }

@@ -10,6 +10,7 @@ public class NPC_Storage : NPC_Control
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            DungeonManager.instance.ActiveInteractiveObject(isNPC, objectNumber);
             canvasManager.OpenStorage();
         }
     }

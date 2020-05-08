@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<NPCDialogDatabase>
+    <!--1번 이벤트-->
+    <Event>
+      <EventName>Tutorial</EventName>
+      <EventNumber>0</EventNumber>
+      <Dialog>
+        <NPCName></NPCName>
+        <NPCImage></NPCImage>
+        <Content></Content>
+      </Dialog>
+    </Event>
+</NPCDialogDatabase>
+<!--
+    <Field NPCCode="101" Progress="0" Dialog="안녕"/>
+    <Field NPCCode="102" Progress="0" Dialog="뭐야?:귀찮아"/>
+    <Field NPCCode="103" Progress="0" Dialog="저리가"/>
+-->

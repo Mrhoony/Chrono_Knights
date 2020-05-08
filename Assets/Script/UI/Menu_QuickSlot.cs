@@ -20,7 +20,8 @@ public class Menu_QuickSlot : MonoBehaviour
 
     public void Update()
     {
-        if (menu.GameMenuOnCheck()) return;
+        if (GameManager.instance.gameStart) return;
+        if (menu.GameMenuOnCheck() || menu.TownUIOnCheck()) return;
         
         if (Input.GetKeyDown(KeyCode.Q))
         {

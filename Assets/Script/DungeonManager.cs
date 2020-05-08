@@ -7,6 +7,7 @@ public class DungeonManager : MonoBehaviour
     #region 오브젝트 등록
     public static DungeonManager instance;
 
+    public ScenarioManager scenarioManager;
     public DungeonMaker dungeonMaker;
     public CameraManager mainCamera;
     public CanvasManager canvasManager;
@@ -33,7 +34,6 @@ public class DungeonManager : MonoBehaviour
     
     private Item[] shopItemList;
     private int[] itemCostList;
-    private bool[] eventFlag;
 
     public float dungeonPlayTimer;
 
@@ -49,14 +49,19 @@ public class DungeonManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        playerStatus = player.GetComponent<PlayerStatus>();
+        
         dungeonMaker.DungeonMakerInit();
         useTeleportSystem = 10;
 
         isSceneLoading = false;
 
+        EventFlagReset();
         shopItemList = new Item[8];
         DungeonEscape();
+    }
+    public void EventFlagReset()
+    {
+        scenarioManager.EventReset();
     }
     private void DungeonEscape()
     {
@@ -78,62 +83,12 @@ public class DungeonManager : MonoBehaviour
 
     public void Update()
     {
-        if (inDungeon) dungeonPlayTimer += Time.deltaTime;
-
         if (isSceneLoading) return;
-        if (canvasManager.GameMenuOnCheck()) return;
 
+        if (inDungeon) dungeonPlayTimer += Time.deltaTime;
+        
         if (Input.GetButtonDown("Fire1"))           // 공격키를 눌렀을 때
         {
-            if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
-            if (useTeleportSystem == 10) return;
-
-            switch (SceneManager.GetActiveScene().buildIndex)
-            {
-                case 0:
-                    if (useTeleportSystem != 9)
-                    {
-                        isSceneLoading = true;
-                        canvasManager.FadeOutStart(true);
-                    }
-                    break;
-                case 1:
-                    isSceneLoading = true;
-                    canvasManager.FadeOutStart(true);
-                    break;
-                case 2:
-                case 3:
-                    if (useTeleportSystem == 8)         // 던전 포탈 앞에 서있을 경우 다음던전 또는 집으로 이동한다.
-                    {
-                        if (!dungeonClear || isReturn) return;
-
-                        if (!phaseClear)
-                        {
-                            if (usedKey)            // 키를 쓴경우
-                            {
-                                isSceneLoading = true;
-                                canvasManager.FadeOutStart(false);
-                            }
-                            else                    // 키를 안쓴경우 인벤토리를 연다.
-                            {
-                                canvasManager.OpenInGameMenu(true);
-                            }
-                        }
-                        else
-                        {
-                            if (usedKey)            // 키를 쓴경우
-                            {
-                                isSceneLoading = true;
-                                canvasManager.FadeOutStart(true);
-                            }
-                            else                    // 키를 안쓴경우 인벤토리를 연다.
-                            {
-                                canvasManager.OpenInGameMenu(true);
-                            }
-                        }
-                    }
-                    break;
-            }
         }
     }
 
@@ -218,6 +173,84 @@ public class DungeonManager : MonoBehaviour
     {
         canvasManager.OpenGameOverMenu(dungeonPlayTimer);
     }
+
+    public void ActiveTalkBox(int _ObjectNumber)
+    {
+
+    }
+    public void ActiveInteractiveObject(bool _IsNPCCheck, int _ObjectNumber)
+    {
+        if (_IsNPCCheck)
+        {
+            switch (_ObjectNumber)
+            {
+                case 101:
+                    break;
+                case 102:
+                    break;
+                case 103:
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            useTeleportSystem = _ObjectNumber;
+            if (useTeleportSystem == 10) return;
+
+            switch (SceneManager.GetActiveScene().buildIndex)
+            {
+                case 0:
+                    if (useTeleportSystem != 9)
+                    {
+                        isSceneLoading = true;
+                        canvasManager.FadeOutStart(true);
+                    }
+                    else
+                    {
+                        GameManager.instance.GameStart();
+                    }
+                    break;
+                case 1:
+                    isSceneLoading = true;
+                    canvasManager.FadeOutStart(true);
+                    break;
+                case 2:
+                case 3:
+                    if (useTeleportSystem == 8)         // 던전 포탈 앞에 서있을 경우 다음던전 또는 집으로 이동한다.
+                    {
+                        if (!dungeonClear || isReturn) return;
+
+                        if (!phaseClear)
+                        {
+                            if (usedKey)            // 키를 쓴경우
+                            {
+                                isSceneLoading = true;
+                                canvasManager.FadeOutStart(false);
+                            }
+                            else                    // 키를 안쓴경우 인벤토리를 연다.
+                            {
+                                canvasManager.OpenInGameMenu(true);
+                            }
+                        }
+                        else
+                        {
+                            if (usedKey)            // 키를 쓴경우
+                            {
+                                isSceneLoading = true;
+                                canvasManager.FadeOutStart(true);
+                            }
+                            else                    // 키를 안쓴경우 인벤토리를 연다.
+                            {
+                                canvasManager.OpenInGameMenu(true);
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+    }
     public void SceneLoad()
     {
         if (!isDead)
@@ -299,6 +332,7 @@ public class DungeonManager : MonoBehaviour
                 {
                     MapEntranceFind(teleportPoint, 9);
                 }
+                scenarioManager.ScenarioCheck("Tutorial");
                 break;
             case 1:
                 mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
@@ -318,6 +352,7 @@ public class DungeonManager : MonoBehaviour
                 break;
         }
 
+
         StartCoroutine(MapMoveDelay());
     }
     public void MapEntranceFind(GameObject[] _TeleportPoint, int _useSystem)
@@ -325,7 +360,7 @@ public class DungeonManager : MonoBehaviour
         int _TeleportCount = _TeleportPoint.Length;
         for (int i = 0; i < _TeleportCount; ++i)
         {
-            if (_TeleportPoint[i].GetComponent<Teleport>().useSystem == _useSystem)
+            if (_TeleportPoint[i].GetComponent<Teleport>().objectNumber == _useSystem)
                 entrance = _TeleportPoint[i].GetComponent<Teleport>().transform.position;
         }
         player.transform.position = entrance;
@@ -357,10 +392,6 @@ public class DungeonManager : MonoBehaviour
         return itemCostList;
     }
 
-    public int GetCurrentDate()
-    {
-        return currentDate;
-    }
     public bool GetTrainigPossible()
     {
         return isTraingPossible;
@@ -377,15 +408,23 @@ public class DungeonManager : MonoBehaviour
     {
         isShopRefill = _isShop;
     }
+
+    public int GetCurrentDate()
+    {
+        return currentDate;
+    }
+    public int GetStoryProgress()
+    {
+        return scenarioManager.GetStoryProgress();
+    }
     public bool[] GetEventFlag()
     {
-        return eventFlag;
+        return scenarioManager.GetEventFlag();
     }
     public void LoadGamePlayDate(int _currentDate, bool _isTrainingPossible, bool[] _eventFlag)
     {
         currentDate = _currentDate;
         isTraingPossible = _isTrainingPossible;
-        eventFlag = _eventFlag;
     }
 
     #endregion

@@ -4329,6 +4329,11 @@ PrefabInstance:
       propertyPath: townUI
       value: 
       objectReference: {fileID: 1854475265}
+    - target: {fileID: 7703036587551424469, guid: 8f16019a6fd42424a84f442ae73dcf93,
+        type: 3}
+      propertyPath: objectNumber
+      value: 103
+      objectReference: {fileID: 0}
     - target: {fileID: 7703036587551424468, guid: 8f16019a6fd42424a84f442ae73dcf93,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5485,6 +5490,11 @@ PrefabInstance:
       propertyPath: townUI
       value: 
       objectReference: {fileID: 1854475265}
+    - target: {fileID: 5798154556437238969, guid: dcdd208288f0423419ad1f754178b5d2,
+        type: 3}
+      propertyPath: objectNumber
+      value: 102
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dcdd208288f0423419ad1f754178b5d2, type: 3}
 --- !u!1 &1817082383
@@ -5634,6 +5644,11 @@ PrefabInstance:
     - target: {fileID: 7500526061826135593, guid: fba431d297086194e957f55253a14a62,
         type: 3}
       propertyPath: useSystem
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500526061826135593, guid: fba431d297086194e957f55253a14a62,
+        type: 3}
+      propertyPath: objectNumber
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7500526061826135594, guid: fba431d297086194e957f55253a14a62,
@@ -6755,5 +6770,10 @@ PrefabInstance:
       propertyPath: townUI
       value: 
       objectReference: {fileID: 1854475265}
+    - target: {fileID: 7218458986240868656, guid: 410b8d76ec94a9649ad0dcf02c539c99,
+        type: 3}
+      propertyPath: objectNumber
+      value: 101
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 410b8d76ec94a9649ad0dcf02c539c99, type: 3}

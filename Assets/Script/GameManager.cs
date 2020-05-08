@@ -105,44 +105,9 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        if (canvasManager.GameMenuOnCheck()) return;
         if (SceneManager.GetActiveScene().buildIndex != 0) return;      // 씬 넘버가 0일때만 실행
+        if (canvasManager.GameMenuOnCheck()) return;
         
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            if (DungeonManager.instance.useTeleportSystem == 9)         // 침대 앞에 있을 경우
-            {
-                if (gameStart)          // 게임 실행중이면
-                {
-                    if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
-                    canvasManager.PlayerMoveStop();
-                    gameStart = false;
-                    SaveGame();         // 게임을 세이브
-                }
-                else                    // 게임이 실행중이 아니면
-                {
-                    if (!openSaveSlot)      // 세이브창이 켜져있지 않으면
-                    {
-                        switch (gameSlotFocus)
-                        {
-                            case 0:
-                                OpenLoad();
-                                break;
-                            case 1:
-                                canvasManager.OpenSettings();
-                                break;
-                            case 2:
-                                ExitGame();
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        LoadGame();
-                    }
-                }
-            }
-        }
         if (Input.GetKeyDown(KeyCode.X))
         {
             if (openSaveSlot)
@@ -170,6 +135,39 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.UpArrow)) { GameStartFocusedSlot(-1); }
             if (Input.GetKeyDown(KeyCode.DownArrow)) { GameStartFocusedSlot(1); }
             MainCursorMove();
+        }
+    }
+
+    public void GameStart()
+    {
+        if (gameStart)          // 게임 실행중이면
+        {
+            if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
+            canvasManager.PlayerMoveStop();
+            gameStart = false;
+            SaveGame();         // 게임을 세이브
+        }
+        else                    // 게임이 실행중이 아니면
+        {
+            if (!openSaveSlot)      // 세이브창이 켜져있지 않으면
+            {
+                switch (gameSlotFocus)
+                {
+                    case 0:
+                        OpenLoad();
+                        break;
+                    case 1:
+                        canvasManager.OpenSettings();
+                        break;
+                    case 2:
+                        ExitGame();
+                        break;
+                }
+            }
+            else
+            {
+                LoadGame();
+            }
         }
     }
 
@@ -204,7 +202,7 @@ public class GameManager : MonoBehaviour
 
         // 유저 정보
         dataBase.playerData = playerStat.playerData;
-        dataBase.SaveGameData(dungeonManager.GetCurrentDate(), dungeonManager.GetTrainigPossible(), dungeonManager.GetEventFlag());
+        dataBase.SaveGameData(dungeonManager.GetCurrentDate(), dungeonManager.GetTrainigPossible(), dungeonManager.GetEventFlag(), dungeonManager.GetStoryProgress());
         dataBase.SaveStorageData(storage.GetStorageItemCodeList());
         dataBase.SaveInventoryData(inventory.GetCurrentMoney());
         

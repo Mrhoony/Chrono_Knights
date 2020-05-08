@@ -40,33 +40,30 @@ public class CameraManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        mainCamera = GetComponent<Camera>();
+        perfectCamera = GetComponent<PixelPerfectCamera>();
 
         Height = 640;
         Width = 360;
 
+        GameStartScreenSet();
+
         //Screen.SetResolution(Screen.width, (Screen.width * 9) / 16, false);
 
-        mainCamera = GetComponent<Camera>();
-        perfectCamera = GetComponent<PixelPerfectCamera>();
         cameraShakeOnOff = true;
         cameraShaking = false;
 
-        GameStartScreenSet();
-    }
-
-    public void CameraSetting(bool _cameraSetting)
-    {
-        cameraShakeOnOff = _cameraSetting;
-    }
-
-    void Start()
-    {
         for (int i = 0; i < font.Length; ++i)
         {
             font[i].material.mainTexture.filterMode = FilterMode.Point;
         }
         bound = GameObject.Find("BackGround").GetComponent<BoxCollider2D>();
         SetCameraBound(bound);
+    }
+
+    public void CameraSetting(bool _cameraSetting)
+    {
+        cameraShakeOnOff = _cameraSetting;
     }
 
     // Update is called once per frame

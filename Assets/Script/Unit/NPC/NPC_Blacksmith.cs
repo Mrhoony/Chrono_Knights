@@ -15,6 +15,8 @@ public class NPC_Blacksmith : NPC_Control
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            DungeonManager.instance.ActiveInteractiveObject(isNPC, objectNumber);
+
             if (!openSelectUI)
             {
                 if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;

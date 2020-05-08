@@ -161,6 +161,19 @@ public class PlayerAttack
         attackMultiHit = _attackMultiHit;
     }
 }
+public class EventDialog
+{
+    public string NPCName;
+    public string NPCImage;
+    public string content;
+
+    public EventDialog(string _NPCName, string _NPCImage, string _Content)
+    {
+        NPCName = _NPCName;
+        NPCImage = _NPCImage;
+        content = _Content;
+    }
+}
 
 public class Database_Game : MonoBehaviour
 {
@@ -172,11 +185,12 @@ public class Database_Game : MonoBehaviour
     public List<Skill> passiveSkillList = new List<Skill>();
     public List<Monster> monsterList = new List<Monster>();
     public List<PlayerAttack> playerAttack = new List<PlayerAttack>();
-
+    
     readonly string itemXMLFileName = "ItemDataBase";
     readonly string skillXMLFileName = "SkillDataBase";
     readonly string MonsterXMLFileName = "MonsterDataBase";
     readonly string playerAttackXMLFileName = "PlayerAttackDataBase";
+    readonly string NPCDialogFileName = "NPCDialogDataBase";
 
     private void Awake()
     {
@@ -194,6 +208,7 @@ public class Database_Game : MonoBehaviour
         InputSkillData(skillXMLFileName);
         InputMonsterData(MonsterXMLFileName);
         InputPlayerAttack(playerAttackXMLFileName);
+        InputNPCDialogData(NPCDialogFileName);
 
         skillManager = GetComponent<SkillManager>();
     }
@@ -300,7 +315,6 @@ public class Database_Game : MonoBehaviour
     void InputPlayerAttack(string _playerAttackFileName)
     {
         XmlNodeList nodelist = XmlNodeReturn(_playerAttackFileName);
-
         foreach (XmlNode node in nodelist)
         {
             if (node.Name.Equals(_playerAttackFileName) && node.HasChildNodes)
@@ -322,6 +336,36 @@ public class Database_Game : MonoBehaviour
             }
         }
         Debug.Log("Input attackData");
+    }
+    void InputNPCDialogData(string _NPCDialogFileName)
+    {
+        Dictionary<string, int> eventList = new Dictionary<string, int>();
+        Dictionary<int, List<EventDialog>> eventContent = new Dictionary<int, List<EventDialog>>();
+        XmlNodeList nodelist = XmlNodeReturn(_NPCDialogFileName);
+        List<EventDialog> eventDialog;
+
+        foreach (XmlNode node in nodelist)
+        {
+            if (node.Name.Equals(_NPCDialogFileName) && node.HasChildNodes)
+            {
+                foreach (XmlNode _Event in node)
+                {
+                    eventDialog = new List<EventDialog>();
+                    foreach (XmlNode _Dialog in _Event)
+                    {
+                        eventDialog.Add(new EventDialog(
+                            _Dialog.Attributes.GetNamedItem("NPCName").Value,
+                            _Dialog.Attributes.GetNamedItem("NPCImage").Value,
+                            _Dialog.Attributes.GetNamedItem("Content").Value
+                            ));
+                    }
+                    eventList.Add(_Event.Attributes.GetNamedItem("EventName").Value, int.Parse(_Event.Attributes.GetNamedItem("EventNumber").Value));
+                    eventContent.Add(int.Parse(_Event.Attributes.GetNamedItem("EventNumber").Value), eventDialog);
+                }
+            }
+        }
+        DungeonManager.instance.scenarioManager.SetEventList(eventList, eventContent);
+        Debug.Log("Input NPCDialogData");
     }
 
     public Item ItemSetting()

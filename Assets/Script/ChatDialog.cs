@@ -7,10 +7,10 @@ public class ChatDialog : MonoBehaviour
 {
     public Text dialogName;
     public Text dialogText;
+    public List<EventDialog> eventDialog;
 
-    public void SetDialogText(string _Name, string _Text)
+    public void SetDialogText(List<EventDialog> _EventDialog)
     {
-        dialogName.text = _Name;
-        dialogText.text = _Text;
+        eventDialog = _EventDialog;
     }
 }

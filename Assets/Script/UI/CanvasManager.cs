@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,6 +44,9 @@ public class CanvasManager : MonoBehaviour
     public bool isStorageOn;
     public bool isCancelOn;
 
+    public bool chatBoxOn;
+    public bool talkBoxOn;
+
     public bool isShopOn;
     public bool isTrainigOn;
     public bool isEnchantOn;
@@ -71,6 +75,9 @@ public class CanvasManager : MonoBehaviour
     }
     private void Start()
     {
+        chatBoxOn = false;
+        talkBoxOn = false;
+
         isInventoryOn = false;
         isStorageOn = false;
         isCancelOn = false;
@@ -301,13 +308,32 @@ public class CanvasManager : MonoBehaviour
     }
     #endregion
 
-    public void SetDialogText(string _Name, string _Text)
+    public void BossKillSlowMotionMethod()
     {
+        StartCoroutine(BossKillSlowMotion());
+    }
+    IEnumerator BossKillSlowMotion()
+    {
+        Time.timeScale = 0.5f;
+
+        yield return new WaitForSeconds(2f);
+
+        Time.timeScale = 1f;
+
+        yield return new WaitForSeconds(1f);
+
+        CanvasManager.instance.OpenTrialCardSelectMenu();
+    }
+
+    public void SetDialogText(List<EventDialog> _EventDialog)
+    {
+        chatBoxOn = true;
         dialogBox.gameObject.SetActive(true);
-        dialogBox.SetDialogText(_Name, _Text);
+        dialogBox.SetDialogText(_EventDialog);
     }
     public void SetTalkBoxText(string _Text)
     {
+        talkBoxOn = true;
         talkBox.gameObject.SetActive(true);
         talkBox.SetDialogText(_Text);
     }
