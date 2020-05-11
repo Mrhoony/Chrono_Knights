@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<NPCDialogDatabase>
-    <!--1번 이벤트-->
-    <Event>
-      <EventName>Tutorial</EventName>
-      <EventNumber>0</EventNumber>
-      <Dialog>
-        <NPCName></NPCName>
-        <NPCImage></NPCImage>
-        <Content></Content>
-      </Dialog>
-    </Event>
-</NPCDialogDatabase>
+<NPCDialogDataBase>
+  <Event>
+    <EventName>Tutorial</EventName>
+    <EventNumber>0</EventNumber>
+    <Dialog>
+      <NPCName>???</NPCName>
+      <NPCImage>0</NPCImage>
+      <Content>...</Content>
+    </Dialog>
+  </Event>
+  <Event>
+    <EventName>FirstContact</EventName>
+    <EventNumber>1</EventNumber>
+    <Dialog>
+      <NPCName>트레이너</NPCName>
+      <NPCImage>101</NPCImage>
+      <Content>1111111111111111111111111111</Content>
+    </Dialog>
+    <Dialog>
+      <NPCName>트레이너</NPCName>
+      <NPCImage>101</NPCImage>
+      <Content>223123141241412</Content>
+    </Dialog>
+    <Dialog>
+      <NPCName>트레이너</NPCName>
+      <NPCImage>101</NPCImage>
+      <Content>31251515551</Content>
+    </Dialog>
+    <Dialog>
+      <NPCName>상인</NPCName>
+      <NPCImage>102</NPCImage>
+      <Content>01</Content>
+    </Dialog>
+    <Dialog>
+      <NPCName>트레이너</NPCName>
+      <NPCImage>102</NPCImage>
+      <Content>02</Content>
+    </Dialog>
+  </Event>
+</NPCDialogDataBase>
 <!--
     <Field NPCCode="101" Progress="0" Dialog="안녕"/>
     <Field NPCCode="102" Progress="0" Dialog="뭐야?:귀찮아"/>

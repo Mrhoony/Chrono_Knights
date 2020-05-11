@@ -100,6 +100,7 @@ public class PlayerControl : MovingObject
     void Update()
     {
         if (CanvasManager.instance.GameMenuOnCheck() || CanvasManager.instance.TownUIOnCheck()) return;       // UI 켜져 있을 때 입력 제한
+
         if (actionState == ActionState.IsDead || actionState == ActionState.IsDodge || 
             actionState == ActionState.NotMove || actionState == ActionState.IsParrying) return;
 

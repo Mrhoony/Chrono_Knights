@@ -1164,6 +1164,16 @@ PrefabInstance:
       propertyPath: gm
       value: 
       objectReference: {fileID: 1146401371}
+    - target: {fileID: 82245445457459811, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: dialogBox
+      value: 
+      objectReference: {fileID: 82245447478733256}
+    - target: {fileID: 82245445457459811, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: talkBox
+      value: 
+      objectReference: {fileID: 82245447478733259}
     - target: {fileID: 82245445457459823, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1272,42 +1282,52 @@ PrefabInstance:
     - target: {fileID: 4101712417230333412, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 85
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4101712417230333412, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 49
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4101712417230333412, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4101712417230333412, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5026004205432688265, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5026004205432688265, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5026004205432688265, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 42.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5026004205432688265, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -22
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5026004205432688265, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 65
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5026004205432688265, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 24
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8996986556985402211, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
@@ -1317,7 +1337,7 @@ PrefabInstance:
     - target: {fileID: 291297367432332615, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8726673505848652912, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
@@ -1368,8 +1388,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83686048d1f703a4f90251e841091099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cm: {fileID: 0}
   dialogName: {fileID: 82245447478733255}
   dialogText: {fileID: 82245447478733254}
+  isDialogOn: 0
+  isOneByOneTextOn: 0
+  index: 0
+  eventDialogListCount: 0
+  completeText: 
 --- !u!1 &82245447478733257 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 291297367432332615, guid: 187d72a635af2f04a891caed4b95c247,
@@ -1845,6 +1871,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 2001624151}
+    - target: {fileID: 6033934337970117601, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 301090048, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
       propertyPath: menu
       value: 
@@ -1980,6 +2011,11 @@ PrefabInstance:
       propertyPath: playerStatus
       value: 
       objectReference: {fileID: 411236573}
+    - target: {fileID: 8598324638961123333, guid: bb52788c74313754aaac85eedbfab2b6,
+        type: 3}
+      propertyPath: scenarioManager
+      value: 
+      objectReference: {fileID: 1044432037}
     - target: {fileID: 8598324638961123332, guid: bb52788c74313754aaac85eedbfab2b6,
         type: 3}
       propertyPath: m_LocalPosition.x

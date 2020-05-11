@@ -36,7 +36,7 @@ public class NPC_Control : InteractiveObject
         {
             inPlayer = true;
             player = collision.gameObject;
-            DungeonManager.instance.ActiveTalkBox(objectNumber);
+            DungeonManager.instance.scenarioManager.ScenarioCheckTalkBox(gameObject, objectNumber);
         }
     }
 
@@ -47,6 +47,7 @@ public class NPC_Control : InteractiveObject
             inPlayer = false;
             player = collision.gameObject;
             player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
+            DungeonManager.instance.scenarioManager.TalkBoxDisActive();
         }
     }
 }

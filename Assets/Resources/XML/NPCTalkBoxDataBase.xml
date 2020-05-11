@@ -1,11 +1,36 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <NPCTalkBoxDataBase>
   <NPC>
-    <NPCCode></NPCCode>
+    <NPCCode>101</NPCCode>
     <TalkBox>
-      <EventProgress>0</EventProgress>
-      <EventContent></EventContent>
+      <ScenarioNumber>0</ScenarioNumber>
+      <Content>.</Content>
+    </TalkBox>
+    <TalkBox>
+      <ScenarioNumber>1</ScenarioNumber>
+      <Content>111211121212121212</Content>
     </TalkBox>
   </NPC>
-  
+  <NPC>
+    <NPCCode>102</NPCCode>
+    <TalkBox>
+      <ScenarioNumber>0</ScenarioNumber>
+      <Content>..</Content>
+    </TalkBox>
+    <TalkBox>
+      <ScenarioNumber>1</ScenarioNumber>
+      <Content>221212121212</Content>
+    </TalkBox>
+  </NPC>
+  <NPC>
+    <NPCCode>103</NPCCode>
+    <TalkBox>
+      <ScenarioNumber>0</ScenarioNumber>
+      <Content>...</Content>
+    </TalkBox>
+    <TalkBox>
+      <ScenarioNumber>1</ScenarioNumber>
+      <Content>33331121212121212</Content>
+    </TalkBox>
+  </NPC>
 </NPCTalkBoxDataBase>

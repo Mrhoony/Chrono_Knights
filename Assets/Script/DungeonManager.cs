@@ -87,9 +87,11 @@ public class DungeonManager : MonoBehaviour
 
         if (inDungeon) dungeonPlayTimer += Time.deltaTime;
         
+        /*
         if (Input.GetButtonDown("Fire1"))           // 공격키를 눌렀을 때
         {
         }
+        */
     }
 
     public void UseItemInDungeon(Item _item)
@@ -118,7 +120,7 @@ public class DungeonManager : MonoBehaviour
                 dungeonMaker.marker.ExecuteMarker(_Item.value);
                 break;
             case ItemType.FreePassThisFloor:                // 사용된 키가 이번 층 스킵일 때
-                DungeonMakerFloorSetting();
+                dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
                 dungeonMaker.marker.ExecuteMarker(_Item.value);
                 break;
             case ItemType.SetBossFloor:                     // 사용된 키가 보스 소환일 때
@@ -149,8 +151,9 @@ public class DungeonManager : MonoBehaviour
         return true;
     }
 
-    public void DungeonMakerFloorSetting()
+    public void EnterTheDungeon()
     {
+        dungeonMaker.EnterTheDungeon();
         dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
     }
     public void PlayerIsDead()
@@ -173,11 +176,7 @@ public class DungeonManager : MonoBehaviour
     {
         canvasManager.OpenGameOverMenu(dungeonPlayTimer);
     }
-
-    public void ActiveTalkBox(int _ObjectNumber)
-    {
-
-    }
+    
     public void ActiveInteractiveObject(bool _IsNPCCheck, int _ObjectNumber)
     {
         if (_IsNPCCheck)
@@ -341,6 +340,7 @@ public class DungeonManager : MonoBehaviour
                 MapEntranceFind(teleportPoint, 0);
 
                 mapList[0].GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, -1);
+                scenarioManager.ScenarioCheck("FirstContact");
                 break;
             case 2:
             case 3:
@@ -348,7 +348,7 @@ public class DungeonManager : MonoBehaviour
                 dungeonPlayTimer = 0f;
                 canvasManager.SetDungeonUI();
                 backgroundSet = GameObject.Find("BackGroundSet");
-                DungeonMakerFloorSetting();
+                EnterTheDungeon();
                 break;
         }
 
@@ -369,11 +369,6 @@ public class DungeonManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.7f);
         canvasManager.FadeInStart();        // 씬 로드 종료 후 페이드 인
-    }
-
-    public void TalkNpcCheck(int _NpcCode)
-    {
-
     }
 
     #region save, load
@@ -421,10 +416,11 @@ public class DungeonManager : MonoBehaviour
     {
         return scenarioManager.GetEventFlag();
     }
-    public void LoadGamePlayDate(int _currentDate, bool _isTrainingPossible, bool[] _eventFlag)
+    public void LoadGamePlayDate(int _currentDate, bool _isTrainingPossible, bool[] _EventFlag, int _StoryProgress)
     {
         currentDate = _currentDate;
         isTraingPossible = _isTrainingPossible;
+        scenarioManager.LoadGamePlayData(_StoryProgress, _EventFlag);
     }
 
     #endregion

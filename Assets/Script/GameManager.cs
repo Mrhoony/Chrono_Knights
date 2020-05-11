@@ -219,7 +219,6 @@ public class GameManager : MonoBehaviour
         canvasManager.inGameMenu.SetActive(false);
         bedBlind.SetActive(true);
         playerStatView.SetActive(false);
-
         startButton.SetActive(true);
 
         Debug.Log("Save");
@@ -244,7 +243,7 @@ public class GameManager : MonoBehaviour
         }
 
         playerStat.SetPlayerData(dataBase.playerData);
-        dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag());
+        dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag(), dataBase.GetStoryProgress());
         storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.Bag].itemRarity);
         inventory.LoadInventoryData(dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.Bag].itemRarity, dataBase.GetCurrentMoney());
 

@@ -52,6 +52,10 @@ public class DataBase
     {
         return eventFlag;
     }
+    public int GetStoryProgress()
+    {
+        return storyProgress;
+    }
     public bool GetTrainingPossible()
     {
         return isTrainigPossible;

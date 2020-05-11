@@ -10,6 +10,8 @@ public class ScenarioManager : MonoBehaviour
     Dictionary<string, int> eventList = new Dictionary<string, int>();
     Dictionary<int, List<EventDialog>> eventContent = new Dictionary<int, List<EventDialog>>();
 
+    Dictionary<int, List<EventTalkBox>> eventTalkBox = new Dictionary<int, List<EventTalkBox>>();
+
     public void EventReset()
     {
         storyProgress = 0;
@@ -25,15 +27,55 @@ public class ScenarioManager : MonoBehaviour
         eventList = _EventList;
         eventContent = _EventContent;
     }
+    public void SetEventTalkBoxList(Dictionary<int, List<EventTalkBox>> _EventTalkBox)
+    {
+        eventTalkBox = _EventTalkBox;
+    }
 
     public void ScenarioCheck(string _CheckCurrentProgress)
     {
-        if (!eventFlag[eventList[_CheckCurrentProgress]])
+        if (eventList.ContainsKey(_CheckCurrentProgress))
         {
-            eventFlag[eventList[_CheckCurrentProgress]] = true;
-            ++storyProgress;
-            canvasManager.SetDialogText(eventContent[eventList[_CheckCurrentProgress]]);
+            if (!eventFlag[eventList[_CheckCurrentProgress]])
+            {
+                eventFlag[eventList[_CheckCurrentProgress]] = true;
+                ++storyProgress;
+                canvasManager.SetDialogText(eventContent[eventList[_CheckCurrentProgress]]);
+            }
         }
+        else
+        {
+            Debug.Log("Not Found");
+        }
+    }
+
+    public void ScenarioCheckTalkBox(GameObject NPC, int _NPCCode)
+    {
+        if (eventTalkBox.ContainsKey(_NPCCode))
+        {
+            int temp = 0;
+            int count = eventTalkBox[_NPCCode].Count;
+            for(int i = 0; i < count; ++i)
+            {
+                if (eventTalkBox[_NPCCode][i].scenarioNumber <= storyProgress)
+                {
+                    temp = i;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            canvasManager.SetTalkBoxText(NPC, eventTalkBox[_NPCCode][temp].content);
+        }
+        else
+        {
+            Debug.Log("Not Found");
+        }
+    }
+    public void TalkBoxDisActive()
+    {
+        canvasManager.CloseTalkBox();
     }
     
     public int GetStoryProgress()
@@ -44,10 +86,9 @@ public class ScenarioManager : MonoBehaviour
     {
         return eventFlag;
     }
-    public void LoadGamePlayDate(int _StoryProgress, bool[] _eventFlag)
+    public void LoadGamePlayData(int _StoryProgress, bool[] _eventFlag)
     {
         storyProgress = _StoryProgress;
         eventFlag = _eventFlag;
     }
-
 }

@@ -6,6 +6,8 @@ public class Teleport : InteractiveObject
 {
     private void Update()
     {
+        if (CanvasManager.instance.GameMenuOnCheck()) return;
+
         if (inPlayer)
         {
             if (player.GetComponent<PlayerControl>().inputDirection != 0)
@@ -18,7 +20,10 @@ public class Teleport : InteractiveObject
                 if (!player.GetComponent<PlayerControl>().playerInputKey.activeInHierarchy)
                     player.GetComponent<PlayerControl>().playerInputKey.SetActive(true);
 
-                DungeonManager.instance.ActiveInteractiveObject(isNPC, objectNumber);
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    DungeonManager.instance.ActiveInteractiveObject(isNPC, objectNumber);
+                }
             }
         }
     }

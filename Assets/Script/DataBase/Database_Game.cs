@@ -174,6 +174,17 @@ public class EventDialog
         content = _Content;
     }
 }
+public class EventTalkBox
+{
+    public int scenarioNumber;
+    public string content;
+
+    public EventTalkBox(int _ScenarioNumber, string _Content)
+    {
+        scenarioNumber = _ScenarioNumber;
+        content = _Content;
+    }
+}
 
 public class Database_Game : MonoBehaviour
 {
@@ -191,6 +202,7 @@ public class Database_Game : MonoBehaviour
     readonly string MonsterXMLFileName = "MonsterDataBase";
     readonly string playerAttackXMLFileName = "PlayerAttackDataBase";
     readonly string NPCDialogFileName = "NPCDialogDataBase";
+    readonly string NPCTalkBoxFileName = "NPCTalkBoxDataBase";
 
     private void Awake()
     {
@@ -209,6 +221,7 @@ public class Database_Game : MonoBehaviour
         InputMonsterData(MonsterXMLFileName);
         InputPlayerAttack(playerAttackXMLFileName);
         InputNPCDialogData(NPCDialogFileName);
+        INputNPCTalkBoxData(NPCTalkBoxFileName);
 
         skillManager = GetComponent<SkillManager>();
     }
@@ -341,31 +354,65 @@ public class Database_Game : MonoBehaviour
     {
         Dictionary<string, int> eventList = new Dictionary<string, int>();
         Dictionary<int, List<EventDialog>> eventContent = new Dictionary<int, List<EventDialog>>();
-        XmlNodeList nodelist = XmlNodeReturn(_NPCDialogFileName);
         List<EventDialog> eventDialog;
 
+        XmlNodeList nodelist = XmlNodeReturn(_NPCDialogFileName);
         foreach (XmlNode node in nodelist)
         {
+            Debug.Log(node.Name);
             if (node.Name.Equals(_NPCDialogFileName) && node.HasChildNodes)
             {
                 foreach (XmlNode _Event in node)
                 {
                     eventDialog = new List<EventDialog>();
-                    foreach (XmlNode _Dialog in _Event)
+                    XmlNodeList _DialogList = _Event.SelectNodes("Dialog");
+                    foreach (XmlNode _Dialog in _DialogList)
                     {
+                        // 여기
                         eventDialog.Add(new EventDialog(
-                            _Dialog.Attributes.GetNamedItem("NPCName").Value,
-                            _Dialog.Attributes.GetNamedItem("NPCImage").Value,
-                            _Dialog.Attributes.GetNamedItem("Content").Value
+                            _Dialog.SelectSingleNode("NPCName").InnerText,
+                            _Dialog.SelectSingleNode("NPCImage").InnerText,
+                            _Dialog.SelectSingleNode("Content").InnerText
                             ));
                     }
-                    eventList.Add(_Event.Attributes.GetNamedItem("EventName").Value, int.Parse(_Event.Attributes.GetNamedItem("EventNumber").Value));
-                    eventContent.Add(int.Parse(_Event.Attributes.GetNamedItem("EventNumber").Value), eventDialog);
+                    eventList.Add(_Event.SelectSingleNode("EventName").InnerText, int.Parse(_Event.SelectSingleNode("EventNumber").InnerText));
+                    eventContent.Add(int.Parse(_Event.SelectSingleNode("EventNumber").InnerText), eventDialog);
                 }
             }
         }
         DungeonManager.instance.scenarioManager.SetEventList(eventList, eventContent);
+
         Debug.Log("Input NPCDialogData");
+    }
+    void INputNPCTalkBoxData(string _NPCTalkBoxFileName)
+    {
+        Dictionary<int, List<EventTalkBox>> eventContent = new Dictionary<int, List<EventTalkBox>>();
+        List<EventTalkBox> eventTalkBox = new List<EventTalkBox>();
+
+        XmlNodeList nodelist = XmlNodeReturn(_NPCTalkBoxFileName);
+
+        foreach (XmlNode node in nodelist)
+        {
+            if (node.Name.Equals(_NPCTalkBoxFileName) && node.HasChildNodes)
+            {
+                foreach (XmlNode NPC in node)
+                {
+                    eventTalkBox = new List<EventTalkBox>();
+                    XmlNodeList _DialogList = NPC.SelectNodes("TalkBox");
+                    foreach (XmlNode _Dialog in _DialogList)
+                    {
+                        // 여기
+                        eventTalkBox.Add(new EventTalkBox(
+                            int.Parse(_Dialog.SelectSingleNode("ScenarioNumber").InnerText),
+                            _Dialog.SelectSingleNode("Content").InnerText
+                            ));
+                    }
+                    eventContent.Add(int.Parse(NPC.SelectSingleNode("NPCCode").InnerText), eventTalkBox);
+                }
+            }
+        }
+        DungeonManager.instance.scenarioManager.SetEventTalkBoxList(eventContent);
+        Debug.Log("Input NPCTalkBoxData");
     }
 
     public Item ItemSetting()

@@ -29,6 +29,7 @@ public class CanvasManager : MonoBehaviour
     public GameObject fadeInOut;
     public GameObject circleFadeOut;
 
+    public GameObject talkBoxNPC;
     public TalkBox talkBox;
     public ChatDialog dialogBox;
 
@@ -44,8 +45,8 @@ public class CanvasManager : MonoBehaviour
     public bool isStorageOn;
     public bool isCancelOn;
 
-    public bool chatBoxOn;
-    public bool talkBoxOn;
+    public bool isChatBoxOn;
+    public bool isTalkBoxOn;
 
     public bool isShopOn;
     public bool isTrainigOn;
@@ -75,8 +76,8 @@ public class CanvasManager : MonoBehaviour
     }
     private void Start()
     {
-        chatBoxOn = false;
-        talkBoxOn = false;
+        isChatBoxOn = false;
+        isTalkBoxOn = false;
 
         isInventoryOn = false;
         isStorageOn = false;
@@ -98,13 +99,18 @@ public class CanvasManager : MonoBehaviour
     private void Update()
     {
         if (!gm.GetGameStart()) return;
-
+        
         if (Input.GetKeyDown(KeyCode.Z))
         {
             if (isGameOverUIOn)
             {
                 CloseGameOverMenu();
             }
+        }
+
+        if (isTalkBoxOn)
+        {
+            talkBox.gameObject.transform.position = Camera.main.WorldToScreenPoint(talkBoxNPC.transform.position) + Vector3.up * 80f;
         }
 
         if (DungeonManager.instance.isSceneLoading) return;
@@ -203,10 +209,9 @@ public class CanvasManager : MonoBehaviour
             }
         }
     }
-
     public bool GameMenuOnCheck()
     {
-        if (isCancelOn || isInventoryOn || isStorageOn) return true;
+        if (isCancelOn || isInventoryOn || isStorageOn || isChatBoxOn) return true;
         else return false;
     }
     public bool TownUIOnCheck()
@@ -264,7 +269,7 @@ public class CanvasManager : MonoBehaviour
             DungeonManager.instance.SceneLoad();
         else
         {
-            DungeonManager.instance.DungeonMakerFloorSetting();
+            DungeonManager.instance.EnterTheDungeon();
             FadeInStart();
         }
         DungeonManager.instance.isSceneLoading = false;
@@ -327,15 +332,26 @@ public class CanvasManager : MonoBehaviour
 
     public void SetDialogText(List<EventDialog> _EventDialog)
     {
-        chatBoxOn = true;
+        isChatBoxOn = true;
         dialogBox.gameObject.SetActive(true);
-        dialogBox.SetDialogText(_EventDialog);
+        dialogBox.SetDialogList(_EventDialog, this);
     }
-    public void SetTalkBoxText(string _Text)
+    public void CloseDialogBox()
     {
-        talkBoxOn = true;
+        dialogBox.gameObject.SetActive(false);
+        isChatBoxOn = false;
+    }
+    public void SetTalkBoxText(GameObject _NPC, string _Text)
+    {
+        isTalkBoxOn = true;
+        talkBoxNPC = _NPC;
         talkBox.gameObject.SetActive(true);
         talkBox.SetDialogText(_Text);
+    }
+    public void CloseTalkBox()
+    {
+        talkBox.gameObject.SetActive(false);
+        isTalkBoxOn = false;
     }
 
     #region 던전 UI
