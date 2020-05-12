@@ -67,9 +67,8 @@ public class DungeonManager : MonoBehaviour
     {
         isDead = false;
         inDungeon = false;
-        dungeonClear = false;
-        phaseClear = false;
-        usedKey = false;
+        isReturn = false;
+        DungeonFlagReset();
 
         ++currentDate;
 
@@ -79,6 +78,12 @@ public class DungeonManager : MonoBehaviour
         }
         isShopRefill = true;
         isTraingPossible = true;
+    }
+    public void DungeonFlagReset()
+    {
+        dungeonClear = false;
+        phaseClear = false;
+        usedKey = false;
     }
 
     public void Update()
@@ -156,6 +161,11 @@ public class DungeonManager : MonoBehaviour
         dungeonMaker.EnterTheDungeon();
         dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
     }
+    public void EnterNextFloor()
+    {
+        DungeonFlagReset();
+        dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
+    }
     public void PlayerIsDead()
     {
         if (isDead) return;
@@ -225,6 +235,7 @@ public class DungeonManager : MonoBehaviour
                         {
                             if (usedKey)            // 키를 쓴경우
                             {
+                                usedKey = false;
                                 isSceneLoading = true;
                                 canvasManager.FadeOutStart(false);
                             }
@@ -237,6 +248,7 @@ public class DungeonManager : MonoBehaviour
                         {
                             if (usedKey)            // 키를 쓴경우
                             {
+                                usedKey = false;
                                 isSceneLoading = true;
                                 canvasManager.FadeOutStart(true);
                             }
@@ -351,8 +363,7 @@ public class DungeonManager : MonoBehaviour
                 EnterTheDungeon();
                 break;
         }
-
-
+        
         StartCoroutine(MapMoveDelay());
     }
     public void MapEntranceFind(GameObject[] _TeleportPoint, int _useSystem)

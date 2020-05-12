@@ -70,6 +70,7 @@ public class DataBase
         currentDate = _currentDate;
         isTrainigPossible = _isTrainigPossible;
         eventFlag = _eventFlag;
+        storyProgress = _StoryProgress;
     }
     public void SaveStorageData(int[] _storageItemList)
     {
