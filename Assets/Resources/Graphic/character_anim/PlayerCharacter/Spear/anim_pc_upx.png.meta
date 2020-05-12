@@ -1,7 +1,14 @@
 fileFormatVersion: 2
 guid: 3d18e8f8a2e5cdf45a1671bfe253492a
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: anim_pc_upx_0
+    21300002: anim_pc_upx_1
+    21300004: anim_pc_upx_2
+    21300006: anim_pc_upx_3
+    21300008: anim_pc_upx_4
+    21300010: anim_pc_upx_5
+    21300012: anim_pc_upx_6
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -31,7 +38,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -40,7 +47,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -63,7 +70,18 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -71,7 +89,87 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: anim_pc_upx_0
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 0
+        width: 119
+        height: 116
+      alignment: 9
+      pivot: {x: 0.3277311, y: 0.31034482}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75bb6709f813ed54c81beebea5efe447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_upx_2
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 4
+        width: 105
+        height: 114
+      alignment: 9
+      pivot: {x: 0.35238096, y: 0.28070176}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e52fac220d7f5c44b6e581ff5a15274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_upx_4
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 4
+        width: 65
+        height: 107
+      alignment: 9
+      pivot: {x: 0.6, y: 0.2990654}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2201868386ded54680d822613505441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_pc_upx_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 93
+        height: 72
+      alignment: 9
+      pivot: {x: 0.43010753, y: 0.4861111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a4be31eeecf3af49a0ff2ac85d10533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
