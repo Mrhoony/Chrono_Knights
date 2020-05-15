@@ -1,14 +1,19 @@
 fileFormatVersion: 2
-guid: 487d2c45d91438f4d9e86f683eee4e8c
+guid: 6b77808c6be80be499dff3691bcdb1e9
 TextureImporter:
   fileIDToRecycleName:
-    21300000: anim_mon1_die_0
-    21300002: anim_mon1_die_1
-    21300004: anim_mon1_die_2
-    21300006: anim_mon1_die_3
-    21300008: anim_mon1_die_5
-    21300010: anim_mon1_die_6
-    21300012: anim_mon1_die_7
+    21300000: anim_frog_hit_die_4
+    21300002: anim_frog_hit_die_1
+    21300004: anim_frog_hit_die_2
+    21300006: anim_frog_hit_die_3
+    21300008: anim_frog_hit_die_5
+    21300010: anim_frog_hit_die_5
+    21300012: anim_frog_hit_die_6
+    21300014: anim_frog_hit_die_7
+    21300016: anim_frog_hit_die_8
+    21300018: anim_frog_hit_die_9
+    21300020: anim_frog_hit_die_10
+    21300022: anim_frog_hit_die_11
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -67,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 512
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -78,7 +83,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 512
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -91,101 +96,181 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: anim_mon1_die_1
+      name: anim_frog_hit_die_1
       rect:
         serializedVersion: 2
-        x: 27
-        y: 5
-        width: 46
+        x: 0
+        y: 50
+        width: 45
         height: 40
       alignment: 9
-      pivot: {x: 0.7826087, y: 0}
+      pivot: {x: 0.64444447, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e4441054998443469c40080014178b4
+      spriteID: 03d2fa541286f1243b82e36645dba498
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_mon1_die_2
+      name: anim_frog_hit_die_2
       rect:
         serializedVersion: 2
-        x: 118
-        y: 9
+        x: 100
+        y: 50
+        width: 54
+        height: 31
+      alignment: 9
+      pivot: {x: 0.6296296, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 920268360527f2142b583360e9a379a5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_frog_hit_die_3
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 50
+        width: 49
+        height: 32
+      alignment: 9
+      pivot: {x: 0.6530612, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50b8ea68c9c8aef4e8cee719c99ab870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_frog_hit_die_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 51
+        height: 29
+      alignment: 9
+      pivot: {x: 0.627451, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 551ff725fa714f84dabdf952082a6170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_frog_hit_die_7
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 0
         width: 63
         height: 32
       alignment: 9
-      pivot: {x: 0.6666667, y: -0}
+      pivot: {x: 0.6507937, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63ba51e4c8de36546a1c0786c740a9fd
+      spriteID: 56d7a0f1670b93946b068a4670904660
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_mon1_die_3
+      name: anim_frog_hit_die_9
       rect:
         serializedVersion: 2
-        x: 214
-        y: 9
+        x: 200
+        y: 0
         width: 85
-        height: 28
+        height: 32
       alignment: 9
-      pivot: {x: 0.5411765, y: 0}
+      pivot: {x: 0.5176471, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9953275daa5e843429b695323d8d49b2
+      spriteID: ac1f47068a0137f458c0e4cd7589a896
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_mon1_die_5
+      name: anim_frog_hit_die_11
       rect:
         serializedVersion: 2
-        x: 340
-        y: 9
+        x: 300
+        y: 0
         width: 58
-        height: 19
+        height: 29
       alignment: 9
-      pivot: {x: 0.3448276, y: 0}
+      pivot: {x: 0.31034482, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a47c54d01632a7b49ac2d825d65ceacd
+      spriteID: 3f922fded26bf0444b8132b055396ebe
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_mon1_die_7
+      name: anim_frog_hit_die_4
       rect:
         serializedVersion: 2
-        x: 118
-        y: 14
-        width: 8
-        height: 5
-      alignment: 7
+        x: 300
+        y: 50
+        width: 37
+        height: 31
+      alignment: 9
+      pivot: {x: 0.45945945, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f5f0873a960c0f40aa7b4f802e82686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_frog_hit_die_5
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 50
+        width: 34
+        height: 31
+      alignment: 9
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1eea1dbe918b18f40904a5d551bcf4eb
+      spriteID: 0093ee6258222bd47a3835e0cfd99f93
       vertices: []
       indices: 
       edges: []
@@ -193,7 +278,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 1fe3860d7b7c6c140bb8b570930c7241
+    spriteID: a64a7fc24503c9542ad910fe94c02386
     vertices: []
     indices: 
     edges: []

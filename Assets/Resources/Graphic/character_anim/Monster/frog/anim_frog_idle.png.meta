@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 374e36c94b0484d4daa6db9fc86a2e9c
+guid: a0da8dae8a8f6ba40a4449b1707384d3
 TextureImporter:
   fileIDToRecycleName:
-    21300000: anim_mon1_atk_0
-    21300002: anim_mon1_atk_1
-    21300004: anim_mon1_atk_2
+    21300000: anim_frog_idle_0
+    21300002: anim_frog_idle_1
+    21300004: anim_frog_idle_2
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -63,7 +63,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 512
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -74,7 +74,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 512
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -87,61 +87,61 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: anim_mon1_atk_0
+      name: anim_frog_idle_0
       rect:
         serializedVersion: 2
-        x: 23
-        y: 11
-        width: 44
-        height: 34
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0c0c4a3de9771584d9da4a3a38637102
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: anim_mon1_atk_1
-      rect:
-        serializedVersion: 2
-        x: 92
-        y: 11
-        width: 65
-        height: 34
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2b8fea4c22c1d874abea280ff1069c63
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: anim_mon1_atk_2
-      rect:
-        serializedVersion: 2
-        x: 179
-        y: 11
-        width: 51
-        height: 29
+        x: 0
+        y: 0
+        width: 34
+        height: 31
       alignment: 9
-      pivot: {x: 0.627451, y: 0}
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d7b4eebe20de3045a8b112c45e5b6dc
+      spriteID: 2de4719c2316a5c4288470ab703ec61a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_frog_idle_1
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 34
+        height: 31
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 427307a3785f7af43ab7052799833832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_frog_idle_2
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 34
+        height: 31
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9431fdd1892f9b3479699ffaa5b4d3a4
       vertices: []
       indices: 
       edges: []
@@ -149,7 +149,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 59831e265dc9b534c80280f49d828ab1
+    spriteID: 9f4f9a15f2751784a820d62124d30cbd
     vertices: []
     indices: 
     edges: []
