@@ -1,11 +1,13 @@
 fileFormatVersion: 2
-guid: 79772cfb2464f634dad3da63905c2406
+guid: 8bed251c7b0349242a66e7a8a702406e
 TextureImporter:
   fileIDToRecycleName:
-    21300000: anim_mon2_hit_0
-    21300002: anim_mon2_hit_1
-    21300004: anim_mon2_hit_2
-    21300006: anim_mon2_hit_3
+    21300000: anim_wolf_atk_0
+    21300002: anim_wolf_atk_1
+    21300004: anim_wolf_atk_2
+    21300006: anim_wolf_atk_3
+    21300008: anim_wolf_atk_4
+    21300010: anim_wolf_atk_5
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -64,7 +66,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 512
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -75,7 +77,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 512
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -88,81 +90,121 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: anim_mon2_hit_0
+      name: anim_wolf_atk_0
       rect:
         serializedVersion: 2
-        x: 20
-        y: 7
-        width: 79
-        height: 46
+        x: 2
+        y: 0
+        width: 78
+        height: 45
       alignment: 9
-      pivot: {x: 0.35443038, y: -0}
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e75e8bad015cd9d4f8f18868d3209421
+      spriteID: d5554b7dd31569b40814be4760b55edf
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_mon2_hit_1
+      name: anim_wolf_atk_1
       rect:
         serializedVersion: 2
-        x: 137
-        y: 7
-        width: 86
-        height: 44
+        x: 101
+        y: 0
+        width: 76
+        height: 48
       alignment: 9
-      pivot: {x: 0.3255814, y: 0}
+      pivot: {x: 0.5131579, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 251573bc6f087134bab12428ee6d39b9
+      spriteID: 9ef9789ad4c59034582d66ca1ac8beee
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_mon2_hit_2
+      name: anim_wolf_atk_2
       rect:
         serializedVersion: 2
-        x: 259
-        y: 7
-        width: 81
-        height: 40
+        x: 201
+        y: 0
+        width: 76
+        height: 49
       alignment: 9
-      pivot: {x: 0.45679012, y: 0}
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8bfff27d159f3a84b9bc6ca99b04e562
+      spriteID: 3f5c9430698510846a804a3344326e5b
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_mon2_hit_3
+      name: anim_wolf_atk_3
       rect:
         serializedVersion: 2
-        x: 380
-        y: 7
+        x: 300
+        y: 0
         width: 81
         height: 43
       alignment: 9
-      pivot: {x: 0.45679012, y: 0}
+      pivot: {x: 0.4814815, y: -0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f9cd343a8dce2664aa1679543bad27ea
+      spriteID: 56b38387fc336604283a7364c8b5a7a7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_wolf_atk_4
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 76
+        height: 39
+      alignment: 9
+      pivot: {x: 0.4473684, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 592df6502ecb4c24ea5b437844dd55ad
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_wolf_atk_5
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 0
+        width: 76
+        height: 43
+      alignment: 9
+      pivot: {x: 0.4473684, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b478deb85cd37894aa6e076e82895d70
       vertices: []
       indices: 
       edges: []
@@ -170,7 +212,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: fd23553f9dd3002418b2a1001d8cccaf
+    spriteID: df073b5c4790c424394fa83582906e0f
     vertices: []
     indices: 
     edges: []
