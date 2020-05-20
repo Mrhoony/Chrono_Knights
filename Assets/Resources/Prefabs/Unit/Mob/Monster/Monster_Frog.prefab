@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: f8f7113f105fdc04f8b6dc39b8208545, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a0da8dae8a8f6ba40a4449b1707384d3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -124,7 +124,7 @@ BoxCollider2D:
   m_Offset: {x: -0.04, y: 0.155}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.61764705, y: -0}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 0.34, y: 0.31}
     newSize: {x: 0.8, y: 0.5}
     adaptiveTilingThreshold: 0.5
@@ -176,7 +176,7 @@ MonoBehaviour:
   isFaceRight: 0
   arrowDirection: 0
   target: {fileID: 0}
-  playerPos: {x: 0, y: 0}
+  playerPos: {x: 0, y: 0, z: 0}
   eft: {fileID: 0}
   eftPool: []
   enemyStatus: {fileID: 0}

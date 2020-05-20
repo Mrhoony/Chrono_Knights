@@ -1,10 +1,12 @@
 fileFormatVersion: 2
-guid: 77dae8f4c9b183240be0339d7aedaf5c
+guid: e6cf282bacfbcf248971d328cf2e8f3c
 TextureImporter:
   fileIDToRecycleName:
-    21300000: anim_mon1_jump_0
-    21300002: anim_mon1_jump_1
-    21300004: anim_mon1_jump_2
+    21300000: anim_frog_jump_0
+    21300002: anim_frog_jump_1
+    21300004: anim_frog_jump_2
+    21300006: anim_frog_jump_3
+    21300008: anim_frog_jump_4
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -63,7 +65,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 512
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -74,7 +76,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 512
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -87,61 +89,101 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: anim_mon1_jump_0
+      name: anim_frog_jump_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 11
+        x: 0
+        y: 0
         width: 39
         height: 29
       alignment: 9
-      pivot: {x: 0.4871795, y: -0}
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cd1c606da33dcdc4985ebb8d2119dd4b
+      spriteID: 6f82db6179ca8004b8b7d94244d5f17b
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_mon1_jump_1
+      name: anim_frog_jump_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 80
         y: 0
         width: 43
         height: 49
       alignment: 9
-      pivot: {x: 0.5116279, y: 0}
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1c812e5d95fd6f43ae971114e019b31
+      spriteID: 2d5fc5f3bbd641f46ad26c1e6a91242f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_mon1_jump_2
+      name: anim_frog_jump_2
       rect:
         serializedVersion: 2
-        x: 133
-        y: 3
+        x: 160
+        y: 0
         width: 34
-        height: 42
+        height: 41
       alignment: 9
-      pivot: {x: 0.5882353, y: 0}
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 075ebcfced3c6ec469f288d5bc91b1c2
+      spriteID: 667a03c890bba27448f3e391cada344f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_frog_jump_3
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 35
+        height: 38
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fc67e4775a2cb046b140888901f229f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_frog_jump_4
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 39
+        height: 29
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c7c0fb4d912de9448cd5981c68f9c5b
       vertices: []
       indices: 
       edges: []
@@ -149,7 +191,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: c9fd98f611f0a574eab09f8c304b10a2
+    spriteID: 783284ffc504c4542b9001e97411bbcf
     vertices: []
     indices: 
     edges: []

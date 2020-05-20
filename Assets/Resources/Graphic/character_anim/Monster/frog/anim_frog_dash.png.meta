@@ -1,13 +1,12 @@
 fileFormatVersion: 2
-guid: 41e95d8a0b5641143a9253df445a681b
+guid: 0bf5564bfa3745f41a596c044524d8ee
 TextureImporter:
   fileIDToRecycleName:
-    21300000: anim_mon1_hit_0
-    21300002: anim_mon1_hit_1
-    21300004: anim_mon1_hit_2
-    21300006: anim_mon1_hit_3
-    21300008: anim_mon1_hit_4
-    21300010: anim_mon1_hit_5
+    21300000: anim_frog_dash_0
+    21300002: anim_frog_dash_1
+    21300004: anim_frog_dash_2
+    21300006: anim_frog_dash_3
+    21300008: anim_frog_dash_4
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -66,7 +65,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 512
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -77,7 +76,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 512
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -90,101 +89,101 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: anim_mon1_hit_1
+      name: anim_frog_dash_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 10
-        width: 46
-        height: 40
+        x: 0
+        y: 0
+        width: 44
+        height: 34
       alignment: 9
-      pivot: {x: 0.7826087, y: -0}
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24fcb5877293b454a843299fa83fd6ea
+      spriteID: 6fbc41dc7eca8014bab36754f0c3bc2e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_mon1_hit_2
+      name: anim_frog_dash_1
       rect:
         serializedVersion: 2
-        x: 92
-        y: 13
-        width: 55
-        height: 31
+        x: 80
+        y: 0
+        width: 65
+        height: 34
       alignment: 9
-      pivot: {x: 0.7090909, y: 0}
+      pivot: {x: 0.63076925, y: -0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 216384bef5bb2b14d994cee7c0e459bf
+      spriteID: 4c4d2516f45ea5243a0033243756067d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_mon1_hit_3
+      name: anim_frog_dash_2
       rect:
         serializedVersion: 2
-        x: 175
-        y: 13
-        width: 49
-        height: 31
+        x: 160
+        y: 0
+        width: 51
+        height: 34
       alignment: 9
-      pivot: {x: 0.7346939, y: -0}
+      pivot: {x: 0.54901963, y: -0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ff5263f877f0e343b94489c536bfc69
+      spriteID: ed716f551bc7b5e449b1380a37937401
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_mon1_hit_4
+      name: anim_frog_dash_3
       rect:
         serializedVersion: 2
-        x: 270
-        y: 13
-        width: 37
-        height: 31
+        x: 240
+        y: 0
+        width: 51
+        height: 29
       alignment: 9
-      pivot: {x: 0.5675676, y: -0}
+      pivot: {x: 0.64705884, y: -0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a04618ff7168df94d91b3386b456dd08
+      spriteID: 64bf7a1d63c8a154299dd5b62e5d790d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_mon1_hit_5
+      name: anim_frog_dash_4
       rect:
         serializedVersion: 2
-        x: 350
-        y: 13
-        width: 34
-        height: 31
+        x: 320
+        y: 0
+        width: 39
+        height: 29
       alignment: 9
-      pivot: {x: 0.61764705, y: -0}
+      pivot: {x: 0.61538464, y: -0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f9bfb62e64b054f419cbfb03302145ef
+      spriteID: 73b683affcb47694cacb53e08e08c2a1
       vertices: []
       indices: 
       edges: []
@@ -192,7 +191,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 165efaf08297d0447977526de5a2f0f8
+    spriteID: 675649137bce4564281e38fd2b3243ab
     vertices: []
     indices: 
     edges: []
