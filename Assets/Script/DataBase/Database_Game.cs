@@ -96,8 +96,9 @@ public class Skill
     public string skillDescription;
     public float skillCoolTime;
     public float skillTimeDuration;
+    public int skillStack;
 
-    public Skill(SkillType _skillType, int _skillCode, string _skillName, float _skillMultiply, int _skillValue, string _skillDescription, float _skillCoolTime = 0, float _skillTimeDuration = 0)
+    public Skill(SkillType _skillType, int _skillCode, string _skillName, float _skillMultiply, int _skillValue, string _skillDescription, float _skillCoolTime, float _skillTimeDuration, int _skillStack)
     {
         skillType = _skillType;
         skillCode = _skillCode;
@@ -107,6 +108,7 @@ public class Skill
         skillDescription = _skillDescription;
         skillCoolTime = _skillCoolTime;
         skillTimeDuration = _skillTimeDuration;
+        skillStack = _skillStack;
     }
 }
 public class Monster
@@ -174,6 +176,19 @@ public class EventDialog
         content = _Content;
     }
 }
+public class RepeatEventDialog : EventDialog
+{
+    public int eventNumber;
+
+    public RepeatEventDialog(int _EventNumber, string _NPCName, string _NPCImage, string _Content) : base(_NPCName, _NPCImage, _Content)
+    {
+        eventNumber = _EventNumber;
+        NPCName = _NPCName;
+        NPCImage = _NPCImage;
+        content = _Content;
+    }
+}
+
 public class EventTalkBox
 {
     public int scenarioNumber;
@@ -279,7 +294,8 @@ public class Database_Game : MonoBehaviour
                                 int.Parse(data.Attributes.GetNamedItem("skillValue").Value),
                                 data.Attributes.GetNamedItem("skillDescription").Value,
                                 int.Parse(data.Attributes.GetNamedItem("skillOnCount").Value),
-                                float.Parse(data.Attributes.GetNamedItem("skillTimeDuration").Value)));
+                                float.Parse(data.Attributes.GetNamedItem("skillTimeDuration").Value),
+                                int.Parse(data.Attributes.GetNamedItem("skillMaxStack").Value)));
                             break;
                         case SkillType.Passive:
                             passiveSkillList.Add(new Skill(
@@ -290,7 +306,8 @@ public class Database_Game : MonoBehaviour
                                 int.Parse(data.Attributes.GetNamedItem("skillValue").Value),
                                 data.Attributes.GetNamedItem("skillDescription").Value,
                                 int.Parse(data.Attributes.GetNamedItem("skillOnCount").Value),
-                                float.Parse(data.Attributes.GetNamedItem("skillTimeDuration").Value)));
+                                float.Parse(data.Attributes.GetNamedItem("skillTimeDuration").Value),
+                                int.Parse(data.Attributes.GetNamedItem("skillMaxStack").Value)));
                             break;
                     }
                 }
@@ -354,7 +371,9 @@ public class Database_Game : MonoBehaviour
     {
         Dictionary<string, int> eventList = new Dictionary<string, int>();
         Dictionary<int, List<EventDialog>> eventContent = new Dictionary<int, List<EventDialog>>();
-        List<EventDialog> eventDialog;
+        Dictionary<int, List<RepeatEventDialog>> repeatEventList = new Dictionary<int, List<RepeatEventDialog>>();
+        List<EventDialog> eventDialog; 
+        List<RepeatEventDialog> repeatEventDialog;
 
         XmlNodeList nodelist = XmlNodeReturn(_NPCDialogFileName);
         foreach (XmlNode node in nodelist)
@@ -364,23 +383,45 @@ public class Database_Game : MonoBehaviour
             {
                 foreach (XmlNode _Event in node)
                 {
-                    eventDialog = new List<EventDialog>();
-                    XmlNodeList _DialogList = _Event.SelectNodes("Dialog");
-                    foreach (XmlNode _Dialog in _DialogList)
+                    switch (_Event.Name)
                     {
-                        // 여기
-                        eventDialog.Add(new EventDialog(
-                            _Dialog.SelectSingleNode("NPCName").InnerText,
-                            _Dialog.SelectSingleNode("NPCImage").InnerText,
-                            _Dialog.SelectSingleNode("Content").InnerText
-                            ));
+                        case "Event":
+                            eventDialog = new List<EventDialog>();
+                            XmlNodeList _DialogList = _Event.SelectNodes("Dialog");
+                            foreach (XmlNode _Dialog in _DialogList)
+                            {
+                                // 여기
+                                eventDialog.Add(new EventDialog(
+                                    _Dialog.SelectSingleNode("NPCName").InnerText,
+                                    _Dialog.SelectSingleNode("NPCImage").InnerText,
+                                    _Dialog.SelectSingleNode("Content").InnerText
+                                    ));
+                            }
+                            eventList.Add(_Event.SelectSingleNode("EventName").InnerText, int.Parse(_Event.SelectSingleNode("EventNumber").InnerText));
+                            eventContent.Add(int.Parse(_Event.SelectSingleNode("EventNumber").InnerText), eventDialog);
+                            break;
+                        case "RepeatEvent":
+                            repeatEventDialog = new List<RepeatEventDialog>();
+
+                            if (!repeatEventList.ContainsKey(int.Parse(_Event.SelectSingleNode("NPCCode").InnerText)))
+                                repeatEventList.Add(int.Parse(_Event.SelectSingleNode("NPCCode").InnerText), repeatEventDialog);
+
+                            XmlNodeList _RepeatDialogList = _Event.SelectNodes("Dialog");
+                            foreach (XmlNode _Dialog in _RepeatDialogList)
+                            {
+                                repeatEventList[int.Parse(_Event.SelectSingleNode("NPCCode").InnerText)].Add(new RepeatEventDialog(
+                                    int.Parse(_Event.SelectSingleNode("EventNumber").InnerText),
+                                    _Dialog.SelectSingleNode("NPCName").InnerText,
+                                    _Dialog.SelectSingleNode("NPCImage").InnerText,
+                                    _Dialog.SelectSingleNode("Content").InnerText
+                                    ));
+                            }
+                            break;
                     }
-                    eventList.Add(_Event.SelectSingleNode("EventName").InnerText, int.Parse(_Event.SelectSingleNode("EventNumber").InnerText));
-                    eventContent.Add(int.Parse(_Event.SelectSingleNode("EventNumber").InnerText), eventDialog);
                 }
             }
         }
-        DungeonManager.instance.scenarioManager.SetEventList(eventList, eventContent);
+        DungeonManager.instance.scenarioManager.SetEventList(eventList, eventContent, repeatEventList);
 
         Debug.Log("Input NPCDialogData");
     }

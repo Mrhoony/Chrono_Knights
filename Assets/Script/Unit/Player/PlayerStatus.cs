@@ -62,6 +62,7 @@ public class PlayerStatus : MonoBehaviour
         HPCut = new bool[4];
 
         PlayerStatusLoad();
+        CanvasManager.instance.SetPlayerStatusInfo(playerData.GetPlayerEquipment().equipment);
         ReturnToTown();
     }
     public void StatusInit()
@@ -327,10 +328,8 @@ public class PlayerStatus : MonoBehaviour
         else
         {
             moveSpeed[2] = moveSpeed[2] / multyMoveSpeed;
-            if (moveSpeed[2] < 1)
-            {
-                moveSpeed[2] = 1;
-            }
+            if (moveSpeed[2] < 1)  moveSpeed[2] = 1f;
+            if (moveSpeed[2] > 6f) moveSpeed[2] = 6f;
         }
     }
     public void SetAttackSpeed_Result(int multyAttackSpeed, bool multy) // 공격 속도 계산

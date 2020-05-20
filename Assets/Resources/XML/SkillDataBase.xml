@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <SkillDataBase>
-	<Field skillType="Active" skillName="Aura spear" skillCode="101" skillMultiply="3" skillValue="0" skillDescription="일정 시간 공격범위 증가" skillOnCount="1" skillTimeDuration="5"/>
-	<Field skillType="Active" skillName="Laser" skillCode="102" skillMultiply="10" skillValue="0" skillDescription="직선으로 관통" skillOnCount="1" skillTimeDuration="0"/>
-	<Field skillType="Active" skillName="Area attack" skillCode="103" skillMultiply="0.5" skillValue="0" skillDescription="범위 공격" skillOnCount="1" skillTimeDuration="5"/>
-	<Field skillType="Active" skillName="Charging attack" skillCode="104" skillMultiply="5" skillValue="0" skillDescription="차지 공격" skillOnCount="1" skillTimeDuration="1"/>
-	<Field skillType="Active" skillName="Immortal" skillCode="105" skillMultiply="0" skillValue="0" skillDescription="무적" skillOnCount="1" skillTimeDuration="3"/>
-	<Field skillType="Active" skillName="Shield" skillCode="106" skillMultiply="0" skillValue="3" skillDescription="방어막" skillOnCount="1" skillTimeDuration="5"/>
-	<Field skillType="Active" skillName="Supply Bullet" skillCode="107" skillMultiply="0" skillValue="10" skillDescription="탄 보충" skillOnCount="1" skillTimeDuration="0"/>
-	<Field skillType="Active" skillName="Healling" skillCode="108" skillMultiply="0" skillValue="30" skillDescription="회복" skillOnCount="1" skillTimeDuration="0"/>
-	<Field skillType="Active" skillName="Teleport" skillCode="109" skillMultiply="0" skillValue="2" skillDescription="단거리 이동" skillOnCount="1" skillTimeDuration="0"/>
-	<Field skillType="Passive" skillName="Attack support" skillCode="201" skillMultiply="1" skillValue="0" skillDescription="추가 데미지" skillOnCount="1" skillTimeDuration="0"/>
-	<Field skillType="Passive" skillName="Auto defense" skillCode="301" skillMultiply="0" skillValue="0" skillDescription="자동 방어" skillOnCount="1" skillTimeDuration="0"/>
-	<Field skillType="Passive" skillName="First aid" skillCode="302" skillMultiply="0" skillValue="0" skillDescription="긴급 회복" skillOnCount="1" skillTimeDuration="0"/>
-	<Field skillType="Passive" skillName="Emergency Escape" skillCode="303" skillMultiply="0" skillValue="0" skillDescription="긴급 회피" skillOnCount="1" skillTimeDuration="0"/>
-	<Field skillType="Passive" skillName="Escape Upgrade" skillCode="401" skillMultiply="1" skillValue="1" skillDescription="회피 시간 증가" skillOnCount="1" skillTimeDuration="0"/>
+	<Field skillType="Active" skillName="Aura spear" skillCode="101" skillMultiply="3" skillValue="0" skillDescription="일정 시간 공격범위 증가" skillOnCount="1" skillTimeDuration="5" skillMaxStack="1"/>
+	<Field skillType="Active" skillName="Laser" skillCode="102" skillMultiply="10" skillValue="0" skillDescription="직선으로 관통" skillOnCount="1" skillTimeDuration="0" skillMaxStack="1"/>
+	<Field skillType="Active" skillName="Area attack" skillCode="103" skillMultiply="0.5" skillValue="0" skillDescription="범위 공격" skillOnCount="1" skillTimeDuration="5" skillMaxStack="1"/>
+	<Field skillType="Active" skillName="Charging attack" skillCode="104" skillMultiply="5" skillValue="0" skillDescription="차지 공격" skillOnCount="1" skillTimeDuration="1" skillMaxStack="1"/>
+	<Field skillType="Active" skillName="Immortal" skillCode="105" skillMultiply="0" skillValue="0" skillDescription="무적" skillOnCount="1" skillTimeDuration="3" skillMaxStack="1"/>
+	<Field skillType="Active" skillName="Shield" skillCode="106" skillMultiply="0" skillValue="3" skillDescription="방어막" skillOnCount="1" skillTimeDuration="5" skillMaxStack="1"/>
+	<Field skillType="Active" skillName="Supply Bullet" skillCode="107" skillMultiply="0" skillValue="10" skillDescription="탄 보충" skillOnCount="1" skillTimeDuration="0" skillMaxStack="1"/>
+	<Field skillType="Active" skillName="Healling" skillCode="108" skillMultiply="0" skillValue="30" skillDescription="회복" skillOnCount="1" skillTimeDuration="0" skillMaxStack="1"/>
+	<Field skillType="Active" skillName="Teleport" skillCode="109" skillMultiply="0" skillValue="2" skillDescription="단거리 이동" skillOnCount="1" skillTimeDuration="0" skillMaxStack="1"/>
+	<Field skillType="Passive" skillName="Attack support" skillCode="201" skillMultiply="1" skillValue="0" skillDescription="추가 데미지" skillOnCount="1" skillTimeDuration="0" skillMaxStack="3"/>
+	<Field skillType="Passive" skillName="Auto defense" skillCode="301" skillMultiply="0" skillValue="0" skillDescription="자동 방어" skillOnCount="1" skillTimeDuration="0" skillMaxStack="5"/>
+	<Field skillType="Passive" skillName="First aid" skillCode="302" skillMultiply="0" skillValue="0" skillDescription="긴급 회복" skillOnCount="1" skillTimeDuration="0" skillMaxStack="5"/>
+	<Field skillType="Passive" skillName="Emergency Escape" skillCode="303" skillMultiply="0" skillValue="0" skillDescription="긴급 회피" skillOnCount="1" skillTimeDuration="0" skillMaxStack="3"/>
+	<Field skillType="Passive" skillName="Escape Upgrade" skillCode="401" skillMultiply="1" skillValue="1" skillDescription="회피 시간 증가" skillOnCount="1" skillTimeDuration="0" skillMaxStack="3"/>
 </SkillDataBase>

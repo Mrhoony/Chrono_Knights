@@ -5,7 +5,7 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
 {
     public void Update()
     {
-        if (canvasManager.GameMenuOnCheck()) return;
+        if (canvasManager.GameMenuOnCheck() || canvasManager.DialogBoxOn()) return;
         if (!open_BlackSmithUI) return;
 
         if (!open_SelectItemUI)
@@ -143,6 +143,7 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
         playerStat.PlayerStatusUpdate();
 
         canvasManager.Menus[0].GetComponent<Menu_Inventory>().SetAvailableSlot(playerEquipment.equipment[num].itemRarity);
+        canvasManager.SetPlayerStatusInfo(playerStat.playerData.GetPlayerEquipment().equipment);
 
         // accept 창 초기화
         acceptSlot[0].SetActive(false);

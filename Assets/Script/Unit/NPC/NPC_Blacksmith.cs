@@ -11,16 +11,14 @@ public class NPC_Blacksmith : NPC_Control
     // Update is called once per frame
     void Update()
     {
-        if (OpenUICheck()) return;
+        if (OpenUICheck() || canvasManager.DialogBoxOn()) return;
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            DungeonManager.instance.ActiveInteractiveObject(isNPC, objectNumber);
-
             if (!openSelectUI)
             {
                 if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
-                OpenSelectMenu();
+                DungeonManager.instance.ActiveInteractiveNPC(this);
             }
             else
             {
@@ -51,6 +49,11 @@ public class NPC_Blacksmith : NPC_Control
         {
             CloseSelectMenu();
         }
+    }
+
+    public override void OpenNPCUI()
+    {
+        OpenSelectMenu();
     }
 
     public int FocusedSlot(GameObject[] slots, int AdjustValue, int focused)

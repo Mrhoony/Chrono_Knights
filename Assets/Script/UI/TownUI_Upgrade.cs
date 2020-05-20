@@ -5,7 +5,7 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
 {
     public void Update()
     {
-        if (canvasManager.GameMenuOnCheck()) return;
+        if (canvasManager.GameMenuOnCheck() || canvasManager.DialogBoxOn()) return;
         if (!open_BlackSmithUI) return;
 
         if (!open_SelectItemUI)

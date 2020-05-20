@@ -321,8 +321,9 @@ public class PlayerControl : MovingObject
     #region 이동 관련 함수
     void Jump()
     {
+        if (actionState == ActionState.IsDodge) return;
         if (actionState == ActionState.IsJumpAttack) return;
-        if (currentJumpCount < 1 && actionState == ActionState.IsJump) return;
+        if (currentJumpCount < 1) return;
 
         isGround = false;
         isJump = true;
@@ -513,6 +514,7 @@ public class PlayerControl : MovingObject
         isJump = false;
         animator.SetBool("isJump", false);
         animator.SetBool("isLand", true);
+        InputInit();
         actionState = ActionState.Idle;
     }
 
@@ -538,6 +540,10 @@ public class PlayerControl : MovingObject
     }
     #endregion
 
+    public void SetCurrentJumpCount()
+    {
+        currentJumpCount = (int)playerStatus.jumpCount;
+    }
     public void InputInit()
     {
         if(weaponType == 0)

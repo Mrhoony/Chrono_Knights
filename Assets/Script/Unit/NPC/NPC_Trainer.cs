@@ -11,7 +11,11 @@ public class NPC_Trainer : NPC_Control
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            DungeonManager.instance.ActiveInteractiveObject(isNPC, objectNumber);
+            DungeonManager.instance.ActiveInteractiveNPC(this);
         }
+    }
+    public override void OpenNPCUI()
+    {
+        canvasManager.OpenTrainingMenu();
     }
 }

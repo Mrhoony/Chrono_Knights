@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class TownUI_Training : MonoBehaviour
 {
     public TownUI townUI;
+    public readonly CanvasManager canvasManager = CanvasManager.instance;
     public PlayerStatus playerStatus;
     public PlayerData playerData;
     public GameObject button;
@@ -19,7 +20,7 @@ public class TownUI_Training : MonoBehaviour
     
     public void Update()
     {
-        if (!isTownMenuOn) return;
+        if (!isTownMenuOn || canvasManager.DialogBoxOn()) return;
 
         if (Input.GetKeyDown(KeyCode.Z))
         {

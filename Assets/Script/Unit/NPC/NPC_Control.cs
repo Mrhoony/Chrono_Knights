@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NPC_Control : InteractiveObject
+public abstract class NPC_Control : InteractiveObject
 {
     public CanvasManager canvasManager;
     public string NPCName;
@@ -11,8 +11,11 @@ public class NPC_Control : InteractiveObject
     public void OnEnable()
     {
         canvasManager = GameObject.Find("UI").GetComponent<CanvasManager>();
+        objectType = InteractiveObjectType.NPC;
         inPlayer = false;
     }
+
+    public abstract void OpenNPCUI();
     
     public bool OpenUICheck()
     {

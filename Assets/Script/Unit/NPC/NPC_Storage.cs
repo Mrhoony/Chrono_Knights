@@ -10,8 +10,7 @@ public class NPC_Storage : NPC_Control
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            DungeonManager.instance.ActiveInteractiveObject(isNPC, objectNumber);
-            canvasManager.OpenStorage();
+            DungeonManager.instance.ActiveInteractiveNPC(this);
         }
     }
 
@@ -24,5 +23,9 @@ public class NPC_Storage : NPC_Control
             player.GetComponent<PlayerControl>().playerInputKey.SetActive(true);
         if (canvasManager.GameMenuOnCheck()) return true;
         return false;
+    }
+    public override void OpenNPCUI()
+    {
+        canvasManager.OpenStorage();
     }
 }

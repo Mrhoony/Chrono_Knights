@@ -9,8 +9,8 @@ public class ScenarioManager : MonoBehaviour
     public int storyProgress;
     Dictionary<string, int> eventList = new Dictionary<string, int>();
     Dictionary<int, List<EventDialog>> eventContent = new Dictionary<int, List<EventDialog>>();
-
     Dictionary<int, List<EventTalkBox>> eventTalkBox = new Dictionary<int, List<EventTalkBox>>();
+    Dictionary<int, List<RepeatEventDialog>> repeatEventList = new Dictionary<int, List<RepeatEventDialog>>();
 
     public void EventReset()
     {
@@ -22,17 +22,40 @@ public class ScenarioManager : MonoBehaviour
             eventFlag[i] = false;
         }
     }
-    public void SetEventList(Dictionary<string, int> _EventList, Dictionary<int, List<EventDialog>> _EventContent)
+    public void SetEventList(Dictionary<string, int> _EventList, Dictionary<int, List<EventDialog>> _EventContent, Dictionary<int, List<RepeatEventDialog>> _RepeatEventList)
     {
         eventList = _EventList;
         eventContent = _EventContent;
+        repeatEventList = _RepeatEventList;
     }
     public void SetEventTalkBoxList(Dictionary<int, List<EventTalkBox>> _EventTalkBox)
     {
         eventTalkBox = _EventTalkBox;
     }
-
-    public void ScenarioCheck(string _CheckCurrentProgress)
+    
+    public bool ScenarioRepeatCheck(NPC_Control _NPC)
+    {
+        if (repeatEventList.ContainsKey(_NPC.objectNumber))
+        {
+            List<RepeatEventDialog> _TempRepeatEventList = new List<RepeatEventDialog>();
+            for(int i = 0; i < repeatEventList[_NPC.objectNumber].Count; ++i)
+            {
+                if (repeatEventList[_NPC.objectNumber][i].eventNumber < storyProgress)
+                {
+                    _TempRepeatEventList = repeatEventList[_NPC.objectNumber];
+                    break;
+                }
+            }
+            canvasManager.SetDialogText(repeatEventList[_NPC.objectNumber], _NPC);
+            return true;
+        }
+        else
+        {
+            Debug.Log("Not Found");
+        }
+        return false;
+    }
+    public bool ScenarioCheck(string _CheckCurrentProgress)
     {
         if (eventList.ContainsKey(_CheckCurrentProgress))
         {
@@ -41,14 +64,15 @@ public class ScenarioManager : MonoBehaviour
                 eventFlag[eventList[_CheckCurrentProgress]] = true;
                 ++storyProgress;
                 canvasManager.SetDialogText(eventContent[eventList[_CheckCurrentProgress]]);
+                return true;
             }
         }
         else
         {
             Debug.Log("Not Found");
         }
+        return false;
     }
-
     public void ScenarioCheckTalkBox(GameObject NPC, int _NPCCode)
     {
         if (eventTalkBox.ContainsKey(_NPCCode))

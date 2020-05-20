@@ -60,5 +60,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e524e1ed4b8171e42b1f6b5e3a0702b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entrance: 1
+  objectNumber: 0
+  player: {fileID: 0}
   inPlayer: 0
+  objectType: 1
+  sceneMove: 1
+  currentMap: {fileID: 0}
+  sameSceneDestination: {fileID: 0}

@@ -153,8 +153,8 @@ public class PlayerEquipment
             }
         }
     }
-    public Equipment[] equipment;      // 0 gun, 1 activeEquip, 2 spear, 3 tankTop, 4 shoes, 5 gloves, 6 bell
-    
+    public Equipment[] equipment;      // 0 spear, 1 gun, 2 activeEquip, 3 tankTop, 4 shoes, 5 gloves, 6 bell
+
     public void Init()
     {
         float[] addStatus = {0,0,0,0,0,0};
@@ -197,6 +197,7 @@ public class PlayerEquipment
                 equipment[6].Init("가방", addStatus, EquipmentType.Bag);
                 break;
         }
+        equipment[num].EquipmentSkillCheck();
     }
     public void EquipmentLimitUpgrade()
     {

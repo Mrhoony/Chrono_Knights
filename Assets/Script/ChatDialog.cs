@@ -9,11 +9,14 @@ public class ChatDialog : MonoBehaviour
     public Text dialogName;
     public Text dialogText;
     public bool isDialogOn;
+    public bool isRepeatDialogOn;
     public bool isOneByOneTextOn;
     public int index;
     public int eventDialogListCount;
+    public int repeatEventDialogListCount;
     public string completeText;
     public List<EventDialog> eventDialog;
+    public List<RepeatEventDialog> repeatEventDialog;
 
     public IEnumerator TempCoroutine;
 
@@ -35,8 +38,34 @@ public class ChatDialog : MonoBehaviour
                 }
             }
         }
+        else if (isRepeatDialogOn)
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                if (isOneByOneTextOn)
+                {
+                    StopCoroutine(TempCoroutine);
+                    dialogText.text = completeText;
+                    isOneByOneTextOn = false;
+                }
+                else
+                {
+                    SetRepeatDialogText();
+                }
+            }
+        }
     }
 
+    public void SetDialogList(List<RepeatEventDialog> _EventDialog, CanvasManager _CM)
+    {
+        cm = _CM;
+        repeatEventDialog = _EventDialog;
+        repeatEventDialogListCount = repeatEventDialog.Count;
+        index = 0;
+        isDialogOn = true;
+
+        SetRepeatDialogText();
+    }
     public void SetDialogList(List<EventDialog> _EventDialog, CanvasManager _CM)
     {
         cm = _CM;
@@ -48,6 +77,27 @@ public class ChatDialog : MonoBehaviour
         SetDialogText();
     }
 
+    public void SetRepeatDialogText()
+    {
+        if (index >= eventDialogListCount)
+        {
+            repeatEventDialog = null;
+            index = 0;
+            isRepeatDialogOn = false;
+            cm.CloseDialogBox();
+            return;
+        }
+        string NPCName = "";
+        string content = "";
+
+        NPCName = repeatEventDialog[index].NPCName;
+        content = repeatEventDialog[index].content;
+        completeText = content;
+
+        TempCoroutine = OneByOneTextSetting(NPCName, content);
+        StartCoroutine(TempCoroutine);
+        ++index;
+    }
     public void SetDialogText()
     {
         if (index >= eventDialogListCount)

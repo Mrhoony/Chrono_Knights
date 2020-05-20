@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Teleport : InteractiveObject
 {
+    public bool sceneMove;
+    public GameObject currentMap;
+    public Teleport sameSceneDestination;
+
+    private void Start()
+    {
+        objectType = InteractiveObjectType.Teleport;
+    }
     private void Update()
     {
         if (CanvasManager.instance.GameMenuOnCheck()) return;
@@ -22,7 +30,14 @@ public class Teleport : InteractiveObject
 
                 if (Input.GetButtonDown("Fire1"))
                 {
-                    DungeonManager.instance.ActiveInteractiveObject(isNPC, objectNumber);
+                    if (gameObject.GetComponent<EventTrigger>() != null)
+                    {
+                        gameObject.GetComponent<EventTrigger>().EventStart();
+                    }
+                    else
+                    {
+                        DungeonManager.instance.ActiveInteractiveTeleport(sceneMove, objectNumber, sameSceneDestination);
+                    }
                 }
             }
         }

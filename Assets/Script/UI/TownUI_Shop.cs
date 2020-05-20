@@ -35,7 +35,7 @@ public class TownUI_Shop : MonoBehaviour
 
     public void Update()
     {
-        if (!isTownMenuOn) return;
+        if (!isTownMenuOn || canvasManager.DialogBoxOn()) return;
 
         if (isItemSelect)
         {

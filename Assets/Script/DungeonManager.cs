@@ -29,6 +29,9 @@ public class DungeonManager : MonoBehaviour
     public bool dungeonClear;           // 던전 클리어시
     public bool phaseClear;             // 페이즈 클리어시
 
+    public bool sceneMove;
+    public Teleport teleportDestination;
+
     private bool isTraingPossible;          // 트레이닝 가능 여부
     private bool isShopRefill;              // 샵 리필 여부
     
@@ -51,13 +54,14 @@ public class DungeonManager : MonoBehaviour
         }
         
         dungeonMaker.DungeonMakerInit();
-        useTeleportSystem = 10;
+        useTeleportSystem = 99;
 
         isSceneLoading = false;
 
         EventFlagReset();
         shopItemList = new Item[8];
         DungeonEscape();
+        isReturn = false;
     }
     public void EventFlagReset()
     {
@@ -67,7 +71,6 @@ public class DungeonManager : MonoBehaviour
     {
         isDead = false;
         inDungeon = false;
-        isReturn = false;
         DungeonFlagReset();
 
         ++currentDate;
@@ -82,21 +85,13 @@ public class DungeonManager : MonoBehaviour
     public void DungeonFlagReset()
     {
         dungeonClear = false;
-        phaseClear = false;
         usedKey = false;
     }
 
     public void Update()
     {
         if (isSceneLoading) return;
-
         if (inDungeon) dungeonPlayTimer += Time.deltaTime;
-        
-        /*
-        if (Input.GetButtonDown("Fire1"))           // 공격키를 눌렀을 때
-        {
-        }
-        */
     }
 
     public void UseItemInDungeon(Item _item)
@@ -158,8 +153,28 @@ public class DungeonManager : MonoBehaviour
 
     public void EnterTheDungeon()
     {
-        dungeonMaker.EnterTheDungeon();
-        dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
+        switch (useTeleportSystem)
+        {
+            case 8:
+                dungeonMaker.EnterTheDungeon();
+                dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
+                break;
+            default:
+                if (sceneMove)
+                {
+                    dungeonMaker.EnterTheDungeon();
+                    dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
+                }
+                else
+                {
+                    mainCamera.SetCameraBound(teleportDestination.currentMap.GetComponent<BoxCollider2D>());
+                    player.transform.position = teleportDestination.gameObject.transform.position;
+                }
+                break;
+        }
+
+        useTeleportSystem = 99;
+        StartCoroutine(MapMoveDelay());
     }
     public void EnterNextFloor()
     {
@@ -180,6 +195,10 @@ public class DungeonManager : MonoBehaviour
     {
         isReturn = true;
         isSceneLoading = true;
+        Invoke("CircleFadeOutStart", 1f);
+    }
+    public void CircleFadeOutStart()
+    {
         canvasManager.CircleFadeOutStart();
     }
     public void OpenGameOverResult()
@@ -187,79 +206,85 @@ public class DungeonManager : MonoBehaviour
         canvasManager.OpenGameOverMenu(dungeonPlayTimer);
     }
     
-    public void ActiveInteractiveObject(bool _IsNPCCheck, int _ObjectNumber)
+    public void ActiveInteractiveTeleport(bool _SceneMove, int _ObjectNumber, Teleport _Teleport) // 텔레포트에 따른 씬이동 및 지역이동
     {
-        if (_IsNPCCheck)
-        {
-            switch (_ObjectNumber)
-            {
-                case 101:
-                    break;
-                case 102:
-                    break;
-                case 103:
-                    break;
-                default:
-                    break;
-            }
-        }
-        else
-        {
-            useTeleportSystem = _ObjectNumber;
-            if (useTeleportSystem == 10) return;
+        useTeleportSystem = _ObjectNumber;
+        if (useTeleportSystem == 99) return;
 
-            switch (SceneManager.GetActiveScene().buildIndex)
-            {
-                case 0:
-                    if (useTeleportSystem != 9)
+        switch (SceneManager.GetActiveScene().buildIndex)
+        {
+            case 0:
+                if (useTeleportSystem != 9)
+                {
+                    isSceneLoading = true;
+                    canvasManager.FadeOutStart(true);
+                }
+                else
+                {
+                    GameManager.instance.GameStart();
+                }
+                break;
+            case 1:
+                isSceneLoading = true;
+                sceneMove = true;
+                if (!_SceneMove)
+                {
+                    sceneMove = false;
+                    teleportDestination = _Teleport;
+                }
+                canvasManager.FadeOutStart(_SceneMove);
+                break;
+            case 2:
+            case 3:
+                if (useTeleportSystem == 8)         // 던전 포탈 앞에 서있을 경우 다음던전 또는 집으로 이동한다.
+                {
+                    if (!dungeonClear || isReturn) return;
+
+                    if (!phaseClear)
                     {
-                        isSceneLoading = true;
-                        canvasManager.FadeOutStart(true);
+                        if (usedKey)            // 키를 쓴경우
+                        {
+                            usedKey = false;
+                            isSceneLoading = true;
+                            canvasManager.FadeOutStart(false);
+                        }
+                        else                    // 키를 안쓴경우 인벤토리를 연다.
+                        {
+                            canvasManager.OpenInGameMenu(true);
+                        }
                     }
                     else
                     {
-                        GameManager.instance.GameStart();
-                    }
-                    break;
-                case 1:
-                    isSceneLoading = true;
-                    canvasManager.FadeOutStart(true);
-                    break;
-                case 2:
-                case 3:
-                    if (useTeleportSystem == 8)         // 던전 포탈 앞에 서있을 경우 다음던전 또는 집으로 이동한다.
-                    {
-                        if (!dungeonClear || isReturn) return;
-
-                        if (!phaseClear)
+                        if (usedKey)            // 키를 쓴경우
                         {
-                            if (usedKey)            // 키를 쓴경우
-                            {
-                                usedKey = false;
-                                isSceneLoading = true;
-                                canvasManager.FadeOutStart(false);
-                            }
-                            else                    // 키를 안쓴경우 인벤토리를 연다.
-                            {
-                                canvasManager.OpenInGameMenu(true);
-                            }
+                            usedKey = false;
+                            isSceneLoading = true;
+                            canvasManager.FadeOutStart(true);
                         }
-                        else
+                        else                    // 키를 안쓴경우 인벤토리를 연다.
                         {
-                            if (usedKey)            // 키를 쓴경우
-                            {
-                                usedKey = false;
-                                isSceneLoading = true;
-                                canvasManager.FadeOutStart(true);
-                            }
-                            else                    // 키를 안쓴경우 인벤토리를 연다.
-                            {
-                                canvasManager.OpenInGameMenu(true);
-                            }
+                            canvasManager.OpenInGameMenu(true);
                         }
                     }
-                    break;
-            }
+                }
+                break;
+        }
+    }
+    public void ActiveInteractiveObject(InteractiveObjectType _ObjectType, int _ObjectNumber) // 오브젝트에 따라 대사 찾기
+    {
+    }
+    public void ActiveInteractiveNPC(NPC_Control _NPC)  // NPC 코드에 따라 대화 찾기, 창열기
+    {
+        switch (_NPC.objectNumber)
+        {
+            case 101:
+            case 102:
+            case 103:
+                scenarioManager.ScenarioRepeatCheck(_NPC);
+                break;
+            default:
+                scenarioManager.ScenarioRepeatCheck(_NPC);
+                break;
         }
     }
     public void SceneLoad()
@@ -324,7 +349,6 @@ public class DungeonManager : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)                  // 씬 로드시 초기화
     {
-        useTeleportSystem = 10;
         mapList = GameObject.FindGameObjectsWithTag("BaseMap");
         
         GameObject[] teleportPoint;
@@ -343,7 +367,6 @@ public class DungeonManager : MonoBehaviour
                 {
                     MapEntranceFind(teleportPoint, 9);
                 }
-                scenarioManager.ScenarioCheck("Tutorial");
                 break;
             case 1:
                 mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
@@ -352,7 +375,7 @@ public class DungeonManager : MonoBehaviour
                 MapEntranceFind(teleportPoint, 0);
 
                 mapList[0].GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, -1);
-                scenarioManager.ScenarioCheck("FirstContact");
+                StartCoroutine(MapMoveDialogDelay("Tutorial"));
                 break;
             case 2:
             case 3:
@@ -361,9 +384,11 @@ public class DungeonManager : MonoBehaviour
                 canvasManager.SetDungeonUI();
                 backgroundSet = GameObject.Find("BackGroundSet");
                 EnterTheDungeon();
+                StartCoroutine(MapMoveDialogDelay("FirstContact"));
                 break;
         }
-        
+
+        useTeleportSystem = 99;
         StartCoroutine(MapMoveDelay());
     }
     public void MapEntranceFind(GameObject[] _TeleportPoint, int _useSystem)
@@ -375,6 +400,11 @@ public class DungeonManager : MonoBehaviour
                 entrance = _TeleportPoint[i].GetComponent<Teleport>().transform.position;
         }
         player.transform.position = entrance;
+    }
+    public IEnumerator MapMoveDialogDelay(string _EventName)
+    {
+        yield return new WaitForSeconds(1f);
+        scenarioManager.ScenarioCheck(_EventName);
     }
     public IEnumerator MapMoveDelay()
     {

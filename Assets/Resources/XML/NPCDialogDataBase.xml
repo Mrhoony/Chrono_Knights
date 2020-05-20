@@ -38,9 +38,49 @@
       <Content>02</Content>
     </Dialog>
   </Event>
+  <RepeatEvent>
+    <NPCCode>101</NPCCode>
+    <EventNumber>0</EventNumber>
+    <Dialog>
+      <NPCName>트레이너</NPCName>
+      <NPCImage>0</NPCImage>
+      <Content>....</Content>
+    </Dialog>
+  </RepeatEvent>
+  <RepeatEvent>
+    <NPCCode>101</NPCCode>
+    <EventNumber>2</EventNumber>
+    <Dialog>
+      <NPCName>트레이너</NPCName>
+      <NPCImage>0</NPCImage>
+      <Content>어서와라</Content>
+    </Dialog>
+  </RepeatEvent>
+  <RepeatEvent>
+    <NPCCode>102</NPCCode>
+    <EventNumber>0</EventNumber>
+    <Dialog>
+      <NPCName>인챈터</NPCName>
+      <NPCImage>0</NPCImage>
+      <Content>....</Content>
+    </Dialog>
+  </RepeatEvent>
+  <RepeatEvent>
+    <NPCCode>102</NPCCode>
+    <EventNumber>0</EventNumber>
+    <Dialog>
+      <NPCName>인챈터</NPCName>
+      <NPCImage>2</NPCImage>
+      <Content>....</Content>
+    </Dialog>
+  </RepeatEvent>
+  <RepeatEvent>
+    <NPCCode>103</NPCCode>
+    <EventNumber>0</EventNumber>
+    <Dialog>
+      <NPCName>상인</NPCName>
+      <NPCImage>2</NPCImage>
+      <Content>....</Content>
+    </Dialog>
+  </RepeatEvent>
 </NPCDialogDataBase>
-<!--
-    <Field NPCCode="101" Progress="0" Dialog="안녕"/>
-    <Field NPCCode="102" Progress="0" Dialog="뭐야?:귀찮아"/>
-    <Field NPCCode="103" Progress="0" Dialog="저리가"/>
--->

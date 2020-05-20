@@ -255,6 +255,7 @@ public class GameManager : MonoBehaviour
         gameStart = true;
 
         bedBlind.SetActive(false);
+        player.GetComponent<PlayerControl>().SetCurrentJumpCount();
         player.GetComponent<PlayerControl>().enabled = true;
 
         Debug.Log("Load");

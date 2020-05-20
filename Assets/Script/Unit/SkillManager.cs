@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Collections;
 
+public class SkillList
+{
+    public Skill skill;
+    public int skillStack;
+    public bool isUsed;
+
+    public SkillList(Skill _Skill, int _SkillStack)
+    {
+        skill = _Skill;
+        skillStack = _SkillStack;
+        isUsed = false;
+    }
+}
 public class SkillManager : MonoBehaviour
 {
-    public class SkillList
-    {
-        public Skill skill;
-        public int skillStack;
-        public bool isUsed;
-
-        public SkillList(Skill _Skill, int _SkillStack)
-        {
-            skill = _Skill;
-            skillStack = _SkillStack;
-            isUsed = false;
-        }
-    }
-
     public Dictionary<string, SkillList> skillList;
     public string activeSkillName;
 
@@ -58,6 +57,10 @@ public class SkillManager : MonoBehaviour
         if (skillList.ContainsKey(_Skill.skillName))
         {
             ++skillList[_Skill.skillName].skillStack;
+            if(skillList[_Skill.skillName].skillStack > skillList[_Skill.skillName].skill.skillStack)
+            {
+                skillList[_Skill.skillName].skillStack = skillList[_Skill.skillName].skill.skillStack;
+            }
         }
         else
         {
@@ -75,7 +78,6 @@ public class SkillManager : MonoBehaviour
             skillList[key].isUsed = false;
         }
     }
-    
     public void ActiveSkillUse(GameObject _Player)
     {
         

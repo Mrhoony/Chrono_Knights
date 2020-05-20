@@ -39,6 +39,7 @@ public class CanvasManager : MonoBehaviour
 
     public TownUI townUI;       // 마을 UI
     public Dungeon_UI dungeonUI;
+    public NPC_Control NPCControl;
 
     #region UIOpenCheck
     public bool isInventoryOn;
@@ -47,6 +48,7 @@ public class CanvasManager : MonoBehaviour
 
     public bool isChatBoxOn;
     public bool isTalkBoxOn;
+    public bool NPCWaiting;
 
     public bool isShopOn;
     public bool isTrainigOn;
@@ -96,6 +98,7 @@ public class CanvasManager : MonoBehaviour
         }
         storage.SetActive(false);
     }
+
     private void Update()
     {
         if (!gm.GetGameStart()) return;
@@ -110,7 +113,7 @@ public class CanvasManager : MonoBehaviour
 
         if (isTalkBoxOn)
         {
-            talkBox.gameObject.transform.position = Camera.main.WorldToScreenPoint(talkBoxNPC.transform.position) + Vector3.up * 80f;
+            talkBox.gameObject.transform.position = Camera.main.WorldToScreenPoint(talkBoxNPC.transform.position) + Vector3.up * 100f;
         }
 
         if (DungeonManager.instance.isSceneLoading) return;
@@ -118,7 +121,11 @@ public class CanvasManager : MonoBehaviour
         //인게임 세팅 관련 ( 사운드, 화면 크기 등)
         if (Input.GetButtonDown("Cancel"))              // esc 를 눌렀을 때
         {
-            if (isGameOverUIOn) return;
+            if (isGameOverUIOn)
+            {
+                CloseGameOverMenu();
+                return;
+            }
 
             if (DungeonManager.instance.inDungeon)          // 던전 안에 있을 때
             {
@@ -330,9 +337,19 @@ public class CanvasManager : MonoBehaviour
         CanvasManager.instance.OpenTrialCardSelectMenu();
     }
 
+    public void SetDialogText(List<RepeatEventDialog> _EventDialog, NPC_Control _NPC)
+    {
+        NPCControl = _NPC;
+        NPCWaiting = true;
+        isChatBoxOn = true;
+        PlayerMoveStop();
+        dialogBox.gameObject.SetActive(true);
+        dialogBox.SetDialogList(_EventDialog, this);
+    }
     public void SetDialogText(List<EventDialog> _EventDialog)
     {
         isChatBoxOn = true;
+        PlayerMoveStop();
         dialogBox.gameObject.SetActive(true);
         dialogBox.SetDialogList(_EventDialog, this);
     }
@@ -340,6 +357,19 @@ public class CanvasManager : MonoBehaviour
     {
         dialogBox.gameObject.SetActive(false);
         isChatBoxOn = false;
+        if (NPCWaiting)
+        {
+            NPCWaiting = false;
+            NPCControl.OpenNPCUI();
+        }
+        else
+        {
+            StartCoroutine(PlayerMoveEnable());
+        }
+    }
+    public bool DialogBoxOn()
+    {
+        return isChatBoxOn;
     }
     public void SetTalkBoxText(GameObject _NPC, string _Text)
     {
@@ -502,6 +532,10 @@ public class CanvasManager : MonoBehaviour
     #endregion
 
     #region MainUI
+    public void SetPlayerStatusInfo(PlayerEquipment.Equipment[] _Equipment)
+    {
+        playerStatusInfo.GetComponent<MainUI_PlayerStatusInfo>().EquipmentSkillOptionCheck(_Equipment);
+    }
     public void OpenInGameMenu(bool _isInDungeon)        // I로 인벤토리 열 때
     {
         PlayerControl.instance.StopPlayer();

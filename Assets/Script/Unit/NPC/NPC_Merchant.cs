@@ -11,8 +11,11 @@ public class NPC_Merchant : NPC_Control
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            DungeonManager.instance.ActiveInteractiveObject(isNPC, objectNumber);
-            canvasManager.OpenShopInventory();
+            DungeonManager.instance.ActiveInteractiveNPC(this);
         }
+    }
+    public override void OpenNPCUI()
+    {
+        canvasManager.OpenShopInventory();
     }
 }
