@@ -60,6 +60,9 @@ public class CanvasManager : MonoBehaviour
     public bool isTrialCardSelectOn;
     #endregion
 
+    public delegate void FadeInStartMethod();
+    public FadeInStartMethod fadeInStartMethod;
+
     private int useContent;
     private int focus;
     
@@ -252,12 +255,12 @@ public class CanvasManager : MonoBehaviour
         fadeInOut.SetActive(false);
         DungeonManager.instance.isSceneLoading = false;
     }
-    public void FadeOutStart(bool sceneLoad)
+    public void FadeOutStart()
     {
         DungeonManager.instance.isSceneLoading = true;
-        StartCoroutine(FadeOut(sceneLoad));
+        StartCoroutine(FadeOut());
     }
-    IEnumerator FadeOut(bool sceneLoad)
+    IEnumerator FadeOut()
     {
         PlayerControl.instance.enabled = false;
         fadeInOut.SetActive(true);
@@ -271,15 +274,11 @@ public class CanvasManager : MonoBehaviour
         }
         if (fadeColor.a > 1f) fadeColor.a = 1f;
         fadeInOut.GetComponent<Image>().color = fadeColor;
-        
-        if (sceneLoad)
-            DungeonManager.instance.SceneLoad();
-        else
-        {
-            DungeonManager.instance.EnterTheDungeon();
-            FadeInStart();
-        }
-        DungeonManager.instance.isSceneLoading = false;
+
+        fadeInStartMethod();
+        fadeInStartMethod = null;
+
+        Debug.Log("FadeOutEnd");
     }
     public void CircleFadeOutStart()
     {
@@ -319,6 +318,8 @@ public class CanvasManager : MonoBehaviour
         DungeonManager.instance.OpenGameOverResult();
     }
     #endregion
+
+
 
     public void BossKillSlowMotionMethod()
     {
@@ -545,9 +546,9 @@ public class CanvasManager : MonoBehaviour
         focus = 0;
 
         Menus[0].SetActive(true);
-        Menus[0].GetComponent<Menu_Inventory>().OpenInventory(_isInDungeon);
+        Menus[0].GetComponent<Menu_Inventory>().OpenInventory(_isInDungeon, playerStatusInfo.GetComponent<MainUI_PlayerStatusInfo>());
         playerStatusInfo.SetActive(true);
-        playerStatusInfo.GetComponent<MainUI_PlayerStatusInfo>().OnStatusMenu();
+        playerStatusInfo.GetComponent<MainUI_PlayerStatusInfo>().OnStatusMenu(Menus[0].GetComponent<Menu_Inventory>());
     }
     public void CloseInGameMenu()       // I로 인벤토리 닫을 때
     {

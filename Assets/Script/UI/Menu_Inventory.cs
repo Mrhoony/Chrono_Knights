@@ -5,6 +5,7 @@ public class Menu_Inventory : Menu_InGameMenu
 {
     public Menu_Storage storage;
     public TownUI_Shop shop;
+    public MainUI_PlayerStatusInfo statusInfo;
     public GameObject moneyText;
     public GameObject cursorInvenSelect;
     public float cursorSpd;
@@ -15,6 +16,7 @@ public class Menu_Inventory : Menu_InGameMenu
     public bool isDungeonOpen;
 
     public bool isShopOpen;
+    public bool isStatusOpen;
     public bool isThisWindowFocus;
     public int money;
 
@@ -88,10 +90,10 @@ public class Menu_Inventory : Menu_InGameMenu
         }
         else
         {
+            if (!isThisWindowFocus) return;
+
             if (isShopOpen)
             {
-                if (!isThisWindowFocus) return;
-
                 if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
                 if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
                 if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(6); }
@@ -112,8 +114,7 @@ public class Menu_Inventory : Menu_InGameMenu
                 if (Input.GetKeyDown(KeyCode.C))    // 포커스 상점으로 변경
                 {
                     isThisWindowFocus = false;
-                    cursorInvenSelect.SetActive(false);
-                    StartCoroutine(FocusChange());
+                    Invoke("ShopFocusChange", 0.01f);
                 }
             }
             else
@@ -138,10 +139,28 @@ public class Menu_Inventory : Menu_InGameMenu
                     }
                     canvasManager.CloseInGameMenu();
                 }
+                if (Input.GetKeyDown(KeyCode.C))    // 포커스 상점으로 변경
+                {
+                    isThisWindowFocus = false;
+                    Invoke("PlayerStatusFocusChange", 0.01f);
+                }
             }
         }
 
         FocusMove();
+    }
+
+    public void FocusOn()
+    {
+        slotInstance = slot[focused].GetComponent<Slot>();
+        cursorInvenSelect.SetActive(true);
+        isThisWindowFocus = true;
+    }
+    public void PlayerStatusFocusChange()
+    {
+        cursorInvenSelect.SetActive(false);
+        statusInfo.FocusOn();
+        Debug.Log("Focus : playerStatusInfo");
     }
 
     #region shop 관련
@@ -175,15 +194,9 @@ public class Menu_Inventory : Menu_InGameMenu
         InventorySet();
         return 0;
     }
-    public void FocusOn()
+    public void ShopFocusChange()
     {
-        slotInstance = slot[focused].GetComponent<Slot>();
-        cursorInvenSelect.SetActive(true);
-        isThisWindowFocus = true;
-    }
-    IEnumerator FocusChange()
-    {
-        yield return new WaitForSeconds(0.01f);
+        cursorInvenSelect.SetActive(false);
         shop.FocusOn();
         Debug.Log("Focus : shop");
     }
@@ -240,10 +253,12 @@ public class Menu_Inventory : Menu_InGameMenu
 
     #endregion
 
-    public void OpenInventory(bool _isDungeon)     // I 키로 인벤토리 열 때
+    public void OpenInventory(bool _isDungeon, MainUI_PlayerStatusInfo _StatusInfo)     // I 키로 인벤토리 열 때
     {
         isUIOn = true;
+        isThisWindowFocus = true;
         isDungeonOpen = _isDungeon;
+        statusInfo = _StatusInfo;
         focused = 0;
         slotInstance = slot[focused].GetComponent<Slot>();
         cursorInvenSelect.SetActive(true);

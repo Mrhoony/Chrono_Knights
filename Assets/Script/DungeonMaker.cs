@@ -99,6 +99,7 @@ public class DungeonMaker : MonoBehaviour
     }
     public void EnterTheDungeon()
     {
+        DungeonReset();
         dungeonTrialStack.Init();
         dropItemPool = GameObject.Find("DropItemPool");
     }
@@ -157,7 +158,7 @@ public class DungeonMaker : MonoBehaviour
 
         if (!bossSetting)
         {
-            if ((bossStageCount - (5 * bossClearCount) - 2) > 0)  // 보스스테이지 설정
+            if (bossStageCount > 2)  // 보스스테이지 설정
             {
                 if (bossStageCount * 20 > Random.Range(50, 90))
                     bossSetting = true;
@@ -207,12 +208,13 @@ public class DungeonMaker : MonoBehaviour
             currentStageMonsterList = new GameObject[monsterCount];
 
             int monsterPrefabListCount = monsterPreFabsList.Length;
-            int randomSpawner = Random.Range(0, spawnerCount);
+            int randomSpawner = 0;
 
             // 몬스터 스폰
             for (int i = 0; i < currentMonsterCount - eliteMonsterCount; ++i)
             {
                 randomX = Random.Range(-1, 2);
+                randomSpawner = Random.Range(0, spawnerCount);
                 currentStageMonsterList[i] = Instantiate(monsterPreFabsList[Random.Range(0, monsterPrefabListCount)]
                     , new Vector2(
                         spawner[randomSpawner].transform.position.x + randomX,
@@ -223,6 +225,7 @@ public class DungeonMaker : MonoBehaviour
             for (int j = currentMonsterCount - eliteMonsterCount; j < currentMonsterCount; ++j)
             {
                 randomX = Random.Range(-1, 2);
+                randomSpawner = Random.Range(0, spawnerCount);
                 currentStageMonsterList[j] = Instantiate(monsterPreFabsList[Random.Range(0, monsterPrefabListCount)]
                     , new Vector2(
                         spawner[randomSpawner].transform.position.x + randomX,
