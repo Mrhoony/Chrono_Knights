@@ -135,6 +135,7 @@ public class DungeonMaker : MonoBehaviour
     public void FloorSetting(GameObject[] _MapList, GameObject _Player, CameraManager _MainCamera, GameObject _BackGroundSet)
     {
         FloorReset();
+        int selectedMapNum = Random.Range(0, _MapList.Length);
 
         ++currentStage;
         ++bossStageCount;
@@ -144,9 +145,9 @@ public class DungeonMaker : MonoBehaviour
             freePassNextFloor = false;
             ++currentStage;
             ++bossStageCount;
+            MarkerSetting(_MapList[selectedMapNum]);
         }
 
-        int selectedMapNum = Random.Range(0, _MapList.Length);
         entrance = _MapList[selectedMapNum].GetComponent<Map_ObjectSetting>().entrance.transform.position;
         spawner = _MapList[selectedMapNum].GetComponent<Map_ObjectSetting>().spawner;
         spawnerCount = spawner.Length;

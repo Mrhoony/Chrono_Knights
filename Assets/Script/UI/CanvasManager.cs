@@ -318,9 +318,7 @@ public class CanvasManager : MonoBehaviour
         DungeonManager.instance.OpenGameOverResult();
     }
     #endregion
-
-
-
+    
     public void BossKillSlowMotionMethod()
     {
         StartCoroutine(BossKillSlowMotion());
