@@ -4,11 +4,9 @@ public class Monster_Dog : NormalMonsterControl
 {
     void OnEnable()
     {
-        monsterCode = 2;
         rotateDelayTime = 4f;
-        maxAttackDelayTime = 2f;
-        arrowDirection = -1;
-        isFaceRight = false;
+        maxAttackDelayTime = 1f;
+        arrowDirection = 1;
         actionState = ActionState.Idle;
 
         MonsterInit();

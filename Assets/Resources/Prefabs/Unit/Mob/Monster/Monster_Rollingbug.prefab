@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7845834264576266651
+--- !u!1 &504894215776875148
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,62 +8,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7845834264576266641}
-  - component: {fileID: 7845834264576266646}
-  - component: {fileID: 7845834264576266647}
-  - component: {fileID: 7845834264576266645}
-  - component: {fileID: 7845834264576266650}
-  - component: {fileID: 7845834264576266644}
-  - component: {fileID: 7624656898120753998}
-  - component: {fileID: 1944741885496642936}
+  - component: {fileID: 504894215776875145}
+  - component: {fileID: 504894215776875146}
+  - component: {fileID: 504894215776875147}
+  - component: {fileID: 504894215776875144}
+  - component: {fileID: 504894215776875143}
+  - component: {fileID: 504894215776875142}
+  - component: {fileID: 7573699530015954518}
   m_Layer: 10
-  m_Name: Monster_Dog
+  m_Name: Monster_Rollingbug
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7845834264576266641
+--- !u!4 &504894215776875145
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7845834264576266651}
+  m_GameObject: {fileID: 504894215776875148}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4211837143333874410}
+  - {fileID: 54023954082820041}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &7845834264576266646
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7845834264576266651}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6bc4fab4346e22c4281029de8cbd049f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!212 &7845834264576266647
+--- !u!212 &504894215776875146
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7845834264576266651}
+  m_GameObject: {fileID: 504894215776875148}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -93,52 +73,45 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: b506f77dfb3b60b40823f1f256e40cc0, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 05da04a8e18c1594ab7137f0f0f02102, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.2, y: 0.6}
+  m_Size: {x: 0.93, y: 0.47}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &7845834264576266645
-BoxCollider2D:
+--- !u!95 &504894215776875147
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7845834264576266651}
+  m_GameObject: {fileID: 504894215776875148}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: d75e9e7e1b1be14458e788b37b8f3b9a, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.03, y: 0.225}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.4871795, y: 0}
-    oldSize: {x: 0.78, y: 0.44}
-    newSize: {x: 1.2, y: 0.6}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.8, y: 0.45}
-  m_EdgeRadius: 0
---- !u!50 &7845834264576266650
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7f84e6941e0a47646976f0913bc9f84e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!50 &504894215776875144
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7845834264576266651}
+  m_GameObject: {fileID: 504894215776875148}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -151,62 +124,40 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
---- !u!114 &7845834264576266644
-MonoBehaviour:
+  m_Constraints: 0
+--- !u!61 &504894215776875143
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7845834264576266651}
+  m_GameObject: {fileID: 504894215776875148}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30d55e6843ee37147b896ebfed599f18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitTextBox: {fileID: 3285582221110859941, guid: 1570b86f5d6cd2a47963a2e70bbfa9e5,
-    type: 3}
-  spriteRenderer: {fileID: 0}
-  defaultMaterial: {fileID: 0}
-  whiteFlashMaterial: {fileID: 0}
-  currentState: 
-  actionState: 7
-  overlap: 0
-  arrowDirection: 0
-  target: {fileID: 0}
-  playerPos: {x: 0, y: 0, z: 0}
-  eft: {fileID: 0}
-  enemyStatus: {fileID: 0}
-  dropItemList: {fileID: 0}
-  monsterName: 
-  monsterCode: 4
-  coroutine: 0
-  moveDelay: 0
-  hitDelay: 0
-  distanceX: 0
-  distanceY: 0
-  moveSpeed: 0
-  monsterWeight: 0
-  rotateDelayTime: 0
-  attackCoolTime: 0
-  maxAttackDelayTime: 0
-  attackRange:
-  - posX: 0.4
-    posY: 0.2
-    atkRangeX: 0.4
-    atkRangeY: 0.4
-  isTrace: 0
-  randomMove: 0
-  randomMoveCount: 0
-  randomAttack: 0
-  isDamagable: 0
---- !u!114 &7624656898120753998
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.1}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.50537634, y: 0.34042552}
+    oldSize: {x: 0.93, y: 0.47}
+    newSize: {x: 0.93, y: 0.47}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.6}
+  m_EdgeRadius: 0
+--- !u!114 &504894215776875142
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7845834264576266651}
+  m_GameObject: {fileID: 504894215776875148}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73fae2a592394f04f93fcda3120dea15, type: 3}
@@ -223,27 +174,60 @@ MonoBehaviour:
   _attack: 0
   _defense: 0
   monsterWeight: 0
---- !u!114 &1944741885496642936
+--- !u!114 &7573699530015954518
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7845834264576266651}
+  m_GameObject: {fileID: 504894215776875148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7ffe67a1023780419849c8610590db0, type: 3}
+  m_Script: {fileID: 11500000, guid: 869deb7f546e89c4a8c14151dd75ea2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropItems:
-  - {fileID: 5119745057963221366, guid: 7dba5f0408d7ff5499fe43ff66af0b77, type: 3}
-  dropChances: 28000000
---- !u!1001 &3509607922485102267
+  hitTextBox: {fileID: 3285582221110859941, guid: 1570b86f5d6cd2a47963a2e70bbfa9e5,
+    type: 3}
+  spriteRenderer: {fileID: 0}
+  defaultMaterial: {fileID: 0}
+  whiteFlashMaterial: {fileID: 0}
+  currentState: 
+  actionState: 0
+  overlap: 0
+  arrowDirection: 0
+  target: {fileID: 0}
+  playerPos: {x: 0, y: 0, z: 0}
+  eft: {fileID: 54023954082820046}
+  enemyStatus: {fileID: 0}
+  dropItemList: {fileID: 0}
+  monsterName: 
+  monsterCode: 6
+  coroutine: 0
+  moveDelay: 0
+  hitDelay: 0
+  distanceX: 0
+  distanceY: 0
+  moveSpeed: 0
+  monsterWeight: 0
+  rotateDelayTime: 0
+  attackCoolTime: 0
+  maxAttackDelayTime: 0
+  attackRange:
+  - posX: 0
+    posY: 0
+    atkRangeX: 0.4
+    atkRangeY: 0.4
+  isTrace: 0
+  randomMove: 0
+  randomMoveCount: 0
+  randomAttack: 0
+  isDamagable: 0
+--- !u!1001 &754419864396809112
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 7845834264576266641}
+    m_TransformParent: {fileID: 504894215776875145}
     m_Modifications:
     - target: {fileID: 776820764541791318, guid: a23023812364dc04883cd5bf233c4956,
         type: 3}
@@ -258,12 +242,12 @@ PrefabInstance:
     - target: {fileID: 776820764541791313, guid: a23023812364dc04883cd5bf233c4956,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.18
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 776820764541791313, guid: a23023812364dc04883cd5bf233c4956,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.512
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 776820764541791313, guid: a23023812364dc04883cd5bf233c4956,
         type: 3}
@@ -312,9 +296,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a23023812364dc04883cd5bf233c4956, type: 3}
---- !u!4 &4211837143333874410 stripped
+--- !u!1 &54023954082820046 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 776820764541791318, guid: a23023812364dc04883cd5bf233c4956,
+    type: 3}
+  m_PrefabInstance: {fileID: 754419864396809112}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &54023954082820041 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 776820764541791313, guid: a23023812364dc04883cd5bf233c4956,
     type: 3}
-  m_PrefabInstance: {fileID: 3509607922485102267}
+  m_PrefabInstance: {fileID: 754419864396809112}
   m_PrefabAsset: {fileID: 0}

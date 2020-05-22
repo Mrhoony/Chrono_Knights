@@ -34,13 +34,11 @@ public abstract class MovingObject : MonoBehaviour
     public ActionState actionState;
 
     public int overlap;
-
-    public bool isFaceRight; // 보는 방향
+    
     public int arrowDirection;
 
     public void Flip()
     {
-        isFaceRight = !isFaceRight;
         ObjectFlip(gameObject);
         arrowDirection *= -1;
     }

@@ -7,11 +7,9 @@ public class Monster_Frog : NormalMonsterControl
     
     void OnEnable()
     {
-        monsterCode = 1;
         rotateDelayTime = 3f;
         maxAttackDelayTime = 2f;
         arrowDirection = 1;
-        isFaceRight = true;
         actionState = ActionState.Idle;
         MonsterInit();
     }

@@ -208,6 +208,7 @@ public class DungeonManager : MonoBehaviour
     public void ActiveInteractiveTeleport(bool _SceneMove, int _ObjectNumber, Teleport _Teleport) // 텔레포트에 따른 씬이동 및 지역이동
     {
         useTeleportSystem = _ObjectNumber;
+        sceneMove = _SceneMove;
         if (useTeleportSystem == 99) return;
 
         switch (SceneManager.GetActiveScene().buildIndex)

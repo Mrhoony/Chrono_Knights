@@ -4,10 +4,8 @@ public class Monster_Ogre : NormalMonsterControl
 {
     void OnEnable()
     {
-        monsterCode = 5;
         rotateDelayTime = 3f;
         maxAttackDelayTime = 1f;
-        isFaceRight = true;
         arrowDirection = 1;
         actionState = ActionState.Idle;
         MonsterInit();

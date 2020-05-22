@@ -2,22 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Trainer_Dash : AnimatorManager
+public class Monster_RollingBug_Rolling : AnimatorManager
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //
-    //}
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        move = false;
+        animator.GetComponent<Monster_RollingBug>().RollingCount();
+    }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.GetComponent<Boss_Trainer>().Dash();
-
+        animator.GetComponent<Monster_RollingBug>().Rolling();
+        
         Collider2D[] player = Physics2D.OverlapBoxAll(
-            new Vector2(animator.gameObject.transform.position.x + (0.5f * animator.gameObject.GetComponent<BossMonster_Control>().GetArrowDirection())
-            , (animator.gameObject.transform.position.y)), new Vector2(0.6f, 0.2f), 8);
+            new Vector2(
+                animator.gameObject.transform.position.x, 
+                animator.gameObject.transform.position.y + 0.1f), 
+            new Vector2(0.4f, 0.4f), 8);
+
+        if (move) return;
 
         if (player != null)
         {
@@ -25,7 +30,8 @@ public class Trainer_Dash : AnimatorManager
             {
                 if (player[i].CompareTag("Player"))
                 {
-                    animator.gameObject.GetComponent<Boss_Trainer>().DashAttack();
+                    move = true;
+                    animator.GetComponent<Monster_RollingBug>().MonsterAttack(MonsterAttackNumber.atk1);
                 }
             }
         }

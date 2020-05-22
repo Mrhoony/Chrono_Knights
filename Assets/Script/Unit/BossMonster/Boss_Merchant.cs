@@ -10,9 +10,10 @@ public class Boss_Merchant : BossMonster_Control
         rotateDelayTime = 2f;
         attackCoolTime = 6f;
         backAttackCoolTime = 4f;
+
         arrowDirection = 1;
+
         isGuard = false;
-        isFaceRight = true;
         Invincible = false;
         monsterCode = 1001;
         MonsterInit();

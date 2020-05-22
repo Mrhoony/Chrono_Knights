@@ -186,12 +186,12 @@ public class PlayerControl : MovingObject
         Move();
         Run();
         // 캐릭터 뒤집기
-        if (inputDirection > 0 && isFaceRight)
+        if (inputDirection > 0 && arrowDirection != 1)
         {
             Flip();
             PlayerInputKeyFlip();
         }
-        else if (inputDirection < 0 && !isFaceRight)
+        else if (inputDirection < 0 && arrowDirection == 1)
         {
             Flip();
             PlayerInputKeyFlip();

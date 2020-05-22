@@ -170,18 +170,16 @@ MonoBehaviour:
   defaultMaterial: {fileID: 0}
   whiteFlashMaterial: {fileID: 0}
   currentState: 
-  actionState: 5
+  actionState: 7
   overlap: 0
-  isFaceRight: 0
   arrowDirection: 0
   target: {fileID: 0}
-  playerPos: {x: 0, y: 0}
+  playerPos: {x: 0, y: 0, z: 0}
   eft: {fileID: 0}
-  eftPool: []
   enemyStatus: {fileID: 0}
   dropItemList: {fileID: 0}
   monsterName: 
-  monsterCode: 0
+  monsterCode: 3
   coroutine: 0
   moveDelay: 0
   hitDelay: 0
@@ -193,8 +191,8 @@ MonoBehaviour:
   attackCoolTime: 0
   maxAttackDelayTime: 0
   attackRange:
-  - posX: 0.1
-    posY: 0
+  - posX: 0.4
+    posY: 0.2
     atkRangeX: 0.8
     atkRangeY: 0.45
   isTrace: 0

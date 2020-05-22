@@ -252,16 +252,15 @@ MonoBehaviour:
   currentState: 
   actionState: 5
   overlap: 0
-  isFaceRight: 0
   arrowDirection: 0
   target: {fileID: 0}
-  playerPos: {x: 0, y: 0}
+  playerPos: {x: 0, y: 0, z: 0}
   eft: {fileID: 0}
   eftPool: []
   enemyStatus: {fileID: 0}
   dropItemList: {fileID: 0}
   monsterName: 
-  monsterCode: 0
+  monsterCode: 1002
   coroutine: 0
   moveDelay: 0
   hitDelay: 0
