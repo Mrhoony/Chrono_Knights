@@ -47,25 +47,35 @@ public class SkillManager : MonoBehaviour
 
         Debug.Log("skill list init");
     }
-    public void EquipmentSkillSetting(int _EquipmentType, Skill _Skill)
+    public void EquipmentSkillSetting(PlayerEquipment.Equipment[] _Equipment)
     {
-        if (_Skill == null) return;
+        SkillListInit();
 
-        if (_EquipmentType == 2)
-            activeSkillName = _Skill.skillName;
-
-        if (skillList.ContainsKey(_Skill.skillName))
+        for (int i = 0; i < 7; ++i)
         {
-            ++skillList[_Skill.skillName].skillStack;
-            if(skillList[_Skill.skillName].skillStack > skillList[_Skill.skillName].skill.skillStack)
+            Skill skill = Database_Game.instance.GetSkill(_Equipment[i].skillCode);
+
+            if (i == 2)
             {
-                skillList[_Skill.skillName].skillStack = skillList[_Skill.skillName].skill.skillStack;
+                activeSkillName = skill.skillName;
+                continue;
             }
+
+            if (skillList.ContainsKey(skill.skillName))
+            {
+                ++skillList[skill.skillName].skillStack;
+                if (skillList[skill.skillName].skillStack > skillList[skill.skillName].skill.skillStack)
+                {
+                    skillList[skill.skillName].skillStack = skillList[skill.skillName].skill.skillStack;
+                }
+            }
+            else
+            {
+                skillList.Add(skill.skillName, new SkillList(skill, 1));
+            }
+            Debug.Log("skill list init" + skillList.Count);
         }
-        else
-        {
-            skillList.Add(_Skill.skillName, new SkillList(_Skill, 1));
-        }
+
     }
     
     public void SkillCoolTimeReset()
@@ -186,13 +196,16 @@ public class SkillManager : MonoBehaviour
     public void FirstAidKit()
     {
         playerStatus.IncreaseHP(10 * GetPassiveSkillStack("First aid"));
+        Debug.Log("응급처치");
     }
     public int EmergencyEscape()
     {
+        Debug.Log("긴급 회피 스택" + GetPassiveSkillStack("Emergency Escape"));
         return GetPassiveSkillStack("Emergency Escape");
     }
     public int AutoDefense()
     {
+        Debug.Log(GetPassiveSkillStack("오토 가드 스택" + "Auto defense"));
         return GetPassiveSkillStack("Auto defense");
     }
     #endregion

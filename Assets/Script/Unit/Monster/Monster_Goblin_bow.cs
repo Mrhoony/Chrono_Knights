@@ -11,10 +11,8 @@ public class Monster_Goblin_bow : NormalMonsterControl
 
     void OnEnable()
     {
-        monsterCode = 4;
         rotateDelayTime = 3f;
         maxAttackDelayTime = 1f;
-        isFaceRight = true;
         arrowDirection = 1;
         actionState = ActionState.Idle;
         MonsterInit();

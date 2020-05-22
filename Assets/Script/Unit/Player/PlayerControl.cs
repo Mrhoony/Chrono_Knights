@@ -186,12 +186,12 @@ public class PlayerControl : MovingObject
         Move();
         Run();
         // 캐릭터 뒤집기
-        if (inputDirection > 0 && isFaceRight)
+        if (inputDirection > 0 && arrowDirection != 1)
         {
             Flip();
             PlayerInputKeyFlip();
         }
-        else if (inputDirection < 0 && !isFaceRight)
+        else if (inputDirection < 0 && arrowDirection == 1)
         {
             Flip();
             PlayerInputKeyFlip();
@@ -669,7 +669,7 @@ public class PlayerControl : MovingObject
                 monster_Aura[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * _auraSkill.skillMultiply));
             }
         }
-        Debug.Log("Aura attack");
+        Debug.Log("aura attack " + (int)(playerStatus.GetAttack_Result() * _auraSkill.skillMultiply));
     }
     public void AddAttackSupport(AtkType _AttackType, float _AttackDistance)
     {
@@ -692,7 +692,7 @@ public class PlayerControl : MovingObject
                 monster_Aura[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * _auraSkill.skillMultiply));
             }
         }
-        Debug.Log("add attack");
+        Debug.Log("add attack " + (int)(playerStatus.GetAttack_Result() * _auraSkill.skillMultiply));
     }
 
     public void AttackDistance(float _distanceMulty)

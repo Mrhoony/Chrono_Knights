@@ -35,22 +35,22 @@ public abstract class NormalMonsterControl : Monster_Control
 
         if (isTrace)
         {
-            if (playerPos.x < transform.position.x && isFaceRight)
+            if (playerPos.x < transform.position.x && arrowDirection == 1)
             {
                 Flip();
             }
-            else if (playerPos.x > transform.position.x && !isFaceRight)
+            else if (playerPos.x > transform.position.x && arrowDirection != 1)
             {
                 Flip();
             }
         }
         else
         {
-            if (randomMove < 0 && isFaceRight)
+            if (randomMove < 0 && arrowDirection == 1)
             {
                 Flip();
             }
-            else if (randomMove > 0 && !isFaceRight)
+            else if (randomMove > 0 && arrowDirection != 1)
             {
                 Flip();
             }

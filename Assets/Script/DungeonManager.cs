@@ -151,12 +151,11 @@ public class DungeonManager : MonoBehaviour
         return true;
     }
 
-    public void EnterTheDungeon()
+    public void TeleportTransfer()
     {
         switch (useTeleportSystem)
         {
             case 8:
-                dungeonMaker.EnterTheDungeon();
                 dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
                 break;
             default:
@@ -209,6 +208,7 @@ public class DungeonManager : MonoBehaviour
     public void ActiveInteractiveTeleport(bool _SceneMove, int _ObjectNumber, Teleport _Teleport) // 텔레포트에 따른 씬이동 및 지역이동
     {
         useTeleportSystem = _ObjectNumber;
+        sceneMove = _SceneMove;
         if (useTeleportSystem == 99) return;
 
         switch (SceneManager.GetActiveScene().buildIndex)
@@ -217,7 +217,8 @@ public class DungeonManager : MonoBehaviour
                 if (useTeleportSystem != 9)
                 {
                     isSceneLoading = true;
-                    canvasManager.FadeOutStart(true);
+                    canvasManager.fadeInStartMethod += SceneLoad;
+                    canvasManager.FadeOutStart();
                 }
                 else
                 {
@@ -226,13 +227,17 @@ public class DungeonManager : MonoBehaviour
                 break;
             case 1:
                 isSceneLoading = true;
-                sceneMove = true;
+
                 if (!_SceneMove)
                 {
-                    sceneMove = false;
                     teleportDestination = _Teleport;
+                    canvasManager.fadeInStartMethod += TeleportTransfer;
+                    canvasManager.FadeOutStart();
+                    break;
                 }
-                canvasManager.FadeOutStart(_SceneMove);
+
+                canvasManager.fadeInStartMethod += SceneLoad;
+                canvasManager.FadeOutStart();
                 break;
             case 2:
             case 3:
@@ -240,32 +245,18 @@ public class DungeonManager : MonoBehaviour
                 {
                     if (!dungeonClear || isReturn) return;
 
-                    if (!phaseClear)
+                    if (usedKey)
                     {
-                        if (usedKey)            // 키를 쓴경우
-                        {
-                            usedKey = false;
-                            isSceneLoading = true;
-                            canvasManager.FadeOutStart(false);
-                        }
-                        else                    // 키를 안쓴경우 인벤토리를 연다.
-                        {
-                            canvasManager.OpenInGameMenu(true);
-                        }
+                        usedKey = false;
+                        isSceneLoading = true;
+                        if (phaseClear) canvasManager.fadeInStartMethod += SceneLoad;
+                        else            canvasManager.fadeInStartMethod += TeleportTransfer;
+                        canvasManager.FadeOutStart();
+                        break;
                     }
-                    else
-                    {
-                        if (usedKey)            // 키를 쓴경우
-                        {
-                            usedKey = false;
-                            isSceneLoading = true;
-                            canvasManager.FadeOutStart(true);
-                        }
-                        else                    // 키를 안쓴경우 인벤토리를 연다.
-                        {
-                            canvasManager.OpenInGameMenu(true);
-                        }
-                    }
+
+                    // 키를 안쓴경우 인벤토리를 연다.
+                    canvasManager.OpenInGameMenu(true);
                 }
                 break;
         }
@@ -383,7 +374,7 @@ public class DungeonManager : MonoBehaviour
                 dungeonPlayTimer = 0f;
                 canvasManager.SetDungeonUI();
                 backgroundSet = GameObject.Find("BackGroundSet");
-                EnterTheDungeon();
+                TeleportTransfer();
                 StartCoroutine(MapMoveDialogDelay("FirstContact"));
                 break;
         }
@@ -408,7 +399,7 @@ public class DungeonManager : MonoBehaviour
     }
     public IEnumerator MapMoveDelay()
     {
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.5f);
         canvasManager.FadeInStart();        // 씬 로드 종료 후 페이드 인
     }
 

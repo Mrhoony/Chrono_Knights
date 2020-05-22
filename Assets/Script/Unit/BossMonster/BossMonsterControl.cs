@@ -27,11 +27,11 @@ public abstract class BossMonster_Control : Monster_Control
     {
         if (actionState != ActionState.Idle) return;
 
-        if (playerPos.x < transform.position.x && isFaceRight)
+        if (playerPos.x < transform.position.x && arrowDirection == 1)
         {
             Flip();
         }
-        else if (playerPos.x > transform.position.x && !isFaceRight)
+        else if (playerPos.x > transform.position.x && arrowDirection != 1)
         {
             Flip();
         }

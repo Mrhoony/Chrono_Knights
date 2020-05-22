@@ -124,14 +124,12 @@ public class PlayerEquipment
         public void EquipmentSkillSetting()
         {
             skillCode = Database_Game.instance.SkillSetting(equipmentType).skillCode;
-            Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, Database_Game.instance.GetSkill(skillCode));
         }
         public void EquipmentSkillCheck()
         {
             if (!enchant || itemRarity < 3)
             {
                 skillCode = 0;
-                Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, null);
                 return;
             }
 
@@ -139,18 +137,11 @@ public class PlayerEquipment
             if (skillCode == 0) // 스킬이 없으면
             {
                 skillCode = Database_Game.instance.SkillSetting(equipmentType).skillCode;
-                Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, Database_Game.instance.GetSkill(skillCode));
+                return;
             }
-            else                // 스킬이 있을 때
-            {
-                if (Database_Game.instance.GetSkill(skillCode) == null)
-                    Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, null);
-                else
-                {
-                    skillCode = Database_Game.instance.GetSkill(skillCode).skillCode;
-                    Database_Game.instance.skillManager.EquipmentSkillSetting((int)equipmentType, Database_Game.instance.GetSkill(skillCode));
-                }
-            }
+
+            if (Database_Game.instance.GetSkill(skillCode) != null)
+                skillCode = Database_Game.instance.GetSkill(skillCode).skillCode;
         }
     }
     public Equipment[] equipment;      // 0 spear, 1 gun, 2 activeEquip, 3 tankTop, 4 shoes, 5 gloves, 6 bell
@@ -197,7 +188,6 @@ public class PlayerEquipment
                 equipment[6].Init("가방", addStatus, EquipmentType.Bag);
                 break;
         }
-        equipment[num].EquipmentSkillCheck();
     }
     public void EquipmentLimitUpgrade()
     {
@@ -206,12 +196,18 @@ public class PlayerEquipment
             equipment[i].EquipmentUpgradeLimit();
         }
     }
+    public void EquipmentSkillSetting(int _EquipNumber)
+    {
+        equipment[_EquipNumber].EquipmentSkillSetting();
+        Database_Game.instance.skillManager.EquipmentSkillSetting(equipment);
+    }
     public void EquipmentSkillCheck()
     {
         for (int i = 0; i < 7; ++i)
         {
             equipment[i].EquipmentSkillCheck();
         }
+        Database_Game.instance.skillManager.EquipmentSkillSetting(equipment);
     }
     
     public string GetStatusName(int slotNum, bool upDown)

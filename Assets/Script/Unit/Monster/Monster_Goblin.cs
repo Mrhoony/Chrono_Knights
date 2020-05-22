@@ -6,10 +6,8 @@ public class Monster_Goblin : NormalMonsterControl
 {
     void OnEnable()
     {
-        monsterCode = 3;
         rotateDelayTime = 4f;
         maxAttackDelayTime = 1f;
-        isFaceRight = true;
         arrowDirection = 1;
         actionState = ActionState.Idle;
         MonsterInit();

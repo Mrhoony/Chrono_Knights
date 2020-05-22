@@ -23,7 +23,6 @@ public abstract class Monster_Control : MovingObject
     public GameObject target;
     public Vector3 playerPos;
     public GameObject eft;
-    public List<GameObject> eftPool;
     public EnemyStatus enemyStatus;
     public DropItemList dropItemList;
 
@@ -87,8 +86,10 @@ public abstract class Monster_Control : MovingObject
     public virtual void MonsterAttack(MonsterAttackNumber mat)
     {
         Collider2D[] player = Physics2D.OverlapBoxAll(
-            new Vector2(transform.position.x + (attackRange[(int)mat].posX + attackRange[(int)mat].atkRangeX * 0.5f ) * GetArrowDirection()
-            , transform.position.y + (attackRange[(int)mat].atkRangeY * 0.5f)), new Vector2(attackRange[(int)mat].atkRangeX, attackRange[(int)mat].atkRangeY), 8);
+            new Vector2(
+                transform.position.x + attackRange[(int)mat].posX * GetArrowDirection(), 
+                transform.position.y + attackRange[(int)mat].posY), 
+            new Vector2(attackRange[(int)mat].atkRangeX, attackRange[(int)mat].atkRangeY), 8);
 
         if (player != null)
         {

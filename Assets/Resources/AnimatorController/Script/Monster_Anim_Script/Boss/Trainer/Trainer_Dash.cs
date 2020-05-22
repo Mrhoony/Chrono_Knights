@@ -25,7 +25,6 @@ public class Trainer_Dash : AnimatorManager
             {
                 if (player[i].CompareTag("Player"))
                 {
-                    Debug.Log("catch");
                     animator.gameObject.GetComponent<Boss_Trainer>().DashAttack();
                 }
             }

@@ -246,6 +246,7 @@ public class PlayerStatus : MonoBehaviour
     public void ShieldReset()
     {
         shield = 0;
+        Debug.Log("쉴드 리셋");
         // 쉴드 애니매이션 오프
     }
     public void Resupply_Ammo(int _ammoReplenish)
