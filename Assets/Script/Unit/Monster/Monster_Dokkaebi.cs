@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster_RollingBug : NormalMonsterControl
+public class Monster_Dokkaebi : NormalMonsterControl
 {
-    IEnumerator rolling;
-
     void OnEnable()
     {
         rotateDelayTime = 4f;
@@ -15,18 +13,7 @@ public class Monster_RollingBug : NormalMonsterControl
 
         MonsterInit();
     }
-    
-    public override void Attack()
-    {
-        if (actionState != ActionState.Idle) return;
 
-        if (distanceX < 3f)
-        {
-            rb.velocity = Vector2.zero;
-            actionState = ActionState.IsAtk;
-            StartCoroutine(AttackDelayCount(maxAttackDelayTime, rotateDelayTime, "isAtk_Trigger"));
-        }
-    }
     public override void Move()
     {
         if (actionState == ActionState.NotMove)
@@ -37,10 +24,10 @@ public class Monster_RollingBug : NormalMonsterControl
 
         if (isTrace)
         {
-            if (distanceX > 1f)
+            if (distanceX > 2f)
             {
                 animator.SetBool("isMove", true);
-                rb.velocity = new Vector2(enemyStatus.GetMoveSpeed() * 2f * arrowDirection, rb.velocity.y);
+                rb.velocity = new Vector2(enemyStatus.GetMoveSpeed() * arrowDirection, rb.velocity.y);
             }
             else
             {
@@ -60,12 +47,22 @@ public class Monster_RollingBug : NormalMonsterControl
             }
         }
     }
+    public override void Attack()
+    {
+        if (actionState != ActionState.Idle) return;
+
+        if (distanceX < 2f)
+        {
+            rb.velocity = Vector2.zero;
+            actionState = ActionState.IsAtk;
+            StartCoroutine(AttackDelayCount(maxAttackDelayTime, rotateDelayTime, "Trigger_Attack"));
+        }
+    }
     public override bool MonsterHit(int _damage)
     {
         if (actionState == ActionState.IsDead) return false;
 
         enemyStatus.DecreaseHP(_damage);
-
         SetDamageText(_damage);
 
         if (enemyStatus.IsDeadCheck())
@@ -80,20 +77,5 @@ public class Monster_RollingBug : NormalMonsterControl
             StartCoroutine(MonsterHitEffect());
             return true;
         }
-    }
-
-    public void Rolling()
-    {
-        rb.velocity = new Vector2(arrowDirection * moveSpeed * 3f, rb.velocity.y);
-    }
-    public void RollingCount()
-    {
-        rolling = RollingDuration();
-        StartCoroutine(rolling);
-    }
-    IEnumerator RollingDuration()
-    {
-        yield return new WaitForSeconds(3f);
-        animator.SetTrigger("isAtk_End_Trigger");
     }
 }

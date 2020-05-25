@@ -1,7 +1,15 @@
 fileFormatVersion: 2
 guid: 6a100dad4d612d346a3c64c565dc11f4
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: anim_dokkaebi_atk_0
+    21300002: anim_dokkaebi_atk_1
+    21300004: anim_dokkaebi_atk_2
+    21300006: anim_dokkaebi_atk_3
+    21300008: anim_dokkaebi_atk_4
+    21300010: anim_dokkaebi_atk_5
+    21300012: anim_dokkaebi_atk_6
+    21300014: anim_dokkaebi_atk_7
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -31,7 +39,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -40,7 +48,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -63,7 +71,18 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -71,7 +90,167 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: anim_dokkaebi_atk_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 220
+        width: 137
+        height: 217
+      alignment: 9
+      pivot: {x: 0.33576643, y: 0.34562212}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 659bde1323ca88547a25c0b2f22f0363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_dokkaebi_atk_1
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 220
+        width: 193
+        height: 159
+      alignment: 9
+      pivot: {x: 0.60103625, y: 0.4716981}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: deef3ffab5dc7434480740ebe514f212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_dokkaebi_atk_2
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 220
+        width: 188
+        height: 148
+      alignment: 9
+      pivot: {x: 0.70212764, y: 0.5067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91a896b32625939428574a7f9ee75e24
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_dokkaebi_atk_3
+      rect:
+        serializedVersion: 2
+        x: 1140
+        y: 220
+        width: 187
+        height: 146
+      alignment: 9
+      pivot: {x: 0.72727275, y: 0.51369864}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ebd200d8d6e00048a3523a02c1ab058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_dokkaebi_atk_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 198
+        height: 145
+      alignment: 9
+      pivot: {x: 0.66161615, y: 0.51724136}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe5ddb26797793142848d273b77aa946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_dokkaebi_atk_5
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 0
+        width: 382
+        height: 171
+      alignment: 9
+      pivot: {x: 0.30366492, y: 0.4385965}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b4566c6c6e828b4aa501346e8bfae8c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_dokkaebi_atk_6
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 0
+        width: 274
+        height: 169
+      alignment: 9
+      pivot: {x: 0.19343066, y: 0.44378698}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd4e89cc286eda54fb26419ff6791856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_dokkaebi_atk_7
+      rect:
+        serializedVersion: 2
+        x: 1140
+        y: 0
+        width: 232
+        height: 207
+      alignment: 9
+      pivot: {x: 0.23275863, y: 0.36231884}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 598f3eabdf624d646a36447a2b5df238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
