@@ -4,6 +4,7 @@ TextureImporter:
   fileIDToRecycleName:
     21300000: anim_ogre_idle_0
     21300002: anim_ogre_idle_1
+    21300004: anim_ogre_idle_2
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -91,16 +92,16 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 256
+        width: 257
         height: 133
       alignment: 9
-      pivot: {x: 0.703125, y: 0}
+      pivot: {x: 0.6614786, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 43f5b38c6f851d64290538373c7b9834
+      spriteID: f8f840f56a7bb2949b928474238f4b2c
       vertices: []
       indices: 
       edges: []
@@ -111,16 +112,36 @@ TextureImporter:
         serializedVersion: 2
         x: 260
         y: 0
-        width: 254
-        height: 131
+        width: 257
+        height: 132
       alignment: 9
-      pivot: {x: 0.71653545, y: 0}
+      pivot: {x: 0.6614786, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3739653f6e2646a48bbdd545f71caadb
+      spriteID: b040d6f479e3d55429f7f6d7cbcb23a9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_ogre_idle_2
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 0
+        width: 254
+        height: 131
+      alignment: 9
+      pivot: {x: 0.6692913, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9998c49cb84d3eb4b81457a953ddefb2
       vertices: []
       indices: 
       edges: []

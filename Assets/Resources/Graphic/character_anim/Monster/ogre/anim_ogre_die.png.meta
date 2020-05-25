@@ -6,6 +6,8 @@ TextureImporter:
     21300002: anim_ogre_die_1
     21300004: anim_ogre_die_2
     21300006: anim_ogre_die_3
+    21300008: anim_ogre_die_4
+    21300010: anim_ogre_die_5
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -91,18 +93,18 @@ TextureImporter:
       name: anim_ogre_die_0
       rect:
         serializedVersion: 2
-        x: 134
+        x: 46
         y: 150
-        width: 266
+        width: 267
         height: 137
       alignment: 9
-      pivot: {x: 0.71052635, y: -0}
+      pivot: {x: 0.63670415, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5bc66b5ef6f26a4cb8e1009faad52cf
+      spriteID: ac8b7f2f7c6324346a84700c59385a10
       vertices: []
       indices: 
       edges: []
@@ -111,18 +113,18 @@ TextureImporter:
       name: anim_ogre_die_1
       rect:
         serializedVersion: 2
-        x: 429
+        x: 450
         y: 150
-        width: 328
-        height: 114
+        width: 298
+        height: 130
       alignment: 9
-      pivot: {x: 0.5518292, y: 0.00877193}
+      pivot: {x: 0.5738255, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2268bc6404183fd459eba0c386577d77
+      spriteID: b0553771fcc63f244992e267652f2bfb
       vertices: []
       indices: 
       edges: []
@@ -131,18 +133,18 @@ TextureImporter:
       name: anim_ogre_die_2
       rect:
         serializedVersion: 2
-        x: 21
-        y: 0
-        width: 354
-        height: 105
+        x: 820
+        y: 150
+        width: 328
+        height: 114
       alignment: 9
-      pivot: {x: 0.5621469, y: -0.00952381}
+      pivot: {x: 0.51829267, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d8d2cbfed1ed09148ad3c46aa7553ada
+      spriteID: 9756d1384c292fd4486531ce98494163
       vertices: []
       indices: 
       edges: []
@@ -151,18 +153,58 @@ TextureImporter:
       name: anim_ogre_die_3
       rect:
         serializedVersion: 2
-        x: 424
+        x: 24
         y: 0
-        width: 353
-        height: 105
+        width: 331
+        height: 104
       alignment: 9
-      pivot: {x: 0.56657225, y: 0}
+      pivot: {x: 0.51359516, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b536ae5bb19d2b6459f6dc97afeb3aa4
+      spriteID: 94aa9c42c31ff2140aa47532d48e4d6f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_ogre_die_4
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 0
+        width: 364
+        height: 105
+      alignment: 9
+      pivot: {x: 0.46703297, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 765a1ae310c89914087c6f038d23e12a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_ogre_die_5
+      rect:
+        serializedVersion: 2
+        x: 811
+        y: 0
+        width: 364
+        height: 105
+      alignment: 9
+      pivot: {x: 0.46703297, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74dfa102a1adb5e49960ffd4891625e5
       vertices: []
       indices: 
       edges: []

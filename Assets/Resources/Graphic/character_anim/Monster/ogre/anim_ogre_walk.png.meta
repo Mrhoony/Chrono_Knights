@@ -1,11 +1,13 @@
 fileFormatVersion: 2
-guid: 18144a373bc56fe4b8ae670dd35fb7c1
+guid: 4011125eecf3c6e4d93dbccb5e8f1ce5
 TextureImporter:
   fileIDToRecycleName:
-    21300000: anim_ogre_move_0
-    21300002: anim_ogre_move_1
-    21300004: anim_ogre_move_2
-    21300006: anim_ogre_move_3
+    21300000: anim_ogre_walk_0
+    21300002: anim_ogre_walk_1
+    21300004: anim_ogre_walk_2
+    21300006: anim_ogre_walk_3
+    21300008: anim_ogre_walk_4
+    21300010: anim_ogre_walk_5
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -64,7 +66,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -75,7 +77,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -88,81 +90,121 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: anim_ogre_move_0
+      name: anim_ogre_walk_0
       rect:
         serializedVersion: 2
-        x: 69
+        x: 57
         y: 0
         width: 267
-        height: 137
+        height: 138
       alignment: 9
-      pivot: {x: 0.7303371, y: 0}
+      pivot: {x: 0.6928839, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 332378a97a7c90f43b546d109de5d0ce
+      spriteID: b2a989052ab5ca444ac953488a58fe46
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_ogre_move_1
+      name: anim_ogre_walk_1
       rect:
         serializedVersion: 2
-        x: 363
+        x: 391
         y: 0
-        width: 343
-        height: 133
+        width: 300
+        height: 136
       alignment: 9
-      pivot: {x: 0.6938776, y: 0}
+      pivot: {x: 0.73333335, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: df239cc4a9648024295b30e904e4ff5a
+      spriteID: 8e8e942a3bf49524dacfb7cfd5b8beb5
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_ogre_move_2
+      name: anim_ogre_walk_2
       rect:
         serializedVersion: 2
-        x: 729
+        x: 711
+        y: 0
+        width: 352
+        height: 134
+      alignment: 9
+      pivot: {x: 0.69602275, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba97e83365166db479915d009cb11a0e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_ogre_walk_3
+      rect:
+        serializedVersion: 2
+        x: 1082
         y: 0
         width: 305
-        height: 137
+        height: 138
       alignment: 9
-      pivot: {x: 0.7836065, y: -0}
+      pivot: {x: 0.747541, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ab7870f5076731e49bb0b0acd23e43b4
+      spriteID: f16e6d7e9266a474fa7bf8201a90d53d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: anim_ogre_move_3
+      name: anim_ogre_walk_4
       rect:
         serializedVersion: 2
-        x: 1102
+        x: 1460
         y: 0
-        width: 256
-        height: 133
+        width: 283
+        height: 136
       alignment: 9
-      pivot: {x: 0.71484375, y: 0}
+      pivot: {x: 0.69964665, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 675cd684543bff847a36ae1cde6a358b
+      spriteID: 7d6d920ba5618d349a6e9054043258af
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_ogre_walk_5
+      rect:
+        serializedVersion: 2
+        x: 1835
+        y: 0
+        width: 258
+        height: 134
+      alignment: 9
+      pivot: {x: 0.6744186, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc569290770302440a6f2e704763043f
       vertices: []
       indices: 
       edges: []
@@ -170,7 +212,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 6a39925f1646c804188257941872f258
+    spriteID: 142a0f4b7409eb04a8c29ee4016ce5ef
     vertices: []
     indices: 
     edges: []
