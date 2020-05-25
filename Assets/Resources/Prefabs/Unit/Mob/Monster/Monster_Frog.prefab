@@ -194,7 +194,7 @@ MonoBehaviour:
   attackRange:
   - posX: 0.5
     posY: 0.1
-    atkRangeX: 0.8
+    atkRangeX: 1
     atkRangeY: 0.3
   - posX: 0.2
     posY: -0.2

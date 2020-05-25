@@ -14,7 +14,6 @@ public abstract class NormalMonsterControl : Monster_Control
 
     public override void MonsterInit()
     {
-        animator.SetBool("isDead", false);
         tag = "Monster";
 
         coroutine = false;
@@ -203,17 +202,18 @@ public abstract class NormalMonsterControl : Monster_Control
     }
     public override void Dead()
     {
-        animator.SetBool("isDead", true);
-        animator.SetTrigger("isDead_Trigger");
+        animator.SetTrigger("Trigger_Die");
         spriteRenderer.material = defaultMaterial;
         StopAllCoroutines();
         //die => sort layer
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
         DungeonManager.instance.dungeonMaker.FloorMonsterKill();
+
         if (dropItemList != null)
         {
             dropItemList.ItemDropChance();
         }
+
         enabled = false;
         monsterDeadCount();
         monsterDeadCount = null;
