@@ -22,9 +22,9 @@ public class ChatDialog : MonoBehaviour
 
     public void Update()
     {
-        if (isDialogOn)
+        if (Input.GetButtonDown("Fire1"))
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (isDialogOn)
             {
                 if (isOneByOneTextOn)
                 {
@@ -37,10 +37,7 @@ public class ChatDialog : MonoBehaviour
                     SetDialogText();
                 }
             }
-        }
-        else if (isRepeatDialogOn)
-        {
-            if (Input.GetButtonDown("Fire1"))
+            else if (isRepeatDialogOn)
             {
                 if (isOneByOneTextOn)
                 {

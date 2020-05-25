@@ -84,7 +84,6 @@ public class PlayerControl : MovingObject
         weaponSpear = GetComponent<Weapon_Spear>();
         weaponSpear.Init(animator, rb);
         weaponGun = GetComponent<Weapon_Gun>();
-        skillManager.Init(playerStatus);
 
         chargingAttack = 0f;
         arrowDirection = 1;

@@ -969,6 +969,75 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.4, y: 0.4}
   m_EdgeRadius: 0
+--- !u!1 &1308801058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1308801060}
+  - component: {fileID: 1308801059}
+  m_Layer: 0
+  m_Name: Directional Light
+  m_TagString: Light
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!108 &1308801059
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308801058}
+  m_Enabled: 1
+  serializedVersion: 8
+  m_Type: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1.5
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!4 &1308801060
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308801058}
+  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &1402904592 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8598324638961123450, guid: bb52788c74313754aaac85eedbfab2b6,
@@ -2066,6 +2135,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 347987305982047370, guid: d4954d73d66a655438724827c4ca6b73,
         type: 3}
+      propertyPath: mainUICursor
+      value: 
+      objectReference: {fileID: 998068950}
+    - target: {fileID: 347987305982047370, guid: d4954d73d66a655438724827c4ca6b73,
+        type: 3}
+      propertyPath: saveUICursor
+      value: 
+      objectReference: {fileID: 868112325}
+    - target: {fileID: 347987305982047370, guid: d4954d73d66a655438724827c4ca6b73,
+        type: 3}
       propertyPath: startButton
       value: 
       objectReference: {fileID: 1556098268}
@@ -2111,7 +2190,7 @@ PrefabInstance:
       objectReference: {fileID: 833182825}
     - target: {fileID: 347987305982047370, guid: d4954d73d66a655438724827c4ca6b73,
         type: 3}
-      propertyPath: canvanManager
+      propertyPath: canvasManager
       value: 
       objectReference: {fileID: 1116762776}
     - target: {fileID: 347987305982047370, guid: d4954d73d66a655438724827c4ca6b73,
@@ -2144,26 +2223,6 @@ PrefabInstance:
       propertyPath: saveSlots.Array.data[2]
       value: 
       objectReference: {fileID: 1832344267}
-    - target: {fileID: 347987305982047370, guid: d4954d73d66a655438724827c4ca6b73,
-        type: 3}
-      propertyPath: canvasManager
-      value: 
-      objectReference: {fileID: 1116762776}
-    - target: {fileID: 347987305982047370, guid: d4954d73d66a655438724827c4ca6b73,
-        type: 3}
-      propertyPath: mainUICursor
-      value: 
-      objectReference: {fileID: 998068950}
-    - target: {fileID: 347987305982047370, guid: d4954d73d66a655438724827c4ca6b73,
-        type: 3}
-      propertyPath: cursorSpd
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 347987305982047370, guid: d4954d73d66a655438724827c4ca6b73,
-        type: 3}
-      propertyPath: saveUICursor
-      value: 
-      objectReference: {fileID: 868112325}
     - target: {fileID: 347987305982047371, guid: d4954d73d66a655438724827c4ca6b73,
         type: 3}
       propertyPath: m_LocalPosition.x

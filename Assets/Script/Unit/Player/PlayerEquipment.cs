@@ -201,12 +201,13 @@ public class PlayerEquipment
         equipment[_EquipNumber].EquipmentSkillSetting();
         Database_Game.instance.skillManager.EquipmentSkillSetting(equipment);
     }
-    public void EquipmentSkillCheck()
+    public void EquipmentSkillCheck(PlayerStatus _PlayerStatus)
     {
         for (int i = 0; i < 7; ++i)
         {
             equipment[i].EquipmentSkillCheck();
         }
+        Database_Game.instance.skillManager.Init(_PlayerStatus);
         Database_Game.instance.skillManager.EquipmentSkillSetting(equipment);
     }
     

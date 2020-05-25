@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -38,12 +36,10 @@ public class DataBase
     {
         return storageItemCodeList;
     }
-    
     public int GetCurrentMoney()
     {
         return currentMoney;
     }
-
     public int GetCurrentDate()
     {
         return currentDate;

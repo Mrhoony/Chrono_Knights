@@ -56,7 +56,7 @@ public class PlayerStatus : MonoBehaviour
         StatusInit();
         playerData = _playerData;
         playerData.GetPlayerEquipment().EquipmentLimitUpgrade();
-        playerData.GetPlayerEquipment().EquipmentSkillCheck();
+        playerData.GetPlayerEquipment().EquipmentSkillCheck(this);
 
         traningStat = playerData.GetTraningStat();
         HPCut = new bool[4];

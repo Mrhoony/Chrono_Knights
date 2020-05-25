@@ -37,7 +37,7 @@ public class SkillManager : MonoBehaviour
         playerStatus = _playerStatus;
         equipment = playerStatus.playerData.playerEquipment;
         skillList = new Dictionary<string, SkillList>();
-
+        
         SkillListInit();
     }
     public void SkillListInit()
@@ -50,10 +50,13 @@ public class SkillManager : MonoBehaviour
     public void EquipmentSkillSetting(PlayerEquipment.Equipment[] _Equipment)
     {
         SkillListInit();
+        Skill skill;
 
         for (int i = 0; i < 7; ++i)
         {
-            Skill skill = Database_Game.instance.GetSkill(_Equipment[i].skillCode);
+            skill = Database_Game.instance.GetSkill(_Equipment[i].skillCode);
+
+            if (skill == null) continue;
 
             if (i == 2)
             {

@@ -21,6 +21,7 @@ TagManager:
   - ItemSlot
   - Slope
   - Wall
+  - Light
   layers:
   - Default
   - TransparentFX
