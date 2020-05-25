@@ -2,13 +2,18 @@ fileFormatVersion: 2
 guid: 12f42a03a1f418b46ad1c73f7d44f3b5
 TextureImporter:
   fileIDToRecycleName:
-    21300000: anim_ogre_atkV_0
+    21300000: anim_ogre_atkV_3
     21300002: anim_ogre_atkV_1
     21300004: anim_ogre_atkV_2
     21300006: anim_ogre_atkV_3
     21300008: anim_ogre_atkV_4
-    21300010: anim_ogre_atkV_5
-    21300012: anim_ogre_atkV_6
+    21300010: anim_ogre_atkV_0
+    21300012: anim_ogre_atkV_1
+    21300014: anim_ogre_atkV_4
+    21300016: anim_ogre_atkV_9
+    21300018: anim_ogre_atkV_6
+    21300020: anim_ogre_atkV_7
+    21300022: anim_ogre_atkV_5
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -91,41 +96,21 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: anim_ogre_atkV_0
+      name: anim_ogre_atkV_3
       rect:
         serializedVersion: 2
-        x: 20
+        x: 1292
         y: 200
-        width: 355
-        height: 138
+        width: 335
+        height: 176
       alignment: 9
-      pivot: {x: 0.73239434, y: 0.007246377}
+      pivot: {x: 0.6567164, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a5f9dc75c30ffd54a870a3604003aad4
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: anim_ogre_atkV_1
-      rect:
-        serializedVersion: 2
-        x: 417
-        y: 200
-        width: 375
-        height: 127
-      alignment: 9
-      pivot: {x: 0.6906667, y: 0.007874016}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3acde04afef0f1c49a94e24e2921cc7f
+      spriteID: f40b51e9bd8c0184ab42dfbaea9b985c
       vertices: []
       indices: 
       edges: []
@@ -134,18 +119,58 @@ TextureImporter:
       name: anim_ogre_atkV_2
       rect:
         serializedVersion: 2
-        x: 823
+        x: 865
         y: 200
-        width: 339
-        height: 161
+        width: 340
+        height: 162
       alignment: 9
-      pivot: {x: 0.6961652, y: 0}
+      pivot: {x: 0.7647059, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3c27d52767f8ab42a1014c0a6505e45
+      spriteID: 9fe7cd9ae29a4174d913fb074b181959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_ogre_atkV_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 200
+        width: 347
+        height: 144
+      alignment: 9
+      pivot: {x: 0.778098, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64519378d48c826458fedd972f2ee1c9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_ogre_atkV_1
+      rect:
+        serializedVersion: 2
+        x: 425
+        y: 200
+        width: 375
+        height: 127
+      alignment: 9
+      pivot: {x: 0.74666667, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1fa7f36d4987ab4889da963ae22d7cb
       vertices: []
       indices: 
       edges: []
@@ -154,18 +179,18 @@ TextureImporter:
       name: anim_ogre_atkV_4
       rect:
         serializedVersion: 2
-        x: 6
+        x: 0
         y: 0
-        width: 380
+        width: 412
         height: 184
       alignment: 9
-      pivot: {x: 0, y: 0.00000004956256}
+      pivot: {x: 0.15048544, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 22a2efe7614212a46931f8a7c5e7456b
+      spriteID: eef2961628d940e4e8f36c60d9cf6c7d
       vertices: []
       indices: 
       edges: []
@@ -174,18 +199,18 @@ TextureImporter:
       name: anim_ogre_atkV_5
       rect:
         serializedVersion: 2
-        x: 424
+        x: 472
         y: 0
-        width: 268
-        height: 127
+        width: 317
+        height: 131
       alignment: 9
-      pivot: {x: 0.18283582, y: 0}
+      pivot: {x: 0.1577287, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f0efd291f04de4441af95f51c240b250
+      spriteID: d6dade933bd8ba04182d71d6c7de3f36
       vertices: []
       indices: 
       edges: []
@@ -194,18 +219,38 @@ TextureImporter:
       name: anim_ogre_atkV_6
       rect:
         serializedVersion: 2
-        x: 817
+        x: 973
         y: 0
-        width: 334
-        height: 129
+        width: 146
+        height: 127
       alignment: 9
-      pivot: {x: 0.748503, y: -0}
+      pivot: {x: 0.51369864, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b899db198c3ac2a408b1590f7e19383e
+      spriteID: 47cae1c09eb640946a5c02c58d05609a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_ogre_atkV_7
+      rect:
+        serializedVersion: 2
+        x: 1305
+        y: 0
+        width: 319
+        height: 129
+      alignment: 9
+      pivot: {x: 0.78996867, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 129797cbf2f4fdd4fbb09d843dcda406
       vertices: []
       indices: 
       edges: []
