@@ -43,10 +43,13 @@ public class ScenarioManager : MonoBehaviour
                 if (repeatEventList[_NPC.objectNumber][i].eventNumber < storyProgress)
                 {
                     _TempRepeatEventList = repeatEventList[_NPC.objectNumber];
+                }
+                else
+                {
                     break;
                 }
             }
-            canvasManager.SetDialogText(repeatEventList[_NPC.objectNumber], _NPC);
+            canvasManager.SetDialogText(_TempRepeatEventList, _NPC);
             return true;
         }
         else

@@ -151,30 +151,6 @@ public class DungeonManager : MonoBehaviour
         return true;
     }
 
-    public void TeleportTransfer()
-    {
-        switch (useTeleportSystem)
-        {
-            case 8:
-                dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
-                break;
-            default:
-                if (sceneMove)
-                {
-                    dungeonMaker.EnterTheDungeon();
-                    dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
-                }
-                else
-                {
-                    mainCamera.SetCameraBound(teleportDestination.currentMap.GetComponent<BoxCollider2D>());
-                    player.transform.position = teleportDestination.gameObject.transform.position;
-                }
-                break;
-        }
-
-        useTeleportSystem = 99;
-        StartCoroutine(MapMoveDelay());
-    }
     public void EnterNextFloor()
     {
         DungeonFlagReset();
@@ -186,7 +162,7 @@ public class DungeonManager : MonoBehaviour
         isDead = true;
 
         Time.timeScale = 0.5f;
-        mainCamera.SetHeiWid(640, 360);
+        mainCamera.CameraSizeSetting(1);
         mainCamera.target.transform.position = player.transform.position;
         OutDungeon();
     }
@@ -194,7 +170,7 @@ public class DungeonManager : MonoBehaviour
     {
         isReturn = true;
         isSceneLoading = true;
-        Invoke("CircleFadeOutStart", 1f);
+        Invoke("CircleFadeOutStart", 0.5f);
     }
     public void CircleFadeOutStart()
     {
@@ -241,23 +217,20 @@ public class DungeonManager : MonoBehaviour
                 break;
             case 2:
             case 3:
-                if (useTeleportSystem == 8)         // 던전 포탈 앞에 서있을 경우 다음던전 또는 집으로 이동한다.
+                if (!dungeonClear || isReturn) return;
+
+                if (usedKey)
                 {
-                    if (!dungeonClear || isReturn) return;
-
-                    if (usedKey)
-                    {
-                        usedKey = false;
-                        isSceneLoading = true;
-                        if (phaseClear) canvasManager.fadeInStartMethod += SceneLoad;
-                        else            canvasManager.fadeInStartMethod += TeleportTransfer;
-                        canvasManager.FadeOutStart();
-                        break;
-                    }
-
-                    // 키를 안쓴경우 인벤토리를 연다.
-                    canvasManager.OpenInGameMenu(true);
+                    usedKey = false;
+                    isSceneLoading = true;
+                    if (phaseClear) canvasManager.fadeInStartMethod += SceneLoad;
+                    else            canvasManager.fadeInStartMethod += TeleportTransfer;
+                    canvasManager.FadeOutStart();
+                    break;
                 }
+
+                // 키를 안쓴경우 인벤토리를 연다.
+                canvasManager.OpenInGameMenu(true);
                 break;
         }
     }
@@ -274,7 +247,7 @@ public class DungeonManager : MonoBehaviour
                 scenarioManager.ScenarioRepeatCheck(_NPC);
                 break;
             default:
-                scenarioManager.ScenarioRepeatCheck(_NPC);
+                _NPC.OpenNPCUI();
                 break;
         }
     }
@@ -288,22 +261,20 @@ public class DungeonManager : MonoBehaviour
                     ReturnHome();
                     break;
                 case 1:     // 마을로 향하는 문
-                    mainCamera.SetHeiWid(1280, 720);
+                    mainCamera.CameraSizeSetting(2);
                     SceneManager.LoadScene(1);
                     break;
                 case 2:     // 탑으로 향하는 길
                     SceneManager.LoadScene(2);
                     break;
                 case 8:
-                    if (phaseClear)
-                    {
-                        phaseClear = false;
-                        SceneManager.LoadScene(2);
-                    }
-                    else if (isReturn)
+                    if (isReturn)
                     {
                         ReturnToTown();
+                        break;
                     }
+
+                    SceneManager.LoadScene(2);
                     break;
                 default:
                     ReturnToTown();
@@ -315,6 +286,30 @@ public class DungeonManager : MonoBehaviour
             ReturnToTown();
         }
     }
+    public void TeleportTransfer()
+    {
+        switch (useTeleportSystem)
+        {
+            case 8:
+                dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
+                break;
+            default:
+                if (sceneMove)
+                {
+                    dungeonMaker.EnterTheDungeon();
+                    dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
+                }
+                else
+                {
+                    mainCamera.SetCameraBound(teleportDestination.currentMap.GetComponent<BoxCollider2D>());
+                    player.transform.position = teleportDestination.gameObject.transform.position;
+                }
+                break;
+        }
+
+        useTeleportSystem = 99;
+        StartCoroutine(MapMoveDelay());
+    }
     public void ReturnToTown()
     {
         canvasManager.Menus[0].GetComponent<Menu_Inventory>().PutInBox(isDead);          // 집으로 돌아갈 때 창고에 키 넣기
@@ -325,7 +320,7 @@ public class DungeonManager : MonoBehaviour
     }
     public void ReturnHome()
     {
-        mainCamera.SetHeiWid(640, 360);
+        mainCamera.CameraSizeSetting(1);
         SceneManager.LoadScene(0);
     }
     
@@ -360,7 +355,7 @@ public class DungeonManager : MonoBehaviour
                 }
                 break;
             case 1:
-                mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
+                mainCamera.SetCameraBound(GameObject.Find("Town").GetComponent<BoxCollider2D>());
                 canvasManager.SetTownUI();
 
                 MapEntranceFind(teleportPoint, 0);
@@ -370,12 +365,25 @@ public class DungeonManager : MonoBehaviour
                 break;
             case 2:
             case 3:
-                inDungeon = true;
-                dungeonPlayTimer = 0f;
-                canvasManager.SetDungeonUI();
-                backgroundSet = GameObject.Find("BackGroundSet");
-                TeleportTransfer();
-                StartCoroutine(MapMoveDialogDelay("FirstContact"));
+                if (!inDungeon)
+                {
+                    inDungeon = true;
+                    dungeonPlayTimer = 0f;
+                    canvasManager.SetDungeonUI();
+                    backgroundSet = GameObject.Find("BackGroundSet");
+                    TeleportTransfer();
+                    StartCoroutine(MapMoveDialogDelay("FirstContact"));
+                    break;
+                }
+
+                if (phaseClear)
+                {
+                    phaseClear = false;
+                    dungeonMaker.PhaseClear();
+                    canvasManager.SetDungeonUI();
+                    backgroundSet = GameObject.Find("BackGroundSet");
+                    TeleportTransfer();
+                }
                 break;
         }
 

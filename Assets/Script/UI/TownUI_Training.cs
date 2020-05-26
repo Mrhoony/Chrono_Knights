@@ -53,6 +53,11 @@ public class TownUI_Training : MonoBehaviour
         limit_traning = playerData.GetLimitTraning();
         traningStat = playerData.GetTraningStat();
         traning_count = playerData.GetTraningCount();
+        
+        for (int i = 0; i < 6; ++i)
+        {
+            gauge[i].fillAmount = traningStat[i] / limit_traning[i];
+        }
 
         isTraningPossible = DungeonManager.instance.GetTrainigPossible();
         if (isTraningPossible)
@@ -60,8 +65,6 @@ public class TownUI_Training : MonoBehaviour
             button.SetActive(true);
             for (int i = 0; i < 6; ++i)
             {
-                gauge[i].fillAmount = traningStat[i] / limit_traning[i];
-
                 if (traningStat[i] >= limit_traning[i])
                 {
                     traningButton[i].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);

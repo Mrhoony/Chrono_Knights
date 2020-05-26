@@ -425,6 +425,7 @@ public class PlayerControl : MovingObject
         animator.SetBool("isLand", false);
         animator.SetTrigger("isDodge");
         actionState = ActionState.IsDodge;
+        InputInit();
 
         if (weaponType == 0)
         {
@@ -441,7 +442,6 @@ public class PlayerControl : MovingObject
         {
             rb.velocity = new Vector2(-arrowDirection * playerStatus.GetDashDistance_Result() * 2f, 1f);
         }
-
         StartCoroutine(DodgeCount());
         StartCoroutine(InvincibleCount());
         Debug.Log("dodge");

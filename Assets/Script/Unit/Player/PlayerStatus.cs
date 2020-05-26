@@ -30,7 +30,7 @@ public class PlayerStatus : MonoBehaviour
     private readonly float[] dashDistance = new float[3];  // 대시거리
     private readonly float[] recovery = new float[3];      // 회복력
     private int shield;
-    
+
     private readonly int[] debuffAttack = new int[2];
     private readonly int[] debuffDefense = new int[2];
 
@@ -71,7 +71,6 @@ public class PlayerStatus : MonoBehaviour
         {
             debuffAttack[i] = 0;
             debuffDefense[i] = 0;
-
             dodgeCoolTime[i] = 0;
             invincibleCoolTime[i] = 0;
             dodgeDuringTime[i] = 0;
@@ -113,6 +112,7 @@ public class PlayerStatus : MonoBehaviour
         Database_Game.instance.skillManager.SkillCoolTimeReset();
         PlayerStatusUpdate();
         HPInit();
+        playerStatusView.RenewalHPBar();
     }
     public void PlayerStatusUpdate()
     {
@@ -138,7 +138,7 @@ public class PlayerStatus : MonoBehaviour
         dashDistance[2] = dashDistance[1];
         recovery[2] = recovery[1];
         
-        PlayerControl.instance.SetAnimationAttackSpeed(attackSpeed[2]);
+        PlayerControl.instance.SetAnimationAttackSpeed(GetAttackSpeed_Result());
     }
     public void HPInit()
     {
@@ -287,11 +287,6 @@ public class PlayerStatus : MonoBehaviour
         {
             if (0 != multyAttack)
                 attack[2] = attack[2] / multyAttack;
-
-            if (attack[2] < 1)
-            {
-                attack[2] = 1;
-            }
         }
     }
     public void SetAttackAdd_Result(int addAttack, bool add)            // 공격력 계산
@@ -303,10 +298,6 @@ public class PlayerStatus : MonoBehaviour
         else
         {
             attack[2] = attack[2] - addAttack;
-            if (attack[2] < 1)
-            {
-                attack[2] = 1;
-            }
         }
     }
     public void SetDefenceAdd_Result(int addDefense, bool add)          // 방어력 계산
@@ -329,8 +320,6 @@ public class PlayerStatus : MonoBehaviour
         else
         {
             moveSpeed[2] = moveSpeed[2] / multyMoveSpeed;
-            if (moveSpeed[2] < 1)  moveSpeed[2] = 1f;
-            if (moveSpeed[2] > 6f) moveSpeed[2] = 6f;
         }
     }
     public void SetAttackSpeed_Result(int multyAttackSpeed, bool multy) // 공격 속도 계산
@@ -342,12 +331,9 @@ public class PlayerStatus : MonoBehaviour
         else
         {
             attackSpeed[2] = attackSpeed[2] / multyAttackSpeed;
-            if (attackSpeed[2] < 1)
-            {
-                attackSpeed[2] = 1;
-            }
         }
-        PlayerControl.instance.SetAnimationAttackSpeed(attackSpeed[2]);
+
+        PlayerControl.instance.SetAnimationAttackSpeed(GetAttackSpeed_Result());
     }
     public void SetDashDistance_Result(int multyDashDIstance, bool multy)
     {
@@ -358,10 +344,6 @@ public class PlayerStatus : MonoBehaviour
         else
         {
             dashDistance[2] = dashDistance[2] / multyDashDIstance;
-            if (dashDistance[2] < 1)
-            {
-                dashDistance[2] = 1;
-            }
         }
     }
     public void SetRecoveryAdd_Result(int addRecovery, bool add)
@@ -371,32 +353,45 @@ public class PlayerStatus : MonoBehaviour
         else
         {
             recovery[2] = recovery[2] - addRecovery;
-            if (recovery[2] < 0) recovery[2] = 0;
         }
     }
 
     public int GetAttack_Result()
     {
+        if (attack[2] < 1)
+        {
+            attack[2] = 1;
+        }
+
         return (int)attack[2];
     }
     public int GetDefence_Result()
     {
+        if (defense[2] < 0) defense[2] = 0;
         return (int)defense[2];
     }
     public float GetMoveSpeed_Result()
     {
+        if (moveSpeed[2] < 1) moveSpeed[2] = 1f;
+        if (moveSpeed[2] > 6f) moveSpeed[2] = 6f;
         return moveSpeed[2];
     }
     public float GetAttackSpeed_Result()
     {
+        if (attackSpeed[2] < 0.5f)
+        {
+            attackSpeed[2] = 0.5f;
+        }
         return attackSpeed[2];
     }
     public float GetDashDistance_Result()
     {
+        if (dashDistance[2] < 0) dashDistance[2] = 0;
         return dashDistance[2];
     }
     public float GetRecovery_Result()
     {
+        if (recovery[2] < 0) recovery[2] = 0;
         return recovery[2];
     }
 

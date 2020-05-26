@@ -43,11 +43,7 @@ public class CameraManager : MonoBehaviour
         mainCamera = GetComponent<Camera>();
         perfectCamera = GetComponent<PixelPerfectCamera>();
 
-        Height = 640;
-        Width = 360;
-
-        GameStartScreenSet();
-
+        CameraSizeSetting(1);
         //Screen.SetResolution(Screen.width, (Screen.width * 9) / 16, false);
 
         cameraShakeOnOff = true;
@@ -104,14 +100,6 @@ public class CameraManager : MonoBehaviour
         yield return new WaitForSeconds(_time);
         cameraShaking = false;
     }
-
-    public void SetHeiWid(int hei, int wid)
-    {
-        Height = hei;
-        Width = wid;
-        GameStartScreenSet();
-    }
-
     public void SetCameraBound(BoxCollider2D box)
     {
         bound = box;
@@ -121,6 +109,27 @@ public class CameraManager : MonoBehaviour
         halfWidth = halfHeight * 1280 / 720;
     }
 
+    public void CameraSizeSetting(int _CameraSize)
+    {
+        switch (_CameraSize)
+        {
+            case 1:
+                Height = 640;
+                Width = 360;
+                break;
+            case 2:
+                perfectCamera.assetsPPU = 100;
+                Height = 1280;
+                Width = 720;
+                break;
+            default:
+                perfectCamera.assetsPPU = 100;
+                Height = 1280;
+                Width = 720;
+                break;
+        }
+        GameStartScreenSet();
+    }
     public void GameStartScreenSet()
     {
         perfectCamera.refResolutionX = Height;

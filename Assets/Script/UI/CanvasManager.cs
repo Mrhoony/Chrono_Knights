@@ -275,8 +275,11 @@ public class CanvasManager : MonoBehaviour
         if (fadeColor.a > 1f) fadeColor.a = 1f;
         fadeInOut.GetComponent<Image>().color = fadeColor;
 
-        fadeInStartMethod();
-        fadeInStartMethod = null;
+        if(fadeInStartMethod != null)
+        {
+            fadeInStartMethod();
+            fadeInStartMethod = null;
+        }
 
         Debug.Log("FadeOutEnd");
     }
@@ -551,6 +554,7 @@ public class CanvasManager : MonoBehaviour
     public void CloseInGameMenu()       // I로 인벤토리 닫을 때
     {
         Menus[0].GetComponent<Menu_Inventory>().CloseInventory();
+        playerStatusInfo.GetComponent<MainUI_PlayerStatusInfo>().CloseStatusInfo();
         Menus[focus].SetActive(false);
         playerStatusInfo.SetActive(false);
         isInventoryOn = false;

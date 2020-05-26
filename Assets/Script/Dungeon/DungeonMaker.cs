@@ -49,7 +49,7 @@ public class DungeonMaker : MonoBehaviour
     private GameObject[] bossMonsterPreFabsList;
     private GameObject[] currentStageMonsterList;
     private GameObject[] spawner;
-    private GameObject dropItemPool;
+    public GameObject dropItemPool;
     private Vector2 entrance;               // 텔레포트 위치
 
     private int spawnerCount;
@@ -97,10 +97,15 @@ public class DungeonMaker : MonoBehaviour
         monsterCount = 0;
         currentMonsterCount = 0;
     }
+
     public void EnterTheDungeon()
     {
         DungeonReset();
         dungeonTrialStack.Init();
+        dropItemPool = GameObject.Find("DropItemPool");
+    }
+    public void PhaseClear()
+    {
         dropItemPool = GameObject.Find("DropItemPool");
     }
 
@@ -135,7 +140,6 @@ public class DungeonMaker : MonoBehaviour
     public void FloorSetting(GameObject[] _MapList, GameObject _Player, CameraManager _MainCamera, GameObject _BackGroundSet)
     {
         FloorReset();
-        int selectedMapNum = Random.Range(0, _MapList.Length);
 
         ++currentStage;
         ++bossStageCount;
@@ -145,18 +149,8 @@ public class DungeonMaker : MonoBehaviour
             freePassNextFloor = false;
             ++currentStage;
             ++bossStageCount;
-            MarkerSetting(_MapList[selectedMapNum]);
         }
-
-        entrance = _MapList[selectedMapNum].GetComponent<Map_ObjectSetting>().entrance.transform.position;
-        spawner = _MapList[selectedMapNum].GetComponent<Map_ObjectSetting>().spawner;
-        spawnerCount = spawner.Length;
-
-        _Player.transform.position = entrance;
-        _MainCamera.SetCameraBound(_MapList[selectedMapNum].GetComponent<BoxCollider2D>());
-        _MainCamera.transform.position = entrance;
-        _BackGroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, currentStage);
-
+        
         if (!bossSetting)
         {
             if (bossStageCount > 2)  // 보스스테이지 설정
@@ -165,6 +159,25 @@ public class DungeonMaker : MonoBehaviour
                     bossSetting = true;
             }            // 이벤트 플래그로 구간별 보스 등장
         }           // 보스 스테이지 설정
+
+        GameObject map;
+        map = _MapList[Random.Range(0, _MapList.Length)];
+
+        if (bossSetting)
+        {
+            for (int i = 0; i < _MapList.Length; ++i)
+            {
+                if (_MapList[i].GetComponent<Map_ObjectSetting>().bossStage)
+                {
+                    map = _MapList[i];
+                    break;
+                }
+            }
+        }
+
+        entrance = map.GetComponent<Map_ObjectSetting>().entrance.transform.position;
+        spawner = map.GetComponent<Map_ObjectSetting>().spawner;
+        spawnerCount = spawner.Length;
 
         float randomX;
         if (bossSetting)                       // 보스층 일 때
@@ -249,7 +262,12 @@ public class DungeonMaker : MonoBehaviour
             CanvasManager.instance.dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus(_Player.GetComponent<PlayerStatus>()));
         }
 
-        MarkerSetting(_MapList[selectedMapNum]);
+        _Player.transform.position = entrance;
+        _MainCamera.SetCameraBound(map.GetComponent<BoxCollider2D>());
+        _MainCamera.transform.position = entrance;
+        _BackGroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, currentStage);
+
+        MarkerSetting(map);
     }
     public void FloorReset()
     {

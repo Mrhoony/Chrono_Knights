@@ -144,6 +144,11 @@ public class MainUI_PlayerStatusView : MonoBehaviour
         }
     }
 
+    public void RenewalHPBar()
+    {
+        HPBar.fillAmount = playerStatus.currentHP / playerStatus.playerData.GetStatus((int)Status.HP);
+    }
+
     public void DMGMultiRecovery()
     {
         dmgMulti -= 2;

@@ -74,6 +74,13 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
         inventory.FocusOn();
     }
 
+    public void CloseStatusInfo()
+    {
+        statusEquipment.SetActive(false);
+        cursor.SetActive(false);
+        isThisWindowFocus = false;
+    }
+
     public void EquipmentSkillOptionCheck(PlayerEquipment.Equipment[] _Equipment)
     {
         equipment = _Equipment;
@@ -92,15 +99,22 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
                 }
 
                 passiveSkillList.Add(skillList[skill.skillName]);
+
+                continue;
             }
+
+            activeSkill = null;
+
         }
         passiveSkillList = passiveSkillList.Distinct().ToList();
-        Debug.Log("EquipmentSkillOptionCheck" + passiveSkillList.Count);
+
+        Debug.Log("EquipmentSkillOptionCheck : " + passiveSkillList.Count);
     }
     public void OnStatusMenu(Menu_Inventory _Inventory)
     {
         isThisWindowFocus = false;
         inventory = _Inventory;
+        string skillDescription = "";
 
         for (int i = 0; i < 7; ++i)
         {
@@ -117,22 +131,30 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
             }
         }
 
-        ActiveSkill.SetActive(true);
-        ActiveSkill.GetComponent<Text>().text = activeSkill.skillDescription;
-
-        string skillDescription = "";
-        for (int j = 0; j < passiveSkillList.Count; ++j)
+        if(activeSkill != null)
         {
-            skillDescription = string.Format(
-                passiveSkillList[j].skill.skillDescription + "({0} / {1})", 
-                passiveSkillList[j].skillStack, passiveSkillList[j].skill.skillStack);
-
-            PassiveSkill[j].SetActive(true);
-            PassiveSkill[j].GetComponent<Text>().text = skillDescription;
+            ActiveSkill.SetActive(true);
+            ActiveSkill.GetComponent<Text>().text = activeSkill.skillDescription;
         }
-        for(int k = passiveSkillList.Count; k < 6; ++k)
+
+        if(passiveSkillList.Count > 0)
         {
-            PassiveSkill[k].SetActive(false);
+            for (int j = 0; j < passiveSkillList.Count; ++j)
+            {
+                if (passiveSkillList[j].skill.skillCode != 0)
+                {
+                    skillDescription = string.Format(
+                        passiveSkillList[j].skill.skillDescription + "({0} / {1})",
+                        passiveSkillList[j].skillStack, passiveSkillList[j].skill.skillStack);
+
+                    PassiveSkill[j].SetActive(true);
+                    PassiveSkill[j].GetComponent<Text>().text = skillDescription;
+                }
+            }
+            for (int k = passiveSkillList.Count; k < 6; ++k)
+            {
+                PassiveSkill[k].SetActive(false);
+            }
         }
 
         statusinformation.transform.GetChild(0).GetComponent<Text>().text = playerStatus.GetAttack_Result().ToString();
@@ -150,26 +172,39 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
         cursor.SetActive(true);
         statusEquipment.transform.position = equipmentSlot[focused].transform.position;
 
-        if(equipment[focused].downStatus == 8)
+        if (equipment[focused].enchant)
         {
-            statusEquipment.GetComponent<StatusEquipment>().EquipmentStatusInfoSet(
-                playerData.playerEquipment.GetStatusName(equipment[focused].upStatus, true),
-                playerData.playerEquipment.GetUpStatus(focused));
+            if (equipment[focused].downStatus == 8)
+            {
+                statusEquipment.GetComponent<StatusEquipment>().EquipmentStatusInfoSet(
+                    playerData.playerEquipment.GetStatusName(equipment[focused].upStatus, true),
+                    playerData.playerEquipment.GetUpStatus(focused),
+                    "",
+                    "");
+            }
+            else
+            {
+                statusEquipment.GetComponent<StatusEquipment>().EquipmentStatusInfoSet(
+                    playerData.playerEquipment.GetStatusName(equipment[focused].upStatus, true),
+                    playerData.playerEquipment.GetUpStatus(focused),
+                    playerData.playerEquipment.GetStatusName(equipment[focused].downStatus, false),
+                    playerData.playerEquipment.GetDownStatus(focused)
+                    );
+            }
+
+            if (equipment[focused].skillCode != 0)
+            {
+                Skill skill = Database_Game.instance.GetSkill(equipment[focused].skillCode);
+                statusEquipment.GetComponent<StatusEquipment>().EquipmentSkillInfoSet(skill.skillName, skill.skillDescription);
+            }
         }
         else
         {
             statusEquipment.GetComponent<StatusEquipment>().EquipmentStatusInfoSet(
-                playerData.playerEquipment.GetStatusName(equipment[focused].upStatus, true),
-                playerData.playerEquipment.GetUpStatus(focused),
-                playerData.playerEquipment.GetStatusName(equipment[focused].downStatus, false),
-                playerData.playerEquipment.GetDownStatus(focused)
-                );
-        }
-
-        if(equipment[focused].skillCode != 0)
-        {
-            Skill skill = Database_Game.instance.GetSkill(equipment[focused].skillCode);
-            statusEquipment.GetComponent<StatusEquipment>().EquipmentSkillInfoSet(skill.skillName, skill.skillDescription);
+                       "",
+                       "",
+                       "",
+                       "");
         }
     }
 

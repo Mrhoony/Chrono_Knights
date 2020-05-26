@@ -60,6 +60,7 @@ public class Weapon_Spear : PlayerWeaponType
         animator.SetBool("is_xxx_attack", false);
         animator.SetBool("is_y_attack", false);
         animator.SetBool("is_y_up_attack", false);
+        animator.SetBool("isJump_y_attack", false);
 
         inputAttackList = 9;
         commandCount = 1;

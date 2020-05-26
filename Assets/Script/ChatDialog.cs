@@ -59,7 +59,7 @@ public class ChatDialog : MonoBehaviour
         repeatEventDialog = _EventDialog;
         repeatEventDialogListCount = repeatEventDialog.Count;
         index = 0;
-        isDialogOn = true;
+        isRepeatDialogOn = true;
 
         SetRepeatDialogText();
     }

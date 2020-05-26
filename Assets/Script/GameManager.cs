@@ -215,7 +215,7 @@ public class GameManager : MonoBehaviour
         Database_Game.instance.skillManager.SkillListInit();    // 스킬 리스트 초기화
 
         player.GetComponent<PlayerControl>().enabled = false;
-        bedBlind = GameObject.Find("BackGroundSet/Base/bg_mainScene_blind");
+        bedBlind = GameObject.Find("BackGround/Base/bg_mainScene_blind");
         canvasManager.inGameMenu.SetActive(false);
         bedBlind.SetActive(true);
         playerStatView.SetActive(false);

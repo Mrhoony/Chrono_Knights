@@ -1,7 +1,13 @@
 fileFormatVersion: 2
 guid: e76412c3cd55fe14ebfdb4fe8b856342
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: anim_craw_idle_0
+    21300002: anim_craw_idle_1
+    21300004: anim_craw_idle_2
+    21300006: anim_craw_idle_3
+    21300008: anim_craw_idle_4
+    21300010: anim_craw_idle_5
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -31,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -40,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -60,10 +66,21 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -71,7 +88,127 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: anim_craw_idle_0
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 14
+        width: 124
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adc1d1ec64fc19740a862c25fda22aea
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_craw_idle_1
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 7
+        width: 97
+        height: 64
+      alignment: 9
+      pivot: {x: 0.46391752, y: 0.53125}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48b4d72437ddf7649b198b2d77240d94
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_craw_idle_2
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 15
+        width: 74
+        height: 55
+      alignment: 9
+      pivot: {x: 0.43243244, y: 0.49090907}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e92e88505c914e4981988d9f14d11de
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_craw_idle_3
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 18
+        width: 109
+        height: 52
+      alignment: 9
+      pivot: {x: 0.44954127, y: 0.5192308}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2ec52aa885efe14aa219b923cd4a3a9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_craw_idle_4
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 27
+        width: 145
+        height: 40
+      alignment: 9
+      pivot: {x: 0.46206897, y: 0.425}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 407b47da9cb2aa9478925cab6f755246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_craw_idle_5
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 26
+        width: 151
+        height: 40
+      alignment: 9
+      pivot: {x: 0.4834437, y: 0.425}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69ed0869e40955144a344c63f9472f39
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

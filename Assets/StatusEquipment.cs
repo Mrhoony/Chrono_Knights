@@ -11,14 +11,7 @@ public class StatusEquipment : MonoBehaviour
     public Text minusStat;
     public Text skillName;
     public Text skillDescription;
-
-    public void EquipmentStatusInfoSet(string _PlusName, string _PlusStat)
-    {
-        plusName.text = _PlusName;
-        plusStat.text = _PlusStat;
-        minusName.text = "";
-        minusStat.text = "";
-    }
+    
     public void EquipmentStatusInfoSet(string _PlusName, string _PlusStat, string _MinusName, string _MinusStat)
     {
         plusName.text = _PlusName;

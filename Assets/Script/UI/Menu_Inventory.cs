@@ -277,6 +277,7 @@ public class Menu_Inventory : Menu_InGameMenu
     }
     public void CloseInventory()
     {
+        cursorInvenSelect.SetActive(false);
         itemInformation.SetActive(false);
         isShopOpen = false;
         isUIOn = false;
