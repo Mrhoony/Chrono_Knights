@@ -158,8 +158,8 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
         upgradeButton.GetComponent<Image>().color = new Color(upgradeButton.GetComponent<Image>().color.r,
             upgradeButton.GetComponent<Image>().color.g, upgradeButton.GetComponent<Image>().color.b, 120);
 
-        upgradeButton.SetActive(false);
         selectItemUIFocused = 3;
+        upgradeButton.SetActive(false);
         itemCancel.SetActive(true);
     }
     public void PercentSet(int num, int upCount, float upPercent, Item item)

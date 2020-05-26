@@ -197,14 +197,14 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
                 Skill skill = Database_Game.instance.GetSkill(equipment[focused].skillCode);
                 statusEquipment.GetComponent<StatusEquipment>().EquipmentSkillInfoSet(skill.skillName, skill.skillDescription);
             }
+            else
+            {
+                statusEquipment.GetComponent<StatusEquipment>().EquipmentSkillInfoSet("", "");
+            }
         }
         else
         {
-            statusEquipment.GetComponent<StatusEquipment>().EquipmentStatusInfoSet(
-                       "",
-                       "",
-                       "",
-                       "");
+            statusEquipment.GetComponent<StatusEquipment>().EquipmentStatusInfoSet("", "", "", "");
         }
     }
 

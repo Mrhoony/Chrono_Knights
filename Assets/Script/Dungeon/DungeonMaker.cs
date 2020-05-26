@@ -102,7 +102,7 @@ public class DungeonMaker : MonoBehaviour
     {
         DungeonReset();
         dungeonTrialStack.Init();
-        dropItemPool = GameObject.Find("DropItemPool");
+        PhaseClear();
     }
     public void PhaseClear()
     {
@@ -160,96 +160,107 @@ public class DungeonMaker : MonoBehaviour
             }            // 이벤트 플래그로 구간별 보스 등장
         }           // 보스 스테이지 설정
 
-        GameObject map;
-        map = _MapList[Random.Range(0, _MapList.Length)];
+        GameObject selectedMap;
 
         if (bossSetting)
-        {
-            for (int i = 0; i < _MapList.Length; ++i)
-            {
-                if (_MapList[i].GetComponent<Map_ObjectSetting>().bossStage)
-                {
-                    map = _MapList[i];
-                    break;
-                }
-            }
-        }
-
-        entrance = map.GetComponent<Map_ObjectSetting>().entrance.transform.position;
-        spawner = map.GetComponent<Map_ObjectSetting>().spawner;
-        spawnerCount = spawner.Length;
-
-        float randomX;
-        if (bossSetting)                       // 보스층 일 때
         {
             bossSetting = false;
             bossStageCount = 0;
 
-            int randomBoss = Random.Range(0, bossMonsterPreFabsList.Length);
+            List<GameObject> map = new List<GameObject>();
+
+            for (int i = 0; i < _MapList.Length; ++i)
+            {
+                if (_MapList[i].GetComponent<Map_ObjectSetting>().bossStage)
+                {
+                    map.Add(_MapList[i]);
+                    break;
+                }
+            }
+
+            selectedMap = map[Random.Range(0, map.Count)];
+            entrance = selectedMap.GetComponent<Map_ObjectSetting>().entrance.transform.position;
+            spawner = selectedMap.GetComponent<Map_ObjectSetting>().spawner;
+            spawnerCount = spawner.Length;
+
+            GameObject[] bossList = selectedMap.GetComponent<Dungeon_BossFloor>().bossPrefabs;
+            GameObject randomBoss = bossList[Random.Range(0, bossList.Length)];
 
             monsterCount = 1;
             currentMonsterCount = monsterCount;
             currentStageMonsterList = new GameObject[currentMonsterCount];
-            currentStageMonsterList[0] = Instantiate(bossMonsterPreFabsList[randomBoss],
+            currentStageMonsterList[0] = Instantiate(
+                randomBoss,
                 new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x,
-                spawner[Random.Range(0, spawnerCount)].transform.position.y),
-                Quaternion.identity);
+                spawner[Random.Range(0, spawnerCount)].transform.position.y
+                ), Quaternion.identity);
+
             currentStageMonsterList[0].GetComponent<BossMonster_Control>().monsterDeadCount = FloorBossKill;
         }
-        else if (floorRepeat)                    // 맵 반복시
+        else
         {
-            Debug.Log("WHERE ::: " + monsterCount + " ABS : " + currentStageMonsterList.Length);
-            floorRepeat = false;
-            currentMonsterCount = monsterCount;
+            selectedMap = _MapList[Random.Range(0, _MapList.Length)];
+            entrance = selectedMap.GetComponent<Map_ObjectSetting>().entrance.transform.position;
+            spawner = selectedMap.GetComponent<Map_ObjectSetting>().spawner;
+            spawnerCount = spawner.Length;
 
-            if (monsterCount > 0)
+            float randomX;
+
+            if (floorRepeat)                    // 맵 반복시
             {
-                for (int i = 0; i < monsterCount; ++i)
+                Debug.Log("WHERE ::: " + monsterCount + " ABS : " + currentStageMonsterList.Length);
+                floorRepeat = false;
+                currentMonsterCount = monsterCount;
+
+                if (monsterCount > 0)
+                {
+                    for (int i = 0; i < monsterCount; ++i)
+                    {
+                        randomX = Random.Range(-1, 2);
+                        currentStageMonsterList[i].GetComponent<Monster_Control>().MonsterInit();
+                        currentStageMonsterList[i].transform.position = new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
+                                                                 , spawner[Random.Range(0, spawnerCount)].transform.position.y);
+                    }
+                }
+            }
+            else                                   // 일반 맵일경우
+            {
+                eliteMonsterCount = marker_Variable.markerVariable[(int)Markers.SetSpecialMonster_NF];
+                monsterCount = FloorDatas[currentStage].SpawnAmount + marker_Variable.markerVariable[(int)Markers.SetMonster_NF] + eliteMonsterCount;
+                currentMonsterCount = monsterCount;
+
+                currentStageMonsterList = new GameObject[monsterCount];
+
+                int monsterPrefabListCount = monsterPreFabsList.Length;
+                int randomSpawner = 0;
+
+                // 몬스터 스폰
+                for (int i = 0; i < currentMonsterCount - eliteMonsterCount; ++i)
                 {
                     randomX = Random.Range(-1, 2);
-                    currentStageMonsterList[i].GetComponent<Monster_Control>().MonsterInit();
-                    currentStageMonsterList[i].transform.position = new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
-                                                             , spawner[Random.Range(0, spawnerCount)].transform.position.y);
+                    randomSpawner = Random.Range(0, spawnerCount);
+                    currentStageMonsterList[i] = Instantiate(monsterPreFabsList[Random.Range(0, monsterPrefabListCount)]
+                        , new Vector2(
+                            spawner[randomSpawner].transform.position.x + randomX,
+                            spawner[randomSpawner].transform.position.y),
+                            Quaternion.identity);
+                    currentStageMonsterList[i].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorMonsterKill;
+                }
+                for (int j = currentMonsterCount - eliteMonsterCount; j < currentMonsterCount; ++j)
+                {
+                    randomX = Random.Range(-1, 2);
+                    randomSpawner = Random.Range(0, spawnerCount);
+                    currentStageMonsterList[j] = Instantiate(monsterPreFabsList[Random.Range(0, monsterPrefabListCount)]
+                        , new Vector2(
+                            spawner[randomSpawner].transform.position.x + randomX,
+                            spawner[randomSpawner].transform.position.y),
+                            Quaternion.identity);
+                    // 엘리트 몬스터 강화
+                    currentStageMonsterList[j].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorEliteMonsterKill;
                 }
             }
         }
-        else                                   // 일반 맵일경우
-        {
-            eliteMonsterCount = marker_Variable.markerVariable[(int)Markers.SetSpecialMonster_NF];
-            monsterCount = FloorDatas[currentStage].SpawnAmount + marker_Variable.markerVariable[(int)Markers.SetMonster_NF] + eliteMonsterCount;
-            currentMonsterCount = monsterCount;
-
-            currentStageMonsterList = new GameObject[monsterCount];
-
-            int monsterPrefabListCount = monsterPreFabsList.Length;
-            int randomSpawner = 0;
-
-            // 몬스터 스폰
-            for (int i = 0; i < currentMonsterCount - eliteMonsterCount; ++i)
-            {
-                randomX = Random.Range(-1, 2);
-                randomSpawner = Random.Range(0, spawnerCount);
-                currentStageMonsterList[i] = Instantiate(monsterPreFabsList[Random.Range(0, monsterPrefabListCount)]
-                    , new Vector2(
-                        spawner[randomSpawner].transform.position.x + randomX,
-                        spawner[randomSpawner].transform.position.y),
-                        Quaternion.identity);
-                currentStageMonsterList[i].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorMonsterKill;
-            }
-            for (int j = currentMonsterCount - eliteMonsterCount; j < currentMonsterCount; ++j)
-            {
-                randomX = Random.Range(-1, 2);
-                randomSpawner = Random.Range(0, spawnerCount);
-                currentStageMonsterList[j] = Instantiate(monsterPreFabsList[Random.Range(0, monsterPrefabListCount)]
-                    , new Vector2(
-                        spawner[randomSpawner].transform.position.x + randomX,
-                        spawner[randomSpawner].transform.position.y),
-                        Quaternion.identity);
-                // 엘리트 몬스터 강화
-                currentStageMonsterList[j].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorEliteMonsterKill;
-            }
-        }
-
+        
         if (currentStage < 2) CanvasManager.instance.dungeonUI.SetDungeonFloor(currentStage, "");
         else
         {
@@ -263,11 +274,11 @@ public class DungeonMaker : MonoBehaviour
         }
 
         _Player.transform.position = entrance;
-        _MainCamera.SetCameraBound(map.GetComponent<BoxCollider2D>());
+        _MainCamera.SetCameraBound(selectedMap.GetComponent<BoxCollider2D>());
         _MainCamera.transform.position = entrance;
         _BackGroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, currentStage);
 
-        MarkerSetting(map);
+        MarkerSetting(selectedMap);
     }
     public void FloorReset()
     {

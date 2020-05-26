@@ -53,6 +53,9 @@ public class Weapon_Spear : PlayerWeaponType
         animator.SetBool("isJump_x_attack", false);
         animator.SetBool("isJump_xx_attack", false);
         animator.SetBool("isJump_xxx_attack", false);
+        animator.SetBool("isJump_up_x_attack", false);
+        animator.SetBool("isJump_down_x_attack", false);
+        animator.SetBool("is_x_upper_attack", false);
         animator.SetBool("is_x_attack", false);
         animator.SetBool("is_xFx_attack", false);
         animator.SetBool("is_xFxFx_attack", false);

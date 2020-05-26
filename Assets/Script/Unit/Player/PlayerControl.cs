@@ -621,6 +621,17 @@ public class PlayerControl : MovingObject
                         if (_hit)
                             monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectUpper(playerAttack.knockBack);
                         break;
+
+                    case AtkType.spear_Y_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        {
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                            if (_hit)
+                                monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                        }
+                        CameraManager.instance.CameraShake(1);
+                        break;
+
                     default:
                         for (int i = 0; i < playerAttack.attackMultiHit; ++i)
                         {
@@ -630,11 +641,11 @@ public class PlayerControl : MovingObject
                         }
                         break;
                 }
-                // 장비 액티브 발동
-                // 장비 패시브 체크 / 발동
             }
         }
 
+        // 장비 액티브 발동
+        // 장비 패시브 체크 / 발동
         if (playerStatus.auraAttackOn)
         {
             AddAttackAuraSpear(_atkType, attackDistance);

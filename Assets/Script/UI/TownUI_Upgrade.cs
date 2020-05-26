@@ -90,7 +90,7 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
                 CloseSelectedItemMenu();
                 selectUseItem.SetActive(false);
             }
-            if (selectEquipFocused >= 0 || selectEquipFocused < 2)
+            if (selectItemUIFocused >= 0 || selectItemUIFocused < 2)
             {
                 FocusItemSlotMove(acceptSlot[selectItemUIFocused]);
             }

@@ -17,7 +17,7 @@ public class Jump_y_Atk : AnimatorManager
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (stateInfo.normalizedTime > 0.1f)
+        if (stateInfo.normalizedTime > 0.2f)
         {
             if (!move)
             {
@@ -27,7 +27,6 @@ public class Jump_y_Atk : AnimatorManager
                 if (isGroundCheck > 2f)
                 {
                     playerControl.AttackDistance(playerControl.Attack(AtkType.spear_Y_Attack));
-                    CameraManager.instance.CameraShake(1);
                 }
             }
         }
@@ -41,9 +40,6 @@ public class Jump_y_Atk : AnimatorManager
             animator.SetBool("isJump", false);
             playerControl.PlayerJumpAttackEnd();
         }
-        animator.SetBool("isJump_y_attack", false);
-        animator.SetBool("isJump_up_x_attack", false);
-        animator.SetBool("isJump_down_x_attack", false);
         playerControl.GroundCheck.SetActive(true);
         playerControl.InputInit();
         animator.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1f;

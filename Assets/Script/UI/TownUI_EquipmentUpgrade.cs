@@ -47,15 +47,14 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
 
     public void OpenTownUIMenu()
     {
+        selectEquipFocused = 0;
         open_BlackSmithUI = true;
         open_SelectItemUI = false;
-        // open_ReSelectEquipment = false;
         equipment = playerEquipment.equipment;
         SelectEquipmentSet();
     }
     public void SelectEquipmentSet()
     {
-        selectEquipFocused = 0;
         cursorEquipSelect.transform.position = new Vector2(equipSlots[0].transform.position.x - 3.5f, equipSlots[0].transform.position.y);
         cursorEquipSelect.SetActive(true);           // 1번 슬롯 포커스 온
 
@@ -103,7 +102,7 @@ public class TownUI_EquipmentUpgrade : MonoBehaviour
     public void CloseSelectedItemMenu()
     {
         open_SelectItemUI = false;
-        selectItemUIFocused = 0;
+        selectedkey = null;
         cursorItemSelect.SetActive(false);
     }
 
