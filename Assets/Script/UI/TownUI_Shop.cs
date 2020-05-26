@@ -99,17 +99,17 @@ public class TownUI_Shop : MonoBehaviour
                 }
                 if (Input.GetKeyDown(KeyCode.C))
                 {
-                    isThisWindowFocus = false;
-                    cursorShopSelect.SetActive(false);
                     StartCoroutine(FocusChange());
                 }
             }
+            FocusMove();
         }
-        FocusMove();
     }
 
     IEnumerator FocusChange()
     {
+        isThisWindowFocus = false;
+        cursorShopSelect.SetActive(false);
         yield return new WaitForSeconds(0.01f);
         inventory.FocusOn();
         Debug.Log("Focus : inventory");

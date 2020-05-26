@@ -158,6 +158,7 @@ public class Menu_Inventory : Menu_InGameMenu
     }
     public void PlayerStatusFocusChange()
     {
+        isThisWindowFocus = false;
         cursorInvenSelect.SetActive(false);
         statusInfo.FocusOn();
         Debug.Log("Focus : playerStatusInfo");
@@ -169,6 +170,7 @@ public class Menu_Inventory : Menu_InGameMenu
     {
         isUIOn = true;
         isShopOpen = true;
+        isThisWindowFocus = false;
         focused = 0;
         slotInstance = slot[focused].GetComponent<Slot>();
 
@@ -198,6 +200,7 @@ public class Menu_Inventory : Menu_InGameMenu
     {
         cursorInvenSelect.SetActive(false);
         shop.FocusOn();
+        isThisWindowFocus = false;
         Debug.Log("Focus : shop");
     }
     public void SetMoneyGameObject()
@@ -280,6 +283,7 @@ public class Menu_Inventory : Menu_InGameMenu
         cursorInvenSelect.SetActive(false);
         itemInformation.SetActive(false);
         isShopOpen = false;
+        isDungeonOpen = false;
         isUIOn = false;
         slotInstance.SetDisActiveItemConfirm();
     }

@@ -9,7 +9,7 @@ public enum ItemType
 }
 public enum ItemUsingType
 {
-    Health, Bullet, Attack, Defense, MoveSpeed, ReturnTown
+    Health, Bullet, Attack, Defense, MoveSpeed, ReturnTown, FreePassThisFloor
 }
 public enum SkillType
 {

@@ -94,10 +94,14 @@ public class DungeonManager : MonoBehaviour
         if (inDungeon) dungeonPlayTimer += Time.deltaTime;
     }
 
-    public void UseItemInDungeon(Item _item)
+    public void UseItemInDungeon(Item _Item)
     {
-        switch (_item.usingType)
+        switch (_Item.usingType)
         {
+            case ItemUsingType.FreePassThisFloor:                // 사용된 키가 이번 층 스킵일 때
+                dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
+                dungeonMaker.marker.ExecuteMarker(_Item.value);
+                break;
             case ItemUsingType.ReturnTown:
                 // 마을로 돌아간다. 클리어 정보창 표시
                 OutDungeon();
@@ -117,10 +121,7 @@ public class DungeonManager : MonoBehaviour
                 break;
             case ItemType.FreePassNextFloor:                // 사용된 키가 다음 층 스킵일 때
                 dungeonMaker.freePassNextFloor = true;
-                dungeonMaker.marker.ExecuteMarker(_Item.value);
-                break;
-            case ItemType.FreePassThisFloor:                // 사용된 키가 이번 층 스킵일 때
-                dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
+                dungeonMaker.MarkerReset();
                 dungeonMaker.marker.ExecuteMarker(_Item.value);
                 break;
             case ItemType.SetBossFloor:                     // 사용된 키가 보스 소환일 때
@@ -211,7 +212,6 @@ public class DungeonManager : MonoBehaviour
                     canvasManager.FadeOutStart();
                     break;
                 }
-
                 canvasManager.fadeInStartMethod += SceneLoad;
                 canvasManager.FadeOutStart();
                 break;
@@ -346,11 +346,11 @@ public class DungeonManager : MonoBehaviour
                 mainCamera.SetCameraBound(GameObject.Find("BackGround").GetComponent<BoxCollider2D>());
                 if (GameManager.instance.gameStart && !isReturn)
                 {
-                    isReturn = false;
                     MapEntranceFind(teleportPoint, 1);
                 }
                 else
                 {
+                    isReturn = false;
                     MapEntranceFind(teleportPoint, 9);
                 }
                 break;
@@ -400,6 +400,7 @@ public class DungeonManager : MonoBehaviour
         }
         player.transform.position = entrance;
     }
+
     public IEnumerator MapMoveDialogDelay(string _EventName)
     {
         yield return new WaitForSeconds(1f);

@@ -246,6 +246,7 @@ public class DungeonMaker : MonoBehaviour
                             Quaternion.identity);
                     currentStageMonsterList[i].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorMonsterKill;
                 }
+                Debug.Log(currentMonsterCount - eliteMonsterCount);
                 for (int j = currentMonsterCount - eliteMonsterCount; j < currentMonsterCount; ++j)
                 {
                     randomX = Random.Range(-1, 2);
@@ -258,6 +259,7 @@ public class DungeonMaker : MonoBehaviour
                     // 엘리트 몬스터 강화
                     currentStageMonsterList[j].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorEliteMonsterKill;
                 }
+                Debug.Log(eliteMonsterCount);
             }
         }
         
@@ -313,6 +315,7 @@ public class DungeonMaker : MonoBehaviour
             DungeonManager.instance.phaseClear = true;
             ++bossClearCount;
         }
+        Debug.Log("BossKill");
         StartCoroutine(BossKillSlowMotion());
     }
     public void FloorMonsterKill()
@@ -320,6 +323,7 @@ public class DungeonMaker : MonoBehaviour
         --currentMonsterCount;
         ++allKillCount;
         ++monsterKillCount;
+        Debug.Log("Monster Kill " + currentMonsterCount);
         if (currentMonsterCount < 1)
         {
             DungeonManager.instance.dungeonClear = true;
@@ -330,6 +334,7 @@ public class DungeonMaker : MonoBehaviour
         --currentMonsterCount;
         ++allKillCount;
         ++eliteMonsterKillCount;
+        Debug.Log("EliteMonster Kill " + currentMonsterCount);
         if (currentMonsterCount < 1)
         {
             DungeonManager.instance.dungeonClear = true;
@@ -348,6 +353,13 @@ public class DungeonMaker : MonoBehaviour
         CanvasManager.instance.OpenTrialCardSelectMenu();
     }
 
+    public void MarkerReset()
+    {
+        int markerRandom = Random.Range(0, 12);
+        marker.thisMarker = (Markers)markerRandom;
+        marker_Variable.markerPreVariable = marker_Variable.markerVariable;
+        marker_Variable.Reset();
+    }
     public void MarkerSetting(GameObject _SelectedMap)
     {
         int markerRandom = Random.Range(0, 12);

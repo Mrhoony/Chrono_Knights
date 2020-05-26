@@ -25,6 +25,7 @@ public class Dungeon_UI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            if (focused < 0) return;
             trialCard[focused].GetComponent<DungeonTrialSlot>().SelectThisCard();
             CloseTrialCardSelectMenu();
         }
