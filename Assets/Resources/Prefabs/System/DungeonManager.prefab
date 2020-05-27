@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8598324638961123332}
   - component: {fileID: 8598324638961123333}
+  - component: {fileID: 1402904593}
   m_Layer: 0
   m_Name: DungeonManager
   m_TagString: Untagged
@@ -43,25 +44,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0062dd86f0c41458394a46dd04a25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scenarioManager: {fileID: 0}
+  dungeonMaker: {fileID: 1402904593}
   mainCamera: {fileID: 0}
-  player: {fileID: 0}
   canvasManager: {fileID: 0}
+  player: {fileID: 0}
   playerStatus: {fileID: 0}
-  teleportPoint: []
-  dungeonTrialStack: {fileID: 0}
+  backgroundSet: {fileID: 0}
+  isDead: 0
   useTeleportSystem: 0
   currentDate: 0
-  isDead: 0
-  usedKey: 0
+  isSceneLoading: 0
   inDungeon: 0
+  usedKey: 0
   isReturn: 0
+  dungeonClear: 0
+  phaseClear: 0
+  sceneMove: 0
+  teleportDestination: {fileID: 0}
   dungeonPlayTimer: 0
+--- !u!114 &1402904593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8598324638961123450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dff31f3e63adcb04d9cbbbfb399564e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentMap: {fileID: 0}
+  dropItemPool: {fileID: 0}
   currentStage: 0
   bossStageCount: 0
   freePassNextFloor: 0
   bossSetting: 0
   floorRepeat: 0
   bossClearCount: 0
-  dungeonClear: 0
-  phaseClear: 0
-  isSceneLoading: 0

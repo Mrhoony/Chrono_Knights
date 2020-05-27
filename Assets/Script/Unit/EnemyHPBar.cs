@@ -21,6 +21,10 @@ public class EnemyHPBar : MonoBehaviour
 
     public void SetHPBar()
     {
+        if(allocatedMonster._currentHP <= 0)
+        {
+            allocatedMonster._currentHP = 0;
+        }
         Vector3 scale = HPBarGauge.transform.localScale;
         scale.x = allocatedMonster._currentHP / allocatedMonster._HP;
         HPBarGauge.transform.localScale = scale;

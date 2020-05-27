@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <NPCDialogDataBase>
+  <!--메인 시나리오 0-->
   <Event>
+    <!--이벤트 이름-->
     <EventName>Tutorial</EventName>
+    <!--이벤트 번호-->
     <EventNumber>0</EventNumber>
+    <!--대화창-->
     <Dialog>
       <NPCName>???</NPCName>
       <NPCImage>0</NPCImage>

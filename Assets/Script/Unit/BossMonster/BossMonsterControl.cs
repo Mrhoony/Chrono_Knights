@@ -21,6 +21,7 @@ public abstract class BossMonster_Control : Monster_Control
         moveSpeed = enemyStatus.GetMoveSpeed();
 
         target = GameObject.Find("PlayerCharacter");
+        animator.SetTrigger("Trigger_Reset");
         StartCoroutine(SearchPlayerBoss());
 
         Debug.Log("BossMonsterInit");

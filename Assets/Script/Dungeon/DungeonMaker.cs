@@ -151,134 +151,39 @@ public class DungeonMaker : MonoBehaviour
             ++currentStage;
             ++bossStageCount;
         }
-        
-        if (!bossSetting)
+
+        if (!floorRepeat)
         {
-            if (bossStageCount > 2)  // 보스스테이지 설정
+            if (!bossSetting)
             {
-                if (bossStageCount * 20 > Random.Range(50, 90))
-                    bossSetting = true;
-            }            // 이벤트 플래그로 구간별 보스 등장
-        }           // 보스 스테이지 설정
+                if (bossStageCount > 2)  // 보스스테이지 설정
+                {
+                    if (bossStageCount * 20 > Random.Range(50, 90))
+                        bossSetting = true;
+                }            // 이벤트 플래그로 구간별 보스 등장
+            }           // 보스 스테이지 설정
+        }
         
         if (bossSetting)
         {
-            bossSetting = false;
-            bossStageCount = 0;
-
-            List<GameObject> map = new List<GameObject>();
-
-            for (int i = 0; i < _MapList.Length; ++i)
-            {
-                if (_MapList[i].GetComponent<Map_ObjectSetting>().bossStage)
-                {
-                    map.Add(_MapList[i]);
-                    break;
-                }
-            }
-            
-            currentMap = map[Random.Range(0, map.Count)];
-            entrance = currentMap.GetComponent<Map_ObjectSetting>().entrance.transform.position;
-            spawner = currentMap.GetComponent<Map_ObjectSetting>().spawner;
-            spawnerCount = spawner.Length;
-
-            GameObject[] bossList = currentMap.GetComponent<Dungeon_BossFloor>().bossPrefabs;
-            GameObject randomBoss = bossList[Random.Range(0, bossList.Length)];
-
-            monsterCount = 1;
-            currentMonsterCount = monsterCount;
-            currentStageMonsterList = new GameObject[currentMonsterCount];
-            currentStageMonsterList[0] = Instantiate(
-                randomBoss,
-                new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x,
-                spawner[Random.Range(0, spawnerCount)].transform.position.y
-                ), Quaternion.identity);
-
-            currentStageMonsterList[0].GetComponent<BossMonster_Control>().monsterDeadCount = FloorBossKill;
+            BossFloorSetting(_MapList);
         }
-        else
+        else if (floorRepeat)                    // 맵 반복시
         {
-            float randomX;
-
-            if (floorRepeat)                    // 맵 반복시
-            {
-                entrance = currentMap.GetComponent<Map_ObjectSetting>().entrance.transform.position;
-                spawner = currentMap.GetComponent<Map_ObjectSetting>().spawner;
-                spawnerCount = spawner.Length;
-
-                Debug.Log("WHERE ::: " + monsterCount + " ABS : " + currentStageMonsterList.Length);
-                floorRepeat = false;
-                currentMonsterCount = monsterCount;
-
-                if (monsterCount > 0)
-                {
-                    for (int i = 0; i < monsterCount; ++i)
-                    {
-                        randomX = Random.Range(-1, 2);
-                        currentStageMonsterList[i].GetComponent<Monster_Control>().MonsterInit();
-                        currentStageMonsterList[i].transform.position = new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
-                                                                 , spawner[Random.Range(0, spawnerCount)].transform.position.y);
-                    }
-                }
-            }
-            else                                   // 일반 맵일경우
-            {
-                currentMap = _MapList[Random.Range(0, _MapList.Length)];
-                entrance = currentMap.GetComponent<Map_ObjectSetting>().entrance.transform.position;
-                spawner = currentMap.GetComponent<Map_ObjectSetting>().spawner;
-                spawnerCount = spawner.Length;
-
-                eliteMonsterCount = marker_Variable.markerVariable[(int)Markers.SetSpecialMonster_NF];
-                monsterCount = FloorDatas[currentStage].SpawnAmount + marker_Variable.markerVariable[(int)Markers.SetMonster_NF] + eliteMonsterCount;
-                currentMonsterCount = monsterCount;
-
-                currentStageMonsterList = new GameObject[monsterCount];
-
-                int monsterPrefabListCount = monsterPreFabsList.Length;
-                int randomSpawner = 0;
-
-                // 몬스터 스폰
-                for (int i = 0; i < currentMonsterCount - eliteMonsterCount; ++i)
-                {
-                    randomX = Random.Range(-1, 2);
-                    randomSpawner = Random.Range(0, spawnerCount);
-                    currentStageMonsterList[i] = Instantiate(monsterPreFabsList[Random.Range(0, monsterPrefabListCount)]
-                        , new Vector2(
-                            spawner[randomSpawner].transform.position.x + randomX,
-                            spawner[randomSpawner].transform.position.y),
-                            Quaternion.identity);
-                    currentStageMonsterList[i].GetComponent<NormalMonsterControl>().MonsterPop(false);
-                    currentStageMonsterList[i].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorMonsterKill;
-                }
-                Debug.Log("전체 몬스터" + currentMonsterCount);
-                for (int j = currentMonsterCount - eliteMonsterCount; j < currentMonsterCount; ++j)
-                {
-                    randomX = Random.Range(-1, 2);
-                    randomSpawner = Random.Range(0, spawnerCount);
-                    currentStageMonsterList[j] = Instantiate(monsterPreFabsList[Random.Range(0, monsterPrefabListCount)]
-                        , new Vector2(
-                            spawner[randomSpawner].transform.position.x + randomX,
-                            spawner[randomSpawner].transform.position.y),
-                            Quaternion.identity);
-                    // 엘리트 몬스터 강화
-                    currentStageMonsterList[j].GetComponent<NormalMonsterControl>().MonsterPop(true);
-                    currentStageMonsterList[j].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorEliteMonsterKill;
-                }
-                Debug.Log("엘리트 몬스터" + eliteMonsterCount);
-            }
+            RepeatFloorSetting();
         }
-        
-        if (currentStage < 2) CanvasManager.instance.dungeonUI.SetDungeonFloor(currentStage, "");
-        else
+        else                                   // 일반 맵일경우
         {
-            // 선택된 시련 만큼 몬스터 스테이터스 증가
-            SetTrialStatus();
-            //보스 층 클리어 한 양만큼 방어력 / 공격력 증가
-            MonsterAttackSetting(bossClearCount * 1);
-            MonsterDefSetting(bossClearCount * 1);
-
-            CanvasManager.instance.dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus(_Player.GetComponent<PlayerStatus>()));
+            NormalFloorSetting(_MapList);
         }
+
+        // 선택된 시련 만큼 몬스터 스테이터스 증가
+        SetTrialStatus();
+        //보스 층 클리어 한 양만큼 방어력 / 공격력 증가
+        MonsterAttackSetting(bossClearCount * 1);
+        MonsterDefSetting(bossClearCount * 1);
+
+        CanvasManager.instance.dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus(_Player.GetComponent<PlayerStatus>()));
 
         currentMap.GetComponent<Map_ObjectSetting>().entrance.SetActive(false);
         _Player.transform.position = entrance;
@@ -286,7 +191,7 @@ public class DungeonMaker : MonoBehaviour
         _MainCamera.transform.position = entrance;
         _BackGroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, currentStage);
 
-        MarkerSetting(currentMap);
+        MarkerSetting(currentStage, currentMap);
     }
     public void FloorReset()
     {
@@ -308,6 +213,112 @@ public class DungeonMaker : MonoBehaviour
             Destroy(dropItemPool.transform.GetChild(i).gameObject);
         }
         // 구조물 위치 초기화 함수 추가
+    }
+
+    public void BossFloorSetting(GameObject[] _MapList)
+    {
+        bossSetting = false;
+        bossStageCount = 0;
+
+        List<GameObject> map = new List<GameObject>();
+
+        for (int i = 0; i < _MapList.Length; ++i)
+        {
+            if (_MapList[i].GetComponent<Map_ObjectSetting>().bossStage)
+            {
+                map.Add(_MapList[i]);
+                break;
+            }
+        }
+
+        currentMap = map[Random.Range(0, map.Count)];
+        entrance = currentMap.GetComponent<Map_ObjectSetting>().entrance.transform.position;
+        spawner = currentMap.GetComponent<Map_ObjectSetting>().spawner;
+        spawnerCount = spawner.Length;
+
+        GameObject[] bossList = currentMap.GetComponent<Dungeon_BossFloor>().bossPrefabs;
+        GameObject randomBoss = bossList[Random.Range(0, bossList.Length)];
+
+        monsterCount = 1;
+        currentMonsterCount = monsterCount;
+        currentStageMonsterList = new GameObject[currentMonsterCount];
+        currentStageMonsterList[0] = Instantiate(
+            randomBoss,
+            new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x,
+            spawner[Random.Range(0, spawnerCount)].transform.position.y
+            ), Quaternion.identity);
+
+        currentStageMonsterList[0].GetComponent<BossMonster_Control>().monsterDeadCount = FloorBossKill;
+    }
+    public void RepeatFloorSetting()
+    {
+        float randomX;
+
+        entrance = currentMap.GetComponent<Map_ObjectSetting>().entrance.transform.position;
+        spawner = currentMap.GetComponent<Map_ObjectSetting>().spawner;
+        spawnerCount = spawner.Length;
+
+        Debug.Log("WHERE ::: " + monsterCount + " ABS : " + currentStageMonsterList.Length);
+        currentMonsterCount = monsterCount;
+
+        if (monsterCount > 0)
+        {
+            for (int i = 0; i < monsterCount; ++i)
+            {
+                randomX = Random.Range(-1, 2);
+                currentStageMonsterList[i].GetComponent<Monster_Control>().MonsterInit();
+                currentStageMonsterList[i].transform.position = new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
+                                                         , spawner[Random.Range(0, spawnerCount)].transform.position.y);
+            }
+        }
+    }
+    public void NormalFloorSetting(GameObject[] _MapList)
+    {
+        float randomX;
+
+        currentMap = _MapList[Random.Range(0, _MapList.Length)];
+        entrance = currentMap.GetComponent<Map_ObjectSetting>().entrance.transform.position;
+        spawner = currentMap.GetComponent<Map_ObjectSetting>().spawner;
+        spawnerCount = spawner.Length;
+
+        eliteMonsterCount = marker_Variable.markerVariable[(int)Markers.SetSpecialMonster_NF];
+        monsterCount = FloorDatas[currentStage].SpawnAmount + marker_Variable.markerVariable[(int)Markers.SetMonster_NF] + eliteMonsterCount;
+        currentMonsterCount = monsterCount;
+
+        currentStageMonsterList = new GameObject[monsterCount];
+
+        int monsterPrefabListCount = monsterPreFabsList.Length;
+        int randomSpawner = 0;
+
+        // 몬스터 스폰
+        for (int i = 0; i < currentMonsterCount - eliteMonsterCount; ++i)
+        {
+            randomX = Random.Range(-1, 2);
+            randomSpawner = Random.Range(0, spawnerCount);
+            currentStageMonsterList[i] = Instantiate(monsterPreFabsList[Random.Range(0, monsterPrefabListCount)]
+                , new Vector2(
+                    spawner[randomSpawner].transform.position.x + randomX,
+                    spawner[randomSpawner].transform.position.y),
+                    Quaternion.identity);
+            currentStageMonsterList[i].GetComponent<NormalMonsterControl>().MonsterPop(false);
+            currentStageMonsterList[i].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorMonsterKill;
+        }
+        Debug.Log("전체 몬스터" + currentMonsterCount);
+
+        for (int j = currentMonsterCount - eliteMonsterCount; j < currentMonsterCount; ++j)
+        {
+            randomX = Random.Range(-1, 2);
+            randomSpawner = Random.Range(0, spawnerCount);
+            currentStageMonsterList[j] = Instantiate(monsterPreFabsList[Random.Range(0, monsterPrefabListCount)]
+                , new Vector2(
+                    spawner[randomSpawner].transform.position.x + randomX,
+                    spawner[randomSpawner].transform.position.y),
+                    Quaternion.identity);
+            // 엘리트 몬스터 강화
+            currentStageMonsterList[j].GetComponent<NormalMonsterControl>().MonsterPop(true);
+            currentStageMonsterList[j].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorEliteMonsterKill;
+        }
+        Debug.Log("엘리트 몬스터" + eliteMonsterCount);
     }
 
     public void FloorBossKill()
@@ -366,8 +377,12 @@ public class DungeonMaker : MonoBehaviour
         marker_Variable.markerPreVariable = marker_Variable.markerVariable;
         marker_Variable.Reset();
     }
-    public void MarkerSetting(GameObject _SelectedMap)
+    public void MarkerSetting(int _CurrentFloor, GameObject _SelectedMap)
     {
+        Debug.Log(marker.preMarker);
+        Debug.Log(marker.thisMarker);
+        marker.preMarker = marker.thisMarker;
+
         int markerRandom = Random.Range(0, 12);
         marker.thisMarker = (Markers)markerRandom;
         GameObject mark = _SelectedMap.GetComponent<Map_ObjectSetting>().teleporter.transform.GetChild(0).gameObject;
@@ -382,6 +397,64 @@ public class DungeonMaker : MonoBehaviour
 
         string stageStatText = "";
         int markerNumber = (int)marker.thisMarker;
+
+        if (floorRepeat)
+        {
+            floorRepeat = false;
+            switch (marker.preMarker)
+            {
+                case Markers.SetDamageBuffOnFloor_NF:
+                    _PlayerStatus.SetAttackMulty_Result(marker_Variable.markerVariable[markerNumber], true);
+                    MonsterAttackSetting(marker_Variable.markerVariable[markerNumber]);
+                    stageStatText = "전체 공격력 " + marker_Variable.markerVariable[markerNumber] + " 증가";
+                    break;
+                case Markers.SetDamageBuffOnMonster_NF:
+                    MonsterAttackSetting(marker_Variable.markerVariable[markerNumber]);
+                    stageStatText = "몬스터 공격력 " + marker_Variable.markerVariable[markerNumber] + " 증가";
+                    break;
+                case Markers.SetDamageBuffOnPlayer_NF:
+                    _PlayerStatus.SetAttackAdd_Result(marker_Variable.markerVariable[markerNumber], true);
+                    stageStatText = "자신의 공격력 " + marker_Variable.markerVariable[markerNumber] + " 증가";
+                    break;
+                case Markers.SetPosHPOnMonster_NF:
+                    MonsterHPSetting(marker_Variable.markerVariable[markerNumber], true);
+                    stageStatText = "몬스터 체력 " + marker_Variable.markerVariable[markerNumber] + " 증가";
+                    break;
+                case Markers.SetNegHPOnMonster_NF:
+                    MonsterHPSetting(marker_Variable.markerVariable[markerNumber], false);
+                    stageStatText = "몬스터 체력 " + marker_Variable.markerVariable[markerNumber] + " 감소";
+                    break;
+                case Markers.SetPosDashSpeedOnPlayer_NF:
+                    _PlayerStatus.SetDashDistance_Result(marker_Variable.markerVariable[markerNumber], true);
+                    stageStatText = "대시 거리 " + marker_Variable.markerVariable[markerNumber] + " 증가";
+                    break;
+                case Markers.SetNegDashSpeedOnPlayer_NF:
+                    _PlayerStatus.SetDashDistance_Result(marker_Variable.markerVariable[markerNumber], false);
+                    stageStatText = "대시 거리 " + marker_Variable.markerVariable[markerNumber] + " 감소";
+                    break;
+                case Markers.SetPosAttackMulty_NF:
+                    _PlayerStatus.SetAttackMulty_Result(marker_Variable.markerVariable[markerNumber], true);
+                    stageStatText = "공격력 " + marker_Variable.markerVariable[markerNumber] + "배 증가";
+                    break;
+                case Markers.SetNegAttackMulty_NF:
+                    _PlayerStatus.SetAttackMulty_Result(marker_Variable.markerVariable[markerNumber], false);
+                    stageStatText = "공격력 " + marker_Variable.markerVariable[markerNumber] + "배 감소";
+                    break;
+                case Markers.SetMonster_NF:
+                    stageStatText = "몬스터 " + marker_Variable.markerVariable[markerNumber] + " 마리 추가";
+                    break;
+                case Markers.SetDrop_NF:
+                    stageStatText = "드랍률 " + marker_Variable.markerVariable[markerNumber] + "% 증가";
+                    break;
+                case Markers.SetSpecialMonster_NF:
+                    stageStatText = "엘리트 몬스터 " + marker_Variable.markerVariable[markerNumber] + " 마리 출현";
+                    break;
+                default:
+                    stageStatText = "";
+                    break;
+            }
+            return stageStatText;
+        }
 
         switch (marker.thisMarker)
         {

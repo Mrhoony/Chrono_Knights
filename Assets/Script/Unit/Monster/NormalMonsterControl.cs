@@ -31,6 +31,7 @@ public abstract class NormalMonsterControl : Monster_Control
         monsterWeight = enemyStatus.monsterWeight;
 
         target = GameObject.Find("PlayerCharacter");
+        animator.SetTrigger("Trigger_Reset");
         StartCoroutine(SearchPlayer());
         
         randomMoving = RandomMove();
