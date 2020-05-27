@@ -1,18 +1,19 @@
 fileFormatVersion: 2
-guid: a7f08b46196319442bd2385276820b3c
+guid: c4dddbf48c5ee0d47b50f2df8fe2eed2
 TextureImporter:
   fileIDToRecycleName:
-    21300000: bg_tower_1_ground_set_0
-    21300002: bg_tower_1_ground_set_1
-    21300004: bg_tower_1_ground_set_2
-    21300006: bg_tower_1_ground_set_3
-    21300008: bg_tower_1_ground_set_4
-    21300010: bg_tower_1_ground_set_5
-    21300012: bg_tower_1_ground_set_6
-    21300014: bg_tower_1_ground_set_7
-    21300016: bg_tower_1_ground_set_8
-    21300018: bg_tower_1_ground_set_9
-    21300020: bg_tower_1_ground_set_10
+    21300000: anim_bg_trap_11
+    21300002: anim_bg_trap_2
+    21300004: anim_bg_trap_3
+    21300006: anim_bg_trap_4
+    21300008: anim_bg_trap_5
+    21300010: anim_bg_trap_6
+    21300012: anim_bg_trap_12
+    21300014: anim_bg_trap_13
+    21300016: anim_bg_trap_14
+    21300018: anim_bg_trap_15
+    21300020: anim_bg_trap_16
+    21300022: anim_bg_trap_1
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -71,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 512
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -82,7 +83,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 512
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -95,221 +96,241 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bg_tower_1_ground_set_0
+      name: anim_bg_trap_11
       rect:
         serializedVersion: 2
-        x: 0
-        y: 120
-        width: 60
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 40
+        y: 86
+        width: 10
+        height: 2
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d49a05d2ffaf6b84d86f2e302318cafe
+      spriteID: 511a05047b196db4bbb4b85593099f61
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bg_tower_1_ground_set_1
+      name: anim_bg_trap_2
       rect:
         serializedVersion: 2
-        x: 60
-        y: 120
-        width: 60
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 89
+        y: 132
+        width: 31
+        height: 19
+      alignment: 9
+      pivot: {x: 0.38709676, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88eee08144ec6fe4880b42c8a08b77f8
+      spriteID: 5512d8ae9e42808478a94cd8f447ed85
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bg_tower_1_ground_set_2
+      name: anim_bg_trap_3
       rect:
         serializedVersion: 2
-        x: 120
-        y: 120
-        width: 60
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 146
+        y: 132
+        width: 34
+        height: 38
+      alignment: 9
+      pivot: {x: 0.44117647, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 430edaff0313064448a779d693df107e
+      spriteID: 016f9e6ffeef6db4abe7732031c0fcef
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bg_tower_1_ground_set_3
+      name: anim_bg_trap_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 60
-        width: 60
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 198
+        y: 132
+        width: 44
+        height: 47
+      alignment: 9
+      pivot: {x: 0.52272725, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 087f54f582d14db429dccfc241c4a5db
+      spriteID: 7e37c482335e85545bc770dd0cf6c2a3
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bg_tower_1_ground_set_4
+      name: anim_bg_trap_5
       rect:
         serializedVersion: 2
-        x: 60
-        y: 60
-        width: 60
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 254
+        y: 132
+        width: 46
+        height: 49
+      alignment: 9
+      pivot: {x: 0.54347825, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 560866b93a95cbe41962a72e147fbade
+      spriteID: 397cc4e0448fd4a4aa174580ff5f563d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bg_tower_1_ground_set_5
+      name: anim_bg_trap_6
       rect:
         serializedVersion: 2
-        x: 120
-        y: 60
-        width: 60
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 310
+        y: 132
+        width: 48
+        height: 51
+      alignment: 9
+      pivot: {x: 0.5208333, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb2f699b524521645b7b3e13bc0d3072
+      spriteID: 3534c201ad3cb144098f06cbbc6e032e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bg_tower_1_ground_set_6
+      name: anim_bg_trap_12
       rect:
         serializedVersion: 2
-        x: 180
-        y: 60
-        width: 60
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 99
+        y: 86
+        width: 10
+        height: 6
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0a6896bf341b2d249a2317b2b2369bc2
+      spriteID: a105f0fbb31352041b7e1e0d5fb4a1c4
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bg_tower_1_ground_set_7
+      name: anim_bg_trap_13
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 60
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 160
+        y: 86
+        width: 10
+        height: 26
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 564ff25eb64b1234cb8fcc0224e9b536
+      spriteID: a9d89266639f89b4aa4387999d27e534
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bg_tower_1_ground_set_8
+      name: anim_bg_trap_14
       rect:
         serializedVersion: 2
-        x: 60
-        y: 0
-        width: 60
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 219
+        y: 86
+        width: 10
+        height: 26
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 40b0527c68a591547a2f08f045d37fe8
+      spriteID: b094649703c310b489c04fa4fd905b3e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bg_tower_1_ground_set_9
+      name: anim_bg_trap_15
       rect:
         serializedVersion: 2
-        x: 120
-        y: 0
-        width: 60
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 277
+        y: 86
+        width: 10
+        height: 18
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e839776d3b91f304d80fc7898ed7f6b3
+      spriteID: 5da64e04b0130734fb1c7b40d41ec66a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bg_tower_1_ground_set_10
+      name: anim_bg_trap_16
       rect:
         serializedVersion: 2
-        x: 180
-        y: 0
-        width: 60
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 332
+        y: 86
+        width: 10
+        height: 8
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5f5280e684fa8341b6584e68764dec6
+      spriteID: 085ead042dfba4342afd10f66d995a77
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: anim_bg_trap_1
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 132
+        width: 31
+        height: 5
+      alignment: 9
+      pivot: {x: 0.38709676, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 856892a76b0dfa04b9a027e9a6934ebe
       vertices: []
       indices: 
       edges: []
@@ -317,7 +338,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: a583d7b2a01fe81488b557585ba06c5d
+    spriteID: 10c49813f776ad24a9d1efc3db735c07
     vertices: []
     indices: 
     edges: []

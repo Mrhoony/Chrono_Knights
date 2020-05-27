@@ -1,7 +1,35 @@
 fileFormatVersion: 2
 guid: 97a852d818b98ca4e956548cc8e8a092
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: bg_tower_deco_0
+    21300002: bg_tower_deco_1
+    21300004: bg_tower_deco_2
+    21300006: bg_tower_deco_3
+    21300008: bg_tower_deco_4
+    21300010: bg_tower_deco_5
+    21300012: bg_tower_deco_6
+    21300014: bg_tower_deco_7
+    21300016: bg_tower_deco_9
+    21300018: bg_tower_deco_10
+    21300020: bg_tower_deco_12
+    21300022: bg_tower_deco_13
+    21300024: bg_tower_deco_14
+    21300026: bg_tower_deco_15
+    21300028: bg_tower_deco_16
+    21300030: bg_tower_deco_17
+    21300032: bg_tower_deco_18
+    21300034: bg_tower_deco_20
+    21300036: bg_tower_deco_21
+    21300038: bg_tower_deco_22
+    21300040: bg_tower_deco_23
+    21300042: bg_tower_deco_24
+    21300044: bg_tower_deco_25
+    21300046: bg_tower_deco_26
+    21300048: bg_tower_deco_27
+    21300050: bg_tower_deco_28
+    21300052: bg_tower_deco_29
+    21300054: bg_tower_deco_30
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -31,7 +59,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -40,7 +68,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -63,7 +91,18 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -71,7 +110,567 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: bg_tower_deco_0
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 150
+        width: 21
+        height: 5
+      alignment: 9
+      pivot: {x: 0.47619048, y: 2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84e29da33b288e940a4002b8c2a42198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_1
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 150
+        width: 24
+        height: 12
+      alignment: 9
+      pivot: {x: 0.5, y: 0.8333333}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e902f1831afa4bd43a1a57d58896f141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_2
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 150
+        width: 15
+        height: 17
+      alignment: 9
+      pivot: {x: 0.46666667, y: 0.5882353}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73e40a178f3fa204b86493d803175124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_3
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 150
+        width: 47
+        height: 8
+      alignment: 9
+      pivot: {x: 0.4893617, y: 1.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e624dbe81b8324448efb38ee8dad1a7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_4
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 150
+        width: 18
+        height: 33
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3030303}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da95e5f16b3ab81468fe73b2a1edbce5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_5
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 150
+        width: 12
+        height: 39
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25641027}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d5a296f762c84e44a926a6c305c87e5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_6
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 150
+        width: 11
+        height: 34
+      alignment: 9
+      pivot: {x: 0.5, y: 0.29411766}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1c82fb890eeca949b85e82bb3319eda
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 150
+        width: 31
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0a36ce0d83d45945b370754e7a61c95
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_9
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 150
+        width: 33
+        height: 25
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87124a53d3998d0488dd601eac157b11
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_10
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 150
+        width: 27
+        height: 25
+      alignment: 9
+      pivot: {x: 0.4814815, y: 0.4}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07017e878b113304fb89a63a40be79e3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_12
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 150
+        width: 31
+        height: 21
+      alignment: 9
+      pivot: {x: 0.48387095, y: 0.47619048}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: faeb49632b50b8244ad1e25ec65ae93b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_13
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 150
+        width: 14
+        height: 5
+      alignment: 9
+      pivot: {x: 0.5, y: 2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcfce84848cfa224792b8eddebd62b26
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_14
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 150
+        width: 23
+        height: 13
+      alignment: 9
+      pivot: {x: 0.47826087, y: 0.7692308}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34640c34eb9df5f4f9af2e5e16b07e8b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_15
+      rect:
+        serializedVersion: 2
+        x: 454
+        y: 150
+        width: 16
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5, y: 0.7692308}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9011d02008788844b8aa534fb391cbd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_16
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 103
+        width: 103
+        height: 34
+      alignment: 9
+      pivot: {x: 0.5, y: 0.29411766}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 112f30915b055564ba577377db34133e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_17
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 103
+        width: 72
+        height: 39
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25641027}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cbe04cf31a3e104f9e0007af3f098db
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_18
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 103
+        width: 37
+        height: 21
+      alignment: 9
+      pivot: {x: 0.4864865, y: 0.47619048}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ba0d6a66f232824c979afb1e662cabb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_20
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 103
+        width: 53
+        height: 17
+      alignment: 9
+      pivot: {x: 0.49056605, y: 0.5882353}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f09a213f335bbc4dac4bc17a204e7fb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_21
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 103
+        width: 52
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5, y: 0.35714287}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32474aecab158f64a8caa5f03575b262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_22
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 103
+        width: 96
+        height: 20
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff11f1abf10d6f441802915a0bb3960b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_23
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 56
+        width: 35
+        height: 17
+      alignment: 9
+      pivot: {x: 0.4857143, y: 0.5882353}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78d671b3cb037724e81085a8928bb3ed
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_24
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 56
+        width: 64
+        height: 43
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23255815}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9661936dc57e38d499e93288382d9689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_25
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 57
+        width: 21
+        height: 17
+      alignment: 9
+      pivot: {x: 0.47619048, y: 0.5882353}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3333c83c24a12ae498c3ceebe5b3131d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_26
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 56
+        width: 9
+        height: 8
+      alignment: 9
+      pivot: {x: 0.44444445, y: 1.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 671761eaefbb22342a48cbd96ab4c12e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_27
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 56
+        width: 13
+        height: 6
+      alignment: 9
+      pivot: {x: 0.46153846, y: 1.6666666}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ba467d2ad084e544bcb01d93c59f186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_28
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 56
+        width: 14
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66068f73f7052aa4990b96c489cbd3a2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_29
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 56
+        width: 34
+        height: 29
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3448276}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e029b1423d84bf42817eab1deab5d03
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_tower_deco_30
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 56
+        width: 15
+        height: 28
+      alignment: 9
+      pivot: {x: 0.46666667, y: 0.35714287}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4abe0600eabe4a14b9f8b03b08901a20
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
