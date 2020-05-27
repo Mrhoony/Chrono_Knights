@@ -1,12 +1,10 @@
 fileFormatVersion: 2
-guid: 9a6ff20bce70a9f43afce1e9688e7335
+guid: dfefc245d7e52ce48a4b4d5ed505cfcc
 TextureImporter:
   fileIDToRecycleName:
-    21300000: bg_tower_pillar_sc_0
-    21300002: bg_tower_pillar_sc_1
-    21300004: bg_tower_pillar_sc_2
-    21300006: bg_tower_pillar_sc_3
-    21300008: bg_tower_pillar_sc_4
+    21300000: bg_tower_p01_02_pillar_0
+    21300002: bg_tower_p01_02_pillar_1
+    21300004: bg_tower_p01_02_pillar_2
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -65,7 +63,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -76,7 +74,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -89,101 +87,61 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bg_tower_pillar_sc_0
+      name: bg_tower_p01_02_pillar_0
       rect:
         serializedVersion: 2
         x: 10
-        y: 12
+        y: 10
         width: 240
-        height: 388
+        height: 292
       alignment: 9
-      pivot: {x: 0.5, y: 0.077319585}
+      pivot: {x: 0.5, y: 0.10273973}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2d803f455f1268b4aaeb40db1bdfb4b1
+      spriteID: 04b1e4a41c041454d874b9b166401c56
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bg_tower_pillar_sc_1
+      name: bg_tower_p01_02_pillar_1
       rect:
         serializedVersion: 2
         x: 260
-        y: 12
+        y: 10
         width: 240
-        height: 388
+        height: 292
       alignment: 9
-      pivot: {x: 0.5, y: 0.077319585}
+      pivot: {x: 0.5, y: 0.10273973}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5484b1f5b222ffd48a066d71a896af44
+      spriteID: 703056a9d3ed67d47a804b457e340301
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bg_tower_pillar_sc_2
+      name: bg_tower_p01_02_pillar_2
       rect:
         serializedVersion: 2
         x: 510
-        y: 12
+        y: 10
         width: 240
-        height: 388
+        height: 292
       alignment: 9
-      pivot: {x: 0.5, y: 0.077319585}
+      pivot: {x: 0.5, y: 0.10273973}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cb2a126f9af7d884eac3e496ba918a29
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bg_tower_pillar_sc_3
-      rect:
-        serializedVersion: 2
-        x: 760
-        y: 12
-        width: 240
-        height: 388
-      alignment: 9
-      pivot: {x: 0.5, y: 0.077319585}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2735bedbbfa064c419a46eebc4fff3cf
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bg_tower_pillar_sc_4
-      rect:
-        serializedVersion: 2
-        x: 1010
-        y: 12
-        width: 240
-        height: 388
-      alignment: 9
-      pivot: {x: 0.5, y: 0.077319585}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3f7d73bb4882f1d47a1373a10b8288b1
+      spriteID: 064619081f59b07418887e2959581f03
       vertices: []
       indices: 
       edges: []
@@ -191,7 +149,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: ed91c5daa7fd1cf4b8d2ba3a2c8c5c4f
+    spriteID: be305fead6bc79148b74e835466d41fa
     vertices: []
     indices: 
     edges: []
