@@ -276,7 +276,7 @@ public class PlayerEquipment
         string StatusString;
 
         if (equipment[slotNum].upStatus != 8)
-            StatusString = ((int)(equipment[slotNum].addStatus[equipment[slotNum].upStatus] * 100)).ToString();
+            StatusString = ((int)(equipment[slotNum].addStatus[equipment[slotNum].upStatus] * 100)).ToString() + "%";
         else
             StatusString = "";
 
@@ -287,7 +287,7 @@ public class PlayerEquipment
         string StatusString;
 
         if (equipment[slotNum].downStatus != 8)
-            StatusString = ((int)(equipment[slotNum].addStatus[equipment[slotNum].downStatus] * 100)).ToString();
+            StatusString = ((int)(equipment[slotNum].addStatus[equipment[slotNum].downStatus] * 100)).ToString() + "%";
         else
             StatusString = "";
 

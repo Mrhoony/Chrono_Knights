@@ -12,9 +12,11 @@ public class Teleport : InteractiveObject
     {
         objectType = InteractiveObjectType.Teleport;
     }
+
     private void Update()
     {
         if (CanvasManager.instance.GameMenuOnCheck()) return;
+        if (DungeonManager.instance.isSceneLoading) return;
 
         if (inPlayer)
         {

@@ -15,7 +15,8 @@ public class EnemyStatus : MonoBehaviour
     public int _attack; // 공격력
     public int _defense;
     public int monsterWeight;
-    
+
+    private bool eliteMonster;
     private bool bossMonster;
     
     public void Update()
@@ -28,14 +29,15 @@ public class EnemyStatus : MonoBehaviour
                     transform.position.z);
     }
 
-    public void MonsterInit(int _monsterCode)
+    public void MonsterInit(int _monsterCode, bool _IsElite)
     {
+        eliteMonster = _IsElite;
         boxCollider2D = GetComponent<BoxCollider2D>();
         
         EnemyStatInit(Database_Game.instance.GetMonsterStatus(_monsterCode));
         _currentHP = _HP;
         
-        enemyHPBar = DungeonPoolManager.instance.GetMonsterHpBar();
+        enemyHPBar = DungeonPoolManager.instance.GetMonsterHpBar(eliteMonster);
         enemyHPBar.SetActive(true);
         enemyHPBar.GetComponent<EnemyHPBar>().SetMonster(this);
         bossMonster = false;
@@ -94,9 +96,18 @@ public class EnemyStatus : MonoBehaviour
     public void HPbarReset()
     {
         if (enemyHPBar == null) return;
+
         enemyHPBar.GetComponent<EnemyHPBar>().MonsterDie();
+
+        if (eliteMonster)
+        {
+            DungeonPoolManager.instance.EliteMonsterDie(enemyHPBar);
+        }
+        else
+        {
+            DungeonPoolManager.instance.MonsterDie(bossMonster, enemyHPBar);
+        }
         enemyHPBar.SetActive(false);
-        DungeonPoolManager.instance.MonsterDie(bossMonster, enemyHPBar);
         enemyHPBar = null;
     }
 

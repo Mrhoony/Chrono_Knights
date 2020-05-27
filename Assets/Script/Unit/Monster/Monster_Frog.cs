@@ -3,17 +3,6 @@ using System.Collections;
 
 public class Monster_Frog : NormalMonsterControl
 {
-    public GameObject box;
-    
-    void OnEnable()
-    {
-        rotateDelayTime = 3f;
-        maxAttackDelayTime = 2f;
-        arrowDirection = 1;
-        actionState = ActionState.Idle;
-        MonsterInit();
-    }
-
     public override void Move()
     {
         if (actionState != ActionState.Idle) return;

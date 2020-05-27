@@ -162,6 +162,7 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
         upgradeButton.SetActive(false);
         itemCancel.SetActive(true);
     }
+
     public void PercentSet(int num, int upCount, float upPercent, Item item)
     {
         equipment[num].EquipmentItemSetting(item);

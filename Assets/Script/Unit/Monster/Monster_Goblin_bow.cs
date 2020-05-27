@@ -8,15 +8,7 @@ public class Monster_Goblin_bow : NormalMonsterControl
     public GameObject shootingPosition;
     public GameObject arrowObject;
     public GameObject arrow;
-
-    void OnEnable()
-    {
-        rotateDelayTime = 3f;
-        maxAttackDelayTime = 1f;
-        arrowDirection = 1;
-        actionState = ActionState.Idle;
-        MonsterInit();
-    }
+    
     public override void Move()
     {
         if (actionState == ActionState.NotMove)
@@ -67,6 +59,6 @@ public class Monster_Goblin_bow : NormalMonsterControl
     {
         arrow = Instantiate(arrowObject, shootingPosition.transform.position, Quaternion.identity);
         arrow.transform.parent = GameObject.Find("DropItemPool").transform;
-        arrow.GetComponent<ProjectileObjectArrow>().arrowShooting(enemyStatus.GetAttack(), distanceX, arrowDirection);
+        arrow.GetComponent<ProjectileObjectArrow>().arrowShooting(enemyStatus.GetAttack(), distanceX, distanceY, arrowDirection);
     }
 }

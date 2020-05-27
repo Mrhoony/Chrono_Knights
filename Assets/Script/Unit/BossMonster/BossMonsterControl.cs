@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BossMonster_Control : Monster_Control
@@ -10,15 +9,18 @@ public abstract class BossMonster_Control : Monster_Control
     public bool isGuard;
     public int counter;
     public bool Invincible;
+    public float attackCoolTime;
     
     public override void MonsterInit()
     {
-        animator.SetBool("isDead", false);
         tag = "BossMonster";
 
+        arrowDirection = 1;
         actionState = ActionState.Idle;
         enemyStatus.BossMonsterInit(monsterCode);
         moveSpeed = enemyStatus.GetMoveSpeed();
+
+        target = GameObject.Find("PlayerCharacter");
         StartCoroutine(SearchPlayerBoss());
 
         Debug.Log("BossMonsterInit");

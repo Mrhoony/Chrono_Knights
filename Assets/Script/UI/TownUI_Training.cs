@@ -40,6 +40,7 @@ public class TownUI_Training : MonoBehaviour
         }
 
         if (!isTraningPossible) return;
+
         if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-1); }
         if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(1); }
     }
@@ -128,6 +129,7 @@ public class TownUI_Training : MonoBehaviour
             traningButton[focus].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.8f);
 
             button.SetActive(false);
+            isTraningPossible = false;
             DungeonManager.instance.setTrainigPossible(false);
         }
     }

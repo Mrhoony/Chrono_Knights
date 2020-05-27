@@ -206,61 +206,28 @@ public class PlayerControl : MovingObject
                 if (Input.GetButton("Fire1"))
                 {
                     chargingAttack += Time.deltaTime;
+                }
 
-                    if (Input.GetButtonUp("Fire1"))
+                if (Input.GetButtonUp("Fire1"))
+                {
+                    if (chargingAttack > 1f)
                     {
-                        if(chargingAttack > 1f)
-                        {
-
-                        }
-                        else
-                        {
-                            if (actionState == ActionState.IsJumpAttack)
-                            {
-                                weaponSpear.JumpAttackX(inputArrow);
-                            }
-                            else
-                            {
-                                if (actionState == ActionState.IsJump)
-                                {
-                                    if (jumpAttack < 1) return;
-                                    --jumpAttack;
-                                    actionState |= ActionState.IsJumpAttack;
-                                    weaponSpear.JumpAttackX(inputArrow);
-                                }
-                                else
-                                {
-                                    actionState = ActionState.IsAtk;
-                                    weaponSpear.AttackX(inputArrow);
-                                }
-                            }
-                        }
+                        XAttack();
                     }
+                    else
+                    {
+                        XAttack();
+                    }
+                    chargingAttack = 0f;
+                    return;
                 }
             }
             else
             {
                 if (Input.GetButtonDown("Fire1"))
                 {
-                    if (actionState == ActionState.IsJumpAttack)
-                    {
-                        weaponSpear.JumpAttackX(inputArrow);
-                    }
-                    else
-                    {
-                        if (actionState == ActionState.IsJump)
-                        {
-                            if (jumpAttack < 1) return;
-                            --jumpAttack;
-                            actionState |= ActionState.IsJumpAttack;
-                            weaponSpear.JumpAttackX(inputArrow);
-                        }
-                        else
-                        {
-                            actionState = ActionState.IsAtk;
-                            weaponSpear.AttackX(inputArrow);
-                        }
-                    }
+                    XAttack();
+                    return;
                 }
             }
         }
@@ -271,7 +238,7 @@ public class PlayerControl : MovingObject
             {
                 if (actionState != ActionState.IsJumpAttack)
                 {
-                    actionState = ActionState.IsJumpAttack;
+                    actionState |= ActionState.IsJumpAttack;
                     weaponSpear.JumpAttackY();
                 }
             }
@@ -280,6 +247,7 @@ public class PlayerControl : MovingObject
                 actionState = ActionState.IsAtk;
                 weaponSpear.AttackY(inputArrow);
             }
+            return;
         }
 
         if (Input.GetButtonUp("Fire2"))
@@ -297,6 +265,30 @@ public class PlayerControl : MovingObject
             }
         }
     }
+
+    void XAttack()
+    {
+        if (actionState == ActionState.IsJumpAttack)
+        {
+            weaponSpear.JumpAttackX(inputArrow);
+        }
+        else
+        {
+            if (actionState == ActionState.IsJump)
+            {
+                if (jumpAttack < 1) return;
+                --jumpAttack;
+                actionState |= ActionState.IsJumpAttack;
+                weaponSpear.JumpAttackX(inputArrow);
+            }
+            else
+            {
+                actionState = ActionState.IsAtk;
+                weaponSpear.AttackX(inputArrow);
+            }
+        }
+    }
+
     void GunAttack()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -749,8 +741,8 @@ public class PlayerControl : MovingObject
     {
         actionState = ActionState.NotMove;
         rb.velocity = Vector2.zero;
-        InputInit();
         StartCoroutine(InputIgnore(0.5f));
+        InputInit();
         animator.SetBool("isWalk", false);
         animator.SetBool("isRun", false);
         animator.SetTrigger("PlayerStop");

@@ -7,11 +7,20 @@ public class ScenarioManager : MonoBehaviour
     public CanvasManager canvasManager;
     public bool[] eventFlag;
     public int storyProgress;
+    RepeatEventDialog _TempRepeatEventList;
+
     Dictionary<string, int> eventList = new Dictionary<string, int>();
     Dictionary<int, List<EventDialog>> eventContent = new Dictionary<int, List<EventDialog>>();
-    Dictionary<int, List<EventTalkBox>> eventTalkBox = new Dictionary<int, List<EventTalkBox>>();
     Dictionary<int, List<RepeatEventDialog>> repeatEventList = new Dictionary<int, List<RepeatEventDialog>>();
+    Dictionary<int, List<EventTalkBox>> eventTalkBox = new Dictionary<int, List<EventTalkBox>>();
 
+    NPC_Control npc;
+
+    public bool isDialogOn;
+    public bool isRepeatDialogOn;
+    public bool isOneByOneTextOn;
+    public int index;
+    
     public void EventReset()
     {
         storyProgress = 0;
@@ -32,41 +41,49 @@ public class ScenarioManager : MonoBehaviour
     {
         eventTalkBox = _EventTalkBox;
     }
-    
-    public bool ScenarioRepeatCheck(NPC_Control _NPC)
+
+    public void Update()
     {
-        if (repeatEventList.ContainsKey(_NPC.objectNumber))
+        if (Input.GetButtonDown("Fire1"))
         {
-            List<RepeatEventDialog> _TempRepeatEventList = new List<RepeatEventDialog>();
-            for(int i = 0; i < repeatEventList[_NPC.objectNumber].Count; ++i)
+            if (isDialogOn)
             {
-                if (repeatEventList[_NPC.objectNumber][i].eventNumber < storyProgress)
+                if (isOneByOneTextOn)
                 {
-                    _TempRepeatEventList = repeatEventList[_NPC.objectNumber];
+                    isOneByOneTextOn = false;
+                    canvasManager.OneByOneTextSkip();
                 }
                 else
                 {
-                    break;
+                    SetDialogText();
                 }
             }
-            canvasManager.SetDialogText(_TempRepeatEventList, _NPC);
-            return true;
+            else if (isRepeatDialogOn)
+            {
+                if (isOneByOneTextOn)
+                {
+                    isOneByOneTextOn = false;
+                    canvasManager.OneByOneTextSkip();
+                }
+                else
+                {
+                    SetRepeatDialogText();
+                }
+            }
         }
-        else
-        {
-            Debug.Log("Not Found");
-        }
-        return false;
     }
+
     public bool ScenarioCheck(string _CheckCurrentProgress)
     {
         if (eventList.ContainsKey(_CheckCurrentProgress))
         {
+            Debug.Log("has key");
             if (!eventFlag[eventList[_CheckCurrentProgress]])
             {
                 eventFlag[eventList[_CheckCurrentProgress]] = true;
-                ++storyProgress;
-                canvasManager.SetDialogText(eventContent[eventList[_CheckCurrentProgress]]);
+                storyProgress = eventList[_CheckCurrentProgress];
+                SetDialogText();
+                Debug.Log("scenario check " + storyProgress);
                 return true;
             }
         }
@@ -76,6 +93,81 @@ public class ScenarioManager : MonoBehaviour
         }
         return false;
     }
+    public bool ScenarioRepeatCheck(NPC_Control _NPC)
+    {
+        if (repeatEventList.ContainsKey(_NPC.objectNumber))
+        {
+            npc = _NPC;
+            for (int i = 0; i < repeatEventList[npc.objectNumber].Count; ++i)
+            {
+                if (repeatEventList[npc.objectNumber][i].eventNumber <= storyProgress)
+                {
+                    _TempRepeatEventList = repeatEventList[npc.objectNumber][i];
+                }
+                else
+                {
+                    break;
+                }
+            }
+            SetRepeatDialogText();
+            return true;
+        }
+        else
+        {
+            Debug.Log("Not Found");
+        }
+        return false;
+    }
+
+    public void SetDialogText()
+    {
+        isDialogOn = true;
+        isOneByOneTextOn = true;
+
+        if (index >= eventContent[storyProgress].Count)
+        {
+            index = 0;
+            isOneByOneTextOn = false;
+            canvasManager.CloseDialogBox();
+            isDialogOn = false;
+            return;
+        }
+        string NPCName = "";
+        string content = "";
+        NPCName = eventContent[storyProgress][index].NPCName;
+        content = eventContent[storyProgress][index].content;
+        ++index;
+
+        canvasManager.SetDialogText(NPCName, content, this);
+        Debug.Log("SetDialogText");
+    }
+
+    public void SetRepeatDialogText()
+    {
+        isRepeatDialogOn = true;
+        isOneByOneTextOn = true;
+
+        if (index >= _TempRepeatEventList.eventDialog.Count)
+        {
+            index = 0;
+            canvasManager.CloseDialogBox();
+            isOneByOneTextOn = false;
+            isRepeatDialogOn = false;
+            npc.OpenNPCUI();
+            return;
+        }
+        string NPCName = "";
+        string content = "";
+
+        NPCName = _TempRepeatEventList.eventDialog[index].NPCName;
+        content = _TempRepeatEventList.eventDialog[index].content;
+
+        ++index;
+        canvasManager.SetDialogText(NPCName, content, this);
+
+        Debug.Log("SetDialogRepeatText");
+    }
+    
     public void ScenarioCheckTalkBox(GameObject NPC, int _NPCCode)
     {
         if (eventTalkBox.ContainsKey(_NPCCode))

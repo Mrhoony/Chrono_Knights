@@ -15,19 +15,23 @@ public class ProjectileObjectArrow : MonoBehaviour
         transform.localEulerAngles = new Vector3(0, 0, rb.velocity.y * 45f / rb.velocity.x);
     }
 
-    public void arrowShooting(int _damage, float _distance, int _arrowDirection)
+    public void arrowShooting(int _Damage, float _DistanceX, float _DistanceY, int _ArrowDirection)
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
         isHit = false;
-        damage = _damage;
+        damage = _Damage;
 
         Vector2 scale = transform.localScale;
-        scale.x *= _arrowDirection;
+        scale.x *= _ArrowDirection;
         transform.localScale = scale;
-
-        rb.gravityScale = _distance * 0.5f;
-
-        rb.AddForce(new Vector2(_arrowDirection * 3f, 2f), ForceMode2D.Impulse);
+        if(_DistanceY != 0)
+        {
+            rb.AddForce(new Vector2(_ArrowDirection * _DistanceX * _DistanceX, 1/ _DistanceY), ForceMode2D.Impulse);
+        }
+        else
+        {
+            rb.AddForce(new Vector2(_ArrowDirection * _DistanceX * _DistanceX, 4f), ForceMode2D.Impulse);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

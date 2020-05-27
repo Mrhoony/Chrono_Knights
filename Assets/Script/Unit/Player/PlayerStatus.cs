@@ -42,7 +42,6 @@ public class PlayerStatus : MonoBehaviour
     public bool auraAttackOn;
     public bool chargingAttackOn;
     public bool immortalBuffOn;
-
     public bool miniAttackOn;
     #endregion
 
@@ -119,7 +118,7 @@ public class PlayerStatus : MonoBehaviour
         attack[1] = attack[0] + playerData.GetEquipmentStatus(0) + traningStat[0];
         defense[1] = defense[0] + playerData.GetEquipmentStatus(1) + traningStat[1];
         moveSpeed[1] = moveSpeed[0] * 2.2f + playerData.GetEquipmentStatus(2) + traningStat[2];
-        attackSpeed[1] = attackSpeed[0] + playerData.GetEquipmentStatus(3) + traningStat[3];
+        attackSpeed[1] = attackSpeed[0] + playerData.GetEquipmentStatus(3) * 0.1f + traningStat[3] * 0.5f;
         dashDistance[1] = dashDistance[0] + playerData.GetEquipmentStatus(4) + traningStat[4];
         recovery[1] = recovery[0] + playerData.GetEquipmentStatus(5) + traningStat[5];
         

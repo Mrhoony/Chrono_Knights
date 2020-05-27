@@ -40,7 +40,6 @@ public abstract class Monster_Control : MovingObject
     public int monsterWeight;
     
     public float rotateDelayTime;
-    public float attackCoolTime;
     public float maxAttackDelayTime;
 
     public delegate void MonsterDeadCount();
@@ -59,7 +58,6 @@ public abstract class Monster_Control : MovingObject
         spriteRenderer = GetComponent<SpriteRenderer>();
         defaultMaterial = Resources.Load<Material>("Material/SpriteDefault");
         whiteFlashMaterial = Resources.Load<Material>("Material/WhiteFlash");
-        target = GameObject.Find("PlayerCharacter");
     }
 
     public void MonsterStop()
@@ -104,7 +102,7 @@ public abstract class Monster_Control : MovingObject
             }
         }
     }
-
+    
     public abstract void MonsterInit();
     public abstract void MonsterFlip();
     public abstract bool MonsterHit(int _damage);

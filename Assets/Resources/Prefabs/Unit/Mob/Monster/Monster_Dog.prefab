@@ -187,9 +187,8 @@ MonoBehaviour:
   distanceY: 0
   moveSpeed: 0
   monsterWeight: 0
-  rotateDelayTime: 0
-  attackCoolTime: 0
-  maxAttackDelayTime: 0
+  rotateDelayTime: 4
+  maxAttackDelayTime: 1
   attackRange:
   - posX: 0.4
     posY: 0.2

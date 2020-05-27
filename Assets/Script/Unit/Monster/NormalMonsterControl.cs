@@ -11,17 +11,26 @@ public abstract class NormalMonsterControl : Monster_Control
     public float randomMoveCount;
     public float randomAttack;
     public bool isDamagable;
+    public bool isElite;
+
+    public void MonsterPop(bool _Elite)
+    {
+        isElite = _Elite;
+        MonsterInit();
+    }
 
     public override void MonsterInit()
     {
         tag = "Monster";
 
+        arrowDirection = 1;
         coroutine = false;
         actionState = ActionState.Idle;
-        enemyStatus.MonsterInit(monsterCode);
+        enemyStatus.MonsterInit(monsterCode, isElite);
         moveSpeed = enemyStatus.GetMoveSpeed();
         monsterWeight = enemyStatus.monsterWeight;
 
+        target = GameObject.Find("PlayerCharacter");
         StartCoroutine(SearchPlayer());
         
         randomMoving = RandomMove();
@@ -205,7 +214,7 @@ public abstract class NormalMonsterControl : Monster_Control
         animator.SetTrigger("Trigger_Die");
         spriteRenderer.material = defaultMaterial;
         StopAllCoroutines();
-        //die => sort layer
+
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
 
         if (dropItemList != null)
@@ -214,7 +223,10 @@ public abstract class NormalMonsterControl : Monster_Control
         }
 
         enabled = false;
-        monsterDeadCount();
-        monsterDeadCount = null;
+        if(monsterDeadCount != null)
+        {
+            monsterDeadCount();
+            monsterDeadCount = null;
+        }
     }
 }

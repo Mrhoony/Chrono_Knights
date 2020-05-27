@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Boss_Merchant : BossMonster_Control
 {
-    float backAttackCoolTime;
+    public float backAttackCoolTime;
     
     private void OnEnable()
     {
@@ -15,7 +15,6 @@ public class Boss_Merchant : BossMonster_Control
 
         isGuard = false;
         Invincible = false;
-        monsterCode = 1001;
         MonsterInit();
 
         actionState = ActionState.NotMove;

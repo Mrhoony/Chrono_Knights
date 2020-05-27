@@ -5,16 +5,6 @@ using UnityEngine;
 public class Monster_RollingBug : NormalMonsterControl
 {
     IEnumerator rolling;
-
-    void OnEnable()
-    {
-        rotateDelayTime = 4f;
-        maxAttackDelayTime = 1f;
-        arrowDirection = 1;
-        actionState = ActionState.Idle;
-
-        MonsterInit();
-    }
     
     public override void Attack()
     {
@@ -24,7 +14,7 @@ public class Monster_RollingBug : NormalMonsterControl
         {
             rb.velocity = Vector2.zero;
             actionState = ActionState.IsAtk;
-            StartCoroutine(AttackDelayCount(maxAttackDelayTime, rotateDelayTime, "isAtk_Trigger"));
+            StartCoroutine(AttackDelayCount(maxAttackDelayTime, rotateDelayTime, "Trigger_Attack"));
         }
     }
     public override void Move()
@@ -84,7 +74,7 @@ public class Monster_RollingBug : NormalMonsterControl
 
     public void Rolling()
     {
-        rb.velocity = new Vector2(arrowDirection * moveSpeed * 3f, rb.velocity.y);
+        rb.velocity = new Vector2(arrowDirection * moveSpeed * 2f, rb.velocity.y);
     }
     public void RollingCount()
     {
@@ -93,7 +83,7 @@ public class Monster_RollingBug : NormalMonsterControl
     }
     IEnumerator RollingDuration()
     {
-        yield return new WaitForSeconds(3f);
-        animator.SetTrigger("isAtk_End_Trigger");
+        yield return new WaitForSeconds(2f);
+        animator.SetTrigger("Trigger_Attack_End");
     }
 }

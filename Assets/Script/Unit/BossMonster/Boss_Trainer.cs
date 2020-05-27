@@ -16,7 +16,6 @@ public class Boss_Trainer : BossMonster_Control
 
         Invincible = false;
         isGuard = false;
-        monsterCode = 1002;
         MonsterInit();
 
         actionState = ActionState.NotMove;

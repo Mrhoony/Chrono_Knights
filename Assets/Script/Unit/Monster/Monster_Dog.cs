@@ -2,16 +2,6 @@
 
 public class Monster_Dog : NormalMonsterControl
 {
-    void OnEnable()
-    {
-        rotateDelayTime = 4f;
-        maxAttackDelayTime = 1f;
-        arrowDirection = 1;
-        actionState = ActionState.Idle;
-
-        MonsterInit();
-    }
-    
     public override void Move()
     {
         if (actionState == ActionState.NotMove)

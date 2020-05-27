@@ -13,32 +13,45 @@ public class DungeonPoolManager : MonoBehaviour
     public int bossMonsterCount;
 
     Queue<GameObject> monsterHpBarQueue = new Queue<GameObject>();
-    Queue<GameObject> BossMonsterHpBarQueue = new Queue<GameObject>();
+    Queue<GameObject> eliteMonsterHpBarQueue = new Queue<GameObject>();
+    Queue<GameObject> bossMonsterHpBarQueue = new Queue<GameObject>();
     
     public void Awake()
     {
         instance = this;
         bossMonsterCount = 0;
         CreateHpBar(20);
+        CreateEliteBar(10);
         CreateBossHpBar(3);
     }
 
-    public GameObject GetMonsterHpBar()
+    public GameObject GetMonsterHpBar(bool _IsElite)
     {
-        if (monsterHpBarQueue.Count < 1)
+        if (_IsElite)
         {
-            CreateHpBar(10);
+            if (eliteMonsterHpBarQueue.Count < 1)
+            {
+                CreateHpBar(10);
+            }
+            return eliteMonsterHpBarQueue.Dequeue();
         }
-        return monsterHpBarQueue.Dequeue();
+        else
+        {
+            if (monsterHpBarQueue.Count < 1)
+            {
+                CreateHpBar(10);
+            }
+            return monsterHpBarQueue.Dequeue();
+        }
     }
 
     public GameObject GetBossMonsterHpBar()
     {
-        if (BossMonsterHpBarQueue.Count < 1)
+        if (bossMonsterHpBarQueue.Count < 1)
         {
             CreateBossHpBar(1);
         }
-        GameObject hpBar = BossMonsterHpBarQueue.Dequeue();
+        GameObject hpBar = bossMonsterHpBarQueue.Dequeue();
         ++bossMonsterCount;
         hpBar.transform.position = transform.position + Vector3.down * (420 - (70 * bossMonsterCount));
         return hpBar;
@@ -59,6 +72,17 @@ public class DungeonPoolManager : MonoBehaviour
             monsterHpBarQueue.Enqueue(hpBar);
         }
     }
+    public void CreateEliteBar(int _amount)
+    {
+        GameObject hpBar;
+        for (int i = 0; i < _amount; ++i)
+        {
+            hpBar = Instantiate(eliteMonsterHpBar, Vector2.zero, Quaternion.identity);
+            hpBar.transform.SetParent(transform.GetChild(0).transform);
+            hpBar.SetActive(false);
+            eliteMonsterHpBarQueue.Enqueue(hpBar);
+        }
+    }
     public void CreateBossHpBar(int _amount)
     {
         GameObject hpBar;
@@ -67,14 +91,18 @@ public class DungeonPoolManager : MonoBehaviour
             hpBar = Instantiate(bossMonsterHpBar, Vector2.zero, Quaternion.identity);
             hpBar.transform.SetParent(transform.GetChild(1).transform);
             hpBar.SetActive(false);
-            BossMonsterHpBarQueue.Enqueue(hpBar);
+            bossMonsterHpBarQueue.Enqueue(hpBar);
         }
+    }
+    public void EliteMonsterDie(GameObject _hpBar)
+    {
+        eliteMonsterHpBarQueue.Enqueue(_hpBar);
     }
     public void MonsterDie(bool _bossMonster, GameObject _hpBar)
     {
         if (_bossMonster)
         {
-            BossMonsterHpBarQueue.Enqueue(_hpBar);
+            bossMonsterHpBarQueue.Enqueue(_hpBar);
         }
         else
         {

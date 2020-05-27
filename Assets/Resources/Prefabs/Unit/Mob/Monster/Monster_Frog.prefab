@@ -34,8 +34,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8671850127806096242}
   - {fileID: 7958220816749739618}
+  - {fileID: 8671850127806096242}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -188,9 +188,8 @@ MonoBehaviour:
   distanceY: 0
   moveSpeed: 0
   monsterWeight: 0
-  rotateDelayTime: 0
-  attackCoolTime: 0
-  maxAttackDelayTime: 0
+  rotateDelayTime: 3
+  maxAttackDelayTime: 1
   attackRange:
   - posX: 0.5
     posY: 0.1
@@ -205,7 +204,6 @@ MonoBehaviour:
   randomMoveCount: 0
   randomAttack: 0
   isDamagable: 0
-  box: {fileID: 0}
 --- !u!114 &1163954453749329569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,7 +273,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5113413453415500178}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &937846372094262103
 MonoBehaviour:
@@ -370,7 +368,7 @@ PrefabInstance:
     - target: {fileID: 776820764541791313, guid: a23023812364dc04883cd5bf233c4956,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 776820764541791313, guid: a23023812364dc04883cd5bf233c4956,
         type: 3}

@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 504894215776875147}
   - component: {fileID: 504894215776875144}
   - component: {fileID: 504894215776875143}
-  - component: {fileID: 504894215776875142}
   - component: {fileID: 7573699530015954518}
+  - component: {fileID: 504894215776875142}
   m_Layer: 10
   m_Name: Monster_Rollingbug
   m_TagString: Monster
@@ -151,29 +151,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
---- !u!114 &504894215776875142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 504894215776875148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fae2a592394f04f93fcda3120dea15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyHPBar: {fileID: 0}
-  boxCollider2D: {fileID: 0}
-  monsterName: 
-  _HP: 0
-  _currentHP: 0
-  _moveSpeed: 0
-  _attackSpeed: 0
-  _attackRange: 0
-  _attack: 0
-  _defense: 0
-  monsterWeight: 0
 --- !u!114 &7573699530015954518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,9 +186,8 @@ MonoBehaviour:
   distanceY: 0
   moveSpeed: 0
   monsterWeight: 0
-  rotateDelayTime: 0
-  attackCoolTime: 0
-  maxAttackDelayTime: 0
+  rotateDelayTime: 5
+  maxAttackDelayTime: 1
   attackRange:
   - posX: 0
     posY: 0
@@ -222,6 +198,29 @@ MonoBehaviour:
   randomMoveCount: 0
   randomAttack: 0
   isDamagable: 0
+--- !u!114 &504894215776875142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504894215776875148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fae2a592394f04f93fcda3120dea15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyHPBar: {fileID: 0}
+  boxCollider2D: {fileID: 0}
+  monsterName: 
+  _HP: 0
+  _currentHP: 0
+  _moveSpeed: 0
+  _attackSpeed: 0
+  _attackRange: 0
+  _attack: 0
+  _defense: 0
+  monsterWeight: 0
 --- !u!1001 &754419864396809112
 PrefabInstance:
   m_ObjectHideFlags: 0

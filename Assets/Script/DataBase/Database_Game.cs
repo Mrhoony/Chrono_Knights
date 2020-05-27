@@ -176,16 +176,15 @@ public class EventDialog
         content = _Content;
     }
 }
-public class RepeatEventDialog : EventDialog
+public class RepeatEventDialog
 {
     public int eventNumber;
+    public List<EventDialog> eventDialog;
 
-    public RepeatEventDialog(int _EventNumber, string _NPCName, string _NPCImage, string _Content) : base(_NPCName, _NPCImage, _Content)
+    public RepeatEventDialog(int _EventNumber, List<EventDialog> _EventDialog)
     {
         eventNumber = _EventNumber;
-        NPCName = _NPCName;
-        NPCImage = _NPCImage;
-        content = _Content;
+        eventDialog = _EventDialog;
     }
 }
 
@@ -400,22 +399,26 @@ public class Database_Game : MonoBehaviour
                             eventList.Add(_Event.SelectSingleNode("EventName").InnerText, int.Parse(_Event.SelectSingleNode("EventNumber").InnerText));
                             eventContent.Add(int.Parse(_Event.SelectSingleNode("EventNumber").InnerText), eventDialog);
                             break;
+
                         case "RepeatEvent":
                             repeatEventDialog = new List<RepeatEventDialog>();
 
                             if (!repeatEventList.ContainsKey(int.Parse(_Event.SelectSingleNode("NPCCode").InnerText)))
                                 repeatEventList.Add(int.Parse(_Event.SelectSingleNode("NPCCode").InnerText), repeatEventDialog);
 
+                            List<EventDialog> temp = new List<EventDialog>();
                             XmlNodeList _RepeatDialogList = _Event.SelectNodes("Dialog");
                             foreach (XmlNode _Dialog in _RepeatDialogList)
                             {
-                                repeatEventList[int.Parse(_Event.SelectSingleNode("NPCCode").InnerText)].Add(new RepeatEventDialog(
-                                    int.Parse(_Event.SelectSingleNode("EventNumber").InnerText),
-                                    _Dialog.SelectSingleNode("NPCName").InnerText,
-                                    _Dialog.SelectSingleNode("NPCImage").InnerText,
-                                    _Dialog.SelectSingleNode("Content").InnerText
-                                    ));
+                                temp.Add(new EventDialog(
+                                _Dialog.SelectSingleNode("NPCName").InnerText,
+                                _Dialog.SelectSingleNode("NPCImage").InnerText,
+                                _Dialog.SelectSingleNode("Content").InnerText));
                             }
+                            repeatEventList[
+                                int.Parse(_Event.SelectSingleNode("NPCCode").InnerText)].Add(new RepeatEventDialog(
+                                int.Parse(_Event.SelectSingleNode("EventNumber").InnerText),
+                                temp));
                             break;
                     }
                 }

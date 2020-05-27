@@ -3,16 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Monster_Goblin : NormalMonsterControl
-{
-    void OnEnable()
-    {
-        rotateDelayTime = 4f;
-        maxAttackDelayTime = 1f;
-        arrowDirection = 1;
-        actionState = ActionState.Idle;
-        MonsterInit();
-    }
-    
+{    
     public override void Move()
     {
         if (actionState == ActionState.NotMove)

@@ -39,7 +39,6 @@ public class CanvasManager : MonoBehaviour
 
     public TownUI townUI;       // 마을 UI
     public Dungeon_UI dungeonUI;
-    public NPC_Control NPCControl;
 
     #region UIOpenCheck
     public bool isInventoryOn;
@@ -48,7 +47,6 @@ public class CanvasManager : MonoBehaviour
 
     public bool isChatBoxOn;
     public bool isTalkBoxOn;
-    public bool NPCWaiting;
 
     public bool isShopOn;
     public bool isTrainigOn;
@@ -339,35 +337,23 @@ public class CanvasManager : MonoBehaviour
         CanvasManager.instance.OpenTrialCardSelectMenu();
     }
 
-    public void SetDialogText(List<RepeatEventDialog> _EventDialog, NPC_Control _NPC)
+    public void SetDialogText(string _DialogName, string _DialogContent, ScenarioManager _ScenearioManager)
     {
-        NPCControl = _NPC;
-        NPCWaiting = true;
         isChatBoxOn = true;
         PlayerMoveStop();
         dialogBox.gameObject.SetActive(true);
-        dialogBox.SetDialogList(_EventDialog, this);
+        dialogBox.SetDialogText(_DialogName, _DialogContent, _ScenearioManager);
     }
-    public void SetDialogText(List<EventDialog> _EventDialog)
+    public void OneByOneTextSkip()
     {
-        isChatBoxOn = true;
-        PlayerMoveStop();
-        dialogBox.gameObject.SetActive(true);
-        dialogBox.SetDialogList(_EventDialog, this);
+        dialogBox.OneByOneTextSkip();
     }
     public void CloseDialogBox()
     {
+        Debug.Log("close dialogbox");
         dialogBox.gameObject.SetActive(false);
-        isChatBoxOn = false;
-        if (NPCWaiting)
-        {
-            NPCWaiting = false;
-            NPCControl.OpenNPCUI();
-        }
-        else
-        {
-            StartCoroutine(PlayerMoveEnable());
-        }
+        StartCoroutine(PlayerMoveEnable());
+        StartCoroutine(InputKeyDelay());
     }
     public bool DialogBoxOn()
     {
@@ -640,6 +626,11 @@ public class CanvasManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         PlayerControl.instance.enabled = true;
+    }
+    public IEnumerator InputKeyDelay()
+    {
+        yield return new WaitForSeconds(0.2f);
+        isChatBoxOn = false;
     }
 
     void ChangeMenu(int AdjustValue)

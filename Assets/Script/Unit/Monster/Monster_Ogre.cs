@@ -2,15 +2,6 @@
 
 public class Monster_Ogre : NormalMonsterControl
 {
-    void OnEnable()
-    {
-        rotateDelayTime = 3f;
-        maxAttackDelayTime = 1f;
-        arrowDirection = 1;
-        actionState = ActionState.Idle;
-        MonsterInit();
-    }
-
     public override void Move()
     {
         if (actionState == ActionState.NotMove)
