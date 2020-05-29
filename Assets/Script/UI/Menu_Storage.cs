@@ -6,9 +6,6 @@ public class Menu_Storage : Menu_InGameMenu
     public Menu_Inventory inventory;
     public Text boxNumber;
 
-    public GameObject cursorStorageSelect;
-    public float cursorSpd;
-
     public bool upgradeItem;               // 아이템 강화 사용할 때
 
     // 창고 슬롯
@@ -59,7 +56,7 @@ public class Menu_Storage : Menu_InGameMenu
                     if (upgradeItem)
                     {
                         slotInstance.SetDisActiveItemConfirm();
-                        cursorStorageSelect.SetActive(false);
+                        cursor.SetActive(false);
                         upgradeItem = false;
                         isItemSelect = false;
                         CloseStorageWithUpgrade(true);
@@ -134,12 +131,12 @@ public class Menu_Storage : Menu_InGameMenu
                 if (upgradeItem)
                 {
                     upgradeItem = false;
-                    cursorStorageSelect.SetActive(false);
+                    cursor.SetActive(false);
                     CloseStorageWithUpgrade(false);
                 }
                 else
                 {
-                    cursorStorageSelect.SetActive(false);
+                    cursor.SetActive(false);
                     CloseStorage();
                 }
             }
@@ -206,13 +203,13 @@ public class Menu_Storage : Menu_InGameMenu
         StorageSet();
         ItemInformationSetting(focused);
         slotInstance = slot[focused].GetComponent<Slot>();
-        cursorStorageSelect.transform.position = slot[focused].transform.position;
-        cursorStorageSelect.SetActive(true);
+        cursor.transform.position = slot[focused].transform.position;
+        cursor.SetActive(true);
     }
     public void CloseStorageWithUpgrade(bool _SelectedItem)
     {
         itemInformation.SetActive(false);
-        cursorStorageSelect.SetActive(false);
+        cursor.SetActive(false);
         isUIOn = false;
 
         if (_SelectedItem)
@@ -230,7 +227,7 @@ public class Menu_Storage : Menu_InGameMenu
         inventory.SetSelectedItem(selectedItemCount, selectedSlot);
 
         itemInformation.SetActive(false);
-        cursorStorageSelect.SetActive(false);
+        cursor.SetActive(false);
         isUIOn = false;
 
         canvasManager.CloseStorage();
@@ -401,9 +398,9 @@ public class Menu_Storage : Menu_InGameMenu
 
     public void FocusMove()
     {
-        cursorStorageSelect.transform.position = Vector2.Lerp(cursorStorageSelect.transform.position, slot[focused - (boxNum * 24)].transform.position, Time.deltaTime * cursorSpd);
+        cursor.transform.position = Vector2.Lerp(cursor.transform.position, slot[focused - (boxNum * 24)].transform.position, Time.deltaTime * cursorSpeed);
     }
-    public override void FocusedSlot(int AdjustValue)
+    public new void FocusedSlot(int AdjustValue)
     {
         if (focused + AdjustValue > availableSlot - 1 || focused + AdjustValue < 0) return;
         

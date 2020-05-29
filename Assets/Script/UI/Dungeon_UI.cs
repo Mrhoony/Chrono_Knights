@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Dungeon_UI : MonoBehaviour
+public class Dungeon_UI : FocusUI
 {
     public GameObject dungeonFloor;
     public GameObject dungeonFloorEft;
@@ -11,17 +11,12 @@ public class Dungeon_UI : MonoBehaviour
     public Text dungeonFloorEftText;
     public GameObject dungeonPoolManager;
 
-    public bool isTrialCardSelectOn;
-
     public GameObject bossClearTrialMenu;
     public GameObject[] trialCard;
-    public GameObject trialCursor;
-    public float cursorSpd;
-    public int focused;
 
     private void Update()
     {
-        if (!isTrialCardSelectOn) return;
+        if (!isUIOn) return;
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -32,7 +27,9 @@ public class Dungeon_UI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
         if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
-        FocusMove();
+
+        if (focused < 0) return;
+        FocusMove(trialCard[focused]);
     }
 
     public void OpenTrialCardSelectMenu()
@@ -40,13 +37,13 @@ public class Dungeon_UI : MonoBehaviour
         focused = -1;
         bossClearTrialMenu.SetActive(true);
         SetTrialOption();
-        isTrialCardSelectOn = true;
+        isUIOn = true;
     }
     public void CloseTrialCardSelectMenu()
     {
-        isTrialCardSelectOn = false;
+        isUIOn = false;
         bossClearTrialMenu.SetActive(false);
-        trialCursor.SetActive(false);
+        cursor.SetActive(false);
         CanvasManager.instance.CloseTrialCardSelectMenu();
     }
     public void SetTrialOption()
@@ -70,19 +67,5 @@ public class Dungeon_UI : MonoBehaviour
         dungeonFloorEft.SetActive(true);
         yield return new WaitForSeconds(2f);
         dungeonFloorEft.SetActive(false);
-    }
-
-    public void FocusMove()
-    {
-        if (focused < 0 || focused > 2) return;
-        trialCursor.transform.position = Vector2.Lerp(trialCursor.transform.position, trialCard[focused].transform.position, Time.deltaTime * cursorSpd);
-    }
-    public void FocusedSlot(int AdjustValue)
-    {
-        if (focused + AdjustValue > 2) focused = 0;
-        else if (focused + AdjustValue < 0) focused = 2;
-        else focused += AdjustValue;
-
-        trialCursor.SetActive(true);
     }
 }

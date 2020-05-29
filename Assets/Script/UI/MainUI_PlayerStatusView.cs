@@ -29,12 +29,9 @@ public class MainUI_PlayerStatusView : MonoBehaviour
 
     IEnumerator monsterHit;
     
-    private void Start()
-    {
-        monsterHit = MonsterHit();
-    }
     public void Init()
     {
+        monsterHit = MonsterHit();
         UIStateGauge.fillAmount = 0f;
 
         ringTime = 4;

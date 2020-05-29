@@ -14,15 +14,12 @@ public class BackgroundScrolling : MonoBehaviour
     
     private void Awake()
     {
-        layers = new Transform[transform.childCount - 1];
-        Init();
-    }
-    public void Init()
-    {
+        layers = new Transform[transform.childCount];
+
         cameraTrasform = Camera.main.transform;
         lastCameraX = cameraTrasform.position.x;
 
-        for (int i = 0; i < transform.childCount - 1; ++i)
+        for (int i = 0; i < transform.childCount; ++i)
         {
             layers[i] = transform.GetChild(i);
             layers[i].transform.position = new Vector2(0f, layers[i].transform.position.y);

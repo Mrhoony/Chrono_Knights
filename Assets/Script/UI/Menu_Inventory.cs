@@ -7,17 +7,12 @@ public class Menu_Inventory : Menu_InGameMenu
     public TownUI_Shop shop;
     public MainUI_PlayerStatusInfo statusInfo;
     public GameObject moneyText;
-    public GameObject cursorInvenSelect;
-    public float cursorSpd;
     
     public int seletedItemCount;         // 창고에서 선택된 아이템 수
     public int[] storageSelectedItem;
-
-    public bool isDungeonOpen;
-
+    
     public bool isShopOpen;
-    public bool isStatusOpen;
-    public bool isThisWindowFocus;
+    public bool isDungeonOpen;
     public int money;
 
     public override void Init()
@@ -90,8 +85,6 @@ public class Menu_Inventory : Menu_InGameMenu
         }
         else
         {
-            if (!isThisWindowFocus) return;
-
             if (isShopOpen)
             {
                 if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
@@ -107,13 +100,13 @@ public class Menu_Inventory : Menu_InGameMenu
                 }
                 if (Input.GetKeyDown(KeyCode.X))
                 {
-                    isThisWindowFocus = false;
-                    cursorInvenSelect.SetActive(false);
+                    isUIOn = false;
+                    cursor.SetActive(false);
                     canvasManager.CloseShopInventory();
                 }
                 if (Input.GetKeyDown(KeyCode.C))    // 포커스 상점으로 변경
                 {
-                    isThisWindowFocus = false;
+                    isUIOn = false;
                     Invoke("ShopFocusChange", 0.01f);
                 }
             }
@@ -141,25 +134,25 @@ public class Menu_Inventory : Menu_InGameMenu
                 }
                 if (Input.GetKeyDown(KeyCode.C))    // 포커스 상점으로 변경
                 {
-                    isThisWindowFocus = false;
+                    isUIOn = false;
                     Invoke("PlayerStatusFocusChange", 0.01f);
                 }
             }
-        }
 
-        FocusMove();
+            FocusMove();
+        }
     }
 
     public void FocusOn()
     {
         slotInstance = slot[focused].GetComponent<Slot>();
-        cursorInvenSelect.SetActive(true);
-        isThisWindowFocus = true;
+        cursor.SetActive(true);
+        isUIOn = true;
     }
     public void PlayerStatusFocusChange()
     {
-        isThisWindowFocus = false;
-        cursorInvenSelect.SetActive(false);
+        isUIOn = false;
+        cursor.SetActive(false);
         statusInfo.FocusOn();
         Debug.Log("Focus : playerStatusInfo");
     }
@@ -168,9 +161,8 @@ public class Menu_Inventory : Menu_InGameMenu
 
     public void OpenInventory(TownUI_Shop _shop)   // 상점에서 인벤토리 열 때
     {
-        isUIOn = true;
+        isUIOn = false;
         isShopOpen = true;
-        isThisWindowFocus = false;
         focused = 0;
         slotInstance = slot[focused].GetComponent<Slot>();
 
@@ -198,9 +190,9 @@ public class Menu_Inventory : Menu_InGameMenu
     }
     public void ShopFocusChange()
     {
-        cursorInvenSelect.SetActive(false);
+        cursor.SetActive(false);
         shop.FocusOn();
-        isThisWindowFocus = false;
+        isUIOn = false;
         Debug.Log("Focus : shop");
     }
     public void SetMoneyGameObject()
@@ -259,12 +251,11 @@ public class Menu_Inventory : Menu_InGameMenu
     public void OpenInventory(bool _isDungeon, MainUI_PlayerStatusInfo _StatusInfo)     // I 키로 인벤토리 열 때
     {
         isUIOn = true;
-        isThisWindowFocus = true;
         isDungeonOpen = _isDungeon;
         statusInfo = _StatusInfo;
         focused = 0;
         slotInstance = slot[focused].GetComponent<Slot>();
-        cursorInvenSelect.SetActive(true);
+        cursor.SetActive(true);
 
         InventorySet();
 
@@ -280,7 +271,7 @@ public class Menu_Inventory : Menu_InGameMenu
     }
     public void CloseInventory()
     {
-        cursorInvenSelect.SetActive(false);
+        cursor.SetActive(false);
         itemInformation.SetActive(false);
         isShopOpen = false;
         isDungeonOpen = false;
@@ -401,9 +392,10 @@ public class Menu_Inventory : Menu_InGameMenu
 
     public void FocusMove()
     {
-        cursorInvenSelect.transform.position = Vector2.Lerp(cursorInvenSelect.transform.position, slot[focused].transform.position, Time.deltaTime * cursorSpd);
+        if (focused < 0 || focused > availableSlot) return;
+        cursor.transform.position = Vector2.Lerp(cursor.transform.position, slot[focused].transform.position, Time.deltaTime * cursorSpeed);
     }
-    public override void FocusedSlot(int AdjustValue)
+    public new void FocusedSlot(int AdjustValue)
     {
         if (focused + AdjustValue < 0 || focused + AdjustValue > availableSlot-1) { return; }
         

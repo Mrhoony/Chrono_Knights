@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class Menu_InGameMenu : MonoBehaviour
+public abstract class Menu_InGameMenu : FocusUI
 {
     public CanvasManager canvasManager;
     public GameObject slots;
@@ -12,10 +12,7 @@ public abstract class Menu_InGameMenu : MonoBehaviour
 
     public int slotCount;
     public int availableSlot;
-    public bool isUIOn;
-    public int focused = 0;
     public bool isItemSelect;
 
     public abstract void Init();
-    public abstract void FocusedSlot(int AdjustValue);
 }

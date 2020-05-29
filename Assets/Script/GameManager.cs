@@ -12,10 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject mainUICursor;
     public GameObject saveUICursor;
     public float cursorSpd;
-
-    public GameObject startButton;
-    public GameObject[] startButtons;
-
+    
     public GameObject player;
     public PlayerStatus playerStat;
     public GameObject playerStatView;
@@ -27,6 +24,9 @@ public class GameManager : MonoBehaviour
     public Menu_Storage storage;
     public Menu_Inventory inventory;
 
+    public GameObject mainMenu;
+    public GameObject startMenu;
+    public GameObject[] startMenus;
     public GameObject saveSlot;
     public GameObject[] saveSlots;
     public DataBase dataBase;
@@ -36,7 +36,8 @@ public class GameManager : MonoBehaviour
     public int gameSlotFocus;
     public int saveSlotFocus;
     public string data;
-    
+
+    public bool openStartSlot;
     public bool openSaveSlot;
     public bool gameStart;
     #endregion
@@ -70,13 +71,12 @@ public class GameManager : MonoBehaviour
 
         QualitySettings.vSyncCount = 0;                 // 동기화 수치 고정
         Application.targetFrameRate = 60;               // 최대 프레임 조절
-        Screen.SetResolution(1280, 720, true);          // 화면 해상도 1280 x 720 설정
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
+        dataBase = new DataBase();
         playerStat = player.GetComponent<PlayerStatus>();
         storage = canvasManager.storage.GetComponent<Menu_Storage>();
         inventory = canvasManager.Menus[0].GetComponent<Menu_Inventory>();
-        dataBase = new DataBase();
 
         Init();
 
@@ -95,91 +95,91 @@ public class GameManager : MonoBehaviour
         saveSlotFocus = 0;
         gameSlotFocus = 0;
 
-        playerStatView.SetActive(false);
+        canvasManager.hpBarSet.SetActive(false);
         canvasManager.inGameMenu.SetActive(false);
         canvasManager.FadeInStart();
-        startButton.SetActive(true);
+
+        mainMenu.SetActive(true);
 
         Debug.Log("gameManager Init");
     }
 
     public void Update()
     {
-        if (SceneManager.GetActiveScene().buildIndex != 0) return;      // 씬 넘버가 0일때만 실행
-        if (canvasManager.GameMenuOnCheck()) return;
-        
-        if (Input.GetKeyDown(KeyCode.X))
+        if (gameStart) return;
+
+        if (openStartSlot)
         {
             if (openSaveSlot)
             {
-                CloseLoad();
-                canvasManager.inGameMenu.SetActive(true);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            if (openSaveSlot)
-            {
-                DeleteSave();
-            }
-        }
-
-        if (openSaveSlot)
-        {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { SaveFocusedSlot(1); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { SaveFocusedSlot(-1); }
-            SaveCursorMove();
-        }
-        else if (!gameStart && !openSaveSlot)
-        {
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { GameStartFocusedSlot(-1); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { GameStartFocusedSlot(1); }
-            MainCursorMove();
-        }
-    }
-
-    public void GameStart()
-    {
-        if (gameStart)          // 게임 실행중이면
-        {
-            if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
-            canvasManager.PlayerMoveStop();
-            gameStart = false;
-            SaveGame();         // 게임을 세이브
-        }
-        else                    // 게임이 실행중이 아니면
-        {
-            if (!openSaveSlot)      // 세이브창이 켜져있지 않으면
-            {
-                switch (gameSlotFocus)
+                if (Input.GetKeyDown(KeyCode.Z))
                 {
-                    case 0:
-                        OpenLoad();
-                        break;
-                    case 1:
-                        canvasManager.OpenSettings();
-                        break;
-                    case 2:
-                        ExitGame();
-                        break;
+                    LoadGame();
                 }
+                if (Input.GetKeyDown(KeyCode.X))
+                {
+                    CloseLoad();
+                    canvasManager.inGameMenu.SetActive(true);
+                }
+                if (Input.GetKeyDown(KeyCode.C))
+                {
+                    DeleteSave();
+                }
+
+                if (Input.GetKeyDown(KeyCode.RightArrow)) { SaveFocusedSlot(1); }
+                if (Input.GetKeyDown(KeyCode.LeftArrow)) { SaveFocusedSlot(-1); }
+                SaveCursorMove();
             }
             else
             {
-                LoadGame();
+                if (Input.GetKeyDown(KeyCode.Z))
+                {
+                    switch (gameSlotFocus)
+                    {
+                        case 0:
+                            OpenLoad();
+                            break;
+                        case 1:
+                            canvasManager.OpenSettings();
+                            break;
+                        case 2:
+                            ExitGame();
+                            break;
+                    }
+                }
+
+                if (Input.GetKeyDown(KeyCode.UpArrow)) { GameStartFocusedSlot(-1); }
+                if (Input.GetKeyDown(KeyCode.DownArrow)) { GameStartFocusedSlot(1); }
+                MainCursorMove();
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                OpenStartMenu();
             }
         }
     }
 
-    void MainCursorMove() {
-        mainUICursor.transform.position = Vector2.Lerp(mainUICursor.transform.position,
-           new Vector2(mainUICursor.transform.position.x, startButtons[gameSlotFocus].transform.position.y), Time.deltaTime * cursorSpd);
+    public void SleepGame()
+    {
+        if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
+        canvasManager.PlayerMoveStop();
+        gameStart = false;
+        SaveGame();         // 게임을 세이브
     }
-    void SaveCursorMove() {
+
+    void SaveCursorMove()
+    {
         saveUICursor.transform.position = Vector2.Lerp(saveUICursor.transform.position,
             new Vector2(saveSlots[saveSlotFocus].transform.position.x, saveUICursor.transform.position.y), Time.deltaTime * cursorSpd);
     }
-
+    void MainCursorMove()
+    {
+        mainUICursor.transform.position = Vector2.Lerp(mainUICursor.transform.position,
+           new Vector2(mainUICursor.transform.position.x, startMenus[gameSlotFocus].transform.position.y), Time.deltaTime * cursorSpd);
+    }
     void SaveFocusedSlot(int AdjustValue)
     {
         if (saveSlotFocus + AdjustValue < 0) saveSlotFocus = 2;
@@ -215,11 +215,10 @@ public class GameManager : MonoBehaviour
         Database_Game.instance.skillManager.SkillListInit();    // 스킬 리스트 초기화
 
         player.GetComponent<PlayerControl>().enabled = false;
-        bedBlind = GameObject.Find("BackGround/Base/bg_mainScene_blind");
+        canvasManager.hpBarSet.SetActive(false);
         canvasManager.inGameMenu.SetActive(false);
         bedBlind.SetActive(true);
-        playerStatView.SetActive(false);
-        startButton.SetActive(true);
+        startMenu.SetActive(true);
 
         Debug.Log("Save");
     }
@@ -241,17 +240,17 @@ public class GameManager : MonoBehaviour
         {
             dataBase.Init();
         }
-
+        
         playerStat.SetPlayerData(dataBase.playerData);
         dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag(), dataBase.GetStoryProgress());
         storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.Bag].itemRarity);
         inventory.LoadInventoryData(dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.Bag].itemRarity, dataBase.GetCurrentMoney());
-
-        CloseLoad();
-
+        
         canvasManager.inGameMenu.SetActive(true);
-        playerStatView.SetActive(true);
-        startButton.SetActive(false);
+        canvasManager.hpBarSet.SetActive(true);
+        startMenu.SetActive(false);
+        CloseLoad();
+        CloseStartMenu();
         gameStart = true;
 
         bedBlind.SetActive(false);
@@ -271,15 +270,32 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    public void OpenStartMenu()
+    {
+        openStartSlot = true;
+        mainMenu.SetActive(true);
+        startMenu.SetActive(true);
+        gameSlotFocus = 0;
+        mainUICursor.transform.position = new Vector2(mainUICursor.transform.position.x, startMenus[gameSlotFocus].transform.position.y);
+        mainUICursor.SetActive(true);
+    }
+    public void CloseStartMenu()
+    {
+        mainUICursor.SetActive(false);
+        startMenu.SetActive(false);
+        mainMenu.SetActive(false);
+        openStartSlot = false;
+    }
     public void OpenLoad()
     {
-        startButton.SetActive(false);
-        saveSlot.SetActive(true);
-
         openSaveSlot = true;
+        startMenu.SetActive(false);
+        saveSlot.SetActive(true);
         saveSlotFocus = 0;
-        
-        for(int i = 0; i < 3; ++i)
+        saveUICursor.transform.position = new Vector2(saveSlots[saveSlotFocus].transform.position.x, saveUICursor.transform.position.y);
+        saveUICursor.SetActive(true);
+
+        for (int i = 0; i < 3; ++i)
         {
             LoadSlotInformation(i);
         }
@@ -309,9 +325,10 @@ public class GameManager : MonoBehaviour
     }
     public void CloseLoad()
     {
-        openSaveSlot = false;
+        saveUICursor.SetActive(false);
         saveSlot.SetActive(false);
-        startButton.SetActive(true);
+        startMenu.SetActive(true);
+        openSaveSlot = false;
     }
 
     public void SettingSave()

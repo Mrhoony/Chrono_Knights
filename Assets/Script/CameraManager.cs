@@ -53,7 +53,7 @@ public class CameraManager : MonoBehaviour
         {
             font[i].material.mainTexture.filterMode = FilterMode.Point;
         }
-        bound = GameObject.Find("BackGround").GetComponent<BoxCollider2D>();
+        bound = GameObject.Find("BackGroundSet").GetComponent<BoxCollider2D>();
         SetCameraBound(bound);
     }
 

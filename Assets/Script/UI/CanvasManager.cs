@@ -17,6 +17,7 @@ public class CanvasManager : MonoBehaviour
     public static CanvasManager instance;
     public GameManager gm;
 
+    public GameObject hpBarSet;
     public GameObject[] Menus;      // UI 메뉴들
     public GameObject storage;
     public GameObject inGameMenu;
@@ -77,6 +78,7 @@ public class CanvasManager : MonoBehaviour
             return;
         }
     }
+
     private void Start()
     {
         isChatBoxOn = false;
@@ -93,6 +95,7 @@ public class CanvasManager : MonoBehaviour
 
         isDungeonUIOn = false;
 
+        hpBarSet.SetActive(false);
         for (int i = 0; i < Menus.Length; ++i)
         {
             Menus[i].SetActive(false);
@@ -174,14 +177,8 @@ public class CanvasManager : MonoBehaviour
                     {
                         CloseCancelMenu();
                     }
-                    else if (!isCancelOn)                       // 메뉴창이 꺼져있으면 메뉴를 온
+                    else                 // 메뉴창이 꺼져있으면 메뉴를 온
                     {
-                        if (townUI != null)
-                        {
-                            if (TownUIOnCheck()) return;      // TownUI 가 켜져있을 경우 취소
-                        }
-                        PlayerControl.instance.StopPlayer();
-                        isCancelOn = true;
                         OpenCancelMenu();
                     }
                 }
@@ -219,7 +216,7 @@ public class CanvasManager : MonoBehaviour
     }
     public bool GameMenuOnCheck()
     {
-        if (isCancelOn || isInventoryOn || isStorageOn || isChatBoxOn) return true;
+        if (isCancelOn || isInventoryOn || isStorageOn || isChatBoxOn || !GameManager.instance.GetGameStart()) return true;
         else return false;
     }
     public bool TownUIOnCheck()
@@ -566,6 +563,7 @@ public class CanvasManager : MonoBehaviour
     public void OpenCancelMenu()
     {
         PlayerMoveStop();
+        isCancelOn = true;
         CancelMenu.SetActive(true);
     }
     public void CloseCancelMenu()

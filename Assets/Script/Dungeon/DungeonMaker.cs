@@ -63,13 +63,13 @@ public class DungeonMaker : MonoBehaviour
     public bool floorRepeat;                // 층 반복 체크
     public int bossClearCount;
 
-    private int monsterCount;           // 최대 몬스터 수
-    private int eliteMonsterCount;
-    private int currentMonsterCount;    // 현재 몬스터 수
-    private int allKillCount;           // 총 몬스터 킬 수
-    private int monsterKillCount;
-    private int eliteMonsterKillCount;
-    private int bossMonsterKillCount;
+    public int monsterCount;           // 최대 몬스터 수
+    public int eliteMonsterCount;
+    public int currentMonsterCount;    // 현재 몬스터 수
+    public int allKillCount;           // 총 몬스터 킬 수
+    public int monsterKillCount;
+    public int eliteMonsterKillCount;
+    public int bossMonsterKillCount;
     #endregion
 
     public void DungeonMakerInit()
@@ -117,7 +117,7 @@ public class DungeonMaker : MonoBehaviour
             currentStageMonsterList[i].GetComponent<Monster_Control>().MonsterStop();
         }
     }
-    private void FloorDangerousSetting(int plusDangerous)
+    public void FloorDangerousSetting(int plusDangerous)
     {
         for (int floor = 1; floor < 71; ++floor)
         {
@@ -184,8 +184,7 @@ public class DungeonMaker : MonoBehaviour
         MonsterDefSetting(bossClearCount * 1);
 
         CanvasManager.instance.dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus(_Player.GetComponent<PlayerStatus>()));
-
-        currentMap.GetComponent<Map_ObjectSetting>().entrance.SetActive(false);
+        
         _Player.transform.position = entrance;
         _MainCamera.SetCameraBound(currentMap.GetComponent<BoxCollider2D>());
         _MainCamera.transform.position = entrance;

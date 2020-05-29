@@ -99,27 +99,8 @@ public class PlayerControl : MovingObject
     void Update()
     {
         if (CanvasManager.instance.GameMenuOnCheck() || CanvasManager.instance.TownUIOnCheck()) return;       // UI 켜져 있을 때 입력 제한
-
-        if (actionState == ActionState.IsDead || actionState == ActionState.IsDodge || 
-            actionState == ActionState.NotMove || actionState == ActionState.IsParrying) return;
-
-        inputDirection = Input.GetAxisRaw("Horizontal");
-        if (Input.GetKey(KeyCode.UpArrow)) inputArrow = 30;
-        else if (Input.GetKey(KeyCode.DownArrow)) inputArrow = 40;
-        else if (inputDirection != 0) inputArrow = 10;
-        else inputArrow = 0;
+        if (actionState == ActionState.IsDead) return;
         
-        // x 공격 입력
-        if (weaponType == 0)        // 현재 무기가 창이면
-        {
-            SpearAttack();
-        }
-        else if(weaponType == 1)    // 현재 무기가 총이면
-        {
-            GunAttack();
-        }
-
-        // 낙하 체크
         if (rb.velocity.y < -0.5f && actionState != ActionState.IsJumpAttack)
         {
             GroundCheck.SetActive(true);
@@ -133,9 +114,28 @@ public class PlayerControl : MovingObject
                 }
                 animator.SetBool("isFall", true);
             }
-        }
+        }   // 낙하 체크
 
-        if (Input.GetButtonDown("Fire3") && dodgable) Dodge();      // 회피
+        if (actionState == ActionState.IsDodge || actionState == ActionState.NotMove || actionState == ActionState.IsParrying) return;
+
+        inputDirection = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetKey(KeyCode.UpArrow)) inputArrow = 30;
+        else if (Input.GetKey(KeyCode.DownArrow)) inputArrow = 40;
+        else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) inputArrow = 10;
+        else inputArrow = 0;
+        
+        // x 공격 입력
+        if (weaponType == 0)        // 현재 무기가 창이면
+        {
+            SpearAttack();
+        }
+        else if(weaponType == 1)    // 현재 무기가 총이면
+        {
+            GunAttack();
+        }
+        
+        if (Input.GetButtonDown("Fire3") && dodgable) Dodge();  // 회피
 
         if (actionState == ActionState.IsAtk) return;
         if (actionState == ActionState.IsJumpAttack) return;
@@ -153,8 +153,9 @@ public class PlayerControl : MovingObject
                 isRrun = 0;
                 isLrun = 2;
             }
-        }              // shift 키 입력시 대쉬
-        if (Input.GetButtonDown("Jump")) Jump();                    // 점프
+        }  // shift 키 입력시 대쉬
+
+        if (Input.GetButtonDown("Jump")) Jump();     // 점프
 
         if (actionState != ActionState.Idle) return;
 
@@ -212,11 +213,12 @@ public class PlayerControl : MovingObject
                 {
                     if (chargingAttack > 1f)
                     {
-                        XAttack();
+                        //차지공격 (임시)
+                        SpearXAttack();
                     }
                     else
                     {
-                        XAttack();
+                        SpearXAttack();
                     }
                     chargingAttack = 0f;
                     return;
@@ -226,7 +228,7 @@ public class PlayerControl : MovingObject
             {
                 if (Input.GetButtonDown("Fire1"))
                 {
-                    XAttack();
+                    SpearXAttack();
                     return;
                 }
             }
@@ -265,8 +267,7 @@ public class PlayerControl : MovingObject
             }
         }
     }
-
-    void XAttack()
+    void SpearXAttack()
     {
         if (actionState == ActionState.IsJumpAttack)
         {
@@ -400,10 +401,6 @@ public class PlayerControl : MovingObject
             }
         }
     }
-    public void Blink()
-    {
-
-    }
     #endregion
 
     void Dodge()
@@ -484,14 +481,14 @@ public class PlayerControl : MovingObject
         invincible = true;
         StartCoroutine(InvincibleCount());
     }
-    public void Dead()
-    {
-        DungeonManager.instance.PlayerIsDead();
-    }
     IEnumerator InvincibleCount()
     {
         yield return new WaitForSeconds(playerStatus.GetInvincibleDurationTime());
         invincible = false;
+    }
+    public void Dead()
+    {
+        DungeonManager.instance.PlayerIsDead();
     }
 
     public void PlayerJumpAttackEnd()
@@ -585,7 +582,7 @@ public class PlayerControl : MovingObject
         }
     }
     
-    public float Attack(AtkType _atkType) //창의 기본 공격범위, 총의 기본 공격범위~
+    public float Attack(AtkType _atkType) // 창의 기본 공격범위, 총의 기본 공격범위~
     {
         Collider2D[] monster;
         float attackDistance = 0f;

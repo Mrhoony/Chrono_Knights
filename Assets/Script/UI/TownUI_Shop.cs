@@ -2,24 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TownUI_Shop : MonoBehaviour
+public class TownUI_Shop : FocusUI
 {
     public TownUI townUI;
     public readonly CanvasManager canvasManager = CanvasManager.instance;
     public Menu_Inventory inventory;
     public GameObject[] slot;
     public TownUI_ShopSlot slotInstance;
-
-    public GameObject cursorShopSelect;
-    public float cursorSpeed;
-
-    public bool isTownMenuOn = false;
+    
     public Item[] shopItemList = new Item[8];
     public int[] itemCost = new int[8];
-    public bool isThisWindowFocus;
+    
     public bool isItemSelect;
-
-    public int focused;
 
     public void Awake()
     {
@@ -35,7 +29,7 @@ public class TownUI_Shop : MonoBehaviour
 
     public void Update()
     {
-        if (!isTownMenuOn || canvasManager.DialogBoxOn()) return;
+        if (!isUIOn || canvasManager.DialogBoxOn()) return;
 
         if (isItemSelect)
         {
@@ -78,7 +72,7 @@ public class TownUI_Shop : MonoBehaviour
         }
         else
         {
-            if (isThisWindowFocus)
+            if (isUIOn)
             {
                 if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
                 if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
@@ -93,8 +87,6 @@ public class TownUI_Shop : MonoBehaviour
                 }
                 if (Input.GetKeyDown(KeyCode.X))
                 {
-                    isThisWindowFocus = false;
-                    cursorShopSelect.SetActive(false);
                     canvasManager.CloseShopInventory();
                 }
                 if (Input.GetKeyDown(KeyCode.C))
@@ -102,14 +94,14 @@ public class TownUI_Shop : MonoBehaviour
                     StartCoroutine(FocusChange());
                 }
             }
-            FocusMove();
+            FocusMove(slot[focused]);
         }
     }
 
     IEnumerator FocusChange()
     {
-        isThisWindowFocus = false;
-        cursorShopSelect.SetActive(false);
+        isUIOn = false;
+        cursor.SetActive(false);
         yield return new WaitForSeconds(0.01f);
         inventory.FocusOn();
         Debug.Log("Focus : inventory");
@@ -118,8 +110,8 @@ public class TownUI_Shop : MonoBehaviour
     {
         focused = 0;
         slotInstance = slot[focused].GetComponent<TownUI_ShopSlot>();
-        cursorShopSelect.SetActive(true);
-        isThisWindowFocus = true;
+        cursor.SetActive(true);
+        isUIOn = true;
     }
     public void BuyItem()
     {
@@ -130,8 +122,7 @@ public class TownUI_Shop : MonoBehaviour
 
     public void OpenTownUIMenu(Menu_Inventory _inventory)
     {
-        isTownMenuOn = true;
-        isThisWindowFocus = true;
+        isUIOn = true;
         isItemSelect = false;
         inventory = _inventory;
         focused = 0;
@@ -143,7 +134,7 @@ public class TownUI_Shop : MonoBehaviour
         ShopItemDisplay();
 
         slotInstance = slot[0].GetComponent<TownUI_ShopSlot>();
-        cursorShopSelect.SetActive(true);
+        cursor.SetActive(true);
     }
     public void ShopItemDisplay()
     {
@@ -207,17 +198,12 @@ public class TownUI_Shop : MonoBehaviour
     }
     public void CloseTownUIMenu()
     {
+        isUIOn = false;
         DungeonManager.instance.SetShopItemList(shopItemList, itemCost);
-        isTownMenuOn = false;
-        cursorShopSelect.SetActive(false);
+        cursor.SetActive(false);
         townUI.CloseShopMenu();
     }
-
-    public void FocusMove()
-    {
-        cursorShopSelect.transform.position = Vector2.Lerp(cursorShopSelect.transform.position, slot[focused].transform.position, Time.deltaTime * cursorSpeed);
-    }
-    public void FocusedSlot(int AdjustValue)
+    public new void FocusedSlot(int AdjustValue)
     {
         if (focused + AdjustValue < 0 || focused + AdjustValue > 7) { return; }
 

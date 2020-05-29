@@ -4,24 +4,19 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainUI_PlayerStatusInfo : MonoBehaviour
+public class MainUI_PlayerStatusInfo : FocusUI
 {
     public GameObject[] equipmentSlot;
     public GameObject statusinformation;
 
     public GameObject ActiveSkill;
     public GameObject[] PassiveSkill;
-    public GameObject cursor;
-    public float cursorSpeed;
 
     public GameObject statusEquipment;
     public Menu_Inventory inventory;
 
     public Skill activeSkill;
     public List<SkillList> passiveSkillList = new List<SkillList>();
-
-    public bool isThisWindowFocus;
-    public int focused;
 
     PlayerStatus playerStatus;
     PlayerData playerData;
@@ -35,7 +30,7 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
 
     private void Update()
     {
-        if (isThisWindowFocus)
+        if (isUIOn)
         {
             if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
             if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
@@ -44,14 +39,10 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.X))    // 포커스 상점으로 변경
             {
-                isThisWindowFocus = false;
-                statusEquipment.SetActive(false);
-                cursor.SetActive(false);
                 Invoke("PlayerStatusFocusChange", 0.01f);
             }
             if (Input.GetKeyDown(KeyCode.C))    // 포커스 상점으로 변경
             {
-                isThisWindowFocus = false;
                 Invoke("PlayerStatusFocusChange", 0.01f);
             }
 
@@ -62,7 +53,7 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
     public void FocusOn()
     {
         focused = 0;
-        isThisWindowFocus = true;
+        isUIOn = true;
         EquipmentSlotSetting();
         statusEquipment.SetActive(true);
     }
@@ -70,7 +61,7 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
     {
         statusEquipment.SetActive(false);
         cursor.SetActive(false);
-        isThisWindowFocus = false;
+        isUIOn = false;
         inventory.FocusOn();
     }
 
@@ -78,7 +69,7 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
     {
         statusEquipment.SetActive(false);
         cursor.SetActive(false);
-        isThisWindowFocus = false;
+        isUIOn = false;
     }
 
     public void EquipmentSkillOptionCheck(PlayerEquipment.Equipment[] _Equipment)
@@ -112,7 +103,7 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
     }
     public void OnStatusMenu(Menu_Inventory _Inventory)
     {
-        isThisWindowFocus = false;
+        isUIOn = false;
         inventory = _Inventory;
         string skillDescription = "";
 
@@ -212,11 +203,12 @@ public class MainUI_PlayerStatusInfo : MonoBehaviour
     {
         cursor.transform.position = Vector2.Lerp(cursor.transform.position, equipmentSlot[focused].transform.position, Time.deltaTime * cursorSpeed);
     }
-    public void FocusedSlot(int AdjustValue)
+
+    public new void FocusedSlot(int AdjustValue)
     {
-        if (focused + AdjustValue < 0 || focused + AdjustValue > 6) { return; }
+        if (focused + AdjustValue < 0 || focused + AdjustValue > MaxFocused) { return; }
         if (focused == 2) if (AdjustValue == 3) AdjustValue = 4;
-        if (focused == 6) if (AdjustValue == -3) AdjustValue = -4;
+        if (focused == MaxFocused) if (AdjustValue == -3) AdjustValue = -4;
         focused += AdjustValue;
         EquipmentSlotSetting();
     }

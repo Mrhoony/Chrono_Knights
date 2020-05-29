@@ -446,7 +446,7 @@ PrefabInstance:
     - target: {fileID: 3815408304545588549, guid: e6b2d8bb473408247898cb7b38ff6be4,
         type: 3}
       propertyPath: m_Name
-      value: Entrance
+      value: Teleport
       objectReference: {fileID: 0}
     - target: {fileID: 3815408304545588548, guid: e6b2d8bb473408247898cb7b38ff6be4,
         type: 3}
@@ -511,7 +511,7 @@ PrefabInstance:
     - target: {fileID: 3815408304545588570, guid: e6b2d8bb473408247898cb7b38ff6be4,
         type: 3}
       propertyPath: objectNumber
-      value: 8
+      value: 999
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6b2d8bb473408247898cb7b38ff6be4, type: 3}
