@@ -59,6 +59,8 @@ public class PlayerData
         dodgeDuringTime = 0.5f;
 
         maxAmmo = 10;
+
+        CanvasManager.instance.DebugText("player Data Init");
     }
 
     public float GetDodgeCoolTime(int _num)

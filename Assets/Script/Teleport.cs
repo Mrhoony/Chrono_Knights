@@ -5,6 +5,7 @@ using UnityEngine;
 public class Teleport : InteractiveObject
 {
     public bool sceneMove;
+    public int destinationSceneNumber;
     public GameObject currentMap;
     public Teleport sameSceneDestination;
 
@@ -39,7 +40,14 @@ public class Teleport : InteractiveObject
                     }
                     else
                     {
-                        DungeonManager.instance.ActiveInteractiveTeleport(sceneMove, objectNumber, sameSceneDestination);
+                        if (sceneMove)
+                        {
+                            DungeonManager.instance.ActiveInteractiveTeleport(destinationSceneNumber);
+                        }
+                        else
+                        {
+                            DungeonManager.instance.ActiveInteractiveTeleport(objectNumber, sameSceneDestination);
+                        }
                     }
                 }
             }

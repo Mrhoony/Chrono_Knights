@@ -183,11 +183,11 @@ public class DungeonManager : MonoBehaviour
     {
         canvasManager.OpenGameOverMenu(dungeonPlayTimer);
     }
-    
-    public void ActiveInteractiveTeleport(bool _SceneMove, int _ObjectNumber, Teleport _Teleport) // 텔레포트에 따른 씬이동 및 지역이동
+
+    public void ActiveInteractiveTeleport(int _DestinationSceneNumber) // 텔레포트에 따른 씬이동 및 지역이동
     {
-        useObjectNumber = _ObjectNumber;
-        sceneMove = _SceneMove;
+        useObjectNumber = _DestinationSceneNumber;
+        sceneMove = true;
 
         switch (SceneManager.GetActiveScene().buildIndex)
         {
@@ -205,18 +205,8 @@ public class DungeonManager : MonoBehaviour
                 break;
             case 1:
                 isSceneLoading = true;
-
-                if (_SceneMove)
-                {
-                    canvasManager.fadeInStartMethod += SceneLoad;
-                    canvasManager.FadeOutStart();
-                }
-                else
-                {
-                    teleportDestination = _Teleport;
-                    canvasManager.fadeInStartMethod += TeleportTransfer;
-                    canvasManager.FadeOutStart();
-                }
+                canvasManager.fadeInStartMethod += SceneLoad;
+                canvasManager.FadeOutStart();
                 break;
             case 2:
             case 3:
@@ -227,7 +217,7 @@ public class DungeonManager : MonoBehaviour
                     usedKey = false;
                     isSceneLoading = true;
                     if (phaseClear) canvasManager.fadeInStartMethod += SceneLoad;
-                    else            canvasManager.fadeInStartMethod += TeleportTransfer;
+                    else canvasManager.fadeInStartMethod += TeleportTransfer;
                     canvasManager.FadeOutStart();
                     break;
                 }
@@ -236,6 +226,16 @@ public class DungeonManager : MonoBehaviour
                 canvasManager.OpenInGameMenu(true);
                 break;
         }
+    }
+    public void ActiveInteractiveTeleport(int _ObjectNumber, Teleport _Teleport) // 텔레포트에 따른 씬이동 및 지역이동
+    {
+        useObjectNumber = _ObjectNumber;
+        sceneMove = false;
+
+        isSceneLoading = true;
+        teleportDestination = _Teleport;
+        canvasManager.fadeInStartMethod += TeleportTransfer;
+        canvasManager.FadeOutStart();
     }
     public void ActiveInteractiveObject(InteractiveObjectType _ObjectType, int _ObjectNumber) // 오브젝트에 따라 대사 찾기
     {
@@ -261,6 +261,7 @@ public class DungeonManager : MonoBehaviour
             switch (useObjectNumber)
             {
                 case 0:     // 집 현관 문
+                    mainCamera.CameraSizeSetting(1);
                     ReturnHome();
                     break;
                 case 1:     // 마을로 향하는 문

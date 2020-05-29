@@ -36,8 +36,7 @@ public class GameManager : MonoBehaviour
     public int gameSlotFocus;
     public int saveSlotFocus;
     public string data;
-
-    public bool openStartSlot;
+    
     public bool openSaveSlot;
     public bool gameStart;
     #endregion
@@ -69,18 +68,14 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(13, 14);
         Physics2D.IgnoreLayerCollision(14, 14);
 
-        QualitySettings.vSyncCount = 0;                 // 동기화 수치 고정
+        //QualitySettings.vSyncCount = 0;                 // 동기화 수치 고정
         Application.targetFrameRate = 60;               // 최대 프레임 조절
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
         dataBase = new DataBase();
-        playerStat = player.GetComponent<PlayerStatus>();
-        storage = canvasManager.storage.GetComponent<Menu_Storage>();
-        inventory = canvasManager.Menus[0].GetComponent<Menu_Inventory>();
 
         Init();
 
-        Debug.Log("gameManager awake");
+        CanvasManager.instance.DebugText("gameManager awake");
     }
 
     private void Init()
@@ -98,8 +93,8 @@ public class GameManager : MonoBehaviour
         canvasManager.hpBarSet.SetActive(false);
         canvasManager.inGameMenu.SetActive(false);
         canvasManager.FadeInStart();
-
-        mainMenu.SetActive(true);
+        
+        OpenStartMenu();
 
         Debug.Log("gameManager Init");
     }
@@ -108,57 +103,47 @@ public class GameManager : MonoBehaviour
     {
         if (gameStart) return;
 
-        if (openStartSlot)
+        if (openSaveSlot)
         {
-            if (openSaveSlot)
+            if (Input.GetKeyDown(KeyCode.Z))
             {
-                if (Input.GetKeyDown(KeyCode.Z))
-                {
-                    LoadGame();
-                }
-                if (Input.GetKeyDown(KeyCode.X))
-                {
-                    CloseLoad();
-                    canvasManager.inGameMenu.SetActive(true);
-                }
-                if (Input.GetKeyDown(KeyCode.C))
-                {
-                    DeleteSave();
-                }
-
-                if (Input.GetKeyDown(KeyCode.RightArrow)) { SaveFocusedSlot(1); }
-                if (Input.GetKeyDown(KeyCode.LeftArrow)) { SaveFocusedSlot(-1); }
-                SaveCursorMove();
+                LoadGame();
             }
-            else
+            if (Input.GetKeyDown(KeyCode.X))
             {
-                if (Input.GetKeyDown(KeyCode.Z))
-                {
-                    switch (gameSlotFocus)
-                    {
-                        case 0:
-                            OpenLoad();
-                            break;
-                        case 1:
-                            canvasManager.OpenSettings();
-                            break;
-                        case 2:
-                            ExitGame();
-                            break;
-                    }
-                }
-
-                if (Input.GetKeyDown(KeyCode.UpArrow)) { GameStartFocusedSlot(-1); }
-                if (Input.GetKeyDown(KeyCode.DownArrow)) { GameStartFocusedSlot(1); }
-                MainCursorMove();
+                CloseLoad();
+                canvasManager.inGameMenu.SetActive(true);
             }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                DeleteSave();
+            }
+
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { SaveFocusedSlot(1); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { SaveFocusedSlot(-1); }
+            SaveCursorMove();
         }
         else
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                OpenStartMenu();
+                switch (gameSlotFocus)
+                {
+                    case 0:
+                        OpenLoad();
+                        break;
+                    case 1:
+                        canvasManager.OpenSettings();
+                        break;
+                    case 2:
+                        ExitGame();
+                        break;
+                }
             }
+
+            if (Input.GetKeyDown(KeyCode.UpArrow)) { GameStartFocusedSlot(-1); }
+            if (Input.GetKeyDown(KeyCode.DownArrow)) { GameStartFocusedSlot(1); }
+            MainCursorMove();
         }
     }
 
@@ -245,6 +230,8 @@ public class GameManager : MonoBehaviour
         dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag(), dataBase.GetStoryProgress());
         storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.Bag].itemRarity);
         inventory.LoadInventoryData(dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.Bag].itemRarity, dataBase.GetCurrentMoney());
+
+        CanvasManager.instance.DebugText("Load data");
         
         canvasManager.inGameMenu.SetActive(true);
         canvasManager.hpBarSet.SetActive(true);
@@ -252,6 +239,15 @@ public class GameManager : MonoBehaviour
         CloseLoad();
         CloseStartMenu();
         gameStart = true;
+
+        if (gameStart)
+        {
+            CanvasManager.instance.DebugText("true");
+        }
+        else
+        {
+            CanvasManager.instance.DebugText("false");
+        }
 
         bedBlind.SetActive(false);
         player.GetComponent<PlayerControl>().SetCurrentJumpCount();
@@ -272,9 +268,7 @@ public class GameManager : MonoBehaviour
     
     public void OpenStartMenu()
     {
-        openStartSlot = true;
         mainMenu.SetActive(true);
-        startMenu.SetActive(true);
         gameSlotFocus = 0;
         mainUICursor.transform.position = new Vector2(mainUICursor.transform.position.x, startMenus[gameSlotFocus].transform.position.y);
         mainUICursor.SetActive(true);
@@ -282,9 +276,7 @@ public class GameManager : MonoBehaviour
     public void CloseStartMenu()
     {
         mainUICursor.SetActive(false);
-        startMenu.SetActive(false);
         mainMenu.SetActive(false);
-        openStartSlot = false;
     }
     public void OpenLoad()
     {

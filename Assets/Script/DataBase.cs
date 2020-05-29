@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 [Serializable]
 public class DataBase
@@ -29,7 +28,7 @@ public class DataBase
             eventFlag[i] = false;
         }
 
-        Debug.Log("database init");
+        CanvasManager.instance.DebugText("database init");
     }
 
     public int[] GetStorageItemCodeList()

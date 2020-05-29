@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tower_First_Floor.unity
     guid: ec0ac113a07579048a54e93f5e7f1038
+  - enabled: 1
+    path: Assets/Scenes/Tower_Second_Floor.unity
+    guid: 11a901eac84bc2348905b5b6428bd8a4
   m_configObjects: {}

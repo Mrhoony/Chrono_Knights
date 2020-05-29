@@ -36,6 +36,9 @@ public class CanvasManager : MonoBehaviour
 
     public GameObject dungeonCancleMenu;
     public GameObject gameOverWindow;
+
+    public Text debugText;
+
     #endregion
 
     public TownUI townUI;       // 마을 UI
@@ -45,6 +48,8 @@ public class CanvasManager : MonoBehaviour
     public bool isInventoryOn;
     public bool isStorageOn;
     public bool isCancelOn;
+
+    public bool isSettingOn;
 
     public bool isChatBoxOn;
     public bool isTalkBoxOn;
@@ -172,6 +177,10 @@ public class CanvasManager : MonoBehaviour
                     else if (isStorageOn)                       // 창고가 켜져있으면 창고를 오프
                     {
                         storage.GetComponent<Menu_Storage>().CloseStorage();
+                    }
+                    else if (isSettingOn)
+                    {
+                        CloseSettings();
                     }
                     else if (isCancelOn)                        // 메뉴가 켜져있으면 메뉴를 오프
                     {
@@ -563,13 +572,15 @@ public class CanvasManager : MonoBehaviour
     public void OpenCancelMenu()
     {
         PlayerMoveStop();
-        isCancelOn = true;
         CancelMenu.SetActive(true);
+        CancelMenu.GetComponent<MainUI_CancelMenu>().OpenCancelMenu();
+        isCancelOn = true;
     }
     public void CloseCancelMenu()
     {
-        CancelMenu.SetActive(false);
         isCancelOn = false;
+        CancelMenu.GetComponent<MainUI_CancelMenu>().CloseCancelMenu();
+        CancelMenu.SetActive(false);
         StartCoroutine(PlayerMoveEnable());
     }
     
@@ -579,6 +590,7 @@ public class CanvasManager : MonoBehaviour
         SettingsMenu.GetComponent<RectTransform>().anchoredPosition = new Vector3(200, 0, 0);
         SettingsMenu.GetComponent<RectTransform>().sizeDelta = new Vector2(800, Screen.height);
         SettingsMenu.SetActive(true);
+        isSettingOn = true;
     }
     public void OpenSettings(int width, int height)
     {
@@ -588,6 +600,7 @@ public class CanvasManager : MonoBehaviour
     }
     public void CloseSettings()
     {
+        isSettingOn = false;
         SettingsMenu.SetActive(false);
         StartCoroutine(PlayerMoveEnable());
     }
@@ -648,5 +661,10 @@ public class CanvasManager : MonoBehaviour
     public void SetDungeonUI()
     {
         dungeonUI = GameObject.Find("DungeonUI").GetComponent<Dungeon_UI>();
+    }
+
+    public void DebugText(string _Text)
+    {
+        debugText.text += _Text + "\r\n";
     }
 }
