@@ -84,7 +84,7 @@ public class CanvasManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void CanvasManagerInit()
     {
         isChatBoxOn = false;
         isTalkBoxOn = false;
@@ -105,6 +105,7 @@ public class CanvasManager : MonoBehaviour
         {
             Menus[i].SetActive(false);
         }
+        inGameMenu.SetActive(false);
         storage.SetActive(false);
     }
 

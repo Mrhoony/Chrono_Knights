@@ -16,7 +16,6 @@ public class Teleport : InteractiveObject
 
     private void Update()
     {
-        if (!GameManager.instance.GetGameStart()) return;
         if (CanvasManager.instance.GameMenuOnCheck()) return;
         if (DungeonManager.instance.isSceneLoading) return;
 

@@ -4,6 +4,7 @@ using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEngine.UI;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        CanvasManager.instance.DebugText("gameManager awake start");
 
         Physics2D.IgnoreLayerCollision(5, 10);
         Physics2D.IgnoreLayerCollision(8, 10);
@@ -67,7 +69,7 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(13, 13);
         Physics2D.IgnoreLayerCollision(13, 14);
         Physics2D.IgnoreLayerCollision(14, 14);
-
+        
         //QualitySettings.vSyncCount = 0;                 // 동기화 수치 고정
         Application.targetFrameRate = 60;               // 최대 프레임 조절
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -80,8 +82,6 @@ public class GameManager : MonoBehaviour
 
     private void Init()
     {
-        player.GetComponent<PlayerControl>().enabled = false;
-
         dataBase.Init();
         storage.Init();
         inventory.Init();
@@ -89,14 +89,15 @@ public class GameManager : MonoBehaviour
         gameStart = false;
         saveSlotFocus = 0;
         gameSlotFocus = 0;
-
-        canvasManager.hpBarSet.SetActive(false);
-        canvasManager.inGameMenu.SetActive(false);
-        canvasManager.FadeInStart();
         
-        OpenStartMenu();
+        canvasManager.CanvasManagerInit();
+        CanvasManager.instance.DebugText("canvasmanager awake");
+        dungeonManager.DungeonManagerInit();
+        CanvasManager.instance.DebugText("dungeonmanager awake");
 
-        Debug.Log("gameManager Init");
+        canvasManager.FadeInStart();
+        player.GetComponent<PlayerControl>().enabled = false;
+        OpenStartMenu();
     }
 
     public void Update()
@@ -151,7 +152,6 @@ public class GameManager : MonoBehaviour
     {
         if (PlayerControl.instance.GetActionState() != ActionState.Idle) return;
         canvasManager.PlayerMoveStop();
-        gameStart = false;
         SaveGame();         // 게임을 세이브
     }
 
@@ -200,12 +200,13 @@ public class GameManager : MonoBehaviour
         Database_Game.instance.skillManager.SkillListInit();    // 스킬 리스트 초기화
 
         player.GetComponent<PlayerControl>().enabled = false;
-        canvasManager.hpBarSet.SetActive(false);
-        canvasManager.inGameMenu.SetActive(false);
+        canvasManager.CanvasManagerInit();
+        OpenStartMenu();
         bedBlind.SetActive(true);
-        startMenu.SetActive(true);
 
-        Debug.Log("Save");
+        StartCoroutine(GameStartDelay(false));
+
+        Debug.Log("save");
     }
     public void LoadGame()
     {
@@ -230,30 +231,20 @@ public class GameManager : MonoBehaviour
         dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag(), dataBase.GetStoryProgress());
         storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.Bag].itemRarity);
         inventory.LoadInventoryData(dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.Bag].itemRarity, dataBase.GetCurrentMoney());
-
-        CanvasManager.instance.DebugText("Load data");
         
-        canvasManager.inGameMenu.SetActive(true);
-        canvasManager.hpBarSet.SetActive(true);
-        startMenu.SetActive(false);
         CloseLoad();
         CloseStartMenu();
-        gameStart = true;
 
-        if (gameStart)
-        {
-            CanvasManager.instance.DebugText("true");
-        }
-        else
-        {
-            CanvasManager.instance.DebugText("false");
-        }
+        canvasManager.inGameMenu.SetActive(true);
+        canvasManager.hpBarSet.SetActive(true);
 
         bedBlind.SetActive(false);
         player.GetComponent<PlayerControl>().SetCurrentJumpCount();
         player.GetComponent<PlayerControl>().enabled = true;
 
-        Debug.Log("Load");
+        StartCoroutine(GameStartDelay(true));
+
+        Debug.Log("load");
     }
     public void DeleteSave()
     {
@@ -266,15 +257,23 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    public IEnumerator GameStartDelay(bool _GameStart)
+    {
+        yield return new WaitForSeconds(0.2f);
+        gameStart = _GameStart;
+    }
+
     public void OpenStartMenu()
     {
         mainMenu.SetActive(true);
+        CloseLoad();
         gameSlotFocus = 0;
         mainUICursor.transform.position = new Vector2(mainUICursor.transform.position.x, startMenus[gameSlotFocus].transform.position.y);
         mainUICursor.SetActive(true);
     }
     public void CloseStartMenu()
     {
+        startMenu.SetActive(false);
         mainUICursor.SetActive(false);
         mainMenu.SetActive(false);
     }

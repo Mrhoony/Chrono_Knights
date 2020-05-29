@@ -40,7 +40,7 @@ public class DungeonManager : MonoBehaviour
 
     public float dungeonPlayTimer;
 
-    public void Awake()
+    private void Awake()
     {
         if (instance == null)
         {
@@ -52,7 +52,10 @@ public class DungeonManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
+    }
+
+    public void DungeonManagerInit()
+    {
         dungeonMaker.DungeonMakerInit();
         useObjectNumber = 99;
 

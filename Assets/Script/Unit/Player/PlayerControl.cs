@@ -76,23 +76,21 @@ public class PlayerControl : MovingObject
             Destroy(gameObject);
             return;
         }
-
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerStatus = GetComponent<PlayerStatus>();
         weaponSpear = GetComponent<Weapon_Spear>();
-        weaponSpear.Init(animator, rb);
         weaponGun = GetComponent<Weapon_Gun>();
+
+        weaponType = 0;
+        weaponSpear.Init(animator, rb);
 
         chargingAttack = 0f;
         arrowDirection = 1;
-        weaponType = 0;
         jumpAttack = 0;
         dodgable = true;
         isJump = false;
-
-        Debug.Log("control awake");
     }
 
     // Update is called once per frame
