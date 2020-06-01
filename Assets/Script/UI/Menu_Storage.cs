@@ -11,6 +11,7 @@ public class Menu_Storage : Menu_InGameMenu
     // 창고 슬롯
     public int boxFull;
     public int boxNum;              // 창고 번호 (*24)
+    public int itemCount;
 
     // 한 슬롯 변수
     public int[] storageItemCodeList;
@@ -144,29 +145,7 @@ public class Menu_Storage : Menu_InGameMenu
 
         FocusMove();
     }
-
-    public void StorageSet()           // 창고 활성화시 UI 초기화
-    {
-        boxNumber.text = (boxNum + 1).ToString() + " / " + ((availableSlot - 1) / 24 + 1).ToString();
-        if (availableSlot - (boxNum * 24) > 24) boxFull = 24;
-        else                                    boxFull = availableSlot - (boxNum * 24);
-
-        for (int i = boxNum * 24; i < boxFull + (boxNum * 24); ++i)
-        {
-            if (itemList[i] != null)
-            {
-                slot[i - (boxNum * 24)].GetComponent<Menu_InGameSlot>().SetItemSprite(itemList[i], isSelected[i]);
-            }
-            else
-            {
-                slot[i - (boxNum * 24)].GetComponent<Menu_InGameSlot>().SetItemSprite(null, isSelected[i]);
-            }
-        }
-        for(int i = boxFull; i < 24; ++i)
-        {
-            slot[i].GetComponent<Menu_InGameSlot>().SetOverSlot();
-        }
-    }
+    
     public int PutInBox(Item _Item, bool _IsBuy)        // 창고에 아이템 넣기
     {
         for (int i = 0; i < availableSlot; ++i)
@@ -200,10 +179,14 @@ public class Menu_Storage : Menu_InGameMenu
         takeItemCount = inventory.GetAvailableSlot();
         selectedSlot = new int[takeItemCount];
 
+        // 창고 아이템 레어리티순 정렬
+        StorageSlotSort(0);
+        StorageItemSort();
         StorageSet();
-        ItemInformationSetting(focused);
-        slotInstance = slot[focused].GetComponent<Slot>();
-        cursor.transform.position = slot[focused].transform.position;
+
+        ItemInformationSetting(0);
+        slotInstance = slot[0].GetComponent<Slot>();
+        cursor.transform.position = slot[0].transform.position;
         cursor.SetActive(true);
     }
     public void CloseStorageWithUpgrade(bool _SelectedItem)
@@ -248,7 +231,6 @@ public class Menu_Storage : Menu_InGameMenu
             selectedSlot[i] = 99;
         }
     }
-    
     public void DeleteItem(int _focused)                // 아이템 삭제될 시
     {
         itemList[_focused] = null;
@@ -269,8 +251,8 @@ public class Menu_Storage : Menu_InGameMenu
             isSelected[_focused] = false;
         }
         StorageSlotSort(_focused);
+        StorageSet();
     }
-
     public void InventorySelectCancel(int _focused)       // 인벤토리에서 아이템 선택 취소시
     {
         --selectedItemCount;
@@ -281,6 +263,57 @@ public class Menu_Storage : Menu_InGameMenu
         }
         isSelected[_focused] = false;
         StorageSlotSort(_focused);
+        StorageSet();
+    }
+
+    public void StorageItemSort()
+    {
+        Item tempItem;
+
+        // 아이템 레어리티순으로 정렬
+        for (int i = 0; i < itemCount; ++i)
+        {
+            int temp = i;
+            for (int j = i + 1; j < itemCount; ++j)
+            {
+                if (itemList[temp].itemRarity > itemList[j].itemRarity) temp = j;
+            }
+            tempItem = itemList[i];
+            itemList[i] = itemList[temp];
+            itemList[temp] = tempItem;
+        }
+        
+        int itemListCount = 0;
+        int tempCount = 0;
+
+        for (int i = 1; i < 4; ++i)
+        {
+            for (int ii = itemListCount; ii < itemCount; ++ii)
+            {
+                if (itemList[ii].itemRarity == i)
+                {
+                    ++itemListCount;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            for (int j = tempCount; j < itemListCount; ++j)
+            {
+                int temp = j;
+                for (int jj = j + 1; jj < itemListCount; ++jj)
+                {
+                    if (itemList[temp].value > itemList[jj].value) temp = jj;
+                }
+
+                tempItem = itemList[j];
+                itemList[j] = itemList[temp];
+                itemList[temp] = tempItem;
+            }
+            tempCount = itemListCount;
+        }
     }
     public void StorageSlotSort(int _focus)             // 창고 정렬
     {
@@ -304,13 +337,46 @@ public class Menu_Storage : Menu_InGameMenu
                     itemList[i + j] = null;
                     isSelected[i + j] = false;
 
+                    i = i+j-1;
                     break;
                 }
             }
         }
-        StorageSet();
+
+        itemCount = 0;
+        for(int i = 0; i < availableSlot - 1; ++i)
+        {
+            if (itemList[i] != null)
+            {
+                ++itemCount;
+            }
+        }
     }
-    
+    public void StorageSet()           // 창고 활성화시 UI 초기화
+    {
+        boxNumber.text = (boxNum + 1).ToString() + " / " + ((availableSlot - 1) / 24 + 1).ToString();
+
+        // 창고 최대 수량
+        if (availableSlot - (boxNum * 24) > 24) boxFull = 24;
+        else boxFull = availableSlot - (boxNum * 24);
+
+        for (int i = boxNum * 24; i < boxFull + (boxNum * 24); ++i)
+        {
+            if (itemList[i] != null)
+            {
+                slot[i - (boxNum * 24)].GetComponent<Menu_InGameSlot>().SetItemSprite(itemList[i], isSelected[i]);
+            }
+            else
+            {
+                slot[i - (boxNum * 24)].GetComponent<Menu_InGameSlot>().SetItemSprite(null, isSelected[i]);
+            }
+        }
+        for (int i = boxFull; i < 24; ++i)
+        {
+            slot[i].GetComponent<Menu_InGameSlot>().SetOverSlot();
+        }
+    }
+
     public void AvailableKeySlotUpgrade(int upgrade)
     {
         availableSlot += upgrade;

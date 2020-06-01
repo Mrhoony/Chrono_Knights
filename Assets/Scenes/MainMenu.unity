@@ -1423,6 +1423,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 82245446666752446, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: MaxFocused
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1078847289877276496, guid: 187d72a635af2f04a891caed4b95c247,
         type: 3}
       propertyPath: m_IsActive
@@ -1956,11 +1961,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 2001624151}
-    - target: {fileID: 6033934337970117601, guid: 9a383a931a8c9254fae17696f9cad381,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 301090048, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
       propertyPath: menu
       value: 
@@ -1973,11 +1973,18 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e5fab9804a1e02c489fef17aad0e81cd, type: 2}
-    - target: {fileID: 3677731558862700652, guid: 9a383a931a8c9254fae17696f9cad381,
-        type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 6200000, guid: d75e9e7e1b1be14458e788b37b8f3b9a, type: 2}
+    - target: {fileID: 734147117, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1279122664, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 642350525, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
 --- !u!1001 &8598324639745805893

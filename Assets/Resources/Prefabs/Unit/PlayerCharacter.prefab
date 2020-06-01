@@ -78,8 +78,8 @@ MonoBehaviour:
   player: {fileID: 3981682513319129743}
   menu: {fileID: 0}
   inventory: {fileID: 0}
-  slots: {fileID: 734147117}
-  quickSlot:
+  quickSlot: {fileID: 734147117}
+  quickSlots:
   - {fileID: 1279122664}
   - {fileID: 1597503147}
   - {fileID: 2066348264}
@@ -1164,7 +1164,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_TargetDisplay: 0
 --- !u!114 &8336267567303627828
 MonoBehaviour:
@@ -1393,7 +1393,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 3981682513319129743}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 7748935868f5292409c727182d907c56, type: 2}
+  m_Material: {fileID: 6200000, guid: d75e9e7e1b1be14458e788b37b8f3b9a, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1557,7 +1557,6 @@ MonoBehaviour:
   currentState: 
   actionState: 5
   overlap: 0
-  isFaceRight: 0
   arrowDirection: 0
   rayDashLayerMask:
     serializedVersion: 2
@@ -1571,7 +1570,6 @@ MonoBehaviour:
   playerEffect: {fileID: 6683672731776554705}
   playerInputKey: {fileID: 6419636204234707391}
   playerFollowObject: {fileID: 3454963853009985777}
-  Canvas: {fileID: 3454963853009985777}
   gunEffect:
   - {fileID: 9015076233196846170, guid: ae7dcfda2df360d4d867ff0543b1a7df, type: 3}
   - {fileID: 5366748907940831454, guid: 3aa868533fc68d342b0faedbef7159ce, type: 3}

@@ -359,7 +359,6 @@ public class CanvasManager : MonoBehaviour
     {
         Debug.Log("close dialogbox");
         dialogBox.gameObject.SetActive(false);
-        StartCoroutine(PlayerMoveEnable());
         StartCoroutine(InputKeyDelay());
     }
     public bool DialogBoxOn()

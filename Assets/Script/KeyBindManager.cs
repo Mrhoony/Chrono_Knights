@@ -11,22 +11,18 @@ public class KeyBindManager : MonoBehaviour
     Dictionary<string, KeyCode> currentDictionary;
 
     private string bindName;
-
-    public void Start()
-    {
-        KeyBinds = new Dictionary<string, KeyCode>();
-    }
-
+    
     public void Init()
     {
+        KeyBinds = new Dictionary<string, KeyCode>();
         BindKey("UP", KeyCode.UpArrow);
         BindKey("DOWN", KeyCode.DownArrow);
         BindKey("LEFT", KeyCode.LeftArrow);
         BindKey("RIGHT", KeyCode.RightArrow);
 
-        BindKey("Fire1", KeyCode.Z);
-        BindKey("Fire2", KeyCode.X);
-        BindKey("Fire3", KeyCode.V);
+        BindKey("AttackX", KeyCode.Z);
+        BindKey("AttackY", KeyCode.X);
+        BindKey("Dodge", KeyCode.V);
         BindKey("Jump", KeyCode.C);
     }
 

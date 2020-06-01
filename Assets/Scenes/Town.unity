@@ -7927,6 +7927,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 154507452, guid: f68ae6bc76b324d46861b049c78611c1, type: 3}
+      propertyPath: cursor
+      value: 
+      objectReference: {fileID: 1854475260}
+    - target: {fileID: 154507452, guid: f68ae6bc76b324d46861b049c78611c1, type: 3}
+      propertyPath: MaxFocused
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f68ae6bc76b324d46861b049c78611c1, type: 3}
 --- !u!1 &1854475258 stripped
@@ -7938,6 +7946,12 @@ GameObject:
 --- !u!1 &1854475259 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8142600364361054063, guid: f68ae6bc76b324d46861b049c78611c1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1854475257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1854475260 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1934302174, guid: f68ae6bc76b324d46861b049c78611c1,
     type: 3}
   m_PrefabInstance: {fileID: 1854475257}
   m_PrefabAsset: {fileID: 0}

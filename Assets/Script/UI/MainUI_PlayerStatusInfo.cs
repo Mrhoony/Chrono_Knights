@@ -46,7 +46,7 @@ public class MainUI_PlayerStatusInfo : FocusUI
                 Invoke("PlayerStatusFocusChange", 0.01f);
             }
 
-            FocusMove();
+            FocusMove(equipmentSlot[focused]);
         }
     }
 
@@ -197,11 +197,6 @@ public class MainUI_PlayerStatusInfo : FocusUI
         {
             statusEquipment.GetComponent<StatusEquipment>().EquipmentStatusInfoSet("", "", "", "");
         }
-    }
-
-    public void FocusMove()
-    {
-        cursor.transform.position = Vector2.Lerp(cursor.transform.position, equipmentSlot[focused].transform.position, Time.deltaTime * cursorSpeed);
     }
 
     public new void FocusedSlot(int AdjustValue)

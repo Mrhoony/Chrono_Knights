@@ -8,62 +8,72 @@ public class Menu_QuickSlot : MonoBehaviour
     public GameObject player;
     public CanvasManager menu;
     public Menu_Inventory inventory;
-    public GameObject slots;
-    public GameObject[] quickSlot;
+    public GameObject quickSlot;
+    public GameObject[] quickSlots;
     public Item[] inventoryItemlist;
     public bool onQuickSlot = false;
     public int addQuickInventory;
-    
+
+    public IEnumerator quickSlotOpenTime;
+
     public GameObject quickSlotItemInfomation;
 
     public int focus;
 
     public void Update()
     {
-        if (GameManager.instance.gameStart) return;
         if (menu.GameMenuOnCheck() || menu.TownUIOnCheck()) return;
-        
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if (!onQuickSlot)
-            {
-                onQuickSlot = true;
-                focus = 0;
-                addQuickInventory = 0;
-                slots.SetActive(true);
-                inventoryItemlist = inventory.GetItemList();
-                SetQuickSlot(0, 5);
-                quickSlot[focus].transform.GetChild(0).gameObject.SetActive(true);
-                if(inventoryItemlist[focus] != null)
-                {
-                    quickSlotItemInfomation.SetActive(true);
-                    quickSlotItemInfomation.transform.position = quickSlot[focus].transform.position;
-                    quickSlotItemInfomation.GetComponent<ItemInfomation>().SetItemInformationQuickSlot(inventoryItemlist[0]);
-                }
-            }
-            else if (onQuickSlot)
-            {
-                onQuickSlot = false;
-                quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
-                quickSlotItemInfomation.SetActive(false);
-                slots.SetActive(false);
-            }
-        }
-        
-        if (!onQuickSlot) return;
-        
-        if (Input.GetKeyDown(KeyCode.W)) { FocusedSlot(-1); }
-        if (Input.GetKeyDown(KeyCode.E)) { FocusedSlot(1); }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (onQuickSlot)
         {
-            if (inventory.GetItem(focus) == null) return;
-            inventory.UseItemInQuickSlot(focus);
-            quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
-            quickSlotItemInfomation.SetActive(false);
-            onQuickSlot = false;
-            slots.SetActive(false);
+            if (Input.GetKeyDown(KeyCode.Q)) { FocusedSlot(-1); }
+            if (Input.GetKeyDown(KeyCode.E)) { FocusedSlot(1); }
+
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                if (inventory.GetItem(focus) == null) return;
+
+                inventory.UseItemInQuickSlot(focus);
+                CloseQuickSlot();
+            }
         }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E))
+            {
+                OpenQuickSlot();
+            }
+        }
+    }
+
+    public void OpenQuickSlot()
+    {
+        onQuickSlot = true;
+        focus = 0;
+        addQuickInventory = 0;
+        quickSlot.SetActive(true);
+        inventoryItemlist = inventory.GetItemList();
+        SetQuickSlot(0, 5);
+        ItemInformationSet(focus);
+        quickSlotOpenTime = QuickSlotOpenTime();
+        StartCoroutine(quickSlotOpenTime);
+        Debug.Log("Open");
+    }
+
+    public void CloseQuickSlot()
+    {
+        StopCoroutine(quickSlotOpenTime);
+        quickSlots[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
+        quickSlotItemInfomation.SetActive(false);
+        quickSlot.SetActive(false);
+        onQuickSlot = false;
+        Debug.Log("Close");
+    }
+
+    public IEnumerator QuickSlotOpenTime()
+    {
+        yield return new WaitForSeconds(3f);
+        CloseQuickSlot();
     }
     
     public void SetQuickSlot(int low, int high)
@@ -72,12 +82,12 @@ public class Menu_QuickSlot : MonoBehaviour
         {
             if (inventoryItemlist[i] != null)
             {
-                quickSlot[i - low].SetActive(true);
-                quickSlot[i - low].GetComponent<Image>().sprite = inventoryItemlist[i].sprite;
+                quickSlots[i - low].SetActive(true);
+                quickSlots[i - low].GetComponent<Image>().sprite = inventoryItemlist[i].sprite;
             }
             else
             {
-                quickSlot[i - low].SetActive(false);
+                quickSlots[i - low].SetActive(false);
             }
         }
     }
@@ -85,28 +95,36 @@ public class Menu_QuickSlot : MonoBehaviour
     void FocusedSlot(int AdjustValue)
     {
         if (focus + AdjustValue < 0 || focus + AdjustValue > inventory.GetAvailableSlot() - 1) return;
-        if (inventoryItemlist[focus + AdjustValue] == null) return;
 
-        quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
+        quickSlots[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(false);
 
         if (focus + AdjustValue > addQuickInventory + 4)
             ++addQuickInventory;
         else if (focus + AdjustValue < addQuickInventory)
             --addQuickInventory;
 
-        SetQuickSlot(addQuickInventory, addQuickInventory + 5);
-
         focus += AdjustValue;
-        quickSlot[focus - addQuickInventory].transform.GetChild(0).gameObject.SetActive(true);
 
+        SetQuickSlot(addQuickInventory, addQuickInventory + 5);
+        ItemInformationSet(focus - addQuickInventory);
+
+        StopCoroutine(quickSlotOpenTime);
+        quickSlotOpenTime = QuickSlotOpenTime();
+        StartCoroutine(quickSlotOpenTime);
+    }
+
+    public void ItemInformationSet(int _Focused)
+    {
         if (inventoryItemlist[focus] != null)
         {
+            quickSlots[_Focused].transform.GetChild(0).gameObject.SetActive(true);
             quickSlotItemInfomation.SetActive(true);
-            quickSlotItemInfomation.transform.position = quickSlot[focus - addQuickInventory].transform.position;
+            quickSlotItemInfomation.transform.position = quickSlots[_Focused].transform.position;
             quickSlotItemInfomation.GetComponent<ItemInfomation>().SetItemInformationQuickSlot(inventoryItemlist[focus]);
         }
         else
         {
+            quickSlots[_Focused].transform.GetChild(0).gameObject.SetActive(false);
             quickSlotItemInfomation.SetActive(false);
         }
     }

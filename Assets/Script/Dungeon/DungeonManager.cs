@@ -245,6 +245,8 @@ public class DungeonManager : MonoBehaviour
     }
     public void ActiveInteractiveNPC(NPC_Control _NPC)  // NPC 코드에 따라 대화 찾기, 창열기
     {
+        if (PlayerControl.instance.actionState != ActionState.Idle) return;
+
         switch (_NPC.objectNumber)
         {
             case 101:
