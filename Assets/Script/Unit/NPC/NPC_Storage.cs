@@ -8,7 +8,7 @@ public class NPC_Storage : NPC_Control
     {
         if (OpenStorageCheck()) return;
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
             DungeonManager.instance.ActiveInteractiveNPC(this);
         }

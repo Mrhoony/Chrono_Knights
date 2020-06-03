@@ -10,11 +10,11 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
 
         if (!open_SelectItemUI)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(1, selectEquipFocused); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(-1, selectEquipFocused); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(1, selectEquipFocused); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { selectEquipFocused = FocusSlotEquipmentSelect(-1, selectEquipFocused); }
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { selectEquipFocused = FocusSlotEquipmentSelect(1, selectEquipFocused); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { selectEquipFocused = FocusSlotEquipmentSelect(-1, selectEquipFocused); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { selectEquipFocused = FocusSlotEquipmentSelect(1, selectEquipFocused); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { selectEquipFocused = FocusSlotEquipmentSelect(-1, selectEquipFocused); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
             {
                 if (selectEquipFocused == 7)
                 {
@@ -31,13 +31,13 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
                     OpenSelectedItemMenu();
                 }
             }
-            if (Input.GetKeyDown(KeyCode.X))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
             {
                 cursorEquipSelect.SetActive(false);
                 selectEquipFocused = 0;
                 CloseTownUIMenu();
             }
-            if (Input.GetButtonDown("Cancel"))              // esc 를 눌렀을 때
+            if (Input.GetKeyDown(KeyCode.Escape))              // esc 를 눌렀을 때
             {
                 cursorEquipSelect.SetActive(false);
                 selectEquipFocused = 0;
@@ -50,11 +50,11 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { selectItemUIFocused = FocusSlotItemSelect(1, selectItemUIFocused); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { selectItemUIFocused = FocusSlotItemSelect(-1, selectItemUIFocused); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { selectItemUIFocused = FocusSlotItemSelect(1, selectItemUIFocused); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { selectItemUIFocused = FocusSlotItemSelect(-1, selectItemUIFocused); }
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { selectItemUIFocused = FocusSlotItemSelect(1, selectItemUIFocused); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { selectItemUIFocused = FocusSlotItemSelect(-1, selectItemUIFocused); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { selectItemUIFocused = FocusSlotItemSelect(1, selectItemUIFocused); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { selectItemUIFocused = FocusSlotItemSelect(-1, selectItemUIFocused); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
             {
                 if (selectItemUIFocused == 3)
                 {
@@ -80,12 +80,12 @@ public class TownUI_Upgrade : TownUI_EquipmentUpgrade
                     }
                 }
             }
-            if (Input.GetKeyDown(KeyCode.X))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
             {
                 CloseSelectedItemMenu();
                 selectUseItem.SetActive(false);
             }
-            if (Input.GetButtonDown("Cancel"))              // esc 를 눌렀을 때
+            if (Input.GetKeyDown(KeyCode.Escape))              // esc 를 눌렀을 때
             {
                 CloseSelectedItemMenu();
                 selectUseItem.SetActive(false);

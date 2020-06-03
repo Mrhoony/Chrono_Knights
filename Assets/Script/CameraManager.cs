@@ -40,26 +40,42 @@ public class CameraManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        cameraShaking = false;
+    }
+
+    public void CameraInit()
+    {
         mainCamera = GetComponent<Camera>();
         perfectCamera = GetComponent<PixelPerfectCamera>();
-
-        CameraSizeSetting(1);
-        //Screen.SetResolution(Screen.width, (Screen.width * 9) / 16, false);
-
-        cameraShakeOnOff = true;
-        cameraShaking = false;
 
         for (int i = 0; i < font.Length; ++i)
         {
             font[i].material.mainTexture.filterMode = FilterMode.Point;
         }
+    }
+
+    public void Init()
+    {
+        CameraInit();
+
+        CameraSizeSetting(1);
+        cameraShakeOnOff = true;
+
         bound = GameObject.Find("BackGroundSet").GetComponent<BoxCollider2D>();
         SetCameraBound(bound);
     }
 
-    public void CameraSetting(bool _cameraSetting)
+    public void Init(bool _CameraShakeOnOff, int _CameraSize)
     {
-        cameraShakeOnOff = _cameraSetting;
+        CameraInit();
+
+        CameraSizeSetting(_CameraSize);
+        //Screen.SetResolution(Screen.width, (Screen.width * 9) / 16, false);
+
+        cameraShakeOnOff = _CameraShakeOnOff;
+
+        bound = GameObject.Find("BackGroundSet").GetComponent<BoxCollider2D>();
+        SetCameraBound(bound);
     }
 
     // Update is called once per frame

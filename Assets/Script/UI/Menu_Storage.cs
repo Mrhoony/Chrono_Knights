@@ -47,10 +47,10 @@ public class Menu_Storage : Menu_InGameMenu
 
         if (isItemSelect)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { slotInstance.ItemConfirmFocus(1); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { slotInstance.ItemConfirmFocus(-1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { slotInstance.ItemConfirmFocus(1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { slotInstance.ItemConfirmFocus(-1); }
 
-            if (Input.GetKeyDown(KeyCode.Z))    // 아이템 선택
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))    // 아이템 선택
             {
                 if(slotInstance.GetFocus() == 0)
                 {
@@ -99,7 +99,7 @@ public class Menu_Storage : Menu_InGameMenu
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.X))    // 아이템 선택 취소
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))    // 아이템 선택 취소
             {
                 isItemSelect = false;
                 slotInstance.SetDisActiveItemConfirm();
@@ -107,12 +107,12 @@ public class Menu_Storage : Menu_InGameMenu
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(6); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-6); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { FocusedSlot(1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { FocusedSlot(-1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { FocusedSlot(6); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { FocusedSlot(-6); }
 
-            if (Input.GetKeyDown(KeyCode.Z))    // 아이템 선택
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))    // 아이템 선택
             {
                 if (itemList[focused] == null) return;
 
@@ -127,7 +127,7 @@ public class Menu_Storage : Menu_InGameMenu
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.X))    // 아이템 선택 취소
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))    // 아이템 선택 취소
             {
                 if (upgradeItem)
                 {

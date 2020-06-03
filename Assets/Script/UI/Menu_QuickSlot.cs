@@ -26,10 +26,10 @@ public class Menu_QuickSlot : MonoBehaviour
 
         if (onQuickSlot)
         {
-            if (Input.GetKeyDown(KeyCode.Q)) { FocusedSlot(-1); }
-            if (Input.GetKeyDown(KeyCode.E)) { FocusedSlot(1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["QuickSlotLeft"])) { FocusedSlot(-1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["QuickSlotRight"])) { FocusedSlot(1); }
 
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["QuickSlotSelect"]))
             {
                 if (inventory.GetItem(focus) == null) return;
 
@@ -39,7 +39,7 @@ public class Menu_QuickSlot : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["QuickSlotLeft"]) || Input.GetKeyDown(KeyBindManager.instance.KeyBinds["QuickSlotRight"]))
             {
                 OpenQuickSlot();
             }

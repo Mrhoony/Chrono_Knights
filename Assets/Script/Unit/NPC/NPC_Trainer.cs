@@ -9,7 +9,7 @@ public class NPC_Trainer : NPC_Control
     {
         if (OpenUICheck()) return;
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
             DungeonManager.instance.ActiveInteractiveNPC(this);
         }

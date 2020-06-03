@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainUI_CancelMenu : FocusUI
+public class SystemUI_CancelMenu : FocusUI
 {
     public GameObject cancelMenu;
     public GameObject[] cancelMenus;
 
+    public GameObject settingMenu;
+    public bool anyUIOpen;
+
     private void Update()
     {
         if (!isUIOn) return;
+        if (anyUIOpen) return;
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
             switch (focused)
             {
@@ -22,6 +26,7 @@ public class MainUI_CancelMenu : FocusUI
                     }
                 case 1:
                     {
+                        OpenSettingMenu();
                         break;
                     }
                 case 2:
@@ -34,10 +39,31 @@ public class MainUI_CancelMenu : FocusUI
                     }
             }
         }
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
+        {
+            CloseCancelMenu();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            CloseCancelMenu();
+        }
 
         if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-1); }
         if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(1); }
         FocusMove(cancelMenus[focused]);
+    }
+
+    public void OpenSettingMenu()
+    {
+        anyUIOpen = true;
+        settingMenu.SetActive(true);
+        settingMenu.GetComponent<SystemUI_SettingMenu>().OpenSettingMenu();
+    }
+
+    public void CloseSettingMenu()
+    {
+        settingMenu.SetActive(false);
+        anyUIOpen = false;
     }
 
     public void OpenCancelMenu()
@@ -52,6 +78,5 @@ public class MainUI_CancelMenu : FocusUI
     {
         isUIOn = false;
         cursor.SetActive(false);
-        cancelMenu.SetActive(false);
     }
 }

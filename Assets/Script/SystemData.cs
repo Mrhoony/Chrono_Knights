@@ -6,16 +6,18 @@ using UnityEngine;
 [Serializable]
 public class SystemData
 {
-    public int screen_width;
-    public int screen_height;
+    public int screenSizeNumber;
+
+    public bool cameraShakeOnOff;
 
     public float volume_BGM;
     public float volume_Effect;
-
+    
     public Dictionary<string, KeyCode> currentDictionary;
 
-    public void Init()
+    public void Init(KeyBindManager _KeyBindManager)
     {
-        currentDictionary = KeyBindManager.instance.KeyBinds;
+        currentDictionary = _KeyBindManager.KeyBinds;
+        cameraShakeOnOff = true;
     }
 }

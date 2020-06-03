@@ -45,7 +45,7 @@ public class PlayerControl : MovingObject
     public Weapon_Gun weaponGun;
     public int weaponType;
 
-    public float inputDirection;
+    public int inputDirection;
     public int inputArrow;
 
     public float runDelay;
@@ -116,12 +116,31 @@ public class PlayerControl : MovingObject
 
         if (actionState == ActionState.IsDodge || actionState == ActionState.NotMove || actionState == ActionState.IsParrying) return;
 
-        inputDirection = Input.GetAxisRaw("Horizontal");
+        if (Input.GetKey(KeyBindManager.instance.KeyBinds["Left"]))
+        {
+            inputDirection = -1;
+        }
+        else if (Input.GetKey(KeyBindManager.instance.KeyBinds["Right"]))
+        {
+            inputDirection = 1;
+        }
+        else
+        {
+            inputDirection = 0;
+        }
 
-        if (Input.GetKey(KeyCode.UpArrow)) inputArrow = 30;
-        else if (Input.GetKey(KeyCode.DownArrow)) inputArrow = 40;
-        else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) inputArrow = 10;
-        else inputArrow = 0;
+        if (!Input.GetKey(KeyBindManager.instance.KeyBinds["Up"]) &&
+            !Input.GetKey(KeyBindManager.instance.KeyBinds["Down"]) &&
+            !Input.GetKey(KeyBindManager.instance.KeyBinds["Left"]) &&
+            !Input.GetKey(KeyBindManager.instance.KeyBinds["Right"]))
+        {
+            inputArrow = 0;
+        }
+
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) inputArrow = 30;
+        else if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) inputArrow = 40;
+        else if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) inputArrow = 10;
+        else if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) inputArrow = 10;
         
         // x 공격 입력
         if (weaponType == 0)        // 현재 무기가 창이면
@@ -133,7 +152,7 @@ public class PlayerControl : MovingObject
             GunAttack();
         }
         
-        if (Input.GetButtonDown("Fire3") && dodgable) Dodge();  // 회피
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Dodge"]) && dodgable) Dodge();  // 회피
 
         if (actionState == ActionState.IsAtk) return;
         if (actionState == ActionState.IsJumpAttack) return;
@@ -153,16 +172,16 @@ public class PlayerControl : MovingObject
             }
         }  // shift 키 입력시 대쉬
 
-        if (Input.GetButtonDown("Jump")) Jump();     // 점프
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Jump"])) Jump();     // 점프
 
         if (actionState != ActionState.Idle) return;
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["ActiveSkill"]))
         {
             Debug.Log("스킬 1 입력");
             skillManager.ActiveSkillUse(gameObject);
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"]))
         {
             if(weaponType == 0) // 스피어 -> 건
             {
@@ -202,12 +221,12 @@ public class PlayerControl : MovingObject
         {
             if (playerStatus.chargingAttackOn)
             {
-                if (Input.GetButton("Fire1"))
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
                 {
                     chargingAttack += Time.deltaTime;
                 }
 
-                if (Input.GetButtonUp("Fire1"))
+                if (Input.GetKeyUp(KeyBindManager.instance.KeyBinds["X"]))
                 {
                     if (chargingAttack > 1f)
                     {
@@ -224,7 +243,7 @@ public class PlayerControl : MovingObject
             }
             else
             {
-                if (Input.GetButtonDown("Fire1"))
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
                 {
                     SpearXAttack();
                     return;
@@ -232,7 +251,7 @@ public class PlayerControl : MovingObject
             }
         }
 
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
         {
             if (actionState == ActionState.IsJump || actionState == ActionState.IsJumpAttack)
             {
@@ -250,7 +269,7 @@ public class PlayerControl : MovingObject
             return;
         }
 
-        if (Input.GetButtonUp("Fire2"))
+        if (Input.GetKeyUp(KeyBindManager.instance.KeyBinds["Y"]))
         {
             if (actionState != ActionState.IsJump && actionState != ActionState.IsJumpAttack)
             {
@@ -290,7 +309,7 @@ public class PlayerControl : MovingObject
 
     void GunAttack()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
             if (actionState == ActionState.IsJumpAttack) return;       // 공격 중 입력무시
             if (actionState == ActionState.IsJump)
@@ -364,20 +383,20 @@ public class PlayerControl : MovingObject
     }
     void RunCheck()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"]))
         {
             isLrun = 0;
             ++isRrun;
             runDelay = 0.2f;
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"]))
         {
             isRrun = 0;
             ++isLrun;
             runDelay = 0.2f;
         }
 
-        if (((Input.GetKeyUp(KeyCode.RightArrow) && isRrun > 1) || (Input.GetKeyUp(KeyCode.LeftArrow) && isLrun > 1)))
+        if ((Input.GetKeyUp(KeyBindManager.instance.KeyBinds["Right"]) && isRrun > 1) || (Input.GetKeyUp(KeyBindManager.instance.KeyBinds["Left"]) && isLrun > 1))
         {
             isRrun = 0;
             isLrun = 0;

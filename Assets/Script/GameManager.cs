@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     public GameObject mainUICursor;
     public GameObject saveUICursor;
     public float cursorSpd;
+
+    public KeyBindManager keyBindManager;
+    public CameraManager cameraManager;
     
     public GameObject player;
     public PlayerStatus playerStat;
@@ -41,8 +44,7 @@ public class GameManager : MonoBehaviour
     public bool openSaveSlot;
     public bool gameStart;
     #endregion
-
-    public GameObject[] screenSize;
+    
     public SystemData systemData;
     private int screenNumber;
     
@@ -73,15 +75,17 @@ public class GameManager : MonoBehaviour
         //QualitySettings.vSyncCount = 0;                 // 동기화 수치 고정
         Application.targetFrameRate = 60;               // 최대 프레임 조절
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
         dataBase = new DataBase();
 
         Init();
 
         CanvasManager.instance.DebugText("gameManager awake");
     }
-
     private void Init()
     {
+        LoadSystemData();
+
         dataBase.Init();
         storage.Init();
         inventory.Init();
@@ -103,30 +107,31 @@ public class GameManager : MonoBehaviour
     public void Update()
     {
         if (gameStart) return;
+        if (CanvasManager.instance.isCancelOn || CanvasManager.instance.isSettingOn) return;
 
         if (openSaveSlot)
         {
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
             {
                 LoadGame();
             }
-            if (Input.GetKeyDown(KeyCode.X))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
             {
                 CloseLoad();
                 canvasManager.inGameMenu.SetActive(true);
             }
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Jump"]))
             {
                 DeleteSave();
             }
 
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { SaveFocusedSlot(1); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { SaveFocusedSlot(-1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { SaveFocusedSlot(1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { SaveFocusedSlot(-1); }
             SaveCursorMove();
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
             {
                 switch (gameSlotFocus)
                 {
@@ -142,8 +147,8 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { GameStartFocusedSlot(-1); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { GameStartFocusedSlot(1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { GameStartFocusedSlot(-1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { GameStartFocusedSlot(1); }
             MainCursorMove();
         }
     }
@@ -322,22 +327,22 @@ public class GameManager : MonoBehaviour
         openSaveSlot = false;
     }
 
-    public void SettingSave()
+    public void SaveSystemData()
     {
         bf = new BinaryFormatter();
         ms = new MemoryStream();
 
         // 시스템 정보
-        systemData = new SystemData();
-        systemData.Init();
 
         bf.Serialize(ms, systemData);
         data = Convert.ToBase64String(ms.GetBuffer());
 
         PlayerPrefs.SetString("SystemData", data);
-        Debug.Log("save complete");
+
+        systemData = new SystemData();
+        Debug.Log("save system data complete");
     }
-    public void SettingSet()
+    public void LoadSystemData()
     {
         if (PlayerPrefs.HasKey("SystemData"))
         {
@@ -350,8 +355,17 @@ public class GameManager : MonoBehaviour
 
                 // 유저 정보
                 systemData = (SystemData)bf.Deserialize(ms);
+
+                cameraManager.Init(systemData.cameraShakeOnOff, systemData.screenSizeNumber);
+                keyBindManager.Init(systemData.currentDictionary);
             }
         }
+        else
+        {
+            cameraManager.Init();
+            keyBindManager.Init();
+        }
+        Debug.Log("load system data complete");
     }
     public void ScreenSizeSelect(bool LR)
     {

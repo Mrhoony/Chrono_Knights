@@ -42,10 +42,10 @@ public class Menu_Inventory : Menu_InGameMenu
         
         if (isItemSelect)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { slotInstance.ItemConfirmFocus(1); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { slotInstance.ItemConfirmFocus(-1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { slotInstance.ItemConfirmFocus(1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { slotInstance.ItemConfirmFocus(-1); }
 
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
             {
                 if(slotInstance.GetFocus() == 0)
                 {
@@ -77,7 +77,7 @@ public class Menu_Inventory : Menu_InGameMenu
                 }
                 isItemSelect = false;
             }
-            if (Input.GetKeyDown(KeyCode.X))    // 아이템 선택 취소
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))    // 아이템 선택 취소
             {
                 slotInstance.SetDisActiveItemConfirm();
                 isItemSelect = false;
@@ -87,24 +87,24 @@ public class Menu_Inventory : Menu_InGameMenu
         {
             if (isShopOpen)
             {
-                if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
-                if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
-                if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(6); }
-                if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-6); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { FocusedSlot(1); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { FocusedSlot(-1); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { FocusedSlot(6); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { FocusedSlot(-6); }
 
-                if (Input.GetKeyDown(KeyCode.Z))
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
                 {
                     if (itemList[focused] == null) return;
                     slotInstance.SetActiveItemConfirm("판매", "취소");
                     isItemSelect = true;
                 }
-                if (Input.GetKeyDown(KeyCode.X))
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
                 {
                     isUIOn = false;
                     cursor.SetActive(false);
                     canvasManager.CloseShopInventory();
                 }
-                if (Input.GetKeyDown(KeyCode.C))    // 포커스 상점으로 변경
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Jump"]))    // 포커스 상점으로 변경
                 {
                     isUIOn = false;
                     Invoke("ShopFocusChange", 0.01f);
@@ -112,19 +112,19 @@ public class Menu_Inventory : Menu_InGameMenu
             }
             else
             {
-                if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
-                if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
-                if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(6); }
-                if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-6); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { FocusedSlot(1); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { FocusedSlot(-1); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { FocusedSlot(6); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { FocusedSlot(-6); }
 
-                if (Input.GetKeyDown(KeyCode.Z))
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
                 {
                     if (itemList[focused] == null) return;
 
                     slotInstance.SetActiveItemConfirm("사용", "버리기");
                     isItemSelect = true;
                 }
-                if (Input.GetKeyDown(KeyCode.X))    // 아이템 선택 취소
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))    // 아이템 선택 취소
                 {
                     if (isDungeonOpen)
                     {
@@ -132,7 +132,7 @@ public class Menu_Inventory : Menu_InGameMenu
                     }
                     canvasManager.CloseInGameMenu();
                 }
-                if (Input.GetKeyDown(KeyCode.C))    // 포커스 상점으로 변경
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Jump"]))    // 포커스 상점으로 변경
                 {
                     isUIOn = false;
                     Invoke("PlayerStatusFocusChange", 0.01f);

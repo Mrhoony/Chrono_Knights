@@ -32,16 +32,16 @@ public class MainUI_PlayerStatusInfo : FocusUI
     {
         if (isUIOn)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(3); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-3); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { FocusedSlot(1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { FocusedSlot(-1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { FocusedSlot(3); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { FocusedSlot(-3); }
 
-            if (Input.GetKeyDown(KeyCode.X))    // 포커스 상점으로 변경
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))    // 포커스 상점으로 변경
             {
                 Invoke("PlayerStatusFocusChange", 0.01f);
             }
-            if (Input.GetKeyDown(KeyCode.C))    // 포커스 상점으로 변경
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Jump"]))    // 포커스 상점으로 변경
             {
                 Invoke("PlayerStatusFocusChange", 0.01f);
             }

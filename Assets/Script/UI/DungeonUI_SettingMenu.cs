@@ -10,10 +10,10 @@ public class DungeonUI_SettingMenu : FocusUI
     {
         if (!isUIOn) return;
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
-        if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { FocusedSlot(-1); }
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { FocusedSlot(1); }
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
             if (focused == 0)
             {

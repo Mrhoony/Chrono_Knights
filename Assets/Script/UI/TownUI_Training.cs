@@ -22,7 +22,7 @@ public class TownUI_Training : MonoBehaviour
     {
         if (!isTownMenuOn || canvasManager.DialogBoxOn()) return;
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
             if(focus < 6)
             {
@@ -34,15 +34,15 @@ public class TownUI_Training : MonoBehaviour
                 CloseTownUIMenu();
             }
         }
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
         {
             CloseTownUIMenu();
         }
 
         if (!isTraningPossible) return;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-1); }
-        if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(1); }
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { FocusedSlot(-1); }
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { FocusedSlot(1); }
     }
 
     public void OpenTownUIMenu()

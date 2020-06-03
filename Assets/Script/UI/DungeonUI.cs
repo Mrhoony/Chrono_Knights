@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Dungeon_UI : FocusUI
+public class DungeonUI : FocusUI
 {
     public GameObject dungeonFloor;
     public GameObject dungeonFloorEft;
@@ -18,15 +18,15 @@ public class Dungeon_UI : FocusUI
     {
         if (!isUIOn) return;
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
             if (focused < 0) return;
             trialCard[focused].GetComponent<DungeonTrialSlot>().SelectThisCard();
             CloseTrialCardSelectMenu();
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { FocusedSlot(1); }
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { FocusedSlot(-1); }
 
         if (focused < 0) return;
         FocusMove(trialCard[focused]);

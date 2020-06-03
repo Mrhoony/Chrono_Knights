@@ -13,7 +13,7 @@ public class NPC_Blacksmith : NPC_Control
     {
         if (OpenUICheck() || canvasManager.DialogBoxOn()) return;
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
             if (!openSelectUI)
             {
@@ -39,13 +39,13 @@ public class NPC_Blacksmith : NPC_Control
 
         if (!openSelectUI) return;
 
-        if (Input.GetKeyDown(KeyCode.DownArrow)) { focus = FocusedSlot(button, 1, focus); }
-        if (Input.GetKeyDown(KeyCode.UpArrow)) { focus = FocusedSlot(button, -1, focus); }
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { focus = FocusedSlot(button, 1, focus); }
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { focus = FocusedSlot(button, -1, focus); }
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
             CloseSelectMenu();
         }
-        if (Input.GetButtonDown("Cancel"))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             CloseSelectMenu();
         }

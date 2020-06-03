@@ -33,10 +33,10 @@ public class TownUI_Shop : FocusUI
 
         if (isItemSelect)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { slotInstance.ItemConfirmFocus(1); }
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { slotInstance.ItemConfirmFocus(-1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { slotInstance.ItemConfirmFocus(1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { slotInstance.ItemConfirmFocus(-1); }
 
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
             {
                 if(slotInstance.GetFocus() == 0)
                 {
@@ -64,7 +64,7 @@ public class TownUI_Shop : FocusUI
                     isItemSelect = false;
                 }
             }
-            if (Input.GetKeyDown(KeyCode.X))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
             {
                 slotInstance.SetDisActiveItemConfirm();
                 isItemSelect = false;
@@ -74,22 +74,22 @@ public class TownUI_Shop : FocusUI
         {
             if (isUIOn)
             {
-                if (Input.GetKeyDown(KeyCode.RightArrow)) { FocusedSlot(1); }
-                if (Input.GetKeyDown(KeyCode.LeftArrow)) { FocusedSlot(-1); }
-                if (Input.GetKeyDown(KeyCode.DownArrow)) { FocusedSlot(4); }
-                if (Input.GetKeyDown(KeyCode.UpArrow)) { FocusedSlot(-4); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { FocusedSlot(1); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { FocusedSlot(-1); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { FocusedSlot(4); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { FocusedSlot(-4); }
 
-                if (Input.GetKeyDown(KeyCode.Z))
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
                 {
                     if (shopItemList[focused] == null) return;
                     slotInstance.SetActiveItemConfirm("구매", "취소");
                     isItemSelect = true;
                 }
-                if (Input.GetKeyDown(KeyCode.X))
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
                 {
                     canvasManager.CloseShopInventory();
                 }
-                if (Input.GetKeyDown(KeyCode.C))
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Jump"]))
                 {
                     StartCoroutine(FocusChange());
                 }

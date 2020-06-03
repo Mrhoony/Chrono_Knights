@@ -42,7 +42,7 @@ public class CanvasManager : MonoBehaviour
     #endregion
 
     public TownUI townUI;       // 마을 UI
-    public Dungeon_UI dungeonUI;
+    public DungeonUI dungeonUI;
 
     #region UIOpenCheck
     public bool isInventoryOn;
@@ -112,15 +112,14 @@ public class CanvasManager : MonoBehaviour
     private void Update()
     {
         if (!gm.GetGameStart()) return;
-        
-        if (Input.GetKeyDown(KeyCode.Z))
+
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
             if (isGameOverUIOn)
             {
                 CloseGameOverMenu();
             }
         }
-
         if (isTalkBoxOn)
         {
             talkBox.gameObject.transform.position = Camera.main.WorldToScreenPoint(talkBoxNPC.transform.position) + Vector3.up * 100f;
@@ -195,11 +194,11 @@ public class CanvasManager : MonoBehaviour
             }
         }
         
-        if (TownUIOnCheck() || isDungeonUIOn || isStorageOn) return;
+        if (TownUIOnCheck() || isDungeonUIOn) return;
         if (isGameOverUIOn) return;
 
         // 인벤토리, 업적창, 스토리 관련
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Inventory"]))
         {
             if (!isInventoryOn)
             {
@@ -214,11 +213,11 @@ public class CanvasManager : MonoBehaviour
         }
         if (isInventoryOn)
         {
-            if (Input.GetKeyDown(KeyCode.U))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["QuickSlotLeft"]))
             {
                 ChangeMenu(-1);
             }
-            if (Input.GetKeyDown(KeyCode.O))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["QuickSlotRight"]))
             {
                 ChangeMenu(1);
             }
@@ -573,53 +572,31 @@ public class CanvasManager : MonoBehaviour
     {
         PlayerMoveStop();
         CancelMenu.SetActive(true);
-        CancelMenu.GetComponent<MainUI_CancelMenu>().OpenCancelMenu();
+        CancelMenu.GetComponent<SystemUI_CancelMenu>().OpenCancelMenu();
         isCancelOn = true;
     }
     public void CloseCancelMenu()
     {
+        if (CancelMenu.GetComponent<SystemUI_CancelMenu>().anyUIOpen) return;
+
         isCancelOn = false;
-        CancelMenu.GetComponent<MainUI_CancelMenu>().CloseCancelMenu();
+        CancelMenu.GetComponent<SystemUI_CancelMenu>().CloseCancelMenu();
         CancelMenu.SetActive(false);
         StartCoroutine(PlayerMoveEnable());
     }
     
     public void OpenSettings()
     {
-        PlayerMoveStop();
-        SettingsMenu.GetComponent<RectTransform>().anchoredPosition = new Vector3(200, 0, 0);
-        SettingsMenu.GetComponent<RectTransform>().sizeDelta = new Vector2(800, Screen.height);
-        SettingsMenu.SetActive(true);
         isSettingOn = true;
-    }
-    public void OpenSettings(int width, int height)
-    {
-        PlayerMoveStop();
-        SettingsMenu.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
         SettingsMenu.SetActive(true);
+        SettingsMenu.GetComponent<SystemUI_SettingMenu>().OpenSettingMenu();
     }
     public void CloseSettings()
     {
-        isSettingOn = false;
-        SettingsMenu.SetActive(false);
-        StartCoroutine(PlayerMoveEnable());
-    }
+        if (SettingsMenu.GetComponent<SystemUI_SettingMenu>().anyUIOpen) return;
 
-    public void OpenKeySettings()
-    {
-        PlayerMoveStop();
-        KeySettingMenu.GetComponent<RectTransform>().sizeDelta = new Vector2(800, Screen.height);
-        KeySettingMenu.SetActive(true);
-    }
-    public void OpenKeySettings(int width, int height)
-    {
-        KeySettingMenu.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
-        KeySettingMenu.SetActive(true);
-    }
-    public void CloseKeySettings()
-    {
-        KeySettingMenu.SetActive(false);
-        StartCoroutine(PlayerMoveEnable());
+        SettingsMenu.SetActive(false);
+        isSettingOn = false;
     }
     #endregion
 
@@ -660,7 +637,7 @@ public class CanvasManager : MonoBehaviour
     }
     public void SetDungeonUI()
     {
-        dungeonUI = GameObject.Find("DungeonUI").GetComponent<Dungeon_UI>();
+        dungeonUI = GameObject.Find("DungeonUI").GetComponent<DungeonUI>();
     }
 
     public void DebugText(string _Text)
