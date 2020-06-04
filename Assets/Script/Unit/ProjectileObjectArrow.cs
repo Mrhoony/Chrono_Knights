@@ -7,12 +7,14 @@ public class ProjectileObjectArrow : MonoBehaviour
     public bool isHit;
     public Rigidbody2D rb;
     public int damage;
+    public float angle;
     
     private void Update()
     {
         if (isHit) return;
 
-        transform.localEulerAngles = new Vector3(0, 0, rb.velocity.y * 45f / rb.velocity.x);
+        angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
     public void arrowShooting(int _Damage, float _DistanceX, float _DistanceY, int _ArrowDirection)

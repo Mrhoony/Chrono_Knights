@@ -591,9 +591,6 @@ GameObject:
   - component: {fileID: 1044432036}
   - component: {fileID: 1044432037}
   - component: {fileID: 1044432038}
-  - component: {fileID: 1044432041}
-  - component: {fileID: 1044432040}
-  - component: {fileID: 1044432039}
   m_Layer: 0
   m_Name: Database
   m_TagString: Untagged
@@ -677,64 +674,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keySettingMenu: {fileID: 0}
   isKeySettingOn: 0
---- !u!95 &1044432039
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044432033}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!320 &1044432040
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044432033}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 0}
-  m_InitialState: 1
-  m_WrapMode: 2
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings:
-  - key: {fileID: 114707964933746810, guid: b5c6fd4c1cf7bd7448bb8c7990090f2d, type: 2}
-    value: {fileID: 1044432039}
-  - key: {fileID: 114704303174276022, guid: 3915dffc6979af34587b19049bd0b0a6, type: 2}
-    value: {fileID: 2001624153}
-  - key: {fileID: 114089194508413276, guid: 3915dffc6979af34587b19049bd0b0a6, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: 114597458115602732, guid: 3915dffc6979af34587b19049bd0b0a6, type: 2}
-    value: {fileID: 0}
-  m_ExposedReferences:
-    m_References: []
---- !u!114 &1044432041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044432033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e95d3adc6417854e977e07333d2d8c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playableDirector: {fileID: 1044432040}
-  timeLine: {fileID: 11400000, guid: 3915dffc6979af34587b19049bd0b0a6, type: 2}
 --- !u!1 &1058596574
 GameObject:
   m_ObjectHideFlags: 0

@@ -75,8 +75,6 @@ public class ScenarioManager : MonoBehaviour
 
     public bool ScenarioCheck(string _CheckCurrentProgress)
     {
-        TimeLineManager timeLine = GetComponent<TimeLineManager>();
-        timeLine.Play();
         if (eventList.ContainsKey(_CheckCurrentProgress))
         {
             Debug.Log("has key");

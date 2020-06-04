@@ -163,6 +163,34 @@ public class PlayerAttack
         attackMultiHit = _attackMultiHit;
     }
 }
+/*
+ * 
+public class DialogEvent
+{
+    public int eventCount;
+    public DialogEventType dialogEventType;
+
+    public DialogEvent(int _EventCount, DialogEventType _DialogEventType)
+    {
+        eventCount = _EventCount;
+        dialogEventType = _DialogEventType;
+    }
+}
+public class EventDialog : DialogEvent
+{
+    public string NPCName;
+    public string NPCImage;
+    public string content;
+
+    public EventDialog(int _EventCount, DialogEventType _DialogEventType, string _NPCName, string _NPCImage, string _Content) : base(_EventCount, _DialogEventType)
+    {
+        NPCName = _NPCName;
+        NPCImage = _NPCImage;
+        content = _Content;
+    }
+}
+ */
+
 public class EventDialog
 {
     public string NPCName;
