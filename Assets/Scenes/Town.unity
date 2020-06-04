@@ -708,6 +708,7 @@ GameObject:
   m_Component:
   - component: {fileID: 129162083}
   - component: {fileID: 129162084}
+  - component: {fileID: 129162085}
   m_Layer: 0
   m_Name: BackGroundSet
   m_TagString: Untagged
@@ -763,6 +764,25 @@ MonoBehaviour:
   layerCount: 0
   lastCameraX: 0
   lastCameraY: 0
+--- !u!95 &129162085
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129162082}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &177837003
 GameObject:
   m_ObjectHideFlags: 0

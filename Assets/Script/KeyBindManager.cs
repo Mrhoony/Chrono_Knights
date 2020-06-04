@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum KeyBindsName
 {
-    Up = 0, Down, Left, Right, X, Y, Dodge, Jump, ActiveSkill, InventoryOpen, QuickSlotLeft, QuickSlotSelect, QuickSlotRight, WeaponSwap
+    Up = 0, Down, Left, Right, X, Y, Dodge, Jump, ActiveSkill, Inventory, QuickSlotLeft, QuickSlotSelect, QuickSlotRight, WeaponSwap
 }
 
 public class KeyBindManager : MonoBehaviour
@@ -48,7 +48,7 @@ public class KeyBindManager : MonoBehaviour
         BindKey("ActiveSkill", KeyCode.S);
 
         BindKey("QuickSlotLeft", KeyCode.Q);
-        BindKey("InventoryOpen", KeyCode.I);
+        BindKey("Inventory", KeyCode.I);
         BindKey("QuickSlotSelect", KeyCode.W);
         BindKey("QuickSlotRight", KeyCode.E);
 

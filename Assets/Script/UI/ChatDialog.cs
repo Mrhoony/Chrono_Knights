@@ -13,6 +13,13 @@ public class ChatDialog : MonoBehaviour
 
     public IEnumerator TempCoroutine;
 
+    public void SetDialogText(string _DialogName, string _DialogText)
+    {
+        completeText = _DialogText;
+        TempCoroutine = OneByOneTextSetting(_DialogName, _DialogText);
+        StartCoroutine(TempCoroutine);
+    }
+
     public void SetDialogText(string _DialogName, string _DialogText, ScenarioManager _ScenarioManager)
     {
         scenarioManager = _ScenarioManager;

@@ -181,7 +181,7 @@ public class PlayerControl : MovingObject
             Debug.Log("스킬 1 입력");
             skillManager.ActiveSkillUse(gameObject);
         }
-        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"]))
+        if (Input.GetKeyDown(KeyCode.D))
         {
             if(weaponType == 0) // 스피어 -> 건
             {

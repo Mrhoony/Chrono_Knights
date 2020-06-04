@@ -128,7 +128,7 @@ public class CanvasManager : MonoBehaviour
         if (DungeonManager.instance.isSceneLoading) return;
 
         //인게임 세팅 관련 ( 사운드, 화면 크기 등)
-        if (Input.GetButtonDown("Cancel"))              // esc 를 눌렀을 때
+        if (Input.GetKeyDown(KeyCode.Escape))              // esc 를 눌렀을 때
         {
             if (isGameOverUIOn)
             {
@@ -340,7 +340,7 @@ public class CanvasManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        CanvasManager.instance.OpenTrialCardSelectMenu();
+        OpenTrialCardSelectMenu();
     }
 
     public void SetDialogText(string _DialogName, string _DialogContent, ScenarioManager _ScenearioManager)

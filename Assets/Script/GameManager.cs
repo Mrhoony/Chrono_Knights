@@ -207,6 +207,7 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerControl>().enabled = false;
         canvasManager.CanvasManagerInit();
         OpenStartMenu();
+        bedBlind = GameObject.Find("Base/Bed_Blind");
         bedBlind.SetActive(true);
 
         StartCoroutine(GameStartDelay(false));

@@ -44,7 +44,7 @@ public class ScenarioManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
             if (isDialogOn)
             {
@@ -75,6 +75,8 @@ public class ScenarioManager : MonoBehaviour
 
     public bool ScenarioCheck(string _CheckCurrentProgress)
     {
+        TimeLineManager timeLine = GetComponent<TimeLineManager>();
+        timeLine.Play();
         if (eventList.ContainsKey(_CheckCurrentProgress))
         {
             Debug.Log("has key");
@@ -168,7 +170,7 @@ public class ScenarioManager : MonoBehaviour
         Debug.Log("SetDialogRepeatText");
     }
     
-    public void ScenarioCheckTalkBox(GameObject NPC, int _NPCCode)
+    public void ScenarioCheckTalkBox(GameObject _Object, int _NPCCode)
     {
         if (eventTalkBox.ContainsKey(_NPCCode))
         {
@@ -185,7 +187,7 @@ public class ScenarioManager : MonoBehaviour
                     break;
                 }
             }
-            canvasManager.SetTalkBoxText(NPC, eventTalkBox[_NPCCode][temp].content);
+            canvasManager.SetTalkBoxText(_Object, eventTalkBox[_NPCCode][temp].content);
         }
         else
         {
