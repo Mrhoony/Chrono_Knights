@@ -56,9 +56,9 @@ public class NPC_Blacksmith : NPC_Control
         OpenSelectMenu();
     }
 
-    public int FocusedSlot(GameObject[] slots, int AdjustValue, int focused)
+    public int FocusedSlot(GameObject[] slots, int AdjustValue, int focused)//선택 이동
     {
-        slots[focused].transform.GetChild(0).gameObject.SetActive(false);
+        slots[focused].transform.gameObject.SetActive(false);
 
         focused += AdjustValue;
 
@@ -67,7 +67,7 @@ public class NPC_Blacksmith : NPC_Control
         if (focused > 2)
             focused = 0;
 
-        slots[focused].transform.GetChild(0).gameObject.SetActive(true);
+        slots[focused].transform.gameObject.SetActive(true);
 
         return focused;
     }
@@ -78,12 +78,12 @@ public class NPC_Blacksmith : NPC_Control
         focus = 0;
         openSelectUI = true;
         selectUI.SetActive(true);
-        button[focus].transform.GetChild(0).gameObject.SetActive(true);
+        button[focus].transform.gameObject.SetActive(true);
     }
 
     public void CloseSelectMenu()
     {
-        button[focus].transform.GetChild(0).gameObject.SetActive(false);
+        button[focus].transform.gameObject.SetActive(false);
         openSelectUI = false;
         selectUI.SetActive(false);
         StartCoroutine(canvasManager.PlayerMoveEnable());

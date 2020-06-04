@@ -1,10 +1,14 @@
 fileFormatVersion: 2
-guid: bef959254d3f528418819c1c35d1e082
+guid: 70fbac84f1c55b6409128b19db9e8b66
 TextureImporter:
   fileIDToRecycleName:
-    21300000: ui_hpbar_eliteMonster_0
-    21300002: ui_hpbar_eliteMonster_1
-    21300004: ui_hpbar_eliteMonster_2
+    21300000: ui_enchanter_select_0
+    21300002: ui_enchanter_select_1
+    21300004: ui_enchanter_select_2
+    21300006: ui_enchanter_select_4
+    21300008: ui_enchanter_select_5
+    21300010: ui_enchanter_select_7
+    21300012: ui_enchanter_select_8
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -63,7 +67,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 128
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -74,7 +78,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 128
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -87,61 +91,141 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ui_hpbar_eliteMonster_0
-      rect:
-        serializedVersion: 2
-        x: 29
-        y: 56
-        width: 40
-        height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 6, y: 0, z: 6, w: 6}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7f5dbb906db41df44bd86336bbb04edd
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ui_hpbar_eliteMonster_1
-      rect:
-        serializedVersion: 2
-        x: 21
-        y: 42
-        width: 57
-        height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 4, y: 3, z: 4, w: 3}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4115cefa943a7784f97a208fd3a3b43f
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ui_hpbar_eliteMonster_2
+      name: ui_enchanter_select_0
       rect:
         serializedVersion: 2
         x: 24
-        y: 33
-        width: 51
-        height: 5
+        y: 133
+        width: 352
+        height: 233
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 83fb9ba0cde3bba498f2680cc8c18c17
+      spriteID: f57ef8c0bf75a5341b702a4be388271e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_enchanter_select_1
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 178
+        width: 230
+        height: 143
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1fedd17fcdd02a43b4691f48e9b39ea
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_enchanter_select_2
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 190
+        width: 226
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e55ceb712ecae6946b56797f63648285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_enchanter_select_4
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 71
+        width: 81
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad2c8ad6924f01047b82f768837c59d3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_enchanter_select_5
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 21
+        width: 236
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a3b638467a01b24fa5f06dac868d2f3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_enchanter_select_7
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 35
+        width: 226
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3afb179e556bae4694721ca3af05b82
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_enchanter_select_8
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 24
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 217e0eaad54b24b42bcb42e8e17f964f
       vertices: []
       indices: 
       edges: []
@@ -149,7 +233,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 546f800167b2fc1489034a1df9743aef
+    spriteID: a26fcd433b6eac14692a17394adf438a
     vertices: []
     indices: 
     edges: []
