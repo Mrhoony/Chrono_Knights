@@ -310,7 +310,7 @@ public class DungeonManager : MonoBehaviour
                 }
                 else
                 {
-                    mainCamera.SetCameraBound(teleportDestination.currentMap.GetComponent<BoxCollider2D>());
+                    mainCamera.SetCameraBound(teleportDestination.currentMap);
                     player.transform.position = teleportDestination.gameObject.transform.position;
                 }
                 break;
@@ -353,14 +353,15 @@ public class DungeonManager : MonoBehaviour
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0:
-                mainCamera.SetCameraBound(backgroundSet.GetComponent<BoxCollider2D>());
+                backgroundSet = GameObject.Find("Base");
+                mainCamera.SetCameraBound(backgroundSet);
                 MapEntranceFind(teleportPoint, useObjectNumber);
                 break;
             case 1:
                 backgroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, -1);
 
                 backgroundSet = GameObject.Find("Town");
-                mainCamera.SetCameraBound(backgroundSet.GetComponent<BoxCollider2D>());
+                mainCamera.SetCameraBound(backgroundSet);
                 MapEntranceFind(teleportPoint, useObjectNumber);
 
                 canvasManager.SetTownUI();

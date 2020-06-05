@@ -7,12 +7,15 @@ public class CameraManager : MonoBehaviour
     public Font[] font;
 
     static public CameraManager instance;
+
     public GameObject target;
-    public BoxCollider2D bound;
+    public GameObject currentMap;
 
     private Vector3 targetPosition;
     private Vector2 minBound;
     private Vector2 maxBound;
+
+    public bool mainScenarioOn;
 
     public bool cameraShakeOnOff;
     public bool cameraShaking;
@@ -24,6 +27,9 @@ public class CameraManager : MonoBehaviour
     private int Width;
     private float halfHeight;
     private float halfWidth;
+
+    float clampedX;
+    float clampedY;
 
     private Camera mainCamera;
     private PixelPerfectCamera perfectCamera;
@@ -40,11 +46,9 @@ public class CameraManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        mainScenarioOn = false;
         cameraShaking = false;
-    }
 
-    public void CameraInit()
-    {
         mainCamera = GetComponent<Camera>();
         perfectCamera = GetComponent<PixelPerfectCamera>();
 
@@ -56,47 +60,80 @@ public class CameraManager : MonoBehaviour
 
     public void Init()
     {
-        CameraInit();
-
         CameraSizeSetting(1);
         cameraShakeOnOff = true;
 
-        bound = GameObject.Find("BackGroundSet").GetComponent<BoxCollider2D>();
-        SetCameraBound(bound);
+        currentMap = GameObject.Find("Base");
+        SetCameraBound(currentMap);
     }
-
     public void Init(bool _CameraShakeOnOff, int _CameraSize)
     {
-        CameraInit();
-
         CameraSizeSetting(_CameraSize);
         //Screen.SetResolution(Screen.width, (Screen.width * 9) / 16, false);
 
         cameraShakeOnOff = _CameraShakeOnOff;
 
-        bound = GameObject.Find("BackGroundSet").GetComponent<BoxCollider2D>();
-        SetCameraBound(bound);
+        currentMap = GameObject.Find("Base");
+        SetCameraBound(currentMap);
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        if (target != null)
+        if (mainScenarioOn) return;
+        if (target == null) return;
+        
+        if (cameraShaking)
         {
-            if (cameraShaking)
-            {
-                transform.position += Random.insideUnitSphere * cameraShackForce;
-            }
-            else
-            {
-                targetPosition.Set(target.transform.position.x, target.transform.position.y, cameraZPosition);
-
-                transform.position = Vector3.Lerp(transform.position, targetPosition, target.GetComponent<SubCamera>().moveSpeed * 2f * Time.deltaTime);
-                float clampedX = Mathf.Clamp(transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
-                float clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y + halfHeight);
-                transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
-            }
+            transform.position += Random.insideUnitSphere * cameraShackForce;
         }
+        else
+        {
+            targetPosition.Set(target.transform.position.x, target.transform.position.y, cameraZPosition);
+
+            transform.position = Vector3.Lerp(transform.position, targetPosition, target.GetComponent<SubCamera>().moveSpeed * 2f * Time.deltaTime);
+            clampedX = Mathf.Clamp(transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
+            clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y + halfHeight);
+            transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
+        }
+    }
+    
+    public void MainScenarioStart()
+    {
+        mainScenarioOn = true;
+    }
+
+    public void CameraFocus(GameObject _FocusedObject)
+    {
+        transform.position = new Vector3(_FocusedObject.transform.position.x, _FocusedObject.transform.position.y, cameraZPosition);
+        clampedX = Mathf.Clamp(transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
+        clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y + halfHeight);
+        transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
+
+    }
+    public void CameraFocus(GameObject _FocusedObject1, GameObject _FocusedObject2)
+    {
+        transform.position = new Vector3(
+            (_FocusedObject1.transform.position.x + _FocusedObject2.transform.position.x) * 0.5f,
+            (_FocusedObject1.transform.position.y + _FocusedObject2.transform.position.y) * 0.5f, 
+            cameraZPosition);
+        clampedX = Mathf.Clamp(transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
+        clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y + halfHeight);
+        transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
+    }
+    public void CameraFocusOff(float _DelayTime)
+    {
+        //target = GameObject.Find("SubCamera");
+        Invoke("CameraFocusOffDelay", _DelayTime);
+    }
+    public void CameraFocusOffDelay()
+    {
+        mainScenarioOn = false;
+    }
+
+    public void CameraScroll()
+    {
+        mainScenarioOn = true;
     }
 
     public void CameraShake(int _cameraShackForce)
@@ -116,11 +153,13 @@ public class CameraManager : MonoBehaviour
         yield return new WaitForSeconds(_time);
         cameraShaking = false;
     }
-    public void SetCameraBound(BoxCollider2D box)
+    public void SetCameraBound(GameObject _CurrentMap)
     {
-        bound = box;
-        minBound = bound.bounds.min;
-        maxBound = bound.bounds.max;
+        currentMap = _CurrentMap;
+        BoxCollider2D box = currentMap.GetComponent<BoxCollider2D>();
+
+        minBound = box.bounds.min;
+        maxBound = box.bounds.max;
         halfHeight = mainCamera.orthographicSize;
         halfWidth = halfHeight * 1280 / 720;
     }

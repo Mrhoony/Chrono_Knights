@@ -407,6 +407,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 730170866}
+  - component: {fileID: 730170867}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -434,6 +435,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &730170867
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730170865}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6.4, y: 3.6}
+  m_EdgeRadius: 0
 --- !u!114 &833182825 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8598324638961123333, guid: bb52788c74313754aaac85eedbfab2b6,
@@ -683,7 +710,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1058596575}
-  - component: {fileID: 1058596576}
   - component: {fileID: 1058596577}
   m_Layer: 0
   m_Name: BackGroundSet
@@ -706,32 +732,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1058596576
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1058596574}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: d75e9e7e1b1be14458e788b37b8f3b9a, type: 2}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 6.4, y: 3.6}
-    newSize: {x: 6.4, y: 3.6}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 6.4, y: 3.6}
-  m_EdgeRadius: 0
 --- !u!212 &1058596577
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1189,7 +1189,6 @@ GameObject:
   - component: {fileID: 2001624150}
   - component: {fileID: 2001624149}
   - component: {fileID: 2001624148}
-  - component: {fileID: 2001624153}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -1234,6 +1233,7 @@ MonoBehaviour:
   - {fileID: 12800000, guid: 4a0a0adc17c06894393e4c4c38582c8d, type: 3}
   target: {fileID: 1203967037}
   bound: {fileID: 0}
+  mainScenarioOn: 0
   cameraShakeOnOff: 1
   cameraShaking: 0
   cameraZPosition: -50
@@ -1302,25 +1302,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &2001624153
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2001624147}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &2081499454 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 857109813291945941, guid: 187d72a635af2f04a891caed4b95c247,

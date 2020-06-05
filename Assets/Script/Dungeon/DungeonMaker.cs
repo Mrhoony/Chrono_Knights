@@ -186,7 +186,7 @@ public class DungeonMaker : MonoBehaviour
         CanvasManager.instance.dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus(_Player.GetComponent<PlayerStatus>()));
         
         _Player.transform.position = entrance;
-        _MainCamera.SetCameraBound(currentMap.GetComponent<BoxCollider2D>());
+        _MainCamera.SetCameraBound(currentMap);
         _MainCamera.transform.position = entrance;
         _BackGroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, currentStage);
 

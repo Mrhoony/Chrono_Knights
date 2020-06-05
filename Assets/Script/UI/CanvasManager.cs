@@ -51,6 +51,7 @@ public class CanvasManager : MonoBehaviour
 
     public bool isSettingOn;
 
+    public bool mainScenarioOn;
     public bool isChatBoxOn;
     public bool isTalkBoxOn;
 
@@ -120,6 +121,7 @@ public class CanvasManager : MonoBehaviour
                 CloseGameOverMenu();
             }
         }
+
         if (isTalkBoxOn)
         {
             talkBox.gameObject.transform.position = Camera.main.WorldToScreenPoint(talkBoxNPC.transform.position) + Vector3.up * 100f;
@@ -130,6 +132,11 @@ public class CanvasManager : MonoBehaviour
         //인게임 세팅 관련 ( 사운드, 화면 크기 등)
         if (Input.GetKeyDown(KeyCode.Escape))              // esc 를 눌렀을 때
         {
+            if (mainScenarioOn)
+            {
+                return;
+            }
+
             if (isGameOverUIOn)
             {
                 CloseGameOverMenu();
@@ -359,6 +366,7 @@ public class CanvasManager : MonoBehaviour
         Debug.Log("close dialogbox");
         dialogBox.gameObject.SetActive(false);
         StartCoroutine(InputKeyDelay());
+        StartCoroutine(PlayerMoveEnable());
     }
     public bool DialogBoxOn()
     {

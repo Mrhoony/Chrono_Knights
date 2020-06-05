@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class ScenarioManager : MonoBehaviour
 {
@@ -44,6 +45,8 @@ public class ScenarioManager : MonoBehaviour
 
     public void Update()
     {
+        if (canvasManager.mainScenarioOn) return;
+
         if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
             if (isDialogOn)
@@ -78,12 +81,15 @@ public class ScenarioManager : MonoBehaviour
         if (eventList.ContainsKey(_CheckCurrentProgress))
         {
             Debug.Log("has key");
+
             if (!eventFlag[eventList[_CheckCurrentProgress]])
             {
                 eventFlag[eventList[_CheckCurrentProgress]] = true;
                 storyProgress = eventList[_CheckCurrentProgress];
                 SetDialogText();
                 Debug.Log("scenario check " + storyProgress);
+                CameraManager.instance.MainScenarioStart();
+                CameraManager.instance.CameraFocus(GameObject.Find("Merchant"));
                 return true;
             }
         }
@@ -129,6 +135,12 @@ public class ScenarioManager : MonoBehaviour
             index = 0;
             isOneByOneTextOn = false;
             canvasManager.CloseDialogBox();
+
+            GameObject event1 = GameObject.Find("Event1");
+            CameraManager.instance.CameraFocus(event1);
+            event1.GetComponent<PlayableDirector>().Play();
+
+            CameraManager.instance.CameraFocusOff(2f);
             isDialogOn = false;
             return;
         }

@@ -8,6 +8,8 @@ public class Boss_Trainer : BossMonster_Control
     
     private void OnEnable()
     {
+        if (CameraManager.instance.mainScenarioOn) return;
+
         rotateDelayTime = 4f;
         attackCoolTime = 5f;
         dashAttackCoolTime = 7f;
@@ -24,6 +26,8 @@ public class Boss_Trainer : BossMonster_Control
 
     private void FixedUpdate()
     {
+        if (CameraManager.instance.mainScenarioOn) return;
+
         if (actionState == ActionState.IsDead) return;
         MonsterFlip();
         Move();
