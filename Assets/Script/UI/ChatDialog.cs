@@ -9,8 +9,7 @@ public class ChatDialog : MonoBehaviour
     public Text dialogText;
     public string completeText;
     ScenarioManager scenarioManager;
-
-
+    
     public IEnumerator TempCoroutine;
 
     public void SetDialogText(string _DialogName, string _DialogText)

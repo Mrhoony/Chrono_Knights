@@ -215,7 +215,6 @@ public class RepeatEventDialog
         eventDialog = _EventDialog;
     }
 }
-
 public class EventTalkBox
 {
     public int scenarioNumber;

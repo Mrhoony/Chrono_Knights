@@ -17,7 +17,13 @@ public class Teleport : InteractiveObject
     private void Update()
     {
         if (CanvasManager.instance.GameMenuOnCheck()) return;
-        if (DungeonManager.instance.isSceneLoading) return;
+
+        if (!GameManager.instance.GetGameStart()) player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
+        if (DungeonManager.instance.isSceneLoading)
+        {
+            player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
+            return;
+        }
 
         if (inPlayer)
         {

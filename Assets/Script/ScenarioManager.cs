@@ -14,6 +14,7 @@ public class ScenarioManager : MonoBehaviour
 
     Dictionary<string, int> eventList = new Dictionary<string, int>();
     Dictionary<int, List<EventDialog>> eventContent = new Dictionary<int, List<EventDialog>>();
+
     Dictionary<int, List<RepeatEventDialog>> repeatEventList = new Dictionary<int, List<RepeatEventDialog>>();
     Dictionary<int, List<EventTalkBox>> eventTalkBox = new Dictionary<int, List<EventTalkBox>>();
 
@@ -210,7 +211,23 @@ public class ScenarioManager : MonoBehaviour
     {
         canvasManager.CloseTalkBox();
     }
-    
+
+    public List<EventDialog> GetEventTextlist(string _EventName)
+    {
+        List<EventDialog> returnEventList;
+
+        if (eventList.ContainsKey(_EventName))
+        {
+            returnEventList = eventContent[eventList[_EventName]];
+            return returnEventList;
+        }
+        else
+        {
+            Debug.Log("Has Not Key");
+            return null;
+        }
+    }
+
     public int GetStoryProgress()
     {
         return storyProgress;
