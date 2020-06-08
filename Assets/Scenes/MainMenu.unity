@@ -408,6 +408,7 @@ GameObject:
   m_Component:
   - component: {fileID: 730170866}
   - component: {fileID: 730170867}
+  - component: {fileID: 730170868}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -461,6 +462,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.4, y: 3.6}
   m_EdgeRadius: 0
+--- !u!114 &730170868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730170865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8d1519b39eb4eafe05b5be6256b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activateObject:
+  - {fileID: 1172011203}
+  lightObject: {fileID: 1308801058}
 --- !u!114 &833182825 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8598324638961123333, guid: bb52788c74313754aaac85eedbfab2b6,
@@ -616,8 +632,8 @@ GameObject:
   - component: {fileID: 1044432035}
   - component: {fileID: 1044432034}
   - component: {fileID: 1044432036}
-  - component: {fileID: 1044432037}
   - component: {fileID: 1044432038}
+  - component: {fileID: 1044432037}
   m_Layer: 0
   m_Name: Database
   m_TagString: Untagged
@@ -683,6 +699,7 @@ MonoBehaviour:
   canvasManager: {fileID: 1116762776}
   eventFlag: 
   storyProgress: 0
+  playableDirector: {fileID: 0}
   isDialogOn: 0
   isRepeatDialogOn: 0
   isOneByOneTextOn: 0
@@ -749,7 +766,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b5a1a0fe068b1224e82943c55ace767e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -896,6 +913,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 730170866}
     m_Modifications:
+    - target: {fileID: 3815408304545588549, guid: e6b2d8bb473408247898cb7b38ff6be4,
+        type: 3}
+      propertyPath: m_Name
+      value: Entrance
+      objectReference: {fileID: 0}
+    - target: {fileID: 3815408304545588549, guid: e6b2d8bb473408247898cb7b38ff6be4,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3815408304545588548, guid: e6b2d8bb473408247898cb7b38ff6be4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -950,16 +977,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3815408304545588549, guid: e6b2d8bb473408247898cb7b38ff6be4,
-        type: 3}
-      propertyPath: m_Name
-      value: Entrance
-      objectReference: {fileID: 0}
-    - target: {fileID: 3815408304545588549, guid: e6b2d8bb473408247898cb7b38ff6be4,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 3815408304545588570, guid: e6b2d8bb473408247898cb7b38ff6be4,
         type: 3}
@@ -1111,7 +1128,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1.5
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -1232,7 +1249,7 @@ MonoBehaviour:
   - {fileID: 12800000, guid: fa6ad275430d1c34392ca26e813cbcac, type: 3}
   - {fileID: 12800000, guid: 4a0a0adc17c06894393e4c4c38582c8d, type: 3}
   target: {fileID: 1203967037}
-  bound: {fileID: 0}
+  currentMap: {fileID: 730170865}
   mainScenarioOn: 0
   cameraShakeOnOff: 1
   cameraShaking: 0
@@ -1302,30 +1319,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2081499454 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 857109813291945941, guid: 187d72a635af2f04a891caed4b95c247,
-    type: 3}
-  m_PrefabInstance: {fileID: 82245447478733252}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5823220044fa1aa4ca5c483413deb409, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2101095515 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5254412240873313047, guid: 187d72a635af2f04a891caed4b95c247,
-    type: 3}
-  m_PrefabInstance: {fileID: 82245447478733252}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 322c9f5c4e1793649a00924fadd0d837, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &82245447478733252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1452,6 +1445,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8996986556985402211, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399417883488357379, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399417883488357379, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399417883488357379, guid: 187d72a635af2f04a891caed4b95c247,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
@@ -1870,6 +1883,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3981682513319129781, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b5a1a0fe068b1224e82943c55ace767e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
 --- !u!1001 &8598324639745805893

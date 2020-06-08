@@ -223,7 +223,7 @@ public class DungeonMaker : MonoBehaviour
 
         for (int i = 0; i < _MapList.Length; ++i)
         {
-            if (_MapList[i].GetComponent<Map_ObjectSetting>().bossStage)
+            if (_MapList[i].GetComponent<Map_DungeonSetting>().bossStage)
             {
                 map.Add(_MapList[i]);
                 break;
@@ -231,8 +231,8 @@ public class DungeonMaker : MonoBehaviour
         }
 
         currentMap = map[Random.Range(0, map.Count)];
-        entrance = currentMap.GetComponent<Map_ObjectSetting>().entrance.transform.position;
-        spawner = currentMap.GetComponent<Map_ObjectSetting>().spawner;
+        entrance = currentMap.GetComponent<Map_DungeonSetting>().entrance.transform.position;
+        spawner = currentMap.GetComponent<Map_DungeonSetting>().spawner;
         spawnerCount = spawner.Length;
 
         GameObject[] bossList = currentMap.GetComponent<Dungeon_BossFloor>().bossPrefabs;
@@ -253,8 +253,8 @@ public class DungeonMaker : MonoBehaviour
     {
         float randomX;
 
-        entrance = currentMap.GetComponent<Map_ObjectSetting>().entrance.transform.position;
-        spawner = currentMap.GetComponent<Map_ObjectSetting>().spawner;
+        entrance = currentMap.GetComponent<Map_DungeonSetting>().entrance.transform.position;
+        spawner = currentMap.GetComponent<Map_DungeonSetting>().spawner;
         spawnerCount = spawner.Length;
 
         Debug.Log("WHERE ::: " + monsterCount + " ABS : " + currentStageMonsterList.Length);
@@ -276,8 +276,8 @@ public class DungeonMaker : MonoBehaviour
         float randomX;
 
         currentMap = _MapList[Random.Range(0, _MapList.Length)];
-        entrance = currentMap.GetComponent<Map_ObjectSetting>().entrance.transform.position;
-        spawner = currentMap.GetComponent<Map_ObjectSetting>().spawner;
+        entrance = currentMap.GetComponent<Map_DungeonSetting>().entrance.transform.position;
+        spawner = currentMap.GetComponent<Map_DungeonSetting>().spawner;
         spawnerCount = spawner.Length;
 
         eliteMonsterCount = marker_Variable.markerVariable[(int)Markers.SetSpecialMonster_NF];
@@ -384,7 +384,7 @@ public class DungeonMaker : MonoBehaviour
 
         int markerRandom = Random.Range(0, 12);
         marker.thisMarker = (Markers)markerRandom;
-        GameObject mark = _SelectedMap.GetComponent<Map_ObjectSetting>().teleporter.transform.GetChild(0).gameObject;
+        GameObject mark = _SelectedMap.GetComponent<Map_DungeonSetting>().teleporter.transform.GetChild(0).gameObject;
         mark.GetComponent<DungeonMarker>().SetMarker((Markers)markerRandom);
 
         marker_Variable.markerPreVariable = marker_Variable.markerVariable;

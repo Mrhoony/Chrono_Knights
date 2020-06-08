@@ -180,6 +180,8 @@ public class DungeonManager : MonoBehaviour
     }
     public void CircleFadeOutStart()
     {
+        isReturn = true;
+        isSceneLoading = true;
         canvasManager.CircleFadeOutStart();
     }
     public void OpenGameOverResult()

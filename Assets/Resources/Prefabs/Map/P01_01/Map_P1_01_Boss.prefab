@@ -3642,13 +3642,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e2630ee0362b404788393da7a302b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activateObject: []
+  lightObject: {fileID: 0}
   mapType: 0
   spawner:
   - {fileID: 5316773366536802758}
   - {fileID: 8313955757636688394}
+  bossStage: 1
   teleporter: {fileID: 3340857298249931843}
   entrance: {fileID: 5357950809851308120}
-  bossStage: 1
   bossPrefabs:
   - {fileID: 8315407001163370714, guid: 070c54db304500b4ea0655b754db7a74, type: 3}
   - {fileID: 6363715144914464034, guid: 7f94fd38e92a848429b3d505c37a7dd7, type: 3}

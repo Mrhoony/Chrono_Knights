@@ -9,23 +9,22 @@ public class DungeonUI_SettingMenu : FocusUI
     private void Update()
     {
         if (!isUIOn) return;
-
-        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { FocusedSlot(-1); }
-        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { FocusedSlot(1); }
-
+        
         if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
             if (focused == 0)
             {
-                DungeonManager.instance.isReturn = true;
                 CanvasManager.instance.CloseDungeonMenu();
-                CanvasManager.instance.CircleFadeOutStart();
+                DungeonManager.instance.CircleFadeOutStart();
             }
             else
             {
                 Application.Quit();
             }
         }
+
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { FocusedSlot(-1); }
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { FocusedSlot(1); }
         FocusMove(SettingMenuSlot[focused]);
     }
     public void SetActiveSettingMenu()

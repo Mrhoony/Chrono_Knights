@@ -39,6 +39,8 @@ public class Teleport : InteractiveObject
                     }
                     else
                     {
+                        player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
+
                         if (sceneMove)
                         {
                             DungeonManager.instance.ActiveInteractiveTeleport(destinationSceneNumber);

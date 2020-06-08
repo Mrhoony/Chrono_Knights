@@ -21,7 +21,7 @@ public class PlayerData
         playerEquipment.Init();
 
         status = new float[9];
-        status[(int)Status.attack] = 1f;
+        status[(int)Status.attack] = 2f;
         status[(int)Status.defense] = 1f;
         status[(int)Status.moveSpeed] = 1f;
         status[(int)Status.attackSpeed] = 1f;

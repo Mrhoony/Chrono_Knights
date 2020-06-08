@@ -296,7 +296,6 @@ public class CanvasManager : MonoBehaviour
     }
     public void CircleFadeOutStart()
     {
-        DungeonManager.instance.isSceneLoading = true;
         StartCoroutine(CircleFadeOut());
     }
     IEnumerator CircleFadeOut()

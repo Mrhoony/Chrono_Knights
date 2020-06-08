@@ -207,8 +207,8 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerControl>().enabled = false;
         canvasManager.CanvasManagerInit();
         OpenStartMenu();
-        bedBlind = GameObject.Find("Base/Bed_Blind");
-        bedBlind.SetActive(true);
+
+        CameraManager.instance.currentMap.GetComponent<Map_ObjectSetting>().SaveGame();
 
         StartCoroutine(GameStartDelay(false));
 
@@ -244,7 +244,8 @@ public class GameManager : MonoBehaviour
         canvasManager.inGameMenu.SetActive(true);
         canvasManager.hpBarSet.SetActive(true);
 
-        bedBlind.SetActive(false);
+        CameraManager.instance.currentMap.GetComponent<Map_ObjectSetting>().LoadGame();
+
         player.GetComponent<PlayerControl>().SetCurrentJumpCount();
         player.GetComponent<PlayerControl>().enabled = true;
 

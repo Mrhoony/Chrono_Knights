@@ -2613,7 +2613,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4807689829039986107}
   - component: {fileID: 9176907700086791733}
-  - component: {fileID: 4725438655038212493}
+  - component: {fileID: 6060754942683001634}
   m_Layer: 0
   m_Name: Map_P1_01_06
   m_TagString: BaseMap
@@ -2667,7 +2667,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 18.6, y: 14.4}
   m_EdgeRadius: 0
---- !u!114 &4725438655038212493
+--- !u!114 &6060754942683001634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2676,16 +2676,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 4807689829039985733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ba8d1519b39eb4eafe05b5be6256b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f57b636e245bee479fbcd43b6d788a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activateObject: []
+  lightObject: {fileID: 0}
   mapType: 0
   spawner:
   - {fileID: 5316773366536802758}
   - {fileID: 8313955757636688394}
+  bossStage: 0
   teleporter: {fileID: 3340857298249931843}
   entrance: {fileID: 5357950809851308120}
-  bossStage: 0
 --- !u!1 &4807689829284767061
 GameObject:
   m_ObjectHideFlags: 0
@@ -2959,15 +2961,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 760659192046019380, guid: 2d9268bbeeb77ce4983b0ccefc049264,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 7443935283691990570, guid: 2d9268bbeeb77ce4983b0ccefc049264,
         type: 3}
       propertyPath: m_SortingOrder
       value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 760659192046019380, guid: 2d9268bbeeb77ce4983b0ccefc049264,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 3692322852516708301, guid: 2d9268bbeeb77ce4983b0ccefc049264,
         type: 3}

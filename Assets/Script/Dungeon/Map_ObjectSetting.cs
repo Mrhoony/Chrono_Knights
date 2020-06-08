@@ -2,18 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MapType
-{
-    tower,
-    forest
-}
-
 public class Map_ObjectSetting : MonoBehaviour
 {
-    public MapType mapType;
-    public GameObject[] spawner;
-    public GameObject teleporter;
-    public GameObject entrance;
+    public GameObject[] activateObject;
+    public GameObject lightObject;
 
-    public bool bossStage;
+    public void SaveGame()
+    {
+        foreach (GameObject _Object in activateObject)
+        {
+            _Object.SetActive(true);
+        }
+        lightObject.GetComponent<Light>().intensity = 0.5f;
+    }
+    public void LoadGame()
+    {
+        foreach (GameObject _Object in activateObject)
+        {
+            _Object.SetActive(false);
+        }
+        lightObject.GetComponent<Light>().intensity = 1.5f;
+    }
+    public void LightintensitySetting(float _Intensity)
+    {
+        lightObject.GetComponent<Light>().intensity = _Intensity;
+    }
 }

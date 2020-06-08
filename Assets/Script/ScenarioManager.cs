@@ -10,6 +10,8 @@ public class ScenarioManager : MonoBehaviour
     public int storyProgress;
     RepeatEventDialog _TempRepeatEventList;
 
+    public PlayableDirectorScript playableDirector;
+
     Dictionary<string, int> eventList = new Dictionary<string, int>();
     Dictionary<int, List<EventDialog>> eventContent = new Dictionary<int, List<EventDialog>>();
     Dictionary<int, List<RepeatEventDialog>> repeatEventList = new Dictionary<int, List<RepeatEventDialog>>();
@@ -89,7 +91,7 @@ public class ScenarioManager : MonoBehaviour
                 SetDialogText();
                 Debug.Log("scenario check " + storyProgress);
                 CameraManager.instance.MainScenarioStart();
-                CameraManager.instance.CameraFocus(GameObject.Find("Merchant"));
+                //CameraManager.instance.CameraFocus(GameObject.Find("Merchant"));
                 return true;
             }
         }
@@ -136,9 +138,9 @@ public class ScenarioManager : MonoBehaviour
             isOneByOneTextOn = false;
             canvasManager.CloseDialogBox();
 
-            GameObject event1 = GameObject.Find("Event1");
-            CameraManager.instance.CameraFocus(event1);
-            event1.GetComponent<PlayableDirector>().Play();
+            //GameObject event1 = GameObject.Find("Event1");
+            //CameraManager.instance.CameraFocus(event1);
+            //event1.GetComponent<PlayableDirector>().Play();
 
             CameraManager.instance.CameraFocusOff(2f);
             isDialogOn = false;
