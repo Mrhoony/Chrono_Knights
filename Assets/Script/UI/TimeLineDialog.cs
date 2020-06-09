@@ -4,22 +4,12 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 
-public class TimeLineDialog : MonoBehaviour
+public class TimeLineDialog : TalkBox
 {
-    public GameObject chaseGameObject;
     public PlayableDirector playableDirector;
-
-    public Text dialogText;
+    
     public string eventName;
 
-    public bool isDialogOn;
-    public bool isOneByOneTextOn;
-    public int currentEventCount = 0;
-    public string completeText;
-
-    List<EventDialog> eventDialog;
-
-    public IEnumerator TempCoroutine;
 
     private void OnEnable()
     {
@@ -53,7 +43,7 @@ public class TimeLineDialog : MonoBehaviour
         playableDirector.Pause();
     }
 
-    public void Update()
+    public new void Update()
     {
         if (!isDialogOn) return;
 
@@ -64,8 +54,6 @@ public class TimeLineDialog : MonoBehaviour
 
         if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
-            Debug.Log("test");
-
             if (isOneByOneTextOn)
             {
                 isOneByOneTextOn = false;
@@ -78,7 +66,7 @@ public class TimeLineDialog : MonoBehaviour
         }
     }
     
-    public void SetDialogText()
+    public new void SetDialogText()
     {
         isDialogOn = true;
         isOneByOneTextOn = true;
@@ -100,27 +88,5 @@ public class TimeLineDialog : MonoBehaviour
         TempCoroutine = OneByOneTextSetting(eventDialog[currentEventCount].content);
         ++currentEventCount;
         StartCoroutine(TempCoroutine);
-    }
-
-    public void OneByOneTextSkip()
-    {
-        StopCoroutine(TempCoroutine);
-        dialogText.text = completeText;
-    }
-
-    public IEnumerator OneByOneTextSetting(string _Content)
-    {
-        completeText = _Content;
-        string _TempDialogText = "";
-        int textCount = _Content.Length;
-
-        for (int i = 0; i < textCount; ++i)
-        {
-            _TempDialogText += _Content[i];
-            dialogText.text = _TempDialogText;
-            yield return new WaitForSeconds(1f);
-        }
-
-        isOneByOneTextOn = false;
     }
 }

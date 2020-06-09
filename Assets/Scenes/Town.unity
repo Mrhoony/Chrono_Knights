@@ -1712,7 +1712,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 130867
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
@@ -2648,7 +2648,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 130867
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
@@ -5897,8 +5897,6 @@ PlayableDirector:
     value: {fileID: 1602448324}
   - key: {fileID: 114415353679390596, guid: 3915dffc6979af34587b19049bd0b0a6, type: 2}
     value: {fileID: 1145566357}
-  - key: {fileID: 114537385611722502, guid: 3915dffc6979af34587b19049bd0b0a6, type: 2}
-    value: {fileID: 5218455254876618706}
   - key: {fileID: 114963427277472684, guid: 3915dffc6979af34587b19049bd0b0a6, type: 2}
     value: {fileID: 8429071389451098018}
   - key: {fileID: 114077550460135672, guid: 3915dffc6979af34587b19049bd0b0a6, type: 2}
@@ -7803,7 +7801,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 130867
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
@@ -9718,7 +9716,17 @@ PrefabInstance:
         type: 3}
       propertyPath: chaseGameObject
       value: 
-      objectReference: {fileID: 1602448321}
+      objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: playableDirector
+      value: 
+      objectReference: {fileID: 1366896338}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: eventName
+      value: FirstContact
+      objectReference: {fileID: 0}
     - target: {fileID: 1270748212575882901, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -9737,7 +9745,7 @@ PrefabInstance:
     - target: {fileID: 1270748212575882901, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 1270748212575882901, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
@@ -9749,6 +9757,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7819996340053110059, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34eb74fc591b976499a8d83f0cb19284, type: 3}
 --- !u!224 &5196242589211768577 stripped
@@ -9757,18 +9770,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2660950471028019961}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5218455254876618706 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7819996340053110059, guid: 34eb74fc591b976499a8d83f0cb19284,
-    type: 3}
-  m_PrefabInstance: {fileID: 2660950471028019961}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8262382564066185216
 PrefabInstance:
   m_ObjectHideFlags: 0

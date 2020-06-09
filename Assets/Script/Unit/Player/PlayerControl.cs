@@ -99,7 +99,7 @@ public class PlayerControl : MovingObject
         if (CanvasManager.instance.GameMenuOnCheck() || CanvasManager.instance.TownUIOnCheck()) return;       // UI 켜져 있을 때 입력 제한
         if (actionState == ActionState.IsDead) return;
         
-        if (rb.velocity.y < -0.5f && actionState != ActionState.IsJumpAttack)
+        if (rb.velocity.y < -0.1f && actionState != ActionState.IsJumpAttack)
         {
             GroundCheck.SetActive(true);
             if (rb.velocity.y < 1f)
@@ -116,18 +116,14 @@ public class PlayerControl : MovingObject
 
         if (actionState == ActionState.IsDodge || actionState == ActionState.NotMove || actionState == ActionState.IsParrying) return;
 
-        if (Input.GetKey(KeyBindManager.instance.KeyBinds["Left"]))
-        {
-            inputDirection = -1;
-        }
-        else if (Input.GetKey(KeyBindManager.instance.KeyBinds["Right"]))
-        {
-            inputDirection = 1;
-        }
-        else
-        {
-            inputDirection = 0;
-        }
+        if (Input.GetKey(KeyBindManager.instance.KeyBinds["Left"]))         inputDirection = -1;
+        else if (Input.GetKey(KeyBindManager.instance.KeyBinds["Right"]))   inputDirection = 1;
+        else                                                                inputDirection = 0;
+
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) inputArrow = 30;
+        else if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) inputArrow = 40;
+        else if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) inputArrow = 10;
+        else if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) inputArrow = 10;
 
         if (!Input.GetKey(KeyBindManager.instance.KeyBinds["Up"]) &&
             !Input.GetKey(KeyBindManager.instance.KeyBinds["Down"]) &&
@@ -136,11 +132,6 @@ public class PlayerControl : MovingObject
         {
             inputArrow = 0;
         }
-
-        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) inputArrow = 30;
-        else if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) inputArrow = 40;
-        else if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) inputArrow = 10;
-        else if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) inputArrow = 10;
         
         // x 공격 입력
         if (weaponType == 0)        // 현재 무기가 창이면

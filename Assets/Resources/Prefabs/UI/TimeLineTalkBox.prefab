@@ -152,7 +152,7 @@ MonoBehaviour:
   chaseGameObject: {fileID: 0}
   playableDirector: {fileID: 0}
   dialogText: {fileID: 7819996340053110059}
-  eventName: Tutorial
+  eventName: 
   isDialogOn: 0
   isOneByOneTextOn: 0
   currentEventCount: 0
@@ -192,7 +192,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 150, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &830836425000860711
 CanvasRenderer:
@@ -229,7 +229,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0

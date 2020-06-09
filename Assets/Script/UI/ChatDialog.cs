@@ -44,6 +44,7 @@ public class ChatDialog : MonoBehaviour
             dialogText.text = _TempDialogText;
             yield return new WaitForSeconds(0.1f);
         }
-        scenarioManager.isOneByOneTextOn = false;
+
+        //isOneByOneTextOn = false;
     }
 }

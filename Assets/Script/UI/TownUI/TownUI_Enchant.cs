@@ -78,7 +78,7 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
                     }
                 }
             }
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["y"]))
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
             {
                 CloseSelectedItemMenu();
                 selectUseItem.SetActive(false);

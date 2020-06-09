@@ -51,7 +51,7 @@ public class CanvasManager : MonoBehaviour
 
     public bool isSettingOn;
 
-    public bool mainScenarioOn;
+    public bool isMainScenarioOn;
     public bool isChatBoxOn;
     public bool isTalkBoxOn;
 
@@ -132,7 +132,7 @@ public class CanvasManager : MonoBehaviour
         //인게임 세팅 관련 ( 사운드, 화면 크기 등)
         if (Input.GetKeyDown(KeyCode.Escape))              // esc 를 눌렀을 때
         {
-            if (mainScenarioOn)
+            if (isMainScenarioOn)
             {
                 return;
             }
@@ -349,28 +349,46 @@ public class CanvasManager : MonoBehaviour
         OpenTrialCardSelectMenu();
     }
 
-    public void SetDialogText(string _DialogName, string _DialogContent, ScenarioManager _ScenearioManager)
+    public void SetDialogText(List<EventDialog> _TempRepeatEventList, NPC_Control NPC)
     {
         isChatBoxOn = true;
+
         PlayerMoveStop();
-        dialogBox.gameObject.SetActive(true);
-        dialogBox.SetDialogText(_DialogName, _DialogContent, _ScenearioManager);
+        CloseTalkBox();
+
+        talkBox.gameObject.SetActive(true);
+        talkBox.SetEventList(_TempRepeatEventList, NPC);
+
+        //dialogBox.gameObject.SetActive(true);
+        //dialogBox.SetDialogText(_DialogName, _DialogContent, _ScenearioManager);
     }
     public void OneByOneTextSkip()
     {
-        dialogBox.OneByOneTextSkip();
+        talkBox.OneByOneTextSkip();
+        //dialogBox.OneByOneTextSkip();
+    }
+    public void OpenNPCUI()
+    {
+        talkBox.gameObject.SetActive(false);
+        isChatBoxOn = false;
     }
     public void CloseDialogBox()
     {
         Debug.Log("close dialogbox");
-        dialogBox.gameObject.SetActive(false);
+
+        talkBox.gameObject.SetActive(false);
+        isChatBoxOn = false;
+        //dialogBox.gameObject.SetActive(false);
+
         StartCoroutine(InputKeyDelay());
         StartCoroutine(PlayerMoveEnable());
     }
+
     public bool DialogBoxOn()
     {
         return isChatBoxOn;
     }
+
     public void SetTalkBoxText(GameObject _NPC, string _Text)
     {
         isTalkBoxOn = true;
