@@ -12,6 +12,7 @@ public class Teleport : InteractiveObject
     private void Start()
     {
         objectType = InteractiveObjectType.Teleport;
+        player = GameObject.FindWithTag("Player");
     }
 
     private void Update()

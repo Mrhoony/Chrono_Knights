@@ -22,6 +22,7 @@ TagManager:
   - Slope
   - Wall
   - Light
+  - Guide
   layers:
   - Default
   - TransparentFX
