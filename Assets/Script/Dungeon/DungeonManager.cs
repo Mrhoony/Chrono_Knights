@@ -362,6 +362,7 @@ public class DungeonManager : MonoBehaviour
                 backgroundSet = GameObject.Find("Base");
                 mainCamera.SetCameraBound(backgroundSet);
                 MapEntranceFind(teleportPoint, useObjectNumber);
+                StartCoroutine(MapMoveDialogDelay("Tutorial"));
                 break;
             case 1:
                 backgroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, -1);
@@ -372,7 +373,7 @@ public class DungeonManager : MonoBehaviour
 
                 canvasManager.SetTownUI();
 
-                StartCoroutine(MapMoveDialogDelay("Tutorial"));
+                StartCoroutine(MapMoveDialogDelay("FirstContact"));
                 break;
             case 2:
             case 3:
@@ -382,7 +383,6 @@ public class DungeonManager : MonoBehaviour
                     dungeonPlayTimer = 0f;
                     canvasManager.SetDungeonUI();
                     TeleportTransfer();
-                    StartCoroutine(MapMoveDialogDelay("FirstContact"));
                     break;
                 }
 

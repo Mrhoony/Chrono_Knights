@@ -126,6 +126,7 @@ public class CameraManager : MonoBehaviour
         //target = GameObject.Find("SubCamera");
         Invoke("CameraFocusOffDelay", _DelayTime);
     }
+
     public void CameraFocusOffDelay()
     {
         mainScenarioOn = false;

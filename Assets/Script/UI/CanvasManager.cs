@@ -232,7 +232,7 @@ public class CanvasManager : MonoBehaviour
     }
     public bool GameMenuOnCheck()
     {
-        if (isCancelOn || isInventoryOn || isStorageOn || isChatBoxOn || !GameManager.instance.GetGameStart()) return true;
+        if (isCancelOn || isInventoryOn || isStorageOn || isChatBoxOn || isMainScenarioOn || !GameManager.instance.GetGameStart()) return true;
         else return false;
     }
     public bool TownUIOnCheck()

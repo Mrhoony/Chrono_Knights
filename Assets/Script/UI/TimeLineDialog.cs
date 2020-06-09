@@ -76,6 +76,10 @@ public class TimeLineDialog : TalkBox
             isOneByOneTextOn = false;
             
             playableDirector.Stop();
+
+            CanvasManager.instance.isMainScenarioOn = false;
+            CameraManager.instance.CameraFocusOff(0.1f);
+
             playableDirector.gameObject.SetActive(false);
 
             return;

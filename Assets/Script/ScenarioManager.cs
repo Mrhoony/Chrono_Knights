@@ -57,8 +57,10 @@ public class ScenarioManager : MonoBehaviour
 
                 eventFlag[eventList[_CheckCurrentProgress]] = true;
                 storyProgress = eventList[_CheckCurrentProgress];
-                GameObject.Find(_CheckCurrentProgress).SetActive(true);
+                GameObject.Find("EventList").transform.Find(_CheckCurrentProgress).gameObject.SetActive(true);
+
                 CameraManager.instance.MainScenarioStart();
+                canvasManager.isMainScenarioOn = true;
 
                 //CameraManager.instance.CameraFocus(GameObject.Find("Merchant"));
                 return true;
