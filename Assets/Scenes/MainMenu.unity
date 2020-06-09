@@ -2244,9 +2244,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3981682513319129742, guid: 9a383a931a8c9254fae17696f9cad381,
         type: 3}
+      propertyPath: spearEffect.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3981682513319129742, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
       propertyPath: skillManager
       value: 
       objectReference: {fileID: 1044432036}
+    - target: {fileID: 3981682513319129742, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: spearEffect.Array.data[0]
+      value: 
+      objectReference: {fileID: 7607995280441759860, guid: 95998d8e365752c4e806390f8addfa13,
+        type: 3}
+    - target: {fileID: 3981682513319129742, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: spearEffect.Array.data[1]
+      value: 
+      objectReference: {fileID: 4885620603835923856, guid: e59f74a956ccb4348ae1ed2c7d7e261b,
+        type: 3}
+    - target: {fileID: 3981682513319129742, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: spearEffect.Array.data[2]
+      value: 
+      objectReference: {fileID: 803812642787900608, guid: ce2cd7b48f46ee54cb4b03c1f1911ac4,
+        type: 3}
     - target: {fileID: 6033934337970117601, guid: 9a383a931a8c9254fae17696f9cad381,
         type: 3}
       propertyPath: m_Camera
