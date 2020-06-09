@@ -69,6 +69,14 @@ public class Teleport : InteractiveObject
             player = collision.gameObject;
         }
     }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            inPlayer = true;
+            player = collision.gameObject;
+        }
+    }
 
     private void OnTriggerExit2D(Collider2D collision)
     {

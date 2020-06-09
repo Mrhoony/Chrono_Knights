@@ -599,6 +599,28 @@ public class PlayerControl : MovingObject
                 break;
         }
     }
+    public void InstantiateSpearEft(SlashEft se, Transform t)
+    {
+        switch (se)
+        {
+            case SlashEft.DOWNUP:
+                Instantiate(spearEffect[0], t.position, gameObject.transform.rotation);
+                break;
+            case SlashEft.UPDOWN:
+                Instantiate(spearEffect[1], t.position, gameObject.transform.rotation);
+                break;
+            case SlashEft.UPDOWN2:
+                Instantiate(spearEffect[2], t.position, gameObject.transform.rotation);
+                break;
+            case SlashEft.RANDOM:
+                Instantiate(spearEffect[Random.Range(0, 3)], t.position, gameObject.transform.rotation);
+                break;
+
+            default:
+                break;
+        }
+    }
+
 
     public void Attack(AtkType _AttackType) // 창의 기본 공격범위, 총의 기본 공격범위~
     {
