@@ -19,6 +19,8 @@ public class RestMonsterGuider : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (target == null) return;
+
         if (true == target.gameObject.CompareTag("DeadBody")) Reset();
         
         targetPos.x = (target.position.x - playerCharacter.transform.position.x);
