@@ -167,6 +167,8 @@ public class DungeonManager : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
+        GameObject.FindWithTag("Guide").GetComponent<RestMonsterGuideSet>().ResetGuider();
+
         Time.timeScale = 0.5f;
         mainCamera.CameraSizeSetting(1);
         mainCamera.target.transform.position = player.transform.position;
@@ -236,6 +238,8 @@ public class DungeonManager : MonoBehaviour
     {
         useObjectNumber = _ObjectNumber;
         sceneMove = false;
+
+        GameObject.FindWithTag("Guide").GetComponent<RestMonsterGuideSet>().ResetGuider();
 
         isSceneLoading = true;
         teleportDestination = _Teleport;

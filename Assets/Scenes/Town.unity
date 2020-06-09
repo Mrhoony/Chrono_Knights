@@ -9719,6 +9719,11 @@ PrefabInstance:
       propertyPath: chaseGameObject
       value: 
       objectReference: {fileID: 1602448321}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: playableDirector
+      value: 
+      objectReference: {fileID: 1366896338}
     - target: {fileID: 1270748212575882901, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_AnchorMin.y

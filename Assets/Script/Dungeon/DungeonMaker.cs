@@ -325,8 +325,10 @@ public class DungeonMaker : MonoBehaviour
         --currentMonsterCount;
         ++allKillCount;
         ++bossMonsterKillCount;
+        if (currentMonsterCount == 3) MonsterGuideOn();
         if (currentMonsterCount < 1)
         {
+            MonsterGuideOff();
             DungeonManager.instance.dungeonClear = true;
             DungeonManager.instance.phaseClear = true;
             ++bossClearCount;
@@ -340,8 +342,10 @@ public class DungeonMaker : MonoBehaviour
         ++allKillCount;
         ++monsterKillCount;
         Debug.Log("Monster Kill " + currentMonsterCount);
+        if (currentMonsterCount == 3) MonsterGuideOn();
         if (currentMonsterCount < 1)
         {
+            MonsterGuideOff();
             DungeonManager.instance.dungeonClear = true;
         }
     }
@@ -351,8 +355,10 @@ public class DungeonMaker : MonoBehaviour
         ++allKillCount;
         ++eliteMonsterKillCount;
         Debug.Log("EliteMonster Kill " + currentMonsterCount);
+        if (currentMonsterCount == 3) MonsterGuideOn();
         if (currentMonsterCount < 1)
         {
+            MonsterGuideOff();
             DungeonManager.instance.dungeonClear = true;
         }
     }
@@ -538,4 +544,21 @@ public class DungeonMaker : MonoBehaviour
             currentStageMonsterList[i].GetComponent<EnemyStatus>().Set_Defense(_value);
         }
     }
+
+    public void MonsterGuideOn() {
+        RestMonsterGuideSet guider = GameObject.FindWithTag("Guide").GetComponent<RestMonsterGuideSet>();
+        int j = 0;
+
+        for (int i = 0; i < monsterCount; ++i) {
+            if (true == currentStageMonsterList[i].CompareTag("DeadBody")) continue;
+
+            guider.SetGuider(j, currentStageMonsterList[i].transform);
+            ++j;
+        }
+    }
+
+    public void MonsterGuideOff() {
+        GameObject.FindWithTag("Guide").GetComponent<RestMonsterGuideSet>().ResetGuider();
+    }
+
 }
