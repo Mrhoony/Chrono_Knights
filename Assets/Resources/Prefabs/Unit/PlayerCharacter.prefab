@@ -1825,6 +1825,10 @@ MonoBehaviour:
   - {fileID: 12128961}
   - {fileID: 847803192}
   - {fileID: 1122596972}
+  spearEffect:
+  - {fileID: 7607995280441759860, guid: 95998d8e365752c4e806390f8addfa13, type: 3}
+  - {fileID: 4885620603835923856, guid: e59f74a956ccb4348ae1ed2c7d7e261b, type: 3}
+  - {fileID: 803812642787900608, guid: ce2cd7b48f46ee54cb4b03c1f1911ac4, type: 3}
   weaponSpear: {fileID: 0}
   weaponGun: {fileID: 0}
   weaponType: 0
