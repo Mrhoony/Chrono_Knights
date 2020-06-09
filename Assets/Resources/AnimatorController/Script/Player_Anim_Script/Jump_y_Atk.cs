@@ -22,11 +22,11 @@ public class Jump_y_Atk : AnimatorManager
             if (!move)
             {
                 move = true;
-                isGroundCheck = playerControl.AttackDistanceDown(playerControl.Attack(AtkType.spear_Jump_Y_Attack));
+                isGroundCheck = playerControl.AttackDistanceDown();
 
                 if (isGroundCheck > 2f)
                 {
-                    playerControl.AttackDistance(playerControl.Attack(AtkType.spear_Y_Attack));
+                    playerControl.Attack(AtkType.spear_Y_Attack, isGroundCheck);
                 }
             }
         }

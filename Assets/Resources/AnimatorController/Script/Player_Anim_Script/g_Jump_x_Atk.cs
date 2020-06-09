@@ -19,7 +19,7 @@ public class g_Jump_x_Atk : AnimatorManager
             {
                 move = true;
                 playerControl.InstantiateGunEft(GunEft.downshot);
-                playerControl.AttackDistance(playerControl.Attack(AtkType.gun_JumpX_Attack));
+                playerControl.Attack(AtkType.gun_JumpX_Attack, playerControl.AttackDistance(AtkType.gun_JumpX_Attack));
             }
         }
         else

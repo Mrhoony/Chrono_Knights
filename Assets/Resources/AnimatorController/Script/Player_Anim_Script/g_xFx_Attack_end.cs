@@ -18,7 +18,7 @@ public class g_xFx_Attack_end : AnimatorManager
             if (!move)
             {
                 move = true;
-                playerControl.AttackDistance(playerControl.Attack(AtkType.gun_XFX_Attack));
+                playerControl.Attack(AtkType.gun_XFX_Attack, playerControl.AttackDistance(AtkType.gun_XFX_Attack));
             }
         }
     }

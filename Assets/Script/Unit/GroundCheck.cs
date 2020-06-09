@@ -17,6 +17,7 @@ public class GroundCheck : MonoBehaviour
         {
             if (parentObject.CompareTag("Player"))
             {
+                Debug.Log("groundCheck enter");
                 parentObject.GetComponent<PlayerControl>().Landing();
             }
             else if (parentObject.CompareTag("Monster"))

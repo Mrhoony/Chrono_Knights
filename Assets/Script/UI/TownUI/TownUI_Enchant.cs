@@ -18,8 +18,6 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
             {
                 if (selectEquipFocused == 7)
                 {
-                    cursorEquipSelect.SetActive(false);
-                    selectEquipFocused = 0;
                     CloseTownUIMenu();
                 }
                 else
@@ -31,14 +29,10 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
             }
             if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
             {
-                cursorEquipSelect.SetActive(false);
-                selectEquipFocused = 0;
                 CloseTownUIMenu();
             }
             if (Input.GetKeyDown(KeyCode.Escape))              // esc 를 눌렀을 때
             {
-                cursorEquipSelect.SetActive(false);
-                selectEquipFocused = 0;
                 CloseTownUIMenu();
             }
             if (selectEquipFocused != 7)
@@ -96,6 +90,8 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
     }
     public void CloseTownUIMenu()
     {
+        cursorEquipSelect.SetActive(false);
+        selectEquipFocused = 0;
         townUI.CloseEnchantMenu();
     }
 

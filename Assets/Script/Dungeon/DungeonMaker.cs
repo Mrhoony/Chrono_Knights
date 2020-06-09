@@ -51,7 +51,7 @@ public class DungeonMaker : MonoBehaviour
     private GameObject[] currentStageMonsterList;
     private GameObject[] spawner;
     public GameObject dropItemPool;
-    private Vector2 entrance;               // 텔레포트 위치
+    private Vector3 entrance;               // 텔레포트 위치
 
     private int spawnerCount;
     private int spawn;
@@ -384,8 +384,6 @@ public class DungeonMaker : MonoBehaviour
     }
     public void MarkerSetting(int _CurrentFloor, GameObject _SelectedMap)
     {
-        Debug.Log(marker.preMarker);
-        Debug.Log(marker.thisMarker);
         marker.preMarker = marker.thisMarker;
 
         int markerRandom = Random.Range(0, 12);

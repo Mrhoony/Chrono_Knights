@@ -93,7 +93,7 @@ public class CameraManager : MonoBehaviour
 
             transform.position = Vector3.Lerp(transform.position, targetPosition, target.GetComponent<SubCamera>().moveSpeed * 2f * Time.deltaTime);
             clampedX = Mathf.Clamp(transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
-            clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y + halfHeight);
+            clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
             transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
         }
     }
@@ -107,7 +107,7 @@ public class CameraManager : MonoBehaviour
     {
         transform.position = new Vector3(_FocusedObject.transform.position.x, _FocusedObject.transform.position.y, cameraZPosition);
         clampedX = Mathf.Clamp(transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
-        clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y + halfHeight);
+        clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
         transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
 
     }
@@ -118,7 +118,7 @@ public class CameraManager : MonoBehaviour
             (_FocusedObject1.transform.position.y + _FocusedObject2.transform.position.y) * 0.5f, 
             cameraZPosition);
         clampedX = Mathf.Clamp(transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
-        clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y + halfHeight);
+        clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
         transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
     }
     public void CameraFocusOff(float _DelayTime)

@@ -86,7 +86,6 @@ public class TalkBox : MonoBehaviour
     {
         dialogText.text = "";
         currentEventCount = 0;
-
     }
     
     public void OneByOneTextSkip()

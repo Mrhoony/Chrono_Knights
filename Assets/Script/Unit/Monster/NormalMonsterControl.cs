@@ -33,9 +33,9 @@ public abstract class NormalMonsterControl : Monster_Control
         target = GameObject.Find("PlayerCharacter");
         animator.SetTrigger("Trigger_Reset");
         StartCoroutine(SearchPlayer());
-        
         randomMoving = RandomMove();
         StartCoroutine(randomMoving);
+
         monsterDeadCount = null;
     }
     public override void MonsterFlip()
@@ -95,7 +95,10 @@ public abstract class NormalMonsterControl : Monster_Control
                     if (actionState != ActionState.IsAtk)
                     {
                         isTrace = true;
-                        StopCoroutine(randomMoving);
+                        if(randomMoving != null)
+                        {
+                            StopCoroutine(randomMoving);
+                        }
                     }
                 }
             }
@@ -106,7 +109,10 @@ public abstract class NormalMonsterControl : Monster_Control
                     if (actionState != ActionState.IsAtk)
                     {
                         isTrace = false;
-                        StartCoroutine(randomMoving);
+                        if (randomMoving != null)
+                        {
+                            StartCoroutine(randomMoving);
+                        }
                     }
                 }
             }
@@ -197,7 +203,7 @@ public abstract class NormalMonsterControl : Monster_Control
     }
     public IEnumerator MonsterHitEffect()
     {
-        for(int i = 0; i < 2; ++i)
+        for(int i = 0; i < 4; ++i)
         {
             spriteRenderer.material = whiteFlashMaterial;
             yield return new WaitForSeconds(0.05f);

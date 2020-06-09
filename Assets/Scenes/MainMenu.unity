@@ -2264,6 +2264,11 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e5fab9804a1e02c489fef17aad0e81cd, type: 2}
+    - target: {fileID: 3981682513018439651, guid: 9a383a931a8c9254fae17696f9cad381,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.28
+      objectReference: {fileID: 0}
     - target: {fileID: 799697942, guid: 9a383a931a8c9254fae17696f9cad381, type: 3}
       propertyPath: m_TagString
       value: Guide

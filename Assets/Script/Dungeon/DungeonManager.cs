@@ -90,6 +90,7 @@ public class DungeonManager : MonoBehaviour
     public void DungeonFlagReset()
     {
         dungeonClear = false;
+        phaseClear = false;
         usedKey = false;
     }
 
@@ -104,8 +105,8 @@ public class DungeonManager : MonoBehaviour
         switch (_Item.usingType)
         {
             case ItemUsingType.FreePassThisFloor:                // 사용된 키가 이번 층 스킵일 때
-                dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
                 dungeonMaker.marker.ExecuteMarker(_Item.value);
+                dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
                 break;
             case ItemUsingType.ReturnTown:
                 // 마을로 돌아간다. 클리어 정보창 표시
@@ -396,6 +397,7 @@ public class DungeonManager : MonoBehaviour
                 break;
         }
 
+        sceneMove = false;
         useObjectNumber = 99;
         StartCoroutine(MapMoveDelay());
     }

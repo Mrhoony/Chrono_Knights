@@ -513,6 +513,7 @@ public class CanvasManager : MonoBehaviour
     public void OpenUpgradeMenu()
     {
         isUpgradeOn = true;
+        PlayerMoveStop();
         townUI.OpenUpgradeMenu();
     }
     public void CloseUpgradeMenu()
@@ -637,6 +638,7 @@ public class CanvasManager : MonoBehaviour
     }
     public IEnumerator PlayerMoveEnable()
     {
+        Debug.Log("enable");
         yield return new WaitForSeconds(0.2f);
         PlayerControl.instance.enabled = true;
     }

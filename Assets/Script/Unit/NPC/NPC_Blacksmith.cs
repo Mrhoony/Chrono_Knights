@@ -41,7 +41,7 @@ public class NPC_Blacksmith : NPC_Control
 
         if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { focus = FocusedSlot(button, 1, focus); }
         if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { focus = FocusedSlot(button, -1, focus); }
-        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
+        if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
         {
             CloseSelectMenu();
         }

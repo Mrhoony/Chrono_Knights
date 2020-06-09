@@ -19,7 +19,7 @@ public class g_xFxFx_Attack_end : AnimatorManager
             {
                 move = true;
                 playerControl.InstantiateGunEft(GunEft.shot2);
-                playerControl.AttackDistance(playerControl.Attack(AtkType.gun_XFXFX_Attack));
+                playerControl.Attack(AtkType.gun_XFXFX_Attack, playerControl.AttackDistance(AtkType.gun_XFXFX_Attack));
             }
         }
     }

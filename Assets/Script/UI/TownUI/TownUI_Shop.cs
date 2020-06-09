@@ -72,27 +72,24 @@ public class TownUI_Shop : FocusUI
         }
         else
         {
-            if (isUIOn)
-            {
-                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { FocusedSlot(1); }
-                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { FocusedSlot(-1); }
-                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { FocusedSlot(4); }
-                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { FocusedSlot(-4); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { FocusedSlot(1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { FocusedSlot(-1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { FocusedSlot(4); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { FocusedSlot(-4); }
 
-                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
-                {
-                    if (shopItemList[focused] == null) return;
-                    slotInstance.SetActiveItemConfirm("구매", "취소");
-                    isItemSelect = true;
-                }
-                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
-                {
-                    canvasManager.CloseShopInventory();
-                }
-                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Jump"]))
-                {
-                    StartCoroutine(FocusChange());
-                }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
+            {
+                if (shopItemList[focused] == null) return;
+                slotInstance.SetActiveItemConfirm("구매", "취소");
+                isItemSelect = true;
+            }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
+            {
+                canvasManager.CloseShopInventory();
+            }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Jump"]))
+            {
+                StartCoroutine(FocusChange());
             }
             FocusMove(slot[focused]);
         }
@@ -201,7 +198,6 @@ public class TownUI_Shop : FocusUI
         isUIOn = false;
         DungeonManager.instance.SetShopItemList(shopItemList, itemCost);
         cursor.SetActive(false);
-        townUI.CloseShopMenu();
     }
     public new void FocusedSlot(int AdjustValue)
     {

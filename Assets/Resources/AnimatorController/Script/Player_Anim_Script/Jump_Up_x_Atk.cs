@@ -20,7 +20,7 @@ public class Jump_Up_x_Atk : AnimatorManager
             {
                 move = true;
                 animator.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.up * 1f;
-                playerControl.AttackDistance(playerControl.Attack(AtkType.spear_Jump_Up_X_Attack));
+                playerControl.Attack(AtkType.spear_Jump_Up_X_Attack, playerControl.AttackDistance(AtkType.spear_Jump_Up_X_Attack));
             }
         }
     }

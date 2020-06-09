@@ -99,7 +99,7 @@ public class PlayerControl : MovingObject
         if (CanvasManager.instance.GameMenuOnCheck() || CanvasManager.instance.TownUIOnCheck()) return;       // UI 켜져 있을 때 입력 제한
         if (actionState == ActionState.IsDead) return;
         
-        if (rb.velocity.y < -0.1f && actionState != ActionState.IsJumpAttack)
+        if (rb.velocity.y < -0.5f && actionState != ActionState.IsJumpAttack)
         {
             GroundCheck.SetActive(true);
             if (rb.velocity.y < 1f)
@@ -505,6 +505,10 @@ public class PlayerControl : MovingObject
     }
     public void Landing()
     {
+        if (isGround) return;
+
+        Debug.Log("land");
+
         currentJumpCount = (int)playerStatus.jumpCount;
         isGround = true;
         isJump = false;
@@ -589,15 +593,13 @@ public class PlayerControl : MovingObject
                 break;
         }
     }
-    
-    public float Attack(AtkType _atkType) // 창의 기본 공격범위, 총의 기본 공격범위~
+
+    public void Attack(AtkType _AttackType) // 창의 기본 공격범위, 총의 기본 공격범위~
     {
         Collider2D[] monster;
-        float attackDistance = 0f;
+        playerAttack = Database_Game.instance.GetPlayerAttackInformation(_AttackType);
+        float attackDistance = playerStatus.GetDashDistance_Result() * playerAttack.distanceMultiply * 0.5f;
 
-        playerAttack = Database_Game.instance.GetPlayerAttackInformation(_atkType);
-
-        attackDistance = playerStatus.GetDashDistance_Result() * playerAttack.distanceMultiply * 0.5f;
         monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (playerAttack.attackXPoint + attackDistance) * arrowDirection * 0.5f
             , transform.position.y + playerAttack.attackYPoint), new Vector2(attackDistance + playerAttack.attackXPoint, playerAttack.attackYPoint), 0);
 
@@ -608,7 +610,68 @@ public class PlayerControl : MovingObject
         {
             if (monster[j].CompareTag("Monster") || monster[j].CompareTag("BossMonster"))
             {
-                switch (_atkType)
+                switch (_AttackType)
+                {
+                    case AtkType.spear_X_Upper_Attack:
+                    case AtkType.spear_Jump_Up_X_Attack:
+                    case AtkType.spear_Jump_Down_X_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                        if (_hit)
+                            monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectUpper(playerAttack.knockBack);
+                        break;
+
+                    case AtkType.spear_Y_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        {
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                            if (_hit)
+                                monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                        }
+                        CameraManager.instance.CameraShake(1);
+                        break;
+
+                    default:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        {
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                            if (_hit)
+                                monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                        }
+                        break;
+                }
+            }
+        }
+
+        // 장비 액티브 발동
+        // 장비 패시브 체크 / 발동
+        if (playerStatus.auraAttackOn)
+        {
+            AddAttackAuraSpear(_AttackType, attackDistance);
+        }
+
+        if (playerStatus.miniAttackOn)
+        {
+            AddAttackSupport(_AttackType, attackDistance);
+        }
+    }
+    public void Attack(AtkType _AttackType, float _AttackDistance) // 창의 기본 공격범위, 총의 기본 공격범위~
+    {
+        Collider2D[] monster;
+
+        playerAttack = Database_Game.instance.GetPlayerAttackInformation(_AttackType);
+
+        monster = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + (playerAttack.attackXPoint + _AttackDistance) * arrowDirection * 0.5f
+            , transform.position.y + playerAttack.attackYPoint), new Vector2(_AttackDistance + playerAttack.attackXPoint, playerAttack.attackYPoint), 0);
+
+
+        overlap = monster.Length;
+        bool _hit = false;
+        for (int j = 0; j < overlap; ++j)
+        {
+            if (monster[j].CompareTag("Monster") || monster[j].CompareTag("BossMonster"))
+            {
+                switch (_AttackType)
                 {
                     case AtkType.spear_X_Upper_Attack:
                     case AtkType.spear_Jump_Up_X_Attack:
@@ -645,15 +708,13 @@ public class PlayerControl : MovingObject
         // 장비 패시브 체크 / 발동
         if (playerStatus.auraAttackOn)
         {
-            AddAttackAuraSpear(_atkType, attackDistance);
+            AddAttackAuraSpear(_AttackType, _AttackDistance);
         }
 
         if (playerStatus.miniAttackOn)
         {
-            AddAttackSupport(_atkType, attackDistance);
+            AddAttackSupport(_AttackType, _AttackDistance);
         }
-
-        return attackDistance;
     }
     public void AddAttackAuraSpear(AtkType _AttackType, float _AttackDistance)
     {
@@ -702,34 +763,41 @@ public class PlayerControl : MovingObject
         Debug.Log("add attack " + (int)(playerStatus.GetAttack_Result() * _auraSkill.skillMultiply));
     }
 
-    public void AttackDistance(float _distanceMulty)
+    public float AttackDistance(AtkType _AttackType)
     {
+        playerAttack = Database_Game.instance.GetPlayerAttackInformation(_AttackType);
+        float attackDistance = playerStatus.GetDashDistance_Result() * playerAttack.distanceMultiply * 0.5f;
+
         RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + GetComponent<BoxCollider2D>().size.x * 0.5f * arrowDirection
-            , transform.position.y - 0.2f), new Vector2(arrowDirection, 0), _distanceMulty, rayDashLayerMask);
+            , transform.position.y - 0.2f), new Vector2(arrowDirection, 0), attackDistance, rayDashLayerMask);
 
         if (playerDashBotDistance)
         {
             float botDistance = playerDashBotDistance.point.x - (transform.position.x + GetComponent<BoxCollider2D>().size.x * 0.5f * arrowDirection);
-            if (_distanceMulty > Mathf.Abs(botDistance) - GetComponent<BoxCollider2D>().size.x * 0.5f)
-                _distanceMulty = Mathf.Abs(botDistance) - GetComponent<BoxCollider2D>().size.x * 0.5f;
+            if (attackDistance > Mathf.Abs(botDistance) - GetComponent<BoxCollider2D>().size.x * 0.5f)
+                attackDistance = Mathf.Abs(botDistance) - GetComponent<BoxCollider2D>().size.x * 0.5f;
         }
-        transform.position = new Vector2(transform.position.x + _distanceMulty * arrowDirection, transform.position.y);
+        transform.position = new Vector2(transform.position.x + attackDistance * arrowDirection, transform.position.y);
+
+        return attackDistance;
     }
-    public void AttackDistanceForce(float _distanceMulty)
+    public void AttackDistanceForce()
     {
         isGround = false;
         GroundCheck.SetActive(false);
+
+        float attackDistance = playerStatus.GetDashDistance_Result() * playerAttack.distanceMultiply * 0.5f;
 
         --currentJumpCount;
 
         animator.SetBool("isLand", false);
 
-        rb.velocity = new Vector2(arrowDirection * -1 * (_distanceMulty * 2f + 5f), _distanceMulty * 2f + 10f);
+        rb.velocity = new Vector2(arrowDirection * -1 * (attackDistance * 2f + 5f), attackDistance * 2f + 10f);
     }
-    public float AttackDistanceDown(float _distanceMulty)
+    public float AttackDistanceDown()
     {
         RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y)
-            , new Vector2(arrowDirection, -1), 20f, rayDashLayerMask);
+            , new Vector2(arrowDirection, -1), 20f, rayGroundLayerMask);
 
         if (playerDashBotDistance)
         {
@@ -744,13 +812,13 @@ public class PlayerControl : MovingObject
 
     public void StopPlayer()
     {
+        Debug.Log("Trigger");
         actionState = ActionState.NotMove;
         rb.velocity = Vector2.zero;
-        StartCoroutine(InputIgnore(0.5f));
+        StartCoroutine(InputIgnore(0.1f));
         InputInit();
         animator.SetBool("isWalk", false);
         animator.SetBool("isRun", false);
-        animator.SetTrigger("PlayerStop");
     }
     IEnumerator InputIgnore(float _time)
     {
@@ -759,6 +827,7 @@ public class PlayerControl : MovingObject
     }
     public void PlayerStateInit()
     {
+        Debug.Log("state Init");
         actionState = ActionState.Idle;
     }
 

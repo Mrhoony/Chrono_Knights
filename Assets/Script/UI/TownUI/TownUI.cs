@@ -16,48 +16,45 @@ public class TownUI : MonoBehaviour
 
     public void OpenShopMenu(Menu_Inventory _inventory)
     {
-        playerCharacter.enabled = false;
         townMenus[0].SetActive(true);
         townMenus[0].GetComponent<TownUI_Shop>().OpenTownUIMenu(_inventory);
     }
     public void CloseShopMenu()
     {
+        townMenus[0].GetComponent<TownUI_Shop>().CloseTownUIMenu();
         townMenus[0].SetActive(false);
     }
 
     public void OpenTrainingMenu()
     {
-        playerCharacter.enabled = false;
         townMenus[1].SetActive(true);
         townMenus[1].GetComponent<TownUI_Training>().OpenTownUIMenu();
     }
     public void CloseTrainingMenu()
     {
-        townMenus[1].SetActive(false);
         canvasManager.CloseTrainingMenu();
+        townMenus[1].SetActive(false);
     }
 
     public void OpenEnchantMenu()
     {
-        playerCharacter.enabled = false;
         townMenus[2].SetActive(true);
         townMenus[2].GetComponent<TownUI_Enchant>().OpenTownUIMenu();
     }
     public void CloseEnchantMenu()
     {
-        townMenus[2].SetActive(false);
         canvasManager.CloseEnchantMenu();
+        townMenus[2].SetActive(false);
     }
 
     public void OpenUpgradeMenu()
     {
-        playerCharacter.enabled = false;
         townMenus[3].SetActive(true);
         townMenus[3].GetComponent<TownUI_Upgrade>().OpenTownUIMenu();
     }
     public void CloseUpgradeMenu()
     {
-        townMenus[3].SetActive(false);
         canvasManager.CloseUpgradeMenu();
+        townMenus[3].SetActive(false);
     }
 }
