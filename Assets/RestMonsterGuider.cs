@@ -21,7 +21,11 @@ public class RestMonsterGuider : MonoBehaviour
     {
         if (target == null) return;
 
-        if (true == target.gameObject.CompareTag("DeadBody")) Reset();
+        if (true == target.gameObject.CompareTag("DeadBody"))
+        {
+            Reset();
+            return;
+        }
         
         targetPos.x = (target.position.x - playerCharacter.transform.position.x);
         targetPos.y = (target.position.y - playerCharacter.transform.position.y);
