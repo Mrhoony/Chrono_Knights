@@ -169,8 +169,6 @@ PlayableDirector:
     value: {fileID: 1526191669}
   - key: {fileID: 114427859535288914, guid: a1860421b0c817b4aa258e52ad244e14, type: 2}
     value: {fileID: 736476316}
-  - key: {fileID: 114962560843457280, guid: a1860421b0c817b4aa258e52ad244e14, type: 2}
-    value: {fileID: 1526191671}
   m_ExposedReferences:
     m_References: []
 --- !u!1 &323908312
@@ -301,8 +299,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20c3ab60826a700469959f76424ae6cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 1, g: 1, b: 1, a: 1}
-  outlineSize: 0
+  color: {r: 1, g: 0.995283, b: 0.995283, a: 1}
+  outlineSize: 1
 --- !u!1 &401470798 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 82245446805381176, guid: 187d72a635af2f04a891caed4b95c247,
@@ -327,6 +325,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d7b8a6907c68e418fab1b4a78e8a89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &440995499 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3815408304545588549, guid: e6b2d8bb473408247898cb7b38ff6be4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1227476969}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &440995500
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440995499}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: b5a1a0fe068b1224e82943c55ace767e, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300004, guid: f3053334b8df7014b963be815c9e9125, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.62, y: 0.91}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &440995502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440995499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20c3ab60826a700469959f76424ae6cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 1, b: 1, a: 1}
+  outlineSize: 1
 --- !u!1 &454079515 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 82245447091772895, guid: 187d72a635af2f04a891caed4b95c247,
@@ -421,7 +487,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 1}
+  m_Size: {x: 1.65, y: 0.34}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1498,27 +1564,27 @@ PrefabInstance:
     - target: {fileID: 1270748212575882901, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1270748212575882901, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1270748212575882901, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 85
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1270748212575882901, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -22
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1270748212575882901, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 24
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1270748212575882901, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
@@ -1563,18 +1629,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1526191671 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-    type: 3}
-  m_PrefabInstance: {fileID: 1526191667}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1526191669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c49f1d3a422bb6c4e8977142044de7ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1556098268 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 82245447282610956, guid: 187d72a635af2f04a891caed4b95c247,

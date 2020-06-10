@@ -10,8 +10,7 @@ public class DialogDataSet : PlayableBehaviour
     public Color color = Color.white;
 
     public TimeLineDialog timeLineDialog;
-
-    public bool hasToPause;
+    public bool notice;
 }
 
 [Serializable]

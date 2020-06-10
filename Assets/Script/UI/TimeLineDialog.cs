@@ -7,10 +7,10 @@ using UnityEngine.UI;
 public class TimeLineDialog : TalkBox
 {
     public PlayableDirector playableDirector;
-    
-    public string eventName;
+    Material spriteOutLine;
+    Material spriteDiffuse;
 
-    public bool hasToPause;
+    public string eventName;
     
     private void OnEnable()
     {
@@ -27,9 +27,8 @@ public class TimeLineDialog : TalkBox
         }
 
         Debug.Log("get event");
-
-        if(hasToPause)
-            playableDirector.Pause();
+        spriteOutLine = Resources.Load<Material>("Material/SpriteOutLine");
+        spriteDiffuse = Resources.Load<Material>("Material/SpriteDiffuse");
 
         SetDialogText();
         isDialogOn = true;
@@ -53,6 +52,7 @@ public class TimeLineDialog : TalkBox
             }
             else
             {
+                // 조건 변경 - 대화가 아닌 카메라 이동, 액션 등일 경우 resume
                 if (currentEventCount >= eventDialog.Count)
                 {
                     playableDirector.Stop();
@@ -62,7 +62,9 @@ public class TimeLineDialog : TalkBox
 
                     playableDirector.gameObject.SetActive(false);
                 }
-                playableDirector.Resume();
+                chaseGameObject.GetComponent<SpriteRenderer>().material = spriteDiffuse;
+                SetDialogText();
+                //playableDirector.Resume();
             }
         }
     }
@@ -71,7 +73,7 @@ public class TimeLineDialog : TalkBox
     {
         if (chaseGameObject != null)
         {
-            transform.position = Camera.main.WorldToScreenPoint(chaseGameObject.transform.position + Vector3.up * 0.5f);
+            transform.position = Vector3.Lerp(transform.position, Camera.main.WorldToScreenPoint(chaseGameObject.transform.position + Vector3.up * 0.5f), 8f * Time.deltaTime);
         }
     }
 
@@ -92,17 +94,16 @@ public class TimeLineDialog : TalkBox
             playableDirector.gameObject.SetActive(false);
 
             return;
-
-            //GameObject event1 = GameObject.Find("Event1");
-            //CameraManager.instance.CameraFocus(event1);
-            //event1.GetComponent<PlayableDirector>().Play();
         }
         if (eventDialog[currentEventCount].NPCName != "")
         {
             chaseGameObject = GameObject.Find(eventDialog[currentEventCount].NPCName);
 
             if (chaseGameObject != null)
+            {
                 CameraManager.instance.CameraFocus(chaseGameObject);
+                chaseGameObject.GetComponent<SpriteRenderer>().material = spriteOutLine;
+            }
             else
                 Debug.Log("dialog xml 오브젝트 이름 입력 실수");
         }

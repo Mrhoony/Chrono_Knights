@@ -35,7 +35,6 @@ public class DialogMixer : PlayableBehaviour
                         color.r = data.color.r;
                         color.g = data.color.g;
                         color.b = data.color.b;
-                        data.timeLineDialog.hasToPause = data.hasToPause;
                     }
                     color.a += data.color.a * 2 * (Mathf.Max(0.5f, weight) - 0.5f);
                 }
