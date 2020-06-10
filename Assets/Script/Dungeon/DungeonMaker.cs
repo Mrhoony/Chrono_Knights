@@ -51,6 +51,7 @@ public class DungeonMaker : MonoBehaviour
     private GameObject[] currentStageMonsterList;
     private GameObject[] spawner;
     public GameObject dropItemPool;
+    public GameObject eftTeleport;
     private Vector3 entrance;               // 텔레포트 위치
 
     private int spawnerCount;
@@ -186,6 +187,7 @@ public class DungeonMaker : MonoBehaviour
         CanvasManager.instance.dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus(_Player.GetComponent<PlayerStatus>()));
         
         _Player.transform.position = entrance;
+        Instantiate(eftTeleport, entrance, Quaternion.identity);
         _MainCamera.SetCameraBound(currentMap);
         _MainCamera.transform.position = entrance;
         _BackGroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, currentStage);
