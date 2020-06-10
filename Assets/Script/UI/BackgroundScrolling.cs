@@ -41,6 +41,8 @@ public class BackgroundScrolling : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (CameraManager.instance.mainScenarioOn) return;
+
         float deltaX = cameraTrasform.position.x - lastCameraX;
         float deltaY = cameraTrasform.position.y - lastCameraY;
         

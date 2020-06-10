@@ -13,6 +13,7 @@ public class TalkBox : MonoBehaviour
     private NPC_Control NPC;
 
     public List<EventDialog> eventDialog;
+    public List<RepeatDialog> repeatDialog;
 
     public bool isDialogOn;
     public bool isOneByOneTextOn;
@@ -58,7 +59,7 @@ public class TalkBox : MonoBehaviour
         isDialogOn = true;
         isOneByOneTextOn = true;
 
-        if (currentEventCount >= eventDialog.Count)
+        if (currentEventCount >= repeatDialog.Count)
         {
             isDialogOn = false;
             isOneByOneTextOn = false;
@@ -67,15 +68,15 @@ public class TalkBox : MonoBehaviour
             return;
         }
 
-        TempCoroutine = OneByOneTextSetting(eventDialog[currentEventCount].content);
+        TempCoroutine = OneByOneTextSetting(repeatDialog[currentEventCount].content);
         ++currentEventCount;
         StartCoroutine(TempCoroutine);
     }
 
-    public void SetEventList(List<EventDialog> _TempRepeatEventList, NPC_Control _NPC)
+    public void SetEventList(List<RepeatDialog> _TempRepeatEventList, NPC_Control _NPC)
     {
         currentEventCount = 0;
-        eventDialog = _TempRepeatEventList;
+        repeatDialog = _TempRepeatEventList;
         NPC = _NPC;
         chaseGameObject = NPC.gameObject;
 

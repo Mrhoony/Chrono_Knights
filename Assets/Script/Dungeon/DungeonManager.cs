@@ -257,7 +257,12 @@ public class DungeonManager : MonoBehaviour
         switch (_NPC.objectNumber)
         {
             case 101:
+                if (!scenarioManager.ScenarioCheck("TutorialSelect"))
+                    scenarioManager.ScenarioRepeatCheck(_NPC);
+                break;
             case 102:
+                scenarioManager.ScenarioRepeatCheck(_NPC);
+                break;
             case 103:
                 scenarioManager.ScenarioRepeatCheck(_NPC);
                 break;
@@ -378,7 +383,7 @@ public class DungeonManager : MonoBehaviour
 
                 canvasManager.SetTownUI();
 
-                StartCoroutine(MapMoveDialogDelay("FirstContact"));
+                StartCoroutine(MapMoveDialogDelay("ScrollAllTown"));
                 break;
             case 2:
             case 3:

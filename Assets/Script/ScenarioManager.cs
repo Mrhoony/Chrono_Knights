@@ -33,11 +33,14 @@ public class ScenarioManager : MonoBehaviour
             eventFlag[i] = false;
         }
     }
-    public void SetEventList(Dictionary<string, int> _EventList, Dictionary<int, List<EventDialog>> _EventContent, Dictionary<int, List<RepeatEventDialog>> _RepeatEventList)
+    public void SetEventList(Dictionary<int, List<RepeatEventDialog>> _RepeatEventList)
+    {
+        repeatEventList = _RepeatEventList;
+    }
+    public void SetEventList(Dictionary<string, int> _EventList, Dictionary<int, List<EventDialog>> _EventContent)
     {
         eventList = _EventList;
         eventContent = _EventContent;
-        repeatEventList = _RepeatEventList;
     }
     public void SetEventTalkBoxList(Dictionary<int, List<EventTalkBox>> _EventTalkBox)
     {
@@ -57,12 +60,11 @@ public class ScenarioManager : MonoBehaviour
 
                 eventFlag[eventList[_CheckCurrentProgress]] = true;
                 storyProgress = eventList[_CheckCurrentProgress];
+                CanvasManager.instance.talkBox.gameObject.SetActive(false);
                 GameObject.Find("EventList").transform.Find(_CheckCurrentProgress).gameObject.SetActive(true);
 
                 CameraManager.instance.MainScenarioStart();
                 canvasManager.isMainScenarioOn = true;
-
-                //CameraManager.instance.CameraFocus(GameObject.Find("Merchant"));
                 return true;
             }
         }
@@ -76,7 +78,7 @@ public class ScenarioManager : MonoBehaviour
     // talk NPC
     public bool ScenarioRepeatCheck(NPC_Control _NPC)
     {
-        List<EventDialog> _TempRepeatEventList = null;
+        List<RepeatDialog> _TempRepeatEventList = null;
 
         if (repeatEventList.ContainsKey(_NPC.objectNumber))
         {
