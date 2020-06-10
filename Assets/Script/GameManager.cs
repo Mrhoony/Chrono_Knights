@@ -268,6 +268,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         gameStart = _GameStart;
+        dungeonManager.PlayTutorial();
     }
 
     public void OpenStartMenu()

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 [TrackColor(0.0f, 0.3f, 0.7f)]
 [TrackClipType(typeof(DialogData))]
-[TrackBindingType(typeof(Text))]
+[TrackBindingType(typeof(TimeLineDialog))]
 
 public class DialogTrack : TrackAsset
 {

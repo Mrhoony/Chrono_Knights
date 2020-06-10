@@ -9,6 +9,8 @@ public class DialogDataSet : PlayableBehaviour
     public string text = "";
     public Color color = Color.white;
 
+    public TimeLineDialog timeLineDialog;
+
     public bool hasToPause;
 }
 

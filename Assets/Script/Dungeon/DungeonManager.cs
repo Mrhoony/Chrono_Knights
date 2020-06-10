@@ -339,6 +339,11 @@ public class DungeonManager : MonoBehaviour
         mainCamera.CameraSizeSetting(1);
         SceneManager.LoadScene(0);
     }
+
+    public void PlayTutorial()
+    {
+        StartCoroutine(MapMoveDialogDelay("Tutorial"));
+    }
     
     // 씬 이동 후 초기화
     public void OnEnable()
@@ -363,7 +368,6 @@ public class DungeonManager : MonoBehaviour
                 backgroundSet = GameObject.Find("Base");
                 mainCamera.SetCameraBound(backgroundSet);
                 MapEntranceFind(teleportPoint, useObjectNumber);
-                StartCoroutine(MapMoveDialogDelay("Tutorial"));
                 break;
             case 1:
                 backgroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, -1);

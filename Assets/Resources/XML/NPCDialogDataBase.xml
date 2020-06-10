@@ -8,9 +8,19 @@
     <EventNumber>0</EventNumber>
     <!--대화창-->
     <Dialog>
-      <NPCName>???</NPCName>
+      <NPCName>Bed</NPCName>
       <NPCImage>0</NPCImage>
-      <Content>...asdfasfasssssssaffdsasdvasd</Content>
+      <Content>침대입니다</Content>
+    </Dialog>
+    <Dialog>
+      <NPCName>Storage</NPCName>
+      <NPCImage>0</NPCImage>
+      <Content>창고입니다</Content>
+    </Dialog>
+    <Dialog>
+      <NPCName>Door</NPCName>
+      <NPCImage>0</NPCImage>
+      <Content>밖으로 나가는 문</Content>
     </Dialog>
   </Event>
   <Event>

@@ -12,8 +12,11 @@ public class CameraManager : MonoBehaviour
     public GameObject currentMap;
 
     private Vector3 targetPosition;
-    private Vector2 minBound;
-    private Vector2 maxBound;
+
+    public float cameraMinX;
+    public float cameraMaxX;
+    public float cameraMinY;
+    public float cameraMaxY;
 
     public bool mainScenarioOn;
 
@@ -25,11 +28,9 @@ public class CameraManager : MonoBehaviour
 
     private int Height;
     private int Width;
-    private float halfHeight;
-    private float halfWidth;
 
-    float clampedX;
-    float clampedY;
+    public float clampedX;
+    public float clampedY;
 
     private Camera mainCamera;
     private PixelPerfectCamera perfectCamera;
@@ -92,8 +93,8 @@ public class CameraManager : MonoBehaviour
             targetPosition.Set(target.transform.position.x, target.transform.position.y, cameraZPosition);
 
             transform.position = Vector3.Lerp(transform.position, targetPosition, target.GetComponent<SubCamera>().moveSpeed * 2f * Time.deltaTime);
-            clampedX = Mathf.Clamp(transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
-            clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
+            clampedX = Mathf.Clamp(transform.position.x, cameraMinX, cameraMaxX);
+            clampedY = Mathf.Clamp(transform.position.y, cameraMinY, cameraMaxY);
             transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
         }
     }
@@ -106,10 +107,9 @@ public class CameraManager : MonoBehaviour
     public void CameraFocus(GameObject _FocusedObject)
     {
         transform.position = new Vector3(_FocusedObject.transform.position.x, _FocusedObject.transform.position.y, cameraZPosition);
-        clampedX = Mathf.Clamp(transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
-        clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
+        clampedX = Mathf.Clamp(transform.position.x, cameraMinX, cameraMaxX);
+        clampedY = Mathf.Clamp(transform.position.y, cameraMinY, cameraMaxY);
         transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
-
     }
     public void CameraFocus(GameObject _FocusedObject1, GameObject _FocusedObject2)
     {
@@ -117,8 +117,8 @@ public class CameraManager : MonoBehaviour
             (_FocusedObject1.transform.position.x + _FocusedObject2.transform.position.x) * 0.5f,
             (_FocusedObject1.transform.position.y + _FocusedObject2.transform.position.y) * 0.5f, 
             cameraZPosition);
-        clampedX = Mathf.Clamp(transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
-        clampedY = Mathf.Clamp(transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
+        clampedX = Mathf.Clamp(transform.position.x, cameraMinX, cameraMaxX);
+        clampedY = Mathf.Clamp(transform.position.y, cameraMinY, cameraMaxY);
         transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
     }
     public void CameraFocusOff(float _DelayTime)
@@ -158,11 +158,21 @@ public class CameraManager : MonoBehaviour
     {
         currentMap = _CurrentMap;
         BoxCollider2D box = currentMap.GetComponent<BoxCollider2D>();
+        Vector2 minBound;
+        Vector2 maxBound;
+        float halfHeight;
+        float halfWidth;
 
         minBound = box.bounds.min;
         maxBound = box.bounds.max;
+
         halfHeight = mainCamera.orthographicSize;
         halfWidth = halfHeight * 1280 / 720;
+
+        cameraMinX = minBound.x + halfWidth;
+        cameraMaxX = maxBound.x - halfWidth;
+        cameraMinY = minBound.y + halfHeight;
+        cameraMaxY = maxBound.y - halfHeight;
     }
 
     public void CameraSizeSetting(int _CameraSize)

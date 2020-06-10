@@ -13,7 +13,6 @@ public class DialogMixer : PlayableBehaviour
 
         string text = string.Empty;
         Color color = new Color(0, 0, 0, 0);
-        //bool hasToStop = false;
 
         var count = handle.GetInputCount();
         for (var i = 0; i < count; i++)
@@ -36,6 +35,7 @@ public class DialogMixer : PlayableBehaviour
                         color.r = data.color.r;
                         color.g = data.color.g;
                         color.b = data.color.b;
+                        data.timeLineDialog.hasToPause = data.hasToPause;
                     }
                     color.a += data.color.a * 2 * (Mathf.Max(0.5f, weight) - 0.5f);
                 }
@@ -44,11 +44,6 @@ public class DialogMixer : PlayableBehaviour
         /*
         textObject.text = text;
         textObject.color = color;
-
-        if (hasToStop)
-        {
-            DungeonManager.instance.scenarioManager.EventReset();
-        }
         */
     }
 }

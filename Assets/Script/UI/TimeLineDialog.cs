@@ -10,7 +10,8 @@ public class TimeLineDialog : TalkBox
     
     public string eventName;
 
-
+    public bool hasToPause;
+    
     private void OnEnable()
     {
         if(currentEventCount == 0)
@@ -27,7 +28,8 @@ public class TimeLineDialog : TalkBox
 
         Debug.Log("get event");
 
-        playableDirector.Pause();
+        if(hasToPause)
+            playableDirector.Pause();
 
         SetDialogText();
         isDialogOn = true;
@@ -38,19 +40,9 @@ public class TimeLineDialog : TalkBox
         isDialogOn = false;
     }
 
-    public void PlayerRestart()
-    {
-        playableDirector.Pause();
-    }
-
     public new void Update()
     {
         if (!isDialogOn) return;
-
-        if (chaseGameObject != null)
-        {
-            transform.position = Camera.main.WorldToScreenPoint(chaseGameObject.transform.position + Vector3.up * 0.5f);
-        }
 
         if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
@@ -61,11 +53,28 @@ public class TimeLineDialog : TalkBox
             }
             else
             {
-                SetDialogText();
+                if (currentEventCount >= eventDialog.Count)
+                {
+                    playableDirector.Stop();
+
+                    CameraManager.instance.CameraFocusOff(0.1f);
+                    CanvasManager.instance.isMainScenarioOn = false;
+
+                    playableDirector.gameObject.SetActive(false);
+                }
+                playableDirector.Resume();
             }
         }
     }
-    
+
+    private void LateUpdate()
+    {
+        if (chaseGameObject != null)
+        {
+            transform.position = Camera.main.WorldToScreenPoint(chaseGameObject.transform.position + Vector3.up * 0.5f);
+        }
+    }
+
     public new void SetDialogText()
     {
         isDialogOn = true;
@@ -77,8 +86,8 @@ public class TimeLineDialog : TalkBox
             
             playableDirector.Stop();
 
-            CanvasManager.instance.isMainScenarioOn = false;
             CameraManager.instance.CameraFocusOff(0.1f);
+            CanvasManager.instance.isMainScenarioOn = false;
 
             playableDirector.gameObject.SetActive(false);
 
@@ -88,9 +97,34 @@ public class TimeLineDialog : TalkBox
             //CameraManager.instance.CameraFocus(event1);
             //event1.GetComponent<PlayableDirector>().Play();
         }
+        if (eventDialog[currentEventCount].NPCName != "")
+        {
+            chaseGameObject = GameObject.Find(eventDialog[currentEventCount].NPCName);
+
+            if (chaseGameObject != null)
+                CameraManager.instance.CameraFocus(chaseGameObject);
+            else
+                Debug.Log("dialog xml 오브젝트 이름 입력 실수");
+        }
 
         TempCoroutine = OneByOneTextSetting(eventDialog[currentEventCount].content);
         ++currentEventCount;
         StartCoroutine(TempCoroutine);
+    }
+
+    public new IEnumerator OneByOneTextSetting(string _Content)
+    {
+        completeText = _Content;
+        string _TempDialogText = "";
+        int textCount = _Content.Length;
+
+        for (int i = 0; i < textCount; ++i)
+        {
+            _TempDialogText += _Content[i];
+            dialogText.text = _TempDialogText;
+            yield return new WaitForSeconds(0.1f);
+        }
+        isOneByOneTextOn = false;
+        playableDirector.Pause();
     }
 }
