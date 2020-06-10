@@ -52,7 +52,7 @@ MonoBehaviour:
   playerStatus: {fileID: 0}
   backgroundSet: {fileID: 0}
   isDead: 0
-  useTeleportSystem: 0
+  useObjectNumber: 0
   currentDate: 0
   isSceneLoading: 0
   inDungeon: 0
@@ -77,9 +77,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentMap: {fileID: 0}
   dropItemPool: {fileID: 0}
+  eftTeleport: {fileID: 124018225250402739, guid: 76915d3eaffebe54aae884684db2fea7,
+    type: 3}
   currentStage: 0
   bossStageCount: 0
   freePassNextFloor: 0
   bossSetting: 0
   floorRepeat: 0
   bossClearCount: 0
+  monsterCount: 0
+  eliteMonsterCount: 0
+  currentMonsterCount: 0
+  allKillCount: 0
+  monsterKillCount: 0
+  eliteMonsterKillCount: 0
+  bossMonsterKillCount: 0

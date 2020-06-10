@@ -601,19 +601,20 @@ public class PlayerControl : MovingObject
     }
     public void InstantiateSpearEft(SlashEft se, Transform t)
     {
+        Vector3 pos = new Vector3(t.position.x + Random.Range(-0.5f, 0.5f), transform.position.y + Random.Range(-0.3f, 0.3f));
         switch (se)
         {
             case SlashEft.DOWNUP:
-                Instantiate(spearEffect[0], t.position, gameObject.transform.rotation);
+                Instantiate(spearEffect[0], pos, gameObject.transform.rotation);
                 break;
             case SlashEft.UPDOWN:
-                Instantiate(spearEffect[1], t.position, gameObject.transform.rotation);
+                Instantiate(spearEffect[1], pos, gameObject.transform.rotation);
                 break;
             case SlashEft.UPDOWN2:
-                Instantiate(spearEffect[2], t.position, gameObject.transform.rotation);
+                Instantiate(spearEffect[2], pos, gameObject.transform.rotation);
                 break;
             case SlashEft.RANDOM:
-                Instantiate(spearEffect[Random.Range(0, 3)], t.position, gameObject.transform.rotation);
+                Instantiate(spearEffect[Random.Range(0, 3)], pos, gameObject.transform.rotation);
                 break;
 
             default:
@@ -850,12 +851,33 @@ public class PlayerControl : MovingObject
                 switch (_AttackType)
                 {
                     case AtkType.spear_X_Upper_Attack:
-                    case AtkType.spear_Jump_Up_X_Attack:
-                    case AtkType.spear_Jump_Down_X_Attack:
-                        for(int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
                             _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
                         if (_hit)
+                        {
                             monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectUpper(playerAttack.knockBack);
+                            InstantiateSpearEft(SlashEft.DOWNUP, monster[j].gameObject.transform);
+                        }
+                        break;
+
+                    case AtkType.spear_Jump_Up_X_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                        if (_hit)
+                        {
+                            monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectUpper(playerAttack.knockBack);
+                            InstantiateSpearEft(SlashEft.DOWNUP, monster[j].gameObject.transform);
+                        }
+                        break;
+
+                    case AtkType.spear_Jump_Down_X_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                        if (_hit)
+                        {
+                            monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectUpper(playerAttack.knockBack);
+                            InstantiateSpearEft(SlashEft.UPDOWN, monster[j].gameObject.transform);
+                        }
                         break;
 
                     case AtkType.spear_Y_Attack:
@@ -863,9 +885,132 @@ public class PlayerControl : MovingObject
                         {
                             _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
                             if (_hit)
+                            {
                                 monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                                InstantiateSpearEft(SlashEft.RANDOM, monster[j].gameObject.transform);
+                            }
                         }
                         CameraManager.instance.CameraShake(1);
+                        break;
+
+                    case AtkType.spear_X_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        {
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                            if (_hit)
+                            {
+                                monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                                InstantiateSpearEft(SlashEft.DOWNUP, monster[j].gameObject.transform);
+                            }
+                        }
+                        break;
+
+                    case AtkType.spear_XX_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        {
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                            if (_hit)
+                            {
+                                monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                                InstantiateSpearEft(SlashEft.DOWNUP, monster[j].gameObject.transform);
+                            }
+                        }
+                        break;
+
+                    case AtkType.spear_XXX_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        {
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                            if (_hit)
+                            {
+                                monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                                InstantiateSpearEft(SlashEft.DOWNUP, monster[j].gameObject.transform);
+                            }
+                        }
+                        break;
+
+                    case AtkType.spear_XFX_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        {
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                            if (_hit)
+                            {
+                                monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                                InstantiateSpearEft(SlashEft.UPDOWN2, monster[j].gameObject.transform);
+                            }
+                        }
+                        break;
+
+                    case AtkType.spear_XFXFX_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        {
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                            if (_hit)
+                            {
+                                monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                                InstantiateSpearEft(SlashEft.UPDOWN, monster[j].gameObject.transform);
+                            }
+                        }
+                        break;
+
+                    case AtkType.spear_Jump_X_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        {
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                            if (_hit)
+                            {
+                                monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                                InstantiateSpearEft(SlashEft.UPDOWN, monster[j].gameObject.transform);
+                            }
+                        }
+                        break;
+
+                    case AtkType.spear_Jump_XX_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        {
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                            if (_hit)
+                            {
+                                monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                                InstantiateSpearEft(SlashEft.UPDOWN2, monster[j].gameObject.transform);
+                            }
+                        }
+                        break;
+
+                    case AtkType.spear_Jump_XXX_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        {
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                            if (_hit)
+                            {
+                                monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                                InstantiateSpearEft(SlashEft.UPDOWN, monster[j].gameObject.transform);
+                            }
+                        }
+                        break;
+
+                    case AtkType.spear_Jump_Y_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        {
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                            if (_hit)
+                            {
+                                monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                                InstantiateSpearEft(SlashEft.UPDOWN, monster[j].gameObject.transform);
+                            }
+                        }
+                        break;
+
+                    case AtkType.spear_Y_Up_Attack:
+                        for (int i = 0; i < playerAttack.attackMultiHit; ++i)
+                        {
+                            _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
+                            if (_hit)
+                            {
+                                monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                                InstantiateSpearEft(SlashEft.UPDOWN, monster[j].gameObject.transform);
+                            }
+                        }
                         break;
 
                     default:
@@ -873,7 +1018,10 @@ public class PlayerControl : MovingObject
                         {
                             _hit = monster[j].gameObject.GetComponent<Monster_Control>().MonsterHit((int)(playerStatus.GetAttack_Result() * playerAttack.attackMultiply));
                             if (_hit)
+                            {
                                 monster[j].gameObject.GetComponent<Monster_Control>().MonsterHitRigidbodyEffectKnockBack(playerAttack.knockBack);
+                                InstantiateSpearEft(SlashEft.RANDOM, monster[j].gameObject.transform);
+                            }
                         }
                         break;
                 }
