@@ -7,16 +7,27 @@ using UnityEngine.UI;
 public class TimeLineDialog : TalkBox
 {
     public PlayableDirector playableDirector;
-    
+    Material spriteOutLine;
+    Material spriteDiffuse;
+
+    public GameObject cursor;
+    public float cursorSpeed;
+
+    public GameObject choises;
+    public Text[] choise;
+
+    public int focused;
+    public int maxFocused;
+    public int[] selectedChoiced;
+
+    public bool isChoiceOn;
     public string eventName;
 
-    public bool hasToPause;
-    
+
     private void OnEnable()
     {
         if(currentEventCount == 0)
         {
-            Debug.Log("start");
             completeText = "";
             eventDialog = DungeonManager.instance.scenarioManager.GetEventTextlist(eventName);
 
@@ -27,12 +38,11 @@ public class TimeLineDialog : TalkBox
         }
 
         Debug.Log("get event");
+        spriteOutLine = Resources.Load<Material>("Material/SpriteOutLine");
+        spriteDiffuse = Resources.Load<Material>("Material/SpriteDiffuse");
 
-        if(hasToPause)
-            playableDirector.Pause();
-
+        isChoiceOn = false;
         SetDialogText();
-        isDialogOn = true;
     }
 
     private void OnDisable()
@@ -46,6 +56,20 @@ public class TimeLineDialog : TalkBox
 
         if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
+            if (isChoiceOn)
+            {
+                isChoiceOn = false;
+                cursor.SetActive(false);
+                for(int i = 0; i < maxFocused; ++i)
+                {
+                    choise[i].gameObject.SetActive(false);
+                }
+                choises.SetActive(false);
+                currentEventCount = selectedChoiced[focused];
+
+                SetTalkBox();
+            }
+
             if (isOneByOneTextOn)
             {
                 isOneByOneTextOn = false;
@@ -53,6 +77,7 @@ public class TimeLineDialog : TalkBox
             }
             else
             {
+                // 조건 변경 - 대화가 아닌 카메라 이동, 액션 등일 경우 resume
                 if (currentEventCount >= eventDialog.Count)
                 {
                     playableDirector.Stop();
@@ -62,8 +87,16 @@ public class TimeLineDialog : TalkBox
 
                     playableDirector.gameObject.SetActive(false);
                 }
-                playableDirector.Resume();
+                chaseGameObject.GetComponent<SpriteRenderer>().material = spriteDiffuse;
+                SetDialogText();
+                //playableDirector.Resume();
             }
+        }
+        if (isChoiceOn)
+        {
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) FocusedSlot(1);
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) FocusedSlot(-1);
+            FocusMove(choise[focused].gameObject);
         }
     }
 
@@ -71,15 +104,22 @@ public class TimeLineDialog : TalkBox
     {
         if (chaseGameObject != null)
         {
-            transform.position = Camera.main.WorldToScreenPoint(chaseGameObject.transform.position + Vector3.up * 0.5f);
+            transform.position = Vector3.Lerp(transform.position, Camera.main.WorldToScreenPoint(chaseGameObject.transform.position + Vector3.up * 0.5f), 8f * Time.deltaTime);
         }
     }
 
-    public new void SetDialogText()
+    public void SetTalkBox()
     {
         isDialogOn = true;
         isOneByOneTextOn = true;
 
+        TempCoroutine = OneByOneTextSetting(eventDialog[currentEventCount].content);
+        ++currentEventCount;
+        StartCoroutine(TempCoroutine);
+    }
+    
+    public new void SetDialogText()
+    {
         if (currentEventCount >= eventDialog.Count)
         {
             isOneByOneTextOn = false;
@@ -92,24 +132,83 @@ public class TimeLineDialog : TalkBox
             playableDirector.gameObject.SetActive(false);
 
             return;
-
-            //GameObject event1 = GameObject.Find("Event1");
-            //CameraManager.instance.CameraFocus(event1);
-            //event1.GetComponent<PlayableDirector>().Play();
         }
+
         if (eventDialog[currentEventCount].NPCName != "")
         {
             chaseGameObject = GameObject.Find(eventDialog[currentEventCount].NPCName);
 
-            if (chaseGameObject != null)
-                CameraManager.instance.CameraFocus(chaseGameObject);
-            else
+            if (chaseGameObject == null)
+            {
                 Debug.Log("dialog xml 오브젝트 이름 입력 실수");
+                return;
+            }
         }
 
-        TempCoroutine = OneByOneTextSetting(eventDialog[currentEventCount].content);
-        ++currentEventCount;
-        StartCoroutine(TempCoroutine);
+        switch (eventDialog[currentEventCount].eventType)
+        {
+            case EventType.CameraFocus:
+                {
+                    Debug.Log("camera focus");
+
+                    if (chaseGameObject != null)
+                    {
+                        CameraManager.instance.CameraFocus(chaseGameObject);
+                        chaseGameObject.GetComponent<SpriteRenderer>().material = spriteOutLine;
+                        ++currentEventCount;
+                        SetDialogText();
+                    }
+                    else
+                        Debug.Log("dialog xml 오브젝트 이름 입력 실수");
+                    break;
+                }
+            case EventType.None:
+                {
+                    Debug.Log("none");
+                    SetTalkBox();
+                    playableDirector.Pause();
+                    break;
+                }
+            case EventType.Select:
+                {
+                    Debug.Log("select");
+                    string[] result = eventDialog[currentEventCount].content.Split('@');
+
+                    focused = 0;
+                    maxFocused = result.Length;
+
+                    selectedChoiced = new int[maxFocused];
+
+                    for (int i = 0; i < maxFocused; ++i)
+                    {
+                        string[] choice = result[i].Split(':');
+                        choise[i].text = choice[0];
+                        selectedChoiced[i] = int.Parse(choice[1]);
+                        choise[i].gameObject.SetActive(true);
+                    }
+                    choises.SetActive(true);
+                    cursor.SetActive(true);
+
+                    isDialogOn = true;
+                    isChoiceOn = true;
+                    playableDirector.Pause();
+                    break;
+                }
+            case EventType.Answer:
+                {
+                    Debug.Log("answer");
+                    isDialogOn = true;
+                    isOneByOneTextOn = true;
+
+                    ++currentEventCount;
+                    break;
+                }
+            default:
+                {
+                    Debug.Log("Time line event Errrrrrrrrrr");
+                    break;
+                }
+        }
     }
 
     public new IEnumerator OneByOneTextSetting(string _Content)
@@ -125,6 +224,22 @@ public class TimeLineDialog : TalkBox
             yield return new WaitForSeconds(0.1f);
         }
         isOneByOneTextOn = false;
-        playableDirector.Pause();
+    }
+
+    public void FocusMove(GameObject _FocusedObject)
+    {
+        if (focused < 0 || focused > maxFocused) return;
+        cursor.transform.position = Vector2.Lerp(
+            cursor.transform.position,
+            new Vector2(cursor.transform.position.x, _FocusedObject.transform.position.y),
+            Time.deltaTime * cursorSpeed);
+    }
+    public void FocusedSlot(int AdjustValue)
+    {
+        if (focused + AdjustValue > maxFocused - 1) focused = 0;
+        else if (focused + AdjustValue < 0) focused = maxFocused - 1 ;
+        else focused += AdjustValue;
+
+        cursor.SetActive(true);
     }
 }

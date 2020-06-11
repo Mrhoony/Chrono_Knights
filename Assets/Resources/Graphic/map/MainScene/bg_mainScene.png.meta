@@ -4,6 +4,7 @@ TextureImporter:
   fileIDToRecycleName:
     21300000: bg_mainScene_0
     21300002: bg_mainScene_1
+    21300004: bg_mainScene_2
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -94,7 +95,7 @@ TextureImporter:
         width: 640
         height: 360
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -114,13 +115,33 @@ TextureImporter:
         width: 62
         height: 51
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: c3d11243430c3c94695be0abc38f2bdd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_mainScene_2
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 55
+        width: 62
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89fd33503d87b0845b1445c57720011b
       vertices: []
       indices: 
       edges: []

@@ -349,7 +349,7 @@ public class CanvasManager : MonoBehaviour
         OpenTrialCardSelectMenu();
     }
 
-    public void SetDialogText(List<EventDialog> _TempRepeatEventList, NPC_Control NPC)
+    public void SetDialogText(List<RepeatDialog> _TempRepeatEventList, NPC_Control NPC)
     {
         isChatBoxOn = true;
 
