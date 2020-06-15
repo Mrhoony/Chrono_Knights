@@ -13,9 +13,8 @@ public abstract class NormalMonsterControl : Monster_Control
     public bool isDamagable;
     public bool isElite;
 
-    public void MonsterPop(bool _Elite)
+    private void OnEnable()
     {
-        isElite = _Elite;
         MonsterInit();
     }
 
@@ -68,6 +67,7 @@ public abstract class NormalMonsterControl : Monster_Control
 
     public void FixedUpdate()
     {
+        if (CanvasManager.instance.isMainScenarioOn) return;
         if (actionState == ActionState.IsDead) return;
         MonsterFlip();
         Move();
@@ -235,5 +235,10 @@ public abstract class NormalMonsterControl : Monster_Control
             monsterDeadCount();
             monsterDeadCount = null;
         }
+        Invoke("DeadEnd", 2f);
+    }
+    public void DeadEnd()
+    {
+        gameObject.SetActive(false);
     }
 }

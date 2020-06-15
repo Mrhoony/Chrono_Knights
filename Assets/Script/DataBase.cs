@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class DataBase
@@ -10,7 +11,7 @@ public class DataBase
     public int currentDate;
 
     public bool isTrainigPossible;
-    public bool[] eventFlag;
+    public Dictionary<string, bool> eventFlag;
     public int storyProgress;
 
     public void Init()
@@ -21,12 +22,7 @@ public class DataBase
         currentMoney = 0;
         currentDate = 0;
         isTrainigPossible = false;
-        eventFlag = new bool[36];
-        storyProgress = 0;
-        for (int i = 0; i < 36; ++i)
-        {
-            eventFlag[i] = false;
-        }
+        eventFlag = new Dictionary<string, bool>();
 
         CanvasManager.instance.DebugText("database init");
     }
@@ -43,7 +39,7 @@ public class DataBase
     {
         return currentDate;
     }
-    public bool[] GetEventFlag()
+    public Dictionary<string, bool> GetEventFlag()
     {
         return eventFlag;
     }
@@ -55,12 +51,8 @@ public class DataBase
     {
         return isTrainigPossible;
     }
-    public bool GetEventFlag(int flagNum)
-    {
-        return eventFlag[flagNum];
-    }
 
-    public void SaveGameData(int _currentDate, bool _isTrainigPossible, bool[] _eventFlag, int _StoryProgress)
+    public void SaveGameData(int _currentDate, bool _isTrainigPossible, Dictionary<string, bool> _eventFlag, int _StoryProgress)
     {
         currentDate = _currentDate;
         isTrainigPossible = _isTrainigPossible;

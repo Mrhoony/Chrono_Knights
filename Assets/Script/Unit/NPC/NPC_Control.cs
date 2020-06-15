@@ -50,7 +50,7 @@ public abstract class NPC_Control : InteractiveObject
             inPlayer = false;
             player = collision.gameObject;
             player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
-            DungeonManager.instance.scenarioManager.TalkBoxDisActive();
+            DungeonManager.instance.scenarioManager.TalkBoxInActive();
         }
     }
 }

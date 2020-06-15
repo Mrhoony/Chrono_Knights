@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 public class ScenarioManager : MonoBehaviour
 {
     public CanvasManager canvasManager;
-    public bool[] eventFlag;
+    public Dictionary<string, bool> eventFlag;
     public int storyProgress;
 
     public PlayableDirectorScript playableDirector;
@@ -26,12 +26,7 @@ public class ScenarioManager : MonoBehaviour
     public void EventReset()
     {
         storyProgress = 0;
-        eventFlag = new bool[36];
-        eventFlag[0] = true;
-        for (int i = 1; i < 36; ++i)
-        {
-            eventFlag[i] = false;
-        }
+        eventFlag = new Dictionary<string, bool>();
     }
     public void SetEventList(Dictionary<int, List<RepeatEventDialog>> _RepeatEventList)
     {
@@ -54,17 +49,18 @@ public class ScenarioManager : MonoBehaviour
         {
             Debug.Log("has key");
 
-            if (!eventFlag[eventList[_CheckCurrentProgress]])
+            if (!eventFlag[_CheckCurrentProgress])
             {
                 Debug.Log("scenario check " + storyProgress);
 
-                eventFlag[eventList[_CheckCurrentProgress]] = true;
+                eventFlag[_CheckCurrentProgress] = true;
                 storyProgress = eventList[_CheckCurrentProgress];
-                CanvasManager.instance.talkBox.gameObject.SetActive(false);
-                GameObject.Find("EventList").transform.Find(_CheckCurrentProgress).gameObject.SetActive(true);
 
+                canvasManager.talkBox.gameObject.SetActive(false);
+                canvasManager.MainScenarioStart();
                 CameraManager.instance.MainScenarioStart();
-                canvasManager.isMainScenarioOn = true;
+
+                GameObject.Find("EventList").transform.Find(_CheckCurrentProgress).gameObject.SetActive(true);
                 return true;
             }
         }
@@ -134,7 +130,7 @@ public class ScenarioManager : MonoBehaviour
             Debug.Log("Not Found");
         }
     }
-    public void TalkBoxDisActive()
+    public void TalkBoxInActive()
     {
         canvasManager.CloseTalkBox();
     }
@@ -159,11 +155,11 @@ public class ScenarioManager : MonoBehaviour
     {
         return storyProgress;
     }
-    public bool[] GetEventFlag()
+    public Dictionary<string, bool> GetEventFlag()
     {
         return eventFlag;
     }
-    public void LoadGamePlayData(int _StoryProgress, bool[] _eventFlag)
+    public void LoadGamePlayData(int _StoryProgress, Dictionary<string, bool> _eventFlag)
     {
         storyProgress = _StoryProgress;
         eventFlag = _eventFlag;

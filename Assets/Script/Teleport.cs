@@ -8,6 +8,7 @@ public class Teleport : InteractiveObject
     public int destinationSceneNumber;
     public GameObject currentMap;
     public Teleport sameSceneDestination;
+    public int usableScenarioProgress = -1;
 
     private void Start()
     {
@@ -17,18 +18,16 @@ public class Teleport : InteractiveObject
 
     private void Update()
     {
-        if (CanvasManager.instance.GameMenuOnCheck()) return;
-
+        if (DungeonManager.instance.mainQuest) return;
         if (!inPlayer) return;
-
-        if (!GameManager.instance.GetGameStart()) player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
-        if (DungeonManager.instance.isSceneLoading)
+        if (CanvasManager.instance.GameMenuOnCheck()) return;
+        if (!GameManager.instance.GetGameStart() || DungeonManager.instance.isSceneLoading)
         {
             player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
             return;
         }
 
-        if (player.GetComponent<PlayerControl>().inputDirection != 0)
+        if (player.GetComponent<PlayerControl>().PlayerIdleCheck())
         {
             if (player.GetComponent<PlayerControl>().playerInputKey.activeInHierarchy)
                 player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
@@ -40,7 +39,9 @@ public class Teleport : InteractiveObject
 
             if (Input.GetButtonDown("Fire1"))
             {
-                if (gameObject.GetComponent<EventTrigger>() != null)
+                if (usableScenarioProgress >= DungeonManager.instance.scenarioManager.storyProgress) return;
+
+                if (gameObject.GetComponent<EventTrigger>().eventName.Length != 0)
                 {
                     gameObject.GetComponent<EventTrigger>().EventStart();
                 }
@@ -67,6 +68,11 @@ public class Teleport : InteractiveObject
         {
             inPlayer = true;
             player = collision.gameObject;
+            
+            if (gameObject.GetComponent<EventTrigger>().eventName.Length == 0) return;
+            Debug.Log("TriggerEnterEvent");
+            if (eventCheckType == EventCheckType.TriggerEnter)
+                gameObject.GetComponent<EventTrigger>().EventStart();
         }
     }
     private void OnTriggerStay2D(Collider2D collision)

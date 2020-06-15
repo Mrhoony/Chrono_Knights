@@ -104,11 +104,6 @@ public class DungeonMaker : MonoBehaviour
     {
         DungeonReset();
         dungeonTrialStack.Init();
-        PhaseClear();
-    }
-    public void PhaseClear()
-    {
-        dropItemPool = GameObject.Find("DropItemPool");
     }
 
     public void MonsterClear()
@@ -167,6 +162,7 @@ public class DungeonMaker : MonoBehaviour
         
         if (bossSetting)
         {
+            DungeonManager.instance.scenarioManager.ScenarioCheck("FirstBossContact");
             BossFloorSetting(_MapList);
         }
         else if (floorRepeat)                    // 맵 반복시
@@ -216,6 +212,34 @@ public class DungeonMaker : MonoBehaviour
         // 구조물 위치 초기화 함수 추가
     }
 
+    public void MainBossFloorEvent(int _BossNumber)
+    {
+        GameObject[] bossList = currentMap.GetComponent<Dungeon_BossFloor>().bossPrefabs;
+        GameObject boss = null;
+
+        for(int i = 0; i < bossList.Length; ++i)
+        {
+            if (bossList[i].GetComponent<BossMonster_Control>().monsterCode == _BossNumber)
+                boss = bossList[i];
+        }
+
+        if(boss == null)
+        {
+            Debug.Log("boss code error");
+            return;
+        }
+
+        monsterCount = 1;
+        currentMonsterCount = monsterCount;
+        currentStageMonsterList = new GameObject[currentMonsterCount];
+        currentStageMonsterList[0] = Instantiate(
+            boss,
+            new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x,
+            spawner[Random.Range(0, spawnerCount)].transform.position.y
+            ), Quaternion.identity);
+
+        currentStageMonsterList[0].GetComponent<BossMonster_Control>().monsterDeadCount = FloorBossKill;
+    }
     public void BossFloorSetting(GameObject[] _MapList)
     {
         bossSetting = false;
@@ -236,6 +260,8 @@ public class DungeonMaker : MonoBehaviour
         entrance = currentMap.GetComponent<Map_DungeonSetting>().entrance.transform.position;
         spawner = currentMap.GetComponent<Map_DungeonSetting>().spawner;
         spawnerCount = spawner.Length;
+
+        if (CanvasManager.instance.isMainScenarioOn) return;
 
         GameObject[] bossList = currentMap.GetComponent<Dungeon_BossFloor>().bossPrefabs;
         GameObject randomBoss = bossList[Random.Range(0, bossList.Length)];
@@ -267,16 +293,14 @@ public class DungeonMaker : MonoBehaviour
             for (int i = 0; i < monsterCount; ++i)
             {
                 randomX = Random.Range(-1, 2);
-                currentStageMonsterList[i].GetComponent<Monster_Control>().MonsterInit();
                 currentStageMonsterList[i].transform.position = new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x + randomX
                                                          , spawner[Random.Range(0, spawnerCount)].transform.position.y);
+                currentStageMonsterList[i].SetActive(true);
             }
         }
     }
     public void NormalFloorSetting(GameObject[] _MapList)
     {
-        float randomX;
-
         currentMap = _MapList[Random.Range(0, _MapList.Length)];
         entrance = currentMap.GetComponent<Map_DungeonSetting>().entrance.transform.position;
         spawner = currentMap.GetComponent<Map_DungeonSetting>().spawner;
@@ -288,38 +312,39 @@ public class DungeonMaker : MonoBehaviour
 
         currentStageMonsterList = new GameObject[monsterCount];
 
-        int monsterPrefabListCount = monsterPreFabsList.Length;
-        int randomSpawner = 0;
-
         // 몬스터 스폰
         for (int i = 0; i < currentMonsterCount - eliteMonsterCount; ++i)
         {
-            randomX = Random.Range(-1, 2);
-            randomSpawner = Random.Range(0, spawnerCount);
-            currentStageMonsterList[i] = Instantiate(monsterPreFabsList[Random.Range(0, monsterPrefabListCount)]
-                , new Vector2(
-                    spawner[randomSpawner].transform.position.x + randomX,
-                    spawner[randomSpawner].transform.position.y),
-                    Quaternion.identity);
-            currentStageMonsterList[i].GetComponent<NormalMonsterControl>().MonsterPop(false);
+            MonsterSpawn(i);
+            currentStageMonsterList[i].GetComponent<NormalMonsterControl>().isElite = false;
             currentStageMonsterList[i].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorMonsterKill;
+            currentStageMonsterList[i].SetActive(true);
         }
         Debug.Log("전체 몬스터" + currentMonsterCount);
 
         for (int j = currentMonsterCount - eliteMonsterCount; j < currentMonsterCount; ++j)
         {
-            randomX = Random.Range(-1, 2);
-            randomSpawner = Random.Range(0, spawnerCount);
-            currentStageMonsterList[j] = Instantiate(monsterPreFabsList[Random.Range(0, monsterPrefabListCount)]
-                , new Vector2(
-                    spawner[randomSpawner].transform.position.x + randomX,
-                    spawner[randomSpawner].transform.position.y),
-                    Quaternion.identity);
+            MonsterSpawn(j);
             // 엘리트 몬스터 강화
-            currentStageMonsterList[j].GetComponent<NormalMonsterControl>().MonsterPop(true);
+            currentStageMonsterList[j].GetComponent<NormalMonsterControl>().isElite = true;
             currentStageMonsterList[j].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorEliteMonsterKill;
+            currentStageMonsterList[j].SetActive(true);
         }
         Debug.Log("엘리트 몬스터" + eliteMonsterCount);
+    }
+    public void MonsterSpawn(int i)
+    {
+        float randomX;
+        int randomSpawner = 0;
+        int monsterPrefabListCount = monsterPreFabsList.Length;
+
+        randomX = Random.Range(-1, 2);
+        randomSpawner = Random.Range(0, spawnerCount);
+        currentStageMonsterList[i] = Instantiate(monsterPreFabsList[Random.Range(0, monsterPrefabListCount)]
+            , new Vector2(
+                spawner[randomSpawner].transform.position.x + randomX,
+                spawner[randomSpawner].transform.position.y),
+                Quaternion.identity);
     }
 
     public void FloorBossKill()

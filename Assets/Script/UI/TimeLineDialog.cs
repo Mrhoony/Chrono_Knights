@@ -19,11 +19,12 @@ public class TimeLineDialog : TalkBox
     public int focused;
     public int maxFocused;
     public int[] selectedChoiced;
+    public int[] activedEvent;
 
+    public bool cameraEvent;
     public bool isChoiceOn;
     public string eventName;
-
-
+    
     private void OnEnable()
     {
         if(currentEventCount == 0)
@@ -42,7 +43,10 @@ public class TimeLineDialog : TalkBox
         spriteDiffuse = Resources.Load<Material>("Material/SpriteDiffuse");
 
         isChoiceOn = false;
+        cameraEvent = false;
+
         SetDialogText();
+        playableDirector.Pause();
     }
 
     private void OnDisable()
@@ -53,6 +57,7 @@ public class TimeLineDialog : TalkBox
     public new void Update()
     {
         if (!isDialogOn) return;
+        if (cameraEvent) return;
 
         if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
@@ -99,12 +104,11 @@ public class TimeLineDialog : TalkBox
             FocusMove(choise[focused].gameObject);
         }
     }
-
     private void LateUpdate()
     {
         if (chaseGameObject != null)
         {
-            transform.position = Vector3.Lerp(transform.position, Camera.main.WorldToScreenPoint(chaseGameObject.transform.position + Vector3.up * 0.5f), 8f * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, Camera.main.WorldToScreenPoint(chaseGameObject.transform.position + Vector3.up * 1f), 8f * Time.deltaTime);
         }
     }
 
@@ -117,7 +121,6 @@ public class TimeLineDialog : TalkBox
         ++currentEventCount;
         StartCoroutine(TempCoroutine);
     }
-    
     public new void SetDialogText()
     {
         if (currentEventCount >= eventDialog.Count)
@@ -127,36 +130,28 @@ public class TimeLineDialog : TalkBox
             playableDirector.Stop();
 
             CameraManager.instance.CameraFocusOff(0.1f);
-            CanvasManager.instance.isMainScenarioOn = false;
+            CanvasManager.instance.MainScenarioEnd();
 
             playableDirector.gameObject.SetActive(false);
 
             return;
         }
-
-        if (eventDialog[currentEventCount].NPCName != "")
-        {
-            chaseGameObject = GameObject.Find(eventDialog[currentEventCount].NPCName);
-
-            if (chaseGameObject == null)
-            {
-                Debug.Log("dialog xml 오브젝트 이름 입력 실수");
-                return;
-            }
-        }
-
+        
         switch (eventDialog[currentEventCount].eventType)
         {
             case EventType.CameraFocus:
                 {
                     Debug.Log("camera focus");
 
+                    ChaseObjectSet();
                     if (chaseGameObject != null)
                     {
                         CameraManager.instance.CameraFocus(chaseGameObject);
+                        transform.position = Camera.main.WorldToScreenPoint(chaseGameObject.transform.position + Vector3.up * 1f);
                         chaseGameObject.GetComponent<SpriteRenderer>().material = spriteOutLine;
-                        ++currentEventCount;
-                        SetDialogText();
+
+                        SetTalkBox();
+                        playableDirector.Pause();
                     }
                     else
                         Debug.Log("dialog xml 오브젝트 이름 입력 실수");
@@ -165,6 +160,8 @@ public class TimeLineDialog : TalkBox
             case EventType.None:
                 {
                     Debug.Log("none");
+
+                    ChaseObjectSet();
                     SetTalkBox();
                     playableDirector.Pause();
                     break;
@@ -172,12 +169,15 @@ public class TimeLineDialog : TalkBox
             case EventType.Select:
                 {
                     Debug.Log("select");
+
+                    ChaseObjectSet();
                     string[] result = eventDialog[currentEventCount].content.Split('@');
 
                     focused = 0;
                     maxFocused = result.Length;
 
                     selectedChoiced = new int[maxFocused];
+                    activedEvent = new int[maxFocused];
 
                     for (int i = 0; i < maxFocused; ++i)
                     {
@@ -199,15 +199,31 @@ public class TimeLineDialog : TalkBox
                     Debug.Log("answer");
                     isDialogOn = true;
                     isOneByOneTextOn = true;
-
                     ++currentEventCount;
                     break;
                 }
             default:
                 {
                     Debug.Log("Time line event Errrrrrrrrrr");
+                    cameraEvent = true;
+                    ++currentEventCount;
+
+                    playableDirector.Resume();
                     break;
                 }
+        }
+    }
+    public void ChaseObjectSet()
+    {
+        if (eventDialog[currentEventCount].NPCName != "")
+        {
+            chaseGameObject = GameObject.Find(eventDialog[currentEventCount].NPCName);
+
+            if (chaseGameObject == null)
+            {
+                Debug.Log("dialog xml 오브젝트 이름 입력 실수");
+                return;
+            }
         }
     }
 

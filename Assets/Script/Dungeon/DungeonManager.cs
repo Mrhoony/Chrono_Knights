@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,13 +29,15 @@ public class DungeonManager : MonoBehaviour
     public bool isReturn;                   // 죽던 클리어 하던 나갈 시 true 입장 시 false
     public bool dungeonClear;           // 던전 클리어시
     public bool phaseClear;             // 페이즈 클리어시
+    public bool mainQuest;
 
     public bool sceneMove;
     public Teleport teleportDestination;
 
     private bool isTraingPossible;          // 트레이닝 가능 여부
     private bool isShopRefill;              // 샵 리필 여부
-    
+
+    public GameObject[] teleportPoint;
     private Item[] shopItemList;
     private int[] itemCostList;
 
@@ -192,32 +195,48 @@ public class DungeonManager : MonoBehaviour
         canvasManager.OpenGameOverMenu(dungeonPlayTimer);
     }
 
+    public void MainEventQuestClear()
+    {
+        mainQuest = false;
+    }
+
     public void ActiveInteractiveTeleport(int _DestinationSceneNumber) // 텔레포트에 따른 씬이동 및 지역이동
     {
+        if (mainQuest) return;
         useObjectNumber = _DestinationSceneNumber;
         sceneMove = true;
 
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0:
-                if (useObjectNumber == 99)
                 {
-                    GameManager.instance.SleepGame();
+                    if (useObjectNumber == 99)
+                    {
+                        GameManager.instance.SleepGame();
+                    }
+                    else
+                    {
+                        isSceneLoading = true;
+                        canvasManager.fadeInStartMethod += SceneLoad;
+                        canvasManager.FadeOutStart();
+                    }
+                    break;
                 }
-                else
+            case 1:
                 {
                     isSceneLoading = true;
                     canvasManager.fadeInStartMethod += SceneLoad;
                     canvasManager.FadeOutStart();
                 }
                 break;
-            case 1:
-                isSceneLoading = true;
-                canvasManager.fadeInStartMethod += SceneLoad;
-                canvasManager.FadeOutStart();
-                break;
             case 2:
             case 3:
+                if (!inDungeon)
+                {
+                    inDungeon = true;
+                    dungeonPlayTimer = 0f;
+                }
+
                 if (!dungeonClear || isReturn) return;
 
                 if (usedKey)
@@ -235,8 +254,9 @@ public class DungeonManager : MonoBehaviour
                 break;
         }
     }
-    public void ActiveInteractiveTeleport(int _ObjectNumber, Teleport _Teleport) // 텔레포트에 따른 씬이동 및 지역이동
+    public void ActiveInteractiveTeleport(int _ObjectNumber, Teleport _Teleport) // 텔레포트에 따른 지역이동
     {
+        if (mainQuest) return;
         useObjectNumber = _ObjectNumber;
         sceneMove = false;
 
@@ -252,6 +272,7 @@ public class DungeonManager : MonoBehaviour
     }
     public void ActiveInteractiveNPC(NPC_Control _NPC)  // NPC 코드에 따라 대화 찾기, 창열기
     {
+        if (mainQuest) return;
         if (PlayerControl.instance.actionState != ActionState.Idle) return;
 
         switch (_NPC.objectNumber)
@@ -261,7 +282,8 @@ public class DungeonManager : MonoBehaviour
                     scenarioManager.ScenarioRepeatCheck(_NPC);
                 break;
             case 102:
-                scenarioManager.ScenarioRepeatCheck(_NPC);
+                if (!scenarioManager.ScenarioCheck("GetBell"))
+                    scenarioManager.ScenarioRepeatCheck(_NPC);
                 break;
             case 103:
                 scenarioManager.ScenarioRepeatCheck(_NPC);
@@ -364,7 +386,6 @@ public class DungeonManager : MonoBehaviour
         mapList = GameObject.FindGameObjectsWithTag("BaseMap");
         backgroundSet = GameObject.Find("BackGroundSet");
 
-        GameObject[] teleportPoint;
         teleportPoint = GameObject.FindGameObjectsWithTag("Portal");
 
         switch (SceneManager.GetActiveScene().buildIndex)
@@ -389,9 +410,6 @@ public class DungeonManager : MonoBehaviour
             case 3:
                 if (!inDungeon)
                 {
-                    inDungeon = true;
-                    dungeonPlayTimer = 0f;
-                    canvasManager.SetDungeonUI();
                     TeleportTransfer();
                     break;
                 }
@@ -399,8 +417,6 @@ public class DungeonManager : MonoBehaviour
                 if (phaseClear)
                 {
                     phaseClear = false;
-                    dungeonMaker.PhaseClear();
-                    canvasManager.SetDungeonUI();
                     TeleportTransfer();
                 }
                 break;
@@ -473,11 +489,11 @@ public class DungeonManager : MonoBehaviour
     {
         return scenarioManager.GetStoryProgress();
     }
-    public bool[] GetEventFlag()
+    public Dictionary<string, bool> GetEventFlag()
     {
         return scenarioManager.GetEventFlag();
     }
-    public void LoadGamePlayDate(int _currentDate, bool _isTrainingPossible, bool[] _EventFlag, int _StoryProgress)
+    public void LoadGamePlayDate(int _currentDate, bool _isTrainingPossible, Dictionary<string, bool> _EventFlag, int _StoryProgress)
     {
         currentDate = _currentDate;
         isTraingPossible = _isTrainingPossible;

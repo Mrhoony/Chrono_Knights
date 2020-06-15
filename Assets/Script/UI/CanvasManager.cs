@@ -380,7 +380,6 @@ public class CanvasManager : MonoBehaviour
         isChatBoxOn = false;
         //dialogBox.gameObject.SetActive(false);
 
-        StartCoroutine(InputKeyDelay());
         StartCoroutine(PlayerMoveEnable());
     }
 
@@ -631,6 +630,17 @@ public class CanvasManager : MonoBehaviour
         RootBag.SetActive(true);
     }
     
+    public void MainScenarioStart()
+    {
+        PlayerMoveStop();
+        isMainScenarioOn = true;
+    }
+    public void MainScenarioEnd()
+    {
+        isMainScenarioOn = false;
+        StartCoroutine(PlayerMoveEnable());
+    }
+
     public void PlayerMoveStop()
     {
         PlayerControl.instance.StopPlayer();
@@ -638,13 +648,13 @@ public class CanvasManager : MonoBehaviour
     }
     public IEnumerator PlayerMoveEnable()
     {
-        Debug.Log("enable");
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         PlayerControl.instance.enabled = true;
+        StartCoroutine(InputKeyDelay());
     }
     public IEnumerator InputKeyDelay()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         isChatBoxOn = false;
     }
 
@@ -661,10 +671,6 @@ public class CanvasManager : MonoBehaviour
     public void SetTownUI()
     {
         townUI = GameObject.Find("TownUI").GetComponent<TownUI>();
-    }
-    public void SetDungeonUI()
-    {
-        dungeonUI = GameObject.Find("DungeonUI").GetComponent<DungeonUI>();
     }
 
     public void DebugText(string _Text)

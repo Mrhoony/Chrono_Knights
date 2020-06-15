@@ -16,4 +16,5 @@ public class InteractiveObject : MonoBehaviour
     public GameObject player;
     public bool inPlayer;
     public InteractiveObjectType objectType;
+    public EventCheckType eventCheckType;
 }

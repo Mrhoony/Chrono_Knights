@@ -75,9 +75,8 @@ public abstract class MovingObject : MonoBehaviour
             transform.position.y + GetComponent<BoxCollider2D>().bounds.size.y,
             transform.position.z);
 
-        DamageText.transform.SetParent(GameObject.Find("FloatingText").transform);
+        DamageText.transform.SetParent(GameObject.Find("FloatingTextPool").transform);
         DamageText.GetComponent<DamageText>().SetDamage(_Damage);
         DamageText.SetActive(true);
-
     }
 }

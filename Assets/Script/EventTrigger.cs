@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EventCheckType
+{
+    TriggerEnter, InputKey
+}
+
 public class EventTrigger : MonoBehaviour
 {
     public string[] eventName;

@@ -29,8 +29,6 @@ public enum SlashEft
 
 public class PlayerControl : MovingObject
 {
-    public static TestDrawBox TDB = new TestDrawBox();
-
     public static PlayerControl instance;
     public PlayerAttack playerAttack;
     public LayerMask rayDashLayerMask;
@@ -1099,7 +1097,7 @@ public class PlayerControl : MovingObject
         {
             float botDistance = playerDashBotDistance.point.x - (transform.position.x + GetComponent<BoxCollider2D>().size.x * 0.5f * arrowDirection);
             if (attackDistance > Mathf.Abs(botDistance) - GetComponent<BoxCollider2D>().size.x * 0.5f)
-                attackDistance = Mathf.Abs(botDistance) - GetComponent<BoxCollider2D>().size.x * 0.5f;
+                attackDistance = Mathf.Abs(botDistance);
         }
         transform.position = new Vector2(transform.position.x + attackDistance * arrowDirection, transform.position.y);
 
@@ -1154,40 +1152,13 @@ public class PlayerControl : MovingObject
         Debug.Log("state Init");
         actionState = ActionState.Idle;
     }
-
+    public bool PlayerIdleCheck()
+    {
+        if (actionState == ActionState.Idle || inputArrow == 0) return false;
+        return false;
+    }
     public void PlayerInputKeyFlip()
     {
         ObjectFlip(playerFollowObject);
-    }
-    public void OnDrawGizmosSelected()
-    {
-        if (actionState == ActionState.IsAtk)
-        {
-            Gizmos.color = new Color(1, 1, 1, 0.5f);
-            Gizmos.DrawCube(
-                new Vector3(transform.position.x + (3f + 0.2f) * arrowDirection * 0.5f, transform.position.y + 0.2f, 0) // 중심지점
-                , new Vector3(3f + 0.4f, 0.4f, 0)   // 전체 범위
-                );
-        }
-    }
-}
-
-public class TestDrawBox
-{
-    public Color color = Color.green;
-    public Vector2 v2TopLeft;
-    public Vector2 v2BottomRight;
-
-    public void DrawBox(GameObject target, Vector2 dis, Vector2 size)
-    {
-        v2TopLeft = (Vector2)target.transform.position + dis + new Vector2(size.x * -0.5f, size.y * 0.5f);
-        v2BottomRight = (Vector2)target.transform.position + dis + new Vector2(size.x * 0.5f, size.y * -0.5f);
-        Debug.DrawLine(v2TopLeft, v2BottomRight, color);
-    }
-    public void DrawBox(Vector2 target, Vector2 size)
-    {
-        v2TopLeft = target + new Vector2(size.x * -0.5f, size.y * 0.5f);
-        v2BottomRight = target + new Vector2(size.x * 0.5f, size.y * -0.5f);
-        Debug.DrawLine(v2TopLeft, v2BottomRight, color);
     }
 }

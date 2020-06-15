@@ -26,7 +26,7 @@ public class Boss_Trainer : BossMonster_Control
 
     private void FixedUpdate()
     {
-        if (CameraManager.instance.mainScenarioOn) return;
+        if (CanvasManager.instance.isMainScenarioOn) return;
 
         if (actionState == ActionState.IsDead) return;
         MonsterFlip();

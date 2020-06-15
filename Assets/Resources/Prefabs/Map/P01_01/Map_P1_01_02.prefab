@@ -3210,7 +3210,7 @@ CompositeCollider2D:
   m_GameObject: {fileID: 2225316651030935340}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: d75e9e7e1b1be14458e788b37b8f3b9a, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class DungeonUI : FocusUI
 {
-    public GameObject dungeonFloor;
-    public GameObject dungeonFloorEft;
+    public GameObject dungeonFloorCenterEffect;
     public Text dungeonFloorText;
     public Text dungeonFloorStatText;
     public Text dungeonFloorEftText;
@@ -64,8 +63,8 @@ public class DungeonUI : FocusUI
 
     IEnumerator DungeonFloorEft()
     {
-        dungeonFloorEft.SetActive(true);
+        dungeonFloorCenterEffect.SetActive(true);
         yield return new WaitForSeconds(2f);
-        dungeonFloorEft.SetActive(false);
+        dungeonFloorCenterEffect.SetActive(false);
     }
 }

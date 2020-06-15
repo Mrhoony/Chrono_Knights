@@ -23,6 +23,8 @@ public class Boss_Merchant : BossMonster_Control
     
     private void FixedUpdate()
     {
+        if (CanvasManager.instance.isMainScenarioOn) return;
+
         if (actionState == ActionState.IsDead) return;
         MonsterFlip();
         Move();

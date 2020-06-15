@@ -434,8 +434,12 @@ public class Database_Game : MonoBehaviour
                     switch (_Event.Name)
                     {
                         case "EventList":
+
                             eventDialog = new List<EventDialog>();
+
+                            string eventName = _Event.SelectSingleNode("EventName").InnerText;
                             XmlNodeList _DialogList = _Event.SelectNodes("Dialog");
+
                             foreach (XmlNode _Dialog in _DialogList)
                             {
                                 if(_Dialog.SelectSingleNode("EventType").InnerText == "Camera")
@@ -454,7 +458,14 @@ public class Database_Game : MonoBehaviour
                                         ));
                                 }
                             }
-                            eventList.Add(_Event.SelectSingleNode("EventName").InnerText, int.Parse(_Event.SelectSingleNode("EventNumber").InnerText));
+
+                            if (eventList.ContainsKey(eventName))
+                            {
+                                eventContent[eventList[eventName]].AddRange(eventDialog);
+                                break;
+                            }
+
+                            eventList.Add(eventName, int.Parse(_Event.SelectSingleNode("EventNumber").InnerText));
                             eventContent.Add(int.Parse(_Event.SelectSingleNode("EventNumber").InnerText), eventDialog);
                             break;
                     }

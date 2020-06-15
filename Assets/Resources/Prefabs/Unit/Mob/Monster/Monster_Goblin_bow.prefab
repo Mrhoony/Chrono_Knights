@@ -22,7 +22,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2926893720238208930
 Transform:
   m_ObjectHideFlags: 0
@@ -235,6 +235,7 @@ MonoBehaviour:
   randomMoveCount: 0
   randomAttack: 0
   isDamagable: 0
+  isElite: 0
   shootingPosition: {fileID: 8859883668463112950}
   arrowObject: {fileID: 4842910478608483180, guid: 70e688cc55abe7e41be53c9c361e0bbb,
     type: 3}

@@ -7,6 +7,6 @@ public class EventEndTrigger : MonoBehaviour
     private void OnEnable()
     {
         CameraManager.instance.mainScenarioOn = false;
-        CanvasManager.instance.isMainScenarioOn = false;
+        CanvasManager.instance.MainScenarioEnd();
     }
 }
