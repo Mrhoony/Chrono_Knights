@@ -990,6 +990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillManager: {fileID: 1044432036}
+  mainScenarioName: []
 --- !u!4 &1044432035
 Transform:
   m_ObjectHideFlags: 0
@@ -1033,7 +1034,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasManager: {fileID: 1116762776}
-  eventFlag: 
   storyProgress: 0
   playableDirector: {fileID: 0}
   isDialogOn: 0
@@ -1908,6 +1908,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2079052208 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3051314989896366850, guid: 187d72a635af2f04a891caed4b95c247,
+    type: 3}
+  m_PrefabInstance: {fileID: 82245447478733252}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9947e967fdc57d340a3244e5e37c71cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &82245447478733252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2479,6 +2491,11 @@ PrefabInstance:
       propertyPath: useObjectNumber
       value: 99
       objectReference: {fileID: 0}
+    - target: {fileID: 8598324638961123333, guid: bb52788c74313754aaac85eedbfab2b6,
+        type: 3}
+      propertyPath: dungeonPoolManager
+      value: 
+      objectReference: {fileID: 2079052208}
     - target: {fileID: 8598324638961123332, guid: bb52788c74313754aaac85eedbfab2b6,
         type: 3}
       propertyPath: m_LocalPosition.x

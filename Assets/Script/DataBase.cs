@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public class DataBase
@@ -23,8 +24,29 @@ public class DataBase
         currentDate = 0;
         isTrainigPossible = false;
         eventFlag = new Dictionary<string, bool>();
-
+        EventFlagInit();
+        
         CanvasManager.instance.DebugText("database init");
+    }
+    public void EventFlagInit()
+    {
+        List<string> scenarioData = Database_Game.instance.mainScenarioName;
+
+        for (int i = 0; i < scenarioData.Count; ++i)
+        {
+            eventFlag.Add(scenarioData[i], false);
+        }
+        DungeonManager.instance.scenarioManager.eventFlag = eventFlag;
+    }
+    public void EventFlagInit(List<string> _ScenarioData)
+    {
+        for (int i = eventFlag.Count; i < _ScenarioData.Count; ++i)
+        {
+            Debug.Log(eventFlag.Count);
+            Debug.Log(_ScenarioData[i]);
+            eventFlag.Add(_ScenarioData[i], false);
+        }
+        DungeonManager.instance.scenarioManager.eventFlag = eventFlag;
     }
 
     public int[] GetStorageItemCodeList()
@@ -41,6 +63,13 @@ public class DataBase
     }
     public Dictionary<string, bool> GetEventFlag()
     {
+        List<string> scenarioData = Database_Game.instance.mainScenarioName;
+
+        if (eventFlag.Count < scenarioData.Count)
+        {
+            if(eventFlag.Count < 1) eventFlag = new Dictionary<string, bool>();
+            EventFlagInit(scenarioData);
+        }
         return eventFlag;
     }
     public int GetStoryProgress()

@@ -260,13 +260,14 @@ public class Database_Game : MonoBehaviour
     public List<Skill> passiveSkillList = new List<Skill>();
     public List<Monster> monsterList = new List<Monster>();
     public List<PlayerAttack> playerAttack = new List<PlayerAttack>();
+    public List<string> mainScenarioName = new List<string>();
     
     readonly string itemXMLFileName = "ItemDataBase";
     readonly string skillXMLFileName = "SkillDataBase";
     readonly string MonsterXMLFileName = "MonsterDataBase";
     readonly string playerAttackXMLFileName = "PlayerAttackDataBase";
     readonly string EventListFileName = "EventListDataBase";
-    readonly string NPCDialogFileName = "NPCDialogDataBase";
+    readonly string RepeatTalkFileName = "RepeatTalkDataBase";
     readonly string NPCTalkBoxFileName = "NPCTalkBoxDataBase";
 
     private void Awake()
@@ -286,7 +287,7 @@ public class Database_Game : MonoBehaviour
         InputMonsterData(MonsterXMLFileName);
         InputPlayerAttack(playerAttackXMLFileName);
         InputEventData(EventListFileName);
-        InputNPCDialogData(NPCDialogFileName);
+        InputNPCDialogData(RepeatTalkFileName);
         INputNPCTalkBoxData(NPCTalkBoxFileName);
 
         skillManager = GetComponent<SkillManager>();
@@ -465,6 +466,7 @@ public class Database_Game : MonoBehaviour
                                 break;
                             }
 
+                            mainScenarioName.Add(eventName);
                             eventList.Add(eventName, int.Parse(_Event.SelectSingleNode("EventNumber").InnerText));
                             eventContent.Add(int.Parse(_Event.SelectSingleNode("EventNumber").InnerText), eventDialog);
                             break;
@@ -489,26 +491,21 @@ public class Database_Game : MonoBehaviour
             {
                 foreach (XmlNode _Event in node)
                 {
-                    switch (_Event.Name)
+                    repeatEventDialog = new List<RepeatEventDialog>();
+
+                    if (!repeatEventList.ContainsKey(int.Parse(_Event.SelectSingleNode("NPCCode").InnerText)))
+                        repeatEventList.Add(int.Parse(_Event.SelectSingleNode("NPCCode").InnerText), repeatEventDialog);
+
+                    List<RepeatDialog> temp = new List<RepeatDialog>();
+                    XmlNodeList _RepeatDialogList = _Event.SelectNodes("Dialog");
+                    foreach (XmlNode _Dialog in _RepeatDialogList)
                     {
-                        case "RepeatEvent":
-                            repeatEventDialog = new List<RepeatEventDialog>();
-
-                            if (!repeatEventList.ContainsKey(int.Parse(_Event.SelectSingleNode("NPCCode").InnerText)))
-                                repeatEventList.Add(int.Parse(_Event.SelectSingleNode("NPCCode").InnerText), repeatEventDialog);
-
-                            List<RepeatDialog> temp = new List<RepeatDialog>();
-                            XmlNodeList _RepeatDialogList = _Event.SelectNodes("Dialog");
-                            foreach (XmlNode _Dialog in _RepeatDialogList)
-                            {
-                                temp.Add(new RepeatDialog(
-                                _Dialog.SelectSingleNode("NPCName").InnerText,
-                                _Dialog.SelectSingleNode("Content").InnerText));
-                            }
-                            repeatEventList[int.Parse(_Event.SelectSingleNode("NPCCode").InnerText)].Add(
-                                new RepeatEventDialog(int.Parse(_Event.SelectSingleNode("EventNumber").InnerText), temp));
-                            break;
+                        temp.Add(new RepeatDialog(
+                        _Dialog.SelectSingleNode("NPCName").InnerText,
+                        _Dialog.SelectSingleNode("Content").InnerText));
                     }
+                    repeatEventList[int.Parse(_Event.SelectSingleNode("NPCCode").InnerText)].Add(
+                        new RepeatEventDialog(int.Parse(_Event.SelectSingleNode("EventNumber").InnerText), temp));
                 }
             }
         }

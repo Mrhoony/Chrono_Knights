@@ -37,7 +37,7 @@ public class EnemyStatus : MonoBehaviour
         EnemyStatInit(Database_Game.instance.GetMonsterStatus(_monsterCode));
         _currentHP = _HP;
         
-        enemyHPBar = DungeonPoolManager.instance.GetMonsterHpBar(eliteMonster);
+        enemyHPBar = DungeonManager.instance.dungeonPoolManager.GetMonsterHpBar(eliteMonster);
         enemyHPBar.SetActive(true);
         enemyHPBar.GetComponent<EnemyHPBar>().SetMonster(this);
         bossMonster = false;
@@ -47,7 +47,7 @@ public class EnemyStatus : MonoBehaviour
         EnemyStatInit(Database_Game.instance.GetMonsterStatus(_bossMonsterCode));
         _currentHP = _HP;
         
-        enemyHPBar = DungeonPoolManager.instance.GetBossMonsterHpBar();
+        enemyHPBar = DungeonManager.instance.dungeonPoolManager.GetBossMonsterHpBar();
         enemyHPBar.SetActive(true);
         enemyHPBar.GetComponent<EnemyHPBar>().SetMonster(this);
         bossMonster = true;
@@ -101,11 +101,11 @@ public class EnemyStatus : MonoBehaviour
 
         if (eliteMonster)
         {
-            DungeonPoolManager.instance.EliteMonsterDie(enemyHPBar);
+            DungeonManager.instance.dungeonPoolManager.EliteMonsterDie(enemyHPBar);
         }
         else
         {
-            DungeonPoolManager.instance.MonsterDie(bossMonster, enemyHPBar);
+            DungeonManager.instance.dungeonPoolManager.MonsterDie(bossMonster, enemyHPBar);
         }
         enemyHPBar.SetActive(false);
         enemyHPBar = null;

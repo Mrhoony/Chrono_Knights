@@ -48,7 +48,6 @@ public class TimeLineDialog : TalkBox
         SetDialogText();
         playableDirector.Pause();
     }
-
     private void OnDisable()
     {
         isDialogOn = false;
@@ -70,7 +69,7 @@ public class TimeLineDialog : TalkBox
                     choise[i].gameObject.SetActive(false);
                 }
                 choises.SetActive(false);
-                currentEventCount = selectedChoiced[focused];
+                currentEventCount = selectedChoiced[focused]-1;
 
                 SetTalkBox();
             }
@@ -87,7 +86,7 @@ public class TimeLineDialog : TalkBox
                 {
                     playableDirector.Stop();
 
-                    CameraManager.instance.CameraFocusOff(0.1f);
+                    CameraManager.instance.CameraFocusOff(0.05f);
                     CanvasManager.instance.isMainScenarioOn = false;
 
                     playableDirector.gameObject.SetActive(false);

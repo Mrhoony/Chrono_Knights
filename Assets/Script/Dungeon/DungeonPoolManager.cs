@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DungeonPoolManager : MonoBehaviour
 {
-    public static DungeonPoolManager instance;
     public GameObject monsterHpBar;
     public GameObject eliteMonsterHpBar;
     public GameObject bossMonsterHpBar;
@@ -16,11 +15,10 @@ public class DungeonPoolManager : MonoBehaviour
     Queue<GameObject> eliteMonsterHpBarQueue = new Queue<GameObject>();
     Queue<GameObject> bossMonsterHpBarQueue = new Queue<GameObject>();
     
-    public void Awake()
+    public void Init()
     {
-        instance = this;
         bossMonsterCount = 0;
-        CreateHpBar(20);
+        CreateHpBar(10);
         CreateEliteBar(10);
         CreateBossHpBar(3);
     }

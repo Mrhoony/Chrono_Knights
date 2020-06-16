@@ -11,7 +11,7 @@ public class ScenarioManager : MonoBehaviour
 
     public PlayableDirectorScript playableDirector;
 
-    Dictionary<string, int> eventList = new Dictionary<string, int>();
+    public Dictionary<string, int> eventList = new Dictionary<string, int>();
     Dictionary<int, List<EventDialog>> eventContent = new Dictionary<int, List<EventDialog>>();
 
     Dictionary<int, List<RepeatEventDialog>> repeatEventList = new Dictionary<int, List<RepeatEventDialog>>();
@@ -48,6 +48,8 @@ public class ScenarioManager : MonoBehaviour
         if (eventList.ContainsKey(_CheckCurrentProgress))
         {
             Debug.Log("has key");
+            Debug.Log(_CheckCurrentProgress);
+            Debug.Log(eventList.ContainsKey(_CheckCurrentProgress));
 
             if (!eventFlag[_CheckCurrentProgress])
             {

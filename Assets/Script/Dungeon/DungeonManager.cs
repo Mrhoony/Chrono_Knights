@@ -10,6 +10,7 @@ public class DungeonManager : MonoBehaviour
 
     public ScenarioManager scenarioManager;
     public DungeonMaker dungeonMaker;
+    public DungeonPoolManager dungeonPoolManager;
     public CameraManager mainCamera;
     public CanvasManager canvasManager;
     public GameObject player;
@@ -60,6 +61,7 @@ public class DungeonManager : MonoBehaviour
     public void DungeonManagerInit()
     {
         dungeonMaker.DungeonMakerInit();
+        dungeonPoolManager.Init();
         useObjectNumber = 99;
 
         isSceneLoading = false;
@@ -231,27 +233,29 @@ public class DungeonManager : MonoBehaviour
                 break;
             case 2:
             case 3:
-                if (!inDungeon)
                 {
-                    inDungeon = true;
-                    dungeonPlayTimer = 0f;
-                }
+                    if (!inDungeon)
+                    {
+                        inDungeon = true;
+                        dungeonPlayTimer = 0f;
+                    }
 
-                if (!dungeonClear || isReturn) return;
+                    if (!dungeonClear || isReturn) return;
 
-                if (usedKey)
-                {
-                    usedKey = false;
-                    isSceneLoading = true;
-                    if (phaseClear) canvasManager.fadeInStartMethod += SceneLoad;
-                    else canvasManager.fadeInStartMethod += TeleportTransfer;
-                    canvasManager.FadeOutStart();
+                    if (usedKey)
+                    {
+                        usedKey = false;
+                        isSceneLoading = true;
+                        if (phaseClear) canvasManager.fadeInStartMethod += SceneLoad;
+                        else canvasManager.fadeInStartMethod += TeleportTransfer;
+                        canvasManager.FadeOutStart();
+                        break;
+                    }
+
+                    // 키를 안쓴경우 인벤토리를 연다.
+                    canvasManager.OpenInGameMenu(true);
                     break;
                 }
-
-                // 키를 안쓴경우 인벤토리를 연다.
-                canvasManager.OpenInGameMenu(true);
-                break;
         }
     }
     public void ActiveInteractiveTeleport(int _ObjectNumber, Teleport _Teleport) // 텔레포트에 따른 지역이동
@@ -278,12 +282,12 @@ public class DungeonManager : MonoBehaviour
         switch (_NPC.objectNumber)
         {
             case 101:
-                if (!scenarioManager.ScenarioCheck("TutorialSelect"))
-                    scenarioManager.ScenarioRepeatCheck(_NPC);
+                if (scenarioManager.ScenarioCheck("TutorialSelect")) break;
+                scenarioManager.ScenarioRepeatCheck(_NPC);
                 break;
             case 102:
-                if (!scenarioManager.ScenarioCheck("GetBell"))
-                    scenarioManager.ScenarioRepeatCheck(_NPC);
+                if (scenarioManager.ScenarioCheck("GetBell")) break;
+                scenarioManager.ScenarioRepeatCheck(_NPC);
                 break;
             case 103:
                 scenarioManager.ScenarioRepeatCheck(_NPC);
@@ -337,18 +341,18 @@ public class DungeonManager : MonoBehaviour
                 dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
                 break;
             default:
-                if (sceneMove)
-                {
-                    dungeonMaker.EnterTheDungeon();
-                    dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
-                }
-                else
-                {
-                    mainCamera.SetCameraBound(teleportDestination.currentMap);
-                    player.transform.position = teleportDestination.gameObject.transform.position;
-                }
+                mainCamera.SetCameraBound(teleportDestination.currentMap);
+                player.transform.position = teleportDestination.gameObject.transform.position;
                 break;
         }
+
+        useObjectNumber = 99;
+        StartCoroutine(MapMoveDelay());
+    }
+    public void TeleportTransfer(GameObject _FirstMap)
+    {
+        dungeonMaker.EnterTheDungeon();
+        dungeonMaker.FirstFloorSetting(_FirstMap, player, mainCamera, backgroundSet);
 
         useObjectNumber = 99;
         StartCoroutine(MapMoveDelay());
@@ -371,7 +375,13 @@ public class DungeonManager : MonoBehaviour
     {
         StartCoroutine(MapMoveDialogDelay("Tutorial"));
     }
-    
+
+    public void ScenarioMonsterPop(GameObject[] _MonsterVariable, GameObject _Spawner, int _Monstercount)
+    {
+        mainQuest = true;
+        dungeonMaker.ScenarioMonsterPop(_MonsterVariable, _Spawner, _Monstercount);
+    }
+
     // 씬 이동 후 초기화
     public void OnEnable()
     {
@@ -384,8 +394,6 @@ public class DungeonManager : MonoBehaviour
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)                  // 씬 로드시 초기화
     {
         mapList = GameObject.FindGameObjectsWithTag("BaseMap");
-        backgroundSet = GameObject.Find("BackGroundSet");
-
         teleportPoint = GameObject.FindGameObjectsWithTag("Portal");
 
         switch (SceneManager.GetActiveScene().buildIndex)
@@ -396,6 +404,7 @@ public class DungeonManager : MonoBehaviour
                 MapEntranceFind(teleportPoint, useObjectNumber);
                 break;
             case 1:
+                backgroundSet = GameObject.Find("BackGroundSet");
                 backgroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, -1);
 
                 backgroundSet = GameObject.Find("Town");
@@ -408,9 +417,11 @@ public class DungeonManager : MonoBehaviour
                 break;
             case 2:
             case 3:
+                backgroundSet = GameObject.Find("BackGroundSet");
+
                 if (!inDungeon)
                 {
-                    TeleportTransfer();
+                    TeleportTransfer(GameObject.Find("TowerEntrance"));
                     break;
                 }
 

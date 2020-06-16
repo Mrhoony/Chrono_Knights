@@ -105,7 +105,6 @@ public class DungeonMaker : MonoBehaviour
         DungeonReset();
         dungeonTrialStack.Init();
     }
-
     public void MonsterClear()
     {
         for (int i = 0; i < monsterCount; ++i)
@@ -131,9 +130,48 @@ public class DungeonMaker : MonoBehaviour
         MonsterDefSetting(dungeonTrialStack.currentDungeonStatus[1]);
         MonsterHPSetting(dungeonTrialStack.currentDungeonStatus[2], true);
     }
-    
+
     #region dungeon 관련
     // 층 이동 시 나타날 층 세팅
+    public void FirstFloorSetting(GameObject _Map, GameObject _Player, CameraManager _MainCamera, GameObject _BackGroundSet)
+    {
+        currentMap = _Map;
+        entrance = currentMap.GetComponent<Map_DungeonSetting>().entrance.transform.position;
+        spawner = currentMap.GetComponent<Map_DungeonSetting>().spawner;
+        spawnerCount = spawner.Length;
+
+        eliteMonsterCount = marker_Variable.markerVariable[(int)Markers.SetSpecialMonster_NF];
+        monsterCount = FloorDatas[currentStage].SpawnAmount + marker_Variable.markerVariable[(int)Markers.SetMonster_NF] + eliteMonsterCount;
+        currentMonsterCount = monsterCount;
+
+        currentStageMonsterList = new GameObject[monsterCount];
+
+        // 몬스터 스폰
+        for (int i = 0; i < currentMonsterCount - eliteMonsterCount; ++i)
+        {
+            MonsterSpawn(i);
+            currentStageMonsterList[i].GetComponent<NormalMonsterControl>().isElite = false;
+            currentStageMonsterList[i].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorMonsterKill;
+            currentStageMonsterList[i].SetActive(true);
+        }
+        Debug.Log("전체 몬스터" + currentMonsterCount);
+
+        for (int j = currentMonsterCount - eliteMonsterCount; j < currentMonsterCount; ++j)
+        {
+            MonsterSpawn(j);
+            // 엘리트 몬스터 강화
+            currentStageMonsterList[j].GetComponent<NormalMonsterControl>().isElite = true;
+            currentStageMonsterList[j].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorEliteMonsterKill;
+            currentStageMonsterList[j].SetActive(true);
+        }
+        Debug.Log("엘리트 몬스터" + eliteMonsterCount);
+
+        _Player.transform.position = entrance;
+        _MainCamera.SetCameraBound(currentMap);
+        _MainCamera.transform.position = entrance;
+        _BackGroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, currentStage);
+
+    }
     public void FloorSetting(GameObject[] _MapList, GameObject _Player, CameraManager _MainCamera, GameObject _BackGroundSet)
     {
         FloorReset();
@@ -192,7 +230,7 @@ public class DungeonMaker : MonoBehaviour
     }
     public void FloorReset()
     {
-        DungeonPoolManager.instance.bossMonsterCountReset();
+        DungeonManager.instance.dungeonPoolManager.bossMonsterCountReset();
 
         if (floorRepeat) return;
 
@@ -387,6 +425,7 @@ public class DungeonMaker : MonoBehaviour
         {
             MonsterGuideOff();
             DungeonManager.instance.dungeonClear = true;
+            DungeonManager.instance.MainEventQuestClear();
         }
     }
     IEnumerator BossKillSlowMotion()
@@ -542,6 +581,23 @@ public class DungeonMaker : MonoBehaviour
     }    // 아이템이 사용된 층에 효과를 적용
     #endregion
 
+    public void ScenarioMonsterPop(GameObject[] _MonsterVariable, GameObject _Spawner, int _Monstercount)
+    {
+        GameObject monster;
+        currentMonsterCount = 0;
+
+        for (int i = 0; i < _MonsterVariable.Length; ++i)
+        {
+            for (int ii = 0; ii < _Monstercount; ++ii)
+            {
+                monster = Instantiate(_MonsterVariable[i], new Vector2(_Spawner.transform.position.x + Random.Range(-2f, 2f), _Spawner.transform.position.y), Quaternion.identity);
+                monster.SetActive(true);
+                monster.GetComponent<NormalMonsterControl>().monsterDeadCount = FloorMonsterKill;
+                ++currentMonsterCount;
+            }
+        }
+    }
+    
     public void MonsterAttackSetting(int _value)
     {
         if (_value == 0) return;
@@ -581,9 +637,7 @@ public class DungeonMaker : MonoBehaviour
             ++j;
         }
     }
-
     public void MonsterGuideOff() {
         GameObject.FindWithTag("Guide").GetComponent<RestMonsterGuideSet>().ResetGuider();
     }
-
 }

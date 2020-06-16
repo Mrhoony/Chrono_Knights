@@ -85,6 +85,10 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
         LoadSystemData();
+        canvasManager.CanvasManagerInit();
+        CanvasManager.instance.DebugText("canvasmanager awake");
+        dungeonManager.DungeonManagerInit();
+        CanvasManager.instance.DebugText("dungeonmanager awake");
 
         dataBase.Init();
         storage.Init();
@@ -93,11 +97,8 @@ public class GameManager : MonoBehaviour
         gameStart = false;
         saveSlotFocus = 0;
         gameSlotFocus = 0;
-        
-        canvasManager.CanvasManagerInit();
-        CanvasManager.instance.DebugText("canvasmanager awake");
-        dungeonManager.DungeonManagerInit();
-        CanvasManager.instance.DebugText("dungeonmanager awake");
+       
+        Debug.Log("gameManagerInit");
 
         canvasManager.FadeInStart();
         player.GetComponent<PlayerControl>().enabled = false;

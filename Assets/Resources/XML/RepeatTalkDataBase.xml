@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RepeatTalkDataBase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventList>
+		<NPCCode>1</NPCCode>
+		<EventNumber>1</EventNumber>
+		<Dialog>
+			<NPCName>1</NPCName>
+			<Content>1</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<NPCCode>1</NPCCode>
+		<EventNumber>1</EventNumber>
+		<Dialog>
+			<NPCName>1</NPCName>
+			<Content>1</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<NPCCode>2</NPCCode>
+		<EventNumber>2</EventNumber>
+		<Dialog>
+			<NPCName>2</NPCName>
+			<Content>2</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<NPCCode>2</NPCCode>
+		<EventNumber>2</EventNumber>
+		<Dialog>
+			<NPCName>2</NPCName>
+			<Content>2</Content>
+		</Dialog>
+	</EventList>
+</RepeatTalkDataBase>

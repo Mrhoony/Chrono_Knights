@@ -39,7 +39,7 @@ public class Teleport : InteractiveObject
 
             if (Input.GetButtonDown("Fire1"))
             {
-                if (usableScenarioProgress >= DungeonManager.instance.scenarioManager.storyProgress) return;
+                if (usableScenarioProgress > DungeonManager.instance.scenarioManager.storyProgress) return;
 
                 if (gameObject.GetComponent<EventTrigger>().eventName.Length != 0)
                 {
