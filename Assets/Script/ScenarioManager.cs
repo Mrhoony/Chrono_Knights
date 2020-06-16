@@ -47,14 +47,8 @@ public class ScenarioManager : MonoBehaviour
     {
         if (eventList.ContainsKey(_CheckCurrentProgress))
         {
-            Debug.Log("has key");
-            Debug.Log(_CheckCurrentProgress);
-            Debug.Log(eventList.ContainsKey(_CheckCurrentProgress));
-
             if (!eventFlag[_CheckCurrentProgress])
             {
-                Debug.Log("scenario check " + storyProgress);
-
                 eventFlag[_CheckCurrentProgress] = true;
                 storyProgress = eventList[_CheckCurrentProgress];
 
@@ -94,6 +88,37 @@ public class ScenarioManager : MonoBehaviour
             }
 
             if(_TempRepeatEventList != null)
+            {
+                isRepeatDialogOn = true;
+                canvasManager.SetDialogText(_TempRepeatEventList, npc);
+                return true;
+            }
+        }
+        else
+        {
+            Debug.Log("Not Found");
+        }
+        return false;
+    }
+    public bool ScenarioRepeatObjectCheck(int _ObjectNumber)
+    {
+        List<RepeatDialog> _TempRepeatEventList = null;
+
+        if (repeatEventList.ContainsKey(_ObjectNumber))
+        {
+            for (int i = 0; i < repeatEventList[_ObjectNumber].Count; ++i)
+            {
+                if (repeatEventList[_ObjectNumber][i].eventNumber <= storyProgress)
+                {
+                    _TempRepeatEventList = repeatEventList[_ObjectNumber][i].eventDialog;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (_TempRepeatEventList != null)
             {
                 isRepeatDialogOn = true;
                 canvasManager.SetDialogText(_TempRepeatEventList, npc);

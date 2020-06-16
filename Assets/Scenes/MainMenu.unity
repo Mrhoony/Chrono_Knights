@@ -302,6 +302,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: {r: 1, g: 0.995283, b: 0.995283, a: 1}
   outlineSize: 1
+--- !u!1 &382334769 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1111758002947855217, guid: 187d72a635af2f04a891caed4b95c247,
+    type: 3}
+  m_PrefabInstance: {fileID: 82245447478733252}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &401470798 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 82245446805381176, guid: 187d72a635af2f04a891caed4b95c247,
@@ -528,6 +534,7 @@ MonoBehaviour:
   inPlayer: 0
   objectType: 1
   eventCheckType: 0
+  playerControl: {fileID: 0}
   sceneMove: 1
   destinationSceneNumber: 99
   currentMap: {fileID: 0}
@@ -559,7 +566,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fa18a82c9722054bb51a517ba50e86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventName: []
+  eventName:
+  - Tutorial
+  eventEndTrigger: {fileID: 0}
 --- !u!1 &676964148 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 82245445669965201, guid: 187d72a635af2f04a891caed4b95c247,
@@ -1321,7 +1330,7 @@ PrefabInstance:
     - target: {fileID: 3815408304545588570, guid: e6b2d8bb473408247898cb7b38ff6be4,
         type: 3}
       propertyPath: objectNumber
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3815408304545588570, guid: e6b2d8bb473408247898cb7b38ff6be4,
         type: 3}
@@ -2551,5 +2560,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1402904593, guid: bb52788c74313754aaac85eedbfab2b6, type: 3}
+      propertyPath: dropItemPool
+      value: 
+      objectReference: {fileID: 382334769}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb52788c74313754aaac85eedbfab2b6, type: 3}

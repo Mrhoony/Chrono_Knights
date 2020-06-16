@@ -37,8 +37,7 @@ public class TimeLineDialog : TalkBox
                 return;
             }
         }
-
-        Debug.Log("get event");
+        
         spriteOutLine = Resources.Load<Material>("Material/SpriteOutLine");
         spriteDiffuse = Resources.Load<Material>("Material/SpriteDiffuse");
 
@@ -47,10 +46,6 @@ public class TimeLineDialog : TalkBox
 
         SetDialogText();
         playableDirector.Pause();
-    }
-    private void OnDisable()
-    {
-        isDialogOn = false;
     }
 
     public new void Update()
@@ -124,8 +119,11 @@ public class TimeLineDialog : TalkBox
     {
         if (currentEventCount >= eventDialog.Count)
         {
-            isOneByOneTextOn = false;
-            
+            isDialogOn = false;
+            isChoiceOn = false;
+            cameraEvent = false;
+            currentEventCount = 0;
+
             playableDirector.Stop();
 
             CameraManager.instance.CameraFocusOff(0.1f);

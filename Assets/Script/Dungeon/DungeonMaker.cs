@@ -139,15 +139,15 @@ public class DungeonMaker : MonoBehaviour
         entrance = currentMap.GetComponent<Map_DungeonSetting>().entrance.transform.position;
         spawner = currentMap.GetComponent<Map_DungeonSetting>().spawner;
         spawnerCount = spawner.Length;
-
-        eliteMonsterCount = marker_Variable.markerVariable[(int)Markers.SetSpecialMonster_NF];
-        monsterCount = FloorDatas[currentStage].SpawnAmount + marker_Variable.markerVariable[(int)Markers.SetMonster_NF] + eliteMonsterCount;
+        
+        //eliteMonsterCount = marker_Variable.markerVariable[(int)Markers.SetSpecialMonster_NF];
+        //monsterCount = FloorDatas[currentStage].SpawnAmount + marker_Variable.markerVariable[(int)Markers.SetMonster_NF] + eliteMonsterCount;
+        monsterCount = 5;
         currentMonsterCount = monsterCount;
-
         currentStageMonsterList = new GameObject[monsterCount];
 
         // 몬스터 스폰
-        for (int i = 0; i < currentMonsterCount - eliteMonsterCount; ++i)
+        for (int i = 0; i < currentMonsterCount; ++i)
         {
             MonsterSpawn(i);
             currentStageMonsterList[i].GetComponent<NormalMonsterControl>().isElite = false;
@@ -156,6 +156,7 @@ public class DungeonMaker : MonoBehaviour
         }
         Debug.Log("전체 몬스터" + currentMonsterCount);
 
+        /*
         for (int j = currentMonsterCount - eliteMonsterCount; j < currentMonsterCount; ++j)
         {
             MonsterSpawn(j);
@@ -165,12 +166,12 @@ public class DungeonMaker : MonoBehaviour
             currentStageMonsterList[j].SetActive(true);
         }
         Debug.Log("엘리트 몬스터" + eliteMonsterCount);
+        */
 
         _Player.transform.position = entrance;
         _MainCamera.SetCameraBound(currentMap);
         _MainCamera.transform.position = entrance;
-        _BackGroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, currentStage);
-
+        _BackGroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, -1);
     }
     public void FloorSetting(GameObject[] _MapList, GameObject _Player, CameraManager _MainCamera, GameObject _BackGroundSet)
     {
@@ -412,6 +413,7 @@ public class DungeonMaker : MonoBehaviour
         {
             MonsterGuideOff();
             DungeonManager.instance.dungeonClear = true;
+            DungeonManager.instance.MainEventQuestClear();
         }
     }
     public void FloorEliteMonsterKill()
@@ -425,7 +427,6 @@ public class DungeonMaker : MonoBehaviour
         {
             MonsterGuideOff();
             DungeonManager.instance.dungeonClear = true;
-            DungeonManager.instance.MainEventQuestClear();
         }
     }
     IEnumerator BossKillSlowMotion()
