@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <RepeatTalkDataBase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<EventList>
-		<NPCCode>1</NPCCode>
+		<NPCCode>101</NPCCode>
 		<EventNumber>1</EventNumber>
 		<Dialog>
 			<NPCName>1</NPCName>
@@ -9,7 +9,7 @@
 		</Dialog>
 	</EventList>
 	<EventList>
-		<NPCCode>1</NPCCode>
+		<NPCCode>102</NPCCode>
 		<EventNumber>1</EventNumber>
 		<Dialog>
 			<NPCName>1</NPCName>
@@ -17,7 +17,7 @@
 		</Dialog>
 	</EventList>
 	<EventList>
-		<NPCCode>2</NPCCode>
+		<NPCCode>103</NPCCode>
 		<EventNumber>2</EventNumber>
 		<Dialog>
 			<NPCName>2</NPCName>
@@ -25,8 +25,8 @@
 		</Dialog>
 	</EventList>
 	<EventList>
-		<NPCCode>2</NPCCode>
-		<EventNumber>2</EventNumber>
+		<NPCCode>101</NPCCode>
+		<EventNumber>3</EventNumber>
 		<Dialog>
 			<NPCName>2</NPCName>
 			<Content>2</Content>

@@ -166,7 +166,7 @@ public abstract class NormalMonsterControl : Monster_Control
             actionState = ActionState.IsDead;
             gameObject.tag = "DeadBody";
             Dead();
-            return false;
+            return true;
         }
         else
         {

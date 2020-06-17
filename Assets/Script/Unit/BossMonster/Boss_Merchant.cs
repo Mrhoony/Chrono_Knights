@@ -99,7 +99,7 @@ public class Boss_Merchant : BossMonster_Control
                 gameObject.tag = "DeadBody";
                 Dead();
                 DungeonManager.instance.dungeonMaker.FloorBossKill();
-                return false;
+                return true;
             }
             else
             {

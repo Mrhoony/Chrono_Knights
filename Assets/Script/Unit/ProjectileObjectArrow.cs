@@ -28,11 +28,11 @@ public class ProjectileObjectArrow : MonoBehaviour
         transform.localScale = scale;
         if(_DistanceY != 0)
         {
-            rb.AddForce(new Vector2(_ArrowDirection * _DistanceX, 1/ _DistanceY), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(_DistanceX * 2f, 1/ _DistanceY), ForceMode2D.Impulse);
         }
         else
         {
-            rb.AddForce(new Vector2(_ArrowDirection * _DistanceX, 4f), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(_DistanceX * 2f, 4f), ForceMode2D.Impulse);
         }
     }
 

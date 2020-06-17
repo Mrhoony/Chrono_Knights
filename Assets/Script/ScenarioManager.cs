@@ -7,12 +7,13 @@ public class ScenarioManager : MonoBehaviour
 {
     public CanvasManager canvasManager;
     public Dictionary<string, bool> eventFlag;
+    public Dictionary<string, int> butterflyEffect;
     public int storyProgress;
 
     public PlayableDirectorScript playableDirector;
 
-    public Dictionary<string, int> eventList = new Dictionary<string, int>();
-    Dictionary<int, List<EventDialog>> eventContent = new Dictionary<int, List<EventDialog>>();
+    public Dictionary<string, int> eventList;
+    Dictionary<string, List<EventDialog>> eventContent;
 
     Dictionary<int, List<RepeatEventDialog>> repeatEventList = new Dictionary<int, List<RepeatEventDialog>>();
     Dictionary<int, List<EventTalkBox>> eventTalkBox = new Dictionary<int, List<EventTalkBox>>();
@@ -32,14 +33,33 @@ public class ScenarioManager : MonoBehaviour
     {
         repeatEventList = _RepeatEventList;
     }
-    public void SetEventList(Dictionary<string, int> _EventList, Dictionary<int, List<EventDialog>> _EventContent)
+    public void SetEventList(Dictionary<string, int> _EventList, Dictionary<string, List<EventDialog>> _EventContent)
     {
         eventList = _EventList;
         eventContent = _EventContent;
+
+        //선택지 이름, 트리거활성화 
+        butterflyEffect = new Dictionary<string, int>();
+        butterflyEffect.Add("TutorialSelect", 0);
+        //butterflyEffect.Add("TutorialSelect", false);
+        //butterflyEffect.Add("TutorialSelect", false);
     }
     public void SetEventTalkBoxList(Dictionary<int, List<EventTalkBox>> _EventTalkBox)
     {
         eventTalkBox = _EventTalkBox;
+    }
+    public void ButterflyEffectSelect(string _SelectedButterflyEffect, int _EventNumber)
+    {
+        if (butterflyEffect.ContainsKey(_SelectedButterflyEffect))
+        {
+            Debug.Log(_EventNumber);
+            butterflyEffect[_SelectedButterflyEffect] = _EventNumber;
+            Debug.Log(butterflyEffect[_SelectedButterflyEffect]);
+        }
+        else
+        {
+            Debug.Log("Butterfly effect name error");
+        }
     }
     
     // timeline event
@@ -49,8 +69,14 @@ public class ScenarioManager : MonoBehaviour
         {
             if (!eventFlag[_CheckCurrentProgress])
             {
+                if (storyProgress < eventList[_CheckCurrentProgress]) return false;
+
                 eventFlag[_CheckCurrentProgress] = true;
-                storyProgress = eventList[_CheckCurrentProgress];
+
+                if(storyProgress == eventList[_CheckCurrentProgress])
+                {
+                    storyProgress = eventList[_CheckCurrentProgress] + 1;
+                }
 
                 canvasManager.talkBox.gameObject.SetActive(false);
                 canvasManager.MainScenarioStart();
@@ -65,6 +91,13 @@ public class ScenarioManager : MonoBehaviour
             Debug.Log("Not Found");
         }
         return false;
+    }
+    public void ScenarioFlagCheck(string _CheckCurrentProgress)
+    {
+        if (eventList.ContainsKey(_CheckCurrentProgress))
+        {
+            eventFlag[_CheckCurrentProgress] = true;
+        }
     }
 
     // talk NPC
@@ -132,6 +165,16 @@ public class ScenarioManager : MonoBehaviour
         return false;
     }
 
+    public int GetSelectedEventOn(string _ButterflyEffectEvent)
+    {
+        if (butterflyEffect.ContainsKey(_ButterflyEffectEvent))
+        {
+            Debug.Log(butterflyEffect[_ButterflyEffectEvent]);
+            return butterflyEffect[_ButterflyEffectEvent];
+        }
+        return 0;
+    }
+
     // npc Contact
     public void ScenarioCheckTalkBox(GameObject _Object, int _NPCCode)
     {
@@ -168,7 +211,7 @@ public class ScenarioManager : MonoBehaviour
 
         if (eventList.ContainsKey(_EventName))
         {
-            returnEventList = eventContent[eventList[_EventName]];
+            returnEventList = eventContent[_EventName];
             return returnEventList;
         }
         else

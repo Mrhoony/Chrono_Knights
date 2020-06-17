@@ -7,6 +7,7 @@ public class Teleport : InteractiveObject
     public PlayerControl playerControl;
     public bool sceneMove;
     public int destinationSceneNumber;
+    public EventTrigger eventTrigger;
     public GameObject currentMap;
     public Teleport sameSceneDestination;
     public int usableScenarioProgress = -1;
@@ -40,26 +41,39 @@ public class Teleport : InteractiveObject
 
             if (Input.GetButtonDown("Fire1"))
             {
-                if (usableScenarioProgress > DungeonManager.instance.scenarioManager.storyProgress)
+                if (eventCheckType == EventCheckType.InputKey)
                 {
-                    DungeonManager.instance.ActiveInteractiveObject(objectNumber);
-                    return;
-                }
-
-                if (gameObject.GetComponent<EventTrigger>().eventName.Length != 0)
-                {
-                    if (eventCheckType == EventCheckType.InputKey)
+                    // 요구 진행도가 현재 진행도보다 높으면 대사출력후 행동 취소
+                    if (usableScenarioProgress > DungeonManager.instance.scenarioManager.storyProgress)
                     {
-                        if (gameObject.GetComponent<EventTrigger>().eventEndTrigger != null)
-                            gameObject.GetComponent<EventTrigger>().eventEndTrigger.eventEndDelegate = SceneMoveTeleport;
-
-                        gameObject.GetComponent<EventTrigger>().EventStart();
-
+                        DungeonManager.instance.ActiveInteractiveObject(objectNumber);
                         return;
+                    }
+
+                    // 이벤트 트리거가 비어있지 않고
+                    if (eventTrigger.eventEndTrigger != null)
+                    {
+                        // 이벤트 트리거에 이벤트가 지정되어 있을 경우
+                        if (eventTrigger.eventName.Length != 0)
+                        {
+                            if (eventTrigger.EventStart())
+                            {
+                                if (sceneMove)
+                                {
+                                    eventTrigger.eventEndTrigger.eventEndDelegate = SceneMoveTeleport;
+                                }
+                                else
+                                {
+                                    eventTrigger.eventEndTrigger.eventEndDelegate = SameSceneMoveTeleport;
+                                }
+                                return;
+                            }
+                        }
                     }
                 }
 
                 player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
+
                 if (sceneMove)
                 {
                     SceneMoveTeleport();
@@ -90,11 +104,13 @@ public class Teleport : InteractiveObject
             inPlayer = true;
             player = collision.gameObject;
             playerControl = player.GetComponent<PlayerControl>();
-            
-            if (gameObject.GetComponent<EventTrigger>().eventName.Length == 0) return;
-            
-            if (eventCheckType == EventCheckType.TriggerEnter)
-                gameObject.GetComponent<EventTrigger>().EventStart();
+
+            if (eventCheckType != EventCheckType.TriggerEnter) return;
+            // 이벤트 트리거가 비어있지 않고
+            if (eventTrigger.eventEndTrigger == null) return;
+            if (eventTrigger.eventName.Length == 0) return;
+
+            eventTrigger.EventStart();
         }
     }
     private void OnTriggerStay2D(Collider2D collision)
@@ -106,10 +122,12 @@ public class Teleport : InteractiveObject
             inPlayer = true;
             player = collision.gameObject;
 
-            if (gameObject.GetComponent<EventTrigger>().eventName.Length == 0) return;
-            
-            if (eventCheckType == EventCheckType.TriggerEnter)
-                gameObject.GetComponent<EventTrigger>().EventStart();
+            if (eventCheckType != EventCheckType.TriggerEnter) return;
+            // 이벤트 트리거가 비어있지 않고
+            if (eventTrigger.eventEndTrigger == null) return;
+            if (eventTrigger.eventName.Length == 0) return;
+
+            eventTrigger.EventStart();
         }
     }
     private void OnTriggerExit2D(Collider2D collision)

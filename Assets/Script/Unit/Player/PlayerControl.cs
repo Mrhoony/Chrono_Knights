@@ -103,7 +103,7 @@ public class PlayerControl : MovingObject
         if (CanvasManager.instance.GameMenuOnCheck() || CanvasManager.instance.TownUIOnCheck()) return;       // UI 켜져 있을 때 입력 제한
         if (actionState == ActionState.IsDead) return;
         
-        if (rb.velocity.y < -0.5f && actionState != ActionState.IsJumpAttack)
+        if (rb.velocity.y < -0.5f && actionState != ActionState.IsJumpAttack && actionState != ActionState.IsDodge)
         {
             GroundCheck.SetActive(true);
             if (rb.velocity.y < 1f)
@@ -418,6 +418,7 @@ public class PlayerControl : MovingObject
     void Dodge()
     {
         if (!dodgable) return;
+        isGround = false;
         dodgable = false;
         invincible = true;
 
@@ -1134,7 +1135,6 @@ public class PlayerControl : MovingObject
 
     public void StopPlayer()
     {
-        Debug.Log("Trigger");
         actionState = ActionState.NotMove;
         rb.velocity = Vector2.zero;
         StartCoroutine(InputIgnore(0.1f));
@@ -1149,7 +1149,6 @@ public class PlayerControl : MovingObject
     }
     public void PlayerStateInit()
     {
-        Debug.Log("state Init");
         actionState = ActionState.Idle;
     }
     public bool PlayerIdleCheck()

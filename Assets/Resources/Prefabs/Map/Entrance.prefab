@@ -118,6 +118,7 @@ MonoBehaviour:
   playerControl: {fileID: 0}
   sceneMove: 0
   destinationSceneNumber: 2
+  eventTrigger: {fileID: 5255981248855930057}
   currentMap: {fileID: 0}
   sameSceneDestination: {fileID: 0}
   usableScenarioProgress: -1

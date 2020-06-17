@@ -80,7 +80,7 @@
 			<EventCount>4</EventCount>
 			<EventType>Select</EventType>
 			<NPCName>PlayerCharacter</NPCName>
-			<Content>네, 도와드릴게요. 잘부탁드립니다.:5:true@충분히 익숙해졌어요. 제가 맡겠습니다.:6:false</Content>
+			<Content>네, 도와드릴게요. 잘부탁드립니다.:5:TutorialSelect:1@충분히 익숙해졌어요. 제가 맡겠습니다.:6:TutorialSelect:2</Content>
 		</Dialog>
 	</EventList>
 	<EventList>
@@ -185,7 +185,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstBattle</EventName>
-		<EventNumber>4</EventNumber>
+		<EventNumber>3</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -204,7 +204,7 @@
 	</EventList>
 	<EventList>
 		<EventName>GetBell</EventName>
-		<EventNumber>5</EventNumber>
+		<EventNumber>4</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -500,7 +500,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstTalkShop</EventName>
-		<EventNumber>8</EventNumber>
+		<EventNumber>5</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -627,7 +627,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstTalkEnchanter</EventName>
-		<EventNumber>9</EventNumber>
+		<EventNumber>5</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -682,7 +682,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstTalkTrainer</EventName>
-		<EventNumber>10</EventNumber>
+		<EventNumber>5</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -719,7 +719,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstEnterTower</EventName>
-		<EventNumber>11</EventNumber>
+		<EventNumber>6</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -746,7 +746,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstInTower</EventName>
-		<EventNumber>12</EventNumber>
+		<EventNumber>7</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -773,7 +773,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstDead</EventName>
-		<EventNumber>13</EventNumber>
+		<EventNumber>8</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -792,7 +792,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstRecall</EventName>
-		<EventNumber>14</EventNumber>
+		<EventNumber>8</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -811,7 +811,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstBoss</EventName>
-		<EventNumber>15</EventNumber>
+		<EventNumber>8</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -874,7 +874,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstBossEnd</EventName>
-		<EventNumber>16</EventNumber>
+		<EventNumber>9</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
