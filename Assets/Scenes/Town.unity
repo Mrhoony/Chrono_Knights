@@ -764,6 +764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ed14c9c5ce86c4e9ccb41661899c55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraTrasform: {fileID: 0}
   ParalaxSpeedX:
   - 1
   - 1
@@ -1022,16 +1023,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: eventName
-      value: FirstBattle
-      objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: playableDirector
-      value: 
-      objectReference: {fileID: 2016378077}
     - target: {fileID: 9184701642581263460, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -1042,6 +1033,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: eventName
+      value: FirstBattle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: playableDirector
+      value: 
+      objectReference: {fileID: 2016378077}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34eb74fc591b976499a8d83f0cb19284, type: 3}
 --- !u!224 &183199917 stripped
@@ -1247,6 +1248,11 @@ PrefabInstance:
       propertyPath: eventName.Array.data[1]
       value: FirstBattle
       objectReference: {fileID: 0}
+    - target: {fileID: 5255981248855930057, guid: e6b2d8bb473408247898cb7b38ff6be4,
+        type: 3}
+      propertyPath: eventEndTrigger
+      value: 
+      objectReference: {fileID: 4622535252152183083}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6b2d8bb473408247898cb7b38ff6be4, type: 3}
 --- !u!4 &207353207 stripped
@@ -3997,16 +4003,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: playableDirector
-      value: 
-      objectReference: {fileID: 940796741}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: eventName
-      value: GetBell
-      objectReference: {fileID: 0}
     - target: {fileID: 9184701642581263460, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -4016,6 +4012,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: playableDirector
+      value: 
+      objectReference: {fileID: 940796741}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: eventName
+      value: GetBell
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34eb74fc591b976499a8d83f0cb19284, type: 3}
@@ -9696,16 +9702,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: eventName
-      value: TutorialBattle
-      objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: playableDirector
-      value: 
-      objectReference: {fileID: 1915207588}
     - target: {fileID: 9184701642581263460, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -9716,6 +9712,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: eventName
+      value: TutorialBattle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: playableDirector
+      value: 
+      objectReference: {fileID: 1915207588}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34eb74fc591b976499a8d83f0cb19284, type: 3}
 --- !u!224 &2050508186 stripped
@@ -10612,6 +10618,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea479438be1f25f48a5b5fbabc503b59, type: 3}
+--- !u!114 &4622535252152183083 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4622535253543670800, guid: ea479438be1f25f48a5b5fbabc503b59,
+    type: 3}
+  m_PrefabInstance: {fileID: 4622535252152183082}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003877177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 346baa7624aa0e946b4e1a8a789f6f90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7531875966852101775
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10754,36 +10772,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: choises.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: choises.Array.data[0]
-      value: 
-      objectReference: {fileID: 7531875966852101779}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: choises.Array.data[1]
-      value: 
-      objectReference: {fileID: 7531875966852101778}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: choises.Array.data[2]
-      value: 
-      objectReference: {fileID: 7531875966852101777}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: eventName
-      value: TutorialSelect
-      objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: playableDirector
-      value: 
-      objectReference: {fileID: 1097195661}
     - target: {fileID: 9184701642581263460, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -10814,6 +10802,36 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: choises.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: choises.Array.data[0]
+      value: 
+      objectReference: {fileID: 7531875966852101779}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: choises.Array.data[1]
+      value: 
+      objectReference: {fileID: 7531875966852101778}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: choises.Array.data[2]
+      value: 
+      objectReference: {fileID: 7531875966852101777}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: eventName
+      value: TutorialSelect
+      objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: playableDirector
+      value: 
+      objectReference: {fileID: 1097195661}
     - target: {fileID: 3732090682539672891, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_AnchorMin.y

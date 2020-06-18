@@ -105,7 +105,7 @@ public class EventTrigger : MonoBehaviour
     public List<EventTriggerSet> eventTriggerSet;
     public EventEndTrigger eventEndTrigger;
 
-    private void OnEnable()
+    private void Start()
     {
         if (eventName.Length < 1) return;
 
@@ -113,6 +113,7 @@ public class EventTrigger : MonoBehaviour
 
         for (int i = 0; i < eventName.Length; ++i)
         {
+            Debug.Log(eventName[i]);
             eventTriggerSet.Add(new EventTriggerSet(eventName[i]));
         }
     }
@@ -123,6 +124,7 @@ public class EventTrigger : MonoBehaviour
 
         for(int i = 0; i < count; ++i)
         {
+            Debug.Log("Event Trigger start222");
             if (eventTriggerSet[i].EventStart()) return true;
         }
         return false;

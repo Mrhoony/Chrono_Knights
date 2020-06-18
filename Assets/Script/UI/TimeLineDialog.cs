@@ -180,6 +180,25 @@ public class TimeLineDialog : TalkBox
                         Debug.Log("dialog xml 오브젝트 이름 입력 실수");
                     break;
                 }
+            case EventType.CameraScroll:
+                {
+                    Debug.Log("camera scroll");
+
+                    if (eventDialog[currentEventCount].NPCName != "")
+                    {
+                        string[] chaseObjects = eventDialog[currentEventCount].NPCName.Split(':');
+
+                        if (GameObject.Find(chaseObjects[0]) == null || GameObject.Find(chaseObjects[1]) == null)
+                        {
+                            Debug.Log(currentEventCount + " dialog xml 오브젝트 이름 입력 실수");
+                            return;
+                        }
+
+                        CameraManager.instance.CameraScroll(GameObject.Find(chaseObjects[0]), GameObject.Find(chaseObjects[1]));
+                        playableDirector.Pause();
+                    }
+                    break;
+                }
             case EventType.None:
                 {
                     Debug.Log("none");
@@ -232,14 +251,12 @@ public class TimeLineDialog : TalkBox
             case EventType.Answer:
                 {
                     Debug.Log("answer");
-                    isDialogOn = true;
-                    isOneByOneTextOn = true;
                     ++currentEventCount;
                     break;
                 }
             default:
                 {
-                    Debug.Log("Time line event Errrrrrrrrrr");
+                    Debug.Log("Time line event Err");
                     cameraEvent = true;
                     ++currentEventCount;
 

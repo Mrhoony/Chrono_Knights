@@ -67,10 +67,11 @@ public class ScenarioManager : MonoBehaviour
     {
         if (eventList.ContainsKey(_CheckCurrentProgress))
         {
+            Debug.Log(_CheckCurrentProgress);
             if (!eventFlag[_CheckCurrentProgress])
             {
+                Debug.Log(eventList[_CheckCurrentProgress]);
                 if (storyProgress < eventList[_CheckCurrentProgress]) return false;
-
                 eventFlag[_CheckCurrentProgress] = true;
 
                 if(storyProgress == eventList[_CheckCurrentProgress])

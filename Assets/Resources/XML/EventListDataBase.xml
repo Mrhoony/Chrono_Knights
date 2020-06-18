@@ -719,7 +719,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstEnterTower</EventName>
-		<EventNumber>6</EventNumber>
+		<EventNumber>5</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -745,8 +745,15 @@
 		</Dialog>
 	</EventList>
 	<EventList>
+		<EventName>FirstEnterTower</EventName>
+		<Dialog>
+			<EventCount>4</EventCount>
+			<EventType>Camera</EventType>
+		</Dialog>
+	</EventList>
+	<EventList>
 		<EventName>FirstInTower</EventName>
-		<EventNumber>7</EventNumber>
+		<EventNumber>6</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -758,7 +765,8 @@
 		<EventName>FirstInTower</EventName>
 		<Dialog>
 			<EventCount>2</EventCount>
-			<EventType>Camera</EventType>
+			<EventType>CameraScroll</EventType>
+			<NPCName>Start:End</NPCName>
 			<Content>(타워 스크롤)</Content>
 		</Dialog>
 	</EventList>
@@ -773,7 +781,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstDead</EventName>
-		<EventNumber>8</EventNumber>
+		<EventNumber>7</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -792,7 +800,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstRecall</EventName>
-		<EventNumber>8</EventNumber>
+		<EventNumber>7</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -811,7 +819,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstBoss</EventName>
-		<EventNumber>8</EventNumber>
+		<EventNumber>7</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -874,7 +882,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstBossEnd</EventName>
-		<EventNumber>9</EventNumber>
+		<EventNumber>8</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>

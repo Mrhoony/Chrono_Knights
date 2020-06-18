@@ -1153,7 +1153,7 @@ public class PlayerControl : MovingObject
     }
     public bool PlayerIdleCheck()
     {
-        if (actionState == ActionState.Idle || inputArrow == 0) return false;
+        if (actionState == ActionState.Idle && inputArrow == 0) return true;
         return false;
     }
     public void PlayerInputKeyFlip()

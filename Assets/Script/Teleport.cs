@@ -5,29 +5,33 @@ using UnityEngine;
 public class Teleport : InteractiveObject
 {
     public PlayerControl playerControl;
+    public EventTrigger eventTrigger;
+
+    public GameObject currentMap;
     public bool sceneMove;
     public int destinationSceneNumber;
-    public EventTrigger eventTrigger;
-    public GameObject currentMap;
     public Teleport sameSceneDestination;
+
     public int usableScenarioProgress = -1;
 
     private void Start()
     {
         objectType = InteractiveObjectType.Teleport;
         player = GameObject.FindWithTag("Player");
+        playerControl = player.GetComponent<PlayerControl>();
+        eventTrigger = GetComponent<EventTrigger>();
     }
     private void Update()
     {
-        if (DungeonManager.instance.mainQuest) return;
-        if (!inPlayer) return;
-        if (CanvasManager.instance.GameMenuOnCheck()) return;
+        if (DungeonManager.instance.mainQuest) return;  // 메인 이벤트가 실행중이면
+        if (!inPlayer) return;  // 플레이어 캐릭터가 주변에 없으면
+        if (CanvasManager.instance.GameMenuOnCheck()) return;   // UI가 켜져있으면
         if (!GameManager.instance.GetGameStart() || DungeonManager.instance.isSceneLoading)
         {
             player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
             return;
-        }
-        if (playerControl == null) return;
+        }   // 게임이 시작중이 아니거나 화면 전환중이면
+        if (playerControl == null) return;  // 플레이어컨트롤이 등록되어있지 않으면
 
         if (playerControl.PlayerIdleCheck())
         {
@@ -38,7 +42,7 @@ public class Teleport : InteractiveObject
         {
             if (!playerControl.playerInputKey.activeInHierarchy)
                 playerControl.playerInputKey.SetActive(true);
-
+            
             if (Input.GetButtonDown("Fire1"))
             {
                 if (eventCheckType == EventCheckType.InputKey)
@@ -56,18 +60,9 @@ public class Teleport : InteractiveObject
                         // 이벤트 트리거에 이벤트가 지정되어 있을 경우
                         if (eventTrigger.eventName.Length != 0)
                         {
-                            if (eventTrigger.EventStart())
-                            {
-                                if (sceneMove)
-                                {
-                                    eventTrigger.eventEndTrigger.eventEndDelegate = SceneMoveTeleport;
-                                }
-                                else
-                                {
-                                    eventTrigger.eventEndTrigger.eventEndDelegate = SameSceneMoveTeleport;
-                                }
-                                return;
-                            }
+                            player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
+
+                            DungeonManager.instance.startWaitingEvent = EventStart;
                         }
                     }
                 }
@@ -83,6 +78,21 @@ public class Teleport : InteractiveObject
                     SameSceneMoveTeleport();
                 }
             }
+        }
+    }
+    public void EventStart()
+    {
+        if (eventTrigger.EventStart())
+        {
+            if (sceneMove)
+            {
+                eventTrigger.eventEndTrigger.eventEndDelegate = SceneMoveTeleport;
+            }
+            else
+            {
+                eventTrigger.eventEndTrigger.eventEndDelegate = SameSceneMoveTeleport;
+            }
+            return;
         }
     }
 
@@ -103,12 +113,14 @@ public class Teleport : InteractiveObject
         {
             inPlayer = true;
             player = collision.gameObject;
-            playerControl = player.GetComponent<PlayerControl>();
 
             if (eventCheckType != EventCheckType.TriggerEnter) return;
+            Debug.Log("Event Trigger");
             // 이벤트 트리거가 비어있지 않고
             if (eventTrigger.eventEndTrigger == null) return;
+            Debug.Log("Event Trigger not null");
             if (eventTrigger.eventName.Length == 0) return;
+            Debug.Log("Event Trigger start");
 
             eventTrigger.EventStart();
         }
@@ -126,6 +138,7 @@ public class Teleport : InteractiveObject
             // 이벤트 트리거가 비어있지 않고
             if (eventTrigger.eventEndTrigger == null) return;
             if (eventTrigger.eventName.Length == 0) return;
+            Debug.Log("Event Trigger start");
 
             eventTrigger.EventStart();
         }

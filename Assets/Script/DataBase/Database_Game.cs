@@ -18,7 +18,7 @@ public enum SkillType
 }
 public enum EventType
 {
-    None, Select, Answer, Camera, CameraFocus
+    None, Select, Answer, Camera, CameraFocus, CameraScroll
 }
 
 public class Item
@@ -178,7 +178,11 @@ public class EventDialog
     {
         eventType = _EventType;
     }
-
+    public EventDialog(EventType _EventType, string _NPCName)
+    {
+        eventType = _EventType;
+        NPCName = _NPCName;
+    }
     public EventDialog(int _EventCount, EventType _EventType, string _NPCName, string _Content)
     {
         eventCount = _EventCount;
@@ -419,6 +423,13 @@ public class Database_Game : MonoBehaviour
                                 {
                                     eventDialog.Add(new EventDialog(
                                            (EventType)System.Enum.Parse(typeof(EventType), _Dialog.SelectSingleNode("EventType").InnerText)
+                                           ));
+                                }
+                                else if (_Dialog.SelectSingleNode("EventType").InnerText == "CameraScroll")
+                                {
+                                    eventDialog.Add(new EventDialog(
+                                           (EventType)System.Enum.Parse(typeof(EventType), _Dialog.SelectSingleNode("EventType").InnerText),
+                                           _Dialog.SelectSingleNode("NPCName").InnerText
                                            ));
                                 }
                                 else

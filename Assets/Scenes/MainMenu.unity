@@ -535,10 +535,10 @@ MonoBehaviour:
   objectType: 1
   eventCheckType: 0
   playerControl: {fileID: 0}
+  eventTrigger: {fileID: 0}
+  currentMap: {fileID: 730170865}
   sceneMove: 1
   destinationSceneNumber: 99
-  eventTrigger: {fileID: 558226759}
-  currentMap: {fileID: 0}
   sameSceneDestination: {fileID: 0}
   usableScenarioProgress: -1
 --- !u!114 &558226758
@@ -569,7 +569,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventName:
   - Tutorial
-  eventEndTrigger: {fileID: 0}
+  eventEndTrigger: {fileID: 618879490}
+--- !u!114 &618879490 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4622535253543670800, guid: ea479438be1f25f48a5b5fbabc503b59,
+    type: 3}
+  m_PrefabInstance: {fileID: 840371866}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 346baa7624aa0e946b4e1a8a789f6f90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &676964148 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 82245445669965201, guid: 187d72a635af2f04a891caed4b95c247,
@@ -1342,7 +1354,7 @@ PrefabInstance:
         type: 3}
       propertyPath: currentMap
       value: 
-      objectReference: {fileID: 1058596574}
+      objectReference: {fileID: 730170865}
     - target: {fileID: 3815408304545588570, guid: e6b2d8bb473408247898cb7b38ff6be4,
         type: 3}
       propertyPath: destinationSceneNumber
@@ -1677,6 +1689,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 9184701642581263460, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9184701642581263460, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: chaseGameObject
@@ -1842,6 +1864,11 @@ MonoBehaviour:
   - {fileID: 12800000, guid: fa6ad275430d1c34392ca26e813cbcac, type: 3}
   - {fileID: 12800000, guid: 4a0a0adc17c06894393e4c4c38582c8d, type: 3}
   target: {fileID: 1203967037}
+  targetMoveSpeed: 0
+  cameraScrollOn: 0
+  scrollStart: {fileID: 0}
+  scrollEnd: {fileID: 0}
+  subCamera: {fileID: 1203967037}
   currentMap: {fileID: 730170865}
   cameraMinX: 0
   cameraMaxX: 0

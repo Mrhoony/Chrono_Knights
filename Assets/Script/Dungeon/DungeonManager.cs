@@ -33,6 +33,9 @@ public class DungeonManager : MonoBehaviour
     public bool phaseClear;             // 페이즈 클리어시
     public bool mainQuest;
 
+    public delegate void StartWaitingEvent();
+    public StartWaitingEvent startWaitingEvent;
+
     public bool sceneMove;
     public Teleport teleportDestination;
 
@@ -108,6 +111,40 @@ public class DungeonManager : MonoBehaviour
         if (inDungeon) dungeonPlayTimer += Time.deltaTime;
     }
 
+    public void PlayerIsDead()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        GameObject.FindWithTag("Guide").GetComponent<RestMonsterGuideSet>().ResetGuider();
+
+        Time.timeScale = 0.5f;
+        mainCamera.CameraSizeSetting(1);
+        mainCamera.target.transform.position = player.transform.position;
+        OutDungeon();
+    }
+    public void OutDungeon()
+    {
+        isReturn = true;
+        isSceneLoading = true;
+        Invoke("CircleFadeOutStart", 0.5f);
+    }
+    public void CircleFadeOutStart()
+    {
+        isReturn = true;
+        isSceneLoading = true;
+        canvasManager.CircleFadeOutStart();
+    }
+    public void OpenGameOverResult()
+    {
+        canvasManager.OpenGameOverMenu(dungeonPlayTimer);
+    }
+
+    public void MainEventQuestClear()
+    {
+        mainQuest = false;
+    }
+
     public void UseItemInDungeon(Item _Item)
     {
         switch (_Item.usingType)
@@ -167,38 +204,34 @@ public class DungeonManager : MonoBehaviour
         return true;
     }
 
-    public void PlayerIsDead()
+    public void WaitingEventStart()
     {
-        if (isDead) return;
-        isDead = true;
+        if (startWaitingEvent != null)
+        {
+            startWaitingEvent();
+            return;
+        }
 
-        GameObject.FindWithTag("Guide").GetComponent<RestMonsterGuideSet>().ResetGuider();
-
-        Time.timeScale = 0.5f;
-        mainCamera.CameraSizeSetting(1);
-        mainCamera.target.transform.position = player.transform.position;
-        OutDungeon();
+        TeleportNextFloor();
     }
-    public void OutDungeon()
+    public void TeleportNextFloor()
     {
-        isReturn = true;
+        if (!inDungeon)
+        {
+            inDungeon = true;
+            dungeonPlayTimer = 0f;
+            dungeonMaker.EnterTheDungeon();
+        }
+
+        EndEventTrigger();
+    }
+    public void EndEventTrigger()
+    {
+        // 던전 진입시 이벤트 실행
+        usedKey = false;
         isSceneLoading = true;
-        Invoke("CircleFadeOutStart", 0.5f);
-    }
-    public void CircleFadeOutStart()
-    {
-        isReturn = true;
-        isSceneLoading = true;
-        canvasManager.CircleFadeOutStart();
-    }
-    public void OpenGameOverResult()
-    {
-        canvasManager.OpenGameOverMenu(dungeonPlayTimer);
-    }
-
-    public void MainEventQuestClear()
-    {
-        mainQuest = false;
+        canvasManager.fadeInStartMethod += TeleportTransfer;
+        canvasManager.FadeOutStart();
     }
 
     public void ActiveInteractiveTeleport(int _DestinationSceneNumber, int _DestinationObjectNumber) // 텔레포트에 따른 씬이동 및 지역이동
@@ -233,6 +266,7 @@ public class DungeonManager : MonoBehaviour
             case 2:
             case 3:
                 {
+                    // 마을로 돌아가기
                     if(_DestinationSceneNumber == 1)
                     {
                         canvasManager.fadeInStartMethod += SceneLoad;
@@ -240,38 +274,16 @@ public class DungeonManager : MonoBehaviour
                         break;
                     }
 
-                    // 던전 입구에서 입장하면 던전 초기화
                     if (!inDungeon)
                     {
-                        if (usedKey)
-                        {
-                            usedKey = false;
-                            inDungeon = true;
-                            isSceneLoading = true;
-                            dungeonPlayTimer = 0f;
-                            dungeonMaker.EnterTheDungeon();
-                            canvasManager.fadeInStartMethod += TeleportTransfer;
-                            canvasManager.FadeOutStart();
-                            break;
-                        }
-
                         // 키를 안쓴경우 인벤토리를 연다.
-                        canvasManager.OpenInGameMenu(true);
-
-                        break;
+                        if (!usedKey) canvasManager.OpenInGameMenu(true);
                     }
 
                     if (!dungeonClear || isReturn) return;
 
-                    if (usedKey)
-                    {
-                        usedKey = false;
-                        isSceneLoading = true;
-                        if (phaseClear) canvasManager.fadeInStartMethod += SceneLoad;
-                        else canvasManager.fadeInStartMethod += TeleportTransfer;
-                        canvasManager.FadeOutStart();
-                        break;
-                    }
+                    // 키를 안쓴경우 인벤토리를 연다.
+                    if (!usedKey) canvasManager.OpenInGameMenu(true);
 
                     // 키를 안쓴경우 인벤토리를 연다.
                     canvasManager.OpenInGameMenu(true);

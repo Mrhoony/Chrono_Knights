@@ -35,10 +35,6 @@ public class BackgroundScrolling : MonoBehaviour
     {
         transform.position = new Vector3(cameraTrasform.position.x, cameraTrasform.position.y + 1f, transform.position.z);
         return;
-
-        if (-1 == currentStage)
-        {
-        }
         /*
         lastCameraX = _entrance.x;
         lastCameraY = _entrance.y;
