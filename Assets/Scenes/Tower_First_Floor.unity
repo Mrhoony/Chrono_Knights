@@ -1211,7 +1211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &828617725
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2463,6 +2463,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TimeLineTalkBox
       objectReference: {fileID: 0}
+    - target: {fileID: 5771234966342763867, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7850155957097178616, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2571,12 +2576,12 @@ PrefabInstance:
     - target: {fileID: 7850155957097178616, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7850155957097178616, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7850155957097178616, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
@@ -3186,7 +3191,6 @@ GameObject:
   - component: {fileID: 1922581897}
   - component: {fileID: 1922581899}
   - component: {fileID: 1922581898}
-  - component: {fileID: 1922581900}
   m_Layer: 0
   m_Name: FirstEnterTower
   m_TagString: Untagged
@@ -3257,27 +3261,6 @@ PlayableDirector:
   m_ExposedReferences:
     m_References:
     - 21aea1e0b20748e4da1dd1554669bd37: {fileID: 775653929}
---- !u!223 &1922581900
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1922581896}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
 --- !u!1001 &1927959331
 PrefabInstance:
   m_ObjectHideFlags: 0

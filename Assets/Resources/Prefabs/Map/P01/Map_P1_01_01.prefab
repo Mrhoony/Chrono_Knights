@@ -3944,6 +3944,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Entrance_Exit
       objectReference: {fileID: 0}
+    - target: {fileID: 189152530722549434, guid: b99ff088e7239b348b33c3d1ab4c73ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 189152530722549429, guid: b99ff088e7239b348b33c3d1ab4c73ef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3952,7 +3957,7 @@ PrefabInstance:
     - target: {fileID: 189152530722549429, guid: b99ff088e7239b348b33c3d1ab4c73ef,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: -1.28
       objectReference: {fileID: 0}
     - target: {fileID: 189152530722549429, guid: b99ff088e7239b348b33c3d1ab4c73ef,
         type: 3}
@@ -3999,6 +4004,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3333461570625036803, guid: b99ff088e7239b348b33c3d1ab4c73ef,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1030360045938496603}
+    - target: {fileID: 1532463306988393801, guid: b99ff088e7239b348b33c3d1ab4c73ef,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b99ff088e7239b348b33c3d1ab4c73ef, type: 3}
 --- !u!1 &2223723144539853977 stripped
@@ -4010,6 +4025,12 @@ GameObject:
 --- !u!4 &2223723144539853974 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 189152530722549429, guid: b99ff088e7239b348b33c3d1ab4c73ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 2052587352614353443}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1030360045938496603 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1310778744547503736, guid: b99ff088e7239b348b33c3d1ab4c73ef,
     type: 3}
   m_PrefabInstance: {fileID: 2052587352614353443}
   m_PrefabAsset: {fileID: 0}

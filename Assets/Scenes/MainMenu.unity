@@ -529,7 +529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e524e1ed4b8171e42b1f6b5e3a0702b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectNumber: 99
+  objectNumber: 9999
   player: {fileID: 0}
   inPlayer: 0
   objectType: 1
@@ -538,7 +538,7 @@ MonoBehaviour:
   eventTrigger: {fileID: 0}
   currentMap: {fileID: 730170865}
   sceneMove: 1
-  destinationSceneNumber: 99
+  destinationSceneNumber: 9999
   sameSceneDestination: {fileID: 0}
   usableScenarioProgress: -1
 --- !u!114 &558226758

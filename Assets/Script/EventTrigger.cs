@@ -105,7 +105,7 @@ public class EventTrigger : MonoBehaviour
     public List<EventTriggerSet> eventTriggerSet;
     public EventEndTrigger eventEndTrigger;
 
-    private void Start()
+    private void Awake()
     {
         if (eventName.Length < 1) return;
 

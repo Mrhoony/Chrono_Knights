@@ -11,7 +11,12 @@ public class EventEndTrigger : MonoBehaviour
     {
         CameraManager.instance.mainScenarioOn = false;
         CanvasManager.instance.MainScenarioEnd();
+        DungeonManager.instance.mainQuest = false;
+
         if(eventEndDelegate != null)
+        {
             eventEndDelegate();
+            eventEndDelegate = null;
+        }
     }
 }

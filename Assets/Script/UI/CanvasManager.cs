@@ -244,14 +244,14 @@ public class CanvasManager : MonoBehaviour
     #region fade in, out
     public void FadeInStart()
     {
-        DungeonManager.instance.isSceneLoading = true;
         System.GC.Collect();
         StartCoroutine(FadeIn());
     }
     IEnumerator FadeIn()
     {
-        if (GameManager.instance.GetGameStart())
+        if (GameManager.instance.GetGameStart() && !DungeonManager.instance.inDungeon)
             PlayerControl.instance.enabled = true;
+        if (DungeonManager.instance.inDungeon) PlayerControl.instance.gameObject.SetActive(false);
 
         Color fadeColor = fadeInOut.GetComponent<Image>().color;
         while (fadeColor.a > 0f)
@@ -264,11 +264,10 @@ public class CanvasManager : MonoBehaviour
         fadeInOut.GetComponent<Image>().color = fadeColor;
 
         fadeInOut.SetActive(false);
-        DungeonManager.instance.isSceneLoading = false;
+        DungeonManager.instance.ActiveAfterFadeIn();
     }
     public void FadeOutStart()
     {
-        DungeonManager.instance.isSceneLoading = true;
         StartCoroutine(FadeOut());
     }
     IEnumerator FadeOut()

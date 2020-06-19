@@ -165,7 +165,7 @@ public class TimeLineDialog : TalkBox
         {
             case EventType.CameraFocus:
                 {
-                    Debug.Log("camera focus");
+                    Debug.Log("Timeline camera focus");
 
                     ChaseObjectSet();
                     if (chaseGameObject != null)
@@ -182,7 +182,7 @@ public class TimeLineDialog : TalkBox
                 }
             case EventType.CameraScroll:
                 {
-                    Debug.Log("camera scroll");
+                    Debug.Log("Timeline camera scroll");
 
                     if (eventDialog[currentEventCount].NPCName != "")
                     {
@@ -195,13 +195,14 @@ public class TimeLineDialog : TalkBox
                         }
 
                         CameraManager.instance.CameraScroll(GameObject.Find(chaseObjects[0]), GameObject.Find(chaseObjects[1]));
+                        ++currentEventCount;
                         playableDirector.Pause();
                     }
                     break;
                 }
             case EventType.None:
                 {
-                    Debug.Log("none");
+                    Debug.Log("Timeline none");
 
                     ChaseObjectSet();
                     if (chaseGameObject != null)
@@ -250,13 +251,13 @@ public class TimeLineDialog : TalkBox
                 }
             case EventType.Answer:
                 {
-                    Debug.Log("answer");
+                    Debug.Log("Timeline answer");
                     ++currentEventCount;
                     break;
                 }
             default:
                 {
-                    Debug.Log("Time line event Err");
+                    Debug.Log("Timeline camera");
                     cameraEvent = true;
                     ++currentEventCount;
 

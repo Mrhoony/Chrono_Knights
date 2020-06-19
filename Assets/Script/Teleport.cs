@@ -33,7 +33,7 @@ public class Teleport : InteractiveObject
         }   // 게임이 시작중이 아니거나 화면 전환중이면
         if (playerControl == null) return;  // 플레이어컨트롤이 등록되어있지 않으면
 
-        if (playerControl.PlayerIdleCheck())
+        if (!playerControl.PlayerIdleCheck())
         {
             if (playerControl.playerInputKey.activeInHierarchy)
                 playerControl.playerInputKey.SetActive(false);
@@ -62,6 +62,7 @@ public class Teleport : InteractiveObject
                         {
                             player.GetComponent<PlayerControl>().playerInputKey.SetActive(false);
 
+                            // 이벤트 트리거에 있는 이벤트를 던전매니저에 보냄 ( 키 선택후 실행 )
                             DungeonManager.instance.startWaitingEvent = EventStart;
                         }
                     }
@@ -80,19 +81,13 @@ public class Teleport : InteractiveObject
             }
         }
     }
+
     public void EventStart()
     {
+        // 이벤트 있을 때
         if (eventTrigger.EventStart())
         {
-            if (sceneMove)
-            {
-                eventTrigger.eventEndTrigger.eventEndDelegate = SceneMoveTeleport;
-            }
-            else
-            {
-                eventTrigger.eventEndTrigger.eventEndDelegate = SameSceneMoveTeleport;
-            }
-            return;
+            eventTrigger.eventEndTrigger.eventEndDelegate = DungeonManager.instance.TeleportNextFloor;
         }
     }
 
