@@ -13,6 +13,9 @@ public class TimeLineDialog : TalkBox
     public GameObject cursor;
     public float cursorSpeed;
 
+    public float clampedX;
+    public float clampedY;
+
     public GameObject choises;
     public Text[] choise;
 
@@ -20,6 +23,8 @@ public class TimeLineDialog : TalkBox
     public int maxFocused;
     public int[] selectedChoiced;
     public int[] activedEvent;
+    public string[] butterflyEffectName;
+    public int[] butterflyEffectBool;
 
     public bool cameraEvent;
     public bool isChoiceOn;
@@ -36,9 +41,15 @@ public class TimeLineDialog : TalkBox
             {
                 return;
             }
-        }
 
-        Debug.Log("get event");
+            ChaseObjectSet();
+
+            if (chaseGameObject != null)
+            {
+                transform.position = Camera.main.WorldToScreenPoint(chaseGameObject.transform.position + Vector3.up * 1f);
+            }
+        }
+        
         spriteOutLine = Resources.Load<Material>("Material/SpriteOutLine");
         spriteDiffuse = Resources.Load<Material>("Material/SpriteDiffuse");
 
@@ -48,10 +59,6 @@ public class TimeLineDialog : TalkBox
         SetDialogText();
         playableDirector.Pause();
     }
-    private void OnDisable()
-    {
-        isDialogOn = false;
-    }
 
     public new void Update()
     {
@@ -60,6 +67,7 @@ public class TimeLineDialog : TalkBox
 
         if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
         {
+            // 선택하는 경우
             if (isChoiceOn)
             {
                 isChoiceOn = false;
@@ -70,16 +78,20 @@ public class TimeLineDialog : TalkBox
                 }
                 choises.SetActive(false);
                 currentEventCount = selectedChoiced[focused]-1;
+                DungeonManager.instance.scenarioManager.ButterflyEffectSelect(butterflyEffectName[focused], butterflyEffectBool[focused]);
 
                 SetTalkBox();
+
+                return;
             }
 
+            // 텍스트 한글자씩 출력
             if (isOneByOneTextOn)
             {
                 isOneByOneTextOn = false;
                 OneByOneTextSkip();
             }
-            else
+            else // 다음 대화로 이동
             {
                 // 조건 변경 - 대화가 아닌 카메라 이동, 액션 등일 경우 resume
                 if (currentEventCount >= eventDialog.Count)
@@ -96,6 +108,7 @@ public class TimeLineDialog : TalkBox
                 //playableDirector.Resume();
             }
         }
+        // 선택지 포커스 이동
         if (isChoiceOn)
         {
             if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) FocusedSlot(1);
@@ -108,6 +121,13 @@ public class TimeLineDialog : TalkBox
         if (chaseGameObject != null)
         {
             transform.position = Vector3.Lerp(transform.position, Camera.main.WorldToScreenPoint(chaseGameObject.transform.position + Vector3.up * 1f), 8f * Time.deltaTime);
+            clampedX = Mathf.Clamp(transform.position.x, 
+                Camera.main.WorldToScreenPoint(new Vector2(-Camera.main.orthographicSize + Camera.main.transform.position.x - 0.9f, 0)).x, 
+                Camera.main.WorldToScreenPoint(new Vector2(Camera.main.orthographicSize + Camera.main.transform.position.x + 0.9f, 0)).x);
+            clampedY = Mathf.Clamp(transform.position.y, 
+                Camera.main.WorldToScreenPoint(new Vector2(0, -Camera.main.orthographicSize * 1280 / 720 + Camera.main.transform.position.y + 1.2f)).y, 
+                Camera.main.WorldToScreenPoint(new Vector2(0, Camera.main.orthographicSize * 1280 / 720 + Camera.main.transform.position.y - 1.8f)).y);
+            transform.position = new Vector3(clampedX, clampedY, -10f);
         }
     }
 
@@ -120,12 +140,17 @@ public class TimeLineDialog : TalkBox
         ++currentEventCount;
         StartCoroutine(TempCoroutine);
     }
+
     public new void SetDialogText()
     {
+        // 다음 내용이 없을때 초기화하고 종료
         if (currentEventCount >= eventDialog.Count)
         {
-            isOneByOneTextOn = false;
-            
+            isDialogOn = false;
+            isChoiceOn = false;
+            cameraEvent = false;
+            currentEventCount = 0;
+
             playableDirector.Stop();
 
             CameraManager.instance.CameraFocusOff(0.1f);
@@ -140,13 +165,12 @@ public class TimeLineDialog : TalkBox
         {
             case EventType.CameraFocus:
                 {
-                    Debug.Log("camera focus");
+                    Debug.Log("Timeline camera focus");
 
                     ChaseObjectSet();
                     if (chaseGameObject != null)
                     {
                         CameraManager.instance.CameraFocus(chaseGameObject);
-                        transform.position = Camera.main.WorldToScreenPoint(chaseGameObject.transform.position + Vector3.up * 1f);
                         chaseGameObject.GetComponent<SpriteRenderer>().material = spriteOutLine;
 
                         SetTalkBox();
@@ -156,13 +180,40 @@ public class TimeLineDialog : TalkBox
                         Debug.Log("dialog xml 오브젝트 이름 입력 실수");
                     break;
                 }
+            case EventType.CameraScroll:
+                {
+                    Debug.Log("Timeline camera scroll");
+
+                    if (eventDialog[currentEventCount].NPCName != "")
+                    {
+                        string[] chaseObjects = eventDialog[currentEventCount].NPCName.Split(':');
+
+                        if (GameObject.Find(chaseObjects[0]) == null || GameObject.Find(chaseObjects[1]) == null)
+                        {
+                            Debug.Log(currentEventCount + " dialog xml 오브젝트 이름 입력 실수");
+                            return;
+                        }
+
+                        CameraManager.instance.CameraScroll(GameObject.Find(chaseObjects[0]), GameObject.Find(chaseObjects[1]));
+                        ++currentEventCount;
+                        playableDirector.Pause();
+                    }
+                    break;
+                }
             case EventType.None:
                 {
-                    Debug.Log("none");
+                    Debug.Log("Timeline none");
 
                     ChaseObjectSet();
-                    SetTalkBox();
-                    playableDirector.Pause();
+                    if (chaseGameObject != null)
+                    {
+                        SetTalkBox();
+                        playableDirector.Pause();
+                    }
+                    else
+                    {
+                        Debug.Log("dialog xml 오브젝트 이름 입력 실수");
+                    }
                     break;
                 }
             case EventType.Select:
@@ -177,12 +228,17 @@ public class TimeLineDialog : TalkBox
 
                     selectedChoiced = new int[maxFocused];
                     activedEvent = new int[maxFocused];
+                    butterflyEffectName = new string[maxFocused];
+                    butterflyEffectBool = new int[maxFocused];
 
                     for (int i = 0; i < maxFocused; ++i)
                     {
                         string[] choice = result[i].Split(':');
                         choise[i].text = choice[0];
                         selectedChoiced[i] = int.Parse(choice[1]);
+                        butterflyEffectName[i] = choice[2];
+                        butterflyEffectBool[i] = int.Parse(choice[3]);
+
                         choise[i].gameObject.SetActive(true);
                     }
                     choises.SetActive(true);
@@ -195,15 +251,13 @@ public class TimeLineDialog : TalkBox
                 }
             case EventType.Answer:
                 {
-                    Debug.Log("answer");
-                    isDialogOn = true;
-                    isOneByOneTextOn = true;
+                    Debug.Log("Timeline answer");
                     ++currentEventCount;
                     break;
                 }
             default:
                 {
-                    Debug.Log("Time line event Errrrrrrrrrr");
+                    Debug.Log("Timeline camera");
                     cameraEvent = true;
                     ++currentEventCount;
 

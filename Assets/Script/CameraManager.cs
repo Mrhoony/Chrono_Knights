@@ -9,6 +9,13 @@ public class CameraManager : MonoBehaviour
     static public CameraManager instance;
 
     public GameObject target;
+    public float targetMoveSpeed;
+
+    public bool cameraScrollOn;
+    public GameObject scrollStart;
+    public GameObject scrollEnd;
+
+    public GameObject subCamera;
     public GameObject currentMap;
 
     private Vector3 targetPosition;
@@ -81,21 +88,49 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if (mainScenarioOn) return;
-        if (target == null) return;
-        
-        if (cameraShaking)
+        if (mainScenarioOn)
         {
-            transform.position += Random.insideUnitSphere * cameraShackForce;
+            if (cameraScrollOn)
+            {
+                if (scrollStart == null || scrollEnd == null) return;
+
+                targetPosition.Set(scrollEnd.transform.position.x, scrollEnd.transform.position.y, cameraZPosition);
+
+                transform.position = Vector3.Lerp(transform.position, targetPosition, targetMoveSpeed * Time.deltaTime);
+                clampedX = Mathf.Clamp(transform.position.x, cameraMinX, cameraMaxX);
+                clampedY = Mathf.Clamp(transform.position.y, cameraMinY, cameraMaxY);
+                transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
+
+            }
+            else
+            {
+                if (target == null) return;
+
+                targetPosition.Set(target.transform.position.x, target.transform.position.y, cameraZPosition);
+
+                transform.position = Vector3.Lerp(transform.position, targetPosition, targetMoveSpeed * 2f * Time.deltaTime);
+                clampedX = Mathf.Clamp(transform.position.x, cameraMinX, cameraMaxX);
+                clampedY = Mathf.Clamp(transform.position.y, cameraMinY, cameraMaxY);
+                transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
+            }
         }
         else
         {
-            targetPosition.Set(target.transform.position.x, target.transform.position.y, cameraZPosition);
+            if (subCamera == null) return;
 
-            transform.position = Vector3.Lerp(transform.position, targetPosition, target.GetComponent<SubCamera>().moveSpeed * 2f * Time.deltaTime);
-            clampedX = Mathf.Clamp(transform.position.x, cameraMinX, cameraMaxX);
-            clampedY = Mathf.Clamp(transform.position.y, cameraMinY, cameraMaxY);
-            transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
+            if (cameraShaking)
+            {
+                transform.position += Random.insideUnitSphere * cameraShackForce;
+            }
+            else
+            {
+                targetPosition.Set(subCamera.transform.position.x, subCamera.transform.position.y, cameraZPosition);
+
+                transform.position = Vector3.Lerp(transform.position, targetPosition, subCamera.GetComponent<SubCamera>().moveSpeed * 2f * Time.deltaTime);
+                clampedX = Mathf.Clamp(transform.position.x, cameraMinX, cameraMaxX);
+                clampedY = Mathf.Clamp(transform.position.y, cameraMinY, cameraMaxY);
+                transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
+            }
         }
     }
     
@@ -103,38 +138,34 @@ public class CameraManager : MonoBehaviour
     {
         mainScenarioOn = true;
     }
-
     public void CameraFocus(GameObject _FocusedObject)
     {
-        transform.position = new Vector3(_FocusedObject.transform.position.x, _FocusedObject.transform.position.y, cameraZPosition);
-        clampedX = Mathf.Clamp(transform.position.x, cameraMinX, cameraMaxX);
-        clampedY = Mathf.Clamp(transform.position.y, cameraMinY, cameraMaxY);
-        transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
+        cameraScrollOn = false;
+        targetMoveSpeed = 2f;
+        target = _FocusedObject;
     }
-    public void CameraFocus(GameObject _FocusedObject1, GameObject _FocusedObject2)
+    public void CameraScroll(GameObject _StartPoint, GameObject _EndPoint)
     {
-        transform.position = new Vector3(
-            (_FocusedObject1.transform.position.x + _FocusedObject2.transform.position.x) * 0.5f,
-            (_FocusedObject1.transform.position.y + _FocusedObject2.transform.position.y) * 0.5f, 
-            cameraZPosition);
-        clampedX = Mathf.Clamp(transform.position.x, cameraMinX, cameraMaxX);
-        clampedY = Mathf.Clamp(transform.position.y, cameraMinY, cameraMaxY);
-        transform.position = new Vector3(clampedX, clampedY, cameraZPosition);
+        targetMoveSpeed = 2f;
+        target = _StartPoint;
+        scrollStart = _StartPoint;
+        scrollEnd = _EndPoint;
+        transform.position = new Vector3(target.transform.position.x, target.transform.position.y, cameraZPosition);
+        cameraScrollOn = true;
     }
     public void CameraFocusOff(float _DelayTime)
     {
         //target = GameObject.Find("SubCamera");
+        cameraScrollOn = false;
+        target = null;
+        scrollStart = null;
+        scrollEnd = null;
         Invoke("CameraFocusOffDelay", _DelayTime);
     }
 
     public void CameraFocusOffDelay()
     {
         mainScenarioOn = false;
-    }
-
-    public void CameraScroll()
-    {
-        mainScenarioOn = true;
     }
 
     public void CameraShake(int _cameraShackForce)

@@ -143,7 +143,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 224348085}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.6999321, y: -0.37113225, z: 1.1497474}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 736476317}
@@ -302,6 +302,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: {r: 1, g: 0.995283, b: 0.995283, a: 1}
   outlineSize: 1
+--- !u!1 &382334769 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1111758002947855217, guid: 187d72a635af2f04a891caed4b95c247,
+    type: 3}
+  m_PrefabInstance: {fileID: 82245447478733252}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &401470798 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 82245446805381176, guid: 187d72a635af2f04a891caed4b95c247,
@@ -523,14 +529,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e524e1ed4b8171e42b1f6b5e3a0702b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectNumber: 99
+  objectNumber: 9999
   player: {fileID: 0}
   inPlayer: 0
   objectType: 1
   eventCheckType: 0
+  playerControl: {fileID: 0}
+  eventTrigger: {fileID: 0}
+  currentMap: {fileID: 730170865}
   sceneMove: 1
-  destinationSceneNumber: 99
-  currentMap: {fileID: 0}
+  destinationSceneNumber: 9999
   sameSceneDestination: {fileID: 0}
   usableScenarioProgress: -1
 --- !u!114 &558226758
@@ -559,7 +567,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fa18a82c9722054bb51a517ba50e86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventName: []
+  eventName:
+  - Tutorial
+  eventEndTrigger: {fileID: 618879490}
+--- !u!114 &618879490 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4622535253543670800, guid: ea479438be1f25f48a5b5fbabc503b59,
+    type: 3}
+  m_PrefabInstance: {fileID: 840371866}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 346baa7624aa0e946b4e1a8a789f6f90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &676964148 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 82245445669965201, guid: 187d72a635af2f04a891caed4b95c247,
@@ -1321,7 +1343,7 @@ PrefabInstance:
     - target: {fileID: 3815408304545588570, guid: e6b2d8bb473408247898cb7b38ff6be4,
         type: 3}
       propertyPath: objectNumber
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3815408304545588570, guid: e6b2d8bb473408247898cb7b38ff6be4,
         type: 3}
@@ -1332,7 +1354,7 @@ PrefabInstance:
         type: 3}
       propertyPath: currentMap
       value: 
-      objectReference: {fileID: 1058596574}
+      objectReference: {fileID: 730170865}
     - target: {fileID: 3815408304545588570, guid: e6b2d8bb473408247898cb7b38ff6be4,
         type: 3}
       propertyPath: destinationSceneNumber
@@ -1667,6 +1689,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 9184701642581263460, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9184701642581263460, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: chaseGameObject
@@ -1756,7 +1788,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1640115600}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.9504863, y: -0.032499798, z: 0.046875}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224348086}
@@ -1832,6 +1864,11 @@ MonoBehaviour:
   - {fileID: 12800000, guid: fa6ad275430d1c34392ca26e813cbcac, type: 3}
   - {fileID: 12800000, guid: 4a0a0adc17c06894393e4c4c38582c8d, type: 3}
   target: {fileID: 1203967037}
+  targetMoveSpeed: 0
+  cameraScrollOn: 0
+  scrollStart: {fileID: 0}
+  scrollEnd: {fileID: 0}
+  subCamera: {fileID: 1203967037}
   currentMap: {fileID: 730170865}
   cameraMinX: 0
   cameraMaxX: 0
@@ -2047,7 +2084,9 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1064561335, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
+    - {fileID: 1064561334, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 187d72a635af2f04a891caed4b95c247, type: 3}
 --- !u!1 &82245447478733253 stripped
 GameObject:
@@ -2550,6 +2589,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1402904593, guid: bb52788c74313754aaac85eedbfab2b6, type: 3}
+      propertyPath: mapFolderNameList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1402904593, guid: bb52788c74313754aaac85eedbfab2b6, type: 3}
+      propertyPath: dropItemPool
+      value: 
+      objectReference: {fileID: 382334769}
+    - target: {fileID: 1402904593, guid: bb52788c74313754aaac85eedbfab2b6, type: 3}
+      propertyPath: mapFolderNameList.Array.data[0]
+      value: Prefabs/Map/P01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1402904593, guid: bb52788c74313754aaac85eedbfab2b6, type: 3}
+      propertyPath: mapFolderNameList.Array.data[1]
+      value: Prefabs/Map/P02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb52788c74313754aaac85eedbfab2b6, type: 3}

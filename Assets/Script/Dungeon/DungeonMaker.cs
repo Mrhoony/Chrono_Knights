@@ -50,8 +50,10 @@ public class DungeonMaker : MonoBehaviour
     private GameObject[] bossMonsterPreFabsList;
     private GameObject[] currentStageMonsterList;
     private GameObject[] spawner;
+
+    public string[] mapFolderNameList;
+    public GameObject[] currentFloorMapList;
     public GameObject dropItemPool;
-    public GameObject eftTeleport;
     private Vector3 entrance;               // 텔레포트 위치
 
     private int spawnerCount;
@@ -104,6 +106,7 @@ public class DungeonMaker : MonoBehaviour
     {
         DungeonReset();
         dungeonTrialStack.Init();
+        currentFloorMapList = Resources.LoadAll<GameObject>(mapFolderNameList[0]);
     }
     public void MonsterClear()
     {
@@ -133,21 +136,21 @@ public class DungeonMaker : MonoBehaviour
 
     #region dungeon 관련
     // 층 이동 시 나타날 층 세팅
-    public void FirstFloorSetting(GameObject _Map, GameObject _Player, CameraManager _MainCamera, GameObject _BackGroundSet)
+    public void FirstEntranceMapSetting(GameObject _Map, GameObject _Player, CameraManager _MainCamera, GameObject _BackGroundSet)
     {
         currentMap = _Map;
         entrance = currentMap.GetComponent<Map_DungeonSetting>().entrance.transform.position;
         spawner = currentMap.GetComponent<Map_DungeonSetting>().spawner;
         spawnerCount = spawner.Length;
-
-        eliteMonsterCount = marker_Variable.markerVariable[(int)Markers.SetSpecialMonster_NF];
-        monsterCount = FloorDatas[currentStage].SpawnAmount + marker_Variable.markerVariable[(int)Markers.SetMonster_NF] + eliteMonsterCount;
+        
+        //eliteMonsterCount = marker_Variable.markerVariable[(int)Markers.SetSpecialMonster_NF];
+        //monsterCount = FloorDatas[currentStage].SpawnAmount + marker_Variable.markerVariable[(int)Markers.SetMonster_NF] + eliteMonsterCount;
+        monsterCount = 5;
         currentMonsterCount = monsterCount;
-
         currentStageMonsterList = new GameObject[monsterCount];
 
         // 몬스터 스폰
-        for (int i = 0; i < currentMonsterCount - eliteMonsterCount; ++i)
+        for (int i = 0; i < currentMonsterCount; ++i)
         {
             MonsterSpawn(i);
             currentStageMonsterList[i].GetComponent<NormalMonsterControl>().isElite = false;
@@ -156,6 +159,7 @@ public class DungeonMaker : MonoBehaviour
         }
         Debug.Log("전체 몬스터" + currentMonsterCount);
 
+        /*
         for (int j = currentMonsterCount - eliteMonsterCount; j < currentMonsterCount; ++j)
         {
             MonsterSpawn(j);
@@ -165,14 +169,14 @@ public class DungeonMaker : MonoBehaviour
             currentStageMonsterList[j].SetActive(true);
         }
         Debug.Log("엘리트 몬스터" + eliteMonsterCount);
+        */
 
         _Player.transform.position = entrance;
         _MainCamera.SetCameraBound(currentMap);
         _MainCamera.transform.position = entrance;
-        _BackGroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, currentStage);
-
+        _BackGroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, -1);
     }
-    public void FloorSetting(GameObject[] _MapList, GameObject _Player, CameraManager _MainCamera, GameObject _BackGroundSet)
+    public void FloorSetting(GameObject _Player, CameraManager _MainCamera, GameObject _BackGroundSet)
     {
         FloorReset();
 
@@ -201,7 +205,7 @@ public class DungeonMaker : MonoBehaviour
         if (bossSetting)
         {
             DungeonManager.instance.scenarioManager.ScenarioCheck("FirstBossContact");
-            BossFloorSetting(_MapList);
+            BossFloorSetting();
         }
         else if (floorRepeat)                    // 맵 반복시
         {
@@ -209,7 +213,7 @@ public class DungeonMaker : MonoBehaviour
         }
         else                                   // 일반 맵일경우
         {
-            NormalFloorSetting(_MapList);
+            NormalFloorSetting();
         }
 
         // 선택된 시련 만큼 몬스터 스테이터스 증가
@@ -221,7 +225,6 @@ public class DungeonMaker : MonoBehaviour
         CanvasManager.instance.dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus(_Player.GetComponent<PlayerStatus>()));
         
         _Player.transform.position = entrance;
-        Instantiate(eftTeleport, entrance, Quaternion.identity);
         _MainCamera.SetCameraBound(currentMap);
         _MainCamera.transform.position = entrance;
         _BackGroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, currentStage);
@@ -248,6 +251,10 @@ public class DungeonMaker : MonoBehaviour
             Destroy(dropItemPool.transform.GetChild(i).gameObject);
         }
         // 구조물 위치 초기화 함수 추가
+    }
+    public void FloorSettingEnd()
+    {
+        currentMap.GetComponent<Map_DungeonSetting>().entrance.GetComponent<Teleport_Exit>().FloorSettingEnd();
     }
 
     public void MainBossFloorEvent(int _BossNumber)
@@ -278,18 +285,23 @@ public class DungeonMaker : MonoBehaviour
 
         currentStageMonsterList[0].GetComponent<BossMonster_Control>().monsterDeadCount = FloorBossKill;
     }
-    public void BossFloorSetting(GameObject[] _MapList)
+    public void BossFloorSetting()
     {
         bossSetting = false;
         bossStageCount = 0;
 
+        if (currentMap != null)
+        {
+            Destroy(currentMap);
+        }
+
         List<GameObject> map = new List<GameObject>();
 
-        for (int i = 0; i < _MapList.Length; ++i)
+        for (int i = 0; i < currentFloorMapList.Length; ++i)
         {
-            if (_MapList[i].GetComponent<Map_DungeonSetting>().bossStage)
+            if (currentFloorMapList[i].GetComponent<Map_DungeonSetting>().bossStage)
             {
-                map.Add(_MapList[i]);
+                map.Add(currentFloorMapList[i]);
                 break;
             }
         }
@@ -337,9 +349,13 @@ public class DungeonMaker : MonoBehaviour
             }
         }
     }
-    public void NormalFloorSetting(GameObject[] _MapList)
+    public void NormalFloorSetting()
     {
-        currentMap = _MapList[Random.Range(0, _MapList.Length)];
+        if(currentMap != null)
+        {
+            Destroy(currentMap);
+        }
+        currentMap = Instantiate(currentFloorMapList[Random.Range(0, currentFloorMapList.Length)], Vector2.zero, Quaternion.identity);
         entrance = currentMap.GetComponent<Map_DungeonSetting>().entrance.transform.position;
         spawner = currentMap.GetComponent<Map_DungeonSetting>().spawner;
         spawnerCount = spawner.Length;
@@ -407,11 +423,13 @@ public class DungeonMaker : MonoBehaviour
         ++allKillCount;
         ++monsterKillCount;
         Debug.Log("Monster Kill " + currentMonsterCount);
+
         if (currentMonsterCount == 3) MonsterGuideOn();
         if (currentMonsterCount < 1)
         {
             MonsterGuideOff();
             DungeonManager.instance.dungeonClear = true;
+            DungeonManager.instance.MainEventQuestClear();
         }
     }
     public void FloorEliteMonsterKill()
@@ -425,7 +443,6 @@ public class DungeonMaker : MonoBehaviour
         {
             MonsterGuideOff();
             DungeonManager.instance.dungeonClear = true;
-            DungeonManager.instance.MainEventQuestClear();
         }
     }
     IEnumerator BossKillSlowMotion()

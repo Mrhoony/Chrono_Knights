@@ -211,6 +211,7 @@ public class Menu_Inventory : Menu_InGameMenu
             UseItem(_focused);
             itemInformation.GetComponent<ItemInfomation>().SetItemInventoryInformation(itemList[_focused]);
             canvasManager.CloseInGameMenu();
+            DungeonManager.instance.WaitingEventStart();
         }
     }
     public void UseItemInQuickSlot(int _focused)   // 퀵슬롯으로 아이템 사용시 ( 마을에서 사용시 창고도 비우기 or 마을에서 사용 x )

@@ -17,7 +17,7 @@ public class GroundCheck : MonoBehaviour
         {
             if (parentObject.CompareTag("Player"))
             {
-                Debug.Log("groundCheck enter");
+                Debug.Log("Land");
                 parentObject.GetComponent<PlayerControl>().Landing();
             }
             else if (parentObject.CompareTag("Monster"))
@@ -48,6 +48,18 @@ public class GroundCheck : MonoBehaviour
             }
         }
         */
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            if (parentObject.CompareTag("Player"))
+            {
+                if(!parentObject.GetComponent<PlayerControl>().isGround)
+                    parentObject.GetComponent<PlayerControl>().Landing();
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

@@ -144,8 +144,8 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
         // accept 창 초기화
         acceptSlot[0].SetActive(false);
         acceptSlot[1].SetActive(false);
-        acceptSlot[2].SetActive(false);
 
+        acceptSlot[2].SetActive(true);
         acceptSlot[3].SetActive(true);
         SetSlot(acceptSlot[3], num, 0);
 

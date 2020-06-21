@@ -18,7 +18,7 @@ public enum SkillType
 }
 public enum EventType
 {
-    None, Select, Answer, Camera, CameraFocus
+    None, Select, Answer, Camera, CameraFocus, CameraScroll
 }
 
 public class Item
@@ -167,34 +167,6 @@ public class PlayerAttack
         attackMultiHit = _attackMultiHit;
     }
 }
-/*
- * 
-public class DialogEvent
-{
-    public int eventCount;
-    public DialogEventType dialogEventType;
-
-    public DialogEvent(int _EventCount, DialogEventType _DialogEventType)
-    {
-        eventCount = _EventCount;
-        dialogEventType = _DialogEventType;
-    }
-}
-public class EventDialog : DialogEvent
-{
-    public string NPCName;
-    public string NPCImage;
-    public string content;
-
-    public EventDialog(int _EventCount, DialogEventType _DialogEventType, string _NPCName, string _NPCImage, string _Content) : base(_EventCount, _DialogEventType)
-    {
-        NPCName = _NPCName;
-        NPCImage = _NPCImage;
-        content = _Content;
-    }
-}
- */
-
 public class EventDialog
 {
     public int eventCount;
@@ -206,7 +178,11 @@ public class EventDialog
     {
         eventType = _EventType;
     }
-
+    public EventDialog(EventType _EventType, string _NPCName)
+    {
+        eventType = _EventType;
+        NPCName = _NPCName;
+    }
     public EventDialog(int _EventCount, EventType _EventType, string _NPCName, string _Content)
     {
         eventCount = _EventCount;
@@ -422,7 +398,7 @@ public class Database_Game : MonoBehaviour
     void InputEventData(string _EventListFileName)
     {
         Dictionary<string, int> eventList = new Dictionary<string, int>();
-        Dictionary<int, List<EventDialog>> eventContent = new Dictionary<int, List<EventDialog>>();
+        Dictionary<string, List<EventDialog>> eventContent = new Dictionary<string, List<EventDialog>>();
         List<EventDialog> eventDialog;
 
         XmlNodeList nodelist = XmlNodeReturn(_EventListFileName);
@@ -449,6 +425,13 @@ public class Database_Game : MonoBehaviour
                                            (EventType)System.Enum.Parse(typeof(EventType), _Dialog.SelectSingleNode("EventType").InnerText)
                                            ));
                                 }
+                                else if (_Dialog.SelectSingleNode("EventType").InnerText == "CameraScroll")
+                                {
+                                    eventDialog.Add(new EventDialog(
+                                           (EventType)System.Enum.Parse(typeof(EventType), _Dialog.SelectSingleNode("EventType").InnerText),
+                                           _Dialog.SelectSingleNode("NPCName").InnerText
+                                           ));
+                                }
                                 else
                                 {
                                     eventDialog.Add(new EventDialog(
@@ -462,13 +445,13 @@ public class Database_Game : MonoBehaviour
 
                             if (eventList.ContainsKey(eventName))
                             {
-                                eventContent[eventList[eventName]].AddRange(eventDialog);
+                                eventContent[eventName].AddRange(eventDialog);
                                 break;
                             }
 
                             mainScenarioName.Add(eventName);
                             eventList.Add(eventName, int.Parse(_Event.SelectSingleNode("EventNumber").InnerText));
-                            eventContent.Add(int.Parse(_Event.SelectSingleNode("EventNumber").InnerText), eventDialog);
+                            eventContent.Add(eventName, eventDialog);
                             break;
                     }
                 }

@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class DungeonManager : MonoBehaviour
 {
+    public readonly static int _NothingObjectCode = 9999;
+
     #region 오브젝트 등록
     public static DungeonManager instance;
 
@@ -21,8 +23,9 @@ public class DungeonManager : MonoBehaviour
     #endregion
 
     public bool isDead;                     // 플레이어 죽었는지
-    private Vector2 entrance;               // 텔레포트 위치
-    public int useObjectNumber;           // 텔레포트 사용 방법 0~4 입구, 10 사용 안함
+    private GameObject entrance;               // 텔레포트 위치
+    public int teleportObjectNumber;           // 텔레포트 사용 방법 0~4 입구, 10 사용 안함
+    public int teleportSceneNumber;
     public int currentDate;                 // 현재 날짜
     public bool isSceneLoading;         // 페이드 아웃 중 입력 제한
     public bool inDungeon;                  // 플레이어가 던전 입장 시 true 나갈 시 false
@@ -31,6 +34,9 @@ public class DungeonManager : MonoBehaviour
     public bool dungeonClear;           // 던전 클리어시
     public bool phaseClear;             // 페이즈 클리어시
     public bool mainQuest;
+
+    public delegate void StartWaitingEvent();
+    public StartWaitingEvent startWaitingEvent;
 
     public bool sceneMove;
     public Teleport teleportDestination;
@@ -62,7 +68,8 @@ public class DungeonManager : MonoBehaviour
     {
         dungeonMaker.DungeonMakerInit();
         dungeonPoolManager.Init();
-        useObjectNumber = 99;
+        teleportObjectNumber = _NothingObjectCode;
+        teleportSceneNumber = _NothingObjectCode;
 
         isSceneLoading = false;
 
@@ -79,7 +86,8 @@ public class DungeonManager : MonoBehaviour
     {
         isDead = false;
         isReturn = false;
-        useObjectNumber = 99;
+        teleportObjectNumber = _NothingObjectCode;
+        teleportSceneNumber = _NothingObjectCode;
         inDungeon = false;
         DungeonFlagReset();
 
@@ -105,13 +113,47 @@ public class DungeonManager : MonoBehaviour
         if (inDungeon) dungeonPlayTimer += Time.deltaTime;
     }
 
+    public void PlayerIsDead()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        GameObject.FindWithTag("Guide").GetComponent<RestMonsterGuideSet>().ResetGuider();
+
+        Time.timeScale = 0.5f;
+        mainCamera.CameraSizeSetting(1);
+        mainCamera.target.transform.position = player.transform.position;
+        OutDungeon();
+    }
+    public void OutDungeon()
+    {
+        isReturn = true;
+        isSceneLoading = true;
+        Invoke("CircleFadeOutStart", 0.5f);
+    }
+    public void CircleFadeOutStart()
+    {
+        isReturn = true;
+        isSceneLoading = true;
+        canvasManager.CircleFadeOutStart();
+    }
+    public void OpenGameOverResult()
+    {
+        canvasManager.OpenGameOverMenu(dungeonPlayTimer);
+    }
+
+    public void MainEventQuestClear()
+    {
+        mainQuest = false;
+    }
+
     public void UseItemInDungeon(Item _Item)
     {
         switch (_Item.usingType)
         {
             case ItemUsingType.FreePassThisFloor:                // 사용된 키가 이번 층 스킵일 때
                 dungeonMaker.marker.ExecuteMarker(_Item.value);
-                dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
+                dungeonMaker.FloorSetting(player, mainCamera, backgroundSet);
                 break;
             case ItemUsingType.ReturnTown:
                 // 마을로 돌아간다. 클리어 정보창 표시
@@ -123,6 +165,7 @@ public class DungeonManager : MonoBehaviour
     {
         if (usedKey) return false;
         usedKey = true;
+        if (!inDungeon) return true;
 
         // 키가 가진 것들을 가지고 체크
         switch (_Item.itemType)
@@ -162,57 +205,55 @@ public class DungeonManager : MonoBehaviour
         }
         return true;
     }
-    
-    public void EnterNextFloor()
-    {
-        DungeonFlagReset();
-        dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
-    }
-    public void PlayerIsDead()
-    {
-        if (isDead) return;
-        isDead = true;
 
-        GameObject.FindWithTag("Guide").GetComponent<RestMonsterGuideSet>().ResetGuider();
-
-        Time.timeScale = 0.5f;
-        mainCamera.CameraSizeSetting(1);
-        mainCamera.target.transform.position = player.transform.position;
-        OutDungeon();
-    }
-    public void OutDungeon()
+    public void WaitingEventStart()
     {
-        isReturn = true;
+        if (isReturn) return;
+
+        if (startWaitingEvent != null)
+        {
+            startWaitingEvent();
+            startWaitingEvent = null;
+            return;
+        }
+
+        TeleportNextFloor();
+    }
+    // 던전 진입시 이벤트 실행
+    public void TeleportNextFloor()
+    {
+        if (!inDungeon)
+        {
+            inDungeon = true;
+            dungeonPlayTimer = 0f;
+            dungeonMaker.EnterTheDungeon();
+        }
+
+        usedKey = false;
         isSceneLoading = true;
-        Invoke("CircleFadeOutStart", 0.5f);
-    }
-    public void CircleFadeOutStart()
-    {
-        isReturn = true;
-        isSceneLoading = true;
-        canvasManager.CircleFadeOutStart();
-    }
-    public void OpenGameOverResult()
-    {
-        canvasManager.OpenGameOverMenu(dungeonPlayTimer);
+        canvasManager.fadeInStartMethod += TeleportTransfer;
+        canvasManager.FadeOutStart();
     }
 
-    public void MainEventQuestClear()
+    public void ActiveAfterFadeIn()
     {
-        mainQuest = false;
+        isSceneLoading = false;
+        if(inDungeon)
+            dungeonMaker.FloorSettingEnd();
     }
 
-    public void ActiveInteractiveTeleport(int _DestinationSceneNumber) // 텔레포트에 따른 씬이동 및 지역이동
+    public void ActiveInteractiveTeleport(int _DestinationSceneNumber, int _DestinationObjectNumber) // 텔레포트에 따른 씬이동 및 지역이동
     {
         if (mainQuest) return;
-        useObjectNumber = _DestinationSceneNumber;
-        sceneMove = true;
+
+        teleportSceneNumber = _DestinationSceneNumber;
+        teleportObjectNumber = _DestinationObjectNumber;
 
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0:
                 {
-                    if (useObjectNumber == 99)
+                    if (teleportObjectNumber == 9999)
                     {
                         GameManager.instance.SleepGame();
                     }
@@ -229,31 +270,31 @@ public class DungeonManager : MonoBehaviour
                     isSceneLoading = true;
                     canvasManager.fadeInStartMethod += SceneLoad;
                     canvasManager.FadeOutStart();
+                    break;
                 }
-                break;
             case 2:
             case 3:
                 {
-                    if (!inDungeon)
+                    // 마을로 돌아가기
+                    if(_DestinationSceneNumber == 1)
                     {
-                        inDungeon = true;
-                        dungeonPlayTimer = 0f;
-                    }
-
-                    if (!dungeonClear || isReturn) return;
-
-                    if (usedKey)
-                    {
-                        usedKey = false;
                         isSceneLoading = true;
-                        if (phaseClear) canvasManager.fadeInStartMethod += SceneLoad;
-                        else canvasManager.fadeInStartMethod += TeleportTransfer;
+                        canvasManager.fadeInStartMethod += SceneLoad;
                         canvasManager.FadeOutStart();
                         break;
                     }
 
+                    if (!inDungeon)
+                    {
+                        // 키를 안쓴경우 인벤토리를 연다.
+                        if (!usedKey) canvasManager.OpenInGameMenu(true);
+                    }
+
+                    if (!dungeonClear || isReturn) return;
+
                     // 키를 안쓴경우 인벤토리를 연다.
-                    canvasManager.OpenInGameMenu(true);
+                    if (!usedKey) canvasManager.OpenInGameMenu(true);
+
                     break;
                 }
         }
@@ -261,8 +302,8 @@ public class DungeonManager : MonoBehaviour
     public void ActiveInteractiveTeleport(int _ObjectNumber, Teleport _Teleport) // 텔레포트에 따른 지역이동
     {
         if (mainQuest) return;
-        useObjectNumber = _ObjectNumber;
-        sceneMove = false;
+
+        teleportObjectNumber = _ObjectNumber;
 
         GameObject.FindWithTag("Guide").GetComponent<RestMonsterGuideSet>().ResetGuider();
 
@@ -271,8 +312,12 @@ public class DungeonManager : MonoBehaviour
         canvasManager.fadeInStartMethod += TeleportTransfer;
         canvasManager.FadeOutStart();
     }
-    public void ActiveInteractiveObject(InteractiveObjectType _ObjectType, int _ObjectNumber) // 오브젝트에 따라 대사 찾기
+    public void ActiveInteractiveObject(int _ObjectNumber) // 오브젝트에 따라 대사 찾기
     {
+        if (mainQuest) return;
+        if (PlayerControl.instance.actionState != ActionState.Idle) return;
+
+        scenarioManager.ScenarioRepeatObjectCheck(_ObjectNumber);
     }
     public void ActiveInteractiveNPC(NPC_Control _NPC)  // NPC 코드에 따라 대화 찾기, 창열기
     {
@@ -301,7 +346,7 @@ public class DungeonManager : MonoBehaviour
     {
         if (!isDead)
         {
-            switch (useObjectNumber)
+            switch (teleportSceneNumber)
             {
                 case 0:     // 집 현관 문
                     mainCamera.CameraSizeSetting(1);
@@ -312,6 +357,7 @@ public class DungeonManager : MonoBehaviour
                     SceneManager.LoadScene(1);
                     break;
                 case 2:     // 탑으로 향하는 길
+                    mainCamera.CameraSizeSetting(2);
                     SceneManager.LoadScene(2);
                     break;
                 case 999:   // 탑 내부 텔레포트
@@ -320,7 +366,6 @@ public class DungeonManager : MonoBehaviour
                         ReturnToTown();
                         break;
                     }
-
                     SceneManager.LoadScene(2);
                     break;
                 default:
@@ -332,13 +377,13 @@ public class DungeonManager : MonoBehaviour
         {
             ReturnToTown();
         }
-    }
+    }   // 씬 이동 (집 - 마을 - 던전)
     public void TeleportTransfer()
     {
-        switch (useObjectNumber)
+        switch (teleportObjectNumber)
         {
             case 999:
-                dungeonMaker.FloorSetting(mapList, player, mainCamera, backgroundSet);
+                dungeonMaker.FloorSetting(player, mainCamera, backgroundSet);
                 break;
             default:
                 mainCamera.SetCameraBound(teleportDestination.currentMap);
@@ -346,15 +391,15 @@ public class DungeonManager : MonoBehaviour
                 break;
         }
 
-        useObjectNumber = 99;
+        teleportObjectNumber = _NothingObjectCode;
         StartCoroutine(MapMoveDelay());
     }
     public void TeleportTransfer(GameObject _FirstMap)
     {
-        dungeonMaker.EnterTheDungeon();
-        dungeonMaker.FirstFloorSetting(_FirstMap, player, mainCamera, backgroundSet);
+        dungeonMaker.FirstEntranceMapSetting(_FirstMap, player, mainCamera, backgroundSet);
 
-        useObjectNumber = 99;
+        teleportObjectNumber = _NothingObjectCode;
+        teleportSceneNumber = _NothingObjectCode;
         StartCoroutine(MapMoveDelay());
     }
     public void ReturnToTown()
@@ -401,16 +446,18 @@ public class DungeonManager : MonoBehaviour
             case 0:
                 backgroundSet = GameObject.Find("Base");
                 mainCamera.SetCameraBound(backgroundSet);
-                MapEntranceFind(teleportPoint, useObjectNumber);
+                MapEntranceFind(teleportPoint, teleportObjectNumber);
                 break;
             case 1:
                 backgroundSet = GameObject.Find("BackGroundSet");
-                backgroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, -1);
-
-                backgroundSet = GameObject.Find("Town");
-                mainCamera.SetCameraBound(backgroundSet);
-                MapEntranceFind(teleportPoint, useObjectNumber);
-
+                MapEntranceFind(teleportPoint, teleportObjectNumber);
+                backgroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance.transform.position, -1);
+                
+                if(teleportObjectNumber == 1)
+                    mainCamera.SetCameraBound(GameObject.Find("Town"));
+                else if(teleportObjectNumber == 12)
+                    mainCamera.SetCameraBound(entrance.GetComponent<Teleport>().currentMap);
+                
                 canvasManager.SetTownUI();
 
                 StartCoroutine(MapMoveDialogDelay("ScrollAllTown"));
@@ -432,9 +479,9 @@ public class DungeonManager : MonoBehaviour
                 }
                 break;
         }
-
-        sceneMove = false;
-        useObjectNumber = 99;
+        
+        teleportObjectNumber = _NothingObjectCode;
+        teleportSceneNumber = _NothingObjectCode;
         StartCoroutine(MapMoveDelay());
     }
     public void MapEntranceFind(GameObject[] _TeleportPoint, int _useSystem)
@@ -443,9 +490,9 @@ public class DungeonManager : MonoBehaviour
         for (int i = 0; i < _TeleportCount; ++i)
         {
             if (_TeleportPoint[i].GetComponent<Teleport>().objectNumber == _useSystem)
-                entrance = _TeleportPoint[i].GetComponent<Teleport>().transform.position;
+                entrance = _TeleportPoint[i];
         }
-        player.transform.position = entrance;
+        player.transform.position = entrance.transform.position;
     }
 
     public IEnumerator MapMoveDialogDelay(string _EventName)

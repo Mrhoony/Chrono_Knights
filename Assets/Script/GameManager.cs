@@ -188,6 +188,8 @@ public class GameManager : MonoBehaviour
 
     public void SaveGame()
     {
+        gameStart = false;
+
         bf = new BinaryFormatter();
         ms = new MemoryStream();
 
@@ -210,8 +212,6 @@ public class GameManager : MonoBehaviour
         OpenStartMenu();
 
         CameraManager.instance.currentMap.GetComponent<Map_ObjectSetting>().SaveGame();
-
-        StartCoroutine(GameStartDelay(false));
 
         Debug.Log("save");
     }
@@ -269,7 +269,6 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         gameStart = _GameStart;
-        dungeonManager.PlayTutorial();
     }
 
     public void OpenStartMenu()
