@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class TimeLineDialog : TalkBox
 {
     public PlayableDirector playableDirector;
+    public GameObject TalkBoxImage;
     Material spriteOutLine;
     Material spriteDiffuse;
 
@@ -28,6 +29,7 @@ public class TimeLineDialog : TalkBox
 
     public bool cameraEvent;
     public bool isChoiceOn;
+    public bool cameraScrollOn;
     public string eventName;
     
     private void OnEnable()
@@ -103,9 +105,9 @@ public class TimeLineDialog : TalkBox
 
                     playableDirector.gameObject.SetActive(false);
                 }
-                chaseGameObject.GetComponent<SpriteRenderer>().material = spriteDiffuse;
+                if(chaseGameObject != null)
+                    chaseGameObject.GetComponent<SpriteRenderer>().material = spriteDiffuse;
                 SetDialogText();
-                //playableDirector.Resume();
             }
         }
         // 선택지 포커스 이동
@@ -115,19 +117,20 @@ public class TimeLineDialog : TalkBox
             if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) FocusedSlot(-1);
             FocusMove(choise[focused].gameObject);
         }
-    }
-    private void LateUpdate()
-    {
+
         if (chaseGameObject != null)
         {
             transform.position = Vector3.Lerp(transform.position, Camera.main.WorldToScreenPoint(chaseGameObject.transform.position + Vector3.up * 1f), 8f * Time.deltaTime);
-            clampedX = Mathf.Clamp(transform.position.x, 
-                Camera.main.WorldToScreenPoint(new Vector2(-Camera.main.orthographicSize + Camera.main.transform.position.x - 0.9f, 0)).x, 
-                Camera.main.WorldToScreenPoint(new Vector2(Camera.main.orthographicSize + Camera.main.transform.position.x + 0.9f, 0)).x);
-            clampedY = Mathf.Clamp(transform.position.y, 
-                Camera.main.WorldToScreenPoint(new Vector2(0, -Camera.main.orthographicSize * 1280 / 720 + Camera.main.transform.position.y + 1.2f)).y, 
-                Camera.main.WorldToScreenPoint(new Vector2(0, Camera.main.orthographicSize * 1280 / 720 + Camera.main.transform.position.y - 1.8f)).y);
-            transform.position = new Vector3(clampedX, clampedY, -10f);
+            if (!cameraScrollOn)
+            {
+                clampedX = Mathf.Clamp(transform.position.x,
+                    Camera.main.WorldToScreenPoint(new Vector2(-Camera.main.orthographicSize + Camera.main.transform.position.x - 0.9f, 0)).x,
+                    Camera.main.WorldToScreenPoint(new Vector2(Camera.main.orthographicSize + Camera.main.transform.position.x + 0.9f, 0)).x);
+                clampedY = Mathf.Clamp(transform.position.y,
+                    Camera.main.WorldToScreenPoint(new Vector2(0, -Camera.main.orthographicSize * 1280 / 720 + Camera.main.transform.position.y + 1.2f)).y,
+                    Camera.main.WorldToScreenPoint(new Vector2(0, Camera.main.orthographicSize * 1280 / 720 + Camera.main.transform.position.y - 1.8f)).y);
+                transform.position = new Vector3(clampedX, clampedY, -10f);
+            }
         }
     }
 
@@ -166,6 +169,7 @@ public class TimeLineDialog : TalkBox
             case EventType.CameraFocus:
                 {
                     Debug.Log("Timeline camera focus");
+                    cameraScrollOn = false;
 
                     ChaseObjectSet();
                     if (chaseGameObject != null)
@@ -193,8 +197,9 @@ public class TimeLineDialog : TalkBox
                             Debug.Log(currentEventCount + " dialog xml 오브젝트 이름 입력 실수");
                             return;
                         }
-
-                        CameraManager.instance.CameraScroll(GameObject.Find(chaseObjects[0]), GameObject.Find(chaseObjects[1]));
+                        isDialogOn = true;
+                        cameraScrollOn = true;
+                        CameraManager.instance.CameraScroll(GameObject.Find(chaseObjects[0]), GameObject.Find(chaseObjects[1]), float.Parse(chaseObjects[2]));
                         ++currentEventCount;
                         playableDirector.Pause();
                     }
@@ -203,6 +208,7 @@ public class TimeLineDialog : TalkBox
             case EventType.None:
                 {
                     Debug.Log("Timeline none");
+                    cameraScrollOn = false;
 
                     ChaseObjectSet();
                     if (chaseGameObject != null)
@@ -219,6 +225,7 @@ public class TimeLineDialog : TalkBox
             case EventType.Select:
                 {
                     Debug.Log("select");
+                    cameraScrollOn = false;
 
                     ChaseObjectSet();
                     string[] result = eventDialog[currentEventCount].content.Split('@');
@@ -252,12 +259,14 @@ public class TimeLineDialog : TalkBox
             case EventType.Answer:
                 {
                     Debug.Log("Timeline answer");
+                    cameraScrollOn = false;
                     ++currentEventCount;
                     break;
                 }
             default:
                 {
                     Debug.Log("Timeline camera");
+                    cameraScrollOn = false;
                     cameraEvent = true;
                     ++currentEventCount;
 
@@ -275,8 +284,11 @@ public class TimeLineDialog : TalkBox
             if (chaseGameObject == null)
             {
                 Debug.Log("dialog xml 오브젝트 이름 입력 실수");
+                TalkBoxImage.SetActive(false);
                 return;
             }
+            else
+                TalkBoxImage.SetActive(true);
         }
     }
 

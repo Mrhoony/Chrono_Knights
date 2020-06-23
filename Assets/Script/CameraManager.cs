@@ -144,9 +144,9 @@ public class CameraManager : MonoBehaviour
         targetMoveSpeed = 2f;
         target = _FocusedObject;
     }
-    public void CameraScroll(GameObject _StartPoint, GameObject _EndPoint)
+    public void CameraScroll(GameObject _StartPoint, GameObject _EndPoint, float _ScrollMoveSpeed)
     {
-        targetMoveSpeed = 2f;
+        targetMoveSpeed = _ScrollMoveSpeed;
         target = _StartPoint;
         scrollStart = _StartPoint;
         scrollEnd = _EndPoint;
@@ -157,6 +157,7 @@ public class CameraManager : MonoBehaviour
     {
         //target = GameObject.Find("SubCamera");
         cameraScrollOn = false;
+        targetMoveSpeed = 2f;
         target = null;
         scrollStart = null;
         scrollEnd = null;

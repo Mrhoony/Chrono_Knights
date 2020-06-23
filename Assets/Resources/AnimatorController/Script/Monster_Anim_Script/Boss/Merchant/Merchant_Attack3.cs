@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Merchant_Attack3 : AnimatorManager
 {
+    /*
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -20,6 +21,7 @@ public class Merchant_Attack3 : AnimatorManager
             animator.GetComponent<Boss_Merchant>().AttackMove(0.4f);
         }
     }
+    */
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

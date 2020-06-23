@@ -49,8 +49,6 @@ public class BackgroundScrolling : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if (CameraManager.instance.mainScenarioOn) return;
-
         transform.position = new Vector3(cameraTrasform.position.x, cameraTrasform.position.y + 1f, transform.position.z);
     }
 }

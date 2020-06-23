@@ -34,8 +34,6 @@ public abstract class NormalMonsterControl : Monster_Control
         StartCoroutine(SearchPlayer());
         randomMoving = RandomMove();
         StartCoroutine(randomMoving);
-
-        monsterDeadCount = null;
     }
     public override void MonsterFlip()
     {

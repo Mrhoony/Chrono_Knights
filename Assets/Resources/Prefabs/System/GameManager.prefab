@@ -46,11 +46,8 @@ MonoBehaviour:
   mainUICursor: {fileID: 0}
   saveUICursor: {fileID: 0}
   cursorSpd: 10
-  startButton: {fileID: 0}
-  startButtons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  keyBindManager: {fileID: 0}
+  cameraManager: {fileID: 0}
   player: {fileID: 0}
   playerStat: {fileID: 0}
   playerStatView: {fileID: 0}
@@ -59,11 +56,18 @@ MonoBehaviour:
   canvasManager: {fileID: 0}
   storage: {fileID: 0}
   inventory: {fileID: 0}
+  mainMenu: {fileID: 0}
+  startMenu: {fileID: 0}
+  startMenus:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   saveSlot: {fileID: 0}
   saveSlots:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  deleteSave: {fileID: 0}
   dataBase:
     playerData:
       maxAmmo: 0
@@ -156,19 +160,16 @@ MonoBehaviour:
     currentMoney: 0
     currentDate: 0
     isTrainigPossible: 0
-    eventFlag: 
     storyProgress: 0
   gameSlotFocus: 0
   saveSlotFocus: 0
+  deleteSlotFocus: 0
   data: 
   openSaveSlot: 0
+  openSaveDeleteSelect: 0
   gameStart: 0
-  screenSize:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   systemData:
-    screen_width: 0
-    screen_height: 0
+    screenSizeNumber: 0
+    cameraShakeOnOff: 0
     volume_BGM: 0
     volume_Effect: 0

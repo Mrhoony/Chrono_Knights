@@ -33,15 +33,18 @@ public class GameManager : MonoBehaviour
     public GameObject[] startMenus;
     public GameObject saveSlot;
     public GameObject[] saveSlots;
+    public GameObject deleteSave;
     public DataBase dataBase;
 
     BinaryFormatter bf;
     MemoryStream ms;
     public int gameSlotFocus;
     public int saveSlotFocus;
+    public int deleteSlotFocus;
     public string data;
     
     public bool openSaveSlot;
+    public bool openSaveDeleteSelect;
     public bool gameStart;
     #endregion
     
@@ -112,23 +115,41 @@ public class GameManager : MonoBehaviour
 
         if (openSaveSlot)
         {
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
+            if (openSaveDeleteSelect)
             {
-                LoadGame();
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
+                {
+                    DeleteSave();
+                    CloseSaveDelete();
+                }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
+                {
+                    CloseSaveDelete();
+                    canvasManager.inGameMenu.SetActive(true);
+                }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { deleteSlotFocus = FocusedSlot(deleteSlotFocus, 1, 1); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { deleteSlotFocus = FocusedSlot(deleteSlotFocus, -1, 1); }
             }
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
+            else
             {
-                CloseLoad();
-                canvasManager.inGameMenu.SetActive(true);
-            }
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Jump"]))
-            {
-                DeleteSave();
-            }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
+                {
+                    LoadGame();
+                }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
+                {
+                    CloseLoad();
+                    canvasManager.inGameMenu.SetActive(true);
+                }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Jump"]))
+                {
+                    OpenSaveDelete();
+                }
 
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { SaveFocusedSlot(1); }
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { SaveFocusedSlot(-1); }
-            SaveCursorMove();
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { saveSlotFocus = FocusedSlot(saveSlotFocus, 1, 2); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { saveSlotFocus = FocusedSlot(saveSlotFocus, -1, 2); }
+                SaveCursorMove();
+            }
         }
         else
         {
@@ -148,8 +169,8 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { GameStartFocusedSlot(-1); }
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { GameStartFocusedSlot(1); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { gameSlotFocus = FocusedSlot(gameSlotFocus, - 1, 2); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { gameSlotFocus  = FocusedSlot(gameSlotFocus, 1, 2); }
             MainCursorMove();
         }
     }
@@ -171,19 +192,25 @@ public class GameManager : MonoBehaviour
         mainUICursor.transform.position = Vector2.Lerp(mainUICursor.transform.position,
            new Vector2(mainUICursor.transform.position.x, startMenus[gameSlotFocus].transform.position.y), Time.deltaTime * cursorSpd);
     }
-    void SaveFocusedSlot(int AdjustValue)
+    int FocusedSlot(int _Focus, int AdjustValue, int _MaxFocused)
     {
-        if (saveSlotFocus + AdjustValue < 0) saveSlotFocus = 2;
-        else if (saveSlotFocus + AdjustValue > 2) saveSlotFocus = 0;
-        else saveSlotFocus += AdjustValue;
+        if (_Focus + AdjustValue < 0) _Focus = _MaxFocused;
+        else if (_Focus + AdjustValue > _MaxFocused) _Focus = 0;
+        else _Focus += AdjustValue;
 
-        data = PlayerPrefs.GetString("SaveSlot" + saveSlotFocus.ToString(), null);
+        return _Focus;
     }
-    void GameStartFocusedSlot(int AdjustValue)
+
+    public void OpenSaveDelete()
     {
-        if (gameSlotFocus + AdjustValue < 0) gameSlotFocus = 2;
-        else if (gameSlotFocus + AdjustValue > 2) gameSlotFocus = 0;
-        else gameSlotFocus += AdjustValue;
+        deleteSlotFocus = 0;
+        deleteSave.SetActive(true);
+        openSaveDeleteSelect = true;
+    }
+    public void CloseSaveDelete()
+    {
+        deleteSave.SetActive(false);
+        openSaveDeleteSelect = false;
     }
 
     public void SaveGame()

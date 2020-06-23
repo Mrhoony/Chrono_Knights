@@ -3,6 +3,14 @@ using UnityEngine.UI;
 
 public class TownUI_Enchant : TownUI_EquipmentUpgrade
 {
+    Skill[] selectedSkillList;
+    public GameObject skillListCursor;
+    public GameObject skillListObject;
+    public Text[] skillList;
+    public bool enchantSkillSelect;
+    public int skillSelectFocused;
+    public int selectedEquipmentNumber;
+
     public void Update()
     {
         if (canvasManager.GameMenuOnCheck() || canvasManager.DialogBoxOn()) return;
@@ -10,10 +18,6 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
 
         if (!open_SelectItemUI)
         {
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { selectEquipFocused = FocusSlotEquipmentSelect(1, selectEquipFocused); }
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { selectEquipFocused = FocusSlotEquipmentSelect(-1, selectEquipFocused); }
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { selectEquipFocused = FocusSlotEquipmentSelect(1, selectEquipFocused); }
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { selectEquipFocused = FocusSlotEquipmentSelect(-1, selectEquipFocused); }
             if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
             {
                 if (selectEquipFocused == 7)
@@ -39,52 +43,69 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
             {
                 FocusEquipSlotMove(equipSlots[selectEquipFocused]);
             }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { selectEquipFocused = FocusSlotEquipmentSelect(1, selectEquipFocused); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { selectEquipFocused = FocusSlotEquipmentSelect(-1, selectEquipFocused); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { selectEquipFocused = FocusSlotEquipmentSelect(1, selectEquipFocused); }
+            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { selectEquipFocused = FocusSlotEquipmentSelect(-1, selectEquipFocused); }
         }
         else
         {
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { selectItemUIFocused = FocusSlotItemSelect(1, selectItemUIFocused); }
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { selectItemUIFocused = FocusSlotItemSelect(-1, selectItemUIFocused); }
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { selectItemUIFocused = FocusSlotItemSelect(1, selectItemUIFocused); }
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { selectItemUIFocused = FocusSlotItemSelect(-1, selectItemUIFocused); }
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
+            if (enchantSkillSelect)
             {
-                if (selectItemUIFocused == 3)
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
+                {
+                    SkillSelect();
+                }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { skillSelectFocused = FocusedSlot(1, skillSelectFocused, 2); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { skillSelectFocused = FocusedSlot(-1, skillSelectFocused, 2); }
+                FocusSkillMove();
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
+                {
+                    if (selectItemUIFocused == 3)
+                    {
+                        CloseSelectedItemMenu();
+                        selectUseItem.SetActive(false);
+                    }
+                    else
+                    {
+                        switch (selectItemUIFocused)
+                        {
+                            case 0:
+                                CloseSelectedItemMenu();
+                                selectUseItem.SetActive(false);
+                                break;
+                            case 1:
+                                canvasManager.OpenUpgradeStorage(2);
+                                break;
+                            case 2:
+                                cursorItemSelect.SetActive(false);
+                                if (selectedkey != null)
+                                    Enchant(selectEquipFocused, selectedkey);
+                                break;
+                        }
+                    }
+                }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
                 {
                     CloseSelectedItemMenu();
                     selectUseItem.SetActive(false);
                 }
-                else
+                if (Input.GetKeyDown(KeyCode.Escape))              // esc 를 눌렀을 때
                 {
-                    switch (selectItemUIFocused)
-                    {
-                        case 0:
-                            CloseSelectedItemMenu();
-                            selectUseItem.SetActive(false);
-                            break;
-                        case 1:
-                            canvasManager.OpenUpgradeStorage(2);
-                            break;
-                        case 2:
-                            cursorItemSelect.SetActive(false);
-                            if (selectedkey != null)
-                                Enchant(selectEquipFocused, selectedkey);
-                            break;
-                    }
+                    CloseSelectedItemMenu();
+                    selectUseItem.SetActive(false);
                 }
-            }
-            if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Y"]))
-            {
-                CloseSelectedItemMenu();
-                selectUseItem.SetActive(false);
-            }
-            if (Input.GetKeyDown(KeyCode.Escape))              // esc 를 눌렀을 때
-            {
-                CloseSelectedItemMenu();
-                selectUseItem.SetActive(false);
-            }
-            if (selectEquipFocused >= 0 || selectEquipFocused < 2)
-            {
-                FocusItemSlotMove(acceptSlot[selectItemUIFocused]);
+                if (selectEquipFocused >= 0 || selectEquipFocused < 2)
+                {
+                    FocusItemSlotMove(acceptSlot[selectItemUIFocused]);
+                }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Right"])) { selectItemUIFocused = FocusSlotItemSelect(1, selectItemUIFocused); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Left"])) { selectItemUIFocused = FocusSlotItemSelect(-1, selectItemUIFocused); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Down"])) { selectItemUIFocused = FocusSlotItemSelect(1, selectItemUIFocused); }
+                if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["Up"])) { selectItemUIFocused = FocusSlotItemSelect(-1, selectItemUIFocused); }
             }
         }
     }
@@ -95,47 +116,63 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
         townUI.CloseEnchantMenu();
     }
 
-    public void Enchant(int num, Item item)
+    public void Enchant(int _Num, Item item)
     {
-        if (num < 0 || num > 7) return;
+        if (_Num < 0 || _Num > 7) return;
+        selectedEquipmentNumber = _Num;
 
-        if (itemDatabase.GetItem(item.itemCode) != null)
+        if (itemDatabase.GetItem(item.itemCode) == null) return;
+
+        playerEquipment.PlayerEquipmentInit(selectedEquipmentNumber);
+
+        int upgradeCount;
+        int upgradePercent;
+
+        upgradeCount = Random.Range(0, 6);
+
+        switch (item.itemRarity)
         {
-            playerEquipment.PlayerEquipmentInit(num);
+            case 1:
+                upgradePercent = Random.Range(5, 20);
+                PercentSet(upgradeCount, upgradePercent, item);
+                EnchantEnd(selectedEquipmentNumber);
+                break;
+            case 2:
+                upgradePercent = Random.Range(20, 40);
+                PercentSet(upgradeCount, upgradePercent, item);
+                EnchantEnd(selectedEquipmentNumber);
+                break;
+            case 3:
+                int downgradeCount;
+                int downgradePercent;
+                do
+                {
+                    downgradeCount = Random.Range(0, 6);
+                }
+                while (upgradeCount == downgradeCount);
 
-            int upgradeCount;
-            int upgradePercent;
+                upgradePercent = Random.Range(40, 60);
+                downgradePercent = Random.Range(60, 80);
 
-            upgradeCount = Random.Range(0, 6);
-
-            switch (item.itemRarity)
-            {
-                case 1:
-                    upgradePercent = Random.Range(5, 20);
-                    PercentSet(num, upgradeCount, upgradePercent, item);
-                    break;
-                case 2:
-                    upgradePercent = Random.Range(20, 40);
-                    PercentSet(num, upgradeCount, upgradePercent, item);
-                    break;
-                case 3:
-                    int downgradeCount;
-                    int downgradePercent;
-                    do
-                    {
-                        downgradeCount = Random.Range(0, 6);
-                    }
-                    while (upgradeCount == downgradeCount);
-
-                    upgradePercent = Random.Range(40, 60);
-                    downgradePercent = Random.Range(60, 80);
-
-                    PercentSet(num, upgradeCount, upgradePercent, downgradeCount, downgradePercent, item);
-                    break;
-            }
-            storage.DeleteItem(keySlotFocus);
-            selectedkey = null;
+                PercentSet(upgradeCount, upgradePercent, downgradeCount, downgradePercent, item);
+                SkillSetting();
+                break;
         }
+    }
+
+    int FocusedSlot(int _Focus, int AdjustValue, int _MaxFocused)
+    {
+        if (_Focus + AdjustValue < 0) _Focus = _MaxFocused;
+        else if (_Focus + AdjustValue > _MaxFocused) _Focus = 0;
+        else _Focus += AdjustValue;
+
+        return _Focus;
+    }
+
+    public void EnchantEnd(int num)
+    {
+        storage.DeleteItem(keySlotFocus);
+        selectedkey = null;
         playerStat.PlayerStatusUpdate();
 
         canvasManager.Menus[0].GetComponent<Menu_Inventory>().SetAvailableSlot(playerEquipment.equipment[num].itemRarity);
@@ -159,23 +196,50 @@ public class TownUI_Enchant : TownUI_EquipmentUpgrade
         itemCancel.SetActive(true);
     }
 
-    public void PercentSet(int num, int upCount, float upPercent, Item item)
+    public void PercentSet(int upCount, float upPercent, Item item)
     {
-        equipment[num].EquipmentItemSetting(item);
-        equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
+        equipment[selectedEquipmentNumber].EquipmentItemSetting(item);
+        equipment[selectedEquipmentNumber].EquipmentStatusEnchant(upCount, upPercent, true);
 
-        if (equipment[num].downStatus != 8)
+        if (equipment[selectedEquipmentNumber].downStatus != 8)
         {
-            equipment[num].addStatus[equipment[num].downStatus] = 0;
-            equipment[num].downStatus = 8;
+            equipment[selectedEquipmentNumber].addStatus[equipment[selectedEquipmentNumber].downStatus] = 0;
+            equipment[selectedEquipmentNumber].downStatus = 8;
         }
     }
-    public void PercentSet(int num, int upCount, float upPercent, int downCount, float downPercent, Item item)
+    public void PercentSet(int upCount, float upPercent, int downCount, float downPercent, Item item)
     {
-        equipment[num].EquipmentItemSetting(item);
-        equipment[num].EquipmentStatusEnchant(upCount, upPercent, true);
-        equipment[num].EquipmentStatusEnchant(downCount, downPercent, false);
-        equipment[num].EquipmentSkillSetting();
-        playerEquipment.EquipmentSkillSetting(num);
+        equipment[selectedEquipmentNumber].EquipmentItemSetting(item);
+        equipment[selectedEquipmentNumber].EquipmentStatusEnchant(upCount, upPercent, true);
+        equipment[selectedEquipmentNumber].EquipmentStatusEnchant(downCount, downPercent, false);
+    }
+
+    public void SkillSetting()
+    {
+        selectedSkillList = new Skill[3];
+        enchantSkillSelect = true;
+        skillSelectFocused = 0;
+        for (int i = 0; i < 3; ++i)
+        {
+            selectedSkillList[i] = Database_Game.instance.SkillSetting(equipment[selectedEquipmentNumber].equipmentType);
+            skillList[i].text = selectedSkillList[i].skillName + " : " + selectedSkillList[i].skillDescription;
+        }
+        skillListObject.SetActive(true);
+        skillListCursor.SetActive(true);
+    }
+
+    public void SkillSelect()
+    {
+        playerEquipment.EquipmentSkillSetting(selectedEquipmentNumber, selectedSkillList[skillSelectFocused].skillCode);
+        skillListCursor.SetActive(false);
+        skillListObject.SetActive(false);
+        enchantSkillSelect = false;
+        EnchantEnd(selectedEquipmentNumber);
+    }
+
+    public void FocusSkillMove()
+    {
+        skillListCursor.transform.position
+            = Vector2.Lerp(skillListCursor.transform.position, new Vector2(skillListCursor.transform.position.x, skillList[skillSelectFocused].transform.position.y), Time.deltaTime * cursorSpd);
     }
 }

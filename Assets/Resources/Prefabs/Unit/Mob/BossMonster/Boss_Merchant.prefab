@@ -96,7 +96,7 @@ Animator:
   m_GameObject: {fileID: 6363715144914464034}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e11d32e244bee7241b7218c8890cb066, type: 2}
+  m_Controller: {fileID: 9100000, guid: ed0b4c011756f8c43bdfa1e359729559, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -176,7 +176,6 @@ MonoBehaviour:
   target: {fileID: 0}
   playerPos: {x: 0, y: 0, z: 0}
   eft: {fileID: 0}
-  eftPool: []
   enemyStatus: {fileID: 0}
   dropItemList: {fileID: 0}
   monsterName: 
@@ -189,7 +188,6 @@ MonoBehaviour:
   moveSpeed: 0
   monsterWeight: 0
   rotateDelayTime: 0
-  attackCoolTime: 0
   maxAttackDelayTime: 0
   attackRange:
   - posX: 0
@@ -209,6 +207,8 @@ MonoBehaviour:
   isGuard: 0
   counter: 0
   Invincible: 0
+  attackCoolTime: 0
+  backAttackCoolTime: 0
 --- !u!114 &5835909164075127722
 MonoBehaviour:
   m_ObjectHideFlags: 0

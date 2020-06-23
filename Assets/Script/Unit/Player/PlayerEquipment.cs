@@ -121,10 +121,6 @@ public class PlayerEquipment
                 if (addStatus[_status] > min[_status]) addStatus[_status] = min[_status];
             }
         }
-        public void EquipmentSkillSetting()
-        {
-            skillCode = Database_Game.instance.SkillSetting(equipmentType).skillCode;
-        }
         public void EquipmentSkillCheck()
         {
             if (!enchant || itemRarity < 3)
@@ -196,9 +192,9 @@ public class PlayerEquipment
             equipment[i].EquipmentUpgradeLimit();
         }
     }
-    public void EquipmentSkillSetting(int _EquipNumber)
+    public void EquipmentSkillSetting(int _EquipNumber, int _SkillCode)
     {
-        equipment[_EquipNumber].EquipmentSkillSetting();
+        equipment[_EquipNumber].skillCode = _SkillCode;
         Database_Game.instance.skillManager.EquipmentSkillSetting(equipment);
     }
     public void EquipmentSkillCheck(PlayerStatus _PlayerStatus)

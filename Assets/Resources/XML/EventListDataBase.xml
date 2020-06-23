@@ -42,7 +42,8 @@
 		<EventNumber>1</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
-			<EventType>Camera</EventType>
+			<EventType>CameraScroll</EventType>
+			<NPCName>Town_Start:Town_End:0.2</NPCName>
 			<Content>(마을 스크롤)</Content>
 		</Dialog>
 	</EventList>
@@ -106,6 +107,14 @@
 		<EventNumber>3</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
+			<EventType>CameraScroll</EventType>
+			<NPCName>Tower_Forest_Start:Tower_Forest_End:0.2</NPCName>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>TutorialBattle</EventName>
+		<Dialog>
+			<EventCount>2</EventCount>
 			<EventType>CameraFocus</EventType>
 			<NPCName>TutorialBattle/GameObject/Event_Trainer</NPCName>
 			<Content>이번엔 제법 몰려왔네.</Content>
@@ -114,7 +123,7 @@
 	<EventList>
 		<EventName>TutorialBattle</EventName>
 		<Dialog>
-			<EventCount>2</EventCount>
+			<EventCount>3</EventCount>
 			<EventType>None</EventType>
 			<NPCName>TutorialBattle/GameObject/Event_Trainer</NPCName>
 			<Content>공격 하는 법은 잊지 않았겠지?</Content>
@@ -123,7 +132,7 @@
 	<EventList>
 		<EventName>TutorialBattle</EventName>
 		<Dialog>
-			<EventCount>3</EventCount>
+			<EventCount>4</EventCount>
 			<EventType>None</EventType>
 			<NPCName>TutorialBattle/GameObject/Event_Trainer</NPCName>
 			<Content>X 키를 눌러서 공격이 가능해.</Content>
@@ -132,7 +141,7 @@
 	<EventList>
 		<EventName>TutorialBattle</EventName>
 		<Dialog>
-			<EventCount>4</EventCount>
+			<EventCount>5</EventCount>
 			<EventType>None</EventType>
 			<NPCName>TutorialBattle/GameObject/Event_Trainer</NPCName>
 			<Content>여러 번 눌러서 연계할 수 있고,</Content>
@@ -141,7 +150,7 @@
 	<EventList>
 		<EventName>TutorialBattle</EventName>
 		<Dialog>
-			<EventCount>5</EventCount>
+			<EventCount>6</EventCount>
 			<EventType>None</EventType>
 			<NPCName>TutorialBattle/GameObject/Event_Trainer</NPCName>
 			<Content>앞으로 가면서나 위를 보면서 공격해도 연계 공격이 나가지.</Content>
@@ -150,7 +159,7 @@
 	<EventList>
 		<EventName>TutorialBattle</EventName>
 		<Dialog>
-			<EventCount>6</EventCount>
+			<EventCount>7</EventCount>
 			<EventType>None</EventType>
 			<NPCName>TutorialBattle/GameObject/Event_Trainer</NPCName>
 			<Content>점프한 채로 연속 공격하면 점프 연계기가 나가고,</Content>
@@ -159,7 +168,7 @@
 	<EventList>
 		<EventName>TutorialBattle</EventName>
 		<Dialog>
-			<EventCount>7</EventCount>
+			<EventCount>8</EventCount>
 			<EventType>None</EventType>
 			<NPCName>TutorialBattle/GameObject/Event_Trainer</NPCName>
 			<Content>Space bar 를 누르면 회피할 수 있을거야.</Content>
@@ -168,7 +177,7 @@
 	<EventList>
 		<EventName>TutorialBattle</EventName>
 		<Dialog>
-			<EventCount>8</EventCount>
+			<EventCount>9</EventCount>
 			<EventType>None</EventType>
 			<NPCName>TutorialBattle/GameObject/Event_Trainer</NPCName>
 			<Content>여긴 맡기고 가마. 나는 다른곳으로 가볼테니.</Content>
@@ -177,7 +186,7 @@
 	<EventList>
 		<EventName>TutorialBattle</EventName>
 		<Dialog>
-			<EventCount>9</EventCount>
+			<EventCount>10</EventCount>
 			<EventType>None</EventType>
 			<NPCName>PlayerCharacter</NPCName>
 			<Content>네, 조심하세요.</Content>
@@ -188,6 +197,14 @@
 		<EventNumber>3</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
+			<EventType>CameraScroll</EventType>
+			<NPCName>Tower_Forest_Start:Tower_Forest_End:0.2</NPCName>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstBattle</EventName>
+		<Dialog>
+			<EventCount>2</EventCount>
 			<EventType>CameraFocus</EventType>
 			<NPCName>PlayerCharacter</NPCName>
 			<Content>조금 많아보이는데...?</Content>
@@ -196,7 +213,7 @@
 	<EventList>
 		<EventName>FirstBattle</EventName>
 		<Dialog>
-			<EventCount>2</EventCount>
+			<EventCount>3</EventCount>
 			<EventType>None</EventType>
 			<NPCName>PlayerCharacter</NPCName>
 			<Content>정신차리고 해보자!</Content>
@@ -766,7 +783,7 @@
 		<Dialog>
 			<EventCount>2</EventCount>
 			<EventType>CameraScroll</EventType>
-			<NPCName>Start:End</NPCName>
+			<NPCName>Start:End:0.2</NPCName>
 			<Content>(타워 스크롤)</Content>
 		</Dialog>
 	</EventList>

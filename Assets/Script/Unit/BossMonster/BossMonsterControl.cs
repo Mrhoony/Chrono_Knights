@@ -69,8 +69,7 @@ public abstract class BossMonster_Control : Monster_Control
 
     public override void Dead()
     {
-        animator.SetBool("isDead", true);
-        animator.SetTrigger("isDead_Trigger");
+        animator.SetTrigger("isDie_Trigger");
         if (dropItemList != null)
         {
             dropItemList.ItemDropChance();

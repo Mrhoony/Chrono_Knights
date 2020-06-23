@@ -323,8 +323,11 @@ MonoBehaviour:
   currentEventCount: 0
   completeText: 
   playableDirector: {fileID: 0}
+  TalkBoxImage: {fileID: 3013088149426851373}
   cursor: {fileID: 8819707379235655860}
   cursorSpeed: 8
+  clampedX: 0
+  clampedY: 0
   choises: {fileID: 1002980090577300329}
   choise:
   - {fileID: 5607755306272337278}
@@ -333,8 +336,12 @@ MonoBehaviour:
   focused: 0
   maxFocused: 0
   selectedChoiced: 
+  activedEvent: 
+  butterflyEffectName: []
+  butterflyEffectBool: 
   cameraEvent: 0
   isChoiceOn: 0
+  cameraScrollOn: 0
   eventName: 
 --- !u!1 &6926075226239545845
 GameObject:

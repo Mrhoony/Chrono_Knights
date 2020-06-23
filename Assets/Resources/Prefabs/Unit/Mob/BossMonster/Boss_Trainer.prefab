@@ -111,10 +111,10 @@ GameObject:
   - component: {fileID: 5533772796366226697}
   - component: {fileID: 7860091328231925410}
   - component: {fileID: 3671656616202476071}
+  - component: {fileID: 4897632547927375715}
   - component: {fileID: 8147519210445272187}
   - component: {fileID: 7198845257701222119}
   - component: {fileID: 2994179415527805912}
-  - component: {fileID: 4897632547927375715}
   m_Layer: 10
   m_Name: Boss_Trainer
   m_TagString: BossMonster
@@ -232,6 +232,25 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!95 &4897632547927375715
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8315407001163370714}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 497c58c21f63b52469f262ef578bf0bf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &8147519210445272187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +275,6 @@ MonoBehaviour:
   target: {fileID: 0}
   playerPos: {x: 0, y: 0, z: 0}
   eft: {fileID: 0}
-  eftPool: []
   enemyStatus: {fileID: 0}
   dropItemList: {fileID: 0}
   monsterName: 
@@ -269,7 +287,6 @@ MonoBehaviour:
   moveSpeed: 0
   monsterWeight: 0
   rotateDelayTime: 0
-  attackCoolTime: 0
   maxAttackDelayTime: 0
   attackRange:
   - posX: 0
@@ -285,6 +302,7 @@ MonoBehaviour:
   isGuard: 0
   counter: 0
   Invincible: 0
+  attackCoolTime: 0
 --- !u!114 &7198845257701222119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,22 +342,3 @@ MonoBehaviour:
   - {fileID: 4542179881440881234, guid: e9d0ef79f941c27458dba0baf4b550b1, type: 3}
   - {fileID: 4542179881440881234, guid: e9d0ef79f941c27458dba0baf4b550b1, type: 3}
   dropChances: 1400000050000000
---- !u!95 &4897632547927375715
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8315407001163370714}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e21f95e9186e1ea4bba7e7334713daf7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0

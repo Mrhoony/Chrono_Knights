@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Trainer_atk2 : AnimatorManager
 {
+    /*
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -20,4 +21,5 @@ public class Trainer_atk2 : AnimatorManager
             animator.GetComponent<Boss_Trainer>().AttackMove(0.2f);
         }
     }
+    */
 }

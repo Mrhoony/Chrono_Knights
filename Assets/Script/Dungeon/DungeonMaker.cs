@@ -234,9 +234,10 @@ public class DungeonMaker : MonoBehaviour
     public void FloorReset()
     {
         DungeonManager.instance.dungeonPoolManager.bossMonsterCountReset();
+        MonsterGuideOff();
 
         if (floorRepeat) return;
-
+        
         for (int i = 0; i < monsterCount; ++i)
         {
             if (currentStageMonsterList[i] != null)
@@ -305,8 +306,8 @@ public class DungeonMaker : MonoBehaviour
                 break;
             }
         }
-
-        currentMap = map[Random.Range(0, map.Count)];
+        
+        currentMap = Instantiate(map[Random.Range(0, map.Count)], Vector2.zero, Quaternion.identity);
         entrance = currentMap.GetComponent<Map_DungeonSetting>().entrance.transform.position;
         spawner = currentMap.GetComponent<Map_DungeonSetting>().spawner;
         spawnerCount = spawner.Length;

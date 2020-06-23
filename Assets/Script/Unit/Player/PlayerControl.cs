@@ -620,8 +620,7 @@ public class PlayerControl : MovingObject
                 break;
         }
     }
-
-
+    
     public void Attack(AtkType _AttackType) // 창의 기본 공격범위, 총의 기본 공격범위~
     {
         Collider2D[] monster;

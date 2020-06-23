@@ -39,8 +39,8 @@ public class Boss_Merchant : BossMonster_Control
         {
             actionState = ActionState.NotMove;
             StartCoroutine(MoveDelayTime(rotateDelayTime));
-            animator.SetTrigger("isDodgeTrigger");
-            rb.velocity = new Vector2(moveSpeed * -arrowDirection * 2, rb.velocity.y + 2f);
+            animator.SetTrigger("Dodge_Trigger");
+            rb.velocity = new Vector2(moveSpeed * -arrowDirection * 3f, rb.velocity.y + 2f);
         }
     }
     void Attack()
@@ -65,7 +65,7 @@ public class Boss_Merchant : BossMonster_Control
     {
         actionState = ActionState.IsAtk;
         MonsterFlip();
-        animator.SetTrigger("isAttack1Trigger");
+        animator.SetTrigger("Attack_Trigger");
         StartCoroutine(MoveDelayTime(attackCoolTime));
     }
     void Attack2()
@@ -73,7 +73,7 @@ public class Boss_Merchant : BossMonster_Control
         actionState = ActionState.IsAtk;
         transform.position = new Vector2(target.transform.position.x + target.GetComponent<PlayerControl>().GetArrowDirection() * -1f, target.transform.position.y);
         MonsterFlip();
-        animator.SetTrigger("isAttack2Trigger");
+        animator.SetTrigger("BackAttack_Trigger");
         StartCoroutine(MoveDelayTime(backAttackCoolTime));
     }
     public override bool MonsterHit(int _damage)
@@ -84,7 +84,7 @@ public class Boss_Merchant : BossMonster_Control
         {
             StopCoroutine("GuardCount");
             StopCoroutine("MoveDelayTime");
-            animator.SetBool("isCounterAttack", true);
+            animator.SetTrigger("CounterAttack_Trigger");
             return false;
         }
         else
@@ -103,7 +103,7 @@ public class Boss_Merchant : BossMonster_Control
             }
             else
             {
-                animator.SetTrigger("isHit");
+                animator.SetTrigger("Hit_Trigger");
                 eft.SetActive(true);
                 return true;
             }
@@ -132,15 +132,15 @@ public class Boss_Merchant : BossMonster_Control
     {
         actionState = ActionState.IsAtk;
         isGuard = true;
-        animator.SetBool("isCounterWait", true);
+        animator.SetBool("isCounterAttack", true);
+        animator.SetTrigger("Counter_Trigger");
         StartCoroutine(GuardCount());
-        Debug.Log("Guard");
     }
     IEnumerator GuardCount()
     {
         yield return new WaitForSeconds(2f);
         isGuard = false;
-        animator.SetBool("isCounterWait", false);
+        animator.SetBool("isCounterAttack", false);
         StartCoroutine(MoveDelayTime(attackCoolTime));
         Debug.Log("Guard_Undo");
     }

@@ -3061,7 +3061,7 @@ PrefabInstance:
     - target: {fileID: 189152530722549429, guid: b99ff088e7239b348b33c3d1ab4c73ef,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 189152530722549429, guid: b99ff088e7239b348b33c3d1ab4c73ef,
         type: 3}
@@ -3199,15 +3199,15 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -2
       objectReference: {fileID: 0}
-    - target: {fileID: 760659192046019381, guid: 2d9268bbeeb77ce4983b0ccefc049264,
-        type: 3}
-      propertyPath: sceneMove
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 760659192046019380, guid: 2d9268bbeeb77ce4983b0ccefc049264,
         type: 3}
       propertyPath: m_Radius
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 760659192046019381, guid: 2d9268bbeeb77ce4983b0ccefc049264,
+        type: 3}
+      propertyPath: sceneMove
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3692322852516708301, guid: 2d9268bbeeb77ce4983b0ccefc049264,
         type: 3}

@@ -42,12 +42,10 @@ public class Boss_Trainer : BossMonster_Control
         {
             animator.SetBool("isMove", true);
             rb.velocity = new Vector2(arrowDirection * moveSpeed, rb.velocity.y);
-            Debug.Log("Move");
         }
         else
         {
             animator.SetBool("isMove", false);
-            Debug.Log("notMove");
         }
     }
 
@@ -58,12 +56,10 @@ public class Boss_Trainer : BossMonster_Control
         if (distanceX < 1f)
         {
             Attack1();
-            Debug.Log("Attack");
         }
         else if(distanceX >= 4f)
         {
             DashMove();
-            Debug.Log("Dash");
         }
     }
 

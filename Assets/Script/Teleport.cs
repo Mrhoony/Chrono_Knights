@@ -88,7 +88,10 @@ public class Teleport : InteractiveObject
         if (eventTrigger.EventStart())
         {
             eventTrigger.eventEndTrigger.eventEndDelegate = DungeonManager.instance.TeleportNextFloor;
+            return;
         }
+
+        DungeonManager.instance.TeleportNextFloor();
     }
 
     public void SceneMoveTeleport()
