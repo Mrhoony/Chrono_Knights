@@ -422,7 +422,7 @@ public class PlayerControl : MovingObject
         dodgable = false;
         invincible = true;
 
-        StartCoroutine(DodgeIgnore());
+        //StartCoroutine(DodgeIgnore());
 
         animator.SetBool("isLand", false);
         animator.SetTrigger("isDodge");
