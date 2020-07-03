@@ -225,6 +225,7 @@ public class DungeonManager : MonoBehaviour
         if (!inDungeon)
         {
             inDungeon = true;
+            dungeonClear = false;
             dungeonPlayTimer = 0f;
             dungeonMaker.EnterTheDungeon();
         }
@@ -291,6 +292,13 @@ public class DungeonManager : MonoBehaviour
                     }
 
                     if (!dungeonClear || isReturn) return;
+
+                    if (phaseClear)
+                    {
+                        phaseClear = false;
+                        canvasManager.OpenTrialCardSelectMenu();
+                        break;
+                    }
 
                     // 키를 안쓴경우 인벤토리를 연다.
                     if (!usedKey) canvasManager.OpenInGameMenu(true);
@@ -426,6 +434,11 @@ public class DungeonManager : MonoBehaviour
         mainQuest = true;
         dungeonMaker.ScenarioMonsterPop(_MonsterVariable, _Spawner, _Monstercount);
     }
+    public void ScenarioBossMonsterPop(GameObject[] _MonsterVariable)
+    {
+        mainQuest = true;
+        dungeonMaker.ScenarioMonsterPop(_MonsterVariable[0]);
+    }
 
     // 씬 이동 후 초기화
     public void OnEnable()
@@ -543,19 +556,11 @@ public class DungeonManager : MonoBehaviour
     {
         return currentDate;
     }
-    public int GetStoryProgress()
-    {
-        return scenarioManager.GetStoryProgress();
-    }
-    public Dictionary<string, bool> GetEventFlag()
-    {
-        return scenarioManager.GetEventFlag();
-    }
-    public void LoadGamePlayDate(int _currentDate, bool _isTrainingPossible, Dictionary<string, bool> _EventFlag, int _StoryProgress)
+    public void LoadGamePlayDate(int _currentDate, bool _isTrainingPossible, int _StoryProgress, Dictionary<string, bool> _EventFlag, Dictionary<string, int> _ButterFlyEffect)
     {
         currentDate = _currentDate;
         isTraingPossible = _isTrainingPossible;
-        scenarioManager.LoadGamePlayData(_StoryProgress, _EventFlag);
+        scenarioManager.LoadGamePlayData(_StoryProgress, _EventFlag, _ButterFlyEffect);
     }
 
     #endregion

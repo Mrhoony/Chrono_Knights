@@ -10,9 +10,13 @@ public abstract class BossMonster_Control : Monster_Control
     public int counter;
     public bool Invincible;
     public float attackCoolTime;
+    public float attackMaxCoolTime;
+    public int accumulationDamage;
+    public string bossDieEvent = "";
     
     public override void MonsterInit()
     {
+        if (CanvasManager.instance.isMainScenarioOn) return;
         tag = "BossMonster";
 
         arrowDirection = 1;
@@ -77,5 +81,15 @@ public abstract class BossMonster_Control : Monster_Control
         enabled = false;
         monsterDeadCount();
         monsterDeadCount = null;
+        Invoke("BossDeadEvent", 2f);
+    }
+
+    public void BossDeadEvent()
+    {
+        gameObject.SetActive(false);
+        if(bossDieEvent != "")
+        {
+            DungeonManager.instance.scenarioManager.ScenarioCheck(bossDieEvent);
+        }
     }
 }

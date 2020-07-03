@@ -13,7 +13,10 @@ public class EventEndTrigger : MonoBehaviour
         CanvasManager.instance.MainScenarioEnd();
         DungeonManager.instance.mainQuest = false;
 
-        if(eventEndDelegate != null)
+        PlayerControl.instance.gameObject.SetActive(true);
+        PlayerControl.instance.PlayerStateInit();
+
+        if (eventEndDelegate != null)
         {
             eventEndDelegate();
             eventEndDelegate = null;

@@ -13,6 +13,7 @@ public class DataBase
 
     public bool isTrainigPossible;
     public Dictionary<string, bool> eventFlag;
+    public Dictionary<string, int> butterFlyEffectFlag;
     public int storyProgress;
 
     public void Init()
@@ -23,28 +24,21 @@ public class DataBase
         currentMoney = 0;
         currentDate = 0;
         isTrainigPossible = false;
-        eventFlag = new Dictionary<string, bool>();
         EventFlagInit();
         
         CanvasManager.instance.DebugText("database init");
     }
     public void EventFlagInit()
     {
+        eventFlag = new Dictionary<string, bool>();
+        butterFlyEffectFlag = new Dictionary<string, int>();
         List<string> scenarioData = Database_Game.instance.mainScenarioName;
+
+        butterFlyEffectFlag = DungeonManager.instance.scenarioManager.SetButterFlyEffectFlagInit();
 
         for (int i = 0; i < scenarioData.Count; ++i)
         {
             eventFlag.Add(scenarioData[i], false);
-        }
-        DungeonManager.instance.scenarioManager.eventFlag = eventFlag;
-    }
-    public void EventFlagInit(List<string> _ScenarioData)
-    {
-        for (int i = eventFlag.Count; i < _ScenarioData.Count; ++i)
-        {
-            Debug.Log(eventFlag.Count);
-            Debug.Log(_ScenarioData[i]);
-            eventFlag.Add(_ScenarioData[i], false);
         }
         DungeonManager.instance.scenarioManager.eventFlag = eventFlag;
     }
@@ -65,12 +59,47 @@ public class DataBase
     {
         List<string> scenarioData = Database_Game.instance.mainScenarioName;
 
-        if (eventFlag.Count < scenarioData.Count)
+        if (eventFlag.Count < 1) eventFlag = new Dictionary<string, bool>();
+
+        for (int i = 0; i < scenarioData.Count; ++i)
         {
-            if(eventFlag.Count < 1) eventFlag = new Dictionary<string, bool>();
-            EventFlagInit(scenarioData);
+            if (!eventFlag.ContainsKey(scenarioData[i]))
+                eventFlag.Add(scenarioData[i], false);
         }
+
         return eventFlag;
+    }
+    public Dictionary<string, int> GetButterFlyEffectFlag()
+    {
+        if(butterFlyEffectFlag == null)
+        {
+            butterFlyEffectFlag = new Dictionary<string, int>();
+        }
+        // 저장된 파일에 데이터 가 없을 경우
+        if(butterFlyEffectFlag.Count < 1)
+        {
+            butterFlyEffectFlag = DungeonManager.instance.scenarioManager.SetButterFlyEffectFlagInit();
+        }
+        else
+        {
+            Dictionary<string, int> temp = DungeonManager.instance.scenarioManager.SetButterFlyEffectFlagInit();
+
+            // 추가된 시나리오가 더 있을 경우
+            if(butterFlyEffectFlag.Count < temp.Count)
+            {
+                // 데이터베이스의 딕셔너리를 순회하면서 시나리오가 없으면 추가하고 해당 시나리오를 초기화
+                foreach(KeyValuePair<string, int> item in temp)
+                {
+                    if (butterFlyEffectFlag.ContainsKey(item.Key))
+                    {
+                        break;
+                    }
+                    butterFlyEffectFlag.Add(item.Key, 0);
+                }
+            }
+        }
+
+        return butterFlyEffectFlag;
     }
     public int GetStoryProgress()
     {
@@ -81,12 +110,13 @@ public class DataBase
         return isTrainigPossible;
     }
 
-    public void SaveGameData(int _currentDate, bool _isTrainigPossible, Dictionary<string, bool> _eventFlag, int _StoryProgress)
+    public void SaveGameData(int _currentDate, bool _isTrainigPossible, int _StoryProgress, Dictionary<string, bool> _eventFlag, Dictionary<string, int> _ButterflyEffectFlag)
     {
         currentDate = _currentDate;
         isTrainigPossible = _isTrainigPossible;
-        eventFlag = _eventFlag;
         storyProgress = _StoryProgress;
+        eventFlag = _eventFlag;
+        butterFlyEffectFlag = _ButterflyEffectFlag;
     }
     public void SaveStorageData(int[] _storageItemList)
     {

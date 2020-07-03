@@ -2,6 +2,7 @@
 <EventListDataBase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<EventList>
 		<EventName>Tutorial</EventName>
+		<NecessaryEvent>-1</NecessaryEvent>
 		<EventNumber>0</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
@@ -39,6 +40,7 @@
 	</EventList>
 	<EventList>
 		<EventName>ScrollAllTown</EventName>
+		<NecessaryEvent>0</NecessaryEvent>
 		<EventNumber>1</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
@@ -49,6 +51,7 @@
 	</EventList>
 	<EventList>
 		<EventName>TutorialSelect</EventName>
+		<NecessaryEvent>1</NecessaryEvent>
 		<EventNumber>2</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
@@ -104,6 +107,7 @@
 	</EventList>
 	<EventList>
 		<EventName>TutorialBattle</EventName>
+		<NecessaryEvent>2</NecessaryEvent>
 		<EventNumber>3</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
@@ -194,6 +198,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstBattle</EventName>
+		<NecessaryEvent>2</NecessaryEvent>
 		<EventNumber>3</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
@@ -221,6 +226,7 @@
 	</EventList>
 	<EventList>
 		<EventName>GetBell</EventName>
+		<NecessaryEvent>3</NecessaryEvent>
 		<EventNumber>4</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
@@ -517,6 +523,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstTalkShop</EventName>
+		<NecessaryEvent>4</NecessaryEvent>
 		<EventNumber>5</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
@@ -644,6 +651,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstTalkEnchanter</EventName>
+		<NecessaryEvent>4</NecessaryEvent>
 		<EventNumber>5</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
@@ -699,6 +707,7 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstTalkTrainer</EventName>
+		<NecessaryEvent>4</NecessaryEvent>
 		<EventNumber>5</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
@@ -736,7 +745,8 @@
 	</EventList>
 	<EventList>
 		<EventName>FirstEnterTower</EventName>
-		<EventNumber>5</EventNumber>
+		<NecessaryEvent>5</NecessaryEvent>
+		<EventNumber>6</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
@@ -762,14 +772,8 @@
 		</Dialog>
 	</EventList>
 	<EventList>
-		<EventName>FirstEnterTower</EventName>
-		<Dialog>
-			<EventCount>4</EventCount>
-			<EventType>Camera</EventType>
-		</Dialog>
-	</EventList>
-	<EventList>
 		<EventName>FirstInTower</EventName>
+		<NecessaryEvent>6</NecessaryEvent>
 		<EventNumber>6</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
@@ -782,6 +786,15 @@
 		<EventName>FirstInTower</EventName>
 		<Dialog>
 			<EventCount>2</EventCount>
+			<EventType>CameraFocus</EventType>
+			<NPCName>Start</NPCName>
+			<Content>none</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstInTower</EventName>
+		<Dialog>
+			<EventCount>3</EventCount>
 			<EventType>CameraScroll</EventType>
 			<NPCName>Start:End:0.2</NPCName>
 			<Content>(타워 스크롤)</Content>
@@ -790,7 +803,7 @@
 	<EventList>
 		<EventName>FirstInTower</EventName>
 		<Dialog>
-			<EventCount>3</EventCount>
+			<EventCount>4</EventCount>
 			<EventType>CameraFocus</EventType>
 			<NPCName>PlayerCharacter</NPCName>
 			<Content>그럼 조심해서 가볼까.</Content>
@@ -835,118 +848,273 @@
 		</Dialog>
 	</EventList>
 	<EventList>
-		<EventName>FirstBoss</EventName>
+		<EventName>FirstEncountBoss</EventName>
+		<NecessaryEvent>6</NecessaryEvent>
 		<EventNumber>7</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
-			<NPCName>Boss_Trainer</NPCName>
+			<NPCName>Event_Boss_Sniper</NPCName>
+			<Content>none</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstEncountBoss</EventName>
+		<Dialog>
+			<EventCount>2</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_Boss_Sniper</NPCName>
 			<Content>…</Content>
 		</Dialog>
 	</EventList>
 	<EventList>
-		<EventName>FirstBoss</EventName>
+		<EventName>FirstEncountBoss</EventName>
+		<Dialog>
+			<EventCount>3</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_PlayerCharacter</NPCName>
+			<Content>…누구지?</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstEncountBoss</EventName>
+		<Dialog>
+			<EventCount>4</EventCount>
+			<EventType>Camera</EventType>
+			<Content>(장전)</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstEncountBoss</EventName>
+		<Dialog>
+			<EventCount>5</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_PlayerCharacter</NPCName>
+			<Content>저기요…?</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstEncountBoss</EventName>
+		<Dialog>
+			<EventCount>6</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_Boss_Sniper</NPCName>
+			<Content>…</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstEncountBoss</EventName>
+		<Dialog>
+			<EventCount>7</EventCount>
+			<EventType>Camera</EventType>
+			<Content>(발사)</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstEncountBoss</EventName>
+		<Dialog>
+			<EventCount>8</EventCount>
+			<EventType>None</EventType>
+			<NPCName>PlayerCharacter</NPCName>
+			<Content>!!!</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstBossEnd</EventName>
+		<NecessaryEvent>7</NecessaryEvent>
+		<EventNumber>0</EventNumber>
+		<Dialog>
+			<EventCount>1</EventCount>
+			<EventType>CameraFocus</EventType>
+			<NPCName>Event_PlayerCharacter</NPCName>
+			<Content>none</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstBossEnd</EventName>
 		<Dialog>
 			<EventCount>2</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_PlayerCharacter</NPCName>
+			<Content>후우… 뭐야 이사람?</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstBossEnd</EventName>
+		<Dialog>
+			<EventCount>3</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_Boss_Sniper</NPCName>
+			<Content>크윽…</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstBossEnd</EventName>
+		<Dialog>
+			<EventCount>4</EventCount>
+			<EventType>Camera</EventType>
+			<Content>(보스 사라짐)</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstBossEnd</EventName>
+		<Dialog>
+			<EventCount>5</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_PlayerCharacter</NPCName>
+			<Content>뭐지?</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstBossEnd</EventName>
+		<Dialog>
+			<EventCount>6</EventCount>
+			<EventType>Camera</EventType>
+			<Content>(두리번 두리번)</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstBossEnd</EventName>
+		<Dialog>
+			<EventCount>7</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_PlayerCharacter</NPCName>
+			<Content>…사라졌어?</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstTrainerBoss</EventName>
+		<NecessaryEvent>8</NecessaryEvent>
+		<EventNumber>9</EventNumber>
+		<Dialog>
+			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
-			<NPCName>PlayerCharacter</NPCName>
+			<NPCName>Event_Boss_Trainer</NPCName>
+			<Content>none</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstTrainerBoss</EventName>
+		<Dialog>
+			<EventCount>2</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_Boss_Trainer</NPCName>
+			<Content>…</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstTrainerBoss</EventName>
+		<Dialog>
+			<EventCount>3</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_PlayerCharacter</NPCName>
 			<Content>스승님…? 왜 여기 계세요?</Content>
 		</Dialog>
 	</EventList>
 	<EventList>
-		<EventName>FirstBoss</EventName>
+		<EventName>FirstTrainerBoss</EventName>
 		<Dialog>
-			<EventCount>3</EventCount>
-			<EventType>CameraFocus</EventType>
-			<NPCName>Boss_Trainer</NPCName>
+			<EventCount>4</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_Boss_Trainer</NPCName>
 			<Content>…</Content>
 		</Dialog>
 	</EventList>
 	<EventList>
-		<EventName>FirstBoss</EventName>
+		<EventName>FirstTrainerBoss</EventName>
 		<Dialog>
-			<EventCount>4</EventCount>
-			<EventType>CameraFocus</EventType>
-			<NPCName>PlayerCharacter</NPCName>
+			<EventCount>5</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_PlayerCharacter</NPCName>
 			<Content>수색하러 가신게 아닌가?</Content>
 		</Dialog>
 	</EventList>
 	<EventList>
-		<EventName>FirstBoss</EventName>
+		<EventName>FirstTrainerBoss</EventName>
 		<Dialog>
-			<EventCount>5</EventCount>
-			<EventType>CameraFocus</EventType>
-			<NPCName>Boss_Trainer</NPCName>
+			<EventCount>6</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_Boss_Trainer</NPCName>
 			<Content>…</Content>
 		</Dialog>
 	</EventList>
 	<EventList>
-		<EventName>FirstBoss</EventName>
+		<EventName>FirstTrainerBoss</EventName>
 		<Dialog>
-			<EventCount>6</EventCount>
+			<EventCount>7</EventCount>
 			<EventType>Camera</EventType>
 			<Content>(트레이너 준비모션)</Content>
 		</Dialog>
 	</EventList>
 	<EventList>
-		<EventName>FirstBoss</EventName>
+		<EventName>FirstTrainerBoss</EventName>
 		<Dialog>
-			<EventCount>7</EventCount>
-			<EventType>CameraFocus</EventType>
-			<NPCName>PlayerCharacter</NPCName>
+			<EventCount>8</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_PlayerCharacter</NPCName>
 			<Content>…!!</Content>
 		</Dialog>
 	</EventList>
 	<EventList>
-		<EventName>FirstBossEnd</EventName>
-		<EventNumber>8</EventNumber>
+		<EventName>FirstTrainerBossEnd</EventName>
+		<NecessaryEvent>8</NecessaryEvent>
+		<EventNumber>10</EventNumber>
 		<Dialog>
 			<EventCount>1</EventCount>
 			<EventType>CameraFocus</EventType>
-			<NPCName>PlayerCharacter</NPCName>
+			<NPCName>Event_PlayerCharacter</NPCName>
+			<Content>none</Content>
+		</Dialog>
+	</EventList>
+	<EventList>
+		<EventName>FirstTrainerBossEnd</EventName>
+		<Dialog>
+			<EventCount>2</EventCount>
+			<EventType>None</EventType>
+			<NPCName>Event_PlayerCharacter</NPCName>
 			<Content>…스승님?</Content>
 		</Dialog>
 	</EventList>
 	<EventList>
-		<EventName>FirstBossEnd</EventName>
+		<EventName>FirstTrainerBossEnd</EventName>
 		<Dialog>
-			<EventCount>2</EventCount>
+			<EventCount>3</EventCount>
 			<EventType>None</EventType>
-			<NPCName>Boss_Trainer</NPCName>
+			<NPCName>Event_Boss_Trainer</NPCName>
 			<Content>…아직 탑에오는건 이르다고 생각했는데…</Content>
 		</Dialog>
 	</EventList>
 	<EventList>
-		<EventName>FirstBossEnd</EventName>
+		<EventName>FirstTrainerBossEnd</EventName>
 		<Dialog>
-			<EventCount>3</EventCount>
+			<EventCount>4</EventCount>
 			<EventType>None</EventType>
-			<NPCName>Boss_Trainer</NPCName>
+			<NPCName>Event_Boss_Trainer</NPCName>
 			<Content>강하구나…</Content>
 		</Dialog>
 	</EventList>
 	<EventList>
-		<EventName>FirstBossEnd</EventName>
+		<EventName>FirstTrainerBossEnd</EventName>
 		<Dialog>
-			<EventCount>4</EventCount>
+			<EventCount>5</EventCount>
 			<EventType>None</EventType>
-			<NPCName>PlayerCharacter</NPCName>
+			<NPCName>Event_PlayerCharacter</NPCName>
 			<Content>스승님이 허락해 주셨잖아요…!</Content>
 		</Dialog>
 	</EventList>
 	<EventList>
-		<EventName>FirstBossEnd</EventName>
+		<EventName>FirstTrainerBossEnd</EventName>
 		<Dialog>
-			<EventCount>5</EventCount>
+			<EventCount>6</EventCount>
 			<EventType>None</EventType>
-			<NPCName>Boss_Trainer</NPCName>
+			<NPCName>Event_Boss_Trainer</NPCName>
 			<Content>그런가…</Content>
 		</Dialog>
 	</EventList>
 	<EventList>
-		<EventName>FirstBossEnd</EventName>
+		<EventName>FirstTrainerBossEnd</EventName>
 		<Dialog>
-			<EventCount>6</EventCount>
+			<EventCount>7</EventCount>
 			<EventType>Camera</EventType>
 			<Content>(트레이너가 쓰러지고 사라지는 모션)</Content>
 		</Dialog>

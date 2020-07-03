@@ -4918,15 +4918,15 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -2
       objectReference: {fileID: 0}
-    - target: {fileID: 760659192046019380, guid: 2d9268bbeeb77ce4983b0ccefc049264,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 760659192046019381, guid: 2d9268bbeeb77ce4983b0ccefc049264,
         type: 3}
       propertyPath: sceneMove
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 760659192046019380, guid: 2d9268bbeeb77ce4983b0ccefc049264,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 3692322852516708301, guid: 2d9268bbeeb77ce4983b0ccefc049264,
         type: 3}

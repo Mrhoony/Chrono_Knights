@@ -98,7 +98,6 @@ public class Boss_Merchant : BossMonster_Control
                 actionState = ActionState.IsDead;
                 gameObject.tag = "DeadBody";
                 Dead();
-                DungeonManager.instance.dungeonMaker.FloorBossKill();
                 return true;
             }
             else

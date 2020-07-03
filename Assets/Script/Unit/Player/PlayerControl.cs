@@ -30,6 +30,7 @@ public enum SlashEft
 public class PlayerControl : MovingObject
 {
     public static PlayerControl instance;
+    public BoxCollider2D playerCollider;
     public PlayerAttack playerAttack;
     public LayerMask rayDashLayerMask;
     public LayerMask rayGroundLayerMask;
@@ -81,6 +82,7 @@ public class PlayerControl : MovingObject
             return;
         }
         rb = GetComponent<Rigidbody2D>();
+        playerCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerStatus = GetComponent<PlayerStatus>();
@@ -103,19 +105,17 @@ public class PlayerControl : MovingObject
         if (CanvasManager.instance.GameMenuOnCheck() || CanvasManager.instance.TownUIOnCheck()) return;       // UI 켜져 있을 때 입력 제한
         if (actionState == ActionState.IsDead) return;
         
-        if (rb.velocity.y < -0.5f && actionState != ActionState.IsJumpAttack && actionState != ActionState.IsDodge)
+        if (rb.velocity.y < -0.2f && actionState != ActionState.IsDodge)
         {
-            GroundCheck.SetActive(true);
-            if (rb.velocity.y < 1f)
+            if (actionState != ActionState.IsJump && isGround && !isJump)
             {
-                if (actionState != ActionState.IsJump && !isGround && !isJump)
-                {
-                    isJump = true;
-                    actionState = ActionState.IsJump;
-                    --currentJumpCount;
-                }
-                animator.SetBool("isFall", true);
+                isJump = true;
+                isGround = false;
+                actionState = ActionState.IsJump;
+                --currentJumpCount;
             }
+            animator.SetBool("isFall", true);
+            GroundCheck.SetActive(true);
         }   // 낙하 체크
 
         if (actionState == ActionState.IsDodge || actionState == ActionState.NotMove || actionState == ActionState.IsParrying) return;
@@ -301,7 +301,6 @@ public class PlayerControl : MovingObject
             }
         }
     }
-
     void GunAttack()
     {
         if (Input.GetKeyDown(KeyBindManager.instance.KeyBinds["X"]))
@@ -422,11 +421,11 @@ public class PlayerControl : MovingObject
         dodgable = false;
         invincible = true;
 
-        //StartCoroutine(DodgeIgnore());
+        StartCoroutine(DodgeIgnore());
 
+        actionState = ActionState.IsDodge;
         animator.SetBool("isLand", false);
         animator.SetTrigger("isDodge");
-        actionState = ActionState.IsDodge;
         InputInit();
 
         if (weaponType == 0)
@@ -451,7 +450,7 @@ public class PlayerControl : MovingObject
     IEnumerator DodgeIgnore()
     {
         GroundCheck.SetActive(false);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         GroundCheck.SetActive(true);
     }
     IEnumerator DodgeCount()
@@ -507,6 +506,7 @@ public class PlayerControl : MovingObject
     public void PlayerJumpAttackEnd()
     {
         actionState = ActionState.IsJump;
+        GroundCheck.SetActive(true);
     }
     public void Landing()
     {
@@ -1090,13 +1090,13 @@ public class PlayerControl : MovingObject
         playerAttack = Database_Game.instance.GetPlayerAttackInformation(_AttackType);
         float attackDistance = playerStatus.GetDashDistance_Result() * playerAttack.distanceMultiply * 0.5f;
 
-        RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + GetComponent<BoxCollider2D>().size.x * 0.5f * arrowDirection
+        RaycastHit2D playerDashBotDistance = Physics2D.Raycast(new Vector2(transform.position.x + playerCollider.size.x * 0.5f * arrowDirection
             , transform.position.y - 0.2f), new Vector2(arrowDirection, 0), attackDistance, rayDashLayerMask);
 
         if (playerDashBotDistance)
         {
-            float botDistance = playerDashBotDistance.point.x - (transform.position.x + GetComponent<BoxCollider2D>().size.x * 0.5f * arrowDirection);
-            if (attackDistance > Mathf.Abs(botDistance) - GetComponent<BoxCollider2D>().size.x * 0.5f)
+            float botDistance = playerDashBotDistance.point.x - (transform.position.x + playerCollider.size.x * 0.5f * arrowDirection);
+            if (attackDistance > Mathf.Abs(botDistance) - playerCollider.size.x * 0.5f)
                 attackDistance = Mathf.Abs(botDistance);
         }
         transform.position = new Vector2(transform.position.x + attackDistance * arrowDirection, transform.position.y);
@@ -1158,5 +1158,19 @@ public class PlayerControl : MovingObject
     public void PlayerInputKeyFlip()
     {
         ObjectFlip(playerFollowObject);
+    }
+
+    public new void SetDamageText(int _Damage)
+    {
+        GameObject DamageText;
+        DamageText = Instantiate(hitTextBox);
+
+        DamageText.transform.position = new Vector3(transform.position.x,
+            transform.position.y + playerCollider.size.y,
+            transform.position.z);
+
+        DamageText.transform.SetParent(GameObject.Find("FloatingTextPool").transform);
+        DamageText.GetComponent<DamageText>().SetDamage(_Damage);
+        DamageText.SetActive(true);
     }
 }

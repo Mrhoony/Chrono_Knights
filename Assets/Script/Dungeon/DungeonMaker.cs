@@ -61,10 +61,10 @@ public class DungeonMaker : MonoBehaviour
 
     public int currentStage;
     public int bossStageCount;
+    public int bossClearCount;
     public bool freePassNextFloor;          // 다음층 스킵 체크
     public bool bossSetting;                // 보스층 등장 체크
     public bool floorRepeat;                // 층 반복 체크
-    public int bossClearCount;
 
     public int monsterCount;           // 최대 몬스터 수
     public int eliteMonsterCount;
@@ -204,7 +204,6 @@ public class DungeonMaker : MonoBehaviour
         
         if (bossSetting)
         {
-            DungeonManager.instance.scenarioManager.ScenarioCheck("FirstBossContact");
             BossFloorSetting();
         }
         else if (floorRepeat)                    // 맵 반복시
@@ -215,6 +214,16 @@ public class DungeonMaker : MonoBehaviour
         {
             NormalFloorSetting();
         }
+        
+        _Player.transform.position = entrance;
+        _MainCamera.SetCameraBound(currentMap);
+        _MainCamera.SetCameraPosition(entrance);
+        _BackGroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, currentStage);
+
+        foreach(GameObject monster in currentStageMonsterList)
+        {
+            monster.SetActive(true);
+        }
 
         // 선택된 시련 만큼 몬스터 스테이터스 증가
         SetTrialStatus();
@@ -223,11 +232,6 @@ public class DungeonMaker : MonoBehaviour
         MonsterDefSetting(bossClearCount * 1);
 
         CanvasManager.instance.dungeonUI.SetDungeonFloor(currentStage, SetFloorStatus(_Player.GetComponent<PlayerStatus>()));
-        
-        _Player.transform.position = entrance;
-        _MainCamera.SetCameraBound(currentMap);
-        _MainCamera.transform.position = entrance;
-        _BackGroundSet.GetComponent<BackgroundScrolling>().SetBackGroundPosition(entrance, currentStage);
 
         MarkerSetting(currentStage, currentMap);
     }
@@ -237,14 +241,11 @@ public class DungeonMaker : MonoBehaviour
         MonsterGuideOff();
 
         if (floorRepeat) return;
-        
-        for (int i = 0; i < monsterCount; ++i)
+
+        foreach(GameObject monster in currentStageMonsterList)
         {
-            if (currentStageMonsterList[i] != null)
-            {
-                Destroy(currentStageMonsterList[i].gameObject);
-            }
-        }       // 몬스터 리스트 초기화
+            Destroy(monster);
+        }
 
         int dropItemPoolCount = dropItemPool.transform.childCount;      // 드랍된 아이템 일시 제거
         for (int i = 0; i < dropItemPoolCount; ++i)
@@ -257,35 +258,7 @@ public class DungeonMaker : MonoBehaviour
     {
         currentMap.GetComponent<Map_DungeonSetting>().entrance.GetComponent<Teleport_Exit>().FloorSettingEnd();
     }
-
-    public void MainBossFloorEvent(int _BossNumber)
-    {
-        GameObject[] bossList = currentMap.GetComponent<Dungeon_BossFloor>().bossPrefabs;
-        GameObject boss = null;
-
-        for(int i = 0; i < bossList.Length; ++i)
-        {
-            if (bossList[i].GetComponent<BossMonster_Control>().monsterCode == _BossNumber)
-                boss = bossList[i];
-        }
-
-        if(boss == null)
-        {
-            Debug.Log("boss code error");
-            return;
-        }
-
-        monsterCount = 1;
-        currentMonsterCount = monsterCount;
-        currentStageMonsterList = new GameObject[currentMonsterCount];
-        currentStageMonsterList[0] = Instantiate(
-            boss,
-            new Vector2(spawner[Random.Range(0, spawnerCount)].transform.position.x,
-            spawner[Random.Range(0, spawnerCount)].transform.position.y
-            ), Quaternion.identity);
-
-        currentStageMonsterList[0].GetComponent<BossMonster_Control>().monsterDeadCount = FloorBossKill;
-    }
+    
     public void BossFloorSetting()
     {
         bossSetting = false;
@@ -296,8 +269,8 @@ public class DungeonMaker : MonoBehaviour
             Destroy(currentMap);
         }
 
+        // 보스맵중 랜덤하게 선택
         List<GameObject> map = new List<GameObject>();
-
         for (int i = 0; i < currentFloorMapList.Length; ++i)
         {
             if (currentFloorMapList[i].GetComponent<Map_DungeonSetting>().bossStage)
@@ -312,7 +285,7 @@ public class DungeonMaker : MonoBehaviour
         spawner = currentMap.GetComponent<Map_DungeonSetting>().spawner;
         spawnerCount = spawner.Length;
 
-        if (CanvasManager.instance.isMainScenarioOn) return;
+        if (DungeonManager.instance.scenarioManager.ScenarioCheck("FirstEncountBoss")) return;
 
         GameObject[] bossList = currentMap.GetComponent<Dungeon_BossFloor>().bossPrefabs;
         GameObject randomBoss = bossList[Random.Range(0, bossList.Length)];
@@ -402,6 +375,42 @@ public class DungeonMaker : MonoBehaviour
                 Quaternion.identity);
     }
 
+    public void ScenarioMonsterPop(GameObject[] _MonsterVariable, GameObject _Spawner, int _Monstercount)
+    {
+        currentMonsterCount = 0;
+        currentStageMonsterList = new GameObject[_Monstercount];
+
+        for (int ii = 0; ii < _Monstercount; ++ii)
+        {
+            currentStageMonsterList[ii] = Instantiate(_MonsterVariable[Random.Range(0, _MonsterVariable.Length)], new Vector2(_Spawner.transform.position.x + Random.Range(-2f, 2f), _Spawner.transform.position.y), Quaternion.identity);
+            currentStageMonsterList[ii].GetComponent<NormalMonsterControl>().monsterDeadCount = FloorMonsterKill;
+            currentStageMonsterList[ii].SetActive(false);
+            ++currentMonsterCount;
+        }
+
+        GameObject.Find("EventList").transform.Find("EventEndTrigger").GetComponent<EventEndTrigger>().eventEndDelegate = SetActiveObject;
+    }
+    public void ScenarioMonsterPop(GameObject _MonsterVariable)
+    {
+        monsterCount = 1;
+        currentMonsterCount = monsterCount;
+        currentStageMonsterList = new GameObject[currentMonsterCount];
+        GameObject _Spawner = spawner[Random.Range(0, spawnerCount)];
+
+        currentStageMonsterList[0] = Instantiate(_MonsterVariable, new Vector2(_Spawner.transform.position.x + Random.Range(-2f, 2f), _Spawner.transform.position.y), Quaternion.identity);
+        currentStageMonsterList[0].GetComponent<BossMonster_Control>().monsterDeadCount = FloorBossKill;
+        currentStageMonsterList[0].SetActive(false);
+
+        GameObject.Find("EventList").transform.Find("EventEndTrigger").GetComponent<EventEndTrigger>().eventEndDelegate = SetActiveObject;
+    }
+    public void SetActiveObject()
+    {
+        foreach(GameObject _GameObject in currentStageMonsterList)
+        {
+            _GameObject.SetActive(true);
+        }
+    }
+
     public void FloorBossKill()
     {
         --currentMonsterCount;
@@ -412,7 +421,6 @@ public class DungeonMaker : MonoBehaviour
         {
             MonsterGuideOff();
             DungeonManager.instance.dungeonClear = true;
-            DungeonManager.instance.phaseClear = true;
             ++bossClearCount;
         }
         Debug.Log("BossKill");
@@ -453,10 +461,6 @@ public class DungeonMaker : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         Time.timeScale = 1f;
-
-        yield return new WaitForSeconds(1f);
-
-        CanvasManager.instance.OpenTrialCardSelectMenu();
     }
 
     public void MarkerReset()
@@ -598,23 +602,6 @@ public class DungeonMaker : MonoBehaviour
         return stageStatText;
     }    // 아이템이 사용된 층에 효과를 적용
     #endregion
-
-    public void ScenarioMonsterPop(GameObject[] _MonsterVariable, GameObject _Spawner, int _Monstercount)
-    {
-        GameObject monster;
-        currentMonsterCount = 0;
-
-        for (int i = 0; i < _MonsterVariable.Length; ++i)
-        {
-            for (int ii = 0; ii < _Monstercount; ++ii)
-            {
-                monster = Instantiate(_MonsterVariable[i], new Vector2(_Spawner.transform.position.x + Random.Range(-2f, 2f), _Spawner.transform.position.y), Quaternion.identity);
-                monster.SetActive(true);
-                monster.GetComponent<NormalMonsterControl>().monsterDeadCount = FloorMonsterKill;
-                ++currentMonsterCount;
-            }
-        }
-    }
     
     public void MonsterAttackSetting(int _value)
     {

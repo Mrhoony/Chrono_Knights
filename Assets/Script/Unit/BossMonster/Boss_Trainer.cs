@@ -8,8 +8,13 @@ public class Boss_Trainer : BossMonster_Control
     
     private void OnEnable()
     {
-        if (CameraManager.instance.mainScenarioOn) return;
-
+        if (DungeonManager.instance.scenarioManager.ScenarioCheck("FirstTrainerBoss"))
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
+        if (CanvasManager.instance.isMainScenarioOn) return;
         rotateDelayTime = 4f;
         attackCoolTime = 5f;
         dashAttackCoolTime = 7f;
@@ -114,7 +119,6 @@ public class Boss_Trainer : BossMonster_Control
             actionState = ActionState.IsDead;
             gameObject.tag = "DeadBody";
             Dead();
-            DungeonManager.instance.dungeonMaker.FloorBossKill();
             return true;
         }
         else

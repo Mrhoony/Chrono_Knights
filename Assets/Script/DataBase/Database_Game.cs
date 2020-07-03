@@ -20,6 +20,10 @@ public enum EventType
 {
     None, Select, Answer, Camera, CameraFocus, CameraScroll
 }
+public enum EventName
+{
+    Tutorial = 0, ScrollAllTown, TutorialSelect, TutorialBattle, FirstBattle
+}
 
 public class Item
 {
@@ -422,15 +426,15 @@ public class Database_Game : MonoBehaviour
                                 if(_Dialog.SelectSingleNode("EventType").InnerText == "Camera")
                                 {
                                     eventDialog.Add(new EventDialog(
-                                           (EventType)System.Enum.Parse(typeof(EventType), _Dialog.SelectSingleNode("EventType").InnerText)
-                                           ));
+                                        (EventType)System.Enum.Parse(typeof(EventType), _Dialog.SelectSingleNode("EventType").InnerText)
+                                        ));
                                 }
                                 else if (_Dialog.SelectSingleNode("EventType").InnerText == "CameraScroll")
                                 {
                                     eventDialog.Add(new EventDialog(
-                                           (EventType)System.Enum.Parse(typeof(EventType), _Dialog.SelectSingleNode("EventType").InnerText),
-                                           _Dialog.SelectSingleNode("NPCName").InnerText
-                                           ));
+                                        (EventType)System.Enum.Parse(typeof(EventType), _Dialog.SelectSingleNode("EventType").InnerText),
+                                        _Dialog.SelectSingleNode("NPCName").InnerText
+                                        ));
                                 }
                                 else
                                 {

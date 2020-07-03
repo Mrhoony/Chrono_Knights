@@ -169,7 +169,7 @@ public abstract class NormalMonsterControl : Monster_Control
         else
         {
             StartCoroutine(MonsterHitEffect());
-            animator.SetTrigger("isHit");
+            animator.SetTrigger("isHit_Trigger");
             actionState = ActionState.NotMove;
             StopCoroutine("moveDelayCoroutine");
             moveDelayCoroutine = MoveDelayTime(1.5f);
@@ -233,7 +233,7 @@ public abstract class NormalMonsterControl : Monster_Control
             monsterDeadCount();
             monsterDeadCount = null;
         }
-        Invoke("DeadEnd", 2f);
+        Invoke("DeadEnd", 3f);
     }
     public void DeadEnd()
     {

@@ -206,6 +206,10 @@ public class CameraManager : MonoBehaviour
         cameraMinY = minBound.y + halfHeight;
         cameraMaxY = maxBound.y - halfHeight;
     }
+    public void SetCameraPosition(Vector3 _Position)
+    {
+        transform.position = new Vector3(_Position.x, _Position.y, cameraZPosition);
+    }
 
     public void CameraSizeSetting(int _CameraSize)
     {

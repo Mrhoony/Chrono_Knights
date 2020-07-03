@@ -46,9 +46,10 @@ public class GameManager : MonoBehaviour
     public bool openSaveSlot;
     public bool openSaveDeleteSelect;
     public bool gameStart;
-    #endregion
-    
+
     public SystemData systemData;
+    #endregion
+
     private int screenNumber;
     
     private void Awake()
@@ -78,21 +79,20 @@ public class GameManager : MonoBehaviour
         //QualitySettings.vSyncCount = 0;                 // 동기화 수치 고정
         Application.targetFrameRate = 60;               // 최대 프레임 조절
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
-        dataBase = new DataBase();
-
+        
         Init();
 
-        CanvasManager.instance.DebugText("gameManager awake");
+        CanvasManager.instance.DebugText("gameManager Init");
     }
     private void Init()
     {
         LoadSystemData();
         canvasManager.CanvasManagerInit();
-        CanvasManager.instance.DebugText("canvasmanager awake");
+        CanvasManager.instance.DebugText("canvasmanager Init");
         dungeonManager.DungeonManagerInit();
-        CanvasManager.instance.DebugText("dungeonmanager awake");
+        CanvasManager.instance.DebugText("dungeonmanager Init");
 
+        dataBase = new DataBase();
         dataBase.Init();
         storage.Init();
         inventory.Init();
@@ -181,26 +181,7 @@ public class GameManager : MonoBehaviour
         canvasManager.PlayerMoveStop();
         SaveGame();         // 게임을 세이브
     }
-
-    void SaveCursorMove()
-    {
-        saveUICursor.transform.position = Vector2.Lerp(saveUICursor.transform.position,
-            new Vector2(saveSlots[saveSlotFocus].transform.position.x, saveUICursor.transform.position.y), Time.deltaTime * cursorSpd);
-    }
-    void MainCursorMove()
-    {
-        mainUICursor.transform.position = Vector2.Lerp(mainUICursor.transform.position,
-           new Vector2(mainUICursor.transform.position.x, startMenus[gameSlotFocus].transform.position.y), Time.deltaTime * cursorSpd);
-    }
-    int FocusedSlot(int _Focus, int AdjustValue, int _MaxFocused)
-    {
-        if (_Focus + AdjustValue < 0) _Focus = _MaxFocused;
-        else if (_Focus + AdjustValue > _MaxFocused) _Focus = 0;
-        else _Focus += AdjustValue;
-
-        return _Focus;
-    }
-
+    
     public void OpenSaveDelete()
     {
         deleteSlotFocus = 0;
@@ -222,7 +203,13 @@ public class GameManager : MonoBehaviour
 
         // 유저 정보
         dataBase.playerData = playerStat.playerData;
-        dataBase.SaveGameData(dungeonManager.GetCurrentDate(), dungeonManager.GetTrainigPossible(), dungeonManager.GetEventFlag(), dungeonManager.GetStoryProgress());
+        dataBase.SaveGameData(
+            dungeonManager.GetCurrentDate(),
+            dungeonManager.GetTrainigPossible(),
+            dungeonManager.scenarioManager.GetStoryProgress(),
+            dungeonManager.scenarioManager.GetEventFlag(),
+            dungeonManager.scenarioManager.GetButterFlyFlag()
+            );
         dataBase.SaveStorageData(storage.GetStorageItemCodeList());
         dataBase.SaveInventoryData(inventory.GetCurrentMoney());
         
@@ -262,7 +249,13 @@ public class GameManager : MonoBehaviour
         }
         
         playerStat.SetPlayerData(dataBase.playerData);
-        dungeonManager.LoadGamePlayDate(dataBase.GetCurrentDate(), dataBase.GetTrainingPossible(), dataBase.GetEventFlag(), dataBase.GetStoryProgress());
+        dungeonManager.LoadGamePlayDate(
+            dataBase.GetCurrentDate(), 
+            dataBase.GetTrainingPossible(), 
+            dataBase.GetStoryProgress(), 
+            dataBase.GetEventFlag(), 
+            dataBase.GetButterFlyEffectFlag()
+            );
         storage.LoadStorageData(dataBase.GetStorageItemCodeList(), dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.Bag].itemRarity);
         inventory.LoadInventoryData(dataBase.playerData.playerEquipment.equipment[(int)EquipmentType.Bag].itemRarity, dataBase.GetCurrentMoney());
         
@@ -417,6 +410,25 @@ public class GameManager : MonoBehaviour
     public bool GetGameStart()
     {
         return gameStart;
+    }
+
+    void SaveCursorMove()
+    {
+        saveUICursor.transform.position = Vector2.Lerp(saveUICursor.transform.position,
+            new Vector2(saveSlots[saveSlotFocus].transform.position.x, saveUICursor.transform.position.y), Time.deltaTime * cursorSpd);
+    }
+    void MainCursorMove()
+    {
+        mainUICursor.transform.position = Vector2.Lerp(mainUICursor.transform.position,
+           new Vector2(mainUICursor.transform.position.x, startMenus[gameSlotFocus].transform.position.y), Time.deltaTime * cursorSpd);
+    }
+    int FocusedSlot(int _Focus, int AdjustValue, int _MaxFocused)
+    {
+        if (_Focus + AdjustValue < 0) _Focus = _MaxFocused;
+        else if (_Focus + AdjustValue > _MaxFocused) _Focus = 0;
+        else _Focus += AdjustValue;
+
+        return _Focus;
     }
 
     // MainMenu Scene 나오게 설정

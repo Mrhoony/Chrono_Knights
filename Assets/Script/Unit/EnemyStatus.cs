@@ -83,6 +83,14 @@ public class EnemyStatus : MonoBehaviour
         enemyHPBar.GetComponent<EnemyHPBar>().SetHPBar();
         return _Damage;
     }
+    public bool AccumulationDamageCheck(int _AccumulataionDamage)
+    {
+        if(_AccumulataionDamage > _HP * 0.1f)
+        {
+            return true;
+        }
+        return false;
+    }
 
     public bool IsDeadCheck()
     {

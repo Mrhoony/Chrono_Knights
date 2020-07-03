@@ -22,7 +22,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6363715144914464032
 Transform:
   m_ObjectHideFlags: 0
@@ -208,6 +208,9 @@ MonoBehaviour:
   counter: 0
   Invincible: 0
   attackCoolTime: 0
+  attackMaxCoolTime: 0
+  accumulationDamage: 0
+  bossDieEvent: 
   backAttackCoolTime: 0
 --- !u!114 &5835909164075127722
 MonoBehaviour:

@@ -1097,6 +1097,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: eventName
+      value: FirstBattle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: playableDirector
+      value: 
+      objectReference: {fileID: 2016378077}
     - target: {fileID: 1270748212575882901, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -1132,16 +1142,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: eventName
-      value: FirstBattle
-      objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: playableDirector
-      value: 
-      objectReference: {fileID: 2016378077}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34eb74fc591b976499a8d83f0cb19284, type: 3}
 --- !u!224 &183199917 stripped
@@ -3377,8 +3377,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 610166112}
-  - component: {fileID: 610166114}
   - component: {fileID: 610166113}
+  - component: {fileID: 610166114}
   m_Layer: 9
   m_Name: GameObject
   m_TagString: Ground
@@ -3419,8 +3419,8 @@ PlatformEffector2D:
   m_UseSideFriction: 1
   m_UseSideBounce: 0
   m_SideArc: 0
---- !u!60 &610166114
-PolygonCollider2D:
+--- !u!61 &610166114
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3428,11 +3428,11 @@ PolygonCollider2D:
   m_GameObject: {fileID: 610166111}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: d75e9e7e1b1be14458e788b37b8f3b9a, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.3}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3442,16 +3442,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.024194956, y: 0.31044352}
-      - {x: -0.81188536, y: 0.3112142}
-      - {x: -0.81191206, y: 0.30289125}
-      - {x: 0.5326483, y: 0.30562067}
-      - {x: 0.5343516, y: 0.3067298}
-      - {x: 1.4144914, y: -0.5279827}
-      - {x: 1.4276965, y: -0.5297432}
-      - {x: 0.53318, y: 0.31388807}
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 0.02}
+  m_EdgeRadius: 0
 --- !u!1 &622072335
 GameObject:
   m_ObjectHideFlags: 0
@@ -4081,6 +4074,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: playableDirector
+      value: 
+      objectReference: {fileID: 940796741}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: eventName
+      value: GetBell
+      objectReference: {fileID: 0}
     - target: {fileID: 1270748212575882901, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -4115,16 +4118,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: playableDirector
-      value: 
-      objectReference: {fileID: 940796741}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: eventName
-      value: GetBell
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34eb74fc591b976499a8d83f0cb19284, type: 3}
@@ -10009,6 +10002,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: eventName
+      value: TutorialBattle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: playableDirector
+      value: 
+      objectReference: {fileID: 1915207588}
     - target: {fileID: 1270748212575882901, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -10044,16 +10047,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: eventName
-      value: TutorialBattle
-      objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: playableDirector
-      value: 
-      objectReference: {fileID: 1915207588}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34eb74fc591b976499a8d83f0cb19284, type: 3}
 --- !u!224 &2050508186 stripped
@@ -11079,6 +11072,36 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: choises.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: choises.Array.data[0]
+      value: 
+      objectReference: {fileID: 7531875966852101779}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: choises.Array.data[1]
+      value: 
+      objectReference: {fileID: 7531875966852101778}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: choises.Array.data[2]
+      value: 
+      objectReference: {fileID: 7531875966852101777}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: eventName
+      value: TutorialSelect
+      objectReference: {fileID: 0}
+    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
+        type: 3}
+      propertyPath: playableDirector
+      value: 
+      objectReference: {fileID: 1097195661}
     - target: {fileID: 1270748212575882901, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -11134,36 +11157,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: choises.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: choises.Array.data[0]
-      value: 
-      objectReference: {fileID: 7531875966852101779}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: choises.Array.data[1]
-      value: 
-      objectReference: {fileID: 7531875966852101778}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: choises.Array.data[2]
-      value: 
-      objectReference: {fileID: 7531875966852101777}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: eventName
-      value: TutorialSelect
-      objectReference: {fileID: 0}
-    - target: {fileID: 8455438894678401196, guid: 34eb74fc591b976499a8d83f0cb19284,
-        type: 3}
-      propertyPath: playableDirector
-      value: 
-      objectReference: {fileID: 1097195661}
     - target: {fileID: 3732090682539672891, guid: 34eb74fc591b976499a8d83f0cb19284,
         type: 3}
       propertyPath: m_AnchorMin.y

@@ -1476,7 +1476,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03, y: -0.28}
+  m_Offset: {x: -0.02, y: -0.28}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1487,7 +1487,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.33, y: 0.005}
+  m_Size: {x: 0.36, y: 0.005}
   m_EdgeRadius: 0
 --- !u!114 &3981682513018439648
 MonoBehaviour:
@@ -1512,7 +1512,7 @@ GameObject:
   - component: {fileID: 3981682513319129783}
   - component: {fileID: 3981682513319129780}
   - component: {fileID: 3981682513319129781}
-  - component: {fileID: 3677731558862700652}
+  - component: {fileID: 1142496696605863132}
   - component: {fileID: 1779690355974196418}
   - component: {fileID: 3981682513319129738}
   - component: {fileID: 3981682513319129737}
@@ -1611,7 +1611,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &3677731558862700652
+--- !u!61 &1142496696605863132
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1624,7 +1624,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.05}
+  m_Offset: {x: -0.02, y: 0.055}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5392157, y: 0.40677965}
@@ -1635,7 +1635,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4, y: 0.55}
+  m_Size: {x: 0.38, y: 0.55}
   m_EdgeRadius: 0
 --- !u!68 &1779690355974196418
 EdgeCollider2D:
@@ -1653,11 +1653,10 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -0.19840121, y: -0.23042464}
-  - {x: -0.19920695, y: -0.23002172}
-  - {x: -0.19283521, y: -0.24000001}
-  - {x: 0.19269562, y: -0.24012983}
-  - {x: 0.1991781, y: -0.23021817}
+  - {x: -0.1, y: -0.21}
+  - {x: -0.07, y: -0.22}
+  - {x: 0.03, y: -0.22}
+  - {x: 0.06, y: -0.21}
 --- !u!50 &3981682513319129738
 Rigidbody2D:
   serializedVersion: 4
@@ -1806,6 +1805,7 @@ MonoBehaviour:
   actionState: 5
   overlap: 0
   arrowDirection: 0
+  playerCollider: {fileID: 0}
   rayDashLayerMask:
     serializedVersion: 2
     m_Bits: 33280

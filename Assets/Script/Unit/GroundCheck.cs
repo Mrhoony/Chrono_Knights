@@ -17,8 +17,8 @@ public class GroundCheck : MonoBehaviour
         {
             if (parentObject.CompareTag("Player"))
             {
-                Debug.Log("Land");
-                parentObject.GetComponent<PlayerControl>().Landing();
+                if (!parentObject.GetComponent<PlayerControl>().isGround)
+                    parentObject.GetComponent<PlayerControl>().Landing();
             }
             else if (parentObject.CompareTag("Monster"))
             {
@@ -56,7 +56,7 @@ public class GroundCheck : MonoBehaviour
         {
             if (parentObject.CompareTag("Player"))
             {
-                if(!parentObject.GetComponent<PlayerControl>().isGround)
+                if (!parentObject.GetComponent<PlayerControl>().isGround)
                     parentObject.GetComponent<PlayerControl>().Landing();
             }
         }
